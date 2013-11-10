@@ -1,0 +1,822 @@
+	
+	/*
+		OS Blue:					#00aaff
+		primary nav background:		
+		primary nav dark icon:		rgb(153,153,153)
+		
+		rgb(250,250,250)	#FAFAFA		Off White
+		rgb(229,229,229)	#E5E5E5		90% gray
+		rgb(204,204,204)	#CCCCCC		80% gray
+		rgb(178,178,178)	#B2B2B2		70% gray
+		rgb(153,153,153)	#999999		60% gray
+		rgb(127,127,127)	#7F7F7F		50% gray
+		rgb(102,102,102)	#666666		40% gray
+		rgb(76,76,76)		#4C4C4C		30% gray
+		rgb(51,51,51)		#333333		20% gray
+		rgb(25,25,25)		#191919		10% gray
+
+	*/
+	
+	
+	
+	
+	/* ------------------ */
+	/* Standard Elements */
+	/* ---------------- */
+
+	* {
+		margin:0px;
+		padding:0px;
+		font-family:tahoma, verdana, sans-serif;
+		font-size:14px;
+		font-weight:normal;
+		z-index:0;
+		text-align:left;
+		color:#333333;
+	}
+	
+	body {
+		background-color:#ddeeff;
+		overflow:hidden;
+	}
+	
+	input	{
+		border:none;
+		padding:4px;
+		text-align:left;
+	}
+
+	input[type=text],
+	input[type=file],
+	textarea {
+		color:#191919;
+		border:0px;
+		background-color:#CCCCCC;
+	}
+	
+	input[type=text][disabled='disabled'] {
+		background-color:#CCCCCC;	
+		color:#999999;
+	}
+	
+	a {
+		color:#00aaff;
+		text-decoration:none;
+	}
+	
+	a:hover {
+		text-decoration:underline;
+	}
+	
+	p {
+		display:block;
+	}
+	
+	h1 { 
+		margin-left:0px;
+		color:#CCCCCC;
+		font-size:2em;
+		clear:right;
+		text-transform:uppercase;
+	}
+	
+	h2 {
+		color:#4C4C4C;
+		display:inline;
+		font-size:1.6em;
+		padding:0 1em 0 0;
+		margin:0 0 .2em 0;
+		text-transform:lowercase;
+	}
+	
+	h3 {
+		color:#4C4C4C;
+		font-size:1.2em;
+		padding:0 1em .4em 0;
+		text-transform:lowercase;
+	}
+	
+	td {
+		vertical-align:top;
+	}
+	
+	ul {
+		margin-left:20px;
+		margin-bottom:8px;
+	}
+	
+	li {
+		margin-top:8px;
+	}
+	
+	
+	/*--------------------*/
+	/* Common Page Stuff */
+	/* -----------------*/
+
+	#navprimarypane {
+		display:block;
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:70px;
+		height:100%;
+		background-color:#CCCCCC;
+		padding:0px;
+	}
+	
+	#navtargetpane {
+		display:block;
+		position:absolute;
+		top:0px;
+		left:70px;
+		width:400px;
+		height:100%;
+		padding:0px 10px 0px 10px;
+		background-color:#E5E5E5;
+		overflow-y:scroll;
+		overflow-x:hidden;
+	}
+	
+	#mainwrapper {
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height:100%;
+		overflow-x:hidden;
+		overflow-y:hidden;
+		position:absolute;
+		top:0px;
+		left:0px;
+		background-color:#FAFAFA;
+	}
+	
+	#mainpane {
+		margin-left:470px;
+	}
+	
+	.primarynavbutton {
+		height:50px;
+		width:50px;
+		margin-left:5px;
+		border-left:5px solid transparent;
+		margin-top:10px;
+		cursor:pointer;
+	}
+		
+	#navtargetpane h1 {
+		color:#CCCCCC;
+		font-weight:normal;
+		margin:10px 0px 10px 0px;
+	}
+
+	#pnsaveout {
+		width:100%;
+		overflow-x:hidden;
+		overflow-y:scroll;
+		height:400px;
+	}
+	
+	#logocanvas {
+		background-color:transparent;
+		margin:2px 0px 0px 2px;
+		border:0px;
+		position:fixed;
+		right:15px;
+		top:15px;
+		z-index:999;
+	}
+	
+	#npSaveout {
+		height:800px;
+		width:100%;
+	}
+	
+	.pagecontent {
+		margin:10px 20px 100px 40px;
+	}
+	
+	.textpage {
+		width:700px;
+	}
+	
+	.pagecontent h1,
+	.pagecontent h2,
+	.pagecontent h3 {
+		display:block;
+		text-transform:none;
+		margin-bottom:0px;
+	}
+
+	.pagecontent h1 {
+		margin-top:30px;
+		margin-bottom:10px;
+	}
+	
+	.pagecontent > h1:first-child {
+		margin-top:0px;
+	}
+	
+	.pagecontent h2 {
+		margin-top:20px;
+	}
+	
+	.pagecontent h3 {
+		margin-top:10px;
+	}
+	
+	.btt {
+		font-style:normal;
+		margin-left:20px;
+	}
+	
+	.pagecontent br {
+		height:15px;
+		display:block;
+	}
+	
+	.pagecontent input[type=text]{
+		margin:6px 3px 2px 0px;
+		padding-left:10px;
+	}
+
+	.disdisplay {
+		background-color:#666666;
+		margin:6px 3px 2px 0px;	
+		padding:4px 4px 4px 10px;
+		color:white;
+	}
+	
+	.charselectarea {
+		width:100%;
+	}
+	
+	.charselectbuttonwrapper {
+		display:inline;
+		float:left;
+		height:50px;
+		width:50px;
+		cursor:pointer;
+		background-color:#FAFAFA;
+		margin:0px 5px 5px 0px;
+	}
+	
+	.charselectcanvas{
+		height:50px;
+		width:50px;
+	}
+	
+	.charselectcanvassel {
+		background-color:#00aaff;
+	}
+	
+	.charselectbuttonsel,
+	.charselectbutton {
+		width:100%;
+		height:100%;
+		text-align:center;
+		color:#E5E5E5;
+		font-size:25px;
+		overflow:hidden;
+		padding-top:10px;
+	}
+
+	.charselectbuttonsel {
+		background-color:#00aaff;
+	}
+	
+	
+	/* -----------*/
+	/* Nav Stuff */
+	/* ---------*/
+
+	.navtargetbutton,
+	.navtargetbuttonsel {
+		font-size:1.5em;
+		display:block;
+		text-transform:lowercase;
+		font-weight:lighter;
+		padding:4px 2px 4px 0px;
+		background-color:transparent;
+		cursor:pointer;
+	}
+
+	.navtargetbutton:hover{
+		padding:4px 0px 4px 2px;
+	}
+	
+	.navtargetbuttonsel {
+		color:#00aaff;
+	}
+
+	/* ----------------- */
+	/* Page - Firstrun  */
+	/* --------------- */
+	.firstrunbutton {
+		font-size:1.1em;
+		font-weight:lighter;
+		width:600px;
+		padding:10px;
+		background-color:#00AAFF;
+		border:3px solid transparent;
+		color:white;
+		margin-bottom:20px;
+		cursor:pointer;
+	}	
+	
+	.firstrunbutton:hover {
+		border:3px solid #00AAFF;	/* dynamic */
+	}
+	
+	
+	/* ------------------ */
+	/* Page - Open / New */
+	/* -----------------*/
+	
+	.splashscreen{
+		text-align:center;
+		width:800px;
+		margin:0px auto;
+	}
+	
+	.splashver {
+		position:relative;
+		top:-200px;
+		left:167px;
+		width:466px;
+		margin-bottom:-70px;
+		font-size:.8em;
+		color:white;
+	}
+	
+	.splashver a {
+		font-size:.9em;
+		color:white;
+		text-decoration:underline;
+	}
+	
+	#splashscreencanvas {
+		position:relative;
+		top:0px;
+		left:0px;
+	}
+	
+	#fallbackprojectentry,
+	#newfontname	{
+		width:500px;
+		height:25px;
+		margin:10px 0px 20px 0px;
+	}
+	
+	#getprojectfile {
+		height:33px;
+		padding:0px;
+		width:500px;
+		margin:10px 0px 20px 0px;
+		vertical-align:center;
+	}
+	
+	#fallbackprojectentry {
+		height:100px;
+		overflow:scroll;
+	}
+	
+	#getprojectfileprimary h2,
+	#getprojectfilefallback h2 {
+		margin:20px 0px 10px 0px;
+	}
+	
+	
+	/* ------ */
+	/* Debug */
+	/* -----*/
+		
+	.debugbutton {
+		font-size:.7em; 
+		position:fixed;
+		left:1010px;
+		top:14px;
+	}
+	
+	#debugthingy {
+		display:none;
+		position:absolute;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		overflow:scroll;
+		background-color:#4C4C4C;
+		z-index:1001;
+		-moz-opacity: 0.97;
+		opacity:.97;
+		filter: alpha(opacity=97);
+	}
+	
+	#debugthingy,
+	#debugthingy #debug,
+	#debugthingy #debug h1,
+	#debugthingy #debug h2,
+	#debugthingy #debug h3,
+	#debugthingy #debug b,
+	#debugthingy #debug i,
+	#debugthingy #debug pre,
+	#debugthingy #debug td{
+		color:#99FF99;
+	}
+	
+	#debug,
+	#pdebug	{
+		font-family:monospace;
+		margin:20px 20px 0px 20px;
+		z-index:100;
+	}
+	
+	
+	/* ----------------- */
+	/* Page - Char edit */
+	/* --------------- */
+
+	.charedittable {
+		width:600px;
+		height:100%;
+		position:fixed;
+		left:0px;
+		top:40px;
+		background-color:transparent;
+		z-index:10;
+	}
+		
+	#canvas {
+	}
+	
+	#ishereghostcanvas {
+		position:fixed;
+		z-index:300;
+		left:600px;
+		top:0px;
+		border:1px solid cyan;
+	}
+	
+	#calcmaxesghostcanvas {
+		position:fixed;
+		z-index:300;
+		left:1px;
+		top:-1800px; 
+		border:1px solid lime;
+	}
+
+	.ssthumb {
+		border:3px solid #CCCCCC;	/* system */
+		cursor:pointer;
+	}
+	
+	.ssthumb:hover {
+		border:3px solid #00AAFF;	/* dynamic */
+	}
+
+	/*	TOOLS		*/
+	#toolsarea {
+		position:fixed;
+		left:500px;
+		top:10px;
+		z-index:10;
+	}
+	
+	#toolsarea div {
+		margin-right:0px;
+	}
+
+	.tool {
+		height:24px;
+		width:24px;
+		overflow:display;
+		padding:4px 0px 0px 4px;
+		margin-right:0px;
+		display:inline;
+		float:left;
+	}
+	
+	.out {
+		background-color:#CCCCCC;
+		color:#333333;
+		padding:4px 0px 0px 6px;
+		margin:1px 0px 0px 1px;
+		width:70px;
+	}
+	
+	.tool canvas {
+		margin:0px 4px 0px 4px;
+	}
+
+	/*	LAYERS		*/
+	
+	.layer	{
+		width:100%;
+		margin-top:2px;
+		padding-left:10px;
+	}
+	
+	/*	DETAILS		*/
+	
+	.detail	{
+		width:100%;
+	}
+	
+	.detail td {
+		margin:10px 10px 0px 10px;
+		padding:5px 10px 0px 0px;
+		vertical-align:top;
+	}
+	
+	.detail h3 {
+		padding:0;
+	}
+	
+	.detail .input {
+		padding:0 .4em;
+		display:inline;
+		width:100px;
+		height:20px;
+		vertical-align:top;
+		color:#333333			/* system */
+	}	
+	
+	.detail .leftcol	{
+		width:11px;
+		padding:10px 0px 0px 0px;
+		margin:0px;
+		overflow:hidden;
+	}
+	
+	.detail .leftcol canvas {
+		position:relative;
+		top:-3px;
+	}
+		
+	.canvasbutton{
+		padding-right:6px;
+		cursor:pointer;
+	}
+	
+	/*	ACTIONS		*/	 
+	
+	.actionsgrid {
+		padding:0px 10px 0px 5px;
+		height:200px;
+	}
+	
+	.actionsgrid td{
+		width:180px;
+	}
+	
+	.actionsgrid h3 {
+		margin-top:10px;
+	}
+	
+	.actionsgrid input {
+		width:120px;
+	}
+		
+	
+	/* --------------------- */
+	/* Page - Font Metadata */
+	/* ------------------- */	
+
+	.metadata h3 {
+		margin-top:30px;
+	}
+	
+	.metadatanametable input[type=text]{
+		width:500px;
+		margin:0px 0px 10px 0px;
+	}
+	
+	.metadatanametable textarea {
+		width:480px;
+		padding:7px 20px 10px 10px;
+		line-height:1.5em;
+		height:200px;
+		margin:0px 0px 10px 0px;
+	}
+
+	#fontfullname {
+		width:500px;
+		margin:0px 0px 10px 0px;
+	}
+	
+	
+	/* --------------------- */
+	/* Page - Font Settings */
+	/* ------------------- */	
+	
+	.charprotable td {
+		padding:0px 10px 0px 0px;
+		vertical-align:middle;
+	}
+	
+	.unitlabel {
+		color:#B2B2B2;
+		vertical-align:0px;
+		font-size:.9em;
+		margin:8px 0px 0px 8px;	
+	}
+	
+	
+	/* -------------------- */
+	/* Page - Save Project */
+	/* ------------------ */
+	
+	#genoutput {
+		font-family:monospace;
+		padding:10px;
+	}
+	
+	
+	/* ----------------- */
+	/* Page - Testdrive */
+	/* --------------- */
+	
+	#tdcanvas {
+		background-color:white;
+	}
+	
+	#tdtextarea	{
+		width:795px;
+		height:150px;
+		padding:2px 0px 0px 5px;
+		border:0px;
+		background-color:#CCCCCC;	/* system */
+		overflow:hidden;
+		margin:1px 0px 10px 0px;
+		font-size:2em;
+	}
+	
+
+	/* ------------------ */
+	/* Page - SeedShapes */
+	/* ---------------- */	
+	.ssthumbcontainer {
+		width:100%;
+		height:350px;
+		overflow-y:auto;
+		overflow-x:hidden;
+	}
+	
+	.ssthumbcontainer table {
+		margin:10px 10px 30px 0px;
+		
+		display:inline;
+		float:left;
+
+		text-transform:none;
+	}
+	
+	.ssthumbcontainer canvas {
+		background-color:white;
+	}
+	
+	.ssusedinthumb {
+		border-bottom:3px solid transparent;
+	}
+	
+	.ssusedinthumb:hover {
+		cursor:pointer;
+		border-bottom:3px solid #00AAFF;				/* dynamic */ 
+	}
+
+	
+	/* ------- */
+	/* Button */
+	/* ----- */
+	
+	.buttonsel,
+	.buttonsel:hover {
+		background-color:#00AAFF;
+		color:#333333;
+		margin:1px;
+		cursor:pointer;
+	}
+	
+	.buttonsel:hover {
+		color:#191919;
+	}
+	
+	.button,
+	.button:link,
+	.button:active {
+		background-color:#4C4C4C;	
+		color:#CCCCCC;			
+		margin:1px;
+		cursor:pointer;
+	}
+	
+	.button:hover {
+		color:#E5E5E5;
+	}
+		
+	.buttondis{
+		background-color:#4C4C4C;	/* system */
+		color:#333333;				/* system */
+		margin:1px;
+		cursor:normal;
+	}
+
+	.spinnerbutton,
+	.spinnerbutton:active {
+		height:20px;
+		width:20px;
+		font-size:15px;
+		text-align:center;
+		padding:0;
+		vertical-align:4px;
+		font-weight:bold;
+		margin:0px 0px 0px 0px;
+	}
+
+
+	/* ------- */
+	/* Dialog */
+	/* ----- */
+	
+	#dialog_bg{
+		display:none;
+		position:absolute;
+		top:0%;
+		left:0%;
+		width:100%;
+		height:100%;
+		text-align:center;
+		background-color:#4C4C4C;	/* system */
+		z-index:1001;
+		-moz-opacity: 0.8;
+		opacity:.80;
+		filter: alpha(opacity=80);
+	}
+	
+	#dialog_box {
+		display:none;
+		position:absolute;
+		top:100px;
+		left:100px;
+		height:auto;
+		width:auto;
+		background-color:#CCCCCC;	/* system */
+		z-index:1002;
+		overflow:auto;
+	}
+
+	.dialogCloseButton {
+		width:20px; 
+		height:25px;
+		color:#DDDDDD;				/* system */
+		background-color:#00AAFF;	/* dynamic */
+		font-size:24px;
+		font-weight:bold;
+		text-align:center; 
+		padding:0px;
+		cursor:pointer;
+		border-radius:0px;
+	}
+	
+	#dialogLeftBar {
+		width:20px; 
+		vertical-align:top;
+		background-color:#00AAFF;	/* dynamic */
+	}
+	
+	#dialogRightContent {
+		padding:10px 20px 20px 20px;
+		color:#222222;				/* system */
+	}
+	
+	#dialogRightContent h1{
+		margin-bottom:10px;
+	}
+	
+	#dialogRightContent td {
+		color:#191919;				/* system */
+	}
+
+	#dialogRightContent input {
+		background-color:#191919;	/* system */
+		color:#CCCCCC;				/* system */
+		margin:1px;
+		cursor:pointer;
+		padding:4px 12px;
+	}
+	
+	#dialogRightContent 	.subnavunit {
+		margin:10px 0px 0px 0px;
+		width:400px;
+		padding:0px;
+	}
+	
+	#dialogRightContent h1,
+	#dialogRightContent h2,
+	#dialogRightContent h3 {
+		color:#4C4C4C;		
+	}
+	
+		
