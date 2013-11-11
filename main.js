@@ -433,7 +433,7 @@
 	}
 	
 	function isval(val){
-		return typeof val != "undefined";
+		return ((typeof val !== "undefined") && (val !== null));
 	}
 	
 	

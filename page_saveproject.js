@@ -27,7 +27,10 @@
 	}
 
 	function populateSaveJSTextarea(){
-		var output = generateGlyphrProjectJS();
+		//JSON CONVERSION!!!!!!
+		//var output = generateGlyphrProjectJS();
+		var output = JSON.stringify(GlyphrProject);
+
 		// Update the textbox
 		document.getElementById("genoutput").value = output;
 		document.getElementById("genoutput").select();
