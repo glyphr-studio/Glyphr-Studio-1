@@ -155,14 +155,14 @@
 	}
 
 	function createimg(){
-		var imgd = gid('tdcanvas').toDataURL();
+		var imgd = document.getElementById('tdcanvas').toDataURL();
 
 		var win = window.open(document.location.href, "Glyphr Test Drive"); 
 		
 		win.document.write('<!DOCTYPE html><html>'+
-		'<head><title>Tricell - Image</title></head>'+
-		'<body style="padding:40px; text-align:center">'+
-		'<img src="' + imgd + '" title="tricell">'+
+		'<head><title>Glyphr - Test Drive Image</title></head>'+
+		'<body style="padding:40px; text-align:center;">'+
+		'<img src="' + imgd + '" title="Glyphr Test Drive" style="border:1px solid #f6f6f6;">'+
 		'</html>');
 
 	/*
