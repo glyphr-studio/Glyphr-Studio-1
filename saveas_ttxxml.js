@@ -306,7 +306,7 @@
 		
 			var thischar = new Object();
 			debug("SAVE LOOP - fontchars.length = " + GlyphrProject.fontchars.length);
-			for(var var i in GlyphrProject.fontchars){
+			for(var i in GlyphrProject.fontchars){
 				thischar = GlyphrProject.fontchars[i];
 				debug("SAVE LOOP - " + i + " name " + thischar.charname);
 				output += '         <CharString name="'+thischar.charname+'">\n';

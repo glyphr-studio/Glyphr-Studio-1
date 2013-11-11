@@ -388,52 +388,6 @@
 	}
 	
 	
-	/* ------ */
-	/* Debug */
-	/* -----*/
-		
-	.debugbutton {
-		font-size:.7em; 
-		position:fixed;
-		left:1010px;
-		top:14px;
-	}
-	
-	#debugthingy {
-		display:none;
-		position:absolute;
-		top:0;
-		left:0;
-		width:100%;
-		height:100%;
-		overflow:scroll;
-		background-color:#4C4C4C;
-		z-index:1001;
-		-moz-opacity: 0.97;
-		opacity:.97;
-		filter: alpha(opacity=97);
-	}
-	
-	#debugthingy,
-	#debugthingy #debug,
-	#debugthingy #debug h1,
-	#debugthingy #debug h2,
-	#debugthingy #debug h3,
-	#debugthingy #debug b,
-	#debugthingy #debug i,
-	#debugthingy #debug pre,
-	#debugthingy #debug td{
-		color:#99FF99;
-	}
-	
-	#debug,
-	#pdebug	{
-		font-family:monospace;
-		margin:20px 20px 0px 20px;
-		z-index:100;
-	}
-	
-	
 	/* ----------------- */
 	/* Page - Char edit */
 	/* --------------- */
@@ -451,21 +405,10 @@
 	#canvas {
 	}
 	
-	#ishereghostcanvas {
-		position:fixed;
-		z-index:300;
-		left:600px;
-		top:0px;
-		border:1px solid cyan;
-	}
-	
-	#calcmaxesghostcanvas {
-		position:fixed;
-		z-index:300;
-		left:1px;
-		top:-1800px; 
-		border:1px solid lime;
-	}
+	#ishereghostcanvas,
+	#calcmaxesghostcanvas { 
+		display: none;
+	}	
 
 	.ssthumb {
 		border:3px solid #CCCCCC;	/* system */

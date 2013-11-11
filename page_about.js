@@ -1,5 +1,5 @@
 
-var thisGlyphrStudioVersion = "Beta 2.1 Working Edition - 0.2.2012.11.00.Working";
+var thisGlyphrStudioVersion = "Beta 2.1 Working Edition - 0.2.2013.11.00.Working";
 
 function updateabout(){
 

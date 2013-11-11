@@ -155,8 +155,20 @@
 	}
 
 	function createimg(){
-		var cpng = Canvas2Image.saveAsPNG(document.getElementById("tdcanvas"), true);
+		var imgd = gid('tdcanvas').toDataURL();
+
+		var win = window.open(document.location.href, "Glyphr Test Drive"); 
+		
+		win.document.write('<!DOCTYPE html><html>'+
+		'<head><title>Tricell - Image</title></head>'+
+		'<body style="padding:40px; text-align:center">'+
+		'<img src="' + imgd + '" title="tricell">'+
+		'</html>');
+
+	/*
+		var cpng = new Image();Canvas2Image.saveAsPNG(document.getElementById("tdcanvas"), true);
 		document.getElementById("genimg").innerHTML = "";
 		document.getElementById("genimg").appendChild(cpng);
 		openDialog(document.getElementById("genimg").innerHTML);	
+	*/
 	}

@@ -24,12 +24,10 @@
 	<script src="page_help.js"></script>
 	<script src="page_about.js"></script>
 	
-	<script src="saveas_image.js"></script>
 	<script src="saveas_ttxxml.js"></script>
 	<script src="saveas_glyphrproject.js"></script>
 	
 	<script src="ran_unicode.js"></script>
-	<script src="ran_debug.js"></script>
 	<script src="ran_colors.js"></script>
 	<script src="ran_eventHandler.js"></script>
 	<script src="ran_buttons.js"></script>
@@ -49,9 +47,6 @@
 <div id="navprimarypane" onMouseOver="mouseoutcec();"></div>
 <div id="navtargetpane" onMouseOver="mouseoutcec();"></div>
 
-
-<input type="button" id="debugthingybutton" class="button debugbutton" onclick="populateDebug();document.getElementById('debugthingy').style.display='block';" value="Show the Debug Thingy&trade;">
-
 <div id="dialog_box">
 <table cellpadding=0 cellspacing=0 border=0><tr>
 	<td id='dialogLeftBar'><input type='button' class='dialogCloseButton' value='&times;' onclick='closeDialog();'></td>
@@ -59,20 +54,11 @@
 </tr></table></div>
 <div id="dialog_bg" onclick="closeDialog();"></div>
 
-<div id="debugthingy" onclick="this.style.display='none';">
-<table width=100% height=100%><tr>
-	<td style="font-size:2em; margin:20px; width:600px;">Glyphr Debug Thingy&trade;</td>
-	<td><p style="color:cyan;">Is Here Ghost Canvas</p><p style="color:lime;">Calc Maxes Ghost Canvas</p></td>
-</tr><tr>
-	<td colspan=2 valign=top>
-		<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>
-		<canvas id="calcmaxesghostcanvas" height=10 width=10 ></canvas>
-		<div id="debug">Debug is turned off.  Open the ran_debug.js file, and set the DEBUG variable to true.</div>
-	</td>
-</tr></table>
-</div>
-
 <canvas id="logocanvas" height="60" width="190"><h3>Hey there!</h3>You'll need a modern browser that supports HTML5 in order for this to work.</canvas>
+
+<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>
+<canvas id="calcmaxesghostcanvas" height=10 width=10 ></canvas>
+
 
 </body>
 </html>

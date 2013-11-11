@@ -67,7 +67,7 @@
 		output += "    // SeedShape Data\n";
 		output += "    // --------------\n\n";
 
-		for(var var ssname in ss){
+		for(var ssname in ss){
 			output += "    // Seed Shape '" + ssname + "'\n";
 			output += "    GlyphrProject.seedshapes['"+ssname+"'] = new Object();\n";
 				var una = ss[ssname].usedin;

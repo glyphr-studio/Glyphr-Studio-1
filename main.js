@@ -3,6 +3,7 @@
 **/
 
 // -- GLoBAL VARIABLES --//
+	var DEBUG = true;
 	var GlyphrProject = new Object();
 	var navhere = "firstrun";
 	var navprimaryhere = "npNav";
@@ -12,18 +13,14 @@
 	var seedundoq = new Array();
 	
 	function setup() {
-		var timer = new Date();
-		debug("MAIN SETUP() - START: " + timer);
-		
+		debug("MAIN SETUP() - START");
+			
 		// Draw Glyphr Logo
 		drawLogo();	
-			
+		
 		// Setup Nav Stuff
 		navigate();
 
-		// Setup Canvas 2 Image
-		setupC2I();
-		
 		// Shows a popup if the window is closed or refreshed
 		if(stoppagenavigation){
 			window.onbeforeunload = function() {
@@ -31,14 +28,7 @@
 			}
 		}
 		
-
-		// Hides the Debug button if debugging is turned off
-		if(!DEBUG){
-			document.getElementById("debugthingybutton").style.display = "none";
-		}
-		
-		debug("MAIN SETUP() - END: " + (((new Date()) - timer)/1000) + " seconds later");
-		debug("_________________________________________________<br><br>");
+		debug("MAIN SETUP() - END");
 	}
 
 	
@@ -54,7 +44,6 @@
 		document.getElementById("navprimarypane").style.display = "block";
 		document.getElementById("navtargetpane").style.display = "block";
 		document.getElementById("logocanvas").style.display = "block";
-		document.getElementById("debugthingybutton").style.display = "none";
 		
 		if(navhere=="test drive") navprimaryhere = "npAttributes";
 		
@@ -81,8 +70,7 @@
 				navprimaryhere = "npChar";
 				resetZoomPan();
 				updatecharedit();	
-				document.getElementById("mainwrapper").style.overflowY = "hidden";
-				document.getElementById("debugthingybutton").style.display = "block";			
+				document.getElementById("mainwrapper").style.overflowY = "hidden";			
 				selectedshape = -1;
 				break;
 			
@@ -91,7 +79,6 @@
 				resetZoomPan();
 				updateseedshapes();
 				document.getElementById("mainwrapper").style.overflowY = "hidden";
-				document.getElementById("debugthingybutton").style.display = "block";
 				break;
 		}
 		
@@ -99,7 +86,7 @@
 		
 		document.body.focus();
 		
-		debug("<b>>>NAVIGATE FINISHED</b> - to " + navhere);
+		debug("\tNAVIGATE FINISHED - to " + navhere);
 
 	}
 	
@@ -326,7 +313,17 @@
 		return con;
 	}
 	
+
 	
+//-------------------
+// Debug
+//-------------------
+		
+	function debug(message, force){
+		if(DEBUG | force){ console.log(message); }
+	}
+
+
 //-------------------
 // Dialog Box
 //-------------------
