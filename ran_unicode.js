@@ -1,213 +1,498 @@
 
-function createNewFontObject(){
-	var font = new Array();
-	
-	font[32] = new Object();	font[32].charname = "SPACE";					font[32].charvalue = "[space]";	font[32].cmapcode = "0x20";	
-	font[33] = new Object();	font[33].charname = "EXCLAMATION MARK";			font[33].charvalue = "!";		font[33].cmapcode = "0x21";	
-	font[34] = new Object();	font[34].charname = "QUOTATION MARK";			font[34].charvalue = '"';		font[34].cmapcode = "0x22";	
-	font[35] = new Object();	font[35].charname = "NUMBER SIGN";				font[35].charvalue = "#";		font[35].cmapcode = "0x23";	
-	font[36] = new Object();	font[36].charname = "DOLLAR SIGN";				font[36].charvalue = "$";		font[36].cmapcode = "0x24";	
-	font[37] = new Object();	font[37].charname = "PERCENT SIGN";				font[37].charvalue = "%";		font[37].cmapcode = "0x25";	
-	font[38] = new Object();	font[38].charname = "AMPERSAND";				font[38].charvalue = "&";		font[38].cmapcode = "0x26";	
-	font[39] = new Object();	font[39].charname = "APOSTROPHE";				font[39].charvalue = "'";		font[39].cmapcode = "0x27";	
-	font[40] = new Object();	font[40].charname = "LEFT PARENTHESIS";			font[40].charvalue = "(";		font[40].cmapcode = "0x28";	
-	font[41] = new Object();	font[41].charname = "RIGHT PARENTHESIS";		font[41].charvalue = ")";		font[41].cmapcode = "0x29";	
-	font[42] = new Object();	font[42].charname = "ASTERISK";					font[42].charvalue = "*";		font[42].cmapcode = "0x2a";	
-	font[43] = new Object();	font[43].charname = "PLUS SIGN";				font[43].charvalue = "+";		font[43].cmapcode = "0x2b";	
-	font[44] = new Object();	font[44].charname = "COMMA";					font[44].charvalue = ",";		font[44].cmapcode = "0x2c";	
-	font[45] = new Object();	font[45].charname = "HYPHEN-MINUS";				font[45].charvalue = "-";		font[45].cmapcode = "0x2d";	
-	font[46] = new Object();	font[46].charname = "FULL STOP";				font[46].charvalue = ".";		font[46].cmapcode = "0x2e";	
-	font[47] = new Object();	font[47].charname = "SOLIDUS";					font[47].charvalue = "/";		font[47].cmapcode = "0x2f";	
-	font[48] = new Object();	font[48].charname = "DIGIT ZERO";				font[48].charvalue = "0";		font[48].cmapcode = "0x30";	
-	font[49] = new Object();	font[49].charname = "DIGIT ONE";				font[49].charvalue = "1";		font[49].cmapcode = "0x31";	
-	font[50] = new Object();	font[50].charname = "DIGIT TWO";				font[50].charvalue = "2";		font[50].cmapcode = "0x32";	
-	font[51] = new Object();	font[51].charname = "DIGIT THREE";				font[51].charvalue = "3";		font[51].cmapcode = "0x33";	
-	font[52] = new Object();	font[52].charname = "DIGIT FOUR";				font[52].charvalue = "4";		font[52].cmapcode = "0x34";	
-	font[53] = new Object();	font[53].charname = "DIGIT FIVE";				font[53].charvalue = "5";		font[53].cmapcode = "0x35";	
-	font[54] = new Object();	font[54].charname = "DIGIT SIX";				font[54].charvalue = "6";		font[54].cmapcode = "0x36";	
-	font[55] = new Object();	font[55].charname = "DIGIT SEVEN";				font[55].charvalue = "7";		font[55].cmapcode = "0x37";	
-	font[56] = new Object();	font[56].charname = "DIGIT EIGHT";				font[56].charvalue = "8";		font[56].cmapcode = "0x38";	
-	font[57] = new Object();	font[57].charname = "DIGIT NINE";				font[57].charvalue = "9";		font[57].cmapcode = "0x39";	
-	font[58] = new Object();	font[58].charname = "COLON";					font[58].charvalue = ":";		font[58].cmapcode = "0x3a";	
-	font[59] = new Object();	font[59].charname = "SEMICOLON";				font[59].charvalue = ";";		font[59].cmapcode = "0x3b";	
-	font[60] = new Object();	font[60].charname = "LESS-THAN SIGN";			font[60].charvalue = "<";		font[60].cmapcode = "0x3c";	
-	font[61] = new Object();	font[61].charname = "EQUALS SIGN";				font[61].charvalue = "=";		font[61].cmapcode = "0x3d";	
-	font[62] = new Object();	font[62].charname = "GREATER-THAN SIGN";		font[62].charvalue = ">";		font[62].cmapcode = "0x3e";	
-	font[63] = new Object();	font[63].charname = "QUESTION MARK";	 		font[63].charvalue = "?";		font[63].cmapcode = "0x3f";	
-	font[64] = new Object();	font[64].charname = "COMMERCIAL AT";	 		font[64].charvalue = "@";		font[64].cmapcode = "0x40";	
-	font[65] = new Object();	font[65].charname = "LATIN CAPITAL LETTER A";	font[65].charvalue = "A";		font[65].cmapcode = "0x41";	
-	font[66] = new Object();	font[66].charname = "LATIN CAPITAL LETTER B";	font[66].charvalue = "B";		font[66].cmapcode = "0x42";	
-	font[67] = new Object();	font[67].charname = "LATIN CAPITAL LETTER C";	font[67].charvalue = "C";		font[67].cmapcode = "0x43";	
-	font[68] = new Object();	font[68].charname = "LATIN CAPITAL LETTER D";	font[68].charvalue = "D";		font[68].cmapcode = "0x44";	
-	font[69] = new Object();	font[69].charname = "LATIN CAPITAL LETTER E";	font[69].charvalue = "E";		font[69].cmapcode = "0x45";	
-	font[70] = new Object();	font[70].charname = "LATIN CAPITAL LETTER F";	font[70].charvalue = "F";		font[70].cmapcode = "0x46";	
-	font[71] = new Object();	font[71].charname = "LATIN CAPITAL LETTER G";	font[71].charvalue = "G";		font[71].cmapcode = "0x47";	
-	font[72] = new Object();	font[72].charname = "LATIN CAPITAL LETTER H";	font[72].charvalue = "H";		font[72].cmapcode = "0x48";	
-	font[73] = new Object();	font[73].charname = "LATIN CAPITAL LETTER I";	font[73].charvalue = "I";		font[73].cmapcode = "0x49";	
-	font[74] = new Object();	font[74].charname = "LATIN CAPITAL LETTER J";	font[74].charvalue = "J";		font[74].cmapcode = "0x4a";	
-	font[75] = new Object();	font[75].charname = "LATIN CAPITAL LETTER K";	font[75].charvalue = "K";		font[75].cmapcode = "0x4b";	
-	font[76] = new Object();	font[76].charname = "LATIN CAPITAL LETTER L";	font[76].charvalue = "L";		font[76].cmapcode = "0x4c";	
-	font[77] = new Object();	font[77].charname = "LATIN CAPITAL LETTER M";	font[77].charvalue = "M";		font[77].cmapcode = "0x4d";	
-	font[78] = new Object();	font[78].charname = "LATIN CAPITAL LETTER N";	font[78].charvalue = "N";		font[78].cmapcode = "0x4e";	
-	font[79] = new Object();	font[79].charname = "LATIN CAPITAL LETTER O";	font[79].charvalue = "O";		font[79].cmapcode = "0x4f";	
-	font[80] = new Object();	font[80].charname = "LATIN CAPITAL LETTER P";	font[80].charvalue = "P";		font[80].cmapcode = "0x50";	
-	font[81] = new Object();	font[81].charname = "LATIN CAPITAL LETTER Q";	font[81].charvalue = "Q";		font[81].cmapcode = "0x51";	
-	font[82] = new Object();	font[82].charname = "LATIN CAPITAL LETTER R";	font[82].charvalue = "R";		font[82].cmapcode = "0x52";	
-	font[83] = new Object();	font[83].charname = "LATIN CAPITAL LETTER S";	font[83].charvalue = "S";		font[83].cmapcode = "0x53";	
-	font[84] = new Object();	font[84].charname = "LATIN CAPITAL LETTER T";	font[84].charvalue = "T";		font[84].cmapcode = "0x54";	
-	font[85] = new Object();	font[85].charname = "LATIN CAPITAL LETTER U";	font[85].charvalue = "U";		font[85].cmapcode = "0x55";	
-	font[86] = new Object();	font[86].charname = "LATIN CAPITAL LETTER V";	font[86].charvalue = "V";		font[86].cmapcode = "0x56";	
-	font[87] = new Object();	font[87].charname = "LATIN CAPITAL LETTER W";	font[87].charvalue = "W";		font[87].cmapcode = "0x57";	
-	font[88] = new Object();	font[88].charname = "LATIN CAPITAL LETTER X";	font[88].charvalue = "X";		font[88].cmapcode = "0x58";	
-	font[89] = new Object();	font[89].charname = "LATIN CAPITAL LETTER Y";	font[89].charvalue = "Y";		font[89].cmapcode = "0x59";	
-	font[90] = new Object();	font[90].charname = "LATIN CAPITAL LETTER Z";	font[90].charvalue = "Z";		font[90].cmapcode = "0x5a";	
-	font[91] = new Object();	font[91].charname = "LEFT SQUARE BRACKET";		font[91].charvalue = "[";		font[91].cmapcode = "0x5b";	
-	font[92] = new Object();	font[92].charname = "REVERSE SOLIDUS";			font[92].charvalue = "\\";		font[92].cmapcode = "0x5c";	
-	font[93] = new Object();	font[93].charname = "RIGHT SQUARE BRACKET";		font[93].charvalue = "]";		font[93].cmapcode = "0x5d";	
-	font[94] = new Object();	font[94].charname = "CIRCUMFLEX ACCENT";		font[94].charvalue = "^";		font[94].cmapcode = "0x5e";	
-	font[95] = new Object();	font[95].charname = "LOW LINE";					font[95].charvalue = "_";		font[95].cmapcode = "0x5f";	
-	font[96] = new Object();	font[96].charname = "GRAVE ACCENT";				font[96].charvalue = "`";		font[96].cmapcode = "0x60";	
-	font[97] = new Object();	font[97].charname = "LATIN SMALL LETTER A";		font[97].charvalue = "a";		font[97].cmapcode = "0x61";	
-	font[98] = new Object();	font[98].charname = "LATIN SMALL LETTER B";		font[98].charvalue = "b";		font[98].cmapcode = "0x62";	
-	font[99] = new Object();	font[99].charname = "LATIN SMALL LETTER C";		font[99].charvalue = "c";		font[99].cmapcode = "0x63";	
-	font[100] = new Object();	font[100].charname = "LATIN SMALL LETTER D";	font[100].charvalue = "d";		font[100].cmapcode = "0x64";	
-	font[101] = new Object();	font[101].charname = "LATIN SMALL LETTER E";	font[101].charvalue = "e";		font[101].cmapcode = "0x65";	
-	font[102] = new Object();	font[102].charname = "LATIN SMALL LETTER F";	font[102].charvalue = "f";		font[102].cmapcode = "0x66";	
-	font[103] = new Object();	font[103].charname = "LATIN SMALL LETTER G";	font[103].charvalue = "g";		font[103].cmapcode = "0x67";	
-	font[104] = new Object();	font[104].charname = "LATIN SMALL LETTER H";	font[104].charvalue = "h";		font[104].cmapcode = "0x68";	
-	font[105] = new Object();	font[105].charname = "LATIN SMALL LETTER I";	font[105].charvalue = "i";		font[105].cmapcode = "0x69";	
-	font[106] = new Object();	font[106].charname = "LATIN SMALL LETTER J";	font[106].charvalue = "j";		font[106].cmapcode = "0x6a";	
-	font[107] = new Object();	font[107].charname = "LATIN SMALL LETTER K";	font[107].charvalue = "k";		font[107].cmapcode = "0x6b";	
-	font[108] = new Object();	font[108].charname = "LATIN SMALL LETTER L";	font[108].charvalue = "l";		font[108].cmapcode = "0x6c";	
-	font[109] = new Object();	font[109].charname = "LATIN SMALL LETTER M";	font[109].charvalue = "m";		font[109].cmapcode = "0x6d";	
-	font[110] = new Object();	font[110].charname = "LATIN SMALL LETTER N";	font[110].charvalue = "n";		font[110].cmapcode = "0x6e";	
-	font[111] = new Object();	font[111].charname = "LATIN SMALL LETTER O";	font[111].charvalue = "o";		font[111].cmapcode = "0x6f";	
-	font[112] = new Object();	font[112].charname = "LATIN SMALL LETTER P";	font[112].charvalue = "p";		font[112].cmapcode = "0x70";	
-	font[113] = new Object();	font[113].charname = "LATIN SMALL LETTER Q";	font[113].charvalue = "q";		font[113].cmapcode = "0x71";	
-	font[114] = new Object();	font[114].charname = "LATIN SMALL LETTER R";	font[114].charvalue = "r";		font[114].cmapcode = "0x72";	
-	font[115] = new Object();	font[115].charname = "LATIN SMALL LETTER S";	font[115].charvalue = "s";		font[115].cmapcode = "0x73";	
-	font[116] = new Object();	font[116].charname = "LATIN SMALL LETTER T";	font[116].charvalue = "t";		font[116].cmapcode = "0x74";	
-	font[117] = new Object();	font[117].charname = "LATIN SMALL LETTER U";	font[117].charvalue = "u";		font[117].cmapcode = "0x75";	
-	font[118] = new Object();	font[118].charname = "LATIN SMALL LETTER V";	font[118].charvalue = "v";		font[118].cmapcode = "0x76";	
-	font[119] = new Object();	font[119].charname = "LATIN SMALL LETTER W";	font[119].charvalue = "w";		font[119].cmapcode = "0x77";	
-	font[120] = new Object();	font[120].charname = "LATIN SMALL LETTER X";	font[120].charvalue = "x";		font[120].cmapcode = "0x78";	
-	font[121] = new Object();	font[121].charname = "LATIN SMALL LETTER Y";	font[121].charvalue = "y";		font[121].cmapcode = "0x79";	
-	font[122] = new Object();	font[122].charname = "LATIN SMALL LETTER Z";	font[122].charvalue = "z";		font[122].cmapcode = "0x7a";	
-	font[123] = new Object();	font[123].charname = "LEFT CURLY BRACKET";		font[123].charvalue = "{";		font[123].cmapcode = "0x7b";	
-	font[124] = new Object();	font[124].charname = "VERTICAL LINE";			font[124].charvalue = "|";		font[124].cmapcode = "0x7c";	
-	font[125] = new Object();	font[125].charname = "RIGHT CURLY BRACKET";		font[125].charvalue = "}";		font[125].cmapcode = "0x7d";	
-	font[126] = new Object();	font[126].charname = "TILDE";					font[126].charvalue = "~";		font[126].cmapcode = "0x7e";
+	function createNewFontObject(){
+		var font = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+		{
+			"charname" : "SPACE",
+			"charvalue" : "[space]",
+			"cmapcode" : "0x20"
+		}, {
+			"charname" : "EXCLAMATION MARK",
+			"charvalue" : "!",
+			"cmapcode" : "0x21"
+		}, {
+			"charname" : "QUOTATION MARK",
+			"charvalue" : '"';
+			"cmapcode" : "0x22"
+		}, {
+			"charname" : "NUMBER SIGN",
+			"charvalue" : "#",
+			"cmapcode" : "0x23"
+		}, {
+			"charname" : "DOLLAR SIGN",
+			"charvalue" : "$",
+			"cmapcode" : "0x24"
+		}, {
+			"charname" : "PERCENT SIGN",
+			"charvalue" : "%",
+			"cmapcode" : "0x25"
+		}, {
+			"charname" : "AMPERSAND",
+			"charvalue" : "&",
+			"cmapcode" : "0x26"
+		}, {
+			"charname" : "APOSTROPHE",
+			"charvalue" : "'",
+			"cmapcode" : "0x27"
+		}, {
+			"charname" : "LEFT PARENTHESIS",
+			"charvalue" : "(",
+			"cmapcode" : "0x28"
+		}, {
+			"charname" : "RIGHT PARENTHESIS",
+			"charvalue" : ")",
+			"cmapcode" : "0x29"
+		}, {
+			"charname" : "ASTERISK",
+			"charvalue" : "*",
+			"cmapcode" : "0x2a"
+		}, {
+			"charname" : "PLUS SIGN",
+			"charvalue" : "+",
+			"cmapcode" : "0x2b"
+		}, {
+			"charname" : "COMMA",
+			"charvalue" : ",",
+			"cmapcode" : "0x2c"
+		}, {
+			"charname" : "HYPHEN-MINUS",
+			"charvalue" : "-",
+			"cmapcode" : "0x2d"
+		}, {
+			"charname" : "FULL STOP",
+			"charvalue" : ".",
+			"cmapcode" : "0x2e"
+		}, {
+			"charname" : "SOLIDUS",
+			"charvalue" : "/",
+			"cmapcode" : "0x2f"
+		}, {
+			"charname" : "DIGIT ZERO",
+			"charvalue" : "0",
+			"cmapcode" : "0x30"
+		}, {
+			"charname" : "DIGIT ONE",
+			"charvalue" : "1",
+			"cmapcode" : "0x31"
+		}, {
+			"charname" : "DIGIT TWO",
+			"charvalue" : "2",
+			"cmapcode" : "0x32"
+		}, {
+			"charname" : "DIGIT THREE",
+			"charvalue" : "3",
+			"cmapcode" : "0x33"
+		}, {
+			"charname" : "DIGIT FOUR",
+			"charvalue" : "4",
+			"cmapcode" : "0x34"
+		}, {
+			"charname" : "DIGIT FIVE",
+			"charvalue" : "5",
+			"cmapcode" : "0x35"
+		}, {
+			"charname" : "DIGIT SIX",
+			"charvalue" : "6",
+			"cmapcode" : "0x36"
+		}, {
+			"charname" : "DIGIT SEVEN",
+			"charvalue" : "7",
+			"cmapcode" : "0x37"
+		}, {
+			"charname" : "DIGIT EIGHT",
+			"charvalue" : "8",
+			"cmapcode" : "0x38"
+		}, {
+			"charname" : "DIGIT NINE",
+			"charvalue" : "9",
+			"cmapcode" : "0x39"
+		}, {
+			"charname" : "COLON",
+			"charvalue" : ":",
+			"cmapcode" : "0x3a"
+		}, {
+			"charname" : "SEMICOLON",
+			"charvalue" : ";"
+			"cmapcode" : "0x3b",
+		}, {
+			"charname" : "LESS-THAN SIGN",
+			"charvalue" : "<",
+			"cmapcode" : "0x3c"
+		}, {
+			"charname" : "EQUALS SIGN",
+			"charvalue" : "=",
+			"cmapcode" : "0x3d"
+		}, {
+			"charname" : "GREATER-THAN SIGN",
+			"charvalue" : ">",
+			"cmapcode" : "0x3e"
+		}, {
+			"charname" : "QUESTION MARK",
+			"charvalue" : "?",
+			"cmapcode" : "0x3f"
+		}, {
+			"charname" : "COMMERCIAL AT",
+			"charvalue" : "@",
+			"cmapcode" : "0x40"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER A",
+			"charvalue" : "A",
+			"cmapcode" : "0x41"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER B",
+			"charvalue" : "B",
+			"cmapcode" : "0x42"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER C",
+			"charvalue" : "C",
+			"cmapcode" : "0x43"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER D",
+			"charvalue" : "D",
+			"cmapcode" : "0x44"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER E",
+			"charvalue" : "E",
+			"cmapcode" : "0x45"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER F",
+			"charvalue" : "F",
+			"cmapcode" : "0x46"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER G",
+			"charvalue" : "G",
+			"cmapcode" : "0x47"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER H",
+			"charvalue" : "H",
+			"cmapcode" : "0x48"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER I",
+			"charvalue" : "I",
+			"cmapcode" : "0x49"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER J",
+			"charvalue" : "J",
+			"cmapcode" : "0x4a"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER K",
+			"charvalue" : "K",
+			"cmapcode" : "0x4b"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER L",
+			"charvalue" : "L",
+			"cmapcode" : "0x4c"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER M",
+			"charvalue" : "M",
+			"cmapcode" : "0x4d"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER N",
+			"charvalue" : "N",
+			"cmapcode" : "0x4e"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER O",
+			"charvalue" : "O",
+			"cmapcode" : "0x4f"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER P",
+			"charvalue" : "P",
+			"cmapcode" : "0x50"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER Q",
+			"charvalue" : "Q",
+			"cmapcode" : "0x51"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER R",
+			"charvalue" : "R",
+			"cmapcode" : "0x52"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER S",
+			"charvalue" : "S",
+			"cmapcode" : "0x53"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER T",
+			"charvalue" : "T",
+			"cmapcode" : "0x54"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER U",
+			"charvalue" : "U",
+			"cmapcode" : "0x55"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER V",
+			"charvalue" : "V",
+			"cmapcode" : "0x56"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER W",
+			"charvalue" : "W",
+			"cmapcode" : "0x57"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER X",
+			"charvalue" : "X",
+			"cmapcode" : "0x58"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER Y",
+			"charvalue" : "Y",
+			"cmapcode" : "0x59"
+		}, {
+			"charname" : "LATIN CAPITAL LETTER Z",
+			"charvalue" : "Z",
+			"cmapcode" : "0x5a"
+		}, {
+			"charname" : "LEFT SQUARE BRACKET",
+			"charvalue" : "[",
+			"cmapcode" : "0x5b"
+		}, {
+			"charname" : "REVERSE SOLIDUS",
+			"charvalue" : "\\",
+			"cmapcode" : "0x5c"
+		}, {
+			"charname" : "RIGHT SQUARE BRACKET",
+			"charvalue" : "]",
+			"cmapcode" : "0x5d"
+		}, {
+			"charname" : "CIRCUMFLEX ACCENT",
+			"charvalue" : "^",
+			"cmapcode" : "0x5e"
+		}, {
+			"charname" : "LOW LINE",
+			"charvalue" : "_",
+			"cmapcode" : "0x5f"
+		}, {
+			"charname" : "GRAVE ACCENT",
+			"charvalue" : "`",
+			"cmapcode" : "0x60"
+		}, {
+			"charname" : "LATIN SMALL LETTER A",
+			"charvalue" : "a",
+			"cmapcode" : "0x61"
+		}, {
+			"charname" : "LATIN SMALL LETTER B",
+			"charvalue" : "b",
+			"cmapcode" : "0x62"
+		}, {
+			"charname" : "LATIN SMALL LETTER C",
+			"charvalue" : "c",
+			"cmapcode" : "0x63"
+		}, {
+			"charname" : "LATIN SMALL LETTER D",
+			"charvalue" : "d",
+			"cmapcode" : "0x64"
+		}, {
+			"charname" : "LATIN SMALL LETTER E",
+			"charvalue" : "e",
+			"cmapcode" : "0x65"
+		}, {
+			"charname" : "LATIN SMALL LETTER F",
+			"charvalue" : "f",
+			"cmapcode" : "0x66"
+		}, {
+			"charname" : "LATIN SMALL LETTER G",
+			"charvalue" : "g",
+			"cmapcode" : "0x67"
+		}, {
+			"charname" : "LATIN SMALL LETTER H",
+			"charvalue" : "h",
+			"cmapcode" : "0x68"
+		}, {
+			"charname" : "LATIN SMALL LETTER I",
+			"charvalue" : "i",
+			"cmapcode" : "0x69"
+		}, {
+			"charname" : "LATIN SMALL LETTER J",
+			"charvalue" : "j",
+			"cmapcode" : "0x6a"
+		}, {
+			"charname" : "LATIN SMALL LETTER K",
+			"charvalue" : "k",
+			"cmapcode" : "0x6b"
+		}, {
+			"charname" : "LATIN SMALL LETTER L",
+			"charvalue" : "l",
+			"cmapcode" : "0x6c"
+		}, {
+			"charname" : "LATIN SMALL LETTER M",
+			"charvalue" : "m",
+			"cmapcode" : "0x6d"
+		}, {
+			"charname" : "LATIN SMALL LETTER N",
+			"charvalue" : "n",
+			"cmapcode" : "0x6e"
+		}, {
+			"charname" : "LATIN SMALL LETTER O",
+			"charvalue" : "o",
+			"cmapcode" : "0x6f"
+		}, {
+			"charname" : "LATIN SMALL LETTER P",
+			"charvalue" : "p",
+			"cmapcode" : "0x70"
+		}, {
+			"charname" : "LATIN SMALL LETTER Q",
+			"charvalue" : "q",
+			"cmapcode" : "0x71"
+		}, {
+			"charname" : "LATIN SMALL LETTER R",
+			"charvalue" : "r",
+			"cmapcode" : "0x72"
+		}, {
+			"charname" : "LATIN SMALL LETTER S",
+			"charvalue" : "s",
+			"cmapcode" : "0x73"
+		}, {
+			"charname" : "LATIN SMALL LETTER T",
+			"charvalue" : "t",
+			"cmapcode" : "0x74"
+		}, {
+			"charname" : "LATIN SMALL LETTER U",
+			"charvalue" : "u",
+			"cmapcode" : "0x75"
+		}, {
+			"charname" : "LATIN SMALL LETTER V",
+			"charvalue" : "v",
+			"cmapcode" : "0x76"
+		}, {
+			"charname" : "LATIN SMALL LETTER W",
+			"charvalue" : "w",
+			"cmapcode" : "0x77"
+		}, {
+			"charname" : "LATIN SMALL LETTER X",
+			"charvalue" : "x",
+			"cmapcode" : "0x78"
+		}, {
+			"charname" : "LATIN SMALL LETTER Y",
+			"charvalue" : "y",
+			"cmapcode" : "0x79"
+		}, {
+			"charname" : "LATIN SMALL LETTER Z",
+			"charvalue" : "z",
+			"cmapcode" : "0x7a"
+		}, {
+			"charname" : "LEFT CURLY BRACKET",
+			"charvalue" : "{",
+			"cmapcode" : "0x7b"
+		}, {
+			"charname" : "VERTICAL LINE",
+			"charvalue" : "|",
+			"cmapcode" : "0x7c"
+		}, {
+			"charname" : "RIGHT CURLY BRACKET",
+			"charvalue" : "}",
+			"cmapcode" : "0x7d"
+		}, {
+			"charname" : "TILDE",
+			"charvalue" : "~",
+			"cmapcode" : "0x7e"
+		}
+	];	
 
 	for(var uch = 32; uch<127; uch++){
 		font[uch].isautowide = true;
 		font[uch].charwidth = 0;
-		font[uch].charglyphdata = new Array();
+		font[uch].charglyphdata = [];
+
 	}
-	
+
 	return font;
+
 }
-	
+
 //	-----------------
 //	Conversions
 //	-----------------
 
-var charToUnicode = new Array();
-makeCharToUnicode();
-
-function makeCharToUnicode(){
-	charToUnicode[" "] = 32;
-	charToUnicode["!"] = 33;
-	charToUnicode['"'] = 34;
-	charToUnicode["#"] = 35;
-	charToUnicode["$"] = 36;
-	charToUnicode["%"] = 37;
-	charToUnicode["&"] = 38;
-	charToUnicode["'"] = 39;
-	charToUnicode["("] = 40;
-	charToUnicode[")"] = 41;
-	charToUnicode["*"] = 42;
-	charToUnicode["+"] = 43;
-	charToUnicode[","] = 44;
-	charToUnicode["-"] = 45;
-	charToUnicode["."] = 46;
-	charToUnicode["/"] = 47;
-	charToUnicode["0"] = 48;
-	charToUnicode["1"] = 49;
-	charToUnicode["2"] = 50;
-	charToUnicode["3"] = 51;
-	charToUnicode["4"] = 52;
-	charToUnicode["5"] = 53;
-	charToUnicode["6"] = 54;
-	charToUnicode["7"] = 55;
-	charToUnicode["8"] = 56;
-	charToUnicode["9"] = 57;
-	charToUnicode[":"] = 58;
-	charToUnicode[";"] = 59;
-	charToUnicode["<"] = 60;
-	charToUnicode["="] = 61;
-	charToUnicode[">"] = 62;
-	charToUnicode["?"] = 63;
-	charToUnicode["@"] = 64;
-	charToUnicode["A"] = 65;
-	charToUnicode["B"] = 66;
-	charToUnicode["C"] = 67;
-	charToUnicode["D"] = 68;
-	charToUnicode["E"] = 69;
-	charToUnicode["F"] = 70;
-	charToUnicode["G"] = 71;
-	charToUnicode["H"] = 72;
-	charToUnicode["I"] = 73;
-	charToUnicode["J"] = 74;
-	charToUnicode["K"] = 75;
-	charToUnicode["L"] = 76;
-	charToUnicode["M"] = 77;
-	charToUnicode["N"] = 78;
-	charToUnicode["O"] = 79;
-	charToUnicode["P"] = 80;
-	charToUnicode["Q"] = 81;
-	charToUnicode["R"] = 82;
-	charToUnicode["S"] = 83;
-	charToUnicode["T"] = 84;
-	charToUnicode["U"] = 85;
-	charToUnicode["V"] = 86;
-	charToUnicode["W"] = 87;
-	charToUnicode["X"] = 88;
-	charToUnicode["Y"] = 89;
-	charToUnicode["Z"] = 90;
-	charToUnicode["["] = 91;
-	charToUnicode["\\"] = 92;
-	charToUnicode["]"] = 93;
-	charToUnicode["^"] = 94;
-	charToUnicode["_"] = 95;
-	charToUnicode["`"] = 96;
-	charToUnicode["a"] = 97;
-	charToUnicode["b"] = 98;
-	charToUnicode["c"] = 99;
-	charToUnicode["d"] = 100;
-	charToUnicode["e"] = 101;
-	charToUnicode["f"] = 102;
-	charToUnicode["g"] = 103;
-	charToUnicode["h"] = 104;
-	charToUnicode["i"] = 105;
-	charToUnicode["j"] = 106;
-	charToUnicode["k"] = 107;
-	charToUnicode["l"] = 108;
-	charToUnicode["m"] = 109;
-	charToUnicode["n"] = 110;
-	charToUnicode["o"] = 111;
-	charToUnicode["p"] = 112;
-	charToUnicode["q"] = 113;
-	charToUnicode["r"] = 114;
-	charToUnicode["s"] = 115;
-	charToUnicode["t"] = 116;
-	charToUnicode["u"] = 117;
-	charToUnicode["v"] = 118;
-	charToUnicode["w"] = 119;
-	charToUnicode["x"] = 120;
-	charToUnicode["y"] = 121;
-	charToUnicode["z"] = 122;
-	charToUnicode["{"] = 123;
-	charToUnicode["|"] = 124;
-	charToUnicode["}"] = 125;
-	charToUnicode["~"] = 126;
-}
+var charToUnicode = [
+	" " : 32,
+	"!" : 33,
+	'"' : 34,
+	"#" : 35,
+	"$" : 36,
+	"%" : 37,
+	"&" : 38,
+	"'" : 39,
+	"(" : 40,
+	")" : 41,
+	"*" : 42,
+	"+" : 43,
+	"," : 44,
+	"-" : 45,
+	"." : 46,
+	"/" : 47,
+	"0" : 48,
+	"1" : 49,
+	"2" : 50,
+	"3" : 51,
+	"4" : 52,
+	"5" : 53,
+	"6" : 54,
+	"7" : 55,
+	"8" : 56,
+	"9" : 57,
+	":" : 58,
+	"," : 59,
+	"<" : 60,
+	"=" : 61,
+	">" : 62,
+	"?" : 63,
+	"@" : 64,
+	"A" : 65,
+	"B" : 66,
+	"C" : 67,
+	"D" : 68,
+	"E" : 69,
+	"F" : 70,
+	"G" : 71,
+	"H" : 72,
+	"I" : 73,
+	"J" : 74,
+	"K" : 75,
+	"L" : 76,
+	"M" : 77,
+	"N" : 78,
+	"O" : 79,
+	"P" : 80,
+	"Q" : 81,
+	"R" : 82,
+	"S" : 83,
+	"T" : 84,
+	"U" : 85,
+	"V" : 86,
+	"W" : 87,
+	"X" : 88,
+	"Y" : 89,
+	"Z" : 90,
+	"[" : 91,
+	"\\" : 92,
+	"]" : 93,
+	"^" : 94,
+	"_" : 95,
+	"`" : 96,
+	"a" : 97,
+	"b" : 98,
+	"c" : 99,
+	"d" : 100,
+	"e" : 101,
+	"f" : 102,
+	"g" : 103,
+	"h" : 104,
+	"i" : 105,
+	"j" : 106,
+	"k" : 107,
+	"l" : 108,
+	"m" : 109,
+	"n" : 110,
+	"o" : 111,
+	"p" : 112,
+	"q" : 113,
+	"r" : 114,
+	"s" : 115,
+	"t" : 116,
+	"u" : 117,
+	"v" : 118,
+	"w" : 119,
+	"x" : 120,
+	"y" : 121,
+	"z" : 122,
+	"{" : 123,
+	"|" : 124,
+	"}" : 125,
+	"~" : 126
+];
