@@ -11,7 +11,7 @@
 			"cmapcode" : "0x21"
 		}, {
 			"charname" : "QUOTATION MARK",
-			"charvalue" : '"';
+			"charvalue" : '"',
 			"cmapcode" : "0x22"
 		}, {
 			"charname" : "NUMBER SIGN",
@@ -111,8 +111,8 @@
 			"cmapcode" : "0x3a"
 		}, {
 			"charname" : "SEMICOLON",
-			"charvalue" : ";"
-			"cmapcode" : "0x3b",
+			"charvalue" : ";",
+			"cmapcode" : "0x3b"
 		}, {
 			"charname" : "LESS-THAN SIGN",
 			"charvalue" : "<",
@@ -399,7 +399,7 @@
 //	Conversions
 //	-----------------
 
-var charToUnicode = [
+var charToUnicode = {
 	" " : 32,
 	"!" : 33,
 	'"' : 34,
@@ -495,4 +495,4 @@ var charToUnicode = [
 	"|" : 124,
 	"}" : 125,
 	"~" : 126
-];
+};

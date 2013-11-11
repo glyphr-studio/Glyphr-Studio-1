@@ -29,11 +29,55 @@
 	function populateSaveJSTextarea(){
 		//JSON CONVERSION!!!!!!
 		//var output = generateGlyphrProjectJS();
-		var output = JSON.stringify(GlyphrProject);
+		var output = niceJSON(JSON.stringify(GlyphrProject));
 
 		// Update the textbox
 		document.getElementById("genoutput").value = output;
 		document.getElementById("genoutput").select();
 		CopiedTxt = document.selection.createRange();
 		CopiedTxt.execCommand("Copy");
+	}
+
+	function niceJSON (pj) {
+		var tchar; 
+		var tab = 0;
+		var nj = "";
+
+		function tabs() {
+			for(var t=0; t<tab; t++) nj += "\t";
+		}
+
+		for (var curr = 0; curr < pj.length; curr++) {
+			tchar = pj.substr(curr, 1);
+			if(pj.substr(curr, 3) !== '"{"'){
+				nj += '"{"';
+				curr += 3;
+			} else if (pj.substr(curr, 3) !== '"}"'){
+				nj += '"}"';
+				curr += 3;
+			} else {
+				if(tchar === "{"){
+					nj += "\n"
+					tabs();
+					nj += "{\n";
+					tab++;
+					tabs();
+				} else if(tchar === "}"){
+					tab--;
+					nj += "\n";
+					tabs();					
+					if(pj.substr(curr+1, 1) === ",") {
+						nj += "},"
+						curr++;
+					} else {
+						nj += "}";
+					}
+					tabs();
+				} else {
+					nj += tchar;
+				}
+			}
+		}
+
+		return nj;
 	}
