@@ -11,9 +11,9 @@
 		
 		populateSaveJSTextarea();
 	}
-	
+
 	//<input type='button' class='button' value=' Save as a Glyphr Project File ' onclick='saveAsJSFile()'><br><br>
-	
+
 	function saveAsJSFile(){
 		debug("SAVEASJSFILE - top");
 	    var bb = new BlobBuilder;
@@ -48,36 +48,63 @@
 		}
 
 		for (var curr = 0; curr < pj.length; curr++) {
-			tchar = pj.substr(curr, 1);
-			if(pj.substr(curr, 3) !== '"{"'){
+			if(pj.substr(curr, 3) === '"{"'){
 				nj += '"{"';
 				curr += 3;
-			} else if (pj.substr(curr, 3) !== '"}"'){
+			} else if (pj.substr(curr, 3) === '"}"'){
 				nj += '"}"';
 				curr += 3;
+			} else if(pj.substr(curr, 3) === '"["'){
+				nj += '"["';
+				curr += 3;
+			} else if (pj.substr(curr, 3) === '"]"'){
+				nj += '"]"';
+				curr += 3;
+			} else if (pj.substr(curr, 2) === '[]'){
+				nj += '[]';
+				curr ++;
 			} else {
+				tchar = pj.substr(curr, 1);
+				
 				if(tchar === "{"){
 					nj += "\n"
 					tabs();
 					nj += "{\n";
 					tab++;
 					tabs();
+
+				} else if(tchar === "["){
+					nj += "\n"
+					tabs();
+					nj += "[\n";
+					tab++;
+					tabs();
+
 				} else if(tchar === "}"){
 					tab--;
 					nj += "\n";
-					tabs();					
-					if(pj.substr(curr+1, 1) === ",") {
-						nj += "},"
+					tabs();	
+					nj += "}";
+					if(pj.substr(curr+1, 1) === ","){
+						nj += ",";
 						curr++;
-					} else {
-						nj += "}";
 					}
-					tabs();
+				
+				} else if(tchar === "]"){
+					tab--;
+					nj += "\n";
+					tabs();	
+					nj += "]";
+					if(pj.substr(curr+1, 1) === ","){
+						nj += ",";
+						curr++;
+					}
+									
 				} else {
 					nj += tchar;
 				}
 			}
 		}
 
-		return nj;
+		return pj + "\n\n\n" + nj;
 	}

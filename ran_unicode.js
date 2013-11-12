@@ -3,7 +3,7 @@
 		var font = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 		{
 			"charname" : "SPACE",
-			"charvalue" : "[space]",
+			"charvalue" : "(space)",
 			"cmapcode" : "0x20"
 		}, {
 			"charname" : "EXCLAMATION MARK",
