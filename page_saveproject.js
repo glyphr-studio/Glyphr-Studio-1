@@ -9,7 +9,7 @@
 		
 		document.getElementById("mainpane").innerHTML = con;
 		
-		populateSaveJSTextarea();
+		triggerProjectFileDownload();
 	}
 
 	//<input type='button' class='button' value=' Save as a Glyphr Project File ' onclick='saveAsJSFile()'><br><br>
@@ -26,16 +26,24 @@
 		debug("SAVEASJSFILE - bottom");
 	}
 
-	function populateSaveJSTextarea(){
+	function triggerProjectFileDownload(){
 		//JSON CONVERSION!!!!!!
 		//var output = generateGlyphrProjectJS();
 		var output = niceJSON(JSON.stringify(GlyphrProject));
 
 		// Update the textbox
 		document.getElementById("genoutput").value = output;
+		/*
 		document.getElementById("genoutput").select();
 		CopiedTxt = document.selection.createRange();
 		CopiedTxt.execCommand("Copy");
+		*/
+		var link = document.createElement('a');
+		link.href = 'data:text/plain,' + JSON.stringify(GlyphrProject);
+		//link.download = (new Date()).getTime().toString(36) + '.txt';
+		var d = new Date();
+		link.download = GlyphrProject.fontmetadata.familyname + " - Glyphr Project - " + d.getFullYear() + "." + (d.getMonth()+1) + "." + d.getDate() + "." + d.getHours() + "." + d.getMinutes() + "." + d.getMilliseconds() + ".txt";
+		link.click();
 	}
 
 	function niceJSON (pj) {

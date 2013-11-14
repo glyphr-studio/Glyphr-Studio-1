@@ -12,7 +12,6 @@
 		populateSaveTTXXMLtextarea();
 	}
 	
-	//<input type='button' class='button' value=' Save as a Glyphr Project File ' onclick='saveAsJSFile()'><br><br>
 	
 	function saveAsTTXXML(){
 	}

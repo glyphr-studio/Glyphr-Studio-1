@@ -178,5 +178,5 @@
 		
 		openDialog(content);
 		
-		populateSaveJSTextarea()
+		triggerProjectFileDownload()
 	}
