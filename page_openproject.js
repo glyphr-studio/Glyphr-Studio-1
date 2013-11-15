@@ -1,9 +1,9 @@
 
 	function updateopenproject(){
 		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
-		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  To save your current project," +
-		"you must manually copy/paste text and save it to a text file.<br><br>\
-		<input type='button' class='button'style='padding:10px;' value='Generate Glyphr Project text to copy/paste' onclick='showGlyphrProjectTextSaveDialog();'/><br><br>" +
+		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
+		"project file if you want to save your current project.<br><br>\
+		<input type='button' class='button'style='padding:10px;' value='Save current project' onclick='triggerProjectFileDownload();'/><br><br>" +
 		"<h2>Okay, now...</h2>";
 		
 		ct += importOrCreateNew();
@@ -35,9 +35,19 @@
 	}
 
 	function importOrCreateNew(){
-		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:50%;'>\						<div id='getprojectfileprimary' style='display:block;'>\							<h3>Open an existing<br>Glyphr Project</h3>\							Browse for the Glyphr project text file here:<br>\							<form id='getprojectfileform'><input id='getprojectfile' type='file' style='width:100%; margin:10px 0px 20px 0px;' /></form><br>\
+		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:50%;'>\
+						<div id='getprojectfileprimary' style='display:block;'>\
+							<h3>Open an existing<br>Glyphr Project</h3>\
+							Browse for the Glyphr project text file here:<br>\
+							<form id='getprojectfileform'><input id='getprojectfile' type='file' style='width:100%; margin:10px 0px 20px 0px;' /></form><br>\
 							<div id='loadingfile' style='display:none;'><i>loading file...</i></div>\
-						</div>\					</td><td style='width:50%;'>\						<h3>Start a new<br>Glyphr Project</h3>\						Font name:<br>\						<input id='newfontname' type='text' value='My New Font' style='width:100%; margin:10px 0px 10px 0px; color:#333333;' /><br>\						<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>\					</td></tr></table>";
+						</div>\
+					</td><td style='width:50%;'>\
+						<h3>Start a new<br>Glyphr Project</h3>\
+						Font name:<br>\
+						<input id='newfontname' type='text' value='My New Font' style='width:100%; margin:10px 0px 10px 0px; color:#333333;' /><br>\
+						<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>\
+					</td></tr></table>";
 		
 		return con;
 	}

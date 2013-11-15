@@ -62,7 +62,6 @@
 			/*
 			case "export font":		updateexportfont();		break;
 			*/
-			case "save project":	updatesaveproject();	break;
 			case "help": 			updatehelp();			break;
 			case "about":			updateabout();			break;
 				
@@ -129,12 +128,7 @@
 				break;
 			
 			case "npSave":
-				nt.innerHTML = "<h1>save</h1>The code below is your Glyphr Project data.  It has been copied to your system clipboard.  To save your Glyphr Project, paste this code into a text file and save it.  The file that you save can then be imported via the Open menu.<br><br><textarea id='npSaveout'>"+generateGlyphrProjectJS()+"</textarea>";
-
-				// Update the textbox
-				document.getElementById("npSaveout").select();
-				CopiedTxt = document.selection.createRange();
-				CopiedTxt.execCommand("Copy");
+				triggerProjectFileDownload();
 		
 				break;
 		}			
@@ -173,13 +167,6 @@
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_attributes(pnctx, fill);
-			
-			navprimaryhere == "npSave" ? fill=nselect : fill=ngray;
-			pncanvas = document.getElementById("npSave");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_save(pnctx, fill);
 		}
 		
 		if(navhere=="seed shapes"){
@@ -196,13 +183,6 @@
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_attributes(pnctx, fill);
-			
-			navprimaryhere == "npSave" ? fill=nselect : fill=ngray;
-			pncanvas = document.getElementById("npSave");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_save(pnctx, fill);
 		}
 		
 		if(navhere=="test drive"){
@@ -213,6 +193,13 @@
 			pncanvas.height = 50;
 			draw_primaryNav_attributes(pnctx, fill);
 		}
+
+		fill=ngray;
+		pncanvas = document.getElementById("npSave");
+		pnctx = pncanvas.getContext("2d");
+		pncanvas.width = 50;
+		pncanvas.height = 50;
+		draw_primaryNav_save(pnctx, fill);
 	}
 
 	function generateNavPrimaryOptions(){
@@ -223,13 +210,11 @@
 			navarr.push("npChar");
 			navarr.push("npLayers");
 			navarr.push("npAttributes");
-			navarr.push("npSave");
 		}
 		
 		if(navhere=="seed shapes"){
 			navarr.push("npChar");
 			navarr.push("npAttributes");
-			navarr.push("npSave");		
 		}
 		
 		if(navhere=="test drive"){
@@ -242,6 +227,8 @@
 		for(var i=0; i<navarr.length; i++){
 			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='navprimaryhere=\""+navarr[i]+"\";updateNavPrimaryNavTarget();'></canvas>");
 		}
+		
+		newsub += ("<canvas class='"+bc+"' id='npSave' onclick='triggerProjectFileDownload();'></canvas>");
 		
 		return newsub;
 	}
@@ -256,7 +243,6 @@
 		navarr.push("font metadata");
 		navarr.push("_");
 		navarr.push("open project");
-		navarr.push("save project");
 		//navarr.push("export font");
 		navarr.push("_");
 		navarr.push("help");
