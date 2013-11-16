@@ -18,7 +18,14 @@ function triggerProjectFileDownload(){
 		link.href = 'data:text/plain,' + JSON.stringify(GlyphrProject);
 		//link.download = (new Date()).getTime().toString(36) + '.txt';
 		var d = new Date();
-		link.download = GlyphrProject.fontmetadata.familyname + " - Glyphr Project - " + d.getFullYear() + "." + (d.getMonth()+1) + "." + d.getDate() + "." + d.getHours() + "." + d.getMinutes() + "." + d.getMilliseconds() + ".txt";
+		var yr = d.getFullYear();
+		var mo = d.getMonth()+1;
+		var day = d.getDate();
+		var hr = d.getHours();
+		var min = (d.getMinutes()<10? "0" : "") + d.getMinutes();
+		var sec = (d.getSeconds()<10? "0" : "") + d.getSeconds();
+		
+		link.download = GlyphrProject.fontmetadata.familyname + " - Glyphr Project - "+yr+"."+mo+"."+day+"."+hr+"."+min+"."+sec+".txt";
 		link.click();
 	}
 
@@ -104,7 +111,7 @@ function triggerProjectFileDownload(){
 //	------------------------
 //	Save as a GLYPHR Project
 //	------------------------
-
+/*
 	function generateGlyphrProjectJS(){
 		
 		var output = "function importGlyphrProject(){\n";
@@ -268,4 +275,5 @@ function triggerProjectFileDownload(){
 	}
 
 	function r(num){ return round(num,4); }
+*/
 	

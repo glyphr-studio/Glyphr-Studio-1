@@ -223,24 +223,24 @@
 		var qh = Math.round((ty-by)/4);
 
 		// First Point
-		var Pul = new coord(lx, ty);
-		var H1ul = new coord(lx, (ty-qh));
-		var H2ul = new coord((lx+qw), ty);
+		var Pul = new coord({"x":lx, "y":ty});
+		var H1ul = new coord({"x":lx, "y":(ty-qh)});
+		var H2ul = new coord({"x":(lx+qw), "y":ty});
 
 		// Second Point
-		var Pur = new coord(rx, ty);
-		var H1ur = new coord((rx-qw), ty);
-		var H2ur = new coord(rx, (ty-qh));
+		var Pur = new coord({"x":rx, "y":ty});
+		var H1ur = new coord({"x":(rx-qw), "y":ty});
+		var H2ur = new coord({"x":rx, "y":(ty-qh)});
 
 		// Third Point
-		var Plr = new coord(rx, by);
-		var H1lr = new coord(rx, (by+qh));
-		var H2lr = new coord((rx-qw), by);
+		var Plr = new coord({"x":rx, "y":by});
+		var H1lr = new coord({"x":rx, "y":(by+qh)});
+		var H2lr = new coord({"x":(rx-qw), "y":by});
 
 		// Fourth Point
-		var Pll = new coord(lx, by);
-		var H1ll = new coord((lx+qw), by);
-		var H2ll = new coord(lx, (by+qh));
+		var Pll = new coord({"x":lx, "y":by});
+		var H1ll = new coord({"x":(lx+qw), "y":by});
+		var H2ll = new coord({"x":lx, "y":(by+qh)});
 
 		var patharr = new Array();
 		patharr[0] = new pathPoint(Pul,H1ul,H2ul,"corner",false,true,true);
@@ -263,24 +263,24 @@
 		var hhd = Math.round(hh*.448);
 
 		// First Point - Top
-		var Pt = new coord((lx+hw), ty);
-		var H1t = new coord((lx+hwd), ty);
-		var H2t = new coord((rx-hwd), ty);
+		var Pt = new coord({"x":(lx+hw), "y":ty});
+		var H1t = new coord({"x":(lx+hwd), "y":ty});
+		var H2t = new coord({"x":(rx-hwd), "y":ty});
 
 		// Second Point - Right
-		var Pr = new coord(rx, (by+hh));
-		var H1r = new coord(rx, (ty-hhd));
-		var H2r = new coord(rx, (by-hhd));
+		var Pr = new coord({"x":rx, "y":(by+hh)});
+		var H1r = new coord({"x":rx, "y":(ty-hhd)});
+		var H2r = new coord({"x":rx, "y":(by-hhd)});
 
 		// Third Point - Bottom
-		var Pb = new coord((lx+hw), by);
-		var H1b = new coord((rx-hwd), by);
-		var H2b = new coord((lx+hwd), by);
+		var Pb = new coord({"x":(lx+hw), "y":by});
+		var H1b = new coord({"x":(rx-hwd), "y":by});
+		var H2b = new coord({"x":(lx+hwd), "y":by});
 
 		// Fourth Point - Left
-		var Pl = new coord(lx, (by+hh));
-		var H1l = new coord(lx, (by+hhd));
-		var H2l = new coord(lx, (ty-hhd));
+		var Pl = new coord({"x":lx, "y":(by+hh)});
+		var H1l = new coord({"x":lx, "y":(by+hhd)});
+		var H2l = new coord({"x":lx, "y":(ty-hhd)});
 
 		var patharr = new Array();
 		patharr[0] = new pathPoint(Pt,H1t,H2t,"symmetric",false,true,true);
@@ -413,17 +413,17 @@
 		var shapetype = "layer ";
 		
 		if(type == "oval"){
-			var p1 = new pathPoint(new coord(0,(th/2)), new coord(0,hd), new coord(0,(th-hd)), "symmetric"); 
-			var p2 = new pathPoint(new coord((tw/2),th), new coord(hd,th), new coord((tw-hd),th), "symmetric");
-			var p3 = new pathPoint(new coord(tw,(th/2)), new coord(tw,(th-hd)), new coord(tw,hd), "symmetric");
-			var p4 = new pathPoint(new coord((tw/2),0), new coord((tw-hd),0), new coord(hd,0), "symmetric");
+			var p1 = new pathPoint(new coord({"x":0,"y":(th/2)}), new coord({"x":0,"y":hd}), new coord({"x":0,"y":(th-hd)}), "symmetric"); 
+			var p2 = new pathPoint(new coord({"x":(tw/2),"y":th}), new coord({"x":hd,"y":th}), new coord({"x":(tw-hd),"y":th}), "symmetric");
+			var p3 = new pathPoint(new coord({"x":tw,"y":(th/2)}), new coord({"x":tw,"y":(th-hd)}), new coord({"x":tw,"y":hd}), "symmetric");
+			var p4 = new pathPoint(new coord({"x":(tw/2),"y":0}), new coord({"x":(tw-hd),"y":0}), new coord({"x":hd,"y":0}), "symmetric");
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "oval ";
 		} else {
-			var p1 = new pathPoint(new coord(0,0), new coord(hd,0), new coord(0,hd), "corner"); 
-			var p2 = new pathPoint(new coord(0,th), new coord(0,(th-hd)), new coord(hd,th), "corner"); 
-			var p3 = new pathPoint(new coord(tw,th), new coord((tw-hd),th), new coord(tw,(th-hd)), "corner"); 
-			var p4 = new pathPoint(new coord(tw,0), new coord(tw,hd), new coord((tw-hd),0), "corner"); 
+			var p1 = new pathPoint(new coord({"x":0,"y":0}), new coord({"x":hd,"y":0}), new coord({"x":0,"y":hd}), "corner"); 
+			var p2 = new pathPoint(new coord({"x":0,"y":th}), new coord({"x":0,"y":(th-hd)}), new coord({"x":hd,"y":th}), "corner"); 
+			var p3 = new pathPoint(new coord({"x":tw,"y":th}), new coord({"x":(tw-hd),"y":th}), new coord({"x":tw,"y":(th-hd)}), "corner"); 
+			var p4 = new pathPoint(new coord({"x":tw,"y":0}), new coord({"x":tw,"y":hd}), new coord({"x":(tw-hd),"y":0}), "corner"); 
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "rect ";
 		}

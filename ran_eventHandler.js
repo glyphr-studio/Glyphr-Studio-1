@@ -102,7 +102,7 @@
 		this.currpt;
 		
 		this.mousedown = function (ev) { 
-			var newpoint = new pathPoint(new coord(cx_sx(mousex), cy_sy(mousey)), new coord(cx_sx(mousex-100), cy_sy(mousey)), new coord(cx_sx(mousex+100), cy_sy(mousey)), "flat", true, false, false);			
+			var newpoint = new pathPoint(new coord({"x":cx_sx(mousex), "y":cy_sy(mousey)}), new coord({"x":cx_sx(mousex-100), "y":cy_sy(mousey)}), new coord({"x":cx_sx(mousex+100), "y":cy_sy(mousey)}), "flat", true, false, false);			
 			var currpath;	
 		
 			if(this.firstpoint) {
