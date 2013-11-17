@@ -29,25 +29,59 @@
 		document.getElementById("navprimarypane").style.display = "none";
 		document.getElementById("navtargetpane").style.display = "none";
 		document.getElementById("logocanvas").style.display = "none";
-		document.getElementById('getprojectfile').addEventListener('change', importGlyphrProjectFile, false);	
+  		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
+  		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
 
 		drawSplashScreen();
 	}
 
+	function handleDrop(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		var f = evt.dataTransfer.files[0]; // FileList object only first file
+		var reader = new FileReader();
+		var fcontent = "";
+
+		// Closure to capture the file information.
+		reader.onload = (function(theFile) {
+			return function(e) {
+				//console.log(reader.result);
+				fcontent = JSON.parse(reader.result);
+				if(fcontent.settings.version){
+					GlyphrProject = fcontent;
+					debug("Loading project; " + GlyphrProject.fontmetadata.familyname);
+					finalizeGlyphrProject();
+				} else {
+					alert("File does not appear to be a Glyphr Project, try again...");
+				}
+			};
+		})(f);
+
+		// Read in the image file as a data URL.
+		reader.readAsText(f);
+		
+	}
+
+	function handleDragOver(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+
+
 	function importOrCreateNew(){
-		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:50%;'>\
-						<div id='getprojectfileprimary' style='display:block;'>\
-							<h3>Open an existing<br>Glyphr Project</h3>\
-							Browse for the Glyphr project text file here:<br>\
-							<form id='getprojectfileform'><input id='getprojectfile' type='file' style='width:100%; margin:10px 0px 20px 0px;' /></form><br>\
-							<div id='loadingfile' style='display:none;'><i>loading file...</i></div>\
-						</div>\
-					</td><td style='width:50%;'>\
-						<h3>Start a new<br>Glyphr Project</h3>\
-						Font name:<br>\
-						<input id='newfontname' type='text' value='My New Font' style='width:100%; margin:10px 0px 10px 0px; color:#333333;' /><br>\
-						<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>\
-					</td></tr></table>";
+		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:50%;'>"+
+						"<div id='droptarget' style='display:block; border:1px dashed #DDDDDD; padding:0px 0px 20px 4px;'>"+
+							"<h3>Drop an existing<br>Glyphr Project here</h3>"+
+							"<div id='loadingfile' style='display:none;'><i>loading file...</i></div>"+
+						"</div>"+
+					"</td><td style='width:50%;'>"+
+						"<h3>Start a new<br>Glyphr Project</h3>"+
+						"Font name:<br>"+
+						"<input id='newfontname' type='text' value='My New Font' style='width:100%; margin:10px 0px 10px 0px; color:#333333;' /><br>"+
+						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
+					"</td></tr></table>";
 		
 		return con;
 	}
@@ -101,60 +135,6 @@
 		finalizeGlyphrProject();
 	}
 	
-	function importGlyphrProjectFile(evt){
-		//debug("IMPORTGLYPHRPROJECTFILE - start function");
-		document.getElementById("loadingfile").style.display = "block";
-		
-		try {		
-			debug("IMPORTGLYPHRPROJECTFILE - TRY#1");
-			// Works for IE
-			var filename = document.getElementById('getprojectfile').value;
-			var projectfile = document.createElement('script');
-			projectfile.setAttribute("type","text/javascript");
-			projectfile.setAttribute("src", filename);
-			document.getElementsByTagName("head")[0].appendChild(projectfile);
-			GlyphrProject = importGlyphrProject();
-			finalizeGlyphrProject();
-		} catch(err) {
-			debug("IMPORTGLYPHRPROJECTFILE - CATCH#1 GlyphrProject failed: " + err.message);
-			
-			// Works for Chrome
-			if (window.File && window.FileReader && window.FileList && window.Blob) {
-				var f = evt.target.files[0];
-				var freader = new FileReader();
-				
-				freader.onload = (function(theFile) {
-					return function(e){
-						var projectfile = document.createElement('script');
-						projectfile.setAttribute("type","text/javascript");
-						projectfile.text = e.target.result;					
-						document.getElementsByTagName("head")[0].appendChild(projectfile);
-						
-						GlyphrProject = importGlyphrProject();
-						finalizeGlyphrProject();						
-					};
-				})(f);
-				
-				try {
-					debug("IMPORTGLYPHRPROJECTFILE - TRY#2");
-					freader.readAsText(f);
-				} catch(err2) {
-					debug("IMPORTGLYPHRPROJECTFILE - CATCH#2 GlyphrProject failed: " + err2.message);
-					failGetProjectFile();
-				}
-			} else {
-				failGetProjectFile();
-			}
-			
-		}	
-	}
-	
-	function failGetProjectFile(){
-		document.getElementById("loadingfile").style.display = "none";
-		alert("Glyphr Project file load failure.\n\nMake sure the file you were trying to load was actually a Glyphr Project text file.");
-		document.getElementById("getprojectfileform").reset();
-	}
-	
 	function finalizeGlyphrProject(){
 		debug("FINALIZEGLYPHRPROJECT - start of function");
 		charcurrstate = clone(GlyphrProject.fontchars);
@@ -178,15 +158,4 @@
 		
 		navhere = "character edit";
 		navigate();
-	}
-	
-	function showGlyphrProjectTextSaveDialog(){
-		var content = "<h1>Save your Glyphr Project</h1>";
-		content += "Copy the text from the textbox below, and save it to a text file.  This text file can be imported via the Open menu to continue your Glyphr Project.<br><br>"
-		content += "<textarea id='genoutput' style='width:1000px; height:600px; border:0px;'></textarea><br><br>";
-		content += "<input type='button' class='button' onclick='closeDialog();' value='Close'/>";
-		
-		openDialog(content);
-		
-		triggerProjectFileDownload()
 	}
