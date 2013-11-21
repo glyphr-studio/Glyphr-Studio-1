@@ -1,17 +1,23 @@
 
-	function shape(n,x,y,p,v,xl,yl,wl,hl,ne){
+//-------------------------------------------------------
+// SHAPE OBJECT
+//-------------------------------------------------------
+
+	function shape(oa){
+		// PARAMS //
+		// n,x,y,p,v,xl,yl,wl,hl,ne
 
 		// common settings
-		this.name = (n? n : "new shape");
-		this.xpos = ((x || x==0)? x : 0);		// these are used for stroke-independend position & size
-		this.ypos = ((y || y==0)? y : 400); 
-		this.path = (p? p : rectPathFromCorners(false));
-		this.visible = (isval(v)? v : true);
-		this.xlock = (isval(xl)? xl : false);
-		this.ylock = (isval(yl)? yl : false);
-		this.wlock = (isval(wl)? wl : false);
-		this.hlock = (isval(hl)? hl : false);
-		this.negative = (isval(ne)? ne : false);
+		this.name = (oa.n? oa.n : "new shape");
+		this.xpos = ((oa.x || oa.x==0)? oa.x : 0);		// these are used for stroke-independend position & size
+		this.ypos = ((oa.y || oa.y==0)? oa.y : 400); 
+		this.path = (oa.p? oa.p : rectPathFromCorners(false));
+		this.visible = (isval(oa.v)? oa.v : true);
+		this.xlock = (isval(oa.xl)? oa.xl : false);
+		this.ylock = (isval(oa.yl)? oa.yl : false);
+		this.wlock = (isval(oa.wl)? oa.wl : false);
+		this.hlock = (isval(oa.hl)? oa.hl : false);
+		this.negative = (isval(oa.ne)? oa.ne : false);
 				
 		// not settable defaults
 		this.seed = false;
@@ -28,6 +34,8 @@
 		this.isoverhandle = isoverhandle;
 		this.changeShapeName = changeShapeName;
 		this.debugShape = debugShape;
+
+		debug("Just created a SHAPE: " + JSON.stringify(this));
 	}
 
 	
@@ -394,7 +402,7 @@
 				newshape.path.calcMaxes();
 			}
 		} else {
-			newshape = new shape();
+			newshape = new shape({});
 			newshape.name = ("layer " + shapelayers.length);
 		}
 		
@@ -408,7 +416,7 @@
 		var hd = 50;
 		var th = 500;
 		var tw = 300;
-		var newshape = new shape();
+		var newshape = new shape({});
 		var parr = false;
 		var shapetype = "layer ";
 		
@@ -420,10 +428,10 @@
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "oval ";
 		} else {
-			var p1 = new pathPoint({"P":new coord({"x":0,"y":0}), "H1":new coord({"x":hd,"y":0}), "H2":new coord({"x":0,"y":hd})); 
-			var p2 = new pathPoint({"P":new coord({"x":0,"y":th}), "H1":new coord({"x":0,"y":(th-hd)}), "H2":new coord({"x":hd,"y":th})); 
-			var p3 = new pathPoint({"P":new coord({"x":tw,"y":th}), "H1":new coord({"x":(tw-hd),"y":th}), "H2":new coord({"x":tw,"y":(th-hd)})); 
-			var p4 = new pathPoint({"P":new coord({"x":tw,"y":0}), "H1":new coord({"x":tw,"y":hd}), "H2":new coord({"x":(tw-hd),"y":0})); 
+			var p1 = new pathPoint({"P":new coord({"x":0,"y":0}), "H1":new coord({"x":hd,"y":0}), "H2":new coord({"x":0,"y":hd})}); 
+			var p2 = new pathPoint({"P":new coord({"x":0,"y":th}), "H1":new coord({"x":0,"y":(th-hd)}), "H2":new coord({"x":hd,"y":th})}); 
+			var p3 = new pathPoint({"P":new coord({"x":tw,"y":th}), "H1":new coord({"x":(tw-hd),"y":th}), "H2":new coord({"x":tw,"y":(th-hd)})}); 
+			var p4 = new pathPoint({"P":new coord({"x":tw,"y":0}), "H1":new coord({"x":tw,"y":hd}), "H2":new coord({"x":(tw-hd),"y":0})}); 
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "rect ";
 		}

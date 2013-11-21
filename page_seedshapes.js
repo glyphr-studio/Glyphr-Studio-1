@@ -211,7 +211,7 @@
 	function addSeedShape(){
 		var newid = generateNewSSID();
 		var newname = ("seedshape " + seedshapecounter);
-		var newshape = new shape(newname);
+		var newshape = new shape({"n":newname});
 
 		shownseedshape = newid;
 		selectedshape = newid;

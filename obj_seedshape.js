@@ -1,13 +1,21 @@
-	function seedshapeinstance(ssid, usessxy, ssx, ssy, ssname){
+
+//-------------------------------------------------------
+// SEED SHAPE INSTANCE OBJECT
+//-------------------------------------------------------
+
+	function seedshapeinstance(oa){
+		// PARAMS //
+		// ssid, usessxy, ssx, ssy, ssname
+
 		//debug("new SEEDSHAPEINSTANCE - seed id: " + ssid + ", useseedxy: " + usessxy);
-		var ns = new shape();
+		var ns = new shape({});
 		
-		ns.seed = ssid? ssid : getFirstSeedShape();
-		ns.useseedxy = (isval(usessxy)? usessxy : true);	
+		ns.seed = oa.ssid? oa.ssid : getFirstSeedShape();
+		ns.useseedxy = (isval(oa.usessxy)? oa.usessxy : true);	
 		
-		ns.name = ssname? ssname : "new seedshape instance";
-		ns.xpos = ssx? ssx : 0;	
-		ns.ypos = ssy? ssy : 0; 
+		ns.name = oa.ssname? oa.ssname : "new seedshape instance";
+		ns.xpos = oa.ssx? oa.ssx : 0;	
+		ns.ypos = oa.ssy? oa.ssy : 0; 
 		ns.xlock = false;
 		ns.ylock = false;
 
@@ -47,7 +55,7 @@
 	
 	function insertSeedShape(ssid){
 		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + selectedchar);
-		var ns = seedshapeinstance(ssid, true, 100, 100, "new seedshape instance");
+		var ns = seedshapeinstance({"ssid":ssid, "ssx":100, "ssy":100});
 		addShape(ns);
 		
 		GlyphrProject.fontchars[selectedchar].charwidth = Math.max(GlyphrProject.fontchars[selectedchar].charwidth, GlyphrProject.seedshapes[ssid].shape.path.rightx);

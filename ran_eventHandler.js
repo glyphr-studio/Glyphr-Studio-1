@@ -208,7 +208,7 @@
 		
 		this.mousedown = function (ev) { 
 			
-			var newshape = new shape();
+			var newshape = new shape({});
 			newshape.name = (selectedtool=="newrect")? ("rect " + (shapelayers.length+1)) : ("oval " + (shapelayers.length+1));
 			selectedshape = shapelayers.length;
 			shapelayers.push(newshape);

@@ -3,8 +3,10 @@
 //  PATH OBJECT
 //  -----------------------------------
 
-	// -- path object that holds many pathPoints
 	function path(oa){
+		// PARAMS //
+		// points, ic
+
 		// declare attributes
 		this.pathpoints = oa.points;	// can be false
 		this.isclosed = (oa.ic? oa.ic : false);

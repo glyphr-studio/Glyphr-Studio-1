@@ -1,11 +1,10 @@
 
-	//-------------------------------------------------------
-	// PATH POINT OBJECT
-	//-------------------------------------------------------
+//-------------------------------------------------------
+// PATH POINT OBJECT
+//-------------------------------------------------------
 	
-	
-	// pathPoint object that holds point information
 	function pathPoint(oa){
+		// PARAMS //
 		// P, H1, H2, type, sel, uh1, uh2
 
 		oa.P? this.P = oa.P : this.P = new coord({"x":100, "y":100});

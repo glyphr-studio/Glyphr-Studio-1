@@ -92,7 +92,7 @@
 		gp.seedshapes = new Array();
 		gp.seedshapes['id0'] = new Object();
 		gp.seedshapes['id0'].usedin = new Array();
-		gp.seedshapes['id0'].shape = new shape("default seedshape");
+		gp.seedshapes['id0'].shape = new shape({"n":"default seedshape"});
 	
 		gp.settings = new Object();
 		gp.settings.version = thisGlyphrStudioVersion;
