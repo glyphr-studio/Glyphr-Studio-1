@@ -248,7 +248,7 @@
 		patharr[2] = new pathPoint(Plr,H1lr,H2lr,"corner",false,true,true);
 		patharr[3] = new pathPoint(Pll,H1ll,H2ll,"corner",false,true,true);
 		
-		return new path(patharr, true);
+		return new path({"points":patharr, "ic":true});
 	}
 	
 	function ovalPathFromCorners(cdata){
@@ -288,7 +288,7 @@
 		patharr[2] = new pathPoint(Pb,H1b,H2b,"symmetric",false,true,true);
 		patharr[3] = new pathPoint(Pl,H1l,H2l,"symmetric",false,true,true);
 		
-		return new path(patharr, true);
+		return new path({"points":patharr, "ic":true});
 	}
 	
 	function draw8points(onlycenter){
@@ -428,7 +428,7 @@
 			shapetype = "rect ";
 		}
 		
-		newshape.path = new path(parr, true);		
+		newshape.path = new path({"points":parr, "ic":true});		
 		newshape.name = (shapetype + shapelayers.length);
 		
 		if(navhere == "character edit") { selectedshape = shapelayers.length; }

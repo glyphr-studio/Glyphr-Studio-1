@@ -111,7 +111,7 @@
 				
 				// make a new path with one point
 				var pparray = new Array(newpoint);
-				var newpath = new path(pparray);
+				var newpath = new path({"points":pparray});
 				newpath.selectPathPoint(0);
 				
 				debug("EVENTHANDLER - NewPath mousedown - after new path is made.");

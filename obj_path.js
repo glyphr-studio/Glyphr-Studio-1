@@ -4,10 +4,10 @@
 //  -----------------------------------
 
 	// -- path object that holds many pathPoints
-	function path(points, ic){
+	function path(oa){
 		// declare attributes
-		this.pathpoints = points;	// can be false
-		this.isclosed = (ic? ic : false);
+		this.pathpoints = oa.points;	// can be false
+		this.isclosed = (oa.ic? oa.ic : false);
 		
 		// Not settable internal 
 		this.topy = -1;	
