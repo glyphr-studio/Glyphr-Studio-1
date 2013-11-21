@@ -9,6 +9,7 @@
 
 		//debug("new SEEDSHAPEINSTANCE - seed id: " + ssid + ", useseedxy: " + usessxy);
 		var ns = new shape({});
+		ns.objtype = "seedshapeinstance";
 		
 		ns.seed = oa.ssid? oa.ssid : getFirstSeedShape();
 		ns.useseedxy = (isval(oa.usessxy)? oa.usessxy : true);	

@@ -6,6 +6,7 @@
 	function pathPoint(oa){
 		// PARAMS //
 		// P, H1, H2, type, sel, uh1, uh2
+		this.objtype = "pathpoint";
 
 		oa.P? this.P = oa.P : this.P = new coord({"x":100, "y":100});
 		oa.H1? this.H1 = oa.H1 : this.H1 = new coord({"x":0, "y":0});

@@ -6,6 +6,7 @@
 	function shape(oa){
 		// PARAMS //
 		// n,x,y,p,v,xl,yl,wl,hl,ne
+		this.objtype = "shape";
 
 		// common settings
 		this.name = (oa.n? oa.n : "new shape");

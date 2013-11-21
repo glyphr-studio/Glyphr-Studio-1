@@ -6,6 +6,7 @@
 	function path(oa){
 		// PARAMS //
 		// points, ic
+		this.objtype = "path";
 
 		// declare attributes
 		this.pathpoints = oa.points;	// can be false
