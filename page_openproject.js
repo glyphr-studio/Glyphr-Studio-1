@@ -72,10 +72,8 @@
 
 	function importOrCreateNew(){
 		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:50%;'>"+
-						"<div id='droptarget' style='display:block; border:1px dashed #DDDDDD; padding:0px 0px 20px 4px;'>"+
-							"<h3>Drop an existing<br>Glyphr Project here</h3>"+
-							"<div id='loadingfile' style='display:none;'><i>loading file...</i></div>"+
-						"</div>"+
+						"<h3>Load an existing<br>Glyphr Project</h3>"+
+						"<div id='droptarget'>drop file here...</div>"+
 					"</td><td style='width:50%;'>"+
 						"<h3>Start a new<br>Glyphr Project</h3>"+
 						"Font name:<br>"+
@@ -97,7 +95,7 @@
 		gp.seedshapes['id0'].shape = new shape("default seedshape");
 	
 		gp.settings = new Object();
-		gp.settings.version = 'Beta 2 Working Edition - 0.2.2012.xx.xx.Working';
+		gp.settings.version = thisGlyphrStudioVersion;
 		gp.settings.seedshapecounter = 0;
 		gp.settings.upm = 2048;										// Units Per Em - (emsize) how tall normal cap letters are		
 		gp.settings.griddivisions = 16;								// how many squares of grid per emsize

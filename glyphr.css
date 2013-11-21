@@ -362,29 +362,20 @@
 		left:0px;
 	}
 	
-	#fallbackprojectentry,
 	#newfontname	{
-		width:500px;
+		width:100%;
 		height:25px;
 		margin:10px 0px 20px 0px;
 	}
-	
-	#getprojectfile {
-		height:33px;
-		padding:0px;
-		width:500px;
-		margin:10px 0px 20px 0px;
-		vertical-align:center;
-	}
-	
-	#fallbackprojectentry {
-		height:100px;
-		overflow:scroll;
-	}
-	
-	#getprojectfileprimary h2,
-	#getprojectfilefallback h2 {
-		margin:20px 0px 10px 0px;
+
+	#droptarget {
+		width: 90%;
+		height: 50px;
+		margin: 4px 0px 20px 0px;
+		background-color: white;
+		border:1px dashed rgb(127,127,127);;
+		color: rgb(127,127,127);
+		padding: 20px;
 	}
 	
 	
