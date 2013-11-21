@@ -328,7 +328,7 @@
 		
 		if(!newpp) { 
 			// No pathpoint passed to function - make a new one
-			newpp = new pathPoint(); 
+			newpp = new pathPoint({}); 
 			
 			if(addtostart){
 				//Adds new pathpoint to start of path

@@ -243,10 +243,10 @@
 		var H2ll = new coord({"x":lx, "y":(by+qh)});
 
 		var patharr = new Array();
-		patharr[0] = new pathPoint(Pul,H1ul,H2ul,"corner",false,true,true);
-		patharr[1] = new pathPoint(Pur,H1ur,H2ur,"corner",false,true,true);
-		patharr[2] = new pathPoint(Plr,H1lr,H2lr,"corner",false,true,true);
-		patharr[3] = new pathPoint(Pll,H1ll,H2ll,"corner",false,true,true);
+		patharr[0] = new pathPoint({"P":Pul, "H1":H1ul, "H2":H2ul});
+		patharr[1] = new pathPoint({"P":Pur, "H1":H1ur, "H2":H2ur});
+		patharr[2] = new pathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
+		patharr[3] = new pathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
 		return new path({"points":patharr, "ic":true});
 	}
@@ -283,10 +283,10 @@
 		var H2l = new coord({"x":lx, "y":(ty-hhd)});
 
 		var patharr = new Array();
-		patharr[0] = new pathPoint(Pt,H1t,H2t,"symmetric",false,true,true);
-		patharr[1] = new pathPoint(Pr,H1r,H2r,"symmetric",false,true,true);
-		patharr[2] = new pathPoint(Pb,H1b,H2b,"symmetric",false,true,true);
-		patharr[3] = new pathPoint(Pl,H1l,H2l,"symmetric",false,true,true);
+		patharr[0] = new pathPoint({"P":Pt, "H1":H1t, "H2":H2t, "type":"symmetric"});
+		patharr[1] = new pathPoint({"P":Pr, "H1":H1r, "H2":H2r, "type":"symmetric"});
+		patharr[2] = new pathPoint({"P":Pb, "H1":H1b, "H2":H2b, "type":"symmetric"});
+		patharr[3] = new pathPoint({"P":Pl, "H1":H1l, "H2":H2l, "type":"symmetric"});
 		
 		return new path({"points":patharr, "ic":true});
 	}
@@ -413,17 +413,17 @@
 		var shapetype = "layer ";
 		
 		if(type == "oval"){
-			var p1 = new pathPoint(new coord({"x":0,"y":(th/2)}), new coord({"x":0,"y":hd}), new coord({"x":0,"y":(th-hd)}), "symmetric"); 
-			var p2 = new pathPoint(new coord({"x":(tw/2),"y":th}), new coord({"x":hd,"y":th}), new coord({"x":(tw-hd),"y":th}), "symmetric");
-			var p3 = new pathPoint(new coord({"x":tw,"y":(th/2)}), new coord({"x":tw,"y":(th-hd)}), new coord({"x":tw,"y":hd}), "symmetric");
-			var p4 = new pathPoint(new coord({"x":(tw/2),"y":0}), new coord({"x":(tw-hd),"y":0}), new coord({"x":hd,"y":0}), "symmetric");
+			var p1 = new pathPoint({"P":new coord({"x":0,"y":(th/2)}), "H1":new coord({"x":0,"y":hd}), "H2":new coord({"x":0,"y":(th-hd)}), "type":"symmetric"}); 
+			var p2 = new pathPoint({"P":new coord({"x":(tw/2),"y":th}), "H1":new coord({"x":hd,"y":th}), "H2":new coord({"x":(tw-hd),"y":th}), "type":"symmetric"});
+			var p3 = new pathPoint({"P":new coord({"x":tw,"y":(th/2)}), "H1":new coord({"x":tw,"y":(th-hd)}), "H2":new coord({"x":tw,"y":hd}), "type":"symmetric"});
+			var p4 = new pathPoint({"P":new coord({"x":(tw/2),"y":0}), "H1":new coord({"x":(tw-hd),"y":0}), "H2":new coord({"x":hd,"y":0}), "type":"symmetric"});
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "oval ";
 		} else {
-			var p1 = new pathPoint(new coord({"x":0,"y":0}), new coord({"x":hd,"y":0}), new coord({"x":0,"y":hd}), "corner"); 
-			var p2 = new pathPoint(new coord({"x":0,"y":th}), new coord({"x":0,"y":(th-hd)}), new coord({"x":hd,"y":th}), "corner"); 
-			var p3 = new pathPoint(new coord({"x":tw,"y":th}), new coord({"x":(tw-hd),"y":th}), new coord({"x":tw,"y":(th-hd)}), "corner"); 
-			var p4 = new pathPoint(new coord({"x":tw,"y":0}), new coord({"x":tw,"y":hd}), new coord({"x":(tw-hd),"y":0}), "corner"); 
+			var p1 = new pathPoint({"P":new coord({"x":0,"y":0}), "H1":new coord({"x":hd,"y":0}), "H2":new coord({"x":0,"y":hd})); 
+			var p2 = new pathPoint({"P":new coord({"x":0,"y":th}), "H1":new coord({"x":0,"y":(th-hd)}), "H2":new coord({"x":hd,"y":th})); 
+			var p3 = new pathPoint({"P":new coord({"x":tw,"y":th}), "H1":new coord({"x":(tw-hd),"y":th}), "H2":new coord({"x":tw,"y":(th-hd)})); 
+			var p4 = new pathPoint({"P":new coord({"x":tw,"y":0}), "H1":new coord({"x":tw,"y":hd}), "H2":new coord({"x":(tw-hd),"y":0})); 
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "rect ";
 		}

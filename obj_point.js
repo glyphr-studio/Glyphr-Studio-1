@@ -5,17 +5,19 @@
 	
 	
 	// pathPoint object that holds point information
-	function pathPoint(P, H1, H2, type, sel, uh1, uh2){
-		P? this.P = P : this.P = new coord({"x":100, "y":100});
-		H1? this.H1 = H1 : this.H1 = new coord({"x":0, "y":0});
-		H2? this.H2 = H2 : this.H2 = new coord({"x":200, "y":200});
+	function pathPoint(oa){
+		// P, H1, H2, type, sel, uh1, uh2
+
+		oa.P? this.P = oa.P : this.P = new coord({"x":100, "y":100});
+		oa.H1? this.H1 = oa.H1 : this.H1 = new coord({"x":0, "y":0});
+		oa.H2? this.H2 = oa.H2 : this.H2 = new coord({"x":200, "y":200});
 		
 		//debug("PATHPOINT - full output: " + Px +","+ Py +","+ H1x +","+ H1y +","+ H2x +","+ H2y +","+ type +","+ sel);
 		
-		this.type = (isval(type)? type : "corner");		// corner, flat, symmetric
-		this.selected = (isval(sel)? sel : false);
-		this.useh1 = (isval(uh1)? uh1 : true);
-		this.useh2 = (isval(uh2)? uh2 : true);
+		this.type = (isval(oa.type)? oa.type : "corner");		// corner, flat, symmetric
+		this.selected = (isval(oa.sel)? oa.sel : false);
+		this.useh1 = (isval(oa.uh1)? oa.uh1 : true);
+		this.useh2 = (isval(oa.uh2)? oa.uh2 : true);
 		
 		this.drawPoint = drawPoint;
 		this.drawHandles = drawHandles;
