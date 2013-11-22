@@ -3,42 +3,51 @@
 // SEED SHAPE INSTANCE OBJECT
 //-------------------------------------------------------
 
+	function seedshape(oa){
+		// PARAMS //
+		// n
+		this.objtype = "seedshape";
+
+		this.shape = new shape({});
+		this.shape.name = oa.n;
+		this.usedin = [];
+	}
+
 	function seedshapeinstance(oa){
 		// PARAMS //
 		// ssid, usessxy, ssx, ssy, ssname
 
 		//debug("new SEEDSHAPEINSTANCE - seed id: " + ssid + ", useseedxy: " + usessxy);
-		var ns = new shape({});
-		ns.objtype = "seedshapeinstance";
+		this = new shape({});
+		this.objtype = "seedshapeinstance";
 		
-		ns.seed = oa.ssid? oa.ssid : getFirstSeedShape();
-		ns.useseedxy = (isval(oa.usessxy)? oa.usessxy : true);	
+		this.seed = oa.ssid? oa.ssid : getFirstSeedShape();
+		this.useseedxy = (isval(oa.usessxy)? oa.usessxy : true);	
 		
-		ns.name = oa.ssname? oa.ssname : "new seedshape instance";
-		ns.xpos = oa.ssx? oa.ssx : 0;	
-		ns.ypos = oa.ssy? oa.ssy : 0; 
-		ns.xlock = false;
-		ns.ylock = false;
+		this.name = oa.ssname? oa.ssname : "new seedshape instance";
+		this.xpos = oa.ssx? oa.ssx : 0;	
+		this.ypos = oa.ssy? oa.ssy : 0; 
+		this.xlock = false;
+		this.ylock = false;
 
 		// shape settings that don't apply to seedshapeinstance
-		//ns.path = GlyphrProject.seedshapes[ns.seed].path;	/**MIGHT BE HORRIBLE**/	
-		ns.hlock = false;
-		ns.wlock = false;
+		//this.path = GlyphrProject.seedshapes[this.seed].path;	/**MIGHT BE HORRIBLE**/	
+		this.path = false;
+		this.hlock = false;
+		this.wlock = false;
 		
 		// Functions
-		ns.drawShape = drawSeedShape;
-		ns.genPostScript = genSeedPostScript;
-		ns.drawShapeToArea = drawSeedShapeToArea;
-		ns.drawselectoutline = drawSeedShapeSelectOutline;
-		ns.draw8points = drawSeedShape8Points;	
-		ns.isHere = isSeedShapeHere;
-		ns.isoverhandle = isOverSeedShapeHandle;
-		ns.debugShape = debugSeedShape;
+		this.drawShape = drawSeedShape;
+		this.genPostScript = genSeedPostScript;
+		this.drawShapeToArea = drawSeedShapeToArea;
+		this.drawselectoutline = drawSeedShapeSelectOutline;
+		this.draw8points = drawSeedShape8Points;	
+		this.isHere = isSeedShapeHere;
+		this.isoverhandle = isOverSeedShapeHandle;
+		this.debugShape = debugSeedShape;
 		
 		//debug("SEEDSHAPEINSTANCE - end");
-		//debug(ns.debugShape());
-		
-		return ns;
+		//debug(this.debugShape());
 	}
 	
 //	Insert Seed Shape

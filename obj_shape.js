@@ -649,8 +649,8 @@
 			this.name = sn;
 			putundoq("shape name"); 
 			if(navhere == "seed shapes"){
-				document.getElementById("nav2").innerHTML = sn;
-				document.getElementById("nav2options").innerHTML = seedshapes_subnav();
+				//document.getElementById("nav2").innerHTML = sn;
+				//document.getElementById("nav2options").innerHTML = seedshapes_subnav();
 			}
 		} else {
 			openDialog("<h2>Invalid shape name</h2><br>Shape names must only contain alphanumeric characters or spaces.<br>");

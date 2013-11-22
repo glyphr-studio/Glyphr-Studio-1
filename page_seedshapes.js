@@ -211,13 +211,13 @@
 	function addSeedShape(){
 		var newid = generateNewSSID();
 		var newname = ("seedshape " + seedshapecounter);
-		var newshape = new shape({"n":newname});
 
 		shownseedshape = newid;
 		selectedshape = newid;
-		GlyphrProject.seedshapes[newid] = new Object();
-		GlyphrProject.seedshapes[newid].shape = newshape;
-		GlyphrProject.seedshapes[newid].usedin = new Array();
+
+		GlyphrProject.seedshapes[newid] = new seedshape({"n":newname});
+
+		debug("Added New Seed Shape: " + newid + " ss.length = " + GlyphrProject.seedshapes.length + " JSON=" + JSON.stringify(GlyphrProject.seedshapes));
 	}
 
 	function deleteSeedShapeConfirm(){
