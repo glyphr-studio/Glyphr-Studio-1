@@ -1,7 +1,7 @@
 	
 	// Char Edit Canvas Area and Calc Maxes Ghost Canvas
-	var cgc = new Object();
-	var cec = new Object();	
+	var cgc = {};
+	var cec = {};	
 	
 	function setupCECandCGC(){
 		

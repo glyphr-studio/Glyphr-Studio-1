@@ -215,7 +215,7 @@
 	//--------------------
 
 		var cment = "";
-		var tc = new Object();
+		var tc = {};
 		
 		for(var i=32; i<GlyphrProject.fontchars.length; i++){
 			tc = GlyphrProject.fontchars[i];

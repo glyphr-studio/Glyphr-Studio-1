@@ -68,7 +68,7 @@
 		var z = cec.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
-		var tempzp = new Object();
+		var tempzp = {};
 		tempzp.x = cec.originx;
 		tempzp.y = cec.originy;
 		tempzp.z = cec.zoom;
@@ -202,7 +202,7 @@
 		cmgctx.strokeStyle = "lime";
 		
 		//Setup temp zoom/pan for cmgc
-		var tempzp = new Object();
+		var tempzp = {};
 		tempzp.x = cec.originx;
 		tempzp.y = cec.originy;
 		tempzp.z = cec.zoom;
@@ -509,7 +509,7 @@
 		}
 		//debug("GETMAXESNEW - end of Left X: " + rightmost);
 		
-		var nx = new Object();
+		var nx = {};
 		nx.leftx = (leftmost - cgc.originx);
 		nx.rightx = (rightmost - cgc.originx);
 		nx.topy = (cgc.originy - topmost);
@@ -541,7 +541,7 @@
 
 	function getMaxesFromPathPoints(){
 		var fs = GlyphrProject.settings;
-		var r = new Object();
+		var r = {};
 		r.topy = (fs.upm*-1);
 		r.rightx = (fs.upm*-1);
 		r.bottomy = fs.upm;

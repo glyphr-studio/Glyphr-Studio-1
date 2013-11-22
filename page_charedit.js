@@ -8,7 +8,7 @@
 	var showcanvascursor = false;
 	var showRightLine = true;
 	
-	var shapelayers = new Array();
+	var shapelayers = [];
 	var selectedshape = -1;	
 	var selectedchar = 97;
 	var selectedtool = "pathedit";	// pathedit, shapemove, pantool, newrect, newoval, newpath
@@ -49,12 +49,12 @@
 		return re;
 	}
 	
-	var selectchardrawarr = new Array();
+	var selectchardrawarr = [];
 	
 	function updateselectchar(fname){
 		var ccon = "<div class='charselectarea'>"
 		fname = fname? fname : "selectchar";
-		selectchardrawarr = new Array();
+		selectchardrawarr = [];
 		
 		//Capitol Letters
 		for(var i=65; i<91; i++){ccon += buildbutton(i, fname);}
@@ -335,8 +335,8 @@
 //-------------------
 	var locid = 0;
 	var checkid = 0;
-	var locarr = new Array();
-	var checkarr = new Array();
+	var locarr = [];
+	var checkarr = [];
 	
 	function updatedetails(){
 
@@ -353,8 +353,8 @@
 			content = "<h1>attributes</h1>";
 		}
 		
-		locarr = new Array();
-		checkarr = new Array();
+		locarr = [];
+		checkarr = [];
 
 		content += "<table class='detail'>";	
 		
@@ -684,9 +684,10 @@
 	function copyshape(){
 		var s = ss("copy shape")
 		if(s){
-			clipboardshape = new Object();
-			clipboardshape.s = s;
-			clipboardshape.c = selectedchar;
+			clipboardshape = {
+				"s":s,
+				"c":selectedchar
+			};
 			//debug("COPYSHAPE() - new clipboard shape: " + clipboardshape.s.name); 
 		}
 		redraw();
@@ -1019,7 +1020,7 @@
 // Drawing Grid
 //-------------------
 
-	var xs = new Object();
+	var xs = {};
 	
 	function grid(){
 		var fs = GlyphrProject.settings;

@@ -35,7 +35,7 @@ var color_canvasbutton_selected = color_accent;
 
 function shiftColor(c, percent, lighter){
 	percent = Math.max(0,Math.min(percent,1));
-	var val = new Object();
+	var val = {};
 	
 	if(c.charAt(0)=="#"){
 		c = c.substring(1,7);

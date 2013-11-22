@@ -216,11 +216,13 @@
 			var s = ss("eventHandler - newbasicshape mousedown");
 			s.path.setLeftX(cx_sx(mousex));
 			s.path.setTopY(cy_sy(mousey));
-			temppathdragshape = new Object();
-			temppathdragshape.leftx = cx_sx(mousex);
-			temppathdragshape.rightx = cx_sx(mousex);
-			temppathdragshape.topy = cy_sy(mousey);
-			temppathdragshape.bottomy = cy_sy(mousey);
+			temppathdragshape = {
+				"leftx": cx_sx(mousex),
+				"rightx": cx_sx(mousex),
+				"topy": cy_sy(mousey),
+				"bottomy": cy_sy(mousey)
+			};
+
 			s.hidden = true;
 			
 			this.dragging = true;
@@ -373,11 +375,13 @@
 				this.resizing = true;
 				this.dragging = false;
 				if(quickpathupdating){
-					temppathdragshape = new Object();
-					temppathdragshape.leftx = s.path.leftx;
-					temppathdragshape.rightx = s.path.rightx;
-					temppathdragshape.topy = s.path.topy;
-					temppathdragshape.bottomy = s.path.bottomy;
+					temppathdragshape = {
+						"leftx": s.path.leftx,
+						"rightx": s.path.rightx,
+						"topy": s.path.topy,
+						"bottomy": s.path.bottomy
+					};
+					
 					s.hidden = true;
 				}
 			} else if (clickSelectShape(mousex, mousey)){

@@ -98,7 +98,7 @@
 			ctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(fs.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((fs.upm*tdFontScale) + (fs.descender*fs.upm*tdFontScale)));
 		}	
 		
-		var sh = new Object();
+		var sh = {};
 		for(var j=0; j<shapelayers.length; j++) {
 			sh = shapelayers[j];
 			debug("---------------- starting shape " + sh.name);

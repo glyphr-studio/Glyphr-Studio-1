@@ -85,42 +85,47 @@
 	}
 	
 	function createNewGlyphrProject(){    
-		var gp = new Object();
+		var gp = {};
 		
 		gp.fontchars = createNewFontObject();
 		
-		gp.seedshapes = new Array();
-		gp.seedshapes['id0'] = new Object();
-		gp.seedshapes['id0'].usedin = new Array();
-		gp.seedshapes['id0'].shape = new shape({"n":"default seedshape"});
+		gp.seedshapes = {
+			"id0": {
+				"usedin":[],
+				"shape": new shape({"n":"default seedshape"})
+			}
+		};
 	
-		gp.settings = new Object();
-		gp.settings.version = thisGlyphrStudioVersion;
-		gp.settings.seedshapecounter = 0;
-		gp.settings.upm = 2048;										// Units Per Em - (emsize) how tall normal cap letters are		
-		gp.settings.griddivisions = 16;								// how many squares of grid per emsize
-		gp.settings.xheight = (9/gp.settings.griddivisions);		// % of emsize lowercase letter height
-		gp.settings.descender = (4/gp.settings.griddivisions);		// % of emsize descender
-		gp.settings.overshoot = (1/(gp.settings.griddivisions*8));	// % of emsize overshoot for round glyphs
-		gp.settings.kerning = (1/gp.settings.griddivisions);		// default kerning, as a % of emsize
+		gp.settings = {
+			"version": thisGlyphrStudioVersion,
+			"seedshapecounter": 0,
+			"upm": 2048,									// Units Per Em - (emsize) how tall normal cap letters are		
+			"griddivisions": 16,							// how many squares of grid per emsize
+			"xheight": (9/gp.settings.griddivisions),		// % of emsize lowercase letter height
+			"descender": (4/gp.settings.griddivisions),		// % of emsize descender
+			"overshoot": (1/(gp.settings.griddivisions*8)),	// % of emsize overshoot for round glyphs
+			"kerning": (1/gp.settings.griddivisions)		// default kerning, as a % of emsize
+		}
 	
 		var fn = document.getElementById("newfontname").value;
-		gp.fontmetadata = new Object();
-		gp.fontmetadata.familyname = (fn? fn : "My Font");
-		gp.fontmetadata.subfamilyname = "Regular";
-		gp.fontmetadata.genericfamilyname = 'Sans-Serif';
-		gp.fontmetadata.fullname = gp.fontmetadata.familyname;
-		gp.fontmetadata.version = "Version 1.0";
-		gp.fontmetadata.copyright = "© Copyright 2012";
-		gp.fontmetadata.manufacturername = "";
-		gp.fontmetadata.manufacturerurl = "";
-		gp.fontmetadata.designername = "";
-		gp.fontmetadata.designerurl = "";
-		gp.fontmetadata.description = "";
-		gp.fontmetadata.licensedescription = "You are free to share, copy, distribute and transmit the work.  You are free to remix and adapt the work.  You are free to make commercial use of the work. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.";
-		gp.fontmetadata.licenseurl = "http://creativecommons.org/licenses/by-sa/3.0/";
-		gp.fontmetadata.weightclass = "400";
-		gp.fontmetadata.widthclass = "5";
+		
+		gp.fontmetadata = {
+			"familyname": (fn? fn : "My Font"),
+			"subfamilyname": "Regular",
+			"genericfamilyname": 'Sans-Serif',
+			"fullname": gp.fontmetadata.familyname,
+			"version": "Version 1.0",
+			"copyright": "© Copyright 2012",
+			"manufacturername": "",
+			"manufacturerurl": "",
+			"designername": "",
+			"designerurl": "",
+			"description": "",
+			"licensedescription": "You are free to share, copy, distribute and transmit the work.  You are free to remix and adapt the work.  You are free to make commercial use of the work. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.",
+			"licenseurl": "http://creativecommons.org/licenses/by-sa/3.0/",
+			"weightclass": "400",
+			"widthclass": "5"
+		};
 		
 		selectedchar = 97;
 		selectedshape = -1;	

@@ -4,13 +4,13 @@
 
 // -- GLoBAL VARIABLES --//
 	var DEBUG = true;
-	var GlyphrProject = new Object();
+	var GlyphrProject = {};
 	var navhere = "firstrun";
 	var navprimaryhere = "npNav";
-	var charcurrstate = new Object();
-	var seedcurrstate = new Object();
-	var charundoq = new Array();
-	var seedundoq = new Array();
+	var charcurrstate = {};
+	var seedcurrstate = {};
+	var charundoq = [];
+	var seedundoq = []];
 	
 	function setup() {
 		debug("MAIN SETUP() - START");
@@ -203,7 +203,7 @@
 	}
 
 	function generateNavPrimaryOptions(){
-		var navarr = new Array();
+		var navarr = [];
 		navarr.push("npNav");
 		
 		if(navhere=="character edit"){

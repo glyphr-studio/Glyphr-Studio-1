@@ -56,7 +56,7 @@
 		var z = cec.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
-		var tempzp = new Object();
+		var tempzp = {};
 		tempzp.x = cec.originx;
 		tempzp.y = cec.originy;
 		tempzp.z = cec.zoom;
@@ -251,7 +251,7 @@
 		var H1ll = new coord({"x":(lx+qw), "y":by});
 		var H2ll = new coord({"x":lx, "y":(by+qh)});
 
-		var patharr = new Array();
+		var patharr = [];
 		patharr[0] = new pathPoint({"P":Pul, "H1":H1ul, "H2":H2ul});
 		patharr[1] = new pathPoint({"P":Pur, "H1":H1ur, "H2":H2ur});
 		patharr[2] = new pathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
@@ -291,7 +291,7 @@
 		var H1l = new coord({"x":lx, "y":(by+hhd)});
 		var H2l = new coord({"x":lx, "y":(ty-hhd)});
 
-		var patharr = new Array();
+		var patharr = [];
 		patharr[0] = new pathPoint({"P":Pt, "H1":H1t, "H2":H2t, "type":"symmetric"});
 		patharr[1] = new pathPoint({"P":Pr, "H1":H1r, "H2":H2r, "type":"symmetric"});
 		patharr[2] = new pathPoint({"P":Pb, "H1":H1b, "H2":H2b, "type":"symmetric"});
@@ -648,10 +648,6 @@
 		if(sn != ""){
 			this.name = sn;
 			putundoq("shape name"); 
-			if(navhere == "seed shapes"){
-				//document.getElementById("nav2").innerHTML = sn;
-				//document.getElementById("nav2options").innerHTML = seedshapes_subnav();
-			}
 		} else {
 			openDialog("<h2>Invalid shape name</h2><br>Shape names must only contain alphanumeric characters or spaces.<br>");
 		}

@@ -18,7 +18,6 @@
 		// ssid, usessxy, ssx, ssy, ssname
 
 		//debug("new SEEDSHAPEINSTANCE - seed id: " + ssid + ", useseedxy: " + usessxy);
-		this = new shape({});
 		this.objtype = "seedshapeinstance";
 		
 		this.seed = oa.ssid? oa.ssid : getFirstSeedShape();
@@ -93,7 +92,7 @@
 	
 	function drawSSThumbs(){
 		var fs = GlyphrProject.settings;
-		var tctx = new Object();
+		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
 		for(var ssid in GlyphrProject.seedshapes){

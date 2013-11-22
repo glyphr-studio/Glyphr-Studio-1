@@ -137,7 +137,7 @@
 	function drawUsedinThumbs(){
 		var fs = GlyphrProject.settings;
 		var ui = GlyphrProject.seedshapes[shownseedshape].usedin;
-		var tctx = new Object();
+		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
 		
