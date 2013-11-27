@@ -9,8 +9,8 @@
 		this.objtype = "path";
 
 		// declare attributes
-		this.pathpoints = (isval(oa.points)? oa.points : false);	// can be false
-		this.isclosed = (oa.ic? oa.ic : false);
+		this.pathpoints = oa.points || false;	// can be false
+		this.isclosed = oa.ic || false;
 		
 		// Not settable internal 
 		this.topy = -1;	

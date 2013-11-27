@@ -20,12 +20,12 @@
 		//debug("new SEEDSHAPEINSTANCE - seed id: " + ssid + ", useseedxy: " + usessxy);
 		this.objtype = "seedshapeinstance";
 		
-		this.seed = oa.ssid? oa.ssid : getFirstSeedShape();
+		this.seed = oa.ssid || getFirstSeedShape();
 		this.useseedxy = (isval(oa.usessxy)? oa.usessxy : true);	
 		
-		this.name = oa.ssname? oa.ssname : "new seedshape instance";
-		this.xpos = oa.ssx? oa.ssx : 0;	
-		this.ypos = oa.ssy? oa.ssy : 0; 
+		this.name = oa.ssname || "new seedshape instance";
+		this.xpos = oa.ssx || 0;	
+		this.ypos = oa.ssy || 0; 
 		this.xlock = false;
 		this.ylock = false;
 
