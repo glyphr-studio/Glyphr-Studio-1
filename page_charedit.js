@@ -591,13 +591,13 @@
 			allactions += "<input  class='"+(charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((charundoq.length > 0) ? (" " + charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"add shape\");redraw();'><br>";
 			allactions += "<input class='button' type='button' value='insert seed shape' onclick='insertSeedShapeDialog();'><br>";
-			allactions += "<input class='"+(clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteshape();putundoq(\"paste shape\");redraw();'><br>";
+			allactions += "<input class='"+(clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";
 			
 			allactions += "</td>";
 			
 		var shapeactions = "<td><h3>shape</h3>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"delete shape\");redraw();'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyshape()'><br>";
+			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
 			
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipns();putundoq(\"flip shape vertical\");redraw();'><br>";
@@ -605,8 +605,8 @@
 			shapeactions += "</td>";
 			
 		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupshape();putundoq(\"move up shape\");'><br>";
-			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownshape();putundoq(\"move down shape\");'><br>";
+			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupShape();putundoq(\"move up shape\");'><br>";
+			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownShape();putundoq(\"move down shape\");'><br>";
 			layeractions += "</td>";
 			
 		var canvasactions = "<td><h3>editor view</h3>";
@@ -658,8 +658,8 @@
 		var shapeactions = "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"delete shape\");redraw();'><br>";
 		
 		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupshape();putundoq(\"move up shape\");'><br>";
-			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownshape();putundoq(\"move down shape\");'><br>";
+			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupShape();putundoq(\"move up shape\");'><br>";
+			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownShape();putundoq(\"move down shape\");'><br>";
 			layeractions += "</td>";
 			
 		content += allactions;
@@ -681,19 +681,19 @@
 //-------------------
 // Copy Paste
 //-------------------
-	function copyshape(){
+	function copyShape(){
 		var s = ss("copy shape")
 		if(s){
 			clipboardshape = {
 				"s":s,
 				"c":selectedchar
 			};
-			//debug("COPYSHAPE() - new clipboard shape: " + clipboardshape.s.name); 
+			//debug("COPYShape() - new clipboard shape: " + clipboardshape.s.name); 
 		}
 		redraw();
 	}
 	
-	function pasteshape(){
+	function pasteShape(){
 		if(clipboardshape){
 			var newshape = clone(clipboardshape.s);
 			clipboardshape.c == selectedchar ? newshape.path.updatePathPosition(20,20) : true;
@@ -724,8 +724,8 @@
 				debug("PASTESHAPE - pasted a seedshape, added " + selectedchar + " to usedin array.");
 			}
 
-			//debug("PASTESHAPE() - OLD " + s.debugShape());
-			//debug("PASTESHAPE() - NEW " + newshape.debugShape());		
+			//debug("PASTEShape() - OLD " + s.debugShape());
+			//debug("PASTEShape() - NEW " + newshape.debugShape());		
 			addShape(newshape);
 		}
 	}
@@ -734,7 +734,7 @@
 //-------------------
 // Move up / down
 //-------------------
-	function moveupshape(){
+	function moveupShape(){
 		var s = ss("Move Up Shape");
 		
 		if(s && (selectedshape < (shapelayers.length-1))){
@@ -746,7 +746,7 @@
 		}
 	}
 	
-	function movedownshape(){
+	function movedownShape(){
 		var s = ss("Move Down Shape");
 		
 		if(s && (selectedshape > 0)){

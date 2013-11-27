@@ -3,7 +3,7 @@
 // SHAPE OBJECT
 //-------------------------------------------------------
 
-	function shape(oa){
+	function Shape(oa){
 		// PARAMS //
 		// n,x,y,p,v,xl,yl,wl,hl,ne
 		this.objtype = "shape";
@@ -36,7 +36,7 @@
 		this.changeShapeName = changeShapeName;
 		this.debugShape = debugShape;
 
-		debug("Just created a SHAPE: " + JSON.stringify(this));
+		//debug("Just created a SHAPE: " + JSON.stringify(this));
 	}
 
 	
@@ -232,32 +232,37 @@
 		var qh = Math.round((ty-by)/4);
 
 		// First Point
-		var Pul = new coord({"x":lx, "y":ty});
-		var H1ul = new coord({"x":lx, "y":(ty-qh)});
-		var H2ul = new coord({"x":(lx+qw), "y":ty});
+		var Pul = new Coord({"x":lx, "y":ty});
+		var H1ul = new Coord({"x":lx, "y":(ty-qh)});
+		var H2ul = new Coord({"x":(lx+qw), "y":ty});
 
 		// Second Point
-		var Pur = new coord({"x":rx, "y":ty});
-		var H1ur = new coord({"x":(rx-qw), "y":ty});
-		var H2ur = new coord({"x":rx, "y":(ty-qh)});
+		var Pur = new Coord({"x":rx, "y":ty});
+		var H1ur = new Coord({"x":(rx-qw), "y":ty});
+		var H2ur = new Coord({"x":rx, "y":(ty-qh)});
 
 		// Third Point
-		var Plr = new coord({"x":rx, "y":by});
-		var H1lr = new coord({"x":rx, "y":(by+qh)});
-		var H2lr = new coord({"x":(rx-qw), "y":by});
+		var Plr = new Coord({"x":rx, "y":by});
+		var H1lr = new Coord({"x":rx, "y":(by+qh)});
+		var H2lr = new Coord({"x":(rx-qw), "y":by});
 
 		// Fourth Point
-		var Pll = new coord({"x":lx, "y":by});
-		var H1ll = new coord({"x":(lx+qw), "y":by});
-		var H2ll = new coord({"x":lx, "y":(by+qh)});
+		var Pll = new Coord({"x":lx, "y":by});
+		var H1ll = new Coord({"x":(lx+qw), "y":by});
+		var H2ll = new Coord({"x":lx, "y":(by+qh)});
 
 		var patharr = [];
-		patharr[0] = new pathPoint({"P":Pul, "H1":H1ul, "H2":H2ul});
-		patharr[1] = new pathPoint({"P":Pur, "H1":H1ur, "H2":H2ur});
-		patharr[2] = new pathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
-		patharr[3] = new pathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
+		patharr[0] = new PathPoint({"P":Pul, "H1":H1ul, "H2":H2ul});
+		patharr[1] = new PathPoint({"P":Pur, "H1":H1ur, "H2":H2ur});
+		patharr[2] = new PathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
+		patharr[3] = new PathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
-		return new path({"points":patharr, "ic":true});
+		debug(JSON.stringify(path));
+		alert(JSON.stringify(new Path({})));
+		var rp = new Path({"points":patharr, "ic":true});
+		debug("RETURNING PATH: " + JSON.stringify(rp));
+
+		return rp;
 	}
 	
 	function ovalPathFromCorners(cdata){
@@ -272,32 +277,32 @@
 		var hhd = Math.round(hh*.448);
 
 		// First Point - Top
-		var Pt = new coord({"x":(lx+hw), "y":ty});
-		var H1t = new coord({"x":(lx+hwd), "y":ty});
-		var H2t = new coord({"x":(rx-hwd), "y":ty});
+		var Pt = new Coord({"x":(lx+hw), "y":ty});
+		var H1t = new Coord({"x":(lx+hwd), "y":ty});
+		var H2t = new Coord({"x":(rx-hwd), "y":ty});
 
 		// Second Point - Right
-		var Pr = new coord({"x":rx, "y":(by+hh)});
-		var H1r = new coord({"x":rx, "y":(ty-hhd)});
-		var H2r = new coord({"x":rx, "y":(by-hhd)});
+		var Pr = new Coord({"x":rx, "y":(by+hh)});
+		var H1r = new Coord({"x":rx, "y":(ty-hhd)});
+		var H2r = new Coord({"x":rx, "y":(by-hhd)});
 
 		// Third Point - Bottom
-		var Pb = new coord({"x":(lx+hw), "y":by});
-		var H1b = new coord({"x":(rx-hwd), "y":by});
-		var H2b = new coord({"x":(lx+hwd), "y":by});
+		var Pb = new Coord({"x":(lx+hw), "y":by});
+		var H1b = new Coord({"x":(rx-hwd), "y":by});
+		var H2b = new Coord({"x":(lx+hwd), "y":by});
 
 		// Fourth Point - Left
-		var Pl = new coord({"x":lx, "y":(by+hh)});
-		var H1l = new coord({"x":lx, "y":(by+hhd)});
-		var H2l = new coord({"x":lx, "y":(ty-hhd)});
+		var Pl = new Coord({"x":lx, "y":(by+hh)});
+		var H1l = new Coord({"x":lx, "y":(by+hhd)});
+		var H2l = new Coord({"x":lx, "y":(ty-hhd)});
 
 		var patharr = [];
-		patharr[0] = new pathPoint({"P":Pt, "H1":H1t, "H2":H2t, "type":"symmetric"});
-		patharr[1] = new pathPoint({"P":Pr, "H1":H1r, "H2":H2r, "type":"symmetric"});
-		patharr[2] = new pathPoint({"P":Pb, "H1":H1b, "H2":H2b, "type":"symmetric"});
-		patharr[3] = new pathPoint({"P":Pl, "H1":H1l, "H2":H2l, "type":"symmetric"});
+		patharr[0] = new PathPoint({"P":Pt, "H1":H1t, "H2":H2t, "type":"symmetric"});
+		patharr[1] = new PathPoint({"P":Pr, "H1":H1r, "H2":H2r, "type":"symmetric"});
+		patharr[2] = new PathPoint({"P":Pb, "H1":H1b, "H2":H2b, "type":"symmetric"});
+		patharr[3] = new PathPoint({"P":Pl, "H1":H1l, "H2":H2l, "type":"symmetric"});
 		
-		return new path({"points":patharr, "ic":true});
+		return new Path({"points":patharr, "ic":true});
 	}
 	
 	function draw8points(onlycenter){
@@ -403,7 +408,7 @@
 				newshape.path.calcMaxes();
 			}
 		} else {
-			newshape = new shape({});
+			newshape = new Shape({});
 			newshape.name = ("layer " + shapelayers.length);
 		}
 		
@@ -417,27 +422,27 @@
 		var hd = 50;
 		var th = 500;
 		var tw = 300;
-		var newshape = new shape({});
+		var newshape = new Shape({});
 		var parr = false;
 		var shapetype = "layer ";
 		
 		if(type == "oval"){
-			var p1 = new pathPoint({"P":new coord({"x":0,"y":(th/2)}), "H1":new coord({"x":0,"y":hd}), "H2":new coord({"x":0,"y":(th-hd)}), "type":"symmetric"}); 
-			var p2 = new pathPoint({"P":new coord({"x":(tw/2),"y":th}), "H1":new coord({"x":hd,"y":th}), "H2":new coord({"x":(tw-hd),"y":th}), "type":"symmetric"});
-			var p3 = new pathPoint({"P":new coord({"x":tw,"y":(th/2)}), "H1":new coord({"x":tw,"y":(th-hd)}), "H2":new coord({"x":tw,"y":hd}), "type":"symmetric"});
-			var p4 = new pathPoint({"P":new coord({"x":(tw/2),"y":0}), "H1":new coord({"x":(tw-hd),"y":0}), "H2":new coord({"x":hd,"y":0}), "type":"symmetric"});
+			var p1 = new PathPoint({"P":new Coord({"x":0,"y":(th/2)}), "H1":new Coord({"x":0,"y":hd}), "H2":new Coord({"x":0,"y":(th-hd)}), "type":"symmetric"}); 
+			var p2 = new PathPoint({"P":new Coord({"x":(tw/2),"y":th}), "H1":new Coord({"x":hd,"y":th}), "H2":new Coord({"x":(tw-hd),"y":th}), "type":"symmetric"});
+			var p3 = new PathPoint({"P":new Coord({"x":tw,"y":(th/2)}), "H1":new Coord({"x":tw,"y":(th-hd)}), "H2":new Coord({"x":tw,"y":hd}), "type":"symmetric"});
+			var p4 = new PathPoint({"P":new Coord({"x":(tw/2),"y":0}), "H1":new Coord({"x":(tw-hd),"y":0}), "H2":new Coord({"x":hd,"y":0}), "type":"symmetric"});
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "oval ";
 		} else {
-			var p1 = new pathPoint({"P":new coord({"x":0,"y":0}), "H1":new coord({"x":hd,"y":0}), "H2":new coord({"x":0,"y":hd})}); 
-			var p2 = new pathPoint({"P":new coord({"x":0,"y":th}), "H1":new coord({"x":0,"y":(th-hd)}), "H2":new coord({"x":hd,"y":th})}); 
-			var p3 = new pathPoint({"P":new coord({"x":tw,"y":th}), "H1":new coord({"x":(tw-hd),"y":th}), "H2":new coord({"x":tw,"y":(th-hd)})}); 
-			var p4 = new pathPoint({"P":new coord({"x":tw,"y":0}), "H1":new coord({"x":tw,"y":hd}), "H2":new coord({"x":(tw-hd),"y":0})}); 
+			var p1 = new PathPoint({"P":new Coord({"x":0,"y":0}), "H1":new Coord({"x":hd,"y":0}), "H2":new Coord({"x":0,"y":hd})}); 
+			var p2 = new PathPoint({"P":new Coord({"x":0,"y":th}), "H1":new Coord({"x":0,"y":(th-hd)}), "H2":new Coord({"x":hd,"y":th})}); 
+			var p3 = new PathPoint({"P":new Coord({"x":tw,"y":th}), "H1":new Coord({"x":(tw-hd),"y":th}), "H2":new Coord({"x":tw,"y":(th-hd)})}); 
+			var p4 = new PathPoint({"P":new Coord({"x":tw,"y":0}), "H1":new Coord({"x":tw,"y":hd}), "H2":new Coord({"x":(tw-hd),"y":0})}); 
 			parr = new Array(p1,p2,p3,p4);
 			shapetype = "rect ";
 		}
 		
-		newshape.path = new path({"points":parr, "ic":true});		
+		newshape.path = new Path({"points":parr, "ic":true});		
 		newshape.name = (shapetype + shapelayers.length);
 		
 		if(navhere == "character edit") { selectedshape = shapelayers.length; }
@@ -465,17 +470,17 @@
 	}
 
 	function clickSelectShape(x,y){
-		//debug("CLICKSELECTSHAPE() - checking x:" + x + " y:" + y);
+		//debug("CLICKSELECTShape() - checking x:" + x + " y:" + y);
 		
 		if(navhere == "seed shapes"){
-			return clickSelectSeedShape(x,y);
+			return clickSelectSeedShapex,y);
 		}
 		
 		for(var j=(shapelayers.length-1); j>=0; j--){
-			//debug("CLICKSELECTSHAPE() - Checking shape " + j);
+			//debug("CLICKSELECTShape() - Checking shape " + j);
 			if(shapelayers[j].isHere(x,y)){
 				if(j != selectedshape){
-					//debug("CLICKSELECTSHAPE() - selecting shape " + j);
+					//debug("CLICKSELECTShape() - selecting shape " + j);
 					selectedshape = j;				
 					
 					if(shapelayers[j].seed){
@@ -488,7 +493,7 @@
 			}
 		}
 		selectedshape = -1;
-		//debug("CLICKSELECTSHAPE() - deselecting, setting to -1");
+		//debug("CLICKSELECTShape() - deselecting, setting to -1");
 		return false;
 	}
 	

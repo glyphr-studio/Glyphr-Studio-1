@@ -3,8 +3,8 @@
 	var shapesel = new pathedit();
 	var shaperesize = new shaperesize();
 	var pantool = new pantool();
-	var addpath = new newpath();
-	var addrectoval = new newbasicshape();
+	var addpath = new newPath();
+	var addrectoval = new newbasicShape();
 	var mousex = 0;
 	var mousey = 0;
 	var ismouseovercec = false;
@@ -96,13 +96,13 @@
 	// ---------------------------------------------------------
 	// new path - adds many points to a new path
 	// ---------------------------------------------------------	
-	function newpath(){
+	function newPath(){
 		this.dragging = false;
 		this.firstpoint = true;
 		this.currpt;
 		
 		this.mousedown = function (ev) { 
-			var newpoint = new pathPoint({"P":new coord({"x":cx_sx(mousex), "y":cy_sy(mousey)}), "H1":new coord({"x":cx_sx(mousex-100), "y":cy_sy(mousey)}), "H2":new coord({"x":cx_sx(mousex+100), "y":cy_sy(mousey)}), "type":"flat", "sel":true, "uh1":false, "uh2":false});			
+			var newpoint = new PathPoint({"P":new Coord({"x":cx_sx(mousex), "y":cy_sy(mousey)}), "H1":new Coord({"x":cx_sx(mousex-100), "y":cy_sy(mousey)}), "H2":new Coord({"x":cx_sx(mousex+100), "y":cy_sy(mousey)}), "type":"flat", "sel":true, "uh1":false, "uh2":false});			
 			var currpath;	
 		
 			if(this.firstpoint) {
@@ -111,7 +111,7 @@
 				
 				// make a new path with one point
 				var pparray = new Array(newpoint);
-				var newpath = new path({"points":pparray});
+				var newpath = new Path({"points":pparray});
 				newpath.selectPathPoint(0);
 				
 				debug("EVENTHANDLER - NewPath mousedown - after new path is made.");
@@ -204,11 +204,11 @@
 	// ---------------------------------------------------------
 	// new basic shape - adds many points to a new path
 	// ---------------------------------------------------------	
-	function newbasicshape(){
+	function newbasicShape(){
 		
 		this.mousedown = function (ev) { 
 			
-			var newshape = new shape({});
+			var newshape = new Shape({});
 			newshape.name = (selectedtool=="newrect")? ("rect " + (shapelayers.length+1)) : ("oval " + (shapelayers.length+1));
 			selectedshape = shapelayers.length;
 			shapelayers.push(newshape);

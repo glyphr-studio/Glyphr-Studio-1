@@ -25,7 +25,7 @@ function triggerProjectFileDownload(){
 		var min = (d.getMinutes()<10? "0" : "") + d.getMinutes();
 		var sec = (d.getSeconds()<10? "0" : "") + d.getSeconds();
 		
-		link.download = GlyphrProject.fontmetadata.familyname + " - Glyphr Project - "+yr+"."+mo+"."+day+"."+hr+"."+min+"."+sec+".txt";
+		link.download = GlyphrProject.fontmetadata.familyname + " - Glyphr Project - "+yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec+".txt";
 		link.click();
 	}
 

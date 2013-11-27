@@ -3,17 +3,17 @@
 // SEED SHAPE INSTANCE OBJECT
 //-------------------------------------------------------
 
-	function seedshape(oa){
+	function SeedShape(oa){
 		// PARAMS //
 		// n
 		this.objtype = "seedshape";
 
-		this.shape = new shape({});
+		this.shape = new Shape({});
 		this.shape.name = oa.n;
 		this.usedin = [];
 	}
 
-	function seedshapeinstance(oa){
+	function SeedShapeInstance(oa){
 		// PARAMS //
 		// ssid, usessxy, ssx, ssy, ssname
 
@@ -64,7 +64,7 @@
 	
 	function insertSeedShape(ssid){
 		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + selectedchar);
-		var ns = seedshapeinstance({"ssid":ssid, "ssx":100, "ssy":100});
+		var ns = SeedShapeInstance({"ssid":ssid, "ssx":100, "ssy":100});
 		addShape(ns);
 		
 		GlyphrProject.fontchars[selectedchar].charwidth = Math.max(GlyphrProject.fontchars[selectedchar].charwidth, GlyphrProject.seedshapes[ssid].shape.path.rightx);
@@ -171,16 +171,16 @@
 	}
 	
 	function clickSelectSeedShape(x,y){
-		//debug("CLICKSELECTSEEDSHAPE() - checking x:" + x + " y:" + y);
+		//debug("CLICKSELECTSeedShape() - checking x:" + x + " y:" + y);
 		
 		if(GlyphrProject.seedshapes[shownseedshape].shape.isHere(x,y)){
 			selectedshape = shownseedshape;
-			//debug("CLICKSELECTSEEDSHAPE() - selecting shape " + shownseedshape);
+			//debug("CLICKSELECTSeedShape() - selecting shape " + shownseedshape);
 			return true;
 		}
 		
 		selectedshape = -1;
-		//debug("CLICKSELECTSEEDSHAPE() - deselecting, setting to -1");
+		//debug("CLICKSELECTSeedShape() - deselecting, setting to -1");
 		
 		return false;
 	}

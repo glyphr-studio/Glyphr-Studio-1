@@ -3,7 +3,7 @@
 // COORDINATE OBJECT
 //-------------------------------------------------------
 	
-	function coord(pv){
+	function Coord(pv){
 		// PARAMS //
 		//	x,y,xl,yl
 		this.objtype = "coord";

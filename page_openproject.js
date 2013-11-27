@@ -92,28 +92,30 @@
 		gp.seedshapes = {
 			"id0": {
 				"usedin":[],
-				"shape": new shape({"n":"default seedshape"})
+				"shape": new Shape({"n":"default seedshape"})
 			}
 		};
 	
+		var gd = 16;
 		gp.settings = {
 			"version": thisGlyphrStudioVersion,
 			"seedshapecounter": 0,
-			"upm": 2048,									// Units Per Em - (emsize) how tall normal cap letters are		
-			"griddivisions": 16,							// how many squares of grid per emsize
-			"xheight": (9/gp.settings.griddivisions),		// % of emsize lowercase letter height
-			"descender": (4/gp.settings.griddivisions),		// % of emsize descender
-			"overshoot": (1/(gp.settings.griddivisions*8)),	// % of emsize overshoot for round glyphs
-			"kerning": (1/gp.settings.griddivisions)		// default kerning, as a % of emsize
+			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
+			"griddivisions": gd,		// how many squares of grid per emsize
+			"xheight": (9/gd),			// % of emsize lowercase letter height
+			"descender": (4/gd),		// % of emsize descender
+			"overshoot": (1/(gd*8)),	// % of emsize overshoot for round glyphs
+			"kerning": (1/gd)			// default kerning, as a % of emsize
 		}
 	
 		var fn = document.getElementById("newfontname").value;
-		
+		fn = (fn? fn : "My Font");
+
 		gp.fontmetadata = {
-			"familyname": (fn? fn : "My Font"),
+			"familyname": fn,
 			"subfamilyname": "Regular",
 			"genericfamilyname": 'Sans-Serif',
-			"fullname": gp.fontmetadata.familyname,
+			"fullname": fn,
 			"version": "Version 1.0",
 			"copyright": "© Copyright 2012",
 			"manufacturername": "",
@@ -155,7 +157,7 @@
 		debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
 		
 		selectedchar = 97;
-		shownseedshape = getFirstSeedShape();
+		shownseedshape = getFirstSeedShape);
 		
 		setupCECandCGC();
 		

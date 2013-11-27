@@ -3,14 +3,14 @@
 // PATH POINT OBJECT
 //-------------------------------------------------------
 	
-	function pathPoint(oa){
+	function PathPoint(oa){
 		// PARAMS //
 		// P, H1, H2, type, sel, uh1, uh2
 		this.objtype = "pathpoint";
 
-		oa.P? this.P = oa.P : this.P = new coord({"x":100, "y":100});
-		oa.H1? this.H1 = oa.H1 : this.H1 = new coord({"x":0, "y":0});
-		oa.H2? this.H2 = oa.H2 : this.H2 = new coord({"x":200, "y":200});
+		oa.P? this.P = oa.P : this.P = new Coord({"x":100, "y":100});
+		oa.H1? this.H1 = oa.H1 : this.H1 = new Coord({"x":0, "y":0});
+		oa.H2? this.H2 = oa.H2 : this.H2 = new Coord({"x":200, "y":200});
 		
 		//debug("PATHPOINT - full output: " + Px +","+ Py +","+ H1x +","+ H1y +","+ H2x +","+ H2y +","+ type +","+ sel);
 		
@@ -32,7 +32,7 @@
 		this.roundall = roundall;
 		
 		this.debugout = debugout;
-		//debug("pathPoint() - new pathPoint created");	
+		//debug("PathPoint() - new pathPoint created");	
 	}
 
 	function makeFlat(move){

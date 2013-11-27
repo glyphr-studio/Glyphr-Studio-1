@@ -10,7 +10,7 @@
 	var charcurrstate = {};
 	var seedcurrstate = {};
 	var charundoq = [];
-	var seedundoq = []];
+	var seedundoq = [];
 	
 	function setup() {
 		debug("MAIN SETUP() - START");

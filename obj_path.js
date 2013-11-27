@@ -3,13 +3,13 @@
 //  PATH OBJECT
 //  -----------------------------------
 
-	function path(oa){
+	function Path(oa){
 		// PARAMS //
 		// points, ic
 		this.objtype = "path";
 
 		// declare attributes
-		this.pathpoints = oa.points;	// can be false
+		this.pathpoints = (isval(oa.points)? oa.points : false);	// can be false
 		this.isclosed = (oa.ic? oa.ic : false);
 		
 		// Not settable internal 
@@ -41,7 +41,7 @@
 		this.selectPathPoint(-1);
 		//if(this.pathpoints) this.calcMaxes();
 		
-		//debug("PATH() - created new path: " + this.pathpoints);
+		//debug("Path() - created new path: " + this.pathpoints);
 	}
 	
 	// Selected Point - returns the selected point object
@@ -331,7 +331,7 @@
 		
 		if(!newpp) { 
 			// No pathpoint passed to function - make a new one
-			newpp = new pathPoint({}); 
+			newpp = new PathPoint({}); 
 			
 			if(addtostart){
 				//Adds new pathpoint to start of path
