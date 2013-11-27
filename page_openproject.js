@@ -89,12 +89,8 @@
 		
 		gp.fontchars = createNewFontObject();
 		
-		gp.seedshapes = {
-			"id0": {
-				"usedin":[],
-				"shape": new Shape({"n":"default seedshape"})
-			}
-		};
+		gp.seedshapes = {};
+		gp.seedshapes["id0"] = new SeedShape({});
 	
 		var gd = 16;
 		gp.settings = {
@@ -117,7 +113,7 @@
 			"genericfamilyname": 'Sans-Serif',
 			"fullname": fn,
 			"version": "Version 1.0",
-			"copyright": "� Copyright 2012",
+			"copyright": "Â© Copyright 2012",
 			"manufacturername": "",
 			"manufacturerurl": "",
 			"designername": "",
@@ -157,7 +153,7 @@
 		debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
 		
 		selectedchar = 97;
-		shownseedshape = getFirstSeedShape);
+		shownseedshape = getFirstSeedShape();
 		
 		setupCECandCGC();
 		

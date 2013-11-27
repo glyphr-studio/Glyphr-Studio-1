@@ -33,7 +33,7 @@
 			//debug("SEEDSHAPES_SUBNAV - making button for " + ssid);
 			re += makeSSSubnavButton(ssid);
 		}
-		re += "<br><br><input type='button' class='button' onclick='addSeedShape);putundoq(\"create new seed shape\");navigate();' value='Add a new seed shape'></div>";
+		re += "<br><br><input type='button' class='button' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();' value='Add a new seed shape'></div>";
 		return re;
 	}
 	
@@ -163,14 +163,14 @@
 			allactions += "</td>";
 		
 		var seedshapeactions = "<td><h3>seed shape</h3>";
-			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='create new seed shape' onclick='addSeedShape);putundoq(\"create new seed shape\");navigate();'><br>";
+			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='create new seed shape' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
 			seedshapeactions += "<input class='"+(aalength(GlyphrProject.seedshapes)>1? "button": "buttondis")+"' style='width:150px;' type='button' value='delete this seed shape' onclick='deleteSeedShapeConfirm();'><br>";		
 			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 			
 		var shapeactions = "";
 			/*
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
-			shapeactions += "<input class='"+(clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteSeedShape);putundoq(\"paste seed shape\");redraw();'><br>";
+			shapeactions += "<input class='"+(clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteSeedShape();putundoq(\"paste seed shape\");redraw();'><br>";
 			*/
 			if(temppathdragshape && selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
@@ -208,14 +208,14 @@
 		document.getElementById("actionsarea").innerHTML = content;
 	}
 
-	function addSeedShape){
+	function addSeedShape(){
 		var newid = generateNewSSID();
 		var newname = ("seedshape " + seedshapecounter);
 
 		shownseedshape = newid;
 		selectedshape = newid;
 
-		GlyphrProject.seedshapes[newid] = new SeedShape{"n":newname});
+		GlyphrProject.seedshapes[newid] = new SeedShape({"n":newname});
 
 		debug("Added New Seed Shape: " + newid + " ss.length = " + GlyphrProject.seedshapes.length + " JSON=" + JSON.stringify(GlyphrProject.seedshapes));
 	}
@@ -233,12 +233,12 @@
 		}
 		
 		content += "<br>Warning: This action cannot be undone!<br>";
-		content += "<br><input type='button' value='permanently delete this seed shape' onclick='deleteSeedShape);'> &nbsp; <input type='button' value='cancel' onclick='closeDialog();'>";
+		content += "<br><input type='button' value='permanently delete this seed shape' onclick='deleteSeedShape();'> &nbsp; <input type='button' value='cancel' onclick='closeDialog();'>";
 
 		openDialog(content);
 	}
 	
-	function deleteSeedShape){
+	function deleteSeedShape(){
 		//debug("DELETESEEDSHAPE - deleting " + shownseedshape);
 		closeDialog();
 		if(aalength(GlyphrProject.seedshapes)>1){
@@ -261,7 +261,7 @@
 			
 			// delete seedshape and switch selection
 			delete GlyphrProject.seedshapes[shownseedshape];
-			shownseedshape = getFirstSeedShape);
+			shownseedshape = getFirstSeedShape();
 			selectedshape = shownseedshape;
 			//debug("DELETESEEDSHAPE - delete complete, new shownseedshape = " + shownseedshape);
 			
@@ -271,7 +271,7 @@
 		}
 	}
 
-	function pasteSeedShape){
+	function pasteSeedShape(){
 		if(clipboardshape){
 			GlyphrProject.seedshapes[shownseedshape].shape = clipboardshape;
 		}
@@ -287,7 +287,7 @@
 	function insertSeedShapeToChar(chid){
 		var temschar = selectedchar;
 		selectchar(chid);
-		insertSeedShapeshownseedshape);
+		insertSeedShape(shownseedshape);
 		selectedchar = temschar;
 		putundoq("insert seed shape from seedshapes");
 		closeDialog();

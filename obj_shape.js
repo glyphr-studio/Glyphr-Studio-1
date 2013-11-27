@@ -257,10 +257,8 @@
 		patharr[2] = new PathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
 		patharr[3] = new PathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
-		debug(JSON.stringify(path));
-		alert(JSON.stringify(new Path({})));
 		var rp = new Path({"points":patharr, "ic":true});
-		debug("RETURNING PATH: " + JSON.stringify(rp));
+		//debug("RETURNING PATH: " + JSON.stringify(rp));
 
 		return rp;
 	}
@@ -473,7 +471,7 @@
 		//debug("CLICKSELECTShape() - checking x:" + x + " y:" + y);
 		
 		if(navhere == "seed shapes"){
-			return clickSelectSeedShapex,y);
+			return clickSelectSeedShape(x,y);
 		}
 		
 		for(var j=(shapelayers.length-1); j>=0; j--){

@@ -9,7 +9,7 @@
 		this.objtype = "seedshape";
 
 		this.shape = new Shape({});
-		this.shape.name = oa.n;
+		this.shape.name = oa.n || "New Seed Shape";
 		this.usedin = [];
 	}
 
@@ -46,7 +46,6 @@
 		this.debugShape = debugSeedShape;
 		
 		//debug("SEEDSHAPEINSTANCE - end");
-		//debug(this.debugShape());
 	}
 	
 //	Insert Seed Shape
@@ -64,7 +63,9 @@
 	
 	function insertSeedShape(ssid){
 		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + selectedchar);
-		var ns = SeedShapeInstance({"ssid":ssid, "ssx":100, "ssy":100});
+		var ns = new SeedShapeInstance({"ssid":ssid, "ssx":100, "ssy":100});
+
+		debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
 		GlyphrProject.fontchars[selectedchar].charwidth = Math.max(GlyphrProject.fontchars[selectedchar].charwidth, GlyphrProject.seedshapes[ssid].shape.path.rightx);
@@ -190,12 +191,13 @@
 //	Seed Shape Paridy Functions
 //	---------------------------
 	function drawSeedShape(lctx){
-		//debug("DRAWSEEDSHAPE");
+		debug("DRAWSEEDSHAPE");
 		if(this.useseedxy){
-			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
+			debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
 			GlyphrProject.seedshapes[this.seed].shape.drawShape(lctx);
 		} else {
-			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
+			debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
+			debug("------------- this.seed: " + this.seed);
 			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape(lctx);
