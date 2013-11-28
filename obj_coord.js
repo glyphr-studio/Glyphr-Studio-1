@@ -10,7 +10,7 @@
 		
 		this.x = oa.x || 0;
 		this.y = oa.y || 0;
-		this.xlock = (isval(oa.xl)? oa.xl : false);
-		this.ylock = (isval(oa.yl)? oa.yl : false);
+		this.xlock = oa.xl || false;
+		this.ylock = oa.yl || false;
 		
 	}

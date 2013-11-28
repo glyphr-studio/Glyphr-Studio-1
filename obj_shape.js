@@ -9,16 +9,16 @@
 		this.objtype = "shape";
 
 		// common settings
-		this.name = (oa.n? oa.n : "new shape");
-		this.xpos = ((oa.x || oa.x==0)? oa.x : 0);		// these are used for stroke-independend position & size
-		this.ypos = ((oa.y || oa.y==0)? oa.y : 400); 
-		this.path = (oa.p? oa.p : rectPathFromCorners(false));
-		this.visible = (isval(oa.v)? oa.v : true);
-		this.xlock = (isval(oa.xl)? oa.xl : false);
-		this.ylock = (isval(oa.yl)? oa.yl : false);
-		this.wlock = (isval(oa.wl)? oa.wl : false);
-		this.hlock = (isval(oa.hl)? oa.hl : false);
-		this.negative = (isval(oa.ne)? oa.ne : false);
+		this.name = oa.n || "new shape";
+		this.xpos = oa.x || 0		// these are used for stroke-independend position & size
+		this.ypos = isval(oa.y)? oa.y : 400;
+		this.path = oa.p || rectPathFromCorners(false);
+		this.visible = isval(oa.v)? oa.v : true;
+		this.xlock = oa.xl || false;
+		this.ylock = oa.yl || false;
+		this.wlock = oa.wl || false;
+		this.hlock = oa.hl || false;
+		this.negative = oa.ne || false;
 				
 		// not settable defaults
 		this.seed = false;

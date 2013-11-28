@@ -150,7 +150,7 @@
 	
 //	Detials
 	function seedShapeInstanceDetails(s){
-		debug("SEEDSHAPEINSTANCEDETAILS - start of function");
+		//debug("SEEDSHAPEINSTANCEDETAILS - start of function");
 		content = "<tr><td colspan=3><h3>seed shape</h3></td></tr>";	
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().name = this.value; putundoq(\"shape name\"); redraw();'></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> use seed shape position</td><td>"+checkUI("ss().useseedxy="+!s.useseedxy+"; putundoq(\"use seed shape position\"); redraw();", s.useseedxy)+"</td></tr>";
@@ -191,13 +191,13 @@
 //	Seed Shape Paridy Functions
 //	---------------------------
 	function drawSeedShape(lctx){
-		debug("DRAWSEEDSHAPE");
+		//debug("DRAWSEEDSHAPE");
 		if(this.useseedxy){
-			debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
+			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
 			GlyphrProject.seedshapes[this.seed].shape.drawShape(lctx);
 		} else {
-			debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
-			debug("------------- this.seed: " + this.seed);
+			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
+			//debug("------------- this.seed: " + this.seed);
 			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape(lctx);

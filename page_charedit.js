@@ -247,7 +247,7 @@
 		
 		// load char info
 		shapelayers = fc[selectedchar].charglyphdata;
-		debug("!!! REDRAW !!! - selectedchar: " + selectedchar + " - numshapes: " + shapelayers.length + " - navhere: " + navhere);	
+		//debug("!!! REDRAW !!! - selectedchar: " + selectedchar + " - numshapes: " + shapelayers.length + " - navhere: " + navhere);	
 		
 		// Only update charwidth if isautowide is true
 		var neww = fc[selectedchar].isautowide;
@@ -256,10 +256,10 @@
 
 		var sh;
 		for(var jj=0; jj<shapelayers.length; jj++) {
-			debug("================ shape " + jj + "/" + shapelayers.length);
+			//debug("================ shape " + jj + "/" + shapelayers.length);
 			
 			sh = shapelayers[jj];
-			debug("================ JSON: " + JSON.stringify(sh));
+			//debug("================ JSON: " + JSON.stringify(sh));
 			
 			sh.drawShape(ctx);
 			

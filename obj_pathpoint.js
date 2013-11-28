@@ -15,7 +15,7 @@
 		//debug("PATHPOINT - full output: " + Px +","+ Py +","+ H1x +","+ H1y +","+ H2x +","+ H2y +","+ type +","+ sel);
 		
 		this.type = oa.type || "corner";		// corner, flat, symmetric
-		this.selected = (isval(oa.sel)? oa.sel : false);
+		this.selected = oa.sel || false;
 		this.useh1 = (isval(oa.uh1)? oa.uh1 : true);
 		this.useh2 = (isval(oa.uh2)? oa.uh2 : true);
 		
