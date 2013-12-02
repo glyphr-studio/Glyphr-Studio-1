@@ -10,7 +10,7 @@
 		this.name = oa.name || "new shape";
 		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
 		this.ypos = isval(oa.ypos)? oa.ypos : 400;
-		this.path = oa.path || rectPathFromCorners(false);
+		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromCorners(false);
 		this.visible = isval(oa.visible)? oa.visible : true;
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.ylock || false;
@@ -408,7 +408,7 @@
 			newshape.name = ("layer " + shapelayers.length);
 		}
 		
-		if(navhere == "character edit") { selectedshape = shapelayers.length; }
+		if(uistate.navhere == "character edit") { selectedshape = shapelayers.length; }
 		shapelayers.push(newshape);
 
 		return newshape;
@@ -441,7 +441,7 @@
 		newshape.path = new Path({"pathpoints":parr, "isclosed":true});		
 		newshape.name = (shapetype + shapelayers.length);
 		
-		if(navhere == "character edit") { selectedshape = shapelayers.length; }
+		if(uistate.navhere == "character edit") { selectedshape = shapelayers.length; }
 		shapelayers.push(newshape);
 	}
 
@@ -468,7 +468,7 @@
 	function clickSelectShape(x,y){
 		//debug("CLICKSELECTShape() - checking x:" + x + " y:" + y);
 		
-		if(navhere == "seed shapes"){
+		if(uistate.navhere == "seed shapes"){
 			return clickSelectSeedShape(x,y);
 		}
 		
@@ -600,9 +600,9 @@
 		req? true : req="[probably a dynamically-generated page control]";
 		//debug("SS() - Requested by: " + req + " - CURRENT selectedshape = " + selectedshape);	
 		
-		if(navhere == "seed shapes"){
+		if(uistate.navhere == "seed shapes"){
 			//debug("SS() - SEEDSHAPE - Requested by: " + req + " - returning shownseedshape: " + shownseedshape);
-			return GlyphrProject.seedshapes[shownseedshape].shape;
+			return GlyphrProject.seedshapes.shownseedshape.shape;
 		}
 		
 		if(selectedshape != -1){

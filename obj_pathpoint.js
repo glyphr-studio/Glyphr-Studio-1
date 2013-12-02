@@ -6,11 +6,9 @@
 	function PathPoint(oa){
 		this.objtype = "pathpoint";
 
-		oa.P? this.P = oa.P : this.P = new Coord({"x":100, "y":100});
-		oa.H1? this.H1 = oa.H1 : this.H1 = new Coord({"x":0, "y":0});
-		oa.H2? this.H2 = oa.H2 : this.H2 = new Coord({"x":200, "y":200});
-		
-		//debug("PATHPOINT - full output: " + Px +","+ Py +","+ H1x +","+ H1y +","+ H2x +","+ H2y +","+ type +","+ sel);
+		this.P = oa.P? new Coord(oa.P) : new Coord({"x":100, "y":100});
+		this.H1 = oa.H1? new Coord(oa.H1) : new Coord({"x":0, "y":0});
+		this.H2 = oa.H2? new Coord(oa.H2) : new Coord({"x":200, "y":200});
 		
 		this.type = oa.type || "corner";		// corner, flat, symmetric
 		this.selected = oa.selected || false;

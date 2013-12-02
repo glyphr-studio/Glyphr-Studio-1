@@ -6,8 +6,17 @@
 	function Path(oa){
 		this.objtype = "path";
 
+		//debug("NEW PATH: oa = \n" + JSON.stringify(oa));
+
 		// declare attributes
-		this.pathpoints = oa.pathpoints || false;	// can be false
+		this.pathpoints = false;
+		if(oa.pathpoints.length){
+			this.pathpoints = [];
+			//debug("NEW PATH : Hydrating Path Points, length " + oa.pathpoints.length);
+			for (var i = 0; i < oa.pathpoints.length; i++) {
+				this.pathpoints[i] = new PathPoint(oa.pathpoints[i]);
+			}
+		}
 		this.isclosed = oa.isclosed || false;
 		
 		// Not settable internal 

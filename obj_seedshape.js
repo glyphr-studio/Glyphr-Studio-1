@@ -24,7 +24,6 @@
 		this.ylock = false;
 
 		// shape settings that don't apply to seedshapeinstance
-		//this.path = GlyphrProject.seedshapes[this.seed].path;	/**MIGHT BE HORRIBLE**/	
 		this.path = false;
 		this.hlock = false;
 		this.wlock = false;
@@ -62,7 +61,7 @@
 		debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
-		GlyphrProject.fontchars[selectedchar].charwidth = Math.max(GlyphrProject.fontchars[selectedchar].charwidth, GlyphrProject.seedshapes[ssid].shape.path.rightx);
+		GlyphrProject.fontchars[selectedchar].charwidth = Math.max(GlyphrProject.fontchars[selectedchar].charwidth, GlyphrProject.seedshapes.ssid.shape.path.rightx);
 		
 		addToUsedIn(ssid, selectedchar);
 		
@@ -77,7 +76,7 @@
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
 			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertSeedShape(\""+ssid+"\");' height="+ssthumbsize+"' width="+ssthumbsize+"></canvas>";
 			re += "</td></tr><tr><td>"
-			re += GlyphrProject.seedshapes[ssid].shape.name;
+			re += GlyphrProject.seedshapes.ssid.shape.name;
 			re += "</td></tr></table>";
 			//debug("GENERATESSTHUMBS - created canvas 'thumb"+ssid+"'");
 		}
@@ -93,7 +92,7 @@
 		for(var ssid in GlyphrProject.seedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			GlyphrProject.seedshapes[ssid].shape.drawShapeToArea(tctx, factor, ssthumbgutter, yoffset);
+			GlyphrProject.seedshapes.ssid.shape.drawShapeToArea(tctx, factor, ssthumbgutter, yoffset);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -103,7 +102,7 @@
 	function addToUsedIn(ssid, charid){
 		charid = (""+charid);
 		debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
-		var uia = GlyphrProject.seedshapes[ssid].usedin;
+		var uia = GlyphrProject.seedshapes.ssid.usedin;
 		debug("------------- uia: " + uia);
 		//Make sure array values are unique
 		if(uia.indexOf(charid) == -1){
@@ -129,7 +128,7 @@
 		debug("------------------ seedcount = " + seedcount);
 		
 		if(seedcount == 1){
-			var uia = GlyphrProject.seedshapes[ssid].usedin;
+			var uia = GlyphrProject.seedshapes.ssid.usedin;
 			var charindex = uia.indexOf(charid);
 			debug("------------------ charindex: " + charindex);
 			if(charindex != -1){
@@ -160,15 +159,15 @@
 	}
 	
 	function goToEditSeedShape(ssid){
-		shownseedshape = ssid;
-		navhere = "seed shapes";
+		uistate.shownseedshape = ssid;
+		uistate.navhere = "seed shapes";
 		navigate();
 	}
 	
 	function clickSelectSeedShape(x,y){
 		//debug("CLICKSELECTSeedShape() - checking x:" + x + " y:" + y);
 		
-		if(GlyphrProject.seedshapes[shownseedshape].shape.isHere(x,y)){
+		if(GlyphrProject.seedshapes.shownseedshape.shape.isHere(x,y)){
 			selectedshape = shownseedshape;
 			//debug("CLICKSELECTSeedShape() - selecting shape " + shownseedshape);
 			return true;

@@ -1,5 +1,4 @@
 
-	var shownseedshape = "";
 
 	function updateseedshapes(toggle){
 
@@ -41,7 +40,7 @@
 		var re = "<input class='button' ";
 		if(ssid==shownseedshape) { re = "<input class='buttonsel' "; }
 		
-		re += "value='" + GlyphrProject.seedshapes[ssid].shape.name + "' ";
+		re += "value='" + GlyphrProject.seedshapes.ssid.shape.name + "' ";
 		re += "style='width:100%' type='button'";
 		re += "onclick='makeSeedShapeSelected(\"" + ssid + "\");' ";
 		re += ">";
@@ -53,7 +52,7 @@
 		//debug("MAKESEEDSHAPESELECTED - ssid: " + ssid);
 		shownseedshape = ssid;
 		selectedshape = ssid;
-		shapelayers = [GlyphrProject.seedshapes[ssid].shape];
+		shapelayers = [GlyphrProject.seedshapes.ssid.shape];
 		navigate();
 	}
 
@@ -63,16 +62,15 @@
 //-------------------
 
 	function seedshapesredraw(){
-		//debug("<b>!!! SEEDSHAPEREDRAW !!!</b> - shownseedshape:" + shownseedshape + ", selectedshape:" + selectedshape);
-		var ss = GlyphrProject.seedshapes;
-		
+		debug("<b>!!! SEEDSHAPEREDRAW !!!</b> - shownseedshape:" + shownseedshape + ", selectedshape:" + selectedshape);
+				
 		ctx.clearRect(0,0,5000,5000);
 		grid();
 		vertical(cec.size.makeCrisp());
 		
-		ss[shownseedshape].shape.drawShape(ctx);
+		GlyphrProject.seedshapes.shownseedshape.shape.drawShape(ctx);
 		
-		if(ss[selectedshape]) ss[selectedshape].shape.drawselectoutline();
+		if(GlyphrProject.seedshapes.selectedshape) GlyphrProject.seedshapes.selectedshape.shape.drawselectoutline();
 		
 		
 		//updatedetails();
@@ -130,7 +128,7 @@
 	function goToEditChar(chid){
 		selectedshape = -1;	
 		selectedchar = chid;
-		navhere = "character edit";
+		uistate.navhere = "character edit";
 		navigate();	
 	}
 	

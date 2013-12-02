@@ -163,7 +163,7 @@
 		var onc = (fname + "(" + index + ");");
 		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+GlyphrProject.fontchars[index].charname+"'>";
 		var issel = GlyphrProject.fontchars[index].charvalue == GlyphrProject.fontchars[selectedchar].charvalue;
-		issel = issel & (navhere != "seed shapes");
+		issel = issel & (uistate.navhere != "seed shapes");
 		
 		if(GlyphrProject.fontchars[index].charglyphdata[0]){
 			var extra = "";
@@ -238,7 +238,7 @@
 // REDRAW
 //-------------------
 	function redraw(){
-		if(navhere == "seed shapes") {seedshapesredraw(); return;}		
+		if(uistate.navhere == "seed shapes") {seedshapesredraw(); return;}		
 		
 		var fc = GlyphrProject.fontchars;
 		
@@ -351,8 +351,8 @@
 		if(selectedtool != "pathedit") ispointsel = false;
 		
 		var content = "";
-		if(navhere == "seed shapes"){
-			content = "<h1>" + GlyphrProject.seedshapes[shownseedshape].shape.name + "</h1>";
+		if(uistate.navhere == "seed shapes"){
+			content = "<h1>" + GlyphrProject.seedshapes.shownseedshape.shape.name + "</h1>";
 		} else {
 			content = "<h1>attributes</h1>";
 		}
@@ -362,8 +362,8 @@
 
 		content += "<table class='detail'>";	
 		
-		//debug("UPDATEDETAILS - selectedshape: " + selectedshape + " - s.name: " + s.name + " - navhere: " + navhere);
-		if (navhere == "character edit"){
+		//debug("UPDATEDETAILS - selectedshape: " + selectedshape + " - s.name: " + s.name + " - navhere: " + uistate.navhere);
+		if (uistate.navhere == "character edit"){
 			//debug("UPDATEDETAILS - detected navhere = character edit");
 			if(s && s.seed){
 				// seed shape selected
@@ -379,7 +379,7 @@
 				//debug("UPDATEDETAILS: no shape selected");
 				content += charDetails();	
 			}
-		} else if (navhere == "seed shapes"){
+		} else if (uistate.navhere == "seed shapes"){
 			//debug("UPDATEDETAILS - detected navhere = seed shapes");
 			if (s){
 				content += shapeDetails(s);
@@ -841,8 +841,8 @@
 		var pointselectclass = "";
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
-		if(navhere == "seed shapes") {
-			if(!GlyphrProject.seedshapes[selectedshape]) { s = false; }
+		if(uistate.navhere == "seed shapes") {
+			if(!GlyphrProject.seedshapes.selectedshape) { s = false; }
 		}
 		
 		if(selectedtool=='pathedit'){
@@ -858,7 +858,7 @@
 		content += "<div title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clicktool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></div>";
 		content += "<div title='move & resize shape' class='" + (selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></div>";
 		
-		if(navhere == "character edit"){
+		if(uistate.navhere == "character edit"){
 			content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
 			content += "<div title='new rectangle shape' class='" + (selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></div>";
 			content += "<div title='new oval shape' class='" + (selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></div>";
@@ -951,7 +951,7 @@
 		tempctx = tempcanvas.getContext("2d");
 		drawZoomEmButton(tempctx, color_accent, "transparent");		
 
-		if(navhere == "character edit"){
+		if(uistate.navhere == "character edit"){
 			// New Rectangle
 			tempcanvas = document.getElementById("newrectbuttoncanvas");
 			tempcanvas.height = bh;

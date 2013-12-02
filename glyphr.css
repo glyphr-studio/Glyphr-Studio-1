@@ -373,7 +373,7 @@
 		height: 50px;
 		margin: 4px 0px 20px 0px;
 		background-color: white;
-		border:1px dashed rgb(127,127,127);;
+		border:1px dashed rgb(127,127,127);
 		color: rgb(127,127,127);
 		padding: 20px;
 	}
@@ -425,7 +425,7 @@
 	.tool {
 		height:24px;
 		width:24px;
-		overflow:display;
+		overflow:visible;
 		padding:4px 0px 0px 4px;
 		margin-right:0px;
 		display:inline;
@@ -654,7 +654,7 @@
 		background-color:#4C4C4C;	/* system */
 		color:#333333;				/* system */
 		margin:1px;
-		cursor:normal;
+		cursor:default;
 	}
 
 	.spinnerbutton,

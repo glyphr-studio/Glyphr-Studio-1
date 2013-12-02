@@ -662,7 +662,7 @@
 	
 	function mousewheel(event){	
 	    var delta = event.detail? event.detail*(-120) : event.wheelDelta 	//cross browser
-		var canscroll = ((navhere == "character edit") || (navhere == "seed shapes"));
+		var canscroll = ((uistate.navhere == "character edit") || (uistate.navhere == "seed shapes"));
 		canscroll = canscroll && (document.getElementById('dialog_box').style.display != 'block');
 		
 		if(canscroll){

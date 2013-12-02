@@ -5,12 +5,16 @@
 // -- GLoBAL VARIABLES --//
 	var DEBUG = true;
 	var GlyphrProject = {};
-	var navhere = "firstrun";
-	var navprimaryhere = "npNav";
-	var charcurrstate = {};
-	var seedcurrstate = {};
-	var charundoq = [];
-	var seedundoq = [];
+	var uistate = {
+		"navhere" : "firstrun",
+		"navprimaryhere" : "npNav",
+		"selectedshape" : -1,
+		"shownseedshape" : "id0",
+		"charcurrstate" : {},
+		"seedcurrstate" : {},
+		"charundoq" : [],
+		"seedundoq" : []		
+	}
 	
 	function setup() {
 		debug("MAIN SETUP() - START");
@@ -36,7 +40,7 @@
 // Navigation Stuff
 //-------------------
 	function navigate(){
-		//debug("<b>>>NAVIGATE STARTED</b> - to " + navhere);
+		//debug("<b>>>NAVIGATE STARTED</b> - to " + uistate.navhere);
 
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
@@ -45,11 +49,11 @@
 		document.getElementById("navtargetpane").style.display = "block";
 		document.getElementById("logocanvas").style.display = "block";
 		
-		if(navhere=="test drive") navprimaryhere = "npAttributes";
+		if(uistate.navhere=="test drive") navprimaryhere = "npAttributes";
 		
 		updateNavPrimaryNavTarget();
 		
-		switch(navhere){
+		switch(uistate.navhere){
 			case "firstrun":		updatefirstrun();		break;	
 			case "font metadata": 	updatefontmetadata(); 	break;
 			case "font settings":	updatefontsettings();	break;
@@ -85,7 +89,7 @@
 		
 		document.body.focus();
 		
-		debug("\tNAVIGATE FINISHED - to " + navhere);
+		debug("\tNAVIGATE FINISHED - to " + uistate.navhere);
 
 	}
 	
@@ -96,7 +100,7 @@
 		var nt = document.getElementById("navtargetpane");
 		nt.innerHTML = "";
 		
-		if((navhere!="character edit")&&(navhere!="seed shapes")&&(navhere!="test drive")) {
+		if((uistate.navhere!="character edit")&&(uistate.navhere!="seed shapes")&&(uistate.navhere!="test drive")) {
 				navprimaryhere = "npNav";
 				nt.innerHTML = generateNavTargetOptions();
 				return;
@@ -108,11 +112,11 @@
 				break;
 				
 			case "npChar":
-				if(navhere == "character edit") {
+				if(uistate.navhere == "character edit") {
 					nt.innerHTML = "<h1>character edit</h1>"+updateselectchar();
 					drawselectcharcanvas();
 				}
-				if(navhere == "seed shapes") nt.innerHTML = "<h1>seed shapes</h1>"+seedshapes_subnav();
+				if(uistate.navhere == "seed shapes") nt.innerHTML = "<h1>seed shapes</h1>"+seedshapes_subnav();
 				break;
 			
 			case "npLayers":
@@ -120,7 +124,7 @@
 				break;
 				
 			case "npAttributes":
-				if(navhere == "test drive"){
+				if(uistate.navhere == "test drive"){
 					nt.innerHTML = updatetestdriveoptions();
 				} else {
 					updatedetails();
@@ -146,7 +150,7 @@
 		pncanvas.height = 50;
 		draw_primaryNav_navigate(pnctx, fill);
 		
-		if(navhere=="character edit"){
+		if(uistate.navhere=="character edit"){
 			navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
@@ -169,7 +173,7 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 		
-		if(navhere=="seed shapes"){
+		if(uistate.navhere=="seed shapes"){
 			navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
@@ -185,7 +189,7 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 		
-		if(navhere=="test drive"){
+		if(uistate.navhere=="test drive"){
 			navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
@@ -206,18 +210,18 @@
 		var navarr = [];
 		navarr.push("npNav");
 		
-		if(navhere=="character edit"){
+		if(uistate.navhere=="character edit"){
 			navarr.push("npChar");
 			navarr.push("npLayers");
 			navarr.push("npAttributes");
 		}
 		
-		if(navhere=="seed shapes"){
+		if(uistate.navhere=="seed shapes"){
 			navarr.push("npChar");
 			navarr.push("npAttributes");
 		}
 		
-		if(navhere=="test drive"){
+		if(uistate.navhere=="test drive"){
 			navarr.push("npAttributes");
 		}
 		
@@ -255,7 +259,7 @@
 		
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
-			if(navarr[i] == navhere) { bc = "navtargetbuttonsel"; }
+			if(navarr[i] == uistate.navhere) { bc = "navtargetbuttonsel"; }
 			
 			if(navarr[i]=="_"){
 				newsub += "<div style='height:10px;'></div>";
@@ -264,7 +268,7 @@
 			} else if (navarr[i] == "feat"){
 				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
 			} else {
-				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='navhere=\""+navarr[i]+"\"; selectedshape=-1; navigate(true);'>");
+				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='uistate.navhere=\""+navarr[i]+"\"; selectedshape=-1; navigate(true);'>");
 			}
 		}
 		
@@ -336,11 +340,11 @@
 		uqo.name = calledfrom;
 		uqo.date = new Date().getTime();
 		
-		if(navhere == "character edit"){
+		if(uistate.navhere == "character edit"){
 			uqo.state = clone(charcurrstate);
 			charundoq.push(uqo);
 			charcurrstate = clone(GlyphrProject.fontchars);
-		} else if (navhere == "seed shapes"){
+		} else if (uistate.navhere == "seed shapes"){
 			uqo.state = clone(seedcurrstate);
 			seedundoq.push(uqo);
 			seedcurrstate = clone(GlyphrProject.seedshapes);
@@ -360,14 +364,14 @@
 	function pullundoq(){
 		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
 		
-		if(navhere == "character edit"){
+		if(uistate.navhere == "character edit"){
 			if(charundoq.length > 0){
 				var uqo = charundoq.pop();
 				GlyphrProject.fontchars = uqo.state;
 				charcurrstate = clone(GlyphrProject.fontchars);
 				redraw();
 			}
-		} else if (navhere == "seed shapes"){
+		} else if (uistate.navhere == "seed shapes"){
 			if(seedundoq.length > 0){
 				var uqo = seedundoq.pop();
 				GlyphrProject.seedshapes = uqo.state;

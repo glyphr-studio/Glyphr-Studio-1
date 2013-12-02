@@ -43,16 +43,18 @@
 		var reader = new FileReader();
 		var fcontent = "";
 
+		document.getElementById("droptarget").innerHTML = "Loading File...";
 		// Closure to capture the file information.
 		reader.onload = (function(theFile) {
 			return function(e) {
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
 				if(fcontent.settings.version){
-					GlyphrProject = fcontent;
+					GlyphrProject = hydrateGlyphrProject(fcontent);
 					debug("Loading project; " + GlyphrProject.fontmetadata.familyname);
 					finalizeGlyphrProject();
 				} else {
+					document.getElementById("droptarget").innerHTML = "drop file here...";
 					alert("File does not appear to be a Glyphr Project, try again...");
 				}
 			};
@@ -61,6 +63,31 @@
 		// Read in the image file as a data URL.
 		reader.readAsText(f);
 		
+	}
+
+	function hydrateGlyphrProject(data) {
+		for (var i = 0; i < data.fontchars.length; i++) {
+			// Shapes
+			if(data.fontchars[i]){
+				var cgd = data.fontchars[i].charglyphdata; 
+				if(cgd.length){
+					for (var j = 0; j < cgd.length; j++) {
+						cgd[j] = new Shape(cgd[j]);
+					};
+				}
+			}
+		}
+
+		// Seed Shapes
+		debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.seedshapes));
+		for (var ssid in data.seedshapes) {
+			debug("HYDRATEGLYPHRPROJECT hydrating seedshape " + ssid)
+			var ss = data.seedshapes.ssid;
+			if(ss){ ss = new SeedShape(ss); }
+		}
+
+		//debug("HDRYATEGLYPHRPROJECT: JSON \n" + JSON.stringify(data));
+		return data;
 	}
 
 	function handleDragOver(evt) {
@@ -157,6 +184,6 @@
 		
 		setupCECandCGC();
 		
-		navhere = "character edit";
+		uistate.navhere = "character edit";
 		navigate();
 	}
