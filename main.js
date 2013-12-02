@@ -234,7 +234,7 @@
 	}
 	
 	function generateNavTargetOptions(){
-		var navarr = new Array();
+		var navarr = [];
 		navarr.push("character edit");
 		navarr.push("seed shapes");
 		navarr.push("test drive");

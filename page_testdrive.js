@@ -79,7 +79,7 @@
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
-			shapelayers = new Array(GlyphrProject.seedshapes[charcode].shape);
+			shapelayers = [GlyphrProject.seedshapes[charcode].shape];
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 

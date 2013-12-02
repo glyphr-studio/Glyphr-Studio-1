@@ -53,7 +53,7 @@
 		//debug("MAKESEEDSHAPESELECTED - ssid: " + ssid);
 		shownseedshape = ssid;
 		selectedshape = ssid;
-		shapelayers = new Array(GlyphrProject.seedshapes[ssid].shape);
+		shapelayers = [GlyphrProject.seedshapes[ssid].shape];
 		navigate();
 	}
 
@@ -215,7 +215,7 @@
 		shownseedshape = newid;
 		selectedshape = newid;
 
-		GlyphrProject.seedshapes[newid] = new SeedShape({"n":newname});
+		GlyphrProject.seedshapes[newid] = new SeedShape({"name":newname});
 
 		debug("Added New Seed Shape: " + newid + " ss.length = " + GlyphrProject.seedshapes.length + " JSON=" + JSON.stringify(GlyphrProject.seedshapes));
 	}

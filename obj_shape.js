@@ -4,21 +4,19 @@
 //-------------------------------------------------------
 
 	function Shape(oa){
-		// PARAMS //
-		// n,x,y,p,v,xl,yl,wl,hl,ne
 		this.objtype = "shape";
 
 		// common settings
-		this.name = oa.n || "new shape";
-		this.xpos = oa.x || 0		// these are used for stroke-independend position & size
-		this.ypos = isval(oa.y)? oa.y : 400;
-		this.path = oa.p || rectPathFromCorners(false);
-		this.visible = isval(oa.v)? oa.v : true;
-		this.xlock = oa.xl || false;
-		this.ylock = oa.yl || false;
-		this.wlock = oa.wl || false;
-		this.hlock = oa.hl || false;
-		this.negative = oa.ne || false;
+		this.name = oa.name || "new shape";
+		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
+		this.ypos = isval(oa.ypos)? oa.ypos : 400;
+		this.path = oa.path || rectPathFromCorners(false);
+		this.visible = isval(oa.visible)? oa.visible : true;
+		this.xlock = oa.xlock || false;
+		this.ylock = oa.ylock || false;
+		this.wlock = oa.wlock || false;
+		this.hlock = oa.hlock || false;
+		this.negative = oa.negative || false;
 				
 		// not settable defaults
 		this.seed = false;
@@ -257,7 +255,7 @@
 		patharr[2] = new PathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
 		patharr[3] = new PathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
-		var rp = new Path({"points":patharr, "ic":true});
+		var rp = new Path({"pathpoints":patharr, "isclosed":true});
 		//debug("RETURNING PATH: " + JSON.stringify(rp));
 
 		return rp;
@@ -300,7 +298,7 @@
 		patharr[2] = new PathPoint({"P":Pb, "H1":H1b, "H2":H2b, "type":"symmetric"});
 		patharr[3] = new PathPoint({"P":Pl, "H1":H1l, "H2":H2l, "type":"symmetric"});
 		
-		return new Path({"points":patharr, "ic":true});
+		return new Path({"pathpoints":patharr, "isclosed":true});
 	}
 	
 	function draw8points(onlycenter){
@@ -429,18 +427,18 @@
 			var p2 = new PathPoint({"P":new Coord({"x":(tw/2),"y":th}), "H1":new Coord({"x":hd,"y":th}), "H2":new Coord({"x":(tw-hd),"y":th}), "type":"symmetric"});
 			var p3 = new PathPoint({"P":new Coord({"x":tw,"y":(th/2)}), "H1":new Coord({"x":tw,"y":(th-hd)}), "H2":new Coord({"x":tw,"y":hd}), "type":"symmetric"});
 			var p4 = new PathPoint({"P":new Coord({"x":(tw/2),"y":0}), "H1":new Coord({"x":(tw-hd),"y":0}), "H2":new Coord({"x":hd,"y":0}), "type":"symmetric"});
-			parr = new Array(p1,p2,p3,p4);
+			parr = [p1,p2,p3,p4];
 			shapetype = "oval ";
 		} else {
 			var p1 = new PathPoint({"P":new Coord({"x":0,"y":0}), "H1":new Coord({"x":hd,"y":0}), "H2":new Coord({"x":0,"y":hd})}); 
 			var p2 = new PathPoint({"P":new Coord({"x":0,"y":th}), "H1":new Coord({"x":0,"y":(th-hd)}), "H2":new Coord({"x":hd,"y":th})}); 
 			var p3 = new PathPoint({"P":new Coord({"x":tw,"y":th}), "H1":new Coord({"x":(tw-hd),"y":th}), "H2":new Coord({"x":tw,"y":(th-hd)})}); 
 			var p4 = new PathPoint({"P":new Coord({"x":tw,"y":0}), "H1":new Coord({"x":tw,"y":hd}), "H2":new Coord({"x":(tw-hd),"y":0})}); 
-			parr = new Array(p1,p2,p3,p4);
+			parr = [p1,p2,p3,p4];
 			shapetype = "rect ";
 		}
 		
-		newshape.path = new Path({"points":parr, "ic":true});		
+		newshape.path = new Path({"pathpoints":parr, "isclosed":true});		
 		newshape.name = (shapetype + shapelayers.length);
 		
 		if(navhere == "character edit") { selectedshape = shapelayers.length; }

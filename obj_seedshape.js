@@ -4,28 +4,22 @@
 //-------------------------------------------------------
 
 	function SeedShape(oa){
-		// PARAMS //
-		// n
 		this.objtype = "seedshape";
 
 		this.shape = new Shape({});
-		this.shape.name = oa.n || "New Seed Shape";
+		this.shape.name = oa.name || "New Seed Shape";
 		this.usedin = [];
 	}
 
 	function SeedShapeInstance(oa){
-		// PARAMS //
-		// ssid, usessxy, ssx, ssy, ssname
-
-		//debug("new SEEDSHAPEINSTANCE - seed id: " + ssid + ", useseedxy: " + usessxy);
 		this.objtype = "seedshapeinstance";
 		
-		this.seed = oa.ssid || getFirstSeedShape();
-		this.useseedxy = (isval(oa.usessxy)? oa.usessxy : true);	
+		this.seed = oa.seed || getFirstSeedShape();
+		this.useseedxy = (isval(oa.useseedxy)? oa.useseedxy : true);	
 		
-		this.name = oa.ssname || "new seedshape instance";
-		this.xpos = oa.ssx || 0;	
-		this.ypos = oa.ssy || 0; 
+		this.name = oa.name || "new seedshape instance";
+		this.xpos = oa.xpos || 0;	
+		this.ypos = oa.ypos || 0; 
 		this.xlock = false;
 		this.ylock = false;
 
@@ -63,7 +57,7 @@
 	
 	function insertSeedShape(ssid){
 		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + selectedchar);
-		var ns = new SeedShapeInstance({"ssid":ssid, "ssx":100, "ssy":100});
+		var ns = new SeedShapeInstance({"seed":ssid, "xpos":100, "ypos":100});
 
 		debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);

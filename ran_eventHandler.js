@@ -102,7 +102,7 @@
 		this.currpt;
 		
 		this.mousedown = function (ev) { 
-			var newpoint = new PathPoint({"P":new Coord({"x":cx_sx(mousex), "y":cy_sy(mousey)}), "H1":new Coord({"x":cx_sx(mousex-100), "y":cy_sy(mousey)}), "H2":new Coord({"x":cx_sx(mousex+100), "y":cy_sy(mousey)}), "type":"flat", "sel":true, "uh1":false, "uh2":false});			
+			var newpoint = new PathPoint({"P":new Coord({"x":cx_sx(mousex), "y":cy_sy(mousey)}), "H1":new Coord({"x":cx_sx(mousex-100), "y":cy_sy(mousey)}), "H2":new Coord({"x":cx_sx(mousex+100), "y":cy_sy(mousey)}), "type":"flat", "selected":true, "useh1":false, "useh2":false});			
 			var currpath;	
 		
 			if(this.firstpoint) {
@@ -110,8 +110,7 @@
 				//alert("EVENTHANDLER - NewPath mousedown - tool.firstpoint=true, making a new path");
 				
 				// make a new path with one point
-				var pparray = new Array(newpoint);
-				var newpath = new Path({"points":pparray});
+				var newpath = new Path({"pathpoints":[newpoint]});
 				newpath.selectPathPoint(0);
 				
 				debug("EVENTHANDLER - NewPath mousedown - after new path is made.");

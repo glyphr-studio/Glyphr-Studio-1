@@ -4,13 +4,11 @@
 //  -----------------------------------
 
 	function Path(oa){
-		// PARAMS //
-		// points, ic
 		this.objtype = "path";
 
 		// declare attributes
-		this.pathpoints = oa.points || false;	// can be false
-		this.isclosed = oa.ic || false;
+		this.pathpoints = oa.pathpoints || false;	// can be false
+		this.isclosed = oa.isclosed || false;
 		
 		// Not settable internal 
 		this.topy = -1;	

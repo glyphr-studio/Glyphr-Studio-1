@@ -13,7 +13,7 @@
 	var selectedchar = 97;
 	var selectedtool = "pathedit";	// pathedit, shapemove, pantool, newrect, newoval, newpath
 	
-	var debugPoints = new Array(false, false);
+	var debugPoints = [false,false];
 	
 	function updatecharedit(){
 		document.getElementById("mainpane").innerHTML = charedit_content();
