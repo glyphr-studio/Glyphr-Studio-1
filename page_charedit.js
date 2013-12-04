@@ -1,12 +1,12 @@
 
 //-- Global Variables --//
-
-	var clipboardshape = false;
+/*
+	var uistate.clipboardshape = false;
 	var notation = "UNINITIALIZED";
 	
 	var canvas, ctx, calcmaxesghostcanvas, cmgctx, ishereghostcanvas, ihgctx;
 	var showcanvascursor = false;
-	var showRightLine = true;
+	var uistate.showRightLine = true;
 	
 	var shapelayers = [];
 	var selectedshape = -1;	
@@ -14,7 +14,7 @@
 	var selectedtool = "pathedit";	// pathedit, shapemove, pantool, newrect, newoval, newpath
 	
 	var debugPoints = [false,false];
-	
+*/	
 	function updatecharedit(){
 		document.getElementById("mainpane").innerHTML = charedit_content();
 			
@@ -304,7 +304,7 @@
 		
 		
 		//show right hand line
-		if(cec.showguides && showRightLine){
+		if(cec.showguides && uistate.showRightLine){
 			ctx.lineWidth = 1;
 			//ctx.strokeStyle = shiftColor(color_guideline, .5, true);
 			ctx.strokeStyle = color_guideline;
@@ -352,7 +352,7 @@
 		
 		var content = "";
 		if(uistate.navhere == "seed shapes"){
-			content = "<h1>" + GlyphrProject.seedshapes.shownseedshape.shape.name + "</h1>";
+			content = "<h1>" + GlyphrProject.seedshapes[uistate.shownseedshape].shape.name + "</h1>";
 		} else {
 			content = "<h1>attributes</h1>";
 		}
@@ -595,7 +595,7 @@
 			allactions += "<input  class='"+(charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((charundoq.length > 0) ? (" " + charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"add shape\");redraw();'><br>";
 			allactions += "<input class='button' type='button' value='insert seed shape' onclick='insertSeedShapeDialog();'><br>";
-			allactions += "<input class='"+(clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";
+			allactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";
 			
 			allactions += "</td>";
 			
@@ -688,19 +688,19 @@
 	function copyShape(){
 		var s = ss("copy shape")
 		if(s){
-			clipboardshape = {
+			uistate.clipboardshape = {
 				"s":s,
 				"c":selectedchar
 			};
-			//debug("COPYShape() - new clipboard shape: " + clipboardshape.s.name); 
+			//debug("COPYShape() - new clipboard shape: " + uistate.clipboardshape.s.name); 
 		}
 		redraw();
 	}
 	
 	function pasteShape(){
-		if(clipboardshape){
-			var newshape = clone(clipboardshape.s);
-			clipboardshape.c == selectedchar ? newshape.path.updatePathPosition(20,20) : true;
+		if(uistate.clipboardshape){
+			var newshape = clone(uistate.clipboardshape.s);
+			uistate.clipboardshape.c == selectedchar ? newshape.path.updatePathPosition(20,20) : true;
 			
 			var newname = newshape.name;
 			var newsuffix = " (copy)";
@@ -820,8 +820,8 @@
 			content += "<div style='margin-left:10px; font-style:oblique;'>No shapes exist yet.<br><br></div>";
 		}
 		
-		if(clipboardshape){
-			content += "<br>Clipboard: " + clipboardshape.s.name;
+		if(uistate.clipboardshape){
+			content += "<br>Clipboard: " + uistate.clipboardshape.s.name;
 		}
 		
 		content += updateLayerActions();
@@ -992,17 +992,17 @@
 		//debug("CLICKTOOL - was passed: " + ctool + " and selectedtool now is: " + selectedtool);
 		addpath.firstpoint = true; 
 		if((ctool=="newrect")||(ctool=="newoval")){
-			showRightLine = true;
+			uistate.showRightLine = true;
 			selectedshape = -1; 
 		} else if (ctool=="newpath"){
-			showRightLine = false;
+			uistate.showRightLine = false;
 			selectedshape = -1; 
 		} else if(ctool=="pathedit"){
-			showRightLine = false;
+			uistate.showRightLine = false;
 			if(s) {s.path.selectPathPoint(0);}
 			debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
-			showRightLine = true;
+			uistate.showRightLine = true;
 			if(s){
 				if(s.path.haschanged) {
 					debug("CLICKTOOL - shapemove, path.haschanged = true.  Calc'ing Maxes.");

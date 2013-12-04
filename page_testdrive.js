@@ -16,11 +16,11 @@
 		tdc.height = 700;	
 		tdctx = tdc.getContext("2d");
 		
-		if(navprimaryhere == "npAttributes") changefontscale(100);
+		if(uistate.navprimaryhere == "npAttributes") changefontscale(100);
 	}
 
 	function updatetestdriveoptions(){
-		if(navprimaryhere != "npAttributes") return;
+		if(uistate.navprimaryhere != "npAttributes") return;
 		
 		var content = "<h1>settings</h1><h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";
 			content += "<br><h2>options</h2><div>" + drawTDOptions() + "</div>";

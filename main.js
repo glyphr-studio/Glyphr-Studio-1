@@ -8,12 +8,26 @@
 	var uistate = {
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npNav",
-		"selectedshape" : -1,
 		"shownseedshape" : "id0",
+
 		"charcurrstate" : {},
 		"seedcurrstate" : {},
 		"charundoq" : [],
-		"seedundoq" : []		
+		"seedundoq" : [],
+		"clipboardshape" : false,
+		"canvas" : false,
+		"ctx" : false, 
+		"calcmaxesghostcanvas" : false, 
+		"cmgctx" : false, 
+		"ishereghostcanvas" : false, 
+		"ihgctx" : false,
+		"showcanvascursor" : false,
+		"showRightLine" : true,	
+		"shapelayers" : [],
+		"selectedshape" : -1,
+		"selectedchar" : 97,
+		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
+		"debugPoints" : [false,false]
 	}
 	
 	function setup() {
@@ -49,7 +63,7 @@
 		document.getElementById("navtargetpane").style.display = "block";
 		document.getElementById("logocanvas").style.display = "block";
 		
-		if(uistate.navhere=="test drive") navprimaryhere = "npAttributes";
+		if(uistate.navhere=="test drive") uistate.navprimaryhere = "npAttributes";
 		
 		updateNavPrimaryNavTarget();
 		
@@ -58,7 +72,7 @@
 			case "font metadata": 	updatefontmetadata(); 	break;
 			case "font settings":	updatefontsettings();	break;
 			case "test drive":
-				navprimaryhere = "npAttributes";
+				uistate.navprimaryhere = "npAttributes";
 				updatetestdrive();		
 				break;	
 				
@@ -70,7 +84,7 @@
 			case "about":			updateabout();			break;
 				
 			case "character edit":
-				navprimaryhere = "npChar";
+				uistate.navprimaryhere = "npChar";
 				resetZoomPan();
 				updatecharedit();	
 				document.getElementById("mainwrapper").style.overflowY = "hidden";			
@@ -78,7 +92,7 @@
 				break;
 			
 			case "seed shapes":
-				navprimaryhere = "npChar";
+				uistate.navprimaryhere = "npChar";
 				resetZoomPan();
 				updateseedshapes();
 				document.getElementById("mainwrapper").style.overflowY = "hidden";
@@ -101,12 +115,12 @@
 		nt.innerHTML = "";
 		
 		if((uistate.navhere!="character edit")&&(uistate.navhere!="seed shapes")&&(uistate.navhere!="test drive")) {
-				navprimaryhere = "npNav";
+				uistate.navprimaryhere = "npNav";
 				nt.innerHTML = generateNavTargetOptions();
 				return;
 		}
 				
-		switch(navprimaryhere){
+		switch(uistate.navprimaryhere){
 			case "npNav":
 				nt.innerHTML = generateNavTargetOptions();
 				break;
@@ -143,7 +157,7 @@
 		var nselect = "#00aaff";
 		var fill = ngray;
 		
-		navprimaryhere == "npNav" ? fill=nselect : fill=ngray;
+		uistate.navprimaryhere == "npNav" ? fill=nselect : fill=ngray;
 		var pncanvas = document.getElementById("npNav");
 		var pnctx = pncanvas.getContext("2d");
 		pncanvas.width = 50;
@@ -151,21 +165,21 @@
 		draw_primaryNav_navigate(pnctx, fill);
 		
 		if(uistate.navhere=="character edit"){
-			navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
+			uistate.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_character(pnctx, fill);
 			
-			navprimaryhere == "npLayers" ? fill=nselect : fill=ngray;
+			uistate.navprimaryhere == "npLayers" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npLayers");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_layers(pnctx, fill);
 			
-			navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			uistate.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -174,14 +188,14 @@
 		}
 		
 		if(uistate.navhere=="seed shapes"){
-			navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
+			uistate.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_character(pnctx, fill);
 			
-			navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			uistate.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -190,7 +204,7 @@
 		}
 		
 		if(uistate.navhere=="test drive"){
-			navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			uistate.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -229,7 +243,7 @@
 		var bc = "primarynavbutton";
 		
 		for(var i=0; i<navarr.length; i++){
-			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='navprimaryhere=\""+navarr[i]+"\";updateNavPrimaryNavTarget();'></canvas>");
+			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='uistate.navprimaryhere=\""+navarr[i]+"\";updateNavPrimaryNavTarget();'></canvas>");
 		}
 		
 		newsub += ("<canvas class='"+bc+"' id='npSave' onclick='triggerProjectFileDownload();'></canvas>");

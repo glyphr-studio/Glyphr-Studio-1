@@ -167,9 +167,9 @@
 	function clickSelectSeedShape(x,y){
 		//debug("CLICKSELECTSeedShape() - checking x:" + x + " y:" + y);
 		
-		if(GlyphrProject.seedshapes.shownseedshape.shape.isHere(x,y)){
-			selectedshape = shownseedshape;
-			//debug("CLICKSELECTSeedShape() - selecting shape " + shownseedshape);
+		if(GlyphrProject.seedshapes[uistate.shownseedshape].shape.isHere(x,y)){
+			selectedshape = uistate.shownseedshape;
+			//debug("CLICKSELECTSeedShape() - selecting shape " + uistate.shownseedshape);
 			return true;
 		}
 		

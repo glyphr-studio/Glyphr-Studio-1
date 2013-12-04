@@ -180,7 +180,7 @@
 		debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
 		
 		selectedchar = 97;
-		shownseedshape = getFirstSeedShape();
+		uistate.shownseedshape = getFirstSeedShape();
 		
 		setupCECandCGC();
 		

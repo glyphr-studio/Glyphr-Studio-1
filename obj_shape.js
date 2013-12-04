@@ -601,8 +601,8 @@
 		//debug("SS() - Requested by: " + req + " - CURRENT selectedshape = " + selectedshape);	
 		
 		if(uistate.navhere == "seed shapes"){
-			//debug("SS() - SEEDSHAPE - Requested by: " + req + " - returning shownseedshape: " + shownseedshape);
-			return GlyphrProject.seedshapes.shownseedshape.shape;
+			//debug("SS() - SEEDSHAPE - Requested by: " + req + " - returning shownseedshape: " + uistate.shownseedshape);
+			return GlyphrProject.seedshapes[uistate.shownseedshape].shape;
 		}
 		
 		if(selectedshape != -1){

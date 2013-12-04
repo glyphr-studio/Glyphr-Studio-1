@@ -61,7 +61,7 @@
 		//debug("EV_CANVAS offsetx / offsety / layerx / layery: " +  ev.offsetX + " " + ev.offsetY + " " + ev.layerX + " " + ev.layerY); 
 		
 		resetCursor();
-		showRightLine = false;
+		uistate.showRightLine = false;
 		
 		// Switch Tool function
 		switch(selectedtool){
@@ -69,11 +69,11 @@
 				tool = shapesel;
 				break;
 			case "shaperesize" :
-				showRightLine = true;
+				uistate.showRightLine = true;
 				tool = shaperesize;
 				break;
 			case "pan" :
-				showRightLine = true;
+				uistate.showRightLine = true;
 				document.body.style.cursor = "move";
 				tool = pantool;
 				break;
@@ -253,7 +253,7 @@
 			s.hidden = false;
 			putundoq("New Basic Shape tool");
 			
-			showRightLine = true;
+			uistate.showRightLine = true;
 			
 			clicktool("pathedit");
 		};
@@ -514,7 +514,7 @@
 	}
 	
 	function clickEmptySpace(){
-		showRightLine = true;
+		uistate.showRightLine = true;
 		var s = ss("Click Empty Space");
 		if(s) {
 			s.path.selectPathPoint(-1);
