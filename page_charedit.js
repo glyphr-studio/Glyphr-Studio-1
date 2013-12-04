@@ -592,7 +592,7 @@
 		var s = ss("Update Actions");		
 		
 		var allactions = "<td><h3>*</h3>";
-			allactions += "<input  class='"+(charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((charundoq.length > 0) ? (" " + charundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input  class='"+(uistate.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.charundoq.length > 0) ? (" " + uistate.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"add shape\");redraw();'><br>";
 			allactions += "<input class='button' type='button' value='insert seed shape' onclick='insertSeedShapeDialog();'><br>";
 			allactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";

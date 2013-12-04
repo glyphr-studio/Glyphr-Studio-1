@@ -9,12 +9,12 @@
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npNav",
 		"shownseedshape" : "id0",
-
 		"charcurrstate" : {},
 		"seedcurrstate" : {},
 		"charundoq" : [],
 		"seedundoq" : [],
 		"clipboardshape" : false,
+
 		"canvas" : false,
 		"ctx" : false, 
 		"calcmaxesghostcanvas" : false, 
@@ -355,18 +355,18 @@
 		uqo.date = new Date().getTime();
 		
 		if(uistate.navhere == "character edit"){
-			uqo.state = clone(charcurrstate);
-			charundoq.push(uqo);
-			charcurrstate = clone(GlyphrProject.fontchars);
+			uqo.state = clone(uistate.charcurrstate);
+			uistate.charundoq.push(uqo);
+			uistate.charcurrstate = clone(GlyphrProject.fontchars);
 		} else if (uistate.navhere == "seed shapes"){
-			uqo.state = clone(seedcurrstate);
-			seedundoq.push(uqo);
-			seedcurrstate = clone(GlyphrProject.seedshapes);
+			uqo.state = clone(uistate.seedcurrstate);
+			uistate.seedundoq.push(uqo);
+			uistate.seedcurrstate = clone(GlyphrProject.seedshapes);
 		}
 		
 		/*
 		var uqdebug = "<b>Put Undo Queue</b><br>";
-		for(var i=0; i<charundoq.length; i++){
+		for(var i=0; i<uistate.charundoq.length; i++){
 			uqdebug += i + ". ";
 			uqdebug += undoq[i].nav + " - ";
 			uqdebug += undoq[i].name + "<br>";
@@ -379,17 +379,17 @@
 		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
 		
 		if(uistate.navhere == "character edit"){
-			if(charundoq.length > 0){
-				var uqo = charundoq.pop();
+			if(uistate.charundoq.length > 0){
+				var uqo = uistate.charundoq.pop();
 				GlyphrProject.fontchars = uqo.state;
-				charcurrstate = clone(GlyphrProject.fontchars);
+				uistate.charcurrstate = clone(GlyphrProject.fontchars);
 				redraw();
 			}
 		} else if (uistate.navhere == "seed shapes"){
-			if(seedundoq.length > 0){
-				var uqo = seedundoq.pop();
+			if(uistate.seedundoq.length > 0){
+				var uqo = uistate.seedundoq.pop();
 				GlyphrProject.seedshapes = uqo.state;
-				seedcurrstate = clone(GlyphrProject.seedshapes);
+				uistate.seedcurrstate = clone(GlyphrProject.seedshapes);
 				redraw();
 			}
 		}

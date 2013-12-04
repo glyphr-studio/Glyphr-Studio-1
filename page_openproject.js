@@ -165,8 +165,8 @@
 	
 	function finalizeGlyphrProject(){
 		debug("FINALIZEGLYPHRPROJECT - start of function");
-		charcurrstate = clone(GlyphrProject.fontchars);
-		seedcurrstate = clone(GlyphrProject.seedshapes);
+		uistate.charcurrstate = clone(GlyphrProject.fontchars);
+		uistate.seedcurrstate = clone(GlyphrProject.seedshapes);
 		var fs = GlyphrProject.settings;
 		debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + fs);
 		debug("FINALIZEGLYPHRPROJECT - fs.seedshapecounter: " + fs.seedshapecounter);

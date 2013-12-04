@@ -157,7 +157,7 @@
 		var s = ss("Update Actions");		
 		
 		var allactions = "<td><h3>*</h3>";
-			allactions += "<input class='"+(seedundoq.length>0? "button": "buttondis")+"' style='width:150px;' type='button' value='Undo" + ((seedundoq.length > 0) ? (" " + seedundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input class='"+(uistate.seedundoq.length>0? "button": "buttondis")+"' style='width:150px;' type='button' value='Undo" + ((uistate.seedundoq.length > 0) ? (" " + uistate.seedundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "</td>";
 		
 		var seedshapeactions = "<td><h3>seed shape</h3>";
