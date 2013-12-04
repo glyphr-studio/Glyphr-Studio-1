@@ -1,37 +1,9 @@
 	
-	// Char Edit Canvas Area and Calc Maxes Ghost Canvas
-	var cgc = {};
-	var cec = {};	
-	
 	function setupCECandCGC(){
-		
 		cgc.size = GlyphrProject.settings.upm*1.75;
 		cgc.originx = GlyphrProject.settings.upm*.25;
 		cgc.originy = GlyphrProject.settings.upm*1.25;	
-		
-		cec.size = 1500; 			// How big the canvas is
-		cec.originx = 140;			// Where on the canvas the origin is
-		cec.originy = 740;			// Where on the canvas the origin is
-		cec.zoom = .32;				// Either reduces or increases objects size
-		cec.showgrid = true;		// display the grid
-		cec.showguides = true;		// display guides
-		cec.pointsize = 5;			// square points size - SHOULD BE ODD	
-
-		/*
-		cgc.size = cec.size;
-		cgc.originx = cec.originx;
-		cgc.originy = cec.originy;
-		*/
 	}
-
-	//UI Settings
-	var spinnervaluechange = 1;	// how much spinner controls change a value
-	var decplaces = 4;			// how many decimal places of precision
-
-	// Behavior Settings
-	var quickpathupdating = true;
-	var stoppagenavigation = false ;
-
 
 	function resetZoomPan(){
 		cec.originx = 140;

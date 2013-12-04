@@ -1,7 +1,7 @@
 function updatehelp(){
 	//debug("UPDATEHELP()");
 	
-var content = "<div class='pagecontent textpage'><h1>Help</h1>" +
+	var content = "<div class='pagecontent textpage'><h1>Help</h1>" +
 	"<a name='top'></a>" +
 	"Peruse the document, but if you have any other questions, you can email <a href='mailto:mail@glyphrstudio.com'>mail@glyphrstudio.com</a>, and we'd be happy to help out." +
 	"<table cellpadding=0 cellspacing=0 border=0><tr><td style='width:700px; padding-right:20px;'>" +

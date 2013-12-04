@@ -1,7 +1,7 @@
 
 //-- Global Variables --//
 /*
-	var uistate.clipboardshape = false;
+	var clipboardshape = false;
 	var notation = "UNINITIALIZED";
 	
 	var canvas, ctx, calcmaxesghostcanvas, cmgctx, ishereghostcanvas, ihgctx;

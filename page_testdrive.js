@@ -1,6 +1,4 @@
 
-	var tdctx, tdc;
-
 	function updatetestdrive(){
 
 		var content = "<div class='pagecontent'><h1>Test Drive</h1>" + 

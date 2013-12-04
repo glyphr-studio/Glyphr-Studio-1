@@ -1,10 +1,8 @@
 
-var thisGlyphrStudioVersion = "Beta 2.1 Working Edition - 0.2.2013.11.00.Working";
-
 function updateabout(){
 
-var content = "<div class='pagecontent textpage'><h1>About Glyphr</h1>" + 
-	"<h2 style='margin-bottom:12px;'>"+thisGlyphrStudioVersion+"</h2>" + 
+	var content = "<div class='pagecontent textpage'><h1>About Glyphr</h1>" + 
+	"<h2 style='margin-bottom:12px;'>"+uistate.thisGlyphrStudioVersion+"</h2>" + 
 	"For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>" + 
 	"Any questions? Hit up <a href='mailto:mail@glyphrstudio.com'>mail@glyphrstudio.com</a>, and we'd be happy to help out." + 
 	"<br><br>" + 

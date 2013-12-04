@@ -6,15 +6,21 @@
 	var DEBUG = true;
 	var GlyphrProject = {};
 	var uistate = {
+		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npNav",
-		"shownseedshape" : "id0",
-		"charcurrstate" : {},
-		"seedcurrstate" : {},
-		"charundoq" : [],
-		"seedundoq" : [],
-		"clipboardshape" : false,
+		"thisGlyphrStudioVersion" : "Beta 2.1 Working Edition - 0.2.2013.11.00.Working",
 
+		// page: seed shapes
+		"shownseedshape" : "id0",
+		"seedcurrstate" : {},
+		"seedundoq" : [],
+
+		// page: charedit
+		"charundoq" : [],
+		"charcurrstate" : {},
+		"clipboardshape" : false,
+		
 		"canvas" : false,
 		"ctx" : false, 
 		"calcmaxesghostcanvas" : false, 
@@ -27,7 +33,36 @@
 		"selectedshape" : -1,
 		"selectedchar" : 97,
 		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
-		"debugPoints" : [false,false]
+		"debugPoints" : [false,false],
+
+		// page: test drive
+		"tdctx" : false,
+		"tdc" : false,
+
+		// Char Edit Canvas Area and Calc Maxes Ghost Canvas
+		"cgc" : {
+			"size" : 1500,
+			"originx" : 140,
+			"originy" : 740
+		},
+
+		"cec" : {
+			"size" : 1500, 			// How big the canvas is
+			"originx" : 140,		// Where on the canvas the origin is
+			"originy" : 740,		// Where on the canvas the origin is
+			"zoom" : .32,			// Either reduces or increases objects size
+			"showgrid" : true,		// display the grid
+			"showguides" : true,	// display guides
+			"pointsize" : 50		// square points size - SHOULD BE ODD	
+		},
+		
+		//UI Settings
+		"spinnervaluechange" : 1,	// how much spinner controls change a value
+		"decplaces" : 4,			// how many decimal places of precision
+
+		// Behavior Settings
+		"stoppagenavigation" : false,
+		"quickpathupdating" : true
 	}
 	
 	function setup() {
