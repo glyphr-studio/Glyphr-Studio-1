@@ -68,7 +68,7 @@
 		tdctx.closePath();
 	}
 
-	function drawCharToArea(ctx, charcode, size, offsetX, offsetY){
+	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
 		var fs = GlyphrProject.settings;
 		var tc = GlyphrProject.fontchars[charcode];
 		var shapelayers = tc.charglyphdata;
@@ -87,20 +87,20 @@
 		}
 		
 		if(showcharbox){
-			ctx.fillStyle = "transparent";
-			ctx.strokeStyle = color_accent;
-			ctx.lineWidth = 1;
+			lctx.fillStyle = "transparent";
+			lctx.strokeStyle = color_accent;
+			lctx.lineWidth = 1;
 			var trailspace = 0;
 			if(tc.isautowide) trailspace = GlyphrProject.settings.upm*GlyphrProject.settings.kerning*tdFontScale;
 			
-			ctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(fs.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((fs.upm*tdFontScale) + (fs.descender*fs.upm*tdFontScale)));
+			lctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(fs.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((fs.upm*tdFontScale) + (fs.descender*fs.upm*tdFontScale)));
 		}	
 		
 		var sh = {};
 		for(var j=0; j<shapelayers.length; j++) {
 			sh = shapelayers[j];
 			debug("---------------- starting shape " + sh.name);
-			sh.drawShapeToArea(ctx, size, offsetX, offsetY);
+			sh.drawShapeToArea(lctx, size, offsetX, offsetY);
 		}
 		
 		debug("---------------- done with " + charcode);

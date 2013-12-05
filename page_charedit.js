@@ -30,7 +30,7 @@
 
 	/*
 	function charedit_content(){
-		var re = '<canvas id="canvas" width=12 height=12 ></canvas>';		
+		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
 		re += '<table class="charedittable" cellspacing=0 cellpadding=0 border=0>';
 		re += "<tr>";
@@ -44,7 +44,7 @@
 	*/
 	
 	function charedit_content(){
-		var re = '<canvas id="canvas" width=12 height=12 ></canvas>';		
+		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
 		return re;
 	}
@@ -220,14 +220,14 @@
 	}
 
 	function setupEditCanvas(){
-		canvas = document.getElementById("canvas");
-		canvas.height = cec.size;
-		canvas.width = cec.size;
-		ctx = canvas.getContext("2d");
-		canvas.style.backgroundColor = color_bg;	//color_grid;
-		canvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		canvas.onmouseout = mouseoutcec;
-		canvas.onmouseover = mouseovercec;
+		uistate.chareditcanvas = document.getElementById("chareditcanvas");
+		uistate.chareditcanvas.height = cec.size;
+		uistate.chareditcanvas.width = cec.size;
+		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
+		uistate.chareditcanvas.style.backgroundColor = color_bg;	//color_grid;
+		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
+		uistate.chareditcanvas.onmouseout = mouseoutcec;
+		uistate.chareditcanvas.onmouseover = mouseovercec;
 		
 	}
 	
@@ -242,7 +242,7 @@
 		
 		var fc = GlyphrProject.fontchars;
 		
-		ctx.clearRect(0,0,cec.size,cec.size);
+		uistate.chareditctx.clearRect(0,0,cec.size,cec.size);
 		grid();
 		
 		// load char info
@@ -261,7 +261,7 @@
 			sh = shapelayers[jj];
 			//debug("================ JSON: " + JSON.stringify(sh));
 			
-			sh.drawShape(ctx);
+			sh.drawShape(uistate.chareditctx);
 			
 			if(neww) {
 				var thisrightx = 0;
@@ -305,9 +305,9 @@
 		
 		//show right hand line
 		if(cec.showguides && uistate.showRightLine){
-			ctx.lineWidth = 1;
-			//ctx.strokeStyle = shiftColor(color_guideline, .5, true);
-			ctx.strokeStyle = color_guideline;
+			uistate.chareditctx.lineWidth = 1;
+			//uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .5, true);
+			uistate.chareditctx.strokeStyle = color_guideline;
 			var rhl = (fc[selectedchar].charwidth*cec.zoom) + cec.originx;
 			if(temppathdragshape){
 				rhl = Math.max(sx_cx(temppathdragshape.rightx), rhl);
@@ -1029,8 +1029,8 @@
 	function grid(){
 		var fs = GlyphrProject.settings;
 		
-		ctx.fillStyle = "rgb(250,250,250)";
-		ctx.fillRect(0,0,99999,99999);
+		uistate.chareditctx.fillStyle = "rgb(250,250,250)";
+		uistate.chareditctx.fillRect(0,0,99999,99999);
 		
 		// background white square
 		xs.xmax = cec.originx + ((cgc.size-cgc.originx)*cec.zoom);
@@ -1040,8 +1040,8 @@
 		
 		//debugSettings();
 		
-		ctx.fillStyle = "white";
-		ctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
+		uistate.chareditctx.fillStyle = "white";
+		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 		
 		// Grids		
 		var mline = cec.originy - (fs.upm*cec.zoom);
@@ -1051,8 +1051,8 @@
 
 		if(cec.showgrid || cec.showguides){
 			var size = cec.size/fs.griddivisions;
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = color_grid;
+			uistate.chareditctx.lineWidth = 1;
+			uistate.chareditctx.strokeStyle = color_grid;
 			
 			if(cec.showgrid){
 				var gsize = ((fs.upm/fs.griddivisions)*cec.zoom);
@@ -1071,7 +1071,7 @@
 			if(cec.showguides){
 				
 				// Minor Guidelines - Overshoots
-				ctx.strokeStyle = shiftColor(color_guideline, .8, true);
+				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
 				horizontal(cec.originy+overshootsize);
@@ -1081,24 +1081,24 @@
 				vertical(cec.originx+(fs.upm*cec.zoom));
 				
 				// major guidelines - xheight, top (emzize)
-				ctx.strokeStyle = shiftColor(color_guideline, .5, true);
+				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .5, true);
 				horizontal(xline);
-				ctx.strokeStyle = shiftColor(color_guideline, .2, true);
+				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .2, true);
 				horizontal(mline);
 				horizontal(dline);
 				
 				
 				// Out of bounds triangle
-				ctx.fillStyle = color_guideline;		
-				ctx.beginPath();
-				ctx.moveTo(cec.originx, cec.originy);
-				ctx.lineTo(cec.originx, cec.originy+(cec.pointsize*2));
-				ctx.lineTo(cec.originx-(cec.pointsize*2), cec.originy);
-				ctx.closePath();
-				ctx.fill();
+				uistate.chareditctx.fillStyle = color_guideline;		
+				uistate.chareditctx.beginPath();
+				uistate.chareditctx.moveTo(cec.originx, cec.originy);
+				uistate.chareditctx.lineTo(cec.originx, cec.originy+(cec.pointsize*2));
+				uistate.chareditctx.lineTo(cec.originx-(cec.pointsize*2), cec.originy);
+				uistate.chareditctx.closePath();
+				uistate.chareditctx.fill();
 				
 				// Origin Lines
-				ctx.strokeStyle = color_guideline;
+				uistate.chareditctx.strokeStyle = color_guideline;
 				horizontal(cec.originy);
 				vertical(cec.originx);
 			}
@@ -1107,20 +1107,20 @@
 	
 	function horizontal(y){
 		y = Math.round(y)-.5;
-		ctx.beginPath();
-		ctx.moveTo(xs.xmin,y);
-		ctx.lineTo(xs.xmax,y);
-		ctx.stroke();
-		ctx.closePath();
+		uistate.chareditctx.beginPath();
+		uistate.chareditctx.moveTo(xs.xmin,y);
+		uistate.chareditctx.lineTo(xs.xmax,y);
+		uistate.chareditctx.stroke();
+		uistate.chareditctx.closePath();
 	}
 	
 	function vertical(x){
 		x = Math.round(x)-.5;
-		ctx.beginPath();
-		ctx.moveTo(x,xs.ymin);
-		ctx.lineTo(x,xs.ymax+1);		
-		ctx.stroke();
-		ctx.closePath();
+		uistate.chareditctx.beginPath();
+		uistate.chareditctx.moveTo(x,xs.ymin);
+		uistate.chareditctx.lineTo(x,xs.ymax+1);		
+		uistate.chareditctx.stroke();
+		uistate.chareditctx.closePath();
 	}
 	
 // RANDOMS

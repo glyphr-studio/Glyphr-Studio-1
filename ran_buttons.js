@@ -2211,362 +2211,362 @@ function drawZoomEmButton(lctx, bgcolor, outlinecolor){
 //	POINT TYPES
 //	----------------------
 
-function drawPointCornerButton(ctx, c){
-	ctx.fillStyle = c;
+function drawPointCornerButton(lctx, c){
+	lctx.fillStyle = c;
 
 	// buttons/PointCorner/Path
 
-	ctx.beginPath();
-	ctx.moveTo(6.0, 8.0);
-	ctx.lineTo(5.0, 8.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.lineTo(6.0, 5.0);
-	ctx.lineTo(6.0, 8.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(6.0, 8.0);
+	lctx.lineTo(5.0, 8.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.lineTo(6.0, 5.0);
+	lctx.lineTo(6.0, 8.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(8.0, 5.0);
-	ctx.lineTo(7.0, 5.0);
-	ctx.lineTo(7.0, 8.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.lineTo(8.0, 5.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(8.0, 5.0);
+	lctx.lineTo(7.0, 5.0);
+	lctx.lineTo(7.0, 8.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.lineTo(8.0, 5.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 6.0);
-	ctx.lineTo(8.0, 6.0);
-	ctx.lineTo(8.0, 5.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.lineTo(5.0, 6.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 6.0);
+	lctx.lineTo(8.0, 6.0);
+	lctx.lineTo(8.0, 5.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.lineTo(5.0, 6.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 8.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.lineTo(8.0, 7.0);
-	ctx.lineTo(5.0, 7.0);
-	ctx.lineTo(5.0, 8.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 8.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.lineTo(8.0, 7.0);
+	lctx.lineTo(5.0, 7.0);
+	lctx.lineTo(5.0, 8.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 5.0);
-	ctx.lineTo(4.0, 5.0);
-	ctx.lineTo(4.0, 4.0);
-	ctx.lineTo(5.0, 4.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 5.0);
+	lctx.lineTo(4.0, 5.0);
+	lctx.lineTo(4.0, 4.0);
+	lctx.lineTo(5.0, 4.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(4.0, 4.0);
-	ctx.lineTo(3.0, 4.0);
-	ctx.lineTo(3.0, 3.0);
-	ctx.lineTo(4.0, 3.0);
-	ctx.lineTo(4.0, 4.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(4.0, 4.0);
+	lctx.lineTo(3.0, 4.0);
+	lctx.lineTo(3.0, 3.0);
+	lctx.lineTo(4.0, 3.0);
+	lctx.lineTo(4.0, 4.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(3.0, 3.0);
-	ctx.lineTo(2.0, 3.0);
-	ctx.lineTo(2.0, 2.0);
-	ctx.lineTo(3.0, 2.0);
-	ctx.lineTo(3.0, 3.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(3.0, 3.0);
+	lctx.lineTo(2.0, 3.0);
+	lctx.lineTo(2.0, 2.0);
+	lctx.lineTo(3.0, 2.0);
+	lctx.lineTo(3.0, 3.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 9.0);
-	ctx.lineTo(4.0, 9.0);
-	ctx.lineTo(4.0, 8.0);
-	ctx.lineTo(5.0, 8.0);
-	ctx.lineTo(5.0, 9.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 9.0);
+	lctx.lineTo(4.0, 9.0);
+	lctx.lineTo(4.0, 8.0);
+	lctx.lineTo(5.0, 8.0);
+	lctx.lineTo(5.0, 9.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(4.0, 10.0);
-	ctx.lineTo(3.0, 10.0);
-	ctx.lineTo(3.0, 9.0);
-	ctx.lineTo(4.0, 9.0);
-	ctx.lineTo(4.0, 10.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(4.0, 10.0);
+	lctx.lineTo(3.0, 10.0);
+	lctx.lineTo(3.0, 9.0);
+	lctx.lineTo(4.0, 9.0);
+	lctx.lineTo(4.0, 10.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(3.0, 11.0);
-	ctx.lineTo(2.0, 11.0);
-	ctx.lineTo(2.0, 10.0);
-	ctx.lineTo(3.0, 10.0);
-	ctx.lineTo(3.0, 11.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(3.0, 11.0);
+	lctx.lineTo(2.0, 11.0);
+	lctx.lineTo(2.0, 10.0);
+	lctx.lineTo(3.0, 10.0);
+	lctx.lineTo(3.0, 11.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(2.0, 2.0);
-	ctx.lineTo(0.0, 2.0);
-	ctx.lineTo(0.0, 0.0);
-	ctx.lineTo(2.0, 0.0);
-	ctx.lineTo(2.0, 2.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(2.0, 2.0);
+	lctx.lineTo(0.0, 2.0);
+	lctx.lineTo(0.0, 0.0);
+	lctx.lineTo(2.0, 0.0);
+	lctx.lineTo(2.0, 2.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointCorner/Path
-	ctx.beginPath();
-	ctx.moveTo(2.0, 13.0);
-	ctx.lineTo(0.0, 13.0);
-	ctx.lineTo(0.0, 11.0);
-	ctx.lineTo(2.0, 11.0);
-	ctx.lineTo(2.0, 13.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(2.0, 13.0);
+	lctx.lineTo(0.0, 13.0);
+	lctx.lineTo(0.0, 11.0);
+	lctx.lineTo(2.0, 11.0);
+	lctx.lineTo(2.0, 13.0);
+	lctx.closePath();
+	lctx.fill();
 
 
 }
 
-function drawPointFlatButton(ctx, c){
-	ctx.fillStyle = c;
+function drawPointFlatButton(lctx, c){
+	lctx.fillStyle = c;
 
 	// buttons/PointFlat/Path
 
-	ctx.beginPath();
-	ctx.moveTo(6.0, 8.0);
-	ctx.lineTo(5.0, 8.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.lineTo(6.0, 5.0);
-	ctx.lineTo(6.0, 8.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(6.0, 8.0);
+	lctx.lineTo(5.0, 8.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.lineTo(6.0, 5.0);
+	lctx.lineTo(6.0, 8.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(8.0, 5.0);
-	ctx.lineTo(7.0, 5.0);
-	ctx.lineTo(7.0, 8.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.lineTo(8.0, 5.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(8.0, 5.0);
+	lctx.lineTo(7.0, 5.0);
+	lctx.lineTo(7.0, 8.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.lineTo(8.0, 5.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 6.0);
-	ctx.lineTo(8.0, 6.0);
-	ctx.lineTo(8.0, 5.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.lineTo(5.0, 6.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 6.0);
+	lctx.lineTo(8.0, 6.0);
+	lctx.lineTo(8.0, 5.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.lineTo(5.0, 6.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(6.0, 8.0);
-	ctx.lineTo(7.0, 8.0);
-	ctx.lineTo(7.0, 7.0);
-	ctx.lineTo(6.0, 7.0);
-	ctx.lineTo(6.0, 8.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(6.0, 8.0);
+	lctx.lineTo(7.0, 8.0);
+	lctx.lineTo(7.0, 7.0);
+	lctx.lineTo(6.0, 7.0);
+	lctx.lineTo(6.0, 8.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 5.0);
-	ctx.lineTo(4.0, 5.0);
-	ctx.lineTo(4.0, 4.0);
-	ctx.lineTo(5.0, 4.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 5.0);
+	lctx.lineTo(4.0, 5.0);
+	lctx.lineTo(4.0, 4.0);
+	lctx.lineTo(5.0, 4.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(9.0, 9.0);
-	ctx.lineTo(8.0, 9.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.lineTo(9.0, 8.0);
-	ctx.lineTo(9.0, 9.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(9.0, 9.0);
+	lctx.lineTo(8.0, 9.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.lineTo(9.0, 8.0);
+	lctx.lineTo(9.0, 9.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(4.0, 4.0);
-	ctx.lineTo(3.0, 4.0);
-	ctx.lineTo(3.0, 3.0);
-	ctx.lineTo(4.0, 3.0);
-	ctx.lineTo(4.0, 4.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(4.0, 4.0);
+	lctx.lineTo(3.0, 4.0);
+	lctx.lineTo(3.0, 3.0);
+	lctx.lineTo(4.0, 3.0);
+	lctx.lineTo(4.0, 4.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(3.0, 3.0);
-	ctx.lineTo(2.0, 3.0);
-	ctx.lineTo(2.0, 2.0);
-	ctx.lineTo(3.0, 2.0);
-	ctx.lineTo(3.0, 3.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(3.0, 3.0);
+	lctx.lineTo(2.0, 3.0);
+	lctx.lineTo(2.0, 2.0);
+	lctx.lineTo(3.0, 2.0);
+	lctx.lineTo(3.0, 3.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(2.0, 2.0);
-	ctx.lineTo(0.0, 2.0);
-	ctx.lineTo(0.0, 0.0);
-	ctx.lineTo(2.0, 0.0);
-	ctx.lineTo(2.0, 2.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(2.0, 2.0);
+	lctx.lineTo(0.0, 2.0);
+	lctx.lineTo(0.0, 0.0);
+	lctx.lineTo(2.0, 0.0);
+	lctx.lineTo(2.0, 2.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointFlat/Path
-	ctx.beginPath();
-	ctx.moveTo(11.0, 11.0);
-	ctx.lineTo(9.0, 11.0);
-	ctx.lineTo(9.0, 9.0);
-	ctx.lineTo(11.0, 9.0);
-	ctx.lineTo(11.0, 11.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(11.0, 11.0);
+	lctx.lineTo(9.0, 11.0);
+	lctx.lineTo(9.0, 9.0);
+	lctx.lineTo(11.0, 9.0);
+	lctx.lineTo(11.0, 11.0);
+	lctx.closePath();
+	lctx.fill();
 
 }
 
-function drawPointSymmetricButton(ctx, c){
-	ctx.fillStyle = c;
+function drawPointSymmetricButton(lctx, c){
+	lctx.fillStyle = c;
 
 	// buttons/PointSymmetric/Path
 
-	ctx.beginPath();
-	ctx.moveTo(5.0, 5.0);
-	ctx.lineTo(4.0, 5.0);
-	ctx.lineTo(4.0, 4.0);
-	ctx.lineTo(5.0, 4.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 5.0);
+	lctx.lineTo(4.0, 5.0);
+	lctx.lineTo(4.0, 4.0);
+	lctx.lineTo(5.0, 4.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(4.0, 4.0);
-	ctx.lineTo(3.0, 4.0);
-	ctx.lineTo(3.0, 3.0);
-	ctx.lineTo(4.0, 3.0);
-	ctx.lineTo(4.0, 4.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(4.0, 4.0);
+	lctx.lineTo(3.0, 4.0);
+	lctx.lineTo(3.0, 3.0);
+	lctx.lineTo(4.0, 3.0);
+	lctx.lineTo(4.0, 4.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(3.0, 3.0);
-	ctx.lineTo(2.0, 3.0);
-	ctx.lineTo(2.0, 2.0);
-	ctx.lineTo(3.0, 2.0);
-	ctx.lineTo(3.0, 3.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(3.0, 3.0);
+	lctx.lineTo(2.0, 3.0);
+	lctx.lineTo(2.0, 2.0);
+	lctx.lineTo(3.0, 2.0);
+	lctx.lineTo(3.0, 3.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(2.0, 2.0);
-	ctx.lineTo(0.0, 2.0);
-	ctx.lineTo(0.0, 0.0);
-	ctx.lineTo(2.0, 0.0);
-	ctx.lineTo(2.0, 2.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(2.0, 2.0);
+	lctx.lineTo(0.0, 2.0);
+	lctx.lineTo(0.0, 0.0);
+	lctx.lineTo(2.0, 0.0);
+	lctx.lineTo(2.0, 2.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(11.0, 11.0);
-	ctx.lineTo(10.0, 11.0);
-	ctx.lineTo(10.0, 10.0);
-	ctx.lineTo(11.0, 10.0);
-	ctx.lineTo(11.0, 11.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(11.0, 11.0);
+	lctx.lineTo(10.0, 11.0);
+	lctx.lineTo(10.0, 10.0);
+	lctx.lineTo(11.0, 10.0);
+	lctx.lineTo(11.0, 11.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(10.0, 10.0);
-	ctx.lineTo(9.0, 10.0);
-	ctx.lineTo(9.0, 9.0);
-	ctx.lineTo(10.0, 9.0);
-	ctx.lineTo(10.0, 10.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(10.0, 10.0);
+	lctx.lineTo(9.0, 10.0);
+	lctx.lineTo(9.0, 9.0);
+	lctx.lineTo(10.0, 9.0);
+	lctx.lineTo(10.0, 10.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(9.0, 9.0);
-	ctx.lineTo(8.0, 9.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.lineTo(9.0, 8.0);
-	ctx.lineTo(9.0, 9.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(9.0, 9.0);
+	lctx.lineTo(8.0, 9.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.lineTo(9.0, 8.0);
+	lctx.lineTo(9.0, 9.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(13.0, 13.0);
-	ctx.lineTo(11.0, 13.0);
-	ctx.lineTo(11.0, 11.0);
-	ctx.lineTo(13.0, 11.0);
-	ctx.lineTo(13.0, 13.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(13.0, 13.0);
+	lctx.lineTo(11.0, 13.0);
+	lctx.lineTo(11.0, 11.0);
+	lctx.lineTo(13.0, 11.0);
+	lctx.lineTo(13.0, 13.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(6.0, 8.0);
-	ctx.lineTo(5.0, 8.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.lineTo(6.0, 5.0);
-	ctx.lineTo(6.0, 8.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(6.0, 8.0);
+	lctx.lineTo(5.0, 8.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.lineTo(6.0, 5.0);
+	lctx.lineTo(6.0, 8.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(8.0, 5.0);
-	ctx.lineTo(7.0, 5.0);
-	ctx.lineTo(7.0, 8.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.lineTo(8.0, 5.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(8.0, 5.0);
+	lctx.lineTo(7.0, 5.0);
+	lctx.lineTo(7.0, 8.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.lineTo(8.0, 5.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(5.0, 6.0);
-	ctx.lineTo(8.0, 6.0);
-	ctx.lineTo(8.0, 5.0);
-	ctx.lineTo(5.0, 5.0);
-	ctx.lineTo(5.0, 6.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(5.0, 6.0);
+	lctx.lineTo(8.0, 6.0);
+	lctx.lineTo(8.0, 5.0);
+	lctx.lineTo(5.0, 5.0);
+	lctx.lineTo(5.0, 6.0);
+	lctx.closePath();
+	lctx.fill();
 
 	// buttons/PointSymmetric/Path
-	ctx.beginPath();
-	ctx.moveTo(8.0, 8.0);
-	ctx.lineTo(5.0, 8.0);
-	ctx.lineTo(5.0, 7.0);
-	ctx.lineTo(8.0, 7.0);
-	ctx.lineTo(8.0, 8.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.beginPath();
+	lctx.moveTo(8.0, 8.0);
+	lctx.lineTo(5.0, 8.0);
+	lctx.lineTo(5.0, 7.0);
+	lctx.lineTo(8.0, 7.0);
+	lctx.lineTo(8.0, 8.0);
+	lctx.closePath();
+	lctx.fill();
 
 }
 
@@ -2626,32 +2626,32 @@ function drawLockButton(obj, c) {
 }
 
 function drawCheckbox(obj, ischecked) {
-	var ctx = obj.getContext('2d');
+	var lctx = obj.getContext('2d');
 	
 	//Box
-	ctx.fillStyle = color_lighttext;
-	ctx.beginPath();
-	ctx.moveTo(12.0, 15.0);
-	ctx.lineTo(0.0, 15.0);
-	ctx.lineTo(0.0, 3.0);
-	ctx.lineTo(12.0, 3.0);
-	ctx.lineTo(12.0, 15.0);
-	ctx.closePath();
-	ctx.fill();
+	lctx.fillStyle = color_lighttext;
+	lctx.beginPath();
+	lctx.moveTo(12.0, 15.0);
+	lctx.lineTo(0.0, 15.0);
+	lctx.lineTo(0.0, 3.0);
+	lctx.lineTo(12.0, 3.0);
+	lctx.lineTo(12.0, 15.0);
+	lctx.closePath();
+	lctx.fill();
 	
 	if(ischecked){
 		//Check
-		ctx.fillStyle = color_accent;
-		ctx.beginPath();
-		ctx.moveTo(0.0, 9.0);
-		ctx.lineTo(5.5, 15.0);
-		ctx.lineTo(15.0, 3.5);
-		ctx.lineTo(13.0, 0.0);
-		ctx.lineTo(5.5, 11.0);
-		ctx.lineTo(2.0, 6.5);
-		ctx.lineTo(0.0, 9.0);
-		ctx.closePath();
-		ctx.fill();
+		lctx.fillStyle = color_accent;
+		lctx.beginPath();
+		lctx.moveTo(0.0, 9.0);
+		lctx.lineTo(5.5, 15.0);
+		lctx.lineTo(15.0, 3.5);
+		lctx.lineTo(13.0, 0.0);
+		lctx.lineTo(5.5, 11.0);
+		lctx.lineTo(2.0, 6.5);
+		lctx.lineTo(0.0, 9.0);
+		lctx.closePath();
+		lctx.fill();
 	}
 }
 

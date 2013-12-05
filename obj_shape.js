@@ -68,9 +68,9 @@
 		
 		//debug("DRAWSHAPE - origin x/y/z: "+cec.originx+","+cec.originy+","+cec.zoom);
 		
-		if((ds.path.rightx == -1) && (lctx == ctx)) ds.path.calcMaxes();
+		if((ds.path.rightx == -1) && (lctx == uistate.chareditctx)) ds.path.calcMaxes();
 		
-		if(lctx==ctx){
+		if(lctx==uistate.chareditctx){
 			// Set the appropriate fill color
 			var s = ss("DrawShape - set fill color");
 			if(!this.hidden){						// Possible ds.isvisible?
@@ -128,11 +128,11 @@
 		
 		var z = cec.zoom;
 		var hp = (cec.pointsize/2);
-		ctx.lineWidth = 1;
-		ctx.strokeStyle = color_accent;
+		uistate.chareditctx.lineWidth = 1;
+		uistate.chareditctx.strokeStyle = color_accent;
 		
 		if((selectedtool=="newrect")||(selectedtool=="shaperesize")){
-			ctx.fillStyle = "transparent";
+			uistate.chareditctx.fillStyle = "transparent";
 			
 			//draw bounding box and 8points
 			var lx = temppathdragshape? sx_cx(temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
@@ -145,10 +145,10 @@
 			var w = Math.ceil(rx-lx);
 			var h = Math.ceil(by-ty);
 			
-			ctx.strokeStyle = color_accent;
+			uistate.chareditctx.strokeStyle = color_accent;
 			//debug("DRAWSELECTOUTLINE - real shape detected, and xywh= " + x + "," + y + "," + w + "," + h);
 
-			ctx.strokeRect(x,y,w,h);
+			uistate.chareditctx.strokeRect(x,y,w,h);
 			if(selectedtool=="shaperesize"){ this.draw8points(onlycenter); }
 			
 		} else if ((selectedtool == "pathedit")||(selectedtool=="newpath")){
@@ -157,11 +157,11 @@
 			var pp = this.path.pathpoints;
 			
 			// Draw path selection outline
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = color_accent;
-			ctx.beginPath();
-			for(var s=0; s<pp.length; s++){ drawPathToPoint(ctx, pp, s, this.path.isclosed); }
-			ctx.stroke();
+			uistate.chareditctx.lineWidth = 1;
+			uistate.chareditctx.strokeStyle = color_accent;
+			uistate.chareditctx.beginPath();
+			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s, this.path.isclosed); }
+			uistate.chareditctx.stroke();
 			//debug("DRAWSELECTOUTLINE - tool=pathedit, drew pathpoints length = " + pp.length);
 			
 			// Draw Handles
@@ -201,14 +201,14 @@
 			}
 			
 		} else if ((selectedtool=="newoval")){
-			ctx.strokeStyle = color_accent;
+			uistate.chareditctx.strokeStyle = color_accent;
 			var tpdso = ovalPathFromCorners(temppathdragshape);
 			
-			ctx.beginPath();
-			ctx.lineWidth = 1;
-			for(var tp=0; tp<tpdso.pathpoints.length; tp++){ drawPathToPoint(ctx, tpdso.pathpoints, tp, tpdso.isclosed); }
-			if(tpdso.isclosed) ctx.closePath();
-			ctx.stroke();
+			uistate.chareditctx.beginPath();
+			uistate.chareditctx.lineWidth = 1;
+			for(var tp=0; tp<tpdso.pathpoints.length; tp++){ drawPathToPoint(uistate.chareditctx, tpdso.pathpoints, tp, tpdso.isclosed); }
+			if(tpdso.isclosed) uistate.chareditctx.closePath();
+			uistate.chareditctx.stroke();
 		}
 	}
 
@@ -320,62 +320,62 @@
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp();
 		var bbottomy = (by-hp).makeCrisp();
 
-		onlycenter? ctx.fillStyle = color_accent : ctx.fillStyle = "white";
+		onlycenter? uistate.chareditctx.fillStyle = color_accent : uistate.chareditctx.fillStyle = "white";
 		
 		if(!onlycenter){
 			//upper left
 			if(canResize("nw")){
-				ctx.fillRect(bleftx, btopy, ps, ps);
-				ctx.strokeRect(bleftx, btopy, ps, ps); 
+				uistate.chareditctx.fillRect(bleftx, btopy, ps, ps);
+				uistate.chareditctx.strokeRect(bleftx, btopy, ps, ps); 
 			}
 
 			//top
 			if(canResize("n")){
-				ctx.fillRect(bmidx, btopy, ps, ps);
-				ctx.strokeRect(bmidx, btopy, ps, ps); 
+				uistate.chareditctx.fillRect(bmidx, btopy, ps, ps);
+				uistate.chareditctx.strokeRect(bmidx, btopy, ps, ps); 
 			}
 
 			//upper right
 			if(canResize("ne")){
-				ctx.fillRect(brightx, btopy, ps, ps);
-				ctx.strokeRect(brightx, btopy, ps, ps); 
+				uistate.chareditctx.fillRect(brightx, btopy, ps, ps);
+				uistate.chareditctx.strokeRect(brightx, btopy, ps, ps); 
 			}
 
 			// right
 			if(canResize("e")){
-				ctx.fillRect(brightx, bmidy, ps, ps);
-				ctx.strokeRect(brightx, bmidy, ps, ps); 
+				uistate.chareditctx.fillRect(brightx, bmidy, ps, ps);
+				uistate.chareditctx.strokeRect(brightx, bmidy, ps, ps); 
 			}
 
 			//lower right	
 			if(canResize("se")){
-				ctx.fillRect(brightx, bbottomy, ps, ps);
-				ctx.strokeRect(brightx, bbottomy, ps, ps);	 
+				uistate.chareditctx.fillRect(brightx, bbottomy, ps, ps);
+				uistate.chareditctx.strokeRect(brightx, bbottomy, ps, ps);	 
 			}	
 
 			//bottom
 			if(canResize("s")){
-				ctx.fillRect(bmidx, bbottomy, ps, ps);
-				ctx.strokeRect(bmidx, bbottomy, ps, ps); 
+				uistate.chareditctx.fillRect(bmidx, bbottomy, ps, ps);
+				uistate.chareditctx.strokeRect(bmidx, bbottomy, ps, ps); 
 			}
 
 			//lower left
 			if(canResize("sw")){
-				ctx.fillRect(bleftx, bbottomy, ps, ps);
-				ctx.strokeRect(bleftx, bbottomy, ps, ps); 
+				uistate.chareditctx.fillRect(bleftx, bbottomy, ps, ps);
+				uistate.chareditctx.strokeRect(bleftx, bbottomy, ps, ps); 
 			}
 
 			//left
 			if(canResize("w")){
-				ctx.fillRect(bleftx, bmidy, ps, ps);
-				ctx.strokeRect(bleftx, bmidy, ps, ps); 
+				uistate.chareditctx.fillRect(bleftx, bmidy, ps, ps);
+				uistate.chareditctx.strokeRect(bleftx, bmidy, ps, ps); 
 			}
 
 		}
 		
 		//Center Dot
-		ctx.fillRect(bmidx, bmidy, ps, ps);
-		ctx.strokeRect(bmidx, bmidy, ps, ps);	 
+		uistate.chareditctx.fillRect(bmidx, bmidy, ps, ps);
+		uistate.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
 	}
 	
 	function drawShapeToArea(lctx, size, offsetX, offsetY){

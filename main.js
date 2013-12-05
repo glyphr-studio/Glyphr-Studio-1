@@ -21,8 +21,8 @@
 		"charcurrstate" : {},
 		"clipboardshape" : false,
 		
-		"canvas" : false,
-		"ctx" : false, 
+		"chareditcanvas" : false,
+		"chareditctx" : false, 
 		"calcmaxesghostcanvas" : false, 
 		"cmgctx" : false, 
 		"ishereghostcanvas" : false, 

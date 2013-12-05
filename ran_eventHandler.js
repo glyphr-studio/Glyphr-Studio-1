@@ -23,11 +23,11 @@
 		tool = new pathedit();
 		
 		// Mouse Event Listeners
-		canvas.addEventListener('mousedown', ev_canvas, false);
-		canvas.addEventListener('mousemove', ev_canvas, false);
-		canvas.addEventListener('mouseup',   ev_canvas, false);
-		canvas.onmouseover = mouseovercec;
-		canvas.onmouseout = mouseoutcec;
+		uistate.chareditcanvas.addEventListener('mousedown', ev_canvas, false);
+		uistate.chareditcanvas.addEventListener('mousemove', ev_canvas, false);
+		uistate.chareditcanvas.addEventListener('mouseup',   ev_canvas, false);
+		uistate.chareditcanvas.onmouseover = mouseovercec;
+		uistate.chareditcanvas.onmouseout = mouseoutcec;
 		
 		// Document Key Listeners
 		document.onkeypress = keypress;

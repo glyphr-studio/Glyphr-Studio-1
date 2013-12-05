@@ -16,7 +16,7 @@
 	}
 
 	function seedshapes_content(){					
-		var re = '<canvas id="canvas" width=12 height=12 ></canvas>';		
+		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
 		re += '<table class="charedittable" cellspacing=0 cellpadding=0 border=0><tr>';
 		re += '<td id="detailsarea"> [ERROR: Uninitialized content] </td></tr>';			
@@ -64,11 +64,11 @@
 	function seedshapesredraw(){
 		debug("<b>!!! SEEDSHAPEREDRAW !!!</b> - shownseedshape:" + uistate.shownseedshape + ", selectedshape:" + selectedshape);
 				
-		ctx.clearRect(0,0,5000,5000);
+		uistate.chareditctx.clearRect(0,0,5000,5000);
 		grid();
 		vertical(cec.size.makeCrisp());
 		
-		GlyphrProject.seedshapes[uistate.shownseedshape].shape.drawShape(ctx);
+		GlyphrProject.seedshapes[uistate.shownseedshape].shape.drawShape(uistate.chareditctx);
 		
 		if(GlyphrProject.seedshapes.selectedshape) GlyphrProject.seedshapes.selectedshape.shape.drawselectoutline();
 		

@@ -266,42 +266,42 @@
 	function drawPoint(c) {
 		var ps = cec.pointsize +1;
 		var hp = ps/2;
-		ctx.fillStyle = c? c : color_accent;	
-		ctx.lineWidth = 1;
+		uistate.chareditctx.fillStyle = c? c : color_accent;	
+		uistate.chareditctx.lineWidth = 1;
 		
-		ctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
-		ctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
+		uistate.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
+		uistate.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 	}
 	
 	function drawHandles(drawH1, drawH2) {
-		ctx.fillStyle = color_accent;
-		ctx.lineWidth = 1;
+		uistate.chareditctx.fillStyle = color_accent;
+		uistate.chareditctx.lineWidth = 1;
 		var hp = cec.pointsize/2
 		
 		if(drawH1 && this.useh1){
-			ctx.beginPath();
-			ctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
-			ctx.closePath();
-			ctx.fill();
+			uistate.chareditctx.beginPath();
+			uistate.chareditctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
+			uistate.chareditctx.closePath();
+			uistate.chareditctx.fill();
 				
-			ctx.beginPath();
-			ctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			ctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y)); 
-			ctx.closePath();
-			ctx.stroke();
+			uistate.chareditctx.beginPath();
+			uistate.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			uistate.chareditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y)); 
+			uistate.chareditctx.closePath();
+			uistate.chareditctx.stroke();
 		}
 
 		if(drawH2 && this.useh2){
-			ctx.beginPath();
-			ctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
-			ctx.closePath();
-			ctx.fill();
+			uistate.chareditctx.beginPath();
+			uistate.chareditctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
+			uistate.chareditctx.closePath();
+			uistate.chareditctx.fill();
 			
-			ctx.beginPath();
-			ctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			ctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y)); 
-			ctx.closePath();
-			ctx.stroke();
+			uistate.chareditctx.beginPath();
+			uistate.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			uistate.chareditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y)); 
+			uistate.chareditctx.closePath();
+			uistate.chareditctx.stroke();
 		}
 	}
 
