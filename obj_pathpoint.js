@@ -264,7 +264,7 @@
 	}
 	
 	function drawPoint(c) {
-		var ps = uistate.chareditcanvassettings.pointsize +1;
+		var ps = uisettings.pointsize +1;
 		var hp = ps/2;
 		uistate.chareditctx.fillStyle = c? c : color_accent;	
 		uistate.chareditctx.lineWidth = 1;
@@ -276,7 +276,7 @@
 	function drawHandles(drawH1, drawH2) {
 		uistate.chareditctx.fillStyle = color_accent;
 		uistate.chareditctx.lineWidth = 1;
-		var hp = uistate.chareditcanvassettings.pointsize/2
+		var hp = uisettings.pointsize/2
 		
 		if(drawH1 && this.useh1){
 			uistate.chareditctx.beginPath();

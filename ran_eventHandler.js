@@ -131,7 +131,7 @@
 				debug("EVENTHANDLER - NewPath mousedown - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = uistate.chareditcanvassettings.pointsize/2/uistate.chareditcanvassettings.zoom;
+					var hp = uisettings.pointsize/2/uistate.chareditcanvassettings.zoom;
 					if( ((p.P.x+hp) > cx_sx(mousex)) && ((p.P.x-hp) < cx_sx(mousex)) && ((p.P.y+hp) > cy_sy(mousey)) && ((p.P.y-hp) < cy_sy(mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
@@ -182,7 +182,7 @@
 		this.mousemove = function (ev) {
 			if(this.dragging){
 				//avoid really small handles
-				if( (Math.abs(this.currpt.P.x-cx_sx(mousex)) > (uistate.chareditcanvassettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(mousey)) > (uistate.chareditcanvassettings.pointsize*2)) ){
+				if( (Math.abs(this.currpt.P.x-cx_sx(mousex)) > (uisettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(mousey)) > (uisettings.pointsize*2)) ){
 					this.currpt.H2.x = cx_sx(mousex);
 					this.currpt.H2.y = cy_sy(mousey);
 					this.currpt.useh1 = true;

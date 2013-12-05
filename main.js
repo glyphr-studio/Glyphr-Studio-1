@@ -5,6 +5,7 @@
 // -- GLoBAL VARIABLES --//
 	var DEBUG = true;
 	var GlyphrProject = {};
+
 	var uistate = {
 		// all pages
 		"navhere" : "firstrun",
@@ -46,8 +47,7 @@
 			"originy" : 740,		// Where on the canvas the origin is
 			"zoom" : .32,			// Either reduces or increases objects size
 			"showgrid" : true,		// display the grid
-			"showguides" : true,	// display guides
-			"pointsize" : 50		// square points size - SHOULD BE ODD	
+			"showguides" : true		// display guides
 		},
 
 		// page: test drive
@@ -58,6 +58,7 @@
 	var uisettings = {
 
 		//UI Settings
+		"pointsize" : 5			// square points size - SHOULD BE ODD	
 		"spinnervaluechange" : 1,	// how much spinner controls change a value
 		"decplaces" : 4,			// how many decimal places of precision
 

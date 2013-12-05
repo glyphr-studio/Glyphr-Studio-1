@@ -1075,8 +1075,8 @@
 				uistate.chareditctx.fillStyle = color_guideline;		
 				uistate.chareditctx.beginPath();
 				uistate.chareditctx.moveTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy);
-				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(uistate.chareditcanvassettings.pointsize*2));
-				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx-(uistate.chareditcanvassettings.pointsize*2), uistate.chareditcanvassettings.originy);
+				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(uisettings.pointsize*2));
+				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx-(uisettings.pointsize*2), uistate.chareditcanvassettings.originy);
 				uistate.chareditctx.closePath();
 				uistate.chareditctx.fill();
 				

@@ -127,7 +127,7 @@
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
 		var z = uistate.chareditcanvassettings.zoom;
-		var hp = (uistate.chareditcanvassettings.pointsize/2);
+		var hp = (uisettings.pointsize/2);
 		uistate.chareditctx.lineWidth = 1;
 		uistate.chareditctx.strokeStyle = color_accent;
 		
@@ -305,7 +305,7 @@
 		//if(this.seed) { return; }
 		//debug("DRAW8POINTS - onlycenter: " + onlycenter);
 		
-		var ps = uistate.chareditcanvassettings.pointsize+1;
+		var ps = uisettings.pointsize+1;
 		var hp = ps/2;
 	
 		var lx = temppathdragshape? sx_cx(temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
@@ -506,7 +506,7 @@
 		//debug("ISOVERHANDLE() - checking x:" + px + " y:" + py);
 		
 		// Translation Fidelity - converting passed canvas values to saved value system
-		var hp = uistate.chareditcanvassettings.pointsize/2;
+		var hp = uisettings.pointsize/2;
 		var leftxb = sx_cx(this.path.leftx) -hp;
 		var midxb = Math.floor(sx_cx(this.path.leftx)+((sx_cx(this.path.rightx)-sx_cx(this.path.leftx))/2)-hp)+.5;
 		var rightxb = sx_cx(this.path.rightx) -hp;
@@ -517,7 +517,7 @@
 		
 		// upper left
 		if(canResize("nw")){
-			if( ((px > leftxb) && (px < leftxb+uistate.chareditcanvassettings.pointsize)) && ((py > topyb) && (py < topyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+uisettings.pointsize)) && ((py > topyb) && (py < topyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "nw-resize";
 				//debug("ISOVERHANDLE() -  upper left");
 				return "nw";
@@ -526,7 +526,7 @@
 		
 		// top
 		if(canResize("n")){
-			if( ((px > midxb) && (px < midxb+uistate.chareditcanvassettings.pointsize)) && ((py > topyb) && (py < topyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > midxb) && (px < midxb+uisettings.pointsize)) && ((py > topyb) && (py < topyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "n-resize";
 				//debug("ISOVERHANDLE() -  top");
 				return "n";
@@ -535,7 +535,7 @@
 		
 		// upper right
 		if(canResize("ne")){
-			if( ((px > rightxb) && (px < rightxb+uistate.chareditcanvassettings.pointsize)) && ((py > topyb) && (py < topyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > rightxb) && (px < rightxb+uisettings.pointsize)) && ((py > topyb) && (py < topyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "ne-resize";
 				//debug("ISOVERHANDLE() - upper right");
 				return "ne";
@@ -544,7 +544,7 @@
 		
 		// right
 		if(canResize("e")){
-			if( ((px > rightxb) && (px < rightxb+uistate.chareditcanvassettings.pointsize)) && ((py > midyb) && (py < midyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > rightxb) && (px < rightxb+uisettings.pointsize)) && ((py > midyb) && (py < midyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "e-resize";
 				//debug("ISOVERHANDLE() - right");
 				return "e";
@@ -553,7 +553,7 @@
 		
 		// lower right
 		if(canResize("se")){
-				if( ((px > rightxb) && (px < rightxb+uistate.chareditcanvassettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uistate.chareditcanvassettings.pointsize)) ){
+				if( ((px > rightxb) && (px < rightxb+uisettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "se-resize";
 				//debug("ISOVERHANDLE() - lower right");
 				return "se";
@@ -562,7 +562,7 @@
 
 		// bottom
 		if(canResize("s")){
-			if( ((px > midxb) && (px < midxb+uistate.chareditcanvassettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > midxb) && (px < midxb+uisettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "s-resize";
 				//debug("ISOVERHANDLE() - bottom");
 				return "s";
@@ -571,7 +571,7 @@
 
 		// lower left
 		if(canResize("sw")){
-			if( ((px > leftxb) && (px < leftxb+uistate.chareditcanvassettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+uisettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "sw-resize";
 				//debug("ISOVERHANDLE() - lower left");
 				return "sw";
@@ -580,7 +580,7 @@
 		
 		// left
 		if(canResize("w")){
-			if( ((px > leftxb) && (px < leftxb+uistate.chareditcanvassettings.pointsize)) && ((py > midyb) && (py < midyb+uistate.chareditcanvassettings.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+uisettings.pointsize)) && ((py > midyb) && (py < midyb+uisettings.pointsize)) ){
 				document.body.style.cursor = "w-resize";
 					//debug("ISOVERHANDLE() - left");
 				return "w";

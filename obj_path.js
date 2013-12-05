@@ -166,7 +166,7 @@
 	
 	function isOverControlPoint(x, y){
 		var a = this.pathpoints;
-		var hp = uistate.chareditcanvassettings.pointsize/2/uistate.chareditcanvassettings.zoom;
+		var hp = uisettings.pointsize/2/uistate.chareditcanvassettings.zoom;
 		
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){
