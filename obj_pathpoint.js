@@ -163,8 +163,8 @@
 	
 	function updatePointPosition(controlpoint, dx,dy, force){
 		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
-		var lockx = (selectedtool=='pathedit'? this.P.xlock : false);
-		var locky = (selectedtool=='pathedit'? this.P.ylock : false);
+		var lockx = (uistate.selectedtool=='pathedit'? this.P.xlock : false);
+		var locky = (uistate.selectedtool=='pathedit'? this.P.ylock : false);
 		
 		if(isval(force)){
 			if(force){
@@ -241,7 +241,7 @@
 		
 		if(num==0){ 
 			lctx.moveTo(sx_cx(pp.P.x), sy_cy(pp.P.y));
-			//debug("DRAWPATHTOPOINT - first point, cnvas orgin: " + cec.originx + "," + cec.originy);
+			//debug("DRAWPATHTOPOINT - first point, cnvas orgin: " + uistate.chareditcanvassettings.originx + "," + uistate.chareditcanvassettings.originy);
 			//debug("DRAWPATHTOPOINT - first point, saved coord: " + pp.P.x + "," + pp.P.y);
 			//debug("DRAWPATHTOPOINT - FOR CMGC cnvas coord clc: " + (pp.P.x+GlyphrProject.settings.upm) + "," + ((GlyphrProject.settings.upm*2)-pp.P.y) );
 			//debug("DRAWPATHTOPOINT - first point, cnvas coord: " + sx_cx(pp.P.x) + "," + sy_cy(pp.P.y));
@@ -264,7 +264,7 @@
 	}
 	
 	function drawPoint(c) {
-		var ps = cec.pointsize +1;
+		var ps = uistate.chareditcanvassettings.pointsize +1;
 		var hp = ps/2;
 		uistate.chareditctx.fillStyle = c? c : color_accent;	
 		uistate.chareditctx.lineWidth = 1;
@@ -276,7 +276,7 @@
 	function drawHandles(drawH1, drawH2) {
 		uistate.chareditctx.fillStyle = color_accent;
 		uistate.chareditctx.lineWidth = 1;
-		var hp = cec.pointsize/2
+		var hp = uistate.chareditcanvassettings.pointsize/2
 		
 		if(drawH1 && this.useh1){
 			uistate.chareditctx.beginPath();

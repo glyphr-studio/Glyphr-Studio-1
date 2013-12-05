@@ -61,19 +61,19 @@
 		//debug("EV_CANVAS offsetx / offsety / layerx / layery: " +  ev.offsetX + " " + ev.offsetY + " " + ev.layerX + " " + ev.layerY); 
 		
 		resetCursor();
-		uistate.showRightLine = false;
+		uistate.showrightline = false;
 		
 		// Switch Tool function
-		switch(selectedtool){
+		switch(uistate.selectedtool){
 			case "pathedit" :
 				tool = shapesel;
 				break;
 			case "shaperesize" :
-				uistate.showRightLine = true;
+				uistate.showrightline = true;
 				tool = shaperesize;
 				break;
 			case "pan" :
-				uistate.showRightLine = true;
+				uistate.showrightline = true;
 				document.body.style.cursor = "move";
 				tool = pantool;
 				break;
@@ -118,7 +118,7 @@
 				
 				// make a new shape with the new path
 				var newshape = addShape();
-				newshape.name = ("path "+(shapelayers.length+1));
+				newshape.name = ("path "+(uistate.shapelayers.length+1));
 				newshape.path = newpath;
 				
 				debug("EVENTHANDLER - NewPath mousedown - end of firstpoint, new shape added with new path with single point.");
@@ -131,12 +131,12 @@
 				debug("EVENTHANDLER - NewPath mousedown - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = cec.pointsize/2/cec.zoom;
+					var hp = uistate.chareditcanvassettings.pointsize/2/uistate.chareditcanvassettings.zoom;
 					if( ((p.P.x+hp) > cx_sx(mousex)) && ((p.P.x-hp) < cx_sx(mousex)) && ((p.P.y+hp) > cy_sy(mousey)) && ((p.P.y-hp) < cy_sy(mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
 						currpath.isclosed = true;
-						selectedtool = "pathedit";
+						uistate.selectedtool = "pathedit";
 						shapesel.moving = true;
 						shapesel.controlpoint = "H2";
 						toolhandoff = true;
@@ -182,7 +182,7 @@
 		this.mousemove = function (ev) {
 			if(this.dragging){
 				//avoid really small handles
-				if( (Math.abs(this.currpt.P.x-cx_sx(mousex)) > (cec.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(mousey)) > (cec.pointsize*2)) ){
+				if( (Math.abs(this.currpt.P.x-cx_sx(mousex)) > (uistate.chareditcanvassettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(mousey)) > (uistate.chareditcanvassettings.pointsize*2)) ){
 					this.currpt.H2.x = cx_sx(mousex);
 					this.currpt.H2.y = cy_sy(mousey);
 					this.currpt.useh1 = true;
@@ -208,9 +208,9 @@
 		this.mousedown = function (ev) { 
 			
 			var newshape = new Shape({});
-			newshape.name = (selectedtool=="newrect")? ("rect " + (shapelayers.length+1)) : ("oval " + (shapelayers.length+1));
-			selectedshape = shapelayers.length;
-			shapelayers.push(newshape);
+			newshape.name = (uistate.selectedtool=="newrect")? ("rect " + (uistate.shapelayers.length+1)) : ("oval " + (uistate.shapelayers.length+1));
+			uistate.selectedshape = uistate.shapelayers.length;
+			uistate.shapelayers.push(newshape);
 		
 			var s = ss("eventHandler - newbasicshape mousedown");
 			s.path.setLeftX(cx_sx(mousex));
@@ -236,7 +236,7 @@
 		this.mouseup = function () { 
 			var s = ss("eventHandler - newbasicshape mouseup");
 				
-			if(selectedtool=="newrect"){				
+			if(uistate.selectedtool=="newrect"){				
 				//debug("NEWBASICSHAPE MOUSEUP - reading TPDS lx-ty-rx-by: " + lx + " : " + ty + " : " + rx + " : " + by);
 				s.path = rectPathFromCorners(temppathdragshape);
 				//debug("NEWBASICSHAPE MOUSEUP - resulting path P1x/y P3x/y: " + s.path.pathpoints[0].P.x + " : " + s.path.pathpoints[0].P.y + " : " + s.path.pathpoints[2].P.x + " : " + s.path.pathpoints[2].P.y);
@@ -253,7 +253,7 @@
 			s.hidden = false;
 			putundoq("New Basic Shape tool");
 			
-			uistate.showRightLine = true;
+			uistate.showrightline = true;
 			
 			clicktool("pathedit");
 		};
@@ -328,16 +328,16 @@
 				var dy = 0;
 				switch (this.controlpoint){
 					case "P":
-						if(!sp.P.xlock) dx = (mousex-lastx)/cec.zoom;
-						if(!sp.P.ylock) dy = (lasty-mousey)/cec.zoom;
+						if(!sp.P.xlock) dx = (mousex-lastx)/uistate.chareditcanvassettings.zoom;
+						if(!sp.P.ylock) dy = (lasty-mousey)/uistate.chareditcanvassettings.zoom;
 						break;
 					case "H1":
-						if(!sp.H1.xlock) dx = (mousex-lastx)/cec.zoom;
-						if(!sp.H1.ylock) dy = (lasty-mousey)/cec.zoom;
+						if(!sp.H1.xlock) dx = (mousex-lastx)/uistate.chareditcanvassettings.zoom;
+						if(!sp.H1.ylock) dy = (lasty-mousey)/uistate.chareditcanvassettings.zoom;
 						break;
 					case "H2":
-						if(!sp.H2.xlock) dx = (mousex-lastx)/cec.zoom;
-						if(!sp.H2.ylock) dy = (lasty-mousey)/cec.zoom;
+						if(!sp.H2.xlock) dx = (mousex-lastx)/uistate.chareditcanvassettings.zoom;
+						if(!sp.H2.ylock) dy = (lasty-mousey)/uistate.chareditcanvassettings.zoom;
 						break;
 				}
 				sp.updatePointPosition(this.controlpoint, dx, dy); 
@@ -431,8 +431,8 @@
 				//debug("SHAPERESIZE dragging seed shape");
 				if(this.dragging && !s.useseedxy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.useseedxy=" + !s.useseedxy);
-					s.xpos += Math.round((mousex-lastx)/cec.zoom);
-					s.ypos += Math.round((lasty-mousey)/cec.zoom);
+					s.xpos += Math.round((mousex-lastx)/uistate.chareditcanvassettings.zoom);
+					s.ypos += Math.round((lasty-mousey)/uistate.chareditcanvassettings.zoom);
 					didstuff = true;
 					resetCursor();
 				}
@@ -441,9 +441,9 @@
 				if (this.dragging) {
 					// Moving shapes if mousedown
 					var dx = 0;
-					s.xlock? true : dx = Math.round((mousex-lastx)/cec.zoom);
+					s.xlock? true : dx = Math.round((mousex-lastx)/uistate.chareditcanvassettings.zoom);
 					var dy = 0;
-					s.ylock? true : dy = Math.round((lasty-mousey)/cec.zoom);
+					s.ylock? true : dy = Math.round((lasty-mousey)/uistate.chareditcanvassettings.zoom);
 					
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
@@ -478,8 +478,8 @@
 		
 		this.mousedown = function (ev) { 
 			//debug("PAN TOOL - mouse down: " + mousex + ":" + mousey);
-			this.deltax = (mousex-cec.originx);
-			this.deltay = (mousey-cec.originy);
+			this.deltax = (mousex-uistate.chareditcanvassettings.originx);
+			this.deltay = (mousey-uistate.chareditcanvassettings.originy);
 			this.dragging = true; 
 		};
 		
@@ -493,9 +493,9 @@
 		this.mousemove = function (ev) {
 			if (this.dragging) {
 				// Moving shapes if mousedown
-				cec.originx = (mousex-this.deltax);
-				cec.originy = (mousey-this.deltay);
-				//debug("EVENTHANDLER - PAN - new x/y: " + cec.originx + " / " + cec.originy);
+				uistate.chareditcanvassettings.originx = (mousex-this.deltax);
+				uistate.chareditcanvassettings.originy = (mousey-this.deltay);
+				//debug("EVENTHANDLER - PAN - new x/y: " + uistate.chareditcanvassettings.originx + " / " + uistate.chareditcanvassettings.originy);
 				redraw();
 			}
 		};
@@ -506,21 +506,21 @@
 	
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
-		return Math.round((cx-cec.originx)/(cec.zoom));
+		return Math.round((cx-uistate.chareditcanvassettings.originx)/(uistate.chareditcanvassettings.zoom));
 	}
 	
 	function cy_sy(cy){
-		return Math.round((cec.originy-cy)/(cec.zoom));
+		return Math.round((uistate.chareditcanvassettings.originy-cy)/(uistate.chareditcanvassettings.zoom));
 	}
 	
 	function clickEmptySpace(){
-		uistate.showRightLine = true;
+		uistate.showrightline = true;
 		var s = ss("Click Empty Space");
 		if(s) {
 			s.path.selectPathPoint(-1);
 			s.path.calcMaxes();
 		}
-		selectedshape = -1;
+		uistate.selectedshape = -1;
 	}
 	
 	function evHanShapeResize(s, pcorner){
@@ -694,8 +694,8 @@
 		if(event.keyCode == 32 && ismouseovercec){
 			if(!iskeydown){
 				//debug("KEYDOWN - pressed 32 spacebar");
-				lastTool = selectedtool;
-				selectedtool = "pan";
+				lastTool = uistate.selectedtool;
+				uistate.selectedtool = "pan";
 				iskeydown = true;
 				document.body.style.cursor = "move";
 				redraw();
@@ -707,7 +707,7 @@
 		//debug("Key Up: " + event.keyCode);
 		if(event.keyCode == 32 && ismouseovercec){
 			//debug("KEYUP - releaseing 32 spacebar");
-			selectedtool = lastTool;
+			uistate.selectedtool = lastTool;
 			iskeydown = false;
 			resetCursor();
 			redraw();
@@ -721,7 +721,7 @@
 		var s = ss("keypress event");
 		var changed = false;
 		if(s){
-			if(selectedtool == "pathedit"){
+			if(uistate.selectedtool == "pathedit"){
 				switch(event.keyCode){
 					case 54:	//NumPad 6 Right
 						s.path.updatePathPosition(1,0);
@@ -740,7 +740,7 @@
 						changed = "NumPad 8 Up";
 						break;
 				}
-			} else if (selectedtool == "pointselect"){
+			} else if (uistate.selectedtool == "pointselect"){
 				var p = s.path.sp(false, "KEYPRESS");
 				if(p){
 					switch(event.keyCode){

@@ -11,7 +11,7 @@
 		grid();
 		document.onkeypress = keypress;
 		
-		selectedshape = -1;
+		uistate.selectedshape = -1;
 		seedshapesredraw();	
 	}
 
@@ -51,8 +51,8 @@
 	function makeSeedShapeSelected(ssid){
 		//debug("MAKESEEDSHAPESELECTED - ssid: " + ssid);
 		uistate.shownseedshape = ssid;
-		selectedshape = ssid;
-		shapelayers = [GlyphrProject.seedshapes.ssid.shape];
+		uistate.selectedshape = ssid;
+		uistate.shapelayers = [GlyphrProject.seedshapes.ssid.shape];
 		navigate();
 	}
 
@@ -62,15 +62,15 @@
 //-------------------
 
 	function seedshapesredraw(){
-		debug("<b>!!! SEEDSHAPEREDRAW !!!</b> - shownseedshape:" + uistate.shownseedshape + ", selectedshape:" + selectedshape);
+		debug("<b>!!! SEEDSHAPEREDRAW !!!</b> - shownseedshape:" + uistate.shownseedshape + ", uistate.selectedshape:" + uistate.selectedshape);
 				
 		uistate.chareditctx.clearRect(0,0,5000,5000);
 		grid();
-		vertical(cec.size.makeCrisp());
+		vertical(uistate.chareditcanvassettings.size.makeCrisp());
 		
 		GlyphrProject.seedshapes[uistate.shownseedshape].shape.drawShape(uistate.chareditctx);
 		
-		if(GlyphrProject.seedshapes.selectedshape) GlyphrProject.seedshapes.selectedshape.shape.drawselectoutline();
+		if(GlyphrProject.seedshapes[uistate.selectedshape]) GlyphrProject.seedshapes[uistate.selectedshape].shape.drawselectoutline();
 		
 		
 		//updatedetails();
@@ -126,8 +126,8 @@
 	}
 	
 	function goToEditChar(chid){
-		selectedshape = -1;	
-		selectedchar = chid;
+		uistate.selectedshape = -1;	
+		uistate.selectedchar = chid;
 		uistate.navhere = "character edit";
 		navigate();	
 	}
@@ -170,7 +170,7 @@
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
 			shapeactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteSeedShape();putundoq(\"paste seed shape\");redraw();'><br>";
 			*/
-			if(temppathdragshape && selectedtool=="pathedit"){
+			if(temppathdragshape && uistate.selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
 			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
 			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipns();putundoq(\"flip shape vertical\");redraw();'><br>";
@@ -178,8 +178,8 @@
 			}
 			
 		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='cec.showgrid? cec.showgrid=false : cec.showgrid=true; redraw();'><br>"; 
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='cec.showguides? cec.showguides=false : cec.showguides=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.chareditcanvassettings.showgrid? uistate.chareditcanvassettings.showgrid=false : uistate.chareditcanvassettings.showgrid=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.chareditcanvassettings.showguides? uistate.chareditcanvassettings.showguides=false : uistate.chareditcanvassettings.showguides=true; redraw();'><br>"; 
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
@@ -196,7 +196,7 @@
 
 		var ispointsel = false;
 		if(s && !s.seed) ispointsel = s.path.sp(false);
-		if(selectedtool != "pathedit") ispointsel = false;
+		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		if(ispointsel) {content += pointactions; }
 		
 		content += "</tr><tr>";
@@ -211,7 +211,7 @@
 		var newname = ("seedshape " + seedshapecounter);
 
 		uistate.shownseedshape = newid;
-		selectedshape = newid;
+		uistate.selectedshape = newid;
 
 		GlyphrProject.seedshapes[newid] = new SeedShape({"name":newname});
 
@@ -245,7 +245,7 @@
 			//debug("----------------- starting to go through uia: " + uia);
 			for(var cui=0; cui<uia.length; cui++){
 				var tc = GlyphrProject.fontchars[uia[cui]].charglyphdata;
-				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #shapelayers " + tc.length);
+				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #uistate.shapelayers " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .seed " + tc[sl].seed + " checking against " + uistate.shownseedshape);
 					if(tc[sl].seed == uistate.shownseedshape){
@@ -260,7 +260,7 @@
 			// delete seedshape and switch selection
 			delete GlyphrProject.seedshapes[uistate.shownseedshape];
 			uistate.shownseedshape = getFirstSeedShape();
-			selectedshape = uistate.shownseedshape;
+			uistate.selectedshape = uistate.shownseedshape;
 			//debug("DELETESEEDSHAPE - delete complete, new shownseedshape = " + shownseedshape);
 			
 			navigate();
@@ -283,10 +283,10 @@
 	}
 	
 	function insertSeedShapeToChar(chid){
-		var temschar = selectedchar;
+		var temschar = uistate.selectedchar;
 		selectchar(chid);
 		insertSeedShape(uistate.shownseedshape);
-		selectedchar = temschar;
+		uistate.selectedchar = temschar;
 		putundoq("insert seed shape from seedshapes");
 		closeDialog();
 		var con = "The SeedShape '" + GlyphrProject.seedshapes[uistate.shownseedshape].shape.name + "' was successfully inserted<br>into character " + GlyphrProject.fontchars[chid].charname + ".";

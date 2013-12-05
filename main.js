@@ -26,27 +26,21 @@
 		"calcmaxesghostctx" : false, 
 		"ishereghostcanvas" : false, 
 		"ishereghostctx" : false,
-		
-		"showcanvascursor" : false,
-		"showRightLine" : true,	
+		"showrightline" : true,	
 		"shapelayers" : [],
 		"selectedshape" : -1,
 		"selectedchar" : 97,
 		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
-		"debugPoints" : [false,false],
-
-		// page: test drive
-		"tdctx" : false,
-		"tdc" : false,
-
+		"debugpoints" : [false,false],
+		
 		// Char Edit Canvas Area and Calc Maxes Ghost Canvas
-		"cgc" : {
+		"calcmaxesghostcanvassettings" : {
 			"size" : 1500,
 			"originx" : 140,
 			"originy" : 740
 		},
 
-		"cec" : {
+		"chareditcanvassettings" : {
 			"size" : 1500, 			// How big the canvas is
 			"originx" : 140,		// Where on the canvas the origin is
 			"originy" : 740,		// Where on the canvas the origin is
@@ -55,7 +49,12 @@
 			"showguides" : true,	// display guides
 			"pointsize" : 50		// square points size - SHOULD BE ODD	
 		},
-		
+
+		// page: test drive
+		"testdrivectx" : false,
+		"testdrivecanvas" : false,
+
+
 		//UI Settings
 		"spinnervaluechange" : 1,	// how much spinner controls change a value
 		"decplaces" : 4,			// how many decimal places of precision
@@ -123,7 +122,7 @@
 				resetZoomPan();
 				updatecharedit();	
 				document.getElementById("mainwrapper").style.overflowY = "hidden";			
-				selectedshape = -1;
+				uistate.selectedshape = -1;
 				break;
 			
 			case "seed shapes":
@@ -317,7 +316,7 @@
 			} else if (navarr[i] == "feat"){
 				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
 			} else {
-				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='uistate.navhere=\""+navarr[i]+"\"; selectedshape=-1; navigate(true);'>");
+				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='uistate.navhere=\""+navarr[i]+"\"; uistate.selectedshape=-1; navigate(true);'>");
 			}
 		}
 		

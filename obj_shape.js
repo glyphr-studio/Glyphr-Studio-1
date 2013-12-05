@@ -51,22 +51,22 @@
 			GlyphrProject.seedshapes[ds.seed].shape.drawShape(lctx);
 		}
 			
-		var z = cec.zoom;
+		var z = uistate.chareditcanvassettings.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
 		var tempzp = {};
-		tempzp.x = cec.originx;
-		tempzp.y = cec.originy;
-		tempzp.z = cec.zoom;
+		tempzp.x = uistate.chareditcanvassettings.originx;
+		tempzp.y = uistate.chareditcanvassettings.originy;
+		tempzp.z = uistate.chareditcanvassettings.zoom;
 		if(lctx == uistate.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
 			z = 1;
-			cec.zoom = 1;			
-			cec.originx = cgc.originx;
-			cec.originy = cgc.originy;
+			uistate.chareditcanvassettings.zoom = 1;			
+			uistate.chareditcanvassettings.originx = uistate.calcmaxesghostcanvassettings.originx;
+			uistate.chareditcanvassettings.originy = uistate.calcmaxesghostcanvassettings.originy;
 		}
 		
-		//debug("DRAWSHAPE - origin x/y/z: "+cec.originx+","+cec.originy+","+cec.zoom);
+		//debug("DRAWSHAPE - origin x/y/z: "+uistate.chareditcanvassettings.originx+","+uistate.chareditcanvassettings.originy+","+uistate.chareditcanvassettings.zoom);
 		
 		if((ds.path.rightx == -1) && (lctx == uistate.chareditctx)) ds.path.calcMaxes();
 		
@@ -105,33 +105,33 @@
 		*/
 		ds.path.drawPath(lctx);
 		
-		cec.originx = tempzp.x;
-		cec.originy = tempzp.y;
-		cec.zoom = tempzp.z;
+		uistate.chareditcanvassettings.originx = tempzp.x;
+		uistate.chareditcanvassettings.originy = tempzp.y;
+		uistate.chareditcanvassettings.zoom = tempzp.z;
 	}
 	
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
-		var canvasx = cec.originx;
-		canvasx += (sx*cec.zoom);
+		var canvasx = uistate.chareditcanvassettings.originx;
+		canvasx += (sx*uistate.chareditcanvassettings.zoom);
 		return canvasx;
 	}
 	
 	function sy_cy(sy){
-		var canvasy = cec.originy;
-		canvasy -= (sy*cec.zoom);
+		var canvasy = uistate.chareditcanvassettings.originy;
+		canvasy -= (sy*uistate.chareditcanvassettings.zoom);
 		return canvasy;
 	}
 	
 	function drawselectoutline(onlycenter){
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
-		var z = cec.zoom;
-		var hp = (cec.pointsize/2);
+		var z = uistate.chareditcanvassettings.zoom;
+		var hp = (uistate.chareditcanvassettings.pointsize/2);
 		uistate.chareditctx.lineWidth = 1;
 		uistate.chareditctx.strokeStyle = color_accent;
 		
-		if((selectedtool=="newrect")||(selectedtool=="shaperesize")){
+		if((uistate.selectedtool=="newrect")||(uistate.selectedtool=="shaperesize")){
 			uistate.chareditctx.fillStyle = "transparent";
 			
 			//draw bounding box and 8points
@@ -149,9 +149,9 @@
 			//debug("DRAWSELECTOUTLINE - real shape detected, and xywh= " + x + "," + y + "," + w + "," + h);
 
 			uistate.chareditctx.strokeRect(x,y,w,h);
-			if(selectedtool=="shaperesize"){ this.draw8points(onlycenter); }
+			if(uistate.selectedtool=="shaperesize"){ this.draw8points(onlycenter); }
 			
-		} else if ((selectedtool == "pathedit")||(selectedtool=="newpath")){
+		} else if ((uistate.selectedtool == "pathedit")||(uistate.selectedtool=="newpath")){
 			// Draw Path Points
 			var sep = this.path.sp(true, "DRAWSELECTOUTLINE");
 			var pp = this.path.pathpoints;
@@ -169,7 +169,7 @@
 				if(sep == 0){
 					this.path.isclosed? pp[sep].drawHandles(true, true) : pp[sep].drawHandles(false, true);
 				} else if (sep == pp.length-1){
-					if(this.path.isclosed || selectedtool=="newpath"){
+					if(this.path.isclosed || uistate.selectedtool=="newpath"){
 						pp[sep].drawHandles(true, true);
 					} else {
 						pp[sep].drawHandles(true, false);
@@ -200,7 +200,7 @@
 				//debug("DRAWSELECTOUTLINE() - drew point " + s + " - selected: " + pp[s].selected);
 			}
 			
-		} else if ((selectedtool=="newoval")){
+		} else if ((uistate.selectedtool=="newoval")){
 			uistate.chareditctx.strokeStyle = color_accent;
 			var tpdso = ovalPathFromCorners(temppathdragshape);
 			
@@ -305,7 +305,7 @@
 		//if(this.seed) { return; }
 		//debug("DRAW8POINTS - onlycenter: " + onlycenter);
 		
-		var ps = cec.pointsize+1;
+		var ps = uistate.chareditcanvassettings.pointsize+1;
 		var hp = ps/2;
 	
 		var lx = temppathdragshape? sx_cx(temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
@@ -399,17 +399,17 @@
 		if(newshape){
 			debug("ADDSHAPE - was passed: " + newshape.type);			
 			if(newshape.seed){
-				selectedtool = "shaperesize";
-			} else if(newshape.path && (selectedtool == "shapemove")) {
+				uistate.selectedtool = "shaperesize";
+			} else if(newshape.path && (uistate.selectedtool == "shapemove")) {
 				newshape.path.calcMaxes();
 			}
 		} else {
 			newshape = new Shape({});
-			newshape.name = ("layer " + shapelayers.length);
+			newshape.name = ("layer " + uistate.shapelayers.length);
 		}
 		
-		if(uistate.navhere == "character edit") { selectedshape = shapelayers.length; }
-		shapelayers.push(newshape);
+		if(uistate.navhere == "character edit") { uistate.selectedshape = uistate.shapelayers.length; }
+		uistate.shapelayers.push(newshape);
 
 		return newshape;
 	}
@@ -439,29 +439,29 @@
 		}
 		
 		newshape.path = new Path({"pathpoints":parr, "isclosed":true});		
-		newshape.name = (shapetype + shapelayers.length);
+		newshape.name = (shapetype + uistate.shapelayers.length);
 		
-		if(uistate.navhere == "character edit") { selectedshape = shapelayers.length; }
-		shapelayers.push(newshape);
+		if(uistate.navhere == "character edit") { uistate.selectedshape = uistate.shapelayers.length; }
+		uistate.shapelayers.push(newshape);
 	}
 
 	function deleteShape(){
-		if(shapelayers[selectedshape].seed){
-			removeFromUsedIn(shapelayers[selectedshape].seed, selectedchar);
+		if(uistate.shapelayers[uistate.selectedshape].seed){
+			removeFromUsedIn(uistate.shapelayers[uistate.selectedshape].seed, uistate.selectedchar);
 		}
 		
-		if((shapelayers.length > 0) && (selectedshape >= 0)){
-			shapelayers.splice(selectedshape, 1);
-			if(shapelayers.length == selectedshape) {
-				selectedshape = selectedshape-1;
+		if((uistate.shapelayers.length > 0) && (uistate.selectedshape >= 0)){
+			uistate.shapelayers.splice(uistate.selectedshape, 1);
+			if(uistate.shapelayers.length == uistate.selectedshape) {
+				uistate.selectedshape = uistate.selectedshape-1;
 			}
 		} else {
 			debug("DELETESHAPES - no shapes left");
 		}				
 		
-		if((selectedshape >= 0) && (shapelayers[selectedshape].seed)){
+		if((uistate.selectedshape >= 0) && (uistate.shapelayers[uistate.selectedshape].seed)){
 			debug("DELETESHAPE - newly selected shape is seedshape, changing tool");
-			selectedtool = "shaperesize";
+			uistate.selectedtool = "shaperesize";
 		}
 	}
 
@@ -472,30 +472,30 @@
 			return clickSelectSeedShape(x,y);
 		}
 		
-		for(var j=(shapelayers.length-1); j>=0; j--){
+		for(var j=(uistate.shapelayers.length-1); j>=0; j--){
 			//debug("CLICKSELECTShape() - Checking shape " + j);
-			if(shapelayers[j].isHere(x,y)){
-				if(j != selectedshape){
+			if(uistate.shapelayers[j].isHere(x,y)){
+				if(j != uistate.selectedshape){
 					//debug("CLICKSELECTShape() - selecting shape " + j);
-					selectedshape = j;				
+					uistate.selectedshape = j;				
 					
-					if(shapelayers[j].seed){
-						debug("CLICKSELECTSHAPE - detected this.seed, setting selectedtool = shaperesize");
-						selectedtool = "shaperesize";
+					if(uistate.shapelayers[j].seed){
+						debug("CLICKSELECTSHAPE - detected this.seed, setting uistate.selectedtool = shaperesize");
+						uistate.selectedtool = "shaperesize";
 					}
 				}
 
 				return true;
 			}
 		}
-		selectedshape = -1;
+		uistate.selectedshape = -1;
 		//debug("CLICKSELECTShape() - deselecting, setting to -1");
 		return false;
 	}
 	
 	function isHere(x,y){
 		var imageData;
-		uistate.ishereghostctx.clearRect(0,0,cec.size,cec.size);
+		uistate.ishereghostctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
 		this.drawShape(uistate.ishereghostctx);
 		imageData = uistate.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug("ISHERE? alpha = " + imageData.data[3] + "  returning: " + (imageData.data[3] > 0));
@@ -506,7 +506,7 @@
 		//debug("ISOVERHANDLE() - checking x:" + px + " y:" + py);
 		
 		// Translation Fidelity - converting passed canvas values to saved value system
-		var hp = cec.pointsize/2;
+		var hp = uistate.chareditcanvassettings.pointsize/2;
 		var leftxb = sx_cx(this.path.leftx) -hp;
 		var midxb = Math.floor(sx_cx(this.path.leftx)+((sx_cx(this.path.rightx)-sx_cx(this.path.leftx))/2)-hp)+.5;
 		var rightxb = sx_cx(this.path.rightx) -hp;
@@ -517,7 +517,7 @@
 		
 		// upper left
 		if(canResize("nw")){
-			if( ((px > leftxb) && (px < leftxb+cec.pointsize)) && ((py > topyb) && (py < topyb+cec.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+uistate.chareditcanvassettings.pointsize)) && ((py > topyb) && (py < topyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "nw-resize";
 				//debug("ISOVERHANDLE() -  upper left");
 				return "nw";
@@ -526,7 +526,7 @@
 		
 		// top
 		if(canResize("n")){
-			if( ((px > midxb) && (px < midxb+cec.pointsize)) && ((py > topyb) && (py < topyb+cec.pointsize)) ){
+			if( ((px > midxb) && (px < midxb+uistate.chareditcanvassettings.pointsize)) && ((py > topyb) && (py < topyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "n-resize";
 				//debug("ISOVERHANDLE() -  top");
 				return "n";
@@ -535,7 +535,7 @@
 		
 		// upper right
 		if(canResize("ne")){
-			if( ((px > rightxb) && (px < rightxb+cec.pointsize)) && ((py > topyb) && (py < topyb+cec.pointsize)) ){
+			if( ((px > rightxb) && (px < rightxb+uistate.chareditcanvassettings.pointsize)) && ((py > topyb) && (py < topyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "ne-resize";
 				//debug("ISOVERHANDLE() - upper right");
 				return "ne";
@@ -544,7 +544,7 @@
 		
 		// right
 		if(canResize("e")){
-			if( ((px > rightxb) && (px < rightxb+cec.pointsize)) && ((py > midyb) && (py < midyb+cec.pointsize)) ){
+			if( ((px > rightxb) && (px < rightxb+uistate.chareditcanvassettings.pointsize)) && ((py > midyb) && (py < midyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "e-resize";
 				//debug("ISOVERHANDLE() - right");
 				return "e";
@@ -553,7 +553,7 @@
 		
 		// lower right
 		if(canResize("se")){
-				if( ((px > rightxb) && (px < rightxb+cec.pointsize)) && ((py > bottomyb) && (py < bottomyb+cec.pointsize)) ){
+				if( ((px > rightxb) && (px < rightxb+uistate.chareditcanvassettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "se-resize";
 				//debug("ISOVERHANDLE() - lower right");
 				return "se";
@@ -562,7 +562,7 @@
 
 		// bottom
 		if(canResize("s")){
-			if( ((px > midxb) && (px < midxb+cec.pointsize)) && ((py > bottomyb) && (py < bottomyb+cec.pointsize)) ){
+			if( ((px > midxb) && (px < midxb+uistate.chareditcanvassettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "s-resize";
 				//debug("ISOVERHANDLE() - bottom");
 				return "s";
@@ -571,7 +571,7 @@
 
 		// lower left
 		if(canResize("sw")){
-			if( ((px > leftxb) && (px < leftxb+cec.pointsize)) && ((py > bottomyb) && (py < bottomyb+cec.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+uistate.chareditcanvassettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "sw-resize";
 				//debug("ISOVERHANDLE() - lower left");
 				return "sw";
@@ -580,7 +580,7 @@
 		
 		// left
 		if(canResize("w")){
-			if( ((px > leftxb) && (px < leftxb+cec.pointsize)) && ((py > midyb) && (py < midyb+cec.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+uistate.chareditcanvassettings.pointsize)) && ((py > midyb) && (py < midyb+uistate.chareditcanvassettings.pointsize)) ){
 				document.body.style.cursor = "w-resize";
 					//debug("ISOVERHANDLE() - left");
 				return "w";
@@ -598,27 +598,27 @@
 //	-------------------------
 	function ss(req){
 		req? true : req="[probably a dynamically-generated page control]";
-		//debug("SS() - Requested by: " + req + " - CURRENT selectedshape = " + selectedshape);	
+		//debug("SS() - Requested by: " + req + " - CURRENT uistate.selectedshape = " + uistate.selectedshape);	
 		
 		if(uistate.navhere == "seed shapes"){
 			//debug("SS() - SEEDSHAPE - Requested by: " + req + " - returning shownseedshape: " + uistate.shownseedshape);
 			return GlyphrProject.seedshapes[uistate.shownseedshape].shape;
 		}
 		
-		if(selectedshape != -1){
-			if((selectedshape >= 0)&&(selectedshape < shapelayers.length)) {
+		if(uistate.selectedshape != -1){
+			if((uistate.selectedshape >= 0)&&(uistate.selectedshape < uistate.shapelayers.length)) {
 				// Charedit Selected Shape
-				//debug("SS() - CHAREDIT - returning shape object for position " + selectedshape);
-				return shapelayers[selectedshape];
+				//debug("SS() - CHAREDIT - returning shape object for position " + uistate.selectedshape);
+				return uistate.shapelayers[uistate.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
-				//debug("SS() - Selected Shape outside of expected boundary. selectedshape: " + selectedshape);
-				selectedshape = -1;
+				//debug("SS() - Selected Shape outside of expected boundary. uistate.selectedshape: " + uistate.selectedshape);
+				uistate.selectedshape = -1;
 				return false;
 			}				
 		} else {
 			// -1 = "no shape selected"
-			//debug("SS() - setting selectedshape = -1, returning false");
+			//debug("SS() - setting uistate.selectedshape = -1, returning false");
 			return false;
 		}
 	}

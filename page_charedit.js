@@ -7,7 +7,7 @@
 		
 		initEventHandlers();
 		
-		selectedtool = "pathedit";
+		uistate.selectedtool = "pathedit";
 		
 		redraw();	
 	}
@@ -146,7 +146,7 @@
 	function buildbutton(index, fname){
 		var onc = (fname + "(" + index + ");");
 		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+GlyphrProject.fontchars[index].charname+"'>";
-		var issel = GlyphrProject.fontchars[index].charvalue == GlyphrProject.fontchars[selectedchar].charvalue;
+		var issel = GlyphrProject.fontchars[index].charvalue == GlyphrProject.fontchars[uistate.selectedchar].charvalue;
 		issel = issel & (uistate.navhere != "seed shapes");
 		
 		if(GlyphrProject.fontchars[index].charglyphdata[0]){
@@ -171,9 +171,9 @@
 	
 	function selectchar(c){
 		//debug("SELECTCHAR - Selecting " + GlyphrProject.fontchars[c].charvalue + " from value " + c);
-		selectedchar = c;
-		shapelayers = GlyphrProject.fontchars[c].charglyphdata;
-		selectedshape = -1;
+		uistate.selectedchar = c;
+		uistate.shapelayers = GlyphrProject.fontchars[c].charglyphdata;
+		uistate.selectedshape = -1;
 		navigate();
 	}
 
@@ -183,8 +183,8 @@
 		//	1.25em to the right of x=0 and above descender 
 		
 		uistate.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
-		uistate.calcmaxesghostcanvas.height = cgc.size;
-		uistate.calcmaxesghostcanvas.width = cgc.size;
+		uistate.calcmaxesghostcanvas.height = uistate.calcmaxesghostcanvassettings.size;
+		uistate.calcmaxesghostcanvas.width = uistate.calcmaxesghostcanvassettings.size;
 		uistate.calcmaxesghostctx = uistate.calcmaxesghostcanvas.getContext('2d');
 		uistate.calcmaxesghostctx.fillStyle = "lime";
 		uistate.calcmaxesghostctx.globalAlpha = .5;
@@ -194,8 +194,8 @@
 		//Is Here Ghost Canvas - same size as CEC
 		uistate.ishereghostcanvas = document.getElementById('ishereghostcanvas');
 		//ishereghostcanvas = document.createElement('canvas');
-		uistate.ishereghostcanvas.height = cec.size;
-		uistate.ishereghostcanvas.width = cec.size;
+		uistate.ishereghostcanvas.height = uistate.chareditcanvassettings.size;
+		uistate.ishereghostcanvas.width = uistate.chareditcanvassettings.size;
 		uistate.ishereghostctx = uistate.ishereghostcanvas.getContext('2d');
 		uistate.ishereghostctx.fillStyle = "cyan";
 		uistate.ishereghostctx.globalAlpha = .5;
@@ -204,8 +204,8 @@
 
 	function setupEditCanvas(){
 		uistate.chareditcanvas = document.getElementById("chareditcanvas");
-		uistate.chareditcanvas.height = cec.size;
-		uistate.chareditcanvas.width = cec.size;
+		uistate.chareditcanvas.height = uistate.chareditcanvassettings.size;
+		uistate.chareditcanvas.width = uistate.chareditcanvassettings.size;
 		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
 		uistate.chareditcanvas.style.backgroundColor = color_bg;	//color_grid;
 		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
@@ -225,23 +225,23 @@
 		
 		var fc = GlyphrProject.fontchars;
 		
-		uistate.chareditctx.clearRect(0,0,cec.size,cec.size);
+		uistate.chareditctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
 		grid();
 		
 		// load char info
-		shapelayers = fc[selectedchar].charglyphdata;
-		//debug("!!! REDRAW !!! - selectedchar: " + selectedchar + " - numshapes: " + shapelayers.length + " - navhere: " + navhere);	
+		uistate.shapelayers = fc[uistate.selectedchar].charglyphdata;
+		//debug("!!! REDRAW !!! - uistate.selectedchar: " + uistate.selectedchar + " - numshapes: " + uistate.shapelayers.length + " - navhere: " + navhere);	
 		
 		// Only update charwidth if isautowide is true
-		var neww = fc[selectedchar].isautowide;
-		if(neww) {fc[selectedchar].charwidth = 0;}
+		var neww = fc[uistate.selectedchar].isautowide;
+		if(neww) {fc[uistate.selectedchar].charwidth = 0;}
 		
 
 		var sh;
-		for(var jj=0; jj<shapelayers.length; jj++) {
-			//debug("================ shape " + jj + "/" + shapelayers.length);
+		for(var jj=0; jj<uistate.shapelayers.length; jj++) {
+			//debug("================ shape " + jj + "/" + uistate.shapelayers.length);
 			
-			sh = shapelayers[jj];
+			sh = uistate.shapelayers[jj];
 			//debug("================ JSON: " + JSON.stringify(sh));
 			
 			sh.drawShape(uistate.chareditctx);
@@ -260,11 +260,11 @@
 				} else {
 					thisrightx = sh.path.rightx;
 				}
-				fc[selectedchar].charwidth = Math.max(fc[selectedchar].charwidth, thisrightx);
-				//debug("REDRAW - charwidth as of shape# " + jj + " set to: " + fc[selectedchar].charwidth);
+				fc[uistate.selectedchar].charwidth = Math.max(fc[uistate.selectedchar].charwidth, thisrightx);
+				//debug("REDRAW - charwidth as of shape# " + jj + " set to: " + fc[uistate.selectedchar].charwidth);
 			}
 		}
-		//debug("REDRAW - done drawing, charwidth is: " + fc[selectedchar].charwidth);
+		//debug("REDRAW - done drawing, charwidth is: " + fc[uistate.selectedchar].charwidth);
 
 		var s = ss("Redraw");
 		if(s) {
@@ -272,8 +272,8 @@
 			s.drawselectoutline(s.seed != false);
 							
 			if(s.seed){
-				//debug("REDRAW - detected this.seed, setting selectedtool = shaperesize");
-				selectedtool = "shaperesize";
+				//debug("REDRAW - detected this.seed, setting uistate.selectedtool = shaperesize");
+				uistate.selectedtool = "shaperesize";
 			}
 		}
 		
@@ -287,30 +287,30 @@
 		
 		
 		//show right hand line
-		if(cec.showguides && uistate.showRightLine){
+		if(uistate.chareditcanvassettings.showguides && uistate.showrightline){
 			uistate.chareditctx.lineWidth = 1;
 			//uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .5, true);
 			uistate.chareditctx.strokeStyle = color_guideline;
-			var rhl = (fc[selectedchar].charwidth*cec.zoom) + cec.originx;
+			var rhl = (fc[uistate.selectedchar].charwidth*uistate.chareditcanvassettings.zoom) + uistate.chareditcanvassettings.originx;
 			if(temppathdragshape){
 				rhl = Math.max(sx_cx(temppathdragshape.rightx), rhl);
 			}
-			if(neww){rhl += (GlyphrProject.settings.upm*GlyphrProject.settings.kerning*cec.zoom) }
+			if(neww){rhl += (GlyphrProject.settings.upm*GlyphrProject.settings.kerning*uistate.chareditcanvassettings.zoom) }
 			vertical(rhl);
 		}
 		
 		/*
 		// debug points
-		if(debugPoints[0]){
-			for(var s=0; s<debugPoints[0].path.pathpoints.length; s++){ 
-				debugPoints[0].path.pathpoints[s].drawPoint("lime"); 
-				debugPoints[0].path.pathpoints[s].drawHandles(true, true);
+		if(uistate.debugpoints[0]){
+			for(var s=0; s<uistate.debugpoints[0].path.pathpoints.length; s++){ 
+				uistate.debugpoints[0].path.pathpoints[s].drawPoint("lime"); 
+				uistate.debugpoints[0].path.pathpoints[s].drawHandles(true, true);
 			}
 		}
-		if(debugPoints[1]){
-			for(var s=0; s<debugPoints[1].path.pathpoints.length; s++){ 
-				debugPoints[1].path.pathpoints[s].drawPoint("lime"); 
-				debugPoints[1].path.pathpoints[s].drawHandles(true, true);
+		if(uistate.debugpoints[1]){
+			for(var s=0; s<uistate.debugpoints[1].path.pathpoints.length; s++){ 
+				uistate.debugpoints[1].path.pathpoints[s].drawPoint("lime"); 
+				uistate.debugpoints[1].path.pathpoints[s].drawHandles(true, true);
 			}
 		}
 		*/
@@ -331,7 +331,7 @@
 		
 		var ispointsel = false;
 		if(s && !s.seed) ispointsel = s.path.sp(false);
-		if(selectedtool != "pathedit") ispointsel = false;
+		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		
 		var content = "";
 		if(uistate.navhere == "seed shapes"){
@@ -345,7 +345,7 @@
 
 		content += "<table class='detail'>";	
 		
-		//debug("UPDATEDETAILS - selectedshape: " + selectedshape + " - s.name: " + s.name + " - navhere: " + uistate.navhere);
+		//debug("UPDATEDETAILS - uistate.selectedshape: " + uistate.selectedshape + " - s.name: " + s.name + " - navhere: " + uistate.navhere);
 		if (uistate.navhere == "character edit"){
 			//debug("UPDATEDETAILS - detected navhere = character edit");
 			if(s && s.seed){
@@ -417,20 +417,20 @@
 	}
 	
 	function charDetails(s){
-		var sc = GlyphrProject.fontchars[selectedchar];
+		var sc = GlyphrProject.fontchars[uistate.selectedchar];
 		var content = "";	
 		
 		content += "<tr><td colspan=3><h3>character "+sc.charvalue+"</h3></td></tr>";	
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("GlyphrProject.fontchars[selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("GlyphrProject.fontchars[uistate.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
 
 		if(!sc.isautowide){
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em units) </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='GlyphrProject.fontchars[selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em units) </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='GlyphrProject.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em units) </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
 		}		
 		
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em %) </td><td> " + rounddec(sc.charwidth/GlyphrProject.settings.upm) + " </td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + shapelayers.length + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + uistate.shapelayers.length + " </td></tr>";
 
 		return content;
 
@@ -597,8 +597,8 @@
 			layeractions += "</td>";
 			
 		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='cec.showgrid? cec.showgrid=false : cec.showgrid=true; redraw();'><br>"; 
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='cec.showguides? cec.showguides=false : cec.showguides=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.chareditcanvassettings.showgrid? uistate.chareditcanvassettings.showgrid=false : uistate.chareditcanvassettings.showgrid=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.chareditcanvassettings.showguides? uistate.chareditcanvassettings.showguides=false : uistate.chareditcanvassettings.showguides=true; redraw();'><br>"; 
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
@@ -612,12 +612,12 @@
 
 		content += allactions;
 		
-		if(shapelayers.length > 0){ content += shapeactions; }
+		if(uistate.shapelayers.length > 0){ content += shapeactions; }
 		else { content += "<td> &nbsp; </td>";}
 		
 		var ispointsel = false;
 		if(s && !s.seed) ispointsel = s.path.sp(false);
-		if(selectedtool != "pathedit") ispointsel = false;
+		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
 		if(ispointsel){ content += pointactions; }
@@ -627,7 +627,7 @@
 		
 		content += canvasactions;
 		
-		if(shapelayers.length > 1){ content += layeractions; }
+		if(uistate.shapelayers.length > 1){ content += layeractions; }
 		
 		content += "</td></tr></table><br><br>";
 		
@@ -651,14 +651,14 @@
 			
 		content += allactions;
 		
-		if(shapelayers.length > 0){ 
+		if(uistate.shapelayers.length > 0){ 
 			content += shapeactions; 
 			content += "</td>"
 		} else {
 			content += "</td>";
 		}
 			
-		if(shapelayers.length > 1){ content += layeractions; }
+		if(uistate.shapelayers.length > 1){ content += layeractions; }
 		
 		content += "</tr></table>";
 		
@@ -673,7 +673,7 @@
 		if(s){
 			uistate.clipboardshape = {
 				"s":s,
-				"c":selectedchar
+				"c":uistate.selectedchar
 			};
 			//debug("COPYShape() - new clipboard shape: " + uistate.clipboardshape.s.name); 
 		}
@@ -683,7 +683,7 @@
 	function pasteShape(){
 		if(uistate.clipboardshape){
 			var newshape = clone(uistate.clipboardshape.s);
-			uistate.clipboardshape.c == selectedchar ? newshape.path.updatePathPosition(20,20) : true;
+			uistate.clipboardshape.c == uistate.selectedchar ? newshape.path.updatePathPosition(20,20) : true;
 			
 			var newname = newshape.name;
 			var newsuffix = " (copy)";
@@ -707,8 +707,8 @@
 			newshape.name = newname + newsuffix;
 			
 			if(newshape.seed){
-				addToUsedIn(newshape.seed, selectedchar);
-				debug("PASTESHAPE - pasted a seedshape, added " + selectedchar + " to usedin array.");
+				addToUsedIn(newshape.seed, uistate.selectedchar);
+				debug("PASTESHAPE - pasted a seedshape, added " + uistate.selectedchar + " to usedin array.");
 			}
 
 			//debug("PASTEShape() - OLD " + s.debugShape());
@@ -724,11 +724,11 @@
 	function moveupShape(){
 		var s = ss("Move Up Shape");
 		
-		if(s && (selectedshape < (shapelayers.length-1))){
-			var tempshape = shapelayers[selectedshape+1];
-			shapelayers[selectedshape+1] = shapelayers[selectedshape];
-			shapelayers[selectedshape] = tempshape;
-			selectedshape++;
+		if(s && (uistate.selectedshape < (uistate.shapelayers.length-1))){
+			var tempshape = uistate.shapelayers[uistate.selectedshape+1];
+			uistate.shapelayers[uistate.selectedshape+1] = uistate.shapelayers[uistate.selectedshape];
+			uistate.shapelayers[uistate.selectedshape] = tempshape;
+			uistate.selectedshape++;
 			redraw();
 		}
 	}
@@ -736,11 +736,11 @@
 	function movedownShape(){
 		var s = ss("Move Down Shape");
 		
-		if(s && (selectedshape > 0)){
-			var tempshape = shapelayers[selectedshape-1];
-			shapelayers[selectedshape-1] = shapelayers[selectedshape];
-			shapelayers[selectedshape] = tempshape;
-			selectedshape--;
+		if(s && (uistate.selectedshape > 0)){
+			var tempshape = uistate.shapelayers[uistate.selectedshape-1];
+			uistate.shapelayers[uistate.selectedshape-1] = uistate.shapelayers[uistate.selectedshape];
+			uistate.shapelayers[uistate.selectedshape] = tempshape;
+			uistate.selectedshape--;
 			redraw();
 		}
 	}
@@ -782,18 +782,18 @@
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
 		
-		if(shapelayers.length > 0){
-			for(var i=(shapelayers.length-1); i>=0; i--){
+		if(uistate.shapelayers.length > 0){
+			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
 				content += "<input type='button'";
-				if(i==selectedshape){
+				if(i==uistate.selectedshape){
 					content += " class='layer buttonsel'";
 				} else {
 					content += " class='layer button'";
 				}
-				content += " onclick='selectedshape = " + i + "; redraw();'";
-				content += " value='" + shapelayers[i].name;
+				content += " onclick='uistate.selectedshape = " + i + "; redraw();'";
+				content += " value='" + uistate.shapelayers[i].name;
 				
-				if(shapelayers[i].seed) {
+				if(uistate.shapelayers[i].seed) {
 					content += "&nbsp;&nbsp;[seed]";
 				}
 				content += "'><br>";
@@ -825,10 +825,10 @@
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
 		if(uistate.navhere == "seed shapes") {
-			if(!GlyphrProject.seedshapes.selectedshape) { s = false; }
+			if(!GlyphrProject.seedshapes.uistate.selectedshape) { s = false; }
 		}
 		
-		if(selectedtool=='pathedit'){
+		if(uistate.selectedtool=='pathedit'){
 			pointselectclass = "buttonsel tool";
 		} else if (s.seed){
 			pointselectclass = "buttondis tool";
@@ -839,22 +839,22 @@
 			
 		var content = "";
 		content += "<div title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clicktool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></div>";
-		content += "<div title='move & resize shape' class='" + (selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></div>";
+		content += "<div title='move & resize shape' class='" + (uistate.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></div>";
 		
 		if(uistate.navhere == "character edit"){
 			content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
-			content += "<div title='new rectangle shape' class='" + (selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></div>";
-			content += "<div title='new oval shape' class='" + (selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></div>";
-			content += "<div title='new path shape' class='" + (selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></div>";
+			content += "<div title='new rectangle shape' class='" + (uistate.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></div>";
+			content += "<div title='new oval shape' class='" + (uistate.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></div>";
+			content += "<div title='new path shape' class='" + (uistate.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></div>";
 		}
 		
 		content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
-		content += "<div title='scroll and pan' class='" + (selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
+		content += "<div title='scroll and pan' class='" + (uistate.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: in' class='button tool' onclick='canvasZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: out' class='button tool' onclick='canvasZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: one to one' class='button tool' onclick='cec.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
+		content += "<div title='zoom: one to one' class='button tool' onclick='uistate.chareditcanvassettings.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
 		content += "<div title='zoom: full em' class='button tool' onclick='resetZoomPan(); redraw();'><canvas id='zoomembuttoncanvas'></canvas></div>";
-		content += "<div title='zoom level' class='tool out'>" + round(cec.zoom*100, 2) + "%</div>";
+		content += "<div title='zoom level' class='tool out'>" + round(uistate.chareditcanvassettings.zoom*100, 2) + "%</div>";
 		
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
@@ -874,7 +874,7 @@
 		tempcanvas.width = bw;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		if(selectedtool == "pathedit"){ drawPathEditButton(tempctx, "white", "black"); }
+		if(uistate.selectedtool == "pathedit"){ drawPathEditButton(tempctx, "white", "black"); }
 		else if (!pointselectclickable) { drawPathEditButton(tempctx, "rgb(80,80,80)", "rgb(80,80,80)"); }
 		else { drawPathEditButton(tempctx, "transparent", color_accent); }
 		
@@ -885,7 +885,7 @@
 		tempcanvas.style.margin = "3px 3px 0px 3px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		if(selectedtool == "shaperesize"){ drawShapeResizeButton(tempctx, "white", "black"); }
+		if(uistate.selectedtool == "shaperesize"){ drawShapeResizeButton(tempctx, "white", "black"); }
 		else { drawShapeResizeButton(tempctx, "transparent", color_accent); }
 
 		// Pan
@@ -895,7 +895,7 @@
 		tempcanvas.style.margin = "3px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		if(selectedtool == "pan"){ drawPanButton(tempctx, "white", "black"); }
+		if(uistate.selectedtool == "pan"){ drawPanButton(tempctx, "white", "black"); }
 		else { drawPanButton(tempctx, color_accent, "transparent"); }
 		
 		// Zoom In
@@ -942,7 +942,7 @@
 			tempcanvas.style.margin = "2px 4px 0px 4px";
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
-			if(selectedtool == "newrect") { drawNewRectButton(tempctx, "white", "black"); }
+			if(uistate.selectedtool == "newrect") { drawNewRectButton(tempctx, "white", "black"); }
 			else { drawNewRectButton(tempctx, "transparent", color_accent); }
 			
 			// New Oval
@@ -952,7 +952,7 @@
 			tempcanvas.style.margin = "2px 4px 0px 4px";
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
-			if(selectedtool == "newoval"){ drawNewOvalButton(tempctx, "white", "black"); }
+			if(uistate.selectedtool == "newoval"){ drawNewOvalButton(tempctx, "white", "black"); }
 			else { drawNewOvalButton(tempctx, "transparent", color_accent); }
 			
 			// New Path
@@ -962,30 +962,30 @@
 			tempcanvas.style.margin = "2px 4px 0px 4px";
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
-			if(selectedtool == "newpath"){ drawNewPathButton(tempctx, "white", "black"); }
+			if(uistate.selectedtool == "newpath"){ drawNewPathButton(tempctx, "white", "black"); }
 			else { drawNewPathButton(tempctx, "transparent", color_accent); }
 		}
 	}
 
 	function clicktool(ctool){
 		
-		selectedtool = ctool;
+		uistate.selectedtool = ctool;
 		var s = ss("clicktool");
 		
-		//debug("CLICKTOOL - was passed: " + ctool + " and selectedtool now is: " + selectedtool);
+		//debug("CLICKTOOL - was passed: " + ctool + " and uistate.selectedtool now is: " + uistate.selectedtool);
 		addpath.firstpoint = true; 
 		if((ctool=="newrect")||(ctool=="newoval")){
-			uistate.showRightLine = true;
-			selectedshape = -1; 
+			uistate.showrightline = true;
+			uistate.selectedshape = -1; 
 		} else if (ctool=="newpath"){
-			uistate.showRightLine = false;
-			selectedshape = -1; 
+			uistate.showrightline = false;
+			uistate.selectedshape = -1; 
 		} else if(ctool=="pathedit"){
-			uistate.showRightLine = false;
+			uistate.showrightline = false;
 			if(s) {s.path.selectPathPoint(0);}
 			debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
-			uistate.showRightLine = true;
+			uistate.showrightline = true;
 			if(s){
 				if(s.path.haschanged) {
 					debug("CLICKTOOL - shapemove, path.haschanged = true.  Calc'ing Maxes.");
@@ -998,7 +998,7 @@
 	}
 
 	function canvasZoom(zfactor){
-		cec.zoom*=zfactor;
+		uistate.chareditcanvassettings.zoom*=zfactor;
 		redraw();
 	}
 	
@@ -1016,10 +1016,10 @@
 		uistate.chareditctx.fillRect(0,0,99999,99999);
 		
 		// background white square
-		xs.xmax = cec.originx + ((cgc.size-cgc.originx)*cec.zoom);
-		xs.xmin = cec.originx - (cgc.originx*cec.zoom) -1;
-		xs.ymax = cec.originy + ((cgc.size-cgc.originy)*cec.zoom);
-		xs.ymin = cec.originy - (cgc.originy*cec.zoom) -1;
+		xs.xmax = uistate.chareditcanvassettings.originx + ((uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originx)*uistate.chareditcanvassettings.zoom);
+		xs.xmin = uistate.chareditcanvassettings.originx - (uistate.calcmaxesghostcanvassettings.originx*uistate.chareditcanvassettings.zoom) -1;
+		xs.ymax = uistate.chareditcanvassettings.originy + ((uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originy)*uistate.chareditcanvassettings.zoom);
+		xs.ymin = uistate.chareditcanvassettings.originy - (uistate.calcmaxesghostcanvassettings.originy*uistate.chareditcanvassettings.zoom) -1;
 		
 		//debugSettings();
 		
@@ -1027,41 +1027,41 @@
 		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 		
 		// Grids		
-		var mline = cec.originy - (fs.upm*cec.zoom);
-		var xline = cec.originy - (fs.upm*fs.xheight*cec.zoom);
-		var dline = cec.originy + (fs.upm*fs.descender*cec.zoom);
-		var overshootsize = (fs.upm*fs.overshoot*cec.zoom);
+		var mline = uistate.chareditcanvassettings.originy - (fs.upm*uistate.chareditcanvassettings.zoom);
+		var xline = uistate.chareditcanvassettings.originy - (fs.upm*fs.xheight*uistate.chareditcanvassettings.zoom);
+		var dline = uistate.chareditcanvassettings.originy + (fs.upm*fs.descender*uistate.chareditcanvassettings.zoom);
+		var overshootsize = (fs.upm*fs.overshoot*uistate.chareditcanvassettings.zoom);
 
-		if(cec.showgrid || cec.showguides){
-			var size = cec.size/fs.griddivisions;
+		if(uistate.chareditcanvassettings.showgrid || uistate.chareditcanvassettings.showguides){
+			var size = uistate.chareditcanvassettings.size/fs.griddivisions;
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = color_grid;
 			
-			if(cec.showgrid){
-				var gsize = ((fs.upm/fs.griddivisions)*cec.zoom);
+			if(uistate.chareditcanvassettings.showgrid){
+				var gsize = ((fs.upm/fs.griddivisions)*uistate.chareditcanvassettings.zoom);
 				//debug("GRID - gridsize set as: " + gsize);
 				
-				for(var j=cec.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
+				for(var j=uistate.chareditcanvassettings.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
 				vertical(xs.xmax+1);
-				for(var j=cec.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
+				for(var j=uistate.chareditcanvassettings.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
 				
-				for(var j=cec.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
+				for(var j=uistate.chareditcanvassettings.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
 				horizontal(xs.ymax+1);
-				for(var j=cec.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
+				for(var j=uistate.chareditcanvassettings.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
 
 			}
 			
-			if(cec.showguides){
+			if(uistate.chareditcanvassettings.showguides){
 				
 				// Minor Guidelines - Overshoots
 				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
-				horizontal(cec.originy+overshootsize);
+				horizontal(uistate.chareditcanvassettings.originy+overshootsize);
 				horizontal(dline+overshootsize);
 				
 				// Right hand Em Square
-				vertical(cec.originx+(fs.upm*cec.zoom));
+				vertical(uistate.chareditcanvassettings.originx+(fs.upm*uistate.chareditcanvassettings.zoom));
 				
 				// major guidelines - xheight, top (emzize)
 				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .5, true);
@@ -1074,16 +1074,16 @@
 				// Out of bounds triangle
 				uistate.chareditctx.fillStyle = color_guideline;		
 				uistate.chareditctx.beginPath();
-				uistate.chareditctx.moveTo(cec.originx, cec.originy);
-				uistate.chareditctx.lineTo(cec.originx, cec.originy+(cec.pointsize*2));
-				uistate.chareditctx.lineTo(cec.originx-(cec.pointsize*2), cec.originy);
+				uistate.chareditctx.moveTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy);
+				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(uistate.chareditcanvassettings.pointsize*2));
+				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx-(uistate.chareditcanvassettings.pointsize*2), uistate.chareditcanvassettings.originy);
 				uistate.chareditctx.closePath();
 				uistate.chareditctx.fill();
 				
 				// Origin Lines
 				uistate.chareditctx.strokeStyle = color_guideline;
-				horizontal(cec.originy);
-				vertical(cec.originx);
+				horizontal(uistate.chareditcanvassettings.originy);
+				vertical(uistate.chareditcanvassettings.originx);
 			}
 		}
 	}
@@ -1108,5 +1108,5 @@
 	
 // RANDOMS
 	function debugZoomPan(zid){
-		debug("<b>ZOOM PAN STATE - " + zid + " - z:" + cec.zoom + " - px:" + cec.originx + " - py:" + cec.originy + "</b>");
+		debug("<b>ZOOM PAN STATE - " + zid + " - z:" + uistate.chareditcanvassettings.zoom + " - px:" + uistate.chareditcanvassettings.originx + " - py:" + uistate.chareditcanvassettings.originy + "</b>");
 	}

@@ -9,10 +9,10 @@
 		document.getElementById("mainpane").innerHTML = content;
 		document.getElementById("tdtextarea").focus();
 		
-		tdc = document.getElementById("tdcanvas");
-		tdc.width = 800;
-		tdc.height = 700;	
-		tdctx = tdc.getContext("2d");
+		uistate.testdrivecanvas = document.getElementById("tdcanvas");
+		uistate.testdrivecanvas.width = 800;
+		uistate.testdrivecanvas.height = 700;	
+		uistate.testdrivectx = uistate.testdrivecanvas.getContext("2d");
 		
 		if(uistate.navprimaryhere == "npAttributes") changefontscale(100);
 	}
@@ -34,7 +34,7 @@
 
 	function updateTestdriveCanvas(){
 		var text = document.getElementById("tdtextarea").value;
-		tdctx.clearRect(0,0,5000,5000);
+		uistate.testdrivectx.clearRect(0,0,5000,5000);
 		var contentArray = text.split("");
 		var textEm = (GlyphrProject.settings.upm*tdFontScale);
 		var currx = padsize;
@@ -49,7 +49,7 @@
 				curry += (document.getElementById("linespacing").value*1);
 				showhorizontals? drawLine(curry) : false;
 			} else {
-				currx += drawCharToArea(tdctx, charToUnicode[contentArray[k]], tdFontScale, currx, curry);
+				currx += drawCharToArea(uistate.testdrivectx, charToUnicode[contentArray[k]], tdFontScale, currx, curry);
 				currx += (document.getElementById("charspacing").value*1);
 				
 			}
@@ -59,25 +59,25 @@
 	function drawLine(y){
 		//debug("TESTDRIVE - Drawing h line at " + y);
 		y = y.makeCrisp();
-		tdctx.strokeStyle = color_accent;
-		tdctx.beginPath();
-		tdctx.lineWidth = 1;	
-		tdctx.moveTo(0,y);
-		tdctx.lineTo(tdc.width,y);
-		tdctx.stroke();
-		tdctx.closePath();
+		uistate.testdrivectx.strokeStyle = color_accent;
+		uistate.testdrivectx.beginPath();
+		uistate.testdrivectx.lineWidth = 1;	
+		uistate.testdrivectx.moveTo(0,y);
+		uistate.testdrivectx.lineTo(uistate.testdrivecanvas.width,y);
+		uistate.testdrivectx.stroke();
+		uistate.testdrivectx.closePath();
 	}
 
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
 		var fs = GlyphrProject.settings;
 		var tc = GlyphrProject.fontchars[charcode];
-		var shapelayers = tc.charglyphdata;
+		var uistate.shapelayers = tc.charglyphdata;
 		var width = 0;
 		debug("DRAWCHARTOAREA - starting " + charcode);
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
-			shapelayers = [GlyphrProject.seedshapes[charcode].shape];
+			uistate.shapelayers = [GlyphrProject.seedshapes[charcode].shape];
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 
@@ -97,8 +97,8 @@
 		}	
 		
 		var sh = {};
-		for(var j=0; j<shapelayers.length; j++) {
-			sh = shapelayers[j];
+		for(var j=0; j<uistate.shapelayers.length; j++) {
+			sh = uistate.shapelayers[j];
 			debug("---------------- starting shape " + sh.name);
 			sh.drawShapeToArea(lctx, size, offsetX, offsetY);
 		}

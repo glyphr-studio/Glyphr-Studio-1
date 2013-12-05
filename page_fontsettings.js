@@ -1,14 +1,14 @@
 	
 	function setupCECandCGC(){
-		cgc.size = GlyphrProject.settings.upm*1.75;
-		cgc.originx = GlyphrProject.settings.upm*.25;
-		cgc.originy = GlyphrProject.settings.upm*1.25;	
+		uistate.calcmaxesghostcanvassettings.size = GlyphrProject.settings.upm*1.75;
+		uistate.calcmaxesghostcanvassettings.originx = GlyphrProject.settings.upm*.25;
+		uistate.calcmaxesghostcanvassettings.originy = GlyphrProject.settings.upm*1.25;	
 	}
 
 	function resetZoomPan(){
-		cec.originx = 140;
-		cec.originy = 740;
-		cec.zoom = .32;
+		uistate.chareditcanvassettings.originx = 140;
+		uistate.chareditcanvassettings.originy = 740;
+		uistate.chareditcanvassettings.zoom = .32;
 	}	
 
 	function updatefontsettings(){

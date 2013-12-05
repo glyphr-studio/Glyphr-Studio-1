@@ -15,7 +15,7 @@
 	function updatefirstrun(){
 		//debug("UPDATEFIRSTRUN");
 		var ct = "<div class='splashscreen textpage'><canvas id='splashscreencanvas' height=494 width=800></canvas>";
-		ct += "<div class='splashver'>"+thisGlyphrStudioVersion+"<br><br>";
+		ct += "<div class='splashver'>"+uistate.thisGlyphrStudioVersion+"<br><br>";
 		ct += "For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>";
 		ct += "Glyphr Studio is licensed under a <a href='http://creativecommons.org/licenses/by-sa/3.0/' target=_new>Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br>";
 		ct += "Which basically means you can use Glyphr Studio for commercial purposes, remix and adapt Glyphr Studio to your own needs, and re-share Glyphr Studio with the same license applied.";
@@ -121,7 +121,7 @@
 	
 		var gd = 16;
 		gp.settings = {
-			"version": thisGlyphrStudioVersion,
+			"version": uistate.thisGlyphrStudioVersion,
 			"seedshapecounter": 0,
 			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
 			"griddivisions": gd,		// how many squares of grid per emsize
@@ -152,8 +152,8 @@
 			"widthclass": "5"
 		};
 		
-		selectedchar = 97;
-		selectedshape = -1;	
+		uistate.selectedchar = 97;
+		uistate.selectedshape = -1;	
 		
 		return gp;
 	}
@@ -179,7 +179,7 @@
 		
 		debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
 		
-		selectedchar = 97;
+		uistate.selectedchar = 97;
 		uistate.shownseedshape = getFirstSeedShape();
 		
 		setupCECandCGC();

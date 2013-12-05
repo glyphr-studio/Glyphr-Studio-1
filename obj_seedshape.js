@@ -55,15 +55,15 @@
 	}
 	
 	function insertSeedShape(ssid){
-		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + selectedchar);
+		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + uistate.selectedchar);
 		var ns = new SeedShapeInstance({"seed":ssid, "xpos":100, "ypos":100});
 
 		debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
-		GlyphrProject.fontchars[selectedchar].charwidth = Math.max(GlyphrProject.fontchars[selectedchar].charwidth, GlyphrProject.seedshapes.ssid.shape.path.rightx);
+		GlyphrProject.fontchars[uistate.selectedchar].charwidth = Math.max(GlyphrProject.fontchars[uistate.selectedchar].charwidth, GlyphrProject.seedshapes.ssid.shape.path.rightx);
 		
-		addToUsedIn(ssid, selectedchar);
+		addToUsedIn(ssid, uistate.selectedchar);
 		
 		closeDialog();
 		putundoq("insert seed shape from charedit");
@@ -168,12 +168,12 @@
 		//debug("CLICKSELECTSeedShape() - checking x:" + x + " y:" + y);
 		
 		if(GlyphrProject.seedshapes[uistate.shownseedshape].shape.isHere(x,y)){
-			selectedshape = uistate.shownseedshape;
+			uistate.selectedshape = uistate.shownseedshape;
 			//debug("CLICKSELECTSeedShape() - selecting shape " + uistate.shownseedshape);
 			return true;
 		}
 		
-		selectedshape = -1;
+		uistate.selectedshape = -1;
 		//debug("CLICKSELECTSeedShape() - deselecting, setting to -1");
 		
 		return false;
