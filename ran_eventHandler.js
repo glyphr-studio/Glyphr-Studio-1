@@ -373,7 +373,7 @@
 				//debug("SHAPERESIZE TOOL: clicked on corner: " + corner);
 				this.resizing = true;
 				this.dragging = false;
-				if(quickpathupdating){
+				if(uisettings.quickpathupdating){
 					temppathdragshape = {
 						"leftx": s.path.leftx,
 						"rightx": s.path.rightx,

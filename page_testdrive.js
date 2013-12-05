@@ -71,7 +71,7 @@
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
 		var fs = GlyphrProject.settings;
 		var tc = GlyphrProject.fontchars[charcode];
-		var uistate.shapelayers = tc.charglyphdata;
+		uistate.shapelayers = tc.charglyphdata;
 		var width = 0;
 		debug("DRAWCHARTOAREA - starting " + charcode);
 		

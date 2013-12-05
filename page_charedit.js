@@ -759,7 +759,7 @@
 	function inc(obj){
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + spinnervaluechange);
+			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + uisettings.spinnervaluechange);
 			obj.parentNode.childNodes[0].onchange();
 			putundoq("Up Spinner");
 		}
@@ -768,7 +768,7 @@
 	function dec(obj){
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - spinnervaluechange);
+			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - uisettings.spinnervaluechange);
 			obj.parentNode.childNodes[0].onchange();
 			putundoq("Down Spinner");
 		}

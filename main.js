@@ -52,8 +52,10 @@
 
 		// page: test drive
 		"testdrivectx" : false,
-		"testdrivecanvas" : false,
+		"testdrivecanvas" : false
+	}
 
+	var uisettings = {
 
 		//UI Settings
 		"spinnervaluechange" : 1,	// how much spinner controls change a value
@@ -74,7 +76,7 @@
 		navigate();
 
 		// Shows a popup if the window is closed or refreshed
-		if(stoppagenavigation){
+		if(uisettings.stoppagenavigation){
 			window.onbeforeunload = function() {
 				return "\n\nUnless you specifically exported your data via the 'Save Project' page, all your progress will be lost.\n\n";
 			}
@@ -456,7 +458,7 @@
 	}
 
 	function round(num, dec){
-		if (dec===undefined) dec = decplaces;
+		if (dec===undefined) dec = uisettings.decplaces;
 		var na = num.toString().split(".");
 		if(na.length == 2) {
 			var right = na[1].substring(0,dec) + "." + na[1].substring(dec+1);
