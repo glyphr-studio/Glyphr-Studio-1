@@ -20,13 +20,13 @@
 		"charundoq" : [],
 		"charcurrstate" : {},
 		"clipboardshape" : false,
-		
 		"chareditcanvas" : false,
 		"chareditctx" : false, 
 		"calcmaxesghostcanvas" : false, 
-		"cmgctx" : false, 
+		"calcmaxesghostctx" : false, 
 		"ishereghostcanvas" : false, 
-		"ihgctx" : false,
+		"ishereghostctx" : false,
+		
 		"showcanvascursor" : false,
 		"showRightLine" : true,	
 		"shapelayers" : [],

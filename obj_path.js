@@ -80,7 +80,7 @@
 		tempzp.y = cec.originy;
 		tempzp.z = cec.zoom;
 		
-		if(lctx == cmgctx) { 
+		if(lctx == uistate.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
 			z = 1;
 			cec.zoom = 1;			
@@ -203,10 +203,10 @@
 		
 		if(s.wlock && s.hlock) return;
 		
-		cmgctx.clearRect(0,0,calcmaxesghostcanvas.width,calcmaxesghostcanvas.height);
-		cmgctx.lineWidth = 1;
-		cmgctx.fillStyle = "lime";
-		cmgctx.strokeStyle = "lime";
+		uistate.calcmaxesghostctx.clearRect(0,0,uistate.calcmaxesghostcanvas.width,uistate.calcmaxesghostcanvas.height);
+		uistate.calcmaxesghostctx.lineWidth = 1;
+		uistate.calcmaxesghostctx.fillStyle = "lime";
+		uistate.calcmaxesghostctx.strokeStyle = "lime";
 		
 		//Setup temp zoom/pan for cmgc
 		var tempzp = {};
@@ -217,7 +217,7 @@
 		cec.originx = fs.upm;
 		cec.originy = fs.upm*2;
 			
-		this.drawPath(cmgctx);
+		this.drawPath(uistate.calcmaxesghostctx);
 		//debug("UPDATEPATHSIZE - Just finished drawing to CMGC");
 		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 		drawCMGCorigins("lime");
@@ -282,8 +282,8 @@
 	function flipns(){
 		var ly = this.topy;
 		var lx = this.leftx;
-		cmgctx.clearRect(0,0,calcmaxesghostcanvas.width,calcmaxesghostcanvas.height);
-		this.drawPath(cmgctx);
+		uistate.calcmaxesghostctx.clearRect(0,0,uistate.calcmaxesghostcanvas.width,uistate.calcmaxesghostcanvas.height);
+		this.drawPath(uistate.calcmaxesghostctx);
 		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 
 		var mid = ((r.topy - r.bottomy)/2)+r.bottomy;
@@ -304,9 +304,9 @@
 	function flipew(){
 		var ly = this.topy;
 		var lx = this.leftx;
-		cmgctx.lineWidth = ss().strokeweight;
-		cmgctx.clearRect(0,0,calcmaxesghostcanvas.width,calcmaxesghostcanvas.height);
-		this.drawPath(cmgctx);
+		uistate.calcmaxesghostctx.lineWidth = ss().strokeweight;
+		uistate.calcmaxesghostctx.clearRect(0,0,uistate.calcmaxesghostcanvas.width,uistate.calcmaxesghostcanvas.height);
+		this.drawPath(uistate.calcmaxesghostctx);
 		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 
 		var mid = ((r.rightx - r.leftx)/2)+r.leftx;
@@ -433,8 +433,8 @@
 			this.leftx = cgc.size;
 			this.rightx = (cgc.size*-1);
 
-			cmgctx.clearRect(0,0,cgc.size,cgc.size);
-			this.drawPath(cmgctx);
+			uistate.calcmaxesghostctx.clearRect(0,0,cgc.size,cgc.size);
+			this.drawPath(uistate.calcmaxesghostctx);
 			
 			var mp = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 			drawCMGCorigins("lime");
@@ -453,7 +453,7 @@
 	}
 
 	function getMaxesFromGhostCanvas(sr){
-		//Convert Saved to calcmaxesghostcanvas dimensions
+		//Convert Saved to uistate.calcmaxesghostcanvas dimensions
 		sr.topy = Math.ceil(cgc.size - (sr.topy+(cgc.size-cgc.originy)));
 		sr.bottomy = Math.floor(cgc.size - (sr.bottomy+(cgc.size-cgc.originy)));
 		sr.leftx = Math.ceil(cgc.originx + sr.leftx);
@@ -467,7 +467,7 @@
 		var topmost = cgc.size;
 		var bottommost = 0;
 		
-		var imageData = cmgctx.getImageData(0,0,calcmaxesghostcanvas.width,calcmaxesghostcanvas.height);
+		var imageData = uistate.calcmaxesghostctx.getImageData(0,0,uistate.calcmaxesghostcanvas.width,uistate.calcmaxesghostcanvas.height);
 		var colreturn = cgc.size;
 		
 		//debug("GETMAXESNEW - starting BottomY, initialrow to cgc.size: " + initialrow + " to " + cgc.size);
@@ -569,22 +569,22 @@
 	function drawCMGCorigins(ocolor){
 	
 		//Draw GCanvas origins
-		cmgctx.lineWidth = 1;
-		cmgctx.strokeStyle = ocolor;
-		cmgctx.beginPath();
-		cmgctx.moveTo(cgc.originx,0);
-		cmgctx.lineTo(cgc.originx, cgc.size);
-		cmgctx.stroke();
-		cmgctx.closePath();
-		cmgctx.beginPath();
-		cmgctx.moveTo(0, cgc.originy);
-		cmgctx.lineTo(cgc.size, cgc.originy);		
-		cmgctx.stroke();
-		cmgctx.closePath();
+		uistate.calcmaxesghostctx.lineWidth = 1;
+		uistate.calcmaxesghostctx.strokeStyle = ocolor;
+		uistate.calcmaxesghostctx.beginPath();
+		uistate.calcmaxesghostctx.moveTo(cgc.originx,0);
+		uistate.calcmaxesghostctx.lineTo(cgc.originx, cgc.size);
+		uistate.calcmaxesghostctx.stroke();
+		uistate.calcmaxesghostctx.closePath();
+		uistate.calcmaxesghostctx.beginPath();
+		uistate.calcmaxesghostctx.moveTo(0, cgc.originy);
+		uistate.calcmaxesghostctx.lineTo(cgc.size, cgc.originy);		
+		uistate.calcmaxesghostctx.stroke();
+		uistate.calcmaxesghostctx.closePath();
 		
-		for(var i=0; i<calcmaxesghostcanvas.width; i+=100) {
-			cmgctx.fillText((i-cgc.originx),i,cgc.originy+10); 
-			cmgctx.fillText((cgc.originy-i),cgc.originx,i);  
+		for(var i=0; i<uistate.calcmaxesghostcanvas.width; i+=100) {
+			uistate.calcmaxesghostctx.fillText((i-cgc.originx),i,cgc.originy+10); 
+			uistate.calcmaxesghostctx.fillText((cgc.originy-i),cgc.originx,i);  
 		}
 	}
 

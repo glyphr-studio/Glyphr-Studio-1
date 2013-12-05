@@ -58,7 +58,7 @@
 		tempzp.x = cec.originx;
 		tempzp.y = cec.originy;
 		tempzp.z = cec.zoom;
-		if(lctx == cmgctx) { 
+		if(lctx == uistate.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
 			z = 1;
 			cec.zoom = 1;			
@@ -89,8 +89,8 @@
 			
 
 		} 
-		else if(lctx == ihgctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
-		else if(lctx == cmgctx) { lctx.fillStyle = "rgba(0,255,0,0.2)"; }
+		else if(lctx == uistate.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
+		else if(lctx == uistate.calcmaxesghostctx) { lctx.fillStyle = "rgba(0,255,0,0.2)"; }
 		
 		// Draw the appropriate stuff for each shape's fill & border
 		
@@ -495,9 +495,9 @@
 	
 	function isHere(x,y){
 		var imageData;
-		ihgctx.clearRect(0,0,cec.size,cec.size);
-		this.drawShape(ihgctx);
-		imageData = ihgctx.getImageData(x, y, 1, 1);
+		uistate.ishereghostctx.clearRect(0,0,cec.size,cec.size);
+		this.drawShape(uistate.ishereghostctx);
+		imageData = uistate.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug("ISHERE? alpha = " + imageData.data[3] + "  returning: " + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);
 	}

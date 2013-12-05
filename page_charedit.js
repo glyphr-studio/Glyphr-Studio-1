@@ -1,20 +1,4 @@
 
-//-- Global Variables --//
-/*
-	var clipboardshape = false;
-	var notation = "UNINITIALIZED";
-	
-	var canvas, ctx, calcmaxesghostcanvas, cmgctx, ishereghostcanvas, ihgctx;
-	var showcanvascursor = false;
-	var uistate.showRightLine = true;
-	
-	var shapelayers = [];
-	var selectedshape = -1;	
-	var selectedchar = 97;
-	var selectedtool = "pathedit";	// pathedit, shapemove, pantool, newrect, newoval, newpath
-	
-	var debugPoints = [false,false];
-*/	
 	function updatecharedit(){
 		document.getElementById("mainpane").innerHTML = charedit_content();
 			
@@ -198,25 +182,24 @@
 		//	.5em to the left of x=0 and below descender
 		//	1.25em to the right of x=0 and above descender 
 		
-		calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
-		//calcmaxesghostcanvas = document.createElement('canvas');
-		calcmaxesghostcanvas.height = cgc.size;
-		calcmaxesghostcanvas.width = cgc.size;
-		cmgctx = calcmaxesghostcanvas.getContext('2d');
-		cmgctx.fillStyle = "lime";
-		cmgctx.globalAlpha = .5;
-		calcmaxesghostcanvas.style.backgroundColor = "transparent";
+		uistate.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
+		uistate.calcmaxesghostcanvas.height = cgc.size;
+		uistate.calcmaxesghostcanvas.width = cgc.size;
+		uistate.calcmaxesghostctx = uistate.calcmaxesghostcanvas.getContext('2d');
+		uistate.calcmaxesghostctx.fillStyle = "lime";
+		uistate.calcmaxesghostctx.globalAlpha = .5;
+		uistate.calcmaxesghostcanvas.style.backgroundColor = "transparent";
 		
 		
 		//Is Here Ghost Canvas - same size as CEC
-		ishereghostcanvas = document.getElementById('ishereghostcanvas');
+		uistate.ishereghostcanvas = document.getElementById('ishereghostcanvas');
 		//ishereghostcanvas = document.createElement('canvas');
-		ishereghostcanvas.height = cec.size;
-		ishereghostcanvas.width = cec.size;
-		ihgctx = ishereghostcanvas.getContext('2d');
-		ihgctx.fillStyle = "cyan";
-		ihgctx.globalAlpha = .5;
-		ishereghostcanvas.style.backgroundColor = "transparent";
+		uistate.ishereghostcanvas.height = cec.size;
+		uistate.ishereghostcanvas.width = cec.size;
+		uistate.ishereghostctx = uistate.ishereghostcanvas.getContext('2d');
+		uistate.ishereghostctx.fillStyle = "cyan";
+		uistate.ishereghostctx.globalAlpha = .5;
+		uistate.ishereghostcanvas.style.backgroundColor = "transparent";
 	}
 
 	function setupEditCanvas(){
