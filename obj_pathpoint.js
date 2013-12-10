@@ -266,7 +266,7 @@
 	function drawPoint(c) {
 		var ps = uisettings.pointsize +1;
 		var hp = ps/2;
-		uistate.chareditctx.fillStyle = c? c : color_accent;	
+		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
 		uistate.chareditctx.lineWidth = 1;
 		
 		uistate.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
@@ -274,7 +274,7 @@
 	}
 	
 	function drawHandles(drawH1, drawH2) {
-		uistate.chareditctx.fillStyle = color_accent;
+		uistate.chareditctx.fillStyle = uistate.colors.accent;
 		uistate.chareditctx.lineWidth = 1;
 		var hp = uisettings.pointsize/2
 		

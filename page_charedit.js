@@ -207,7 +207,7 @@
 		uistate.chareditcanvas.height = uistate.chareditcanvassettings.size;
 		uistate.chareditcanvas.width = uistate.chareditcanvassettings.size;
 		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
-		uistate.chareditcanvas.style.backgroundColor = color_bg;	//color_grid;
+		uistate.chareditcanvas.style.backgroundColor = uistate.colors.background;	//uisettings.color_grid;
 		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		uistate.chareditcanvas.onmouseout = mouseoutcec;
 		uistate.chareditcanvas.onmouseover = mouseovercec;
@@ -289,8 +289,8 @@
 		//show right hand line
 		if(uistate.chareditcanvassettings.showguides && uistate.showrightline){
 			uistate.chareditctx.lineWidth = 1;
-			//uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .5, true);
-			uistate.chareditctx.strokeStyle = color_guideline;
+			//uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .5, true);
+			uistate.chareditctx.strokeStyle = uisettings.color_guideline;
 			var rhl = (fc[uistate.selectedchar].charwidth*uistate.chareditcanvassettings.zoom) + uistate.chareditcanvassettings.originx;
 			if(temppathdragshape){
 				rhl = Math.max(sx_cx(temppathdragshape.rightx), rhl);
@@ -395,7 +395,7 @@
 			if(obj){
 				obj.height = 11;
 				obj.width = 11;
-				var color = locarr[j]? color_canvasbutton_selected : color_canvasbutton_unselected;
+				var color = locarr[j]? uistate.colors.button_selected : uistate.colors.button_resting;
 				drawLockButton(obj, color);
 			}
 		}
@@ -514,7 +514,7 @@
 		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		color = (tp.type=='corner'? color_canvasbutton_selected : color_canvasbutton_unselected);
+		color = (tp.type=='corner'? uistate.colors.button_selected : uistate.colors.button_resting);
 		drawPointCornerButton(tempctx, color);
 		
 		tempcanvas = document.getElementById("pointflatcanvas");
@@ -522,7 +522,7 @@
 		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		color = (tp.type=='flat'? color_canvasbutton_selected : color_canvasbutton_unselected);
+		color = (tp.type=='flat'? uistate.colors.button_selected : uistate.colors.button_resting);
 		drawPointFlatButton(tempctx, color);
 		
 		tempcanvas = document.getElementById("pointsymmetriccanvas");
@@ -530,7 +530,7 @@
 		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		color = (tp.type=='symmetric'? color_canvasbutton_selected : color_canvasbutton_unselected);
+		color = (tp.type=='symmetric'? uistate.colors.button_selected : uistate.colors.button_resting);
 		drawPointSymmetricButton(tempctx, color);
 	}
 	
@@ -876,7 +876,7 @@
 		tempctx = tempcanvas.getContext("2d");
 		if(uistate.selectedtool == "pathedit"){ drawPathEditButton(tempctx, "white", "black"); }
 		else if (!pointselectclickable) { drawPathEditButton(tempctx, "rgb(80,80,80)", "rgb(80,80,80)"); }
-		else { drawPathEditButton(tempctx, "transparent", color_accent); }
+		else { drawPathEditButton(tempctx, "transparent", uistate.colors.accent); }
 		
 		// Shape Resize
 		tempcanvas = document.getElementById("shaperesizebuttoncanvas");
@@ -886,7 +886,7 @@
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
 		if(uistate.selectedtool == "shaperesize"){ drawShapeResizeButton(tempctx, "white", "black"); }
-		else { drawShapeResizeButton(tempctx, "transparent", color_accent); }
+		else { drawShapeResizeButton(tempctx, "transparent", uistate.colors.accent); }
 
 		// Pan
 		tempcanvas = document.getElementById("panbuttoncanvas");
@@ -896,7 +896,7 @@
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
 		if(uistate.selectedtool == "pan"){ drawPanButton(tempctx, "white", "black"); }
-		else { drawPanButton(tempctx, color_accent, "transparent"); }
+		else { drawPanButton(tempctx, uistate.colors.accent, "transparent"); }
 		
 		// Zoom In
 		tempcanvas = document.getElementById("zoominbuttoncanvas");
@@ -905,7 +905,7 @@
 		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoomInButton(tempctx, color_accent, "transparent");
+		drawZoomInButton(tempctx, uistate.colors.accent, "transparent");
 
 		// Zoom Out
 		tempcanvas = document.getElementById("zoomoutbuttoncanvas");
@@ -914,7 +914,7 @@
 		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoomOutButton(tempctx, color_accent, "transparent");
+		drawZoomOutButton(tempctx, uistate.colors.accent, "transparent");
 		
 		// Zoom 1:1
 		tempcanvas = document.getElementById("zoom1to1buttoncanvas");
@@ -923,7 +923,7 @@
 		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoom1to1Button(tempctx, color_accent, "transparent");
+		drawZoom1to1Button(tempctx, uistate.colors.accent, "transparent");
 		
 		// Zoom Em
 		tempcanvas = document.getElementById("zoomembuttoncanvas");
@@ -932,7 +932,7 @@
 		tempcanvas.style.margin = "4px 4px 0px 3px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoomEmButton(tempctx, color_accent, "transparent");		
+		drawZoomEmButton(tempctx, uistate.colors.accent, "transparent");		
 
 		if(uistate.navhere == "character edit"){
 			// New Rectangle
@@ -943,7 +943,7 @@
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
 			if(uistate.selectedtool == "newrect") { drawNewRectButton(tempctx, "white", "black"); }
-			else { drawNewRectButton(tempctx, "transparent", color_accent); }
+			else { drawNewRectButton(tempctx, "transparent", uistate.colors.accent); }
 			
 			// New Oval
 			tempcanvas = document.getElementById("newovalbuttoncanvas");
@@ -953,7 +953,7 @@
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
 			if(uistate.selectedtool == "newoval"){ drawNewOvalButton(tempctx, "white", "black"); }
-			else { drawNewOvalButton(tempctx, "transparent", color_accent); }
+			else { drawNewOvalButton(tempctx, "transparent", uistate.colors.accent); }
 			
 			// New Path
 			tempcanvas = document.getElementById("newpathbuttoncanvas");
@@ -963,7 +963,7 @@
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
 			if(uistate.selectedtool == "newpath"){ drawNewPathButton(tempctx, "white", "black"); }
-			else { drawNewPathButton(tempctx, "transparent", color_accent); }
+			else { drawNewPathButton(tempctx, "transparent", uistate.colors.accent); }
 		}
 	}
 
@@ -1035,7 +1035,7 @@
 		if(uistate.chareditcanvassettings.showgrid || uistate.chareditcanvassettings.showguides){
 			var size = uistate.chareditcanvassettings.size/fs.griddivisions;
 			uistate.chareditctx.lineWidth = 1;
-			uistate.chareditctx.strokeStyle = color_grid;
+			uistate.chareditctx.strokeStyle = uisettings.color_grid;
 			
 			if(uistate.chareditcanvassettings.showgrid){
 				var gsize = ((fs.upm/fs.griddivisions)*uistate.chareditcanvassettings.zoom);
@@ -1054,7 +1054,7 @@
 			if(uistate.chareditcanvassettings.showguides){
 				
 				// Minor Guidelines - Overshoots
-				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .8, true);
+				uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
 				horizontal(uistate.chareditcanvassettings.originy+overshootsize);
@@ -1064,15 +1064,15 @@
 				vertical(uistate.chareditcanvassettings.originx+(fs.upm*uistate.chareditcanvassettings.zoom));
 				
 				// major guidelines - xheight, top (emzize)
-				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .5, true);
+				uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .5, true);
 				horizontal(xline);
-				uistate.chareditctx.strokeStyle = shiftColor(color_guideline, .2, true);
+				uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .2, true);
 				horizontal(mline);
 				horizontal(dline);
 				
 				
 				// Out of bounds triangle
-				uistate.chareditctx.fillStyle = color_guideline;		
+				uistate.chareditctx.fillStyle = uisettings.color_guideline;		
 				uistate.chareditctx.beginPath();
 				uistate.chareditctx.moveTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy);
 				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(uisettings.pointsize*2));
@@ -1081,7 +1081,7 @@
 				uistate.chareditctx.fill();
 				
 				// Origin Lines
-				uistate.chareditctx.strokeStyle = color_guideline;
+				uistate.chareditctx.strokeStyle = uisettings.color_guideline;
 				horizontal(uistate.chareditcanvassettings.originy);
 				vertical(uistate.chareditcanvassettings.originx);
 			}

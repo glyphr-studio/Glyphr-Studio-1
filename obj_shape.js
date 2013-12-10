@@ -78,10 +78,10 @@
 				
 				if(s.seed){
 					if(GlyphrProject.seedshapes[s.seed].shape == this) {
-						lctx.fillStyle = shiftColor(color_glyphfill, .1, true); 					
+						lctx.fillStyle = shiftColor(uisettings.color_glyphfill, .1, true); 					
 					}
 				} else if(s == this){
-						lctx.fillStyle = shiftColor(color_glyphfill, .1, true); 
+						lctx.fillStyle = shiftColor(uisettings.color_glyphfill, .1, true); 
 				}
 			} else {	
 				lctx.fillStyle = "transparent";	
@@ -129,7 +129,7 @@
 		var z = uistate.chareditcanvassettings.zoom;
 		var hp = (uisettings.pointsize/2);
 		uistate.chareditctx.lineWidth = 1;
-		uistate.chareditctx.strokeStyle = color_accent;
+		uistate.chareditctx.strokeStyle = uistate.colors.accent;
 		
 		if((uistate.selectedtool=="newrect")||(uistate.selectedtool=="shaperesize")){
 			uistate.chareditctx.fillStyle = "transparent";
@@ -145,7 +145,7 @@
 			var w = Math.ceil(rx-lx);
 			var h = Math.ceil(by-ty);
 			
-			uistate.chareditctx.strokeStyle = color_accent;
+			uistate.chareditctx.strokeStyle = uistate.colors.accent;
 			//debug("DRAWSELECTOUTLINE - real shape detected, and xywh= " + x + "," + y + "," + w + "," + h);
 
 			uistate.chareditctx.strokeRect(x,y,w,h);
@@ -158,7 +158,7 @@
 			
 			// Draw path selection outline
 			uistate.chareditctx.lineWidth = 1;
-			uistate.chareditctx.strokeStyle = color_accent;
+			uistate.chareditctx.strokeStyle = uistate.colors.accent;
 			uistate.chareditctx.beginPath();
 			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s, this.path.isclosed); }
 			uistate.chareditctx.stroke();
@@ -193,7 +193,7 @@
 			
 			// Draw points 
 			for(var s=0; s<pp.length; s++){	
-				var c = color_accent;
+				var c = uistate.colors.accent;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
 
 				pp[s].drawPoint(c); 
@@ -201,7 +201,7 @@
 			}
 			
 		} else if ((uistate.selectedtool=="newoval")){
-			uistate.chareditctx.strokeStyle = color_accent;
+			uistate.chareditctx.strokeStyle = uistate.colors.accent;
 			var tpdso = ovalPathFromCorners(temppathdragshape);
 			
 			uistate.chareditctx.beginPath();
@@ -320,7 +320,7 @@
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp();
 		var bbottomy = (by-hp).makeCrisp();
 
-		onlycenter? uistate.chareditctx.fillStyle = color_accent : uistate.chareditctx.fillStyle = "white";
+		onlycenter? uistate.chareditctx.fillStyle = uistate.colors.accent : uistate.chareditctx.fillStyle = "white";
 		
 		if(!onlycenter){
 			//upper left

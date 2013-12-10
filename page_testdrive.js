@@ -59,7 +59,7 @@
 	function drawLine(y){
 		//debug("TESTDRIVE - Drawing h line at " + y);
 		y = y.makeCrisp();
-		uistate.testdrivectx.strokeStyle = color_accent;
+		uistate.testdrivectx.strokeStyle = uistate.colors.accent;
 		uistate.testdrivectx.beginPath();
 		uistate.testdrivectx.lineWidth = 1;	
 		uistate.testdrivectx.moveTo(0,y);
@@ -88,7 +88,7 @@
 		
 		if(showcharbox){
 			lctx.fillStyle = "transparent";
-			lctx.strokeStyle = color_accent;
+			lctx.strokeStyle = uistate.colors.accent;
 			lctx.lineWidth = 1;
 			var trailspace = 0;
 			if(tc.isautowide) trailspace = GlyphrProject.settings.upm*GlyphrProject.settings.kerning*tdFontScale;

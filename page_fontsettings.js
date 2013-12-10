@@ -16,19 +16,19 @@
 		var content = "<div class='pagecontent textpage'><h1>Font Settings</h1>";
 		
 		content += "<h3>Units per Em</h3>" + 
-					"Total height and width of the area on which characters are stored." + 
+					"Total height and width of the area on which characters are stored. " + 
 					"This number should be a square, 2048 is recommended.<br>" + 
 					"<input type='text' value='"+fs.upm+"' onchange='updateFontSetting(\"upm\", this.value);'><span class='unitlabel'>(em units)</span><br>";
 		
 		content += "<h3>Grid System</h3>" + 
-					"Defining a grid system to use while editing characters in this font makes stuff a whole" + 
-					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should" + 
+					"Defining a grid system to use while editing characters in this font makes stuff a whole " + 
+					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " + 
 					"divide evenly into the Units per Em specified above.<br>" + 
 					"<div><input type='text' value='"+fs.griddivisions+"' onchange='updateFontSetting(\"griddivisions\", this.value);'>"+spinner();+"</div><br>";
 					
 		var gridsize = (fs.upm/fs.griddivisions);
 		content += "<h3>Character Proportions</h3>" + 
-					"There are two main horizontal dividing lines for each character.  The baseline is where the bottom" + 
+					"There are two main horizontal dividing lines for each character.  The baseline is where the bottom " + 
 					"of most characters sit, except characters like g and y that fall below.  X height is the height of most " + 
 					"lowercase characters, except characters like h and l that go above it.<br>" + 
 					"These are specified in grid division units.<br><br>" + 
@@ -40,7 +40,7 @@
 					"</table><br>";
 		
 		content += "<h3>Overshoot Guideline</h3>" + 
-					"Round letters usually extend a little above the x height line and below the baseline." + 
+					"Round letters usually extend a little above the x height line and below the baseline. " + 
 					"A light guideline will show this overshoot distance.<br>" + 
 					"<input type='text' value='"+(fs.overshoot*fs.upm)+"' onchange='updateFontSetting(\"overshoot\", this.value);'><span class='unitlabel'>(em units)</span><br>";
 
