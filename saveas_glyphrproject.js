@@ -5,7 +5,7 @@
 function triggerProjectFileDownload(){
 		//JSON CONVERSION!!!!!!
 		//var output = generateGlyphrProjectJS();
-		var output = niceJSON(JSON.stringify(GlyphrProject));
+		//var output = niceJSON(JSON.stringify(GlyphrProject));
 
 		// Update the textbox
 		//document.getElementById("genoutput").value = output;

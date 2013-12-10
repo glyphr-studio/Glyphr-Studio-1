@@ -3,6 +3,594 @@
 //	Save as a TTX XML
 //	------------------------
 
+	function triggerTTXFileDownload(){
+		//JSON CONVERSION!!!!!!
+		//var output = generateGlyphrProjectJS();
+
+		var link = document.createElement('a');
+		link.href = 'data:text/plain,' + generateTTXXML();
+		var d = new Date();
+		var yr = d.getFullYear();
+		var mo = d.getMonth()+1;
+		var day = d.getDate();
+		var hr = d.getHours();
+		var min = (d.getMinutes()<10? "0" : "") + d.getMinutes();
+		var sec = (d.getSeconds()<10? "0" : "") + d.getSeconds();
+		
+		link.download = "TTX Data - " + GlyphrProject.fontmetadata.familyname + " - " +yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec+".xml";
+		link.click();
+	}
+
+	function generateTTXXML(){
+
+		
+		var h1 = '<?xml version="1.0" encoding="ISO-8859-1"?><ttFont sfntVersion="' + 
+			["x00","x01","x00","x00"].join("\\") + 
+			'" ttLibVersion="2.3">' +
+		  '<GlyphOrder>' +
+		    '<!-- The id attribute is only for humans; it is ignored when parsed. -->' +
+		    '<GlyphID id="0" name=".notdef"/>' +
+		    '<GlyphID id="1" name="glyph00001"/>' +
+		    '<GlyphID id="2" name="glyph00002"/>' +
+		    '<GlyphID id="3" name="space"/>' +
+		    '<GlyphID id="4" name="exclam"/>' +
+		    '<GlyphID id="5" name="A"/>' +
+		    '<GlyphID id="6" name="B"/>' +
+		    '<GlyphID id="7" name="C"/>' +
+		    '<GlyphID id="8" name="D"/>' +
+		    '<GlyphID id="9" name="E"/>' +
+		    '<GlyphID id="10" name="F"/>' +
+		    '<GlyphID id="11" name="G"/>' +
+		    '<GlyphID id="12" name="a"/>' +
+		    '<GlyphID id="13" name="b"/>' +
+		    '<GlyphID id="14" name="c"/>' +
+		    '<GlyphID id="15" name="d"/>' +
+		    '<GlyphID id="16" name="e"/>' +
+		    '<GlyphID id="17" name="f"/>' +
+		    '<GlyphID id="18" name="g"/>' +
+		  '</GlyphOrder>' +
+'' +
+		  '<head>' +
+		    '<!-- Most of this table will be recalculated by the compiler -->' +
+		    '<tableVersion value="1.0"/>' +
+		    '<fontRevision value="1.0"/>' +
+		    '<checkSumAdjustment value="0xccb8b8bc"/>' +
+		    '<magicNumber value="0x5f0f3cf5"/>' +
+		    '<flags value="00000000 00000000"/>' +
+		    '<unitsPerEm value="1024"/>' +
+		    '<created value="Sun Dec 08 22:10:53 2013"/>' +
+		    '<modified value="Sun Dec 08 22:10:53 2013"/>' +
+		    '<xMin value="0"/>' +
+		    '<yMin value="0"/>' +
+		    '<xMax value="1024"/>' +
+		    '<yMax value="1024"/>' +
+		    '<macStyle value="00000000 00000000"/>' +
+		    '<lowestRecPPEM value="8"/>' +
+		    '<fontDirectionHint value="2"/>' +
+		    '<indexToLocFormat value="1"/>' +
+		    '<glyphDataFormat value="0"/>' +
+		  '</head>' +
+'' +
+		  '<hhea>' +
+		    '<tableVersion value="1.0"/>' +
+		    '<ascent value="1024"/>' +
+		    '<descent value="0"/>' +
+		    '<lineGap value="0"/>' +
+		    '<advanceWidthMax value="2048"/>' +
+		    '<minLeftSideBearing value="0"/>' +
+		    '<minRightSideBearing value="1024"/>' +
+		    '<xMaxExtent value="1024"/>' +
+		    '<caretSlopeRise value="1"/>' +
+		    '<caretSlopeRun value="0"/>' +
+		    '<caretOffset value="0"/>' +
+		    '<reserved0 value="0"/>' +
+		    '<reserved1 value="0"/>' +
+		    '<reserved2 value="0"/>' +
+		    '<reserved3 value="0"/>' +
+		    '<metricDataFormat value="0"/>' +
+		    '<numberOfHMetrics value="19"/>' +
+		  '</hhea>' +
+'' +
+		  '<maxp>' +
+		    '<!-- Most of this table will be recalculated by the compiler -->' +
+		    '<tableVersion value="0x10000"/>' +
+		    '<numGlyphs value="19"/>' +
+		    '<maxPoints value="23"/>' +
+		    '<maxContours value="5"/>' +
+		    '<maxCompositePoints value="0"/>' +
+		    '<maxCompositeContours value="0"/>' +
+		    '<maxZones value="2"/>' +
+		    '<maxTwilightPoints value="0"/>' +
+		    '<maxStorage value="0"/>' +
+		    '<maxFunctionDefs value="0"/>' +
+		    '<maxInstructionDefs value="0"/>' +
+		    '<maxStackElements value="0"/>' +
+		    '<maxSizeOfInstructions value="0"/>' +
+		    '<maxComponentElements value="0"/>' +
+		    '<maxComponentDepth value="0"/>' +
+		  '</maxp>' +
+'' +
+		  '<OS_2>' +
+		    '<version value="2"/>' +
+		    '<xAvgCharWidth value="916"/>' +
+		    '<usWeightClass value="400"/>' +
+		    '<usWidthClass value="5"/>' +
+		    '<fsType value="00000000 00000100"/>' +
+		    '<ySubscriptXSize value="512"/>' +
+		    '<ySubscriptYSize value="512"/>' +
+		    '<ySubscriptXOffset value="0"/>' +
+		    '<ySubscriptYOffset value="0"/>' +
+		    '<ySuperscriptXSize value="512"/>' +
+		    '<ySuperscriptYSize value="512"/>' +
+		    '<ySuperscriptXOffset value="0"/>' +
+		    '<ySuperscriptYOffset value="512"/>' +
+		    '<yStrikeoutSize value="51"/>' +
+		    '<yStrikeoutPosition value="204"/>' +
+		    '<sFamilyClass value="0"/>' +
+		    '<panose>' +
+		      '<bFamilyType value="0"/>' +
+		      '<bSerifStyle value="0"/>' +
+		      '<bWeight value="4"/>' +
+		      '<bProportion value="0"/>' +
+		      '<bContrast value="0"/>' +
+		      '<bStrokeVariation value="0"/>' +
+		      '<bArmStyle value="0"/>' +
+		      '<bLetterForm value="0"/>' +
+		      '<bMidline value="0"/>' +
+		      '<bXHeight value="0"/>' +
+		    '</panose>' +
+		    '<ulUnicodeRange1 value="00000000 00000000 00000000 00000001"/>' +
+		    '<ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>' +
+		    '<ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>' +
+		    '<ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>' +
+		    '<achVendID value="FSTR"/>' +
+		    '<fsSelection value="00000000 01000000"/>' +
+		    '<fsFirstCharIndex value="32"/>' +
+		    '<fsLastCharIndex value="103"/>' +
+		    '<sTypoAscender value="1024"/>' +
+		    '<sTypoDescender value="0"/>' +
+		    '<sTypoLineGap value="0"/>' +
+		    '<usWinAscent value="1024"/>' +
+		    '<usWinDescent value="0"/>' +
+		    '<ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>' +
+		    '<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>' +
+		    '<sxHeight value="0"/>' +
+		    '<sCapHeight value="0"/>' +
+		    '<usDefaultChar value="0"/>' +
+		    '<usBreakChar value="32"/>' +
+		    '<usMaxContex value="0"/>' +
+		  '</OS_2>' +
+'' +
+		  '<hmtx>' +
+		    '<mtx name=".notdef" width="0" lsb="0"/>' +
+		    '<mtx name="A" width="2048" lsb="0"/>' +
+		    '<mtx name="B" width="2048" lsb="0"/>' +
+		    '<mtx name="C" width="2048" lsb="0"/>' +
+		    '<mtx name="D" width="2048" lsb="0"/>' +
+		    '<mtx name="E" width="2048" lsb="0"/>' +
+		    '<mtx name="F" width="2048" lsb="0"/>' +
+		    '<mtx name="G" width="2048" lsb="0"/>' +
+		    '<mtx name="a" width="2048" lsb="0"/>' +
+		    '<mtx name="b" width="2048" lsb="0"/>' +
+		    '<mtx name="c" width="2048" lsb="0"/>' +
+		    '<mtx name="d" width="2048" lsb="0"/>' +
+		    '<mtx name="e" width="2048" lsb="0"/>' +
+		    '<mtx name="exclam" width="2048" lsb="0"/>' +
+		    '<mtx name="f" width="2048" lsb="0"/>' +
+		    '<mtx name="g" width="2048" lsb="0"/>' +
+		    '<mtx name="glyph00001" width="0" lsb="0"/>' +
+		    '<mtx name="glyph00002" width="1024" lsb="0"/>' +
+		    '<mtx name="space" width="2048" lsb="0"/>' +
+		  '</hmtx>' +
+'' +
+		  '<cmap>' +
+		    '<tableVersion version="0"/>' +
+		    '<cmap_format_4 platformID="0" platEncID="3" language="0">' +
+		      '<map code="0x20" name="space"/><!-- SPACE -->' +
+		      '<map code="0x21" name="exclam"/><!-- EXCLAMATION MARK -->' +
+		      '<map code="0x41" name="A"/><!-- LATIN CAPITAL LETTER A -->' +
+		      '<map code="0x42" name="B"/><!-- LATIN CAPITAL LETTER B -->' +
+		      '<map code="0x43" name="C"/><!-- LATIN CAPITAL LETTER C -->' +
+		      '<map code="0x44" name="D"/><!-- LATIN CAPITAL LETTER D -->' +
+		      '<map code="0x45" name="E"/><!-- LATIN CAPITAL LETTER E -->' +
+		      '<map code="0x46" name="F"/><!-- LATIN CAPITAL LETTER F -->' +
+		      '<map code="0x47" name="G"/><!-- LATIN CAPITAL LETTER G -->' +
+		      '<map code="0x61" name="a"/><!-- LATIN SMALL LETTER A -->' +
+		      '<map code="0x62" name="b"/><!-- LATIN SMALL LETTER B -->' +
+		      '<map code="0x63" name="c"/><!-- LATIN SMALL LETTER C -->' +
+		      '<map code="0x64" name="d"/><!-- LATIN SMALL LETTER D -->' +
+		      '<map code="0x65" name="e"/><!-- LATIN SMALL LETTER E -->' +
+		      '<map code="0x66" name="f"/><!-- LATIN SMALL LETTER F -->' +
+		      '<map code="0x67" name="g"/><!-- LATIN SMALL LETTER G -->' +
+		    '</cmap_format_4>' +
+		    '<cmap_format_4 platformID="3" platEncID="1" language="0">' +
+		      '<map code="0x20" name="space"/><!-- SPACE -->' +
+		      '<map code="0x21" name="exclam"/><!-- EXCLAMATION MARK -->' +
+		      '<map code="0x41" name="A"/><!-- LATIN CAPITAL LETTER A -->' +
+		      '<map code="0x42" name="B"/><!-- LATIN CAPITAL LETTER B -->' +
+		      '<map code="0x43" name="C"/><!-- LATIN CAPITAL LETTER C -->' +
+		      '<map code="0x44" name="D"/><!-- LATIN CAPITAL LETTER D -->' +
+		      '<map code="0x45" name="E"/><!-- LATIN CAPITAL LETTER E -->' +
+		      '<map code="0x46" name="F"/><!-- LATIN CAPITAL LETTER F -->' +
+		      '<map code="0x47" name="G"/><!-- LATIN CAPITAL LETTER G -->' +
+		      '<map code="0x61" name="a"/><!-- LATIN SMALL LETTER A -->' +
+		      '<map code="0x62" name="b"/><!-- LATIN SMALL LETTER B -->' +
+		      '<map code="0x63" name="c"/><!-- LATIN SMALL LETTER C -->' +
+		      '<map code="0x64" name="d"/><!-- LATIN SMALL LETTER D -->' +
+		      '<map code="0x65" name="e"/><!-- LATIN SMALL LETTER E -->' +
+		      '<map code="0x66" name="f"/><!-- LATIN SMALL LETTER F -->' +
+		      '<map code="0x67" name="g"/><!-- LATIN SMALL LETTER G -->' +
+		    '</cmap_format_4>' +
+		  '</cmap>' +
+'' +
+		  '<loca>' +
+		    '<!-- The loca table will be calculated by the compiler -->' +
+		  '</loca>' +
+'' +
+		  '<glyf>' +
+'' +
+		    '<!-- The xMin, yMin, xMax and yMax values' +
+		         'will be recalculated by the compiler. -->' +
+'' +
+		    '<TTGlyph name=".notdef" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="512" y="145" on="1"/>' +
+		        '<pt x="512" y="308" on="1"/>' +
+		        '<pt x="349" y="308" on="1"/>' +
+		        '<pt x="349" y="145" on="1"/>' +
+		      '</contour>' +
+		      '<contour>' +
+		        '<pt x="674" y="335" on="1"/>' +
+		        '<pt x="674" y="498" on="1"/>' +
+		        '<pt x="349" y="498" on="1"/>' +
+		        '<pt x="349" y="335" on="1"/>' +
+		      '</contour>' +
+		      '<contour>' +
+		        '<pt x="512" y="525" on="1"/>' +
+		        '<pt x="512" y="688" on="1"/>' +
+		        '<pt x="349" y="688" on="1"/>' +
+		        '<pt x="349" y="525" on="1"/>' +
+		      '</contour>' +
+		      '<contour>' +
+		        '<pt x="674" y="715" on="1"/>' +
+		        '<pt x="674" y="877" on="1"/>' +
+		        '<pt x="512" y="877" on="1"/>' +
+		        '<pt x="444" y="877" on="0"/>' +
+		        '<pt x="397" y="830" on="1"/>' +
+		        '<pt x="349" y="782" on="0"/>' +
+		        '<pt x="349" y="715" on="1"/>' +
+		      '</contour>' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="A" xMin="0" yMin="0" xMax="1024" yMax="1024">';
+
+		    /*
+		      <contour>
+		        <pt x="550" y="550" on="1"/>
+		        <pt x="0" y="1024" on="1"/>
+		        <pt x="1024" y="1024" on="1"/>
+		        <pt x="1024" y="0" on="1"/>
+		      </contour>
+		      <contour>
+		        <pt x="0" y="0" on="1"/>
+		        <pt x="802" y="0" on="1"/>
+		        <pt x="802" y="802" on="1"/>
+		        <pt x="0" y="802" on="1"/>
+		      </contour>
+		    */
+
+			
+		    var h2 = 
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="B" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="C" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="D" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="E" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="F" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="G" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="a" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="b" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="c" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="d" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="e" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="exclam" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="f" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="g" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		    '<TTGlyph name="glyph00001"/><!-- contains no outline data -->' +
+'' +
+		    '<TTGlyph name="glyph00002"/><!-- contains no outline data -->' +
+'' +
+		    '<TTGlyph name="space" xMin="0" yMin="0" xMax="1024" yMax="1024">' +
+		      '<contour>' +
+		        '<pt x="0" y="0" on="1"/>' +
+		        '<pt x="0" y="1024" on="1"/>' +
+		        '<pt x="1024" y="1024" on="1"/>' +
+		        '<pt x="1024" y="0" on="1"/>' +
+		      '</contour>' +
+		      '<instructions><assembly>' +
+		        '</assembly></instructions>' +
+		    '</TTGlyph>' +
+'' +
+		  '</glyf>' +
+'' +
+		  '<name>' +
+		    '<namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">' +
+		      'Copyright Matt LaGrandeur 2013' +
+		    '</namerecord>' +
+		    '<namerecord nameID="1" platformID="1" platEncID="0" langID="0x0">' +
+		      'Basic Set Test' +
+		    '</namerecord>' +
+		    '<namerecord nameID="2" platformID="1" platEncID="0" langID="0x0">' +
+		      'Regular' +
+		    '</namerecord>' +
+		    '<namerecord nameID="3" platformID="1" platEncID="0" langID="0x0">' +
+		      'FontStruct Basic Set Test' +
+		    '</namerecord>' +
+		    '<namerecord nameID="4" platformID="1" platEncID="0" langID="0x0">' +
+		      'Basic Set Test Regular' +
+		    '</namerecord>' +
+		    '<namerecord nameID="5" platformID="1" platEncID="0" langID="0x0">' +
+		      'Version 1.0' +
+		    '</namerecord>' +
+		    '<namerecord nameID="6" platformID="1" platEncID="0" langID="0x0">' +
+		      'Basic-Set-Test' +
+		    '</namerecord>' +
+		    '<namerecord nameID="7" platformID="1" platEncID="0" langID="0x0">' +
+		      'FontStruct is a trademark of FSI FontShop International GmbH' +
+		    '</namerecord>' +
+		    '<namerecord nameID="8" platformID="1" platEncID="0" langID="0x0">' +
+		      'http://fontstruct.com' +
+		    '</namerecord>' +
+		    '<namerecord nameID="9" platformID="1" platEncID="0" langID="0x0">' +
+		      'Matt LaGrandeur' +
+		    '</namerecord>' +
+		    '<namerecord nameID="10" platformID="1" platEncID="0" langID="0x0">' +
+		      '&#226;&#128;&#156;Basic Set Test&#226;&#128;&#157; was built with FontStruct&#10;' +
+		    '</namerecord>' +
+		    '<namerecord nameID="11" platformID="1" platEncID="0" langID="0x0">' +
+		      'http://www.fontshop.com' +
+		    '</namerecord>' +
+		    '<namerecord nameID="12" platformID="1" platEncID="0" langID="0x0">' +
+		      'http://fontstruct.com/fontstructions/show/916476' +
+		    '</namerecord>' +
+		    '<namerecord nameID="13" platformID="1" platEncID="0" langID="0x0">' +
+		      'Creative Commons Attribution Non-commercial Share Alike' +
+		    '</namerecord>' +
+		    '<namerecord nameID="14" platformID="1" platEncID="0" langID="0x0">' +
+		      'http://creativecommons.org/licenses/by-nc-sa/3.0/' +
+		    '</namerecord>' +
+		    '<namerecord nameID="19" platformID="1" platEncID="0" langID="0x0">' +
+		      'Five big quacking zephyrs jolt my wax bed' +
+		    '</namerecord>' +
+		    '<namerecord nameID="256" platformID="1" platEncID="0" langID="0x0">' +
+		      'CwgOcV5i' +
+		    '</namerecord>' +
+		    '<namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">' +
+		      'Copyright Matt LaGrandeur 2013' +
+		    '</namerecord>' +
+		    '<namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">' +
+		      'Basic Set Test' +
+		    '</namerecord>' +
+		    '<namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">' +
+		      'Regular' +
+		    '</namerecord>' +
+		    '<namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">' +
+		      'FontStruct Basic Set Test' +
+		    '</namerecord>' +
+		    '<namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">' +
+		      'Basic Set Test Regular' +
+		    '</namerecord>' +
+		    '<namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">' +
+		      'Version 1.0' +
+		    '</namerecord>' +
+		    '<namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">' +
+		      'Basic-Set-Test' +
+		    '</namerecord>' +
+		    '<namerecord nameID="7" platformID="3" platEncID="1" langID="0x409">' +
+		      'FontStruct is a trademark of FSI FontShop International GmbH' +
+		    '</namerecord>' +
+		    '<namerecord nameID="8" platformID="3" platEncID="1" langID="0x409">' +
+		      'http://fontstruct.com' +
+		    '</namerecord>' +
+		    '<namerecord nameID="9" platformID="3" platEncID="1" langID="0x409">' +
+		      'Matt LaGrandeur' +
+		    '</namerecord>' +
+		    '<namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">' +
+		      '&#8218;&#196;&#250;Basic Set Test&#8218;&#196;&#249; was built with FontStruct&' +
+		    '</namerecord>' +
+		    '<namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">' +
+		      'http://www.fontshop.com' +
+		    '</namerecord>' +
+		    '<namerecord nameID="12" platformID="3" platEncID="1" langID="0x409">' +
+		      'http://fontstruct.com/fontstructions/show/916476' +
+		    '</namerecord>' +
+		    '<namerecord nameID="13" platformID="3" platEncID="1" langID="0x409">' +
+		      'Creative Commons Attribution Non-commercial Share Alike' +
+		    '</namerecord>' +
+		    '<namerecord nameID="14" platformID="3" platEncID="1" langID="0x409">' +
+		      'http://creativecommons.org/licenses/by-nc-sa/3.0/' +
+		    '</namerecord>' +
+		    '<namerecord nameID="19" platformID="3" platEncID="1" langID="0x409">' +
+		      'Five big quacking zephyrs jolt my wax bed' +
+		    '</namerecord>' +
+		    '<namerecord nameID="256" platformID="3" platEncID="1" langID="0x409">' +
+		      'CwgOcV5i' +
+		    '</namerecord>' +
+		  '</name>' +
+'' +
+		  '<post>' +
+		    '<formatType value="3.0"/>' +
+		    '<italicAngle value="0.0"/>' +
+		    '<underlinePosition value="102"/>' +
+		    '<underlineThickness value="51"/>' +
+		    '<isFixedPitch value="0"/>' +
+		    '<minMemType42 value="0"/>' +
+		    '<maxMemType42 value="0"/>' +
+		    '<minMemType1 value="0"/>' +
+		    '<maxMemType1 value="0"/>' +
+		  '</post>' +
+'' +
+		'</ttFont>';
+
+		return (h1 + GlyphrProject.fontchars[65].charglyphdata[0].genPostScript() + h2);
+
+
+	}
+
+	
+	
+/*
 	function generateTTXXML(){
 		var fs = GlyphrProject.settings;
 		var md = GlyphrProject.fontmetadata;
@@ -361,3 +949,4 @@
 		output += '</ttFont>';
 		return output;
 	}
+*/

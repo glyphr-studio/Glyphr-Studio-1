@@ -32,7 +32,7 @@
 		this.selectPathPoint = selectPathPoint;
 		this.drawPath = drawPath;
 		this.drawPathToArea = drawPathToArea;
-		this.genPathPostScript = genPathPostScript
+		this.genPathPostScript = genPathPostScript;
 		this.updatePathPosition = updatePathPosition;
 		this.updatePathSize = updatePathSize;
 		this.calcMaxes = calcMaxes;
@@ -118,15 +118,22 @@
 	
 	function genPathPostScript(){
 		var ws = "            ";
-		var re = "";
+		var re = "\t<contour>";
 		
 		//debug("GENPATHPOSTSCRIPT");
 
 		//re += (ws + "newpath \n");
 		
 		for(var tp=0; tp<this.pathpoints.length; tp++){ 
-			
 			var pp = this.pathpoints[tp];				
+
+			re += "\t\t<pt x=\""
+			re += pp.P.x;
+			re += "\" y=\"";
+			re += pp.P.y;
+			re += "\" on=\"1\"/>";
+
+			/*
 			var next = false;
 			if(this.pathpoints[tp+1]){
 				next = this.pathpoints[tp+1];
@@ -140,7 +147,6 @@
 			}
 
 			if (next) {
-			/*
 				var pph2x = (pp.useh2? pp.H2.x : pp.P.x);
 				var pph2y = (pp.useh2? pp.H2.y : pp.P.y);
 				var nxh1x = (next.useh1? next.H1.x : next.P.x);
@@ -151,10 +157,12 @@
 				//lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
 				
 				re += (ws + pph2x + " " + pph2y + " " + nxh1x + " " + nxh1y + " " + nxppx + " " + nxppy + " rcurveto \n");
-			*/
+			
 				re += (ws + "100 100 100 200 200 200 rcurveto \n");
 			}
+			*/
 			
+			re += "\t</contour>";
 		}
 		
 		//if(this.isclosed) re += (ws + "closepath \n");		

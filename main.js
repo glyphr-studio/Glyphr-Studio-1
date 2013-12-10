@@ -49,9 +49,7 @@
 				break;	
 				
 			case "open project":	updateopenproject();	break;
-			/*
 			case "export font":		updateexportfont();		break;
-			*/
 			case "help": 			updatehelp();			break;
 			case "about":			updateabout();			break;
 				
@@ -233,7 +231,7 @@
 		navarr.push("font metadata");
 		navarr.push("_");
 		navarr.push("open project");
-		//navarr.push("export font");
+		navarr.push("export font");
 		navarr.push("_");
 		navarr.push("help");
 		navarr.push("about");
