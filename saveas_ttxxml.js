@@ -24,7 +24,7 @@
 	function generateTTXXML(){
 
 		
-		var h1 = '<?xml version="1.0" encoding="ISO-8859-1"?><ttFont sfntVersion="' + 
+		var h1 = '<?xml version="1.0" encoding="ISO-8859-1"?><ttFont sfntVersion="\\' + 
 			["x00","x01","x00","x00"].join("\\") + 
 			'" ttLibVersion="2.3">' +
 		  '<GlyphOrder>' +
@@ -547,7 +547,7 @@
 		      'Matt LaGrandeur' +
 		    '</namerecord>' +
 		    '<namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">' +
-		      '&#8218;&#196;&#250;Basic Set Test&#8218;&#196;&#249; was built with FontStruct&' +
+		      '&#8218;&#196;&#250;Basic Set Test&#8218;&#196;&#249; was built with FontStruct' +
 		    '</namerecord>' +
 		    '<namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">' +
 		      'http://www.fontshop.com' +

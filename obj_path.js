@@ -118,7 +118,7 @@
 	
 	function genPathPostScript(){
 		var ws = "            ";
-		var re = "\t<contour>";
+		var re = " <contour>";
 		
 		//debug("GENPATHPOSTSCRIPT");
 
@@ -127,43 +127,29 @@
 		for(var tp=0; tp<this.pathpoints.length; tp++){ 
 			var pp = this.pathpoints[tp];				
 
-			re += "\t\t<pt x=\""
+			// H1
+			re += ' <pt x="';
+			re += pp.H1.x;
+			re += '" y="';
+			re += pp.H1.y;
+			re += '" on="0"/> ';
+
+			// P
+			re += ' <pt x="';
 			re += pp.P.x;
-			re += "\" y=\"";
+			re += '" y="';
 			re += pp.P.y;
-			re += "\" on=\"1\"/>";
+			re += '" on="1"/> ';
 
-			/*
-			var next = false;
-			if(this.pathpoints[tp+1]){
-				next = this.pathpoints[tp+1];
-			} else if (this.isclosed){
-				next = this.pathpoints[0];
-			}
-			
-			if(tp==0){ 
-				//lctx.moveTo(pp.P.x, pp.P.y));
-				//re += (ws + pp.P.x + " " + pp.P.y + " moveto \n");
-			}
-
-			if (next) {
-				var pph2x = (pp.useh2? pp.H2.x : pp.P.x);
-				var pph2y = (pp.useh2? pp.H2.y : pp.P.y);
-				var nxh1x = (next.useh1? next.H1.x : next.P.x);
-				var nxh1y = (next.useh1? next.H1.y : next.P.y);
-				var nxppx = next.P.x;
-				var nxppy = next.P.y;
-
-				//lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
-				
-				re += (ws + pph2x + " " + pph2y + " " + nxh1x + " " + nxh1y + " " + nxppx + " " + nxppy + " rcurveto \n");
-			
-				re += (ws + "100 100 100 200 200 200 rcurveto \n");
-			}
-			*/
-			
-			re += "\t</contour>";
+			// H2
+			re += ' <pt x="';
+			re += pp.H2.x;
+			re += '" y="';
+			re += pp.H2.y;
+			re += '" on="0"/> ';			
 		}
+		
+		re += "</contour> ";
 		
 		//if(this.isclosed) re += (ws + "closepath \n");		
 		//re += (ws + "fill \n\n");
