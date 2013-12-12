@@ -123,8 +123,8 @@
 	}
 	
 	function drawNavPrimaryOptions(){
-		var ngray = "#B2B2B2";
-		var nselect = "#00aaff";
+		var ngray = shiftColor(uistate.colors.text_light, 0.5, true);
+		var nselect = uistate.colors.accent;
 		var fill = ngray;
 		
 		uistate.navprimaryhere == "npNav" ? fill=nselect : fill=ngray;
@@ -392,7 +392,7 @@
 	}
 
 	function round(num, dec){
-		if (dec===undefined) dec = uisettings.decplaces;
+		dec = isval(dec)? dec : 4;
 		var na = num.toString().split(".");
 		if(na.length == 2) {
 			var right = na[1].substring(0,dec) + "." + na[1].substring(dec+1);
@@ -416,24 +416,6 @@
 //-------------------
 // COLORS
 //-------------------
-
-	/*
-		OS Blue:					#00aaff
-		primary nav background:		
-		primary nav dark icon:		rgb(153,153,153)
-		
-		rgb(250,250,250)	#FAFAFA		Off White
-		rgb(229,229,229)	#E5E5E5		90% gray
-		rgb(204,204,204)	#CCCCCC		80% gray
-		rgb(178,178,178)	#B2B2B2		70% gray
-		rgb(153,153,153)	#999999		60% gray
-		rgb(127,127,127)	#7F7F7F		50% gray
-		rgb(102,102,102)	#666666		40% gray
-		rgb(76,76,76)		#4C4C4C		30% gray
-		rgb(51,51,51)		#333333		20% gray
-		rgb(25,25,25)		#191919		10% gray
-
-	*/
 
 	function shiftColor(c, percent, lighter){
 		percent = Math.max(0,Math.min(percent,1));

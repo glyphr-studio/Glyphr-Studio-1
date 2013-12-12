@@ -148,7 +148,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().name = this.value; putundoq(\"shape name\"); redraw();'></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> use seed shape position</td><td>"+checkUI("ss().useseedxy="+!s.useseedxy+"; putundoq(\"use seed shape position\"); redraw();", s.useseedxy)+"</td></tr>";
 		if(!s.useseedxy){
-		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><h3 style='font-size:.9em; color:#999999;'>x & y values are relative to the seed shape position</h3></td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><h3 style='font-size:.9em; color:rgb(153,153,153);'>x & y values are relative to the seed shape position</h3></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; x </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.xpos + "' onchange='ss().xpos = (this.value*1); putundoq(\"seedshape xpos\"); redraw();'>"+spinner()+"</td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; y </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.ypos + "' onchange='ss().ypos = (this.value*1); putundoq(\"seedshape ypos\"); redraw();'>"+spinner()+"</td></tr>";
 		}

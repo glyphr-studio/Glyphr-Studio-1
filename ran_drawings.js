@@ -325,7 +325,7 @@
 		ssctx.fill();
 
 		// splashScreen/LOGO
-		ssctx.strokeStyle = "#FFFFFF";
+		ssctx.strokeStyle = uistate.colors.offwhite;
 		
 		// splashScreen/LOGO/Path
 		ssctx.save();

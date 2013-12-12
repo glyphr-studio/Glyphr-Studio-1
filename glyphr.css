@@ -1,25 +1,3 @@
-	
-	/*
-		OS Blue:					#00aaff
-		primary nav background:		
-		primary nav dark icon:		rgb(153,153,153)
-		
-		rgb(250,250,250)	#FAFAFA		Off White
-		rgb(229,229,229)	#E5E5E5		90% gray
-		rgb(204,204,204)	#CCCCCC		80% gray
-		rgb(178,178,178)	#B2B2B2		70% gray
-		rgb(153,153,153)	#999999		60% gray
-		rgb(127,127,127)	#7F7F7F		50% gray
-		rgb(102,102,102)	#666666		40% gray
-		rgb(76,76,76)		#4C4C4C		30% gray
-		rgb(51,51,51)		#333333		20% gray
-		rgb(25,25,25)		#191919		10% gray
-
-	*/
-	
-	
-	
-	
 	/* ------------------ */
 	/* Standard Elements */
 	/* ---------------- */
@@ -32,11 +10,11 @@
 		font-weight:normal;
 		z-index:0;
 		text-align:left;
-		color:#333333;
+		color:rgb(51,51,51);
 	}
 	
 	body {
-		background-color:#ddeeff;
+		background-color:rgb(40,170,255);
 		overflow:hidden;
 	}
 	
@@ -49,18 +27,18 @@
 	input[type=text],
 	input[type=file],
 	textarea {
-		color:#191919;
+		color:rgb(25,25,25);
 		border:0px;
-		background-color:#CCCCCC;
+		background-color:rgb(204,204,204);
 	}
 	
 	input[type=text][disabled='disabled'] {
-		background-color:#CCCCCC;	
-		color:#999999;
+		background-color:rgb(204,204,204);	
+		color:rgb(153,153,153);
 	}
 	
 	a {
-		color:#00aaff;
+		color:rgb(40,170,255);
 		text-decoration:none;
 	}
 	
@@ -74,14 +52,14 @@
 	
 	h1 { 
 		margin-left:0px;
-		color:#CCCCCC;
+		color:rgb(204,204,204);
 		font-size:2em;
 		clear:right;
 		text-transform:uppercase;
 	}
 	
 	h2 {
-		color:#4C4C4C;
+		color:rgb(76,76,76);
 		display:inline;
 		font-size:1.6em;
 		padding:0 1em 0 0;
@@ -90,7 +68,7 @@
 	}
 	
 	h3 {
-		color:#4C4C4C;
+		color:rgb(76,76,76);
 		font-size:1.2em;
 		padding:0 1em .4em 0;
 		text-transform:lowercase;
@@ -121,7 +99,7 @@
 		left:0px;
 		width:70px;
 		height:100%;
-		background-color:#CCCCCC;
+		background-color:rgb(204,204,204);
 		padding:0px;
 	}
 	
@@ -133,7 +111,7 @@
 		width:400px;
 		height:100%;
 		padding:0px 10px 0px 10px;
-		background-color:#E5E5E5;
+		background-color:rgb(229,229,229);
 		overflow-y:scroll;
 		overflow-x:hidden;
 	}
@@ -149,7 +127,7 @@
 		position:absolute;
 		top:0px;
 		left:0px;
-		background-color:#FAFAFA;
+		background-color:rgb(250,250,250);
 	}
 	
 	#mainpane {
@@ -166,7 +144,7 @@
 	}
 		
 	#navtargetpane h1 {
-		color:#CCCCCC;
+		color:rgb(204,204,204);
 		font-weight:normal;
 		margin:10px 0px 10px 0px;
 	}
@@ -242,7 +220,7 @@
 	}
 
 	.disdisplay {
-		background-color:#666666;
+		background-color:rgb(102,102,102);
 		margin:6px 3px 2px 0px;	
 		padding:4px 4px 4px 10px;
 		color:white;
@@ -258,7 +236,7 @@
 		height:50px;
 		width:50px;
 		cursor:pointer;
-		background-color:#FAFAFA;
+		background-color:rgb(250,250,250);
 		margin:0px 5px 5px 0px;
 	}
 	
@@ -268,7 +246,7 @@
 	}
 	
 	.charselectcanvassel {
-		background-color:#00aaff;
+		background-color:rgb(40,170,255);
 	}
 	
 	.charselectbuttonsel,
@@ -276,14 +254,14 @@
 		width:100%;
 		height:100%;
 		text-align:center;
-		color:#E5E5E5;
+		color:rgb(229,229,229);
 		font-size:25px;
 		overflow:hidden;
 		padding-top:10px;
 	}
 
 	.charselectbuttonsel {
-		background-color:#00aaff;
+		background-color:rgb(40,170,255);
 	}
 	
 	
@@ -307,7 +285,7 @@
 	}
 	
 	.navtargetbuttonsel {
-		color:#00aaff;
+		color:rgb(40,170,255);
 	}
 
 	/* ----------------- */
@@ -318,7 +296,7 @@
 		font-weight:lighter;
 		width:600px;
 		padding:10px;
-		background-color:#00AAFF;
+		background-color:rgb(40,170,255);
 		border:3px solid transparent;
 		color:white;
 		margin-bottom:20px;
@@ -326,7 +304,7 @@
 	}	
 	
 	.firstrunbutton:hover {
-		border:3px solid #00AAFF;	/* dynamic */
+		border:3px solid rgb(40,170,255);	/* dynamic */
 	}
 	
 	
@@ -402,12 +380,12 @@
 	}	
 
 	.ssthumb {
-		border:3px solid #CCCCCC;	/* system */
+		border:3px solid rgb(204,204,204);	/* system */
 		cursor:pointer;
 	}
 	
 	.ssthumb:hover {
-		border:3px solid #00AAFF;	/* dynamic */
+		border:3px solid rgb(40,170,255);	/* dynamic */
 	}
 
 	/*	TOOLS		*/
@@ -433,8 +411,8 @@
 	}
 	
 	.out {
-		background-color:#CCCCCC;
-		color:#333333;
+		background-color:rgb(204,204,204);
+		color:rgb(51,51,51);
 		padding:4px 0px 0px 6px;
 		margin:1px 0px 0px 1px;
 		width:70px;
@@ -474,7 +452,7 @@
 		width:100px;
 		height:20px;
 		vertical-align:top;
-		color:#333333			/* system */
+		color:rgb(51,51,51)			/* system */
 	}	
 	
 	.detail .leftcol	{
@@ -551,7 +529,7 @@
 	}
 	
 	.unitlabel {
-		color:#B2B2B2;
+		color:rgb(178,178,178);
 		vertical-align:0px;
 		font-size:.9em;
 		margin:8px 0px 0px 8px;	
@@ -581,7 +559,7 @@
 		height:150px;
 		padding:2px 0px 0px 5px;
 		border:0px;
-		background-color:#CCCCCC;	/* system */
+		background-color:rgb(204,204,204);	/* system */
 		overflow:hidden;
 		margin:1px 0px 10px 0px;
 		font-size:2em;
@@ -617,7 +595,7 @@
 	
 	.ssusedinthumb:hover {
 		cursor:pointer;
-		border-bottom:3px solid #00AAFF;				/* dynamic */ 
+		border-bottom:3px solid rgb(40,170,255);				/* dynamic */ 
 	}
 
 	
@@ -627,32 +605,32 @@
 	
 	.buttonsel,
 	.buttonsel:hover {
-		background-color:#00AAFF;
-		color:#333333;
+		background-color:rgb(40,170,255);
+		color:rgb(51,51,51);
 		margin:1px;
 		cursor:pointer;
 	}
 	
 	.buttonsel:hover {
-		color:#191919;
+		color:rgb(25,25,25);
 	}
 	
 	.button,
 	.button:link,
 	.button:active {
-		background-color:#4C4C4C;	
-		color:#CCCCCC;			
+		background-color:rgb(76,76,76);	
+		color:rgb(204,204,204);			
 		margin:1px;
 		cursor:pointer;
 	}
 	
 	.button:hover {
-		color:#E5E5E5;
+		color:rgb(229,229,229);
 	}
 		
 	.buttondis{
-		background-color:#4C4C4C;	/* system */
-		color:#333333;				/* system */
+		background-color:rgb(76,76,76);	/* system */
+		color:rgb(51,51,51);				/* system */
 		margin:1px;
 		cursor:default;
 	}
@@ -682,7 +660,7 @@
 		width:100%;
 		height:100%;
 		text-align:center;
-		background-color:#4C4C4C;	/* system */
+		background-color:rgb(76,76,76);	/* system */
 		z-index:1001;
 		-moz-opacity: 0.8;
 		opacity:.80;
@@ -696,7 +674,7 @@
 		left:100px;
 		height:auto;
 		width:auto;
-		background-color:#CCCCCC;	/* system */
+		background-color:rgb(204,204,204);	/* system */
 		z-index:1002;
 		overflow:auto;
 	}
@@ -704,8 +682,8 @@
 	.dialogCloseButton {
 		width:20px; 
 		height:25px;
-		color:#DDDDDD;				/* system */
-		background-color:#00AAFF;	/* dynamic */
+		color:rgb(229,229,229);				/* system */
+		background-color:rgb(40,170,255);	/* dynamic */
 		font-size:24px;
 		font-weight:bold;
 		text-align:center; 
@@ -717,12 +695,12 @@
 	#dialogLeftBar {
 		width:20px; 
 		vertical-align:top;
-		background-color:#00AAFF;	/* dynamic */
+		background-color:rgb(40,170,255);	/* dynamic */
 	}
 	
 	#dialogRightContent {
 		padding:10px 20px 20px 20px;
-		color:#222222;				/* system */
+		color:rgb(25,25,25);				/* system */
 	}
 	
 	#dialogRightContent h1{
@@ -730,12 +708,12 @@
 	}
 	
 	#dialogRightContent td {
-		color:#191919;				/* system */
+		color:rgb(25,25,25);				/* system */
 	}
 
 	#dialogRightContent input {
-		background-color:#191919;	/* system */
-		color:#CCCCCC;				/* system */
+		background-color:rgb(25,25,25);	/* system */
+		color:rgb(204,204,204);				/* system */
 		margin:1px;
 		cursor:pointer;
 		padding:4px 12px;
@@ -750,7 +728,7 @@
 	#dialogRightContent h1,
 	#dialogRightContent h2,
 	#dialogRightContent h3 {
-		color:#4C4C4C;		
+		color:rgb(76,76,76);		
 	}
 	
 		

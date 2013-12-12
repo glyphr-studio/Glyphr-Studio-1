@@ -207,7 +207,6 @@
 		uistate.chareditcanvas.height = uistate.chareditcanvassettings.size;
 		uistate.chareditcanvas.width = uistate.chareditcanvassettings.size;
 		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
-		uistate.chareditcanvas.style.backgroundColor = uistate.colors.background;	//uisettings.color_grid;
 		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		uistate.chareditcanvas.onmouseout = mouseoutcec;
 		uistate.chareditcanvas.onmouseover = mouseovercec;

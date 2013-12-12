@@ -1,10 +1,10 @@
 		
-//-------------------
+//------------------------------
 // GLOBAL VARIABLES AND SETTINGS
-//-------------------
-
+//------------------------------
 	var DEBUG = true;
 	var GlyphrProject = {};
+
 
 	var uistate = {
 		// all pages
@@ -12,14 +12,20 @@
 		"navprimaryhere" : "npNav",
 		"thisGlyphrStudioVersion" : "Beta 2.1 Working Edition - 0.2.2013.12.00.Working",
 		"colors" : {
-			"accent" : "#00aaff",	//os accent base color  
-			"accent_light" : "rgb(0,170,255)",
-			"text_dark" : "#191919",		//os text color
-			"text_light" : "#CCCCCC",	//os light text
-			"background" : "#4C4C4C",			//os background color
-			"button_disabled" : "rgb(102,102,102)",
-			"button_resting" : "#CCCCCC",
-			"button_selected" : "#00aaff"
+			"accent" : "rgb(40,170,255)",		//os accent base color  
+			"accent_light" : "rgb(0,170,255)",	//os light accent base color
+			// Grays
+			"offwhite" : "rgb(250,250,250)",	// rgb(250,250,250)		Off White
+			"g9" : "rgb(229,229,229)",			// rgb(229,229,229)		90% gray
+			"g8" : "rgb(204,204,204)",			// rgb(204,204,204)		80% gray
+			"g7" : "rgb(178,178,178)",			// rgb(178,178,178)		70% gray
+			"g6" : "rgb(153,153,153)",			// rgb(153,153,153)		60% gray
+			"g5" : "rgb(127,127,127)",			// #7F7F7F		50% gray
+			"g4" : "rgb(102,102,102)",			// rgb(102,102,102)		40% gray
+			"g3" : "rgb(76,76,76)",				// rgb(76,76,76)		30% gray
+			"g2" : "rgb(51,51,51)",				// rgb(51,51,51)		20% gray
+			"g1" : "rgb(25,25,25)",				// rgb(25,25,25)		10% gray
+			"offblack" : "rgb(5,5,5)"			//
 		},
 
 		// page: seed shapes
@@ -65,15 +71,24 @@
 		"testdrivecanvas" : false
 	}
 
+	uistate.colors.text_dark = uistate.colors.g1;
+	uistate.colors.text_light = uistate.colors.g8;
+	uistate.colors.button_disabled = uistate.colors.g4;
+	uistate.colors.button_resting = uistate.colors.g8;
+	uistate.colors.button_selected = uistate.colors.accent;
+
+
 	var uisettings = {
 		"pointsize" : 5,			// square points size - SHOULD BE ODD	
 		"spinnervaluechange" : 1,	// how much spinner controls change a value
-		"decplaces" : 4,			// how many decimal places of precision
 		"stoppagenavigation" : false,	// asks to save on window close or refresh
 		"quickpathupdating" : true,		// does not redraw path while drag resizing
-		"color_glyphfill" : "#000000",		//shape base color
-		"color_grid" : "rgb(240,240,240)",	//grid base color
-		"color_guideline" : "#CC4F22"		//guide base color
+		"showoutline" : false,			// outline shapes when drawing
+		"showfill" : true,				// fill shapes when drawing
+		"color_glyphfill" : "rgb(0,0,0)",		//shape base color
+		"color_glyphoutline" : "rgb(0,0,0)",	//shape outline color
+		"color_grid" : "rgb(240,240,240)",		//grid base color
+		"color_guideline" : "rgb(204,79,34)"	//guide base color
 	}
 
 
