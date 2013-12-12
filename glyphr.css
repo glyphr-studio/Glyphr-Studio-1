@@ -1,6 +1,7 @@
-	/* ------------------ */
-	/* Standard Elements */
-	/* ---------------- */
+
+/*	=============================== */
+/*				STANDARD
+/*	=============================== */
 
 	* {
 		margin:0px;
@@ -29,7 +30,7 @@
 	textarea {
 		color:rgb(25,25,25);
 		border:0px;
-		background-color:rgb(204,204,204);
+		background-color:rgb(229,229,229);
 	}
 	
 	input[type=text][disabled='disabled'] {
@@ -86,11 +87,74 @@
 	li {
 		margin-top:8px;
 	}
+
+
+
+
+
+
+/*	============================= */
+/*				COMMON
+/*	============================= */
+
+
+
+
+
+/* ------- */
+/* Button */
+/* ----- */
+	.button,
+	.buttondis,
+	.buttonsel {
+		padding:10px 8px;
+		margin:1px;
+		cursor:pointer;
+	}
 	
+	.button,
+	.button:link,
+	.button:active {
+		background-color:rgb(76,76,76);	
+		color:rgb(204,204,204);	
+	}
 	
-	/*--------------------*/
-	/* Common Page Stuff */
-	/* -----------------*/
+	.button:hover {
+		color:rgb(229,229,229);
+	}
+		
+	
+	.buttonsel,
+	.buttonsel:hover {
+		background-color:rgb(40,170,255);
+		color:rgb(150,225,255);
+	}
+	
+	.buttonsel:hover {
+		color:rgb(250,250,250);
+	}
+	.buttondis{
+		background-color:rgb(76,76,76);
+		color:rgb(51,51,51);
+		cursor:default;
+	}
+
+	.spinnerbutton,
+	.spinnerbutton:active {
+		height:20px;
+		width:20px;
+		font-size:15px;
+		text-align:center;
+		padding:0;
+		vertical-align:4px;
+		font-weight:bold;
+		margin:0px 0px 0px 0px;
+	}
+
+
+/*--------------------*/
+/* Common Page Stuff */
+/* -----------------*/
 
 	#navprimarypane {
 		display:block;
@@ -265,9 +329,9 @@
 	}
 	
 	
-	/* -----------*/
-	/* Nav Stuff */
-	/* ---------*/
+/* -----------*/
+/* Nav Stuff */
+/* ---------*/
 
 	.navtargetbutton,
 	.navtargetbuttonsel {
@@ -287,30 +351,109 @@
 	.navtargetbuttonsel {
 		color:rgb(40,170,255);
 	}
-
-	/* ----------------- */
-	/* Page - Firstrun  */
-	/* --------------- */
-	.firstrunbutton {
-		font-size:1.1em;
-		font-weight:lighter;
-		width:600px;
-		padding:10px;
-		background-color:rgb(40,170,255);
-		border:3px solid transparent;
-		color:white;
-		margin-bottom:20px;
-		cursor:pointer;
-	}	
 	
-	.firstrunbutton:hover {
-		border:3px solid rgb(40,170,255);	/* dynamic */
+
+
+/* ------- */
+/* Dialog */
+/* ----- */
+	
+	#dialog_bg{
+		display:none;
+		position:absolute;
+		top:0%;
+		left:0%;
+		width:100%;
+		height:100%;
+		text-align:center;
+		background-color:rgb(76,76,76);
+		z-index:1001;
+		-moz-opacity: 0.8;
+		opacity:.80;
+		filter: alpha(opacity=80);
 	}
 	
+	#dialog_box {
+		display:none;
+		position:absolute;
+		top:100px;
+		left:100px;
+		height:auto;
+		width:auto;
+		background-color:rgb(204,204,204);
+		z-index:1002;
+		overflow:auto;
+	}
+
+	.dialogCloseButton {
+		width:20px; 
+		height:25px;
+		color:rgb(229,229,229);			
+		background-color:rgb(40,170,255);/* dynamic */
+		font-size:24px;
+		font-weight:bold;
+		text-align:center; 
+		padding:0px;
+		cursor:pointer;
+		border-radius:0px;
+	}
 	
-	/* ------------------ */
-	/* Page - Open / New */
-	/* -----------------*/
+	#dialogLeftBar {
+		width:20px; 
+		vertical-align:top;
+		background-color:rgb(40,170,255);/* dynamic */
+	}
+	
+	#dialogRightContent {
+		padding:10px 20px 20px 20px;
+		color:rgb(25,25,25);			
+	}
+	
+	#dialogRightContent h1{
+		margin-bottom:10px;
+	}
+	
+	#dialogRightContent td {
+		color:rgb(25,25,25);			
+	}
+
+	#dialogRightContent input {
+		background-color:rgb(25,25,25);
+		color:rgb(204,204,204);			
+		margin:1px;
+		cursor:pointer;
+		padding:4px 12px;
+	}
+	
+	#dialogRightContent 	.subnavunit {
+		margin:10px 0px 0px 0px;
+		width:400px;
+		padding:0px;
+	}
+	
+	#dialogRightContent h1,
+	#dialogRightContent h2,
+	#dialogRightContent h3 {
+		color:rgb(76,76,76);		
+	}
+	
+		
+
+
+
+
+/*	============================= */
+/*				PAGES
+/*	============================= */
+
+
+
+
+
+
+/* ------------------ */
+/* Page - Open / New */
+/* -----------------*/
 	
 	.splashscreen{
 		text-align:center;
@@ -357,9 +500,9 @@
 	}
 	
 	
-	/* ----------------- */
-	/* Page - Char edit */
-	/* --------------- */
+/* ----------------- */
+/* Page - Char edit */
+/* --------------- */
 
 	.charedittable {
 		width:600px;
@@ -380,15 +523,15 @@
 	}	
 
 	.ssthumb {
-		border:3px solid rgb(204,204,204);	/* system */
+		border:3px solid rgb(204,204,204);
 		cursor:pointer;
 	}
 	
 	.ssthumb:hover {
-		border:3px solid rgb(40,170,255);	/* dynamic */
+		border:3px solid rgb(40,170,255);/* dynamic */
 	}
 
-	/*	TOOLS		*/
+/*	TOOLS		*/
 	#toolsarea {
 		position:fixed;
 		left:500px;
@@ -422,7 +565,7 @@
 		margin:0px 4px 0px 4px;
 	}
 
-	/*	LAYERS		*/
+/*	LAYERS		*/
 	
 	.layer	{
 		width:100%;
@@ -430,7 +573,7 @@
 		padding-left:10px;
 	}
 	
-	/*	DETAILS		*/
+/*	DETAILS		*/
 	
 	.detail	{
 		width:100%;
@@ -452,7 +595,7 @@
 		width:100px;
 		height:20px;
 		vertical-align:top;
-		color:rgb(51,51,51)			/* system */
+		color:rgb(51,51,51)		
 	}	
 	
 	.detail .leftcol	{
@@ -472,7 +615,7 @@
 		cursor:pointer;
 	}
 	
-	/*	ACTIONS		*/	 
+/*	ACTIONS		*/	 
 	
 	.actionsgrid {
 		padding:0px 10px 0px 5px;
@@ -492,9 +635,9 @@
 	}
 		
 	
-	/* --------------------- */
-	/* Page - Font Metadata */
-	/* ------------------- */	
+/* --------------------- */
+/* Page - Font Metadata */
+/* ------------------- */	
 
 	.metadata h3 {
 		margin-top:30px;
@@ -519,9 +662,9 @@
 	}
 	
 	
-	/* --------------------- */
-	/* Page - Font Settings */
-	/* ------------------- */	
+/* --------------------- */
+/* Page - Font Settings */
+/* ------------------- */	
 	
 	.charprotable td {
 		padding:0px 10px 0px 0px;
@@ -536,9 +679,9 @@
 	}
 	
 	
-	/* -------------------- */
-	/* Page - Save Project */
-	/* ------------------ */
+/* -------------------- */
+/* Page - Save Project */
+/* ------------------ */
 	
 	#genoutput {
 		font-family:monospace;
@@ -546,9 +689,9 @@
 	}
 	
 	
-	/* ----------------- */
-	/* Page - Testdrive */
-	/* --------------- */
+/* ----------------- */
+/* Page - Testdrive */
+/* --------------- */
 	
 	#tdcanvas {
 		background-color:white;
@@ -559,16 +702,17 @@
 		height:150px;
 		padding:2px 0px 0px 5px;
 		border:0px;
-		background-color:rgb(204,204,204);	/* system */
+		background-color:rgb(204,204,204);
 		overflow:hidden;
 		margin:1px 0px 10px 0px;
 		font-size:2em;
 	}
 	
 
-	/* ------------------ */
-	/* Page - SeedShapes */
-	/* ---------------- */	
+/* ------------------ */
+/* Page - SeedShapes */
+/* ---------------- */	
+
 	.ssthumbcontainer {
 		width:100%;
 		height:350px;
@@ -595,140 +739,6 @@
 	
 	.ssusedinthumb:hover {
 		cursor:pointer;
-		border-bottom:3px solid rgb(40,170,255);				/* dynamic */ 
+		border-bottom:3px solid rgb(40,170,255);			
 	}
 
-	
-	/* ------- */
-	/* Button */
-	/* ----- */
-	
-	.buttonsel,
-	.buttonsel:hover {
-		background-color:rgb(40,170,255);
-		color:rgb(51,51,51);
-		margin:1px;
-		cursor:pointer;
-	}
-	
-	.buttonsel:hover {
-		color:rgb(25,25,25);
-	}
-	
-	.button,
-	.button:link,
-	.button:active {
-		background-color:rgb(76,76,76);	
-		color:rgb(204,204,204);			
-		margin:1px;
-		cursor:pointer;
-	}
-	
-	.button:hover {
-		color:rgb(229,229,229);
-	}
-		
-	.buttondis{
-		background-color:rgb(76,76,76);	/* system */
-		color:rgb(51,51,51);				/* system */
-		margin:1px;
-		cursor:default;
-	}
-
-	.spinnerbutton,
-	.spinnerbutton:active {
-		height:20px;
-		width:20px;
-		font-size:15px;
-		text-align:center;
-		padding:0;
-		vertical-align:4px;
-		font-weight:bold;
-		margin:0px 0px 0px 0px;
-	}
-
-
-	/* ------- */
-	/* Dialog */
-	/* ----- */
-	
-	#dialog_bg{
-		display:none;
-		position:absolute;
-		top:0%;
-		left:0%;
-		width:100%;
-		height:100%;
-		text-align:center;
-		background-color:rgb(76,76,76);	/* system */
-		z-index:1001;
-		-moz-opacity: 0.8;
-		opacity:.80;
-		filter: alpha(opacity=80);
-	}
-	
-	#dialog_box {
-		display:none;
-		position:absolute;
-		top:100px;
-		left:100px;
-		height:auto;
-		width:auto;
-		background-color:rgb(204,204,204);	/* system */
-		z-index:1002;
-		overflow:auto;
-	}
-
-	.dialogCloseButton {
-		width:20px; 
-		height:25px;
-		color:rgb(229,229,229);				/* system */
-		background-color:rgb(40,170,255);	/* dynamic */
-		font-size:24px;
-		font-weight:bold;
-		text-align:center; 
-		padding:0px;
-		cursor:pointer;
-		border-radius:0px;
-	}
-	
-	#dialogLeftBar {
-		width:20px; 
-		vertical-align:top;
-		background-color:rgb(40,170,255);	/* dynamic */
-	}
-	
-	#dialogRightContent {
-		padding:10px 20px 20px 20px;
-		color:rgb(25,25,25);				/* system */
-	}
-	
-	#dialogRightContent h1{
-		margin-bottom:10px;
-	}
-	
-	#dialogRightContent td {
-		color:rgb(25,25,25);				/* system */
-	}
-
-	#dialogRightContent input {
-		background-color:rgb(25,25,25);	/* system */
-		color:rgb(204,204,204);				/* system */
-		margin:1px;
-		cursor:pointer;
-		padding:4px 12px;
-	}
-	
-	#dialogRightContent 	.subnavunit {
-		margin:10px 0px 0px 0px;
-		width:400px;
-		padding:0px;
-	}
-	
-	#dialogRightContent h1,
-	#dialogRightContent h2,
-	#dialogRightContent h3 {
-		color:rgb(76,76,76);		
-	}
-	
-		

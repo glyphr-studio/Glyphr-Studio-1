@@ -10,10 +10,10 @@
 		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npNav",
-		"thisGlyphrStudioVersion" : "Beta 2.1 Working Edition - 0.2.2013.12.00.Working",
+		"thisGlyphrStudioVersion" : "Beta 3 Working Edition - 0.3.2013.12.00.Working",
 		"colors" : {
 			"accent" : "rgb(40,170,255)",		//os accent base color  
-			"accent_light" : "rgb(0,170,255)",	//os light accent base color
+			"accent_light" : "rgb(150,225,255)",	//os light accent base color
 			// Grays
 			"offwhite" : "rgb(250,250,250)",	// rgb(250,250,250)		Off White
 			"g9" : "rgb(229,229,229)",			// rgb(229,229,229)		90% gray

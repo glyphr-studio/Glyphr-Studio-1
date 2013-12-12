@@ -6,306 +6,251 @@
 		logoctx = document.getElementById("logocanvas").getContext("2d");
 		logoctx.clearRect(0,0,3000,3000);
 		
-		// GLYPHR
+		// Main Logo
 		logoctx.strokeStyle = uistate.colors.accent;
-		// websiteLogo/Group/Path
-		logoctx.save();
+
 		logoctx.beginPath();
-		logoctx.moveTo(37.0, 41.0);
-		logoctx.lineTo(37.0, 2.0);
-		logoctx.lineTo(40.8, 2.0);
-		logoctx.lineWidth = 4.0;
+		logoctx.moveTo(37, 41);
+		logoctx.lineTo(37, 2);
+		logoctx.lineTo(40.8, 2);
+		logoctx.lineWidth = 4;
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(2.0, 30.0);
-		logoctx.bezierCurveTo(2.0, 43.3, 31.0, 43.3, 31.0, 30.0);
-		logoctx.bezierCurveTo(31.0, 11.0, 2.0, 11.0, 2.0, 30.0);
+		logoctx.moveTo(2, 30);
+		logoctx.bezierCurveTo(2, 43.3, 31, 43.3, 31, 30);
+		logoctx.bezierCurveTo(31, 11, 2, 11, 2, 30);
 		logoctx.closePath();
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(31.0, 30.0);
-		logoctx.lineTo(31.0, 46.0);
-		logoctx.bezierCurveTo(31.0, 59.3, 2.0, 59.3, 2.0, 46.0);
-		logoctx.lineTo(6.0, 46.0);
+		logoctx.moveTo(31, 30);
+		logoctx.lineTo(31, 46);
+		logoctx.bezierCurveTo(31, 59.3, 2, 59.3, 2, 46);
+		logoctx.lineTo(6, 46);
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(72.0, 30.0);
-		logoctx.bezierCurveTo(72.0, 43.3, 43.0, 43.3, 43.0, 30.0);
-		logoctx.lineTo(43.0, 16.0);
-		logoctx.lineTo(47.0, 16.0);
+		logoctx.moveTo(72, 30);
+		logoctx.bezierCurveTo(72, 43.3, 43, 43.3, 43, 30);
+		logoctx.lineTo(43, 16);
+		logoctx.lineTo(47, 16);
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(47.0, 46.0);
-		logoctx.lineTo(43.0, 46.0);
-		logoctx.bezierCurveTo(43.0, 59.3, 72.0, 59.3, 72.0, 46.0);
-		logoctx.lineTo(72.0, 30.0);
-		logoctx.lineTo(72.0, 14.0);
+		logoctx.moveTo(47, 46);
+		logoctx.lineTo(43, 46);
+		logoctx.bezierCurveTo(43, 59.3, 72, 59.3, 72, 46);
+		logoctx.lineTo(72, 30);
+		logoctx.lineTo(72, 14);
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(107.0, 30.0);
-		logoctx.bezierCurveTo(107.0, 43.3, 78.0, 43.3, 78.0, 30.0);
-		logoctx.bezierCurveTo(78.0, 11.0, 107.0, 11.0, 107.0, 30.0);
+		logoctx.moveTo(107, 30);
+		logoctx.bezierCurveTo(107, 43.3, 78, 43.3, 78, 30);
+		logoctx.bezierCurveTo(78, 11, 107, 11, 107, 30);
 		logoctx.closePath();
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(78.0, 30.0);
-		logoctx.lineTo(78.0, 56.0);
-		logoctx.lineTo(81.9, 56.0);
+		logoctx.moveTo(78, 30);
+		logoctx.lineTo(78, 56);
+		logoctx.lineTo(81.9, 56);
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(142.0, 42.0);
-		logoctx.lineTo(142.0, 30.0);
-		logoctx.bezierCurveTo(142.0, 11.0, 113.0, 11.0, 113.0, 30.0);
-		logoctx.lineTo(113.0, 40.0);
-		logoctx.lineTo(117.0, 40.0);
+		logoctx.moveTo(142, 42);
+		logoctx.lineTo(142, 30);
+		logoctx.bezierCurveTo(142, 11, 113, 11, 113, 30);
+		logoctx.lineTo(113, 40);
+		logoctx.lineTo(117, 40);
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(113.0, 28.0);
-		logoctx.lineTo(113.0, 2.0);
-		logoctx.lineTo(116.9, 2.0);
+		logoctx.moveTo(113, 28);
+		logoctx.lineTo(113, 2);
+		logoctx.lineTo(116.9, 2);
 		logoctx.stroke();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(177.0, 30.0);
-		logoctx.bezierCurveTo(177.0, 11.0, 148.0, 11.0, 148.0, 30.0);
-		logoctx.lineTo(148.0, 40.0);
-		logoctx.lineTo(152.0, 40.0);
+		logoctx.moveTo(177, 30);
+		logoctx.bezierCurveTo(177, 11, 148, 11, 148, 30);
+		logoctx.lineTo(148, 40);
+		logoctx.lineTo(152, 40);
 		logoctx.stroke();
 
-		// websiteLogo/Group
-		logoctx.restore();
-
-		
-		// BETA
+		// Beta Logo
 		logoctx.fillStyle = uistate.colors.accent_light;
-		
-		// websiteLogo/Group/Path
-		logoctx.save();
+
 		logoctx.beginPath();
-		logoctx.moveTo(148.0, 49.0);
-		logoctx.lineTo(149.0, 49.0);
-		logoctx.lineTo(149.0, 48.0);
-		logoctx.lineTo(148.0, 48.0);
-		logoctx.lineTo(148.0, 49.0);
+		logoctx.moveTo(148, 49);
+		logoctx.lineTo(149, 49);
+		logoctx.lineTo(149, 48);
+		logoctx.lineTo(148, 48);
+		logoctx.lineTo(148, 49);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(148.0, 46.0);
-		logoctx.lineTo(148.0, 47.0);
-		logoctx.lineTo(149.0, 47.0);
-		logoctx.lineTo(149.0, 46.0);
-		logoctx.lineTo(148.0, 46.0);
+		logoctx.moveTo(148, 46);
+		logoctx.lineTo(148, 47);
+		logoctx.lineTo(149, 47);
+		logoctx.lineTo(149, 46);
+		logoctx.lineTo(148, 46);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Group/Path
 		logoctx.beginPath();
-		logoctx.moveTo(161.0, 47.0);
-		logoctx.lineTo(161.0, 46.0);
-		logoctx.lineTo(160.0, 46.0);
-		logoctx.lineTo(160.0, 47.0);
-		logoctx.lineTo(161.0, 47.0);
+		logoctx.moveTo(161, 47);
+		logoctx.lineTo(161, 46);
+		logoctx.lineTo(160, 46);
+		logoctx.lineTo(160, 47);
+		logoctx.lineTo(161, 47);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Group/Compound Path
 		logoctx.beginPath();
-
-		// websiteLogo/Group/Compound Path/Path
-		logoctx.moveTo(146.0, 44.0);
-		logoctx.lineTo(146.0, 51.0);
-		logoctx.lineTo(163.0, 51.0);
-		logoctx.lineTo(163.0, 44.0);
-		logoctx.lineTo(146.0, 44.0);
+		logoctx.moveTo(146, 44);
+		logoctx.lineTo(146, 51);
+		logoctx.lineTo(163, 51);
+		logoctx.lineTo(163, 44);
+		logoctx.lineTo(146, 44);
 		logoctx.closePath();
 
-		// websiteLogo/Group/Compound Path/Path
-		logoctx.moveTo(150.0, 47.0);
-		logoctx.lineTo(149.0, 47.0);
-		logoctx.lineTo(149.0, 48.0);
-		logoctx.lineTo(150.0, 48.0);
-		logoctx.lineTo(150.0, 49.0);
-		logoctx.lineTo(149.0, 49.0);
-		logoctx.lineTo(149.0, 50.0);
-		logoctx.lineTo(148.0, 50.0);
-		logoctx.lineTo(147.0, 50.0);
-		logoctx.lineTo(147.0, 45.0);
-		logoctx.lineTo(148.0, 45.0);
-		logoctx.lineTo(149.0, 45.0);
-		logoctx.lineTo(149.0, 46.0);
-		logoctx.lineTo(150.0, 46.0);
-		logoctx.lineTo(150.0, 47.0);
+		logoctx.moveTo(150, 47);
+		logoctx.lineTo(149, 47);
+		logoctx.lineTo(149, 48);
+		logoctx.lineTo(150, 48);
+		logoctx.lineTo(150, 49);
+		logoctx.lineTo(149, 49);
+		logoctx.lineTo(149, 50);
+		logoctx.lineTo(148, 50);
+		logoctx.lineTo(147, 50);
+		logoctx.lineTo(147, 45);
+		logoctx.lineTo(148, 45);
+		logoctx.lineTo(149, 45);
+		logoctx.lineTo(149, 46);
+		logoctx.lineTo(150, 46);
+		logoctx.lineTo(150, 47);
 		logoctx.closePath();
 
-		// websiteLogo/Group/Compound Path/Path
-		logoctx.moveTo(154.0, 46.0);
-		logoctx.lineTo(152.0, 46.0);
-		logoctx.lineTo(152.0, 47.0);
-		logoctx.lineTo(153.0, 47.0);
-		logoctx.lineTo(153.0, 48.0);
-		logoctx.lineTo(152.0, 48.0);
-		logoctx.lineTo(152.0, 49.0);
-		logoctx.lineTo(154.0, 49.0);
-		logoctx.lineTo(154.0, 50.0);
-		logoctx.lineTo(152.0, 50.0);
-		logoctx.lineTo(151.0, 50.0);
-		logoctx.lineTo(151.0, 45.0);
-		logoctx.lineTo(152.0, 45.0);
-		logoctx.lineTo(154.0, 45.0);
-		logoctx.lineTo(154.0, 46.0);
+		logoctx.moveTo(154, 46);
+		logoctx.lineTo(152, 46);
+		logoctx.lineTo(152, 47);
+		logoctx.lineTo(153, 47);
+		logoctx.lineTo(153, 48);
+		logoctx.lineTo(152, 48);
+		logoctx.lineTo(152, 49);
+		logoctx.lineTo(154, 49);
+		logoctx.lineTo(154, 50);
+		logoctx.lineTo(152, 50);
+		logoctx.lineTo(151, 50);
+		logoctx.lineTo(151, 45);
+		logoctx.lineTo(152, 45);
+		logoctx.lineTo(154, 45);
+		logoctx.lineTo(154, 46);
 		logoctx.closePath();
 
-		// websiteLogo/Group/Compound Path/Path
-		logoctx.moveTo(158.0, 46.0);
-		logoctx.lineTo(157.0, 46.0);
-		logoctx.lineTo(157.0, 50.0);
-		logoctx.lineTo(156.0, 50.0);
-		logoctx.lineTo(156.0, 46.0);
-		logoctx.lineTo(155.0, 46.0);
-		logoctx.lineTo(155.0, 45.0);
-		logoctx.lineTo(158.0, 45.0);
-		logoctx.lineTo(158.0, 46.0);
+		logoctx.moveTo(158, 46);
+		logoctx.lineTo(157, 46);
+		logoctx.lineTo(157, 50);
+		logoctx.lineTo(156, 50);
+		logoctx.lineTo(156, 46);
+		logoctx.lineTo(155, 46);
+		logoctx.lineTo(155, 45);
+		logoctx.lineTo(158, 45);
+		logoctx.lineTo(158, 46);
 		logoctx.closePath();
 
-		// websiteLogo/Group/Compound Path/Path
-		logoctx.moveTo(162.0, 50.0);
-		logoctx.lineTo(161.0, 50.0);
-		logoctx.lineTo(161.0, 48.0);
-		logoctx.lineTo(160.0, 48.0);
-		logoctx.lineTo(160.0, 50.0);
-		logoctx.lineTo(159.0, 50.0);
-		logoctx.lineTo(159.0, 46.0);
-		logoctx.lineTo(160.0, 46.0);
-		logoctx.lineTo(160.0, 45.0);
-		logoctx.lineTo(161.0, 45.0);
-		logoctx.lineTo(161.0, 46.0);
-		logoctx.lineTo(162.0, 46.0);
-		logoctx.lineTo(162.0, 50.0);
+		logoctx.moveTo(162, 50);
+		logoctx.lineTo(161, 50);
+		logoctx.lineTo(161, 48);
+		logoctx.lineTo(160, 48);
+		logoctx.lineTo(160, 50);
+		logoctx.lineTo(159, 50);
+		logoctx.lineTo(159, 46);
+		logoctx.lineTo(160, 46);
+		logoctx.lineTo(160, 45);
+		logoctx.lineTo(161, 45);
+		logoctx.lineTo(161, 46);
+		logoctx.lineTo(162, 46);
+		logoctx.lineTo(162, 50);
 		logoctx.closePath();
 		logoctx.fill();
 
-		
-		
-		// websiteLogo/Path
-		logoctx.restore();
 		logoctx.beginPath();
-		logoctx.moveTo(164.0, 45.0);
-		logoctx.lineTo(164.0, 46.0);
-		logoctx.lineTo(165.0, 46.0);
-		logoctx.lineTo(165.0, 45.0);
-		logoctx.lineTo(164.0, 45.0);
+		logoctx.moveTo(164, 45);
+		logoctx.lineTo(164, 46);
+		logoctx.lineTo(165, 46);
+		logoctx.lineTo(165, 45);
+		logoctx.lineTo(164, 45);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(165.0, 44.0);
-		logoctx.lineTo(165.0, 45.0);
-		logoctx.lineTo(168.0, 45.0);
-		logoctx.lineTo(168.0, 44.0);
-		logoctx.lineTo(165.0, 44.0);
+		logoctx.moveTo(168, 45);
+		logoctx.lineTo(168, 46);
+		logoctx.lineTo(169, 46);
+		logoctx.lineTo(169, 45);
+		logoctx.lineTo(168, 45);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(168.0, 45.0);
-		logoctx.lineTo(168.0, 47.0);
-		logoctx.lineTo(169.0, 47.0);
-		logoctx.lineTo(169.0, 45.0);
-		logoctx.lineTo(168.0, 45.0);
+		logoctx.moveTo(167, 46);
+		logoctx.lineTo(167, 47);
+		logoctx.lineTo(168, 47);
+		logoctx.lineTo(168, 46);
+		logoctx.lineTo(167, 46);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(164.0, 50.0);
-		logoctx.lineTo(164.0, 51.0);
-		logoctx.lineTo(169.0, 51.0);
-		logoctx.lineTo(169.0, 50.0);
-		logoctx.lineTo(164.0, 50.0);
+		logoctx.moveTo(166, 47);
+		logoctx.lineTo(166, 48);
+		logoctx.lineTo(168, 48);
+		logoctx.lineTo(168, 47);
+		logoctx.lineTo(166, 47);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(165.0, 48.0);
-		logoctx.lineTo(165.0, 49.0);
-		logoctx.lineTo(166.0, 49.0);
-		logoctx.lineTo(166.0, 48.0);
-		logoctx.lineTo(165.0, 48.0);
+		logoctx.moveTo(164, 49);
+		logoctx.lineTo(164, 50);
+		logoctx.lineTo(165, 50);
+		logoctx.lineTo(165, 49);
+		logoctx.lineTo(164, 49);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(170.0, 50.0);
-		logoctx.lineTo(170.0, 51.0);
-		logoctx.lineTo(171.0, 51.0);
-		logoctx.lineTo(171.0, 50.0);
-		logoctx.lineTo(170.0, 50.0);
+		logoctx.moveTo(165, 50);
+		logoctx.lineTo(165, 51);
+		logoctx.lineTo(168, 51);
+		logoctx.lineTo(168, 50);
+		logoctx.lineTo(165, 50);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(171.0, 44.0);
-		logoctx.lineTo(171.0, 45.0);
-		logoctx.lineTo(172.0, 45.0);
-		logoctx.lineTo(172.0, 44.0);
-		logoctx.lineTo(171.0, 44.0);
+		logoctx.moveTo(168, 47);
+		logoctx.lineTo(168, 50);
+		logoctx.lineTo(169, 50);
+		logoctx.lineTo(169, 47);
+		logoctx.lineTo(168, 47);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
 		logoctx.beginPath();
-		logoctx.moveTo(172.0, 44.0);
-		logoctx.lineTo(172.0, 51.0);
-		logoctx.lineTo(173.0, 51.0);
-		logoctx.lineTo(173.0, 44.0);
-		logoctx.lineTo(172.0, 44.0);
+		logoctx.moveTo(165, 44);
+		logoctx.lineTo(165, 45);
+		logoctx.lineTo(168, 45);
+		logoctx.lineTo(168, 44);
+		logoctx.lineTo(165, 44);
 		logoctx.closePath();
 		logoctx.fill();
 
-		// websiteLogo/Path
-		logoctx.beginPath();
-		logoctx.moveTo(164.0, 49.0);
-		logoctx.lineTo(164.0, 50.0);
-		logoctx.lineTo(165.0, 50.0);
-		logoctx.lineTo(165.0, 49.0);
-		logoctx.lineTo(164.0, 49.0);
-		logoctx.closePath();
-		logoctx.fill();
 
-		// websiteLogo/Path
-		logoctx.beginPath();
-		logoctx.moveTo(166.0, 47.0);
-		logoctx.lineTo(166.0, 48.0);
-		logoctx.lineTo(168.0, 48.0);
-		logoctx.lineTo(168.0, 47.0);
-		logoctx.lineTo(166.0, 47.0);
-		logoctx.closePath();
-		logoctx.fill();
-		logoctx.restore();
 	}
 
 	function drawSplashScreen(){

@@ -123,7 +123,7 @@
 	}
 	
 	function drawNavPrimaryOptions(){
-		var ngray = shiftColor(uistate.colors.text_light, 0.5, true);
+		var ngray = uistate.colors.g9;
 		var nselect = uistate.colors.accent;
 		var fill = ngray;
 		
