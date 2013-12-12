@@ -1011,7 +1011,7 @@
 	function grid(){
 		var fs = GlyphrProject.settings;
 		
-		uistate.chareditctx.fillStyle = "rgb(250,250,250)";
+		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
 		uistate.chareditctx.fillRect(0,0,99999,99999);
 		
 		// background white square

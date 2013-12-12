@@ -11,7 +11,7 @@
 		font-weight:normal;
 		z-index:0;
 		text-align:left;
-		color:rgb(51,51,51);
+		color:rgb(51,56,61);
 	}
 	
 	body {
@@ -28,14 +28,14 @@
 	input[type=text],
 	input[type=file],
 	textarea {
-		color:rgb(25,25,25);
+		color:rgb(25,30,35);
 		border:0px;
-		background-color:rgb(229,229,229);
+		background-color:rgb(229,234,239);
 	}
 	
 	input[type=text][disabled='disabled'] {
-		background-color:rgb(204,204,204);	
-		color:rgb(153,153,153);
+		background-color:rgb(204,209,214);	
+		color:rgb(153,158,163);
 	}
 	
 	a {
@@ -53,14 +53,14 @@
 	
 	h1 { 
 		margin-left:0px;
-		color:rgb(204,204,204);
+		color:rgb(204,209,214);
 		font-size:2em;
 		clear:right;
 		text-transform:uppercase;
 	}
 	
 	h2 {
-		color:rgb(76,76,76);
+		color:rgb(76,81,86);
 		display:inline;
 		font-size:1.6em;
 		padding:0 1em 0 0;
@@ -69,7 +69,7 @@
 	}
 	
 	h3 {
-		color:rgb(76,76,76);
+		color:rgb(76,81,86);
 		font-size:1.2em;
 		padding:0 1em .4em 0;
 		text-transform:lowercase;
@@ -115,12 +115,12 @@
 	.button,
 	.button:link,
 	.button:active {
-		background-color:rgb(76,76,76);	
-		color:rgb(204,204,204);	
+		background-color:rgb(76,81,86);	
+		color:rgb(204,209,214);	
 	}
 	
 	.button:hover {
-		color:rgb(229,229,229);
+		color:rgb(229,234,239);
 	}
 		
 	
@@ -131,11 +131,11 @@
 	}
 	
 	.buttonsel:hover {
-		color:rgb(250,250,250);
+		color:rgb(250,252,255);
 	}
 	.buttondis{
-		background-color:rgb(76,76,76);
-		color:rgb(51,51,51);
+		background-color:rgb(76,81,86);
+		color:rgb(51,56,61);
 		cursor:default;
 	}
 
@@ -163,7 +163,7 @@
 		left:0px;
 		width:70px;
 		height:100%;
-		background-color:rgb(204,204,204);
+		background-color:rgb(204,209,214);
 		padding:0px;
 	}
 	
@@ -175,7 +175,7 @@
 		width:400px;
 		height:100%;
 		padding:0px 10px 0px 10px;
-		background-color:rgb(229,229,229);
+		background-color:rgb(229,234,239);
 		overflow-y:scroll;
 		overflow-x:hidden;
 	}
@@ -191,7 +191,7 @@
 		position:absolute;
 		top:0px;
 		left:0px;
-		background-color:rgb(250,250,250);
+		background-color:rgb(250,252,255);
 	}
 	
 	#mainpane {
@@ -208,7 +208,7 @@
 	}
 		
 	#navtargetpane h1 {
-		color:rgb(204,204,204);
+		color:rgb(204,209,214);
 		font-weight:normal;
 		margin:10px 0px 10px 0px;
 	}
@@ -284,7 +284,7 @@
 	}
 
 	.disdisplay {
-		background-color:rgb(102,102,102);
+		background-color:rgb(102,107,112);
 		margin:6px 3px 2px 0px;	
 		padding:4px 4px 4px 10px;
 		color:white;
@@ -297,10 +297,10 @@
 	.charselectbuttonwrapper {
 		display:inline;
 		float:left;
-		height:50px;
-		width:50px;
+		height:49px;
+		width:49px;
 		cursor:pointer;
-		background-color:rgb(250,250,250);
+		background-color:rgb(250,252,255);
 		margin:0px 5px 5px 0px;
 	}
 	
@@ -318,7 +318,7 @@
 		width:100%;
 		height:100%;
 		text-align:center;
-		color:rgb(229,229,229);
+		color:rgb(229,234,239);
 		font-size:25px;
 		overflow:hidden;
 		padding-top:10px;
@@ -366,7 +366,7 @@
 		width:100%;
 		height:100%;
 		text-align:center;
-		background-color:rgb(76,76,76);
+		background-color:rgb(76,81,86);
 		z-index:1001;
 		-moz-opacity: 0.8;
 		opacity:.80;
@@ -380,7 +380,7 @@
 		left:100px;
 		height:auto;
 		width:auto;
-		background-color:rgb(204,204,204);
+		background-color:rgb(204,209,214);
 		z-index:1002;
 		overflow:auto;
 	}
@@ -388,7 +388,7 @@
 	.dialogCloseButton {
 		width:20px; 
 		height:25px;
-		color:rgb(229,229,229);			
+		color:rgb(229,234,239);			
 		background-color:rgb(40,170,255);/* dynamic */
 		font-size:24px;
 		font-weight:bold;
@@ -406,7 +406,7 @@
 	
 	#dialogRightContent {
 		padding:10px 20px 20px 20px;
-		color:rgb(25,25,25);			
+		color:rgb(25,30,35);			
 	}
 	
 	#dialogRightContent h1{
@@ -414,12 +414,12 @@
 	}
 	
 	#dialogRightContent td {
-		color:rgb(25,25,25);			
+		color:rgb(25,30,35);			
 	}
 
 	#dialogRightContent input {
-		background-color:rgb(25,25,25);
-		color:rgb(204,204,204);			
+		background-color:rgb(25,30,35);
+		color:rgb(204,209,214);			
 		margin:1px;
 		cursor:pointer;
 		padding:4px 12px;
@@ -434,7 +434,7 @@
 	#dialogRightContent h1,
 	#dialogRightContent h2,
 	#dialogRightContent h3 {
-		color:rgb(76,76,76);		
+		color:rgb(76,81,86);		
 	}
 	
 		
@@ -487,15 +487,16 @@
 		width:100%;
 		height:25px;
 		margin:10px 0px 20px 0px;
+		color:rgb(51,56,61);
 	}
 
 	#droptarget {
 		width: 90%;
-		height: 50px;
+		height: 72px;
 		margin: 4px 0px 20px 0px;
 		background-color: white;
-		border:1px dashed rgb(127,127,127);
-		color: rgb(127,127,127);
+		border:1px dashed rgb(127,134,137);
+		color: rgb(127,134,137);
 		padding: 20px;
 	}
 	
@@ -523,7 +524,7 @@
 	}	
 
 	.ssthumb {
-		border:3px solid rgb(204,204,204);
+		border:3px solid rgb(204,209,214);
 		cursor:pointer;
 	}
 	
@@ -554,8 +555,8 @@
 	}
 	
 	.out {
-		background-color:rgb(204,204,204);
-		color:rgb(51,51,51);
+		background-color:rgb(204,209,214);
+		color:rgb(51,56,61);
 		padding:4px 0px 0px 6px;
 		margin:1px 0px 0px 1px;
 		width:70px;
@@ -595,7 +596,7 @@
 		width:100px;
 		height:20px;
 		vertical-align:top;
-		color:rgb(51,51,51)		
+		color:rgb(51,56,61)		
 	}	
 	
 	.detail .leftcol	{
@@ -672,7 +673,7 @@
 	}
 	
 	.unitlabel {
-		color:rgb(178,178,178);
+		color:rgb(178,183,188);
 		vertical-align:0px;
 		font-size:.9em;
 		margin:8px 0px 0px 8px;	
@@ -702,7 +703,7 @@
 		height:150px;
 		padding:2px 0px 0px 5px;
 		border:0px;
-		background-color:rgb(204,204,204);
+		background-color:rgb(204,209,214);
 		overflow:hidden;
 		margin:1px 0px 10px 0px;
 		font-size:2em;

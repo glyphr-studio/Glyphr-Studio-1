@@ -103,7 +103,7 @@
 					"</td><td style='width:50%;'>"+
 						"<h3>Start a new<br>Glyphr Project</h3>"+
 						"Font name:<br>"+
-						"<input id='newfontname' type='text' value='My New Font' style='width:100%; margin:10px 0px 10px 0px; color:rgb(51,51,51);' /><br>"+
+						"<input id='newfontname' type='text' value='My New Font'/><br>"+
 						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
 					"</td></tr></table>";
 		
