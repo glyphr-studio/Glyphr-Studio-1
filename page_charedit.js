@@ -423,12 +423,12 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("GlyphrProject.fontchars[uistate.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
 
 		if(!sc.isautowide){
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em units) </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='GlyphrProject.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='GlyphrProject.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em units) </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width (em %) </td><td> " + rounddec(sc.charwidth/GlyphrProject.settings.upm) + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em %</span> </td><td> " + rounddec(sc.charwidth/GlyphrProject.settings.upm) + " </td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + uistate.shapelayers.length + " </td></tr>";
 
 		return content;
@@ -824,7 +824,7 @@
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
 		if(uistate.navhere == "seed shapes") {
-			if(!GlyphrProject.seedshapes.uistate.selectedshape) { s = false; }
+			if(!GlyphrProject.seedshapes[uistate.selectedshape]) { s = false; }
 		}
 		
 		if(uistate.selectedtool=='pathedit'){

@@ -37,10 +37,11 @@
 	}
 	
 	function makeSSSubnavButton(ssid){
+		//debug("MAKESSSUBNAVBUTTON passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(GlyphrProject.seedshapes.id0));
 		var re = "<input class='button' ";
 		if(ssid==uistate.shownseedshape) { re = "<input class='buttonsel' "; }
 		
-		re += "value='" + GlyphrProject.seedshapes.ssid.shape.name + "' ";
+		re += "value='" + GlyphrProject.seedshapes[ssid].shape.name + "' ";
 		re += "style='width:100%' type='button'";
 		re += "onclick='makeSeedShapeSelected(\"" + ssid + "\");' ";
 		re += ">";
@@ -52,7 +53,7 @@
 		//debug("MAKESEEDSHAPESELECTED - ssid: " + ssid);
 		uistate.shownseedshape = ssid;
 		uistate.selectedshape = ssid;
-		uistate.shapelayers = [GlyphrProject.seedshapes.ssid.shape];
+		uistate.shapelayers = [GlyphrProject.seedshapes[ssid].shape];
 		navigate();
 	}
 
@@ -139,7 +140,10 @@
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
 		
+		debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
+
 		for(var k=0; k<ui.length; k++){
+			debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
 			drawCharToArea(tctx, ui[k], factor, ssthumbgutter, yoffset);
 			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
@@ -215,7 +219,7 @@
 
 		GlyphrProject.seedshapes[newid] = new SeedShape({"name":newname});
 
-		debug("Added New Seed Shape: " + newid + " ss.length = " + GlyphrProject.seedshapes.length + " JSON=" + JSON.stringify(GlyphrProject.seedshapes));
+		debug("Added New Seed Shape: " + newid + " JSON=" + JSON.stringify(GlyphrProject.seedshapes));
 	}
 
 	function deleteSeedShapeConfirm(){

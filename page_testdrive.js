@@ -135,12 +135,12 @@
 
 	function drawTDOptions(){
 		var content = "<table class='detail'>";
-		content += "<tr><td> font size (px): </td><td><input class='input' type='text' value='100' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> 96dpi font size (pt): </td><td id='roughptsize'>75</td></tr>";
-		content += "<tr><td> line spacing (px): </td><td><input class='input' id='linespacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> character spacing (px): </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> show character boxes: </td><td><input type='checkbox' onchange='showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
-		content += "<tr><td> show baseline: </td><td><input type='checkbox' onchange='showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> font size <span class='unit'>px</span> </td><td><input class='input' type='text' value='100' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> 96dpi font size <span class='unit'>pt</span> </td><td id='roughptsize'>75</td></tr>";
+		content += "<tr><td> line spacing <span class='unit'>px</span> </td><td><input class='input' id='linespacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> character spacing <span class='unit'>px</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> show character boxes </td><td><input type='checkbox' onchange='showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show baseline </td><td><input type='checkbox' onchange='showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
 		
 		content += "<tr><td colspan=2><input type='button' class='button' value='generate png file' onclick='createimg();'></td></tr>";
 		content += "</table>";
