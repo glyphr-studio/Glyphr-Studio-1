@@ -50,8 +50,8 @@
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
 				if(fcontent.settings.version){
-					GlyphrProject = hydrateGlyphrProject(fcontent);
-					debug("Loading project; " + GlyphrProject.fontmetadata.familyname);
+					_G = hydrateGlyphrProject(fcontent);
+					debug("Loading project; " + _G.fontsettings.familyname);
 					finalizeGlyphrProject();
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
@@ -122,24 +122,34 @@
 		gp.settings = {
 			"version": uistate.thisGlyphrStudioVersion,
 			"seedshapecounter": 0,
-			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
 			"griddivisions": gd,		// how many squares of grid per emsize
 			"xheight": (9/gd),			// % of emsize lowercase letter height
 			"descender": (4/gd),		// % of emsize descender
 			"overshoot": (1/(gd*8)),	// % of emsize overshoot for round glyphs
-			"kerning": (1/gd)			// default kerning, as a % of emsize
+			"pointsize" : 5,			// square points size - SHOULD BE ODD	
+			"spinnervaluechange" : 1,	// how much spinner controls change a value
+			"stoppagenavigation" : false,	// asks to save on window close or refresh
+			"quickpathupdating" : true,		// does not redraw path while drag resizing
+			"showoutline" : false,			// outline shapes when drawing
+			"showfill" : true,				// fill shapes when drawing
+			"color_glyphfill" : "rgb(0,0,0)",		//shape base color
+			"color_glyphoutline" : "rgb(0,0,0)",	//shape outline color
+			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
+			"color_grid" : "rgb(240,240,240)",		//grid base color
+			"color_guideline" : "rgb(204,79,34)"	//guide base color
 		}
 	
 		var fn = document.getElementById("newfontname").value;
 		fn = (fn? fn : "My Font");
 
-		gp.fontmetadata = {
+		gp.fontsettings = {
+			"kerning": (1/gd)			// default kerning, as a % of emsize
 			"familyname": fn,
 			"subfamilyname": "Regular",
 			"genericfamilyname": 'Sans-Serif',
 			"fullname": fn,
 			"version": "Version 1.0",
-			"copyright": "Â© Copyright 2012",
+			"copyright": ("Copyright " + new Date().getFullYear()),
 			"manufacturername": "",
 			"manufacturerurl": "",
 			"designername": "",
@@ -158,15 +168,15 @@
 	}
 	
 	function newGlyphrProject(){
-		GlyphrProject = createNewGlyphrProject();
+		_G = createNewGlyphrProject();
 		finalizeGlyphrProject();
 	}
 	
 	function finalizeGlyphrProject(){
 		debug("FINALIZEGLYPHRPROJECT - start of function");
-		uistate.charcurrstate = clone(GlyphrProject.fontchars);
-		uistate.seedcurrstate = clone(GlyphrProject.seedshapes);
-		var fs = GlyphrProject.settings;
+		uistate.charcurrstate = clone(_G.fontchars);
+		uistate.seedcurrstate = clone(_G.seedshapes);
+		var fs = _G.projectsettings;
 		debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + fs);
 		debug("FINALIZEGLYPHRPROJECT - fs.seedshapecounter: " + fs.seedshapecounter);
 		
@@ -185,4 +195,10 @@
 		
 		uistate.navhere = "character edit";
 		navigate();
+	}
+
+	function setupCECandCGC(){
+		uistate.calcmaxesghostcanvassettings.size = _G.fontsettings.upm*1.75;
+		uistate.calcmaxesghostcanvassettings.originx = _G.fontsettings.upm*.25;
+		uistate.calcmaxesghostcanvassettings.originy = _G.fontsettings.upm*1.25;	
 	}

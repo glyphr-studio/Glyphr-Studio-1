@@ -160,7 +160,7 @@
 	
 	function isOverControlPoint(x, y){
 		var a = this.pathpoints;
-		var hp = uisettings.pointsize/2/uistate.chareditcanvassettings.zoom;
+		var hp = _G.projectsettings.pointsize/2/uistate.chareditcanvassettings.zoom;
 		
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){
@@ -189,7 +189,7 @@
 	
 	function updatePathSize(dw, dh){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
-		var fs = GlyphrProject.settings;
+		var fs = _G.projectsettings;
 		
 		var s = ss("updatePathPosition");
 		s.wlock? dw = 0 : false;
@@ -541,7 +541,7 @@
 	}
 
 	function getMaxesFromPathPoints(){
-		var fs = GlyphrProject.settings;
+		var fs = _G.projectsettings;
 		var r = {};
 		r.topy = (fs.upm*-1);
 		r.rightx = (fs.upm*-1);

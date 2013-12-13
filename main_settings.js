@@ -3,7 +3,7 @@
 // GLOBAL VARIABLES AND SETTINGS
 //------------------------------
 	var DEBUG = true;
-	var GlyphrProject = {};
+	var _G = {};
 
 	var uistate = {
 		// all pages
@@ -76,17 +76,8 @@
 	uistate.colors.button_selected = uistate.colors.accent;
 
 
-	var uisettings = {
-		"pointsize" : 5,			// square points size - SHOULD BE ODD	
-		"spinnervaluechange" : 1,	// how much spinner controls change a value
-		"stoppagenavigation" : false,	// asks to save on window close or refresh
-		"quickpathupdating" : true,		// does not redraw path while drag resizing
-		"showoutline" : false,			// outline shapes when drawing
-		"showfill" : true,				// fill shapes when drawing
-		"color_glyphfill" : "rgb(0,0,0)",		//shape base color
-		"color_glyphoutline" : "rgb(0,0,0)",	//shape outline color
-		"color_grid" : "rgb(240,240,240)",		//grid base color
-		"color_guideline" : "rgb(204,79,34)"	//guide base color
+	var _G.projectsettings = {
+
 	}
 
 

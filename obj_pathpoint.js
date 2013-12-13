@@ -243,7 +243,7 @@
 			lctx.moveTo(sx_cx(pp.P.x), sy_cy(pp.P.y));
 			//debug("DRAWPATHTOPOINT - first point, cnvas orgin: " + uistate.chareditcanvassettings.originx + "," + uistate.chareditcanvassettings.originy);
 			//debug("DRAWPATHTOPOINT - first point, saved coord: " + pp.P.x + "," + pp.P.y);
-			//debug("DRAWPATHTOPOINT - FOR CMGC cnvas coord clc: " + (pp.P.x+GlyphrProject.settings.upm) + "," + ((GlyphrProject.settings.upm*2)-pp.P.y) );
+			//debug("DRAWPATHTOPOINT - FOR CMGC cnvas coord clc: " + (pp.P.x+_G.fontsettings.upm) + "," + ((_G.fontsettings.upm*2)-pp.P.y) );
 			//debug("DRAWPATHTOPOINT - first point, cnvas coord: " + sx_cx(pp.P.x) + "," + sy_cy(pp.P.y));
 		}
 		
@@ -264,7 +264,7 @@
 	}
 	
 	function drawPoint(c) {
-		var ps = uisettings.pointsize +1;
+		var ps = _G.projectsettings.pointsize +1;
 		var hp = ps/2;
 		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
 		uistate.chareditctx.lineWidth = 1;
@@ -276,7 +276,7 @@
 	function drawHandles(drawH1, drawH2) {
 		uistate.chareditctx.fillStyle = uistate.colors.accent;
 		uistate.chareditctx.lineWidth = 1;
-		var hp = uisettings.pointsize/2
+		var hp = _G.projectsettings.pointsize/2
 		
 		if(drawH1 && this.useh1){
 			uistate.chareditctx.beginPath();

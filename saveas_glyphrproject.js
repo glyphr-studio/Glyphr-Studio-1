@@ -2,20 +2,10 @@
 //	Save GLYPHR JSON
 //	-------------------------
 
-function triggerProjectFileDownload(){
-		//JSON CONVERSION!!!!!!
-		//var output = generateGlyphrProjectJS();
-		//var output = niceJSON(JSON.stringify(GlyphrProject));
+	function triggerProjectFileDownload(){
 
-		// Update the textbox
-		//document.getElementById("genoutput").value = output;
-		/*
-		document.getElementById("genoutput").select();
-		CopiedTxt = document.selection.createRange();
-		CopiedTxt.execCommand("Copy");
-		*/
 		var link = document.createElement('a');
-		link.href = 'data:text/plain,' + JSON.stringify(GlyphrProject);
+		link.href = 'data:text/plain,' + JSON.stringify(_G);
 		//link.download = (new Date()).getTime().toString(36) + '.txt';
 		var d = new Date();
 		var yr = d.getFullYear();
@@ -25,7 +15,7 @@ function triggerProjectFileDownload(){
 		var min = (d.getMinutes()<10? "0" : "") + d.getMinutes();
 		var sec = (d.getSeconds()<10? "0" : "") + d.getSeconds();
 		
-		link.download = GlyphrProject.fontmetadata.familyname + " - Glyphr Project - "+yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec+".txt";
+		link.download = _G.fontsettings.familyname + " - Glyphr Project - "+yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec+".txt";
 		link.click();
 	}
 

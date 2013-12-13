@@ -11,21 +11,6 @@
 		
 		redraw();	
 	}
-
-	/*
-	function charedit_content(){
-		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
-		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
-		re += '<table class="charedittable" cellspacing=0 cellpadding=0 border=0>';
-		re += "<tr>";
-		re += '<td id="layersarea"> [ERROR: Uninitialized content] </td>';
-		re += '<td id="detailsarea"> [ERROR: Uninitialized content] </td></tr>';		
-		re += '<tr><td id="actionsarea" colspan=2> [ERROR: Uninitialized content] </td>';		
-		re += '</tr></table>';
-		
-		return re;
-	}
-	*/
 	
 	function charedit_content(){
 		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
@@ -63,69 +48,12 @@
 		
 		return ccon;
 	}	
-	/*
-	function updateselectchar(fname){
-		var ccon = "<table cellpadding=0 cellspacing=0 class='charselecttable'>"
-		var perrow = 9;
-		fname = fname? fname : "selectchar";
-		
-		//Capitol Letters
-		for(var i=65; i<91; i++){
-			if(i==65){ ccon += "<tr>"; }
-			else if(((i-65)%perrow)==0) { ccon += "</tr><tr>"; }
-			ccon += ("<td>" + buildbutton(i, fname) + "</td>");
-		}
-		
-		//Lowercase Letters
-		for(var i=97; i<123; i++){
-			if(i==97){ ccon += "<tr>"; }
-			else if(((i-97)%perrow)==0) { ccon += "</tr><tr>"; }
-			ccon += ("<td>" + buildbutton(i, fname) + "</td>");
-		}
-		
-		ccon += "</tr></table>";
-		
-		// Symbols
-		ccon += "<table cellpadding=0 cellspacing=0 class='charselecttable' style='padding-top:0px;'>"
-		var j = 0;
-		perrow = 8;
-		
-		for(var i=33; i<48; i++){
-			if(j==0){ ccon += "<tr>"; }
-			else if((j%perrow)==0) { ccon += "</tr><tr>"; }
-			ccon += ("<td>" + buildbutton(i, fname) + "</td>");
-			j++;
-		}
-		for(var i=58; i<65; i++){
-			if((j%perrow)==0) { ccon += "</tr><tr>"; }
-			ccon += ("<td>" + buildbutton(i, fname) + "</td>");
-			j++;
-		}
-		for(var i=91; i<97; i++){
-			if((j%perrow)==0) { ccon += "</tr><tr>"; }
-			ccon += ("<td>" + buildbutton(i, fname) + "</td>");
-			j++;
-		}
-		for(var i=123; i<127; i++){
-			if((j%perrow)==0) { ccon += "</tr><tr>"; }
-			ccon += ("<td>" + buildbutton(i, fname) + "</td>");
-			j++;
-		}
-		
-		// Space
-		ccon += "</tr><tr><td colspan=4>";
-		ccon += buildbutton(32, fname);
-		ccon += "</td><td colspan=4>&nbsp;</td></tr></table>";
-		
-		return ccon;
-	}
-	*/
-	
+
 	function drawselectcharcanvas(){
 		var scthumbsize = 50;
 		var scthumbgutter = 5;	
 		
-		var fs = GlyphrProject.settings;
+		var fs = _G.projectsettings;
 		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
 		var yoffset = (scthumbgutter+(fs.upm*factor));
 		
@@ -145,11 +73,11 @@
 	
 	function buildbutton(index, fname){
 		var onc = (fname + "(" + index + ");");
-		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+GlyphrProject.fontchars[index].charname+"'>";
-		var issel = GlyphrProject.fontchars[index].charvalue == GlyphrProject.fontchars[uistate.selectedchar].charvalue;
+		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_G.fontchars[index].charname+"'>";
+		var issel = _G.fontchars[index].charvalue == _G.fontchars[uistate.selectedchar].charvalue;
 		issel = issel & (uistate.navhere != "seed shapes");
 		
-		if(GlyphrProject.fontchars[index].charglyphdata[0]){
+		if(_G.fontchars[index].charglyphdata[0]){
 			var extra = "";
 			if(issel) {extra = " charselectcanvassel";} 
 			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
@@ -158,7 +86,7 @@
 			if(issel) {rv += "<div class='charselectbuttonsel'>";} 
 			else {rv += "<div class='charselectbutton'>";}
 
-			var bv = GlyphrProject.fontchars[index].charvalue;
+			var bv = _G.fontchars[index].charvalue;
 			if(bv == "'") bv = "&#39";
 			
 			rv += (bv+"</div>");
@@ -170,9 +98,9 @@
 	}
 	
 	function selectchar(c){
-		//debug("SELECTCHAR - Selecting " + GlyphrProject.fontchars[c].charvalue + " from value " + c);
+		//debug("SELECTCHAR - Selecting " + _G.fontchars[c].charvalue + " from value " + c);
 		uistate.selectedchar = c;
-		uistate.shapelayers = GlyphrProject.fontchars[c].charglyphdata;
+		uistate.shapelayers = _G.fontchars[c].charglyphdata;
 		uistate.selectedshape = -1;
 		navigate();
 	}
@@ -215,14 +143,20 @@
 	
 	function resetCursor() { document.body.style.cursor = 'default'; }
 		
+	function resetZoomPan(){
+		uistate.chareditcanvassettings.originx = 140;
+		uistate.chareditcanvassettings.originy = 740;
+		uistate.chareditcanvassettings.zoom = .32;
+	}
 
+		
 //-------------------
 // REDRAW
 //-------------------
 	function redraw(){
 		if(uistate.navhere == "seed shapes") {seedshapesredraw(); return;}		
 		
-		var fc = GlyphrProject.fontchars;
+		var fc = _G.fontchars;
 		
 		uistate.chareditctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
 		grid();
@@ -248,7 +182,7 @@
 			if(neww) {
 				var thisrightx = 0;
 				if(sh.seed){
-					var tss = GlyphrProject.seedshapes[sh.seed].shape;
+					var tss = _G.seedshapes[sh.seed].shape;
 					if(sh.useseedxy) {
 						thisrightx = tss.path.rightx;
 						//debug("REDRAW - useseedxy=true, thisrightx set to: " + thisrightx);
@@ -276,10 +210,6 @@
 			}
 		}
 		
-
-		//updatedetails();
-		//updatelayers();
-		//updateactions();
 		updateNavPrimaryNavTarget();
 		
 		updatetools();
@@ -288,13 +218,13 @@
 		//show right hand line
 		if(uistate.chareditcanvassettings.showguides && uistate.showrightline){
 			uistate.chareditctx.lineWidth = 1;
-			//uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .5, true);
-			uistate.chareditctx.strokeStyle = uisettings.color_guideline;
+			//uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
+			uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
 			var rhl = (fc[uistate.selectedchar].charwidth*uistate.chareditcanvassettings.zoom) + uistate.chareditcanvassettings.originx;
 			if(temppathdragshape){
 				rhl = Math.max(sx_cx(temppathdragshape.rightx), rhl);
 			}
-			if(neww){rhl += (GlyphrProject.settings.upm*GlyphrProject.settings.kerning*uistate.chareditcanvassettings.zoom) }
+			if(neww){rhl += (_G.fontsettings.upm*_G.fontsettings.kerning*uistate.chareditcanvassettings.zoom) }
 			vertical(rhl);
 		}
 		
@@ -324,7 +254,7 @@
 	var locarr = [];
 	var checkarr = [];
 	
-	function updatedetails(){
+	function updateCharEditDetails(){
 
 		var s = ss("update details");
 		
@@ -334,7 +264,7 @@
 		
 		var content = "";
 		if(uistate.navhere == "seed shapes"){
-			content = "<h1>" + GlyphrProject.seedshapes[uistate.shownseedshape].shape.name + "</h1>";
+			content = "<h1>" + _G.seedshapes[uistate.shownseedshape].shape.name + "</h1>";
 		} else {
 			content = "<h1>attributes</h1>";
 		}
@@ -361,6 +291,10 @@
 				//debug("UPDATEDETAILS: no shape selected");
 				content += charDetails();	
 			}
+
+			content += "</table><br>";
+			content += updateactions();
+
 		} else if (uistate.navhere == "seed shapes"){
 			//debug("UPDATEDETAILS - detected navhere = seed shapes");
 			if (s){
@@ -371,10 +305,9 @@
 					content += seedShapeCharDetails();
 				}
 			}
+			content += "</table><br>";
+			content += updateseedshapeactions();
 		}
-
-		content += "</table><br>";
-		content += updateactions();
 		
 		try {
 			document.getElementById("navtargetpane").innerHTML = content;	
@@ -384,7 +317,11 @@
 		
 		ispointsel? drawPointButtons(s) : false;
 
-	   
+	   	// draw UsedInThumbs for SeedShapes
+	   	if(uistate.navhere == "seed shapes"){
+	   		drawUsedinThumbs();
+	   	}
+
 		// draw locks
 		//debug("UPDATEDETAILS - starting drawing locks, locarr.length = " + locarr.length);
 		for(var j=0; j<locarr.length; j++){
@@ -416,19 +353,19 @@
 	}
 	
 	function charDetails(s){
-		var sc = GlyphrProject.fontchars[uistate.selectedchar];
+		var sc = _G.fontchars[uistate.selectedchar];
 		var content = "";	
 		
 		content += "<tr><td colspan=3><h3>character "+sc.charvalue+"</h3></td></tr>";	
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("GlyphrProject.fontchars[uistate.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("_G.fontchars[uistate.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
 
 		if(!sc.isautowide){
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='GlyphrProject.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='_G.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em %</span> </td><td> " + rounddec(sc.charwidth/GlyphrProject.settings.upm) + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em %</span> </td><td> " + rounddec(sc.charwidth/_G.fontsettings.upm) + " </td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + uistate.shapelayers.length + " </td></tr>";
 
 		return content;
@@ -758,7 +695,7 @@
 	function inc(obj){
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + uisettings.spinnervaluechange);
+			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + _G.projectsettings.spinnervaluechange);
 			obj.parentNode.childNodes[0].onchange();
 			putundoq("Up Spinner");
 		}
@@ -767,7 +704,7 @@
 	function dec(obj){
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - uisettings.spinnervaluechange);
+			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - _G.projectsettings.spinnervaluechange);
 			obj.parentNode.childNodes[0].onchange();
 			putundoq("Down Spinner");
 		}
@@ -824,7 +761,7 @@
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
 		if(uistate.navhere == "seed shapes") {
-			if(!GlyphrProject.seedshapes[uistate.selectedshape]) { s = false; }
+			if(!_G.seedshapes[uistate.selectedshape]) { s = false; }
 		}
 		
 		if(uistate.selectedtool=='pathedit'){
@@ -1009,7 +946,7 @@
 	var xs = {};
 	
 	function grid(){
-		var fs = GlyphrProject.settings;
+		var fs = _G.projectsettings;
 		
 		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
 		uistate.chareditctx.fillRect(0,0,99999,99999);
@@ -1019,8 +956,6 @@
 		xs.xmin = uistate.chareditcanvassettings.originx - (uistate.calcmaxesghostcanvassettings.originx*uistate.chareditcanvassettings.zoom) -1;
 		xs.ymax = uistate.chareditcanvassettings.originy + ((uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originy)*uistate.chareditcanvassettings.zoom);
 		xs.ymin = uistate.chareditcanvassettings.originy - (uistate.calcmaxesghostcanvassettings.originy*uistate.chareditcanvassettings.zoom) -1;
-		
-		//debugSettings();
 		
 		uistate.chareditctx.fillStyle = "white";
 		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
@@ -1034,7 +969,7 @@
 		if(uistate.chareditcanvassettings.showgrid || uistate.chareditcanvassettings.showguides){
 			var size = uistate.chareditcanvassettings.size/fs.griddivisions;
 			uistate.chareditctx.lineWidth = 1;
-			uistate.chareditctx.strokeStyle = uisettings.color_grid;
+			uistate.chareditctx.strokeStyle = _G.projectsettings.color_grid;
 			
 			if(uistate.chareditcanvassettings.showgrid){
 				var gsize = ((fs.upm/fs.griddivisions)*uistate.chareditcanvassettings.zoom);
@@ -1053,7 +988,7 @@
 			if(uistate.chareditcanvassettings.showguides){
 				
 				// Minor Guidelines - Overshoots
-				uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .8, true);
+				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
 				horizontal(uistate.chareditcanvassettings.originy+overshootsize);
@@ -1063,24 +998,24 @@
 				vertical(uistate.chareditcanvassettings.originx+(fs.upm*uistate.chareditcanvassettings.zoom));
 				
 				// major guidelines - xheight, top (emzize)
-				uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .5, true);
+				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
 				horizontal(xline);
-				uistate.chareditctx.strokeStyle = shiftColor(uisettings.color_guideline, .2, true);
+				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .2, true);
 				horizontal(mline);
 				horizontal(dline);
 				
 				
 				// Out of bounds triangle
-				uistate.chareditctx.fillStyle = uisettings.color_guideline;		
+				uistate.chareditctx.fillStyle = _G.projectsettings.color_guideline;		
 				uistate.chareditctx.beginPath();
 				uistate.chareditctx.moveTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy);
-				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(uisettings.pointsize*2));
-				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx-(uisettings.pointsize*2), uistate.chareditcanvassettings.originy);
+				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(_G.projectsettings.pointsize*2));
+				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx-(_G.projectsettings.pointsize*2), uistate.chareditcanvassettings.originy);
 				uistate.chareditctx.closePath();
 				uistate.chareditctx.fill();
 				
 				// Origin Lines
-				uistate.chareditctx.strokeStyle = uisettings.color_guideline;
+				uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
 				horizontal(uistate.chareditcanvassettings.originy);
 				vertical(uistate.chareditcanvassettings.originx);
 			}

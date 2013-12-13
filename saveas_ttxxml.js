@@ -17,7 +17,7 @@
 		var min = (d.getMinutes()<10? "0" : "") + d.getMinutes();
 		var sec = (d.getSeconds()<10? "0" : "") + d.getSeconds();
 		
-		link.download = "TTX Data - " + GlyphrProject.fontmetadata.familyname + " - " +yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec+".xml";
+		link.download = "TTX Data - " + _G.fontsettings.familyname + " - " +yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec+".xml";
 		link.click();
 	}
 
@@ -583,7 +583,7 @@
 '' +
 		'</ttFont>';
 
-		return (h1 + GlyphrProject.fontchars[65].charglyphdata[0].genPostScript() + h2);
+		return (h1 + _G.fontchars[65].charglyphdata[0].genPostScript() + h2);
 
 
 	}
@@ -592,8 +592,8 @@
 	
 /*
 	function generateTTXXML(){
-		var fs = GlyphrProject.settings;
-		var md = GlyphrProject.fontmetadata;
+		var fs = _G.projectsettings;
+		var md = _G.fontsettings;
 		var output = '<?xml version="1.0" encoding="ISO-8859-1"?>\n<ttFont sfntVersion="OTTO" ttLibVersion="2.3">\n\n';
 
 
@@ -607,8 +607,8 @@
 
 		output += '<GlyphOrder>\n';
 		output += '   <GlyphID id="0" name=".notdef"/>\n';
-		for(var i=32; i<GlyphrProject.fontchars.length; i++){
-			output += '   <GlyphID id="'+i+'" name="'+GlyphrProject.fontchars[i].charname+'"/>\n';
+		for(var i=32; i<_G.fontchars.length; i++){
+			output += '   <GlyphID id="'+i+'" name="'+_G.fontchars[i].charname+'"/>\n';
 		}
 		output += '</GlyphOrder>\n\n\n';
 
@@ -684,7 +684,7 @@
 
 		output += '<maxp>\n';
 		output += '   <tableVersion value="0x5000"/> \n';
-		output += '   <numGlyphs value="'+GlyphrProject.fontchars.length+'"/> \n';
+		output += '   <numGlyphs value="'+_G.fontchars.length+'"/> \n';
 		output += '</maxp>\n\n\n';
 
 
@@ -697,8 +697,8 @@
 	// OS2 table
 	//--------------------
 
-		var susize = GlyphrProject.settings.upm/2;
-		var suoff = GlyphrProject.settings.upm/4;
+		var susize = _G.fontsettings.upm/2;
+		var suoff = _G.fontsettings.upm/4;
 		
 		output += '<OS_2>\n';
 		output += '   <version value="3"/> \n';
@@ -805,8 +805,8 @@
 		var cment = "";
 		var tc = {};
 		
-		for(var i=32; i<GlyphrProject.fontchars.length; i++){
-			tc = GlyphrProject.fontchars[i];
+		for(var i=32; i<_G.fontchars.length; i++){
+			tc = _G.fontchars[i];
 			cment += "      <map code='"+tc.cmapcode+"' name='"+tc.charname+"'/>\n"; 
 		}
 		
@@ -893,9 +893,9 @@
 		output += '         <CharString name=".notdef">endchar</CharString> \n'; 
 		
 			var thischar = new Object();
-			debug("SAVE LOOP - fontchars.length = " + GlyphrProject.fontchars.length);
-			for(var i in GlyphrProject.fontchars){
-				thischar = GlyphrProject.fontchars[i];
+			debug("SAVE LOOP - fontchars.length = " + _G.fontchars.length);
+			for(var i in _G.fontchars){
+				thischar = _G.fontchars[i];
 				debug("SAVE LOOP - " + i + " name " + thischar.charname);
 				output += '         <CharString name="'+thischar.charname+'">\n';
 					
@@ -928,11 +928,11 @@
 		output += '   <mtx name=".notdef" width="720" lsb="110"/>\n';
 		
 		var mw = 0;
-		for(var i=32; i<GlyphrProject.fontchars.length; i++){
-			mw = GlyphrProject.fontchars[i].charwidth;
+		for(var i=32; i<_G.fontchars.length; i++){
+			mw = _G.fontchars[i].charwidth;
 			mw? true : mw=(fs.kerning*fs.upm);
 			
-			output += "   <mtx name='"+GlyphrProject.fontchars[i].charname+"' width='"+mw+"' lsb='0'/>\n"; 
+			output += "   <mtx name='"+_G.fontchars[i].charname+"' width='"+mw+"' lsb='0'/>\n"; 
 		}
 		
 		output += "</hmtx>\n\n\n";

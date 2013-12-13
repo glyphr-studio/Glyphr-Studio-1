@@ -43,7 +43,7 @@
 	
 //	Insert Seed Shape
 	function insertSeedShapeDialog(){
-		if(aalength(GlyphrProject.seedshapes)>0){
+		if(aalength(_G.seedshapes)>0){
 			var content = "Choose a Seed Shape to insert as a layer in this character:";
 			content += generateSSThumbs();
 			content += "<div style='display:block;'><input type='button' class='button' value='cancel' onclick='closeDialog();'></div>";
@@ -61,7 +61,7 @@
 		debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
-		GlyphrProject.fontchars[uistate.selectedchar].charwidth = Math.max(GlyphrProject.fontchars[uistate.selectedchar].charwidth, GlyphrProject.seedshapes[ssid].shape.path.rightx);
+		_G.fontchars[uistate.selectedchar].charwidth = Math.max(_G.fontchars[uistate.selectedchar].charwidth, _G.seedshapes[ssid].shape.path.rightx);
 		
 		addToUsedIn(ssid, uistate.selectedchar);
 		
@@ -72,11 +72,11 @@
 	
 	function generateSSThumbs(){		
 		var re = "<div class='ssthumbcontainer'>";
-		for(var ssid in GlyphrProject.seedshapes){
+		for(var ssid in _G.seedshapes){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
 			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertSeedShape(\""+ssid+"\");' height="+ssthumbsize+"' width="+ssthumbsize+"></canvas>";
 			re += "</td></tr><tr><td>"
-			re += GlyphrProject.seedshapes[ssid].shape.name;
+			re += _G.seedshapes[ssid].shape.name;
 			re += "</td></tr></table>";
 			//debug("GENERATESSTHUMBS - created canvas 'thumb"+ssid+"'");
 		}
@@ -85,14 +85,14 @@
 	}
 	
 	function drawSSThumbs(){
-		var fs = GlyphrProject.settings;
+		var fs = _G.projectsettings;
 		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
-		for(var ssid in GlyphrProject.seedshapes){
+		for(var ssid in _G.seedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			GlyphrProject.seedshapes[ssid].shape.drawShapeToArea(tctx, factor, ssthumbgutter, yoffset);
+			_G.seedshapes[ssid].shape.drawShapeToArea(tctx, factor, ssthumbgutter, yoffset);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -102,7 +102,7 @@
 	function addToUsedIn(ssid, charid){
 		charid = (""+charid);
 		debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
-		var uia = GlyphrProject.seedshapes[ssid].usedin;
+		var uia = _G.seedshapes[ssid].usedin;
 		debug("------------- uia: " + uia);
 		//Make sure array values are unique
 		if(uia.indexOf(charid) == -1){
@@ -116,7 +116,7 @@
 	function removeFromUsedIn(ssid, charid){
 		debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var seedcount = 0;
-		var tcgd = GlyphrProject.fontchars[charid].charglyphdata;
+		var tcgd = _G.fontchars[charid].charglyphdata;
 		
 		// make sure there is only one of this ss in the char
 		for(var sl=0; sl<tcgd.length; sl++){
@@ -128,7 +128,7 @@
 		debug("------------------ seedcount = " + seedcount);
 		
 		if(seedcount == 1){
-			var uia = GlyphrProject.seedshapes[ssid].usedin;
+			var uia = _G.seedshapes[ssid].usedin;
 			var charindex = uia.indexOf(charid);
 			debug("------------------ charindex: " + charindex);
 			if(charindex != -1){
@@ -153,7 +153,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; y </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.ypos + "' onchange='ss().ypos = (this.value*1); putundoq(\"seedshape ypos\"); redraw();'>"+spinner()+"</td></tr>";
 		}
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Seed Shape ID </td><td> " + s.seed + " </td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> seed shape name </td><td>" + GlyphrProject.seedshapes[s.seed].shape.name + "</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> seed shape name </td><td>" + _G.seedshapes[s.seed].shape.name + "</td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><input type='button' class='button' value='edit this seed shape' onclick='goToEditSeedShape(\""+s.seed+"\");'/></td></tr>";
 		return content;
 	}
@@ -167,7 +167,7 @@
 	function clickSelectSeedShape(x,y){
 		//debug("CLICKSELECTSeedShape() - checking x:" + x + " y:" + y);
 		
-		if(GlyphrProject.seedshapes[uistate.shownseedshape].shape.isHere(x,y)){
+		if(_G.seedshapes[uistate.shownseedshape].shape.isHere(x,y)){
 			uistate.selectedshape = uistate.shownseedshape;
 			//debug("CLICKSELECTSeedShape() - selecting shape " + uistate.shownseedshape);
 			return true;
@@ -187,11 +187,11 @@
 		//debug("DRAWSEEDSHAPE");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
-			GlyphrProject.seedshapes[this.seed].shape.drawShape(lctx);
+			_G.seedshapes[this.seed].shape.drawShape(lctx);
 		} else {
 			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
 			//debug("------------- this.seed: " + this.seed);
-			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
+			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape(lctx);
 		}
@@ -201,10 +201,10 @@
 		//debug("GENSEEDPOSTSCRIPT");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
-			return GlyphrProject.seedshapes[this.seed].shape.path.genPathPostScript();
+			return _G.seedshapes[this.seed].shape.path.genPathPostScript();
 		} else {
 			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
-			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
+			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			return ns.path.genPathPostScript();
 		}
@@ -214,10 +214,10 @@
 		//debug("DRAWSEEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.useseedxy){
 			//debug("--------------------- useseedxy=true, calling drawShapeToArea for seedshape.");
-			GlyphrProject.seedshapes[this.seed].shape.drawShapeToArea(lctx, size, offsetX, offsetY);
+			_G.seedshapes[this.seed].shape.drawShapeToArea(lctx, size, offsetX, offsetY);
 		} else {
 			//debug("--------------------- useseedxy=false, calling updatepathposition with FORCE.");
-			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
+			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.name += " HAS BEEN MOVED";
 			ns.drawShapeToArea(lctx, size, offsetX, offsetY);
@@ -225,12 +225,12 @@
 	}
 	
 	function drawSeedShapeSelectOutline(onlycenter){
-		//GlyphrProject.seedshapes[this.seed].shape.drawselectoutline();
+		//_G.seedshapes[this.seed].shape.drawselectoutline();
 		
 		if(this.useseedxy){
-			GlyphrProject.seedshapes[this.seed].shape.drawselectoutline(onlycenter);
+			_G.seedshapes[this.seed].shape.drawselectoutline(onlycenter);
 		} else {
-			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
+			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			ns.path.calcMaxes();
 			ns.drawselectoutline(onlycenter);
@@ -238,15 +238,15 @@
 	}
 	
 	function drawSeedShape8Points(onlycenter){
-		//GlyphrProject.seedshapes[this.seed].shape.draw8points(onlycenter);
+		//_G.seedshapes[this.seed].shape.draw8points(onlycenter);
 	}
 	
 	function isSeedShapeHere(x,y){
 		//debug("ISSEEDSHAPEHERE - checking " + x + "," + y);
 		if(this.useseedxy){
-			return GlyphrProject.seedshapes[this.seed].shape.isHere(x,y);
+			return _G.seedshapes[this.seed].shape.isHere(x,y);
 		} else {
-			var ns = clone(GlyphrProject.seedshapes[this.seed].shape);
+			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			return ns.isHere(x,y);
 		}
@@ -258,7 +258,7 @@
 		var rv = "<br>     Local Seedshape Instance attributes <br> seedshapename: " + this.seed + " useseedxy: " + this.useseedxy;
 		rv += "<br>     Local Seedshape fake shape attributes <br>";
 		rv += "name:" + this.name +", x:"+this.xpos+", y:"+(this.ypos);
-		//rv += "<br>     Actual Seed attributes <br>" + GlyphrProject.seedshapes[this.seed].shape.debugShape();
+		//rv += "<br>     Actual Seed attributes <br>" + _G.seedshapes[this.seed].shape.debugShape();
 		return rv;
 	}
 
@@ -270,7 +270,7 @@
 	var seedshapecounter = 0;
 	
 	function getFirstSeedShape(){
-		for(var ssid in GlyphrProject.seedshapes){
+		for(var ssid in _G.seedshapes){
 			return ssid;
 		}
 		

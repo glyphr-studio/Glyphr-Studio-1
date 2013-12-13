@@ -13,7 +13,7 @@
 		navigate();
 
 		// Shows a popup if the window is closed or refreshed
-		if(uisettings.stoppagenavigation){
+		if(_G.projectsettings.stoppagenavigation){
 			window.onbeforeunload = function() {
 				return "\n\nUnless you specifically exported your data via the 'Save Project' page, all your progress will be lost.\n\n";
 			}
@@ -41,8 +41,8 @@
 		
 		switch(uistate.navhere){
 			case "firstrun":		updatefirstrun();		break;	
-			case "font metadata": 	updatefontmetadata(); 	break;
 			case "font settings":	updatefontsettings();	break;
+			case "project settings":	updateprojectsettings();	break;
 			case "test drive":
 				uistate.navprimaryhere = "npAttributes";
 				updatetestdrive();		
@@ -111,7 +111,7 @@
 				if(uistate.navhere == "test drive"){
 					nt.innerHTML = updatetestdriveoptions();
 				} else {
-					updatedetails();
+					updateCharEditDetails();
 				}
 				break;
 			
@@ -228,7 +228,7 @@
 		navarr.push("test drive");
 		navarr.push("_");
 		navarr.push("font settings");
-		navarr.push("font metadata");
+		navarr.push("project settings");
 		navarr.push("_");
 		navarr.push("open project");
 		navarr.push("export font");
@@ -327,11 +327,11 @@
 		if(uistate.navhere == "character edit"){
 			uqo.state = clone(uistate.charcurrstate);
 			uistate.charundoq.push(uqo);
-			uistate.charcurrstate = clone(GlyphrProject.fontchars);
+			uistate.charcurrstate = clone(_G.fontchars);
 		} else if (uistate.navhere == "seed shapes"){
 			uqo.state = clone(uistate.seedcurrstate);
 			uistate.seedundoq.push(uqo);
-			uistate.seedcurrstate = clone(GlyphrProject.seedshapes);
+			uistate.seedcurrstate = clone(_G.seedshapes);
 		}
 		
 		/*
@@ -351,15 +351,15 @@
 		if(uistate.navhere == "character edit"){
 			if(uistate.charundoq.length > 0){
 				var uqo = uistate.charundoq.pop();
-				GlyphrProject.fontchars = uqo.state;
-				uistate.charcurrstate = clone(GlyphrProject.fontchars);
+				_G.fontchars = uqo.state;
+				uistate.charcurrstate = clone(_G.fontchars);
 				redraw();
 			}
 		} else if (uistate.navhere == "seed shapes"){
 			if(uistate.seedundoq.length > 0){
 				var uqo = uistate.seedundoq.pop();
-				GlyphrProject.seedshapes = uqo.state;
-				uistate.seedcurrstate = clone(GlyphrProject.seedshapes);
+				_G.seedshapes = uqo.state;
+				uistate.seedcurrstate = clone(_G.seedshapes);
 				redraw();
 			}
 		}

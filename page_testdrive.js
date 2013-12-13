@@ -36,7 +36,7 @@
 		var text = document.getElementById("tdtextarea").value;
 		uistate.testdrivectx.clearRect(0,0,5000,5000);
 		var contentArray = text.split("");
-		var textEm = (GlyphrProject.settings.upm*tdFontScale);
+		var textEm = (_G.fontsettings.upm*tdFontScale);
 		var currx = padsize;
 		var curry = padsize + textEm;
 		
@@ -45,7 +45,7 @@
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
 				currx = padsize;
-				curry += ((textEm+(textEm*GlyphrProject.settings.descender)));
+				curry += ((textEm+(textEm*_G.projectsettings.descender)));
 				curry += (document.getElementById("linespacing").value*1);
 				showhorizontals? drawLine(curry) : false;
 			} else {
@@ -69,15 +69,15 @@
 	}
 
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
-		var fs = GlyphrProject.settings;
-		var tc = GlyphrProject.fontchars[charcode];
+		var fs = _G.projectsettings;
+		var tc = _G.fontchars[charcode];
 		uistate.shapelayers = tc.charglyphdata;
 		var width = 0;
 		debug("DRAWCHARTOAREA - starting " + charcode);
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
-			uistate.shapelayers = [GlyphrProject.seedshapes[charcode].shape];
+			uistate.shapelayers = [_G.seedshapes[charcode].shape];
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 
@@ -91,7 +91,7 @@
 			lctx.strokeStyle = uistate.colors.accent;
 			lctx.lineWidth = 1;
 			var trailspace = 0;
-			if(tc.isautowide) trailspace = GlyphrProject.settings.upm*GlyphrProject.settings.kerning*tdFontScale;
+			if(tc.isautowide) trailspace = _G.fontsettings.upm*_G.fontsettings.kerning*tdFontScale;
 			
 			lctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(fs.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((fs.upm*tdFontScale) + (fs.descender*fs.upm*tdFontScale)));
 		}	
@@ -148,7 +148,7 @@
 	}
 
 	function changefontscale(newval){
-		tdFontScale = (newval/GlyphrProject.settings.upm);
+		tdFontScale = (newval/_G.fontsettings.upm);
 		document.getElementById("roughptsize").innerHTML = (newval*.75);
 	}
 

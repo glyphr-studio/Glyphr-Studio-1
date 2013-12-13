@@ -38,6 +38,10 @@
 		color:rgb(153,158,163);
 	}
 	
+	input[type='radio']{
+		margin-bottom:6px;
+	}
+
 	a {
 		color:rgb(40,170,255);
 		text-decoration:none;
@@ -60,7 +64,7 @@
 	}
 	
 	h2 {
-		color:rgb(76,81,86);
+		color:rgb(102,107,112);
 		display:inline;
 		font-size:1.6em;
 		padding:0 1em 0 0;
@@ -69,8 +73,8 @@
 	}
 	
 	h3 {
-		color:rgb(76,81,86);
-		font-size:1.2em;
+		color:rgb(102,107,112);
+		font-size:1.3em;
 		padding:0 1em .4em 0;
 		text-transform:lowercase;
 	}
@@ -595,13 +599,14 @@
 		padding:0;
 	}
 	
-	.detail .input {
+	.detail input[type='text'] {
 		padding:0 .4em;
 		display:inline;
 		width:100px;
 		height:20px;
 		vertical-align:top;
-		color:rgb(51,56,61)		
+		color:rgb(51,56,61);
+		background-color: rgb(204,209,214);
 	}	
 	
 	.detail .leftcol	{
@@ -717,17 +722,14 @@
 
 	.ssthumbcontainer {
 		width:100%;
-		height:350px;
 		overflow-y:auto;
 		overflow-x:hidden;
 	}
 	
 	.ssthumbcontainer table {
 		margin:10px 10px 30px 0px;
-		
 		display:inline;
 		float:left;
-
 		text-transform:none;
 	}
 	
