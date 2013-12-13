@@ -71,7 +71,7 @@
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
 		var fs = _G.fontsettings;
 		var tc = _G.fontchars[charcode];
-		uistate.shapelayers = tc.charglyphdata;
+		uistate.shapelayers = tc.charshapes;
 		var width = 0;
 		debug("DRAWCHARTOAREA - starting " + charcode);
 		

@@ -21,7 +21,7 @@
 
 	function generateTTXXML(){
 
-		return (h1 + _G.fontchars[65].charglyphdata[0].genPostScript() + h2);
+		return (h1 + _G.fontchars[65].charshapes[0].genPostScript() + h2);
 
 
 	}

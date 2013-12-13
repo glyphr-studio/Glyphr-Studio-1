@@ -77,7 +77,7 @@
 		var issel = _G.fontchars[index].charvalue == _G.fontchars[uistate.selectedchar].charvalue;
 		issel = issel & (uistate.navhere != "seed shapes");
 		
-		if(_G.fontchars[index].charglyphdata[0]){
+		if(_G.fontchars[index].charshapes[0]){
 			var extra = "";
 			if(issel) {extra = " charselectcanvassel";} 
 			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
@@ -100,7 +100,7 @@
 	function selectchar(c){
 		//debug("SELECTCHAR - Selecting " + _G.fontchars[c].charvalue + " from value " + c);
 		uistate.selectedchar = c;
-		uistate.shapelayers = _G.fontchars[c].charglyphdata;
+		uistate.shapelayers = _G.fontchars[c].charshapes;
 		uistate.selectedshape = -1;
 		navigate();
 	}
@@ -162,7 +162,7 @@
 		grid();
 		
 		// load char info
-		uistate.shapelayers = fc[uistate.selectedchar].charglyphdata;
+		uistate.shapelayers = fc[uistate.selectedchar].charshapes;
 		//debug("!!! REDRAW !!! - uistate.selectedchar: " + uistate.selectedchar + " - numshapes: " + uistate.shapelayers.length + " - navhere: " + navhere);	
 		
 		// Only update charwidth if isautowide is true

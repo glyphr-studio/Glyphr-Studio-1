@@ -242,7 +242,7 @@
 			var uia = _G.seedshapes[uistate.shownseedshape].usedin;
 			//debug("----------------- starting to go through uia: " + uia);
 			for(var cui=0; cui<uia.length; cui++){
-				var tc = _G.fontchars[uia[cui]].charglyphdata;
+				var tc = _G.fontchars[uia[cui]].charshapes;
 				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #uistate.shapelayers " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .seed " + tc[sl].seed + " checking against " + uistate.shownseedshape);

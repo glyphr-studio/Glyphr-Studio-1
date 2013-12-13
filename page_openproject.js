@@ -68,7 +68,7 @@
 		for (var i = 0; i < data.fontchars.length; i++) {
 			// Shapes
 			if(data.fontchars[i]){
-				var cgd = data.fontchars[i].charglyphdata; 
+				var cgd = data.fontchars[i].charshapes; 
 				if(cgd.length){
 					for (var j = 0; j < cgd.length; j++) {
 						cgd[j] = new Shape(cgd[j]);
@@ -181,12 +181,12 @@
 		debug("FINALIZEGLYPHRPROJECT - start of function");
 		uistate.charcurrstate = clone(_G.fontchars);
 		uistate.seedcurrstate = clone(_G.seedshapes);
-		var fs = _G.projectsettings;
-		debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + fs);
-		debug("FINALIZEGLYPHRPROJECT - fs.seedshapecounter: " + fs.seedshapecounter);
+		var ps = _G.projectsettings;
+		debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + ps);
+		debug("FINALIZEGLYPHRPROJECT - ps.seedshapecounter: " + ps.seedshapecounter);
 		
-		if(isval(fs.seedshapecounter)){
-			seedshapecounter = fs.seedshapecounter;
+		if(isval(ps.seedshapecounter)){
+			seedshapecounter = ps.seedshapecounter;
 		} else {
 			seedshapecounter = 0;
 		}

@@ -116,7 +116,7 @@
 	function removeFromUsedIn(ssid, charid){
 		debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var seedcount = 0;
-		var tcgd = _G.fontchars[charid].charglyphdata;
+		var tcgd = _G.fontchars[charid].charshapes;
 		
 		// make sure there is only one of this ss in the char
 		for(var sl=0; sl<tcgd.length; sl++){
