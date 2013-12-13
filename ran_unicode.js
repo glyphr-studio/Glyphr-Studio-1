@@ -386,9 +386,10 @@
 
 	for(var uch = 32; uch<127; uch++){
 		font[uch].objtype = "char";
-		//font[uch].unicode = uch;
 		font[uch].isautowide = true;
 		font[uch].charwidth = 0;
+		//font[uch].hints = {};
+		//font[uch].counters = {};
 		font[uch].charshapes = [];
 
 	}
