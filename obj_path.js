@@ -189,7 +189,7 @@
 	
 	function updatePathSize(dw, dh){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
-		var fs = _G.projectsettings;
+		var fs = _G.fontsettings;
 		
 		var s = ss("updatePathPosition");
 		s.wlock? dw = 0 : false;

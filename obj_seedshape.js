@@ -85,9 +85,9 @@
 	}
 	
 	function drawSSThumbs(){
-		var fs = _G.projectsettings;
+		var fs = _G.fontsettings;
 		var tctx = {};
-		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
+		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
 		for(var ssid in _G.seedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");

@@ -294,7 +294,7 @@
 //-------------------
 		
 	function debug(message, force){
-		if(DEBUG | force){ console.log(message); }
+		if(_G.projectsettings.debug | force){ console.log(message); }
 	}
 
 

@@ -53,8 +53,8 @@
 		var scthumbsize = 50;
 		var scthumbgutter = 5;	
 		
-		var fs = _G.projectsettings;
-		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*fs.descender)));
+		var fs = _G.fontsettings;
+		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (scthumbgutter+(fs.upm*factor));
 		
 		//debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
@@ -946,7 +946,8 @@
 	var xs = {};
 	
 	function grid(){
-		var fs = _G.projectsettings;
+		var fs = _G.fontsettings;
+		var ps = _G.projectsettings;
 		
 		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
 		uistate.chareditctx.fillRect(0,0,99999,99999);
@@ -962,17 +963,17 @@
 		
 		// Grids		
 		var mline = uistate.chareditcanvassettings.originy - (fs.upm*uistate.chareditcanvassettings.zoom);
-		var xline = uistate.chareditcanvassettings.originy - (fs.upm*fs.xheight*uistate.chareditcanvassettings.zoom);
-		var dline = uistate.chareditcanvassettings.originy + (fs.upm*fs.descender*uistate.chareditcanvassettings.zoom);
-		var overshootsize = (fs.upm*fs.overshoot*uistate.chareditcanvassettings.zoom);
+		var xline = uistate.chareditcanvassettings.originy - (fs.upm*ps.xheight*uistate.chareditcanvassettings.zoom);
+		var dline = uistate.chareditcanvassettings.originy + (fs.upm*ps.descender*uistate.chareditcanvassettings.zoom);
+		var overshootsize = (fs.upm*ps.overshoot*uistate.chareditcanvassettings.zoom);
 
 		if(uistate.chareditcanvassettings.showgrid || uistate.chareditcanvassettings.showguides){
-			var size = uistate.chareditcanvassettings.size/fs.griddivisions;
+			var size = uistate.chareditcanvassettings.size/ps.griddivisions;
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = _G.projectsettings.color_grid;
 			
 			if(uistate.chareditcanvassettings.showgrid){
-				var gsize = ((fs.upm/fs.griddivisions)*uistate.chareditcanvassettings.zoom);
+				var gsize = ((fs.upm/ps.griddivisions)*uistate.chareditcanvassettings.zoom);
 				//debug("GRID - gridsize set as: " + gsize);
 				
 				for(var j=uistate.chareditcanvassettings.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }

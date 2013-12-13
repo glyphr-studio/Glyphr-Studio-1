@@ -119,13 +119,18 @@
 		gp.seedshapes["id0"] = new SeedShape({});
 	
 		var gd = 16;
-		gp.settings = {
-			"version": uistate.thisGlyphrStudioVersion,
-			"seedshapecounter": 0,
+		gp.projectsettings = {
+			"debug": true,				// global debug console switch
+			"version": uistate.thisGlyphrStudioVersion,	// console version
+			"seedshapecounter": 0,		// private counter for ss id
+			
+			// Grid stuff
 			"griddivisions": gd,		// how many squares of grid per emsize
 			"xheight": (9/gd),			// % of emsize lowercase letter height
 			"descender": (4/gd),		// % of emsize descender
 			"overshoot": (1/(gd*8)),	// % of emsize overshoot for round glyphs
+
+			// UI stuff
 			"pointsize" : 5,			// square points size - SHOULD BE ODD	
 			"spinnervaluechange" : 1,	// how much spinner controls change a value
 			"stoppagenavigation" : false,	// asks to save on window close or refresh
@@ -134,7 +139,6 @@
 			"showfill" : true,				// fill shapes when drawing
 			"color_glyphfill" : "rgb(0,0,0)",		//shape base color
 			"color_glyphoutline" : "rgb(0,0,0)",	//shape outline color
-			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
 			"color_grid" : "rgb(240,240,240)",		//grid base color
 			"color_guideline" : "rgb(204,79,34)"	//guide base color
 		}
@@ -143,7 +147,8 @@
 		fn = (fn? fn : "My Font");
 
 		gp.fontsettings = {
-			"kerning": (1/gd)			// default kerning, as a % of emsize
+			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
+			"kerning": (1/gd),			// default kerning, as a % of emsize
 			"familyname": fn,
 			"subfamilyname": "Regular",
 			"genericfamilyname": 'Sans-Serif',

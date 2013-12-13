@@ -2,9 +2,16 @@
 //------------------------------
 // GLOBAL VARIABLES AND SETTINGS
 //------------------------------
-	var DEBUG = true;
-	var _G = {};
 
+	// global Glyphr project variable
+	var _G = {
+		"fontsettings" : {},
+		"projectsettings" : { "debug" : true },
+		"fontchars" : {},
+		"seedshapes" : {}
+	};
+
+	// Global UI state variables
 	var uistate = {
 		// all pages
 		"navhere" : "firstrun",
@@ -23,7 +30,7 @@
 			"g4" : "rgb(102,107,112)",			// 40% gray
 			"g3" : "rgb(76,81,86)",				// 30% gray
 			"g2" : "rgb(51,56,61)",				// 20% gray
-			"g1" : "rgb(25,30,35)",				// 10% gray
+			"g1" : "rgb(25,30,35)"				// 10% gray
 		},
 
 		// page: seed shapes
@@ -74,11 +81,6 @@
 	uistate.colors.button_disabled = uistate.colors.g4;
 	uistate.colors.button_resting = uistate.colors.g8;
 	uistate.colors.button_selected = uistate.colors.accent;
-
-
-	var _G.projectsettings = {
-
-	}
 
 
 

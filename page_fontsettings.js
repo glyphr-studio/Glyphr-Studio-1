@@ -2,7 +2,9 @@
 	function updatefontsettings(){
 
 		// SETTINGS
-		var fs = _G.projectsettings;
+		var ps = _G.projectsettings;
+		var fs = _G.fontsettings;
+
 		var content = "<div class='pagecontent textpage'><h1>Font Settings</h1>";
 		
 		content += "<h3>Units per Em</h3>" + 
@@ -17,7 +19,6 @@
 		
 
 		// METADATA
-		var md = _G.fontsettings;		
 		content += "<h1>Font Metadata</h1>" + 
 			"<p style='margin-bottom:20px;'>All fonts have associated data that is saved along with the actual glyph outlines.  This data describes different aspects of the font." + 
 			"<br><i>Values will be saved as you change them</i>.</p>";
@@ -25,11 +26,11 @@
 		content += "<table class='metadatanametable' cellpadding=0 cellspacing=0 border=0>";
 		
 		// Font name
-		var fsubn = md.subfamilyname;
-		var fgenn = md.genericfamilyname;
+		var fsubn = fs.subfamilyname;
+		var fgenn = fs.genericfamilyname;
 		content += "<tr><td colspan=2><h3>Font Information</h3></td></tr>" + 
-			"<tr><td style='width:150px;'>Family Name:</td><td><input type='text' id='fontname' onchange='updateFontNames();' value='"+md.familyname+"'/></td></tr>" + 
-			"<tr><td>Full Name:</td><td><div class='disdisplay' id='fontfullname'>"+md.fullname+"</div></td></tr>" + 
+			"<tr><td style='width:150px;'>Family Name:</td><td><input type='text' id='fontname' onchange='updateFontNames();' value='"+fs.familyname+"'/></td></tr>" + 
+			"<tr><td>Full Name:</td><td><div class='disdisplay' id='fontfullname'>"+fs.fullname+"</div></td></tr>" + 
 			"<tr><td>Subfamily&nbsp;Identifier:&nbsp;&nbsp;</td><td>" + 
 			"<input type='radio' name='subfam' onchange='changeFMD(\"subfamilyname\",\"Regular\");' " + (fsubn=="Regular"? "checked" : "") + "> Regular<br>" + 
 			"<input type='radio' name='subfam' onchange='changeFMD(\"subfamilyname\",\"Bold\");' " + (fsubn=="Bold"? "checked" : "") + "> Bold<br>" + 
@@ -41,28 +42,28 @@
 			"<input type='radio' name='genfam' onchange='changeFMD(\"genericfamilyname\",\"Monospace\");' " + (fgenn=="Monospace"? "checked" : "") + "> Monospace<br>" + 
 			"<input type='radio' name='genfam' onchange='changeFMD(\"genericfamilyname\",\"Cursive\");' " + (fgenn=="Cursive"? "checked" : "") + "> Cursive<br>" + 
 			"<input type='radio' name='genfam' onchange='changeFMD(\"genericfamilyname\",\"Fantasy\");' " + (fgenn=="Fantasy"? "checked" : "") + "> Fantasy<br><br></td></tr>" + 
-			"<tr><td>Font Version:</td><td><input type='text' onchange='changeFMD(\"version\",this.value,true);' value='"+md.version+"' /></td></tr>" + 
-			"<tr><td>Font Description:</td><td><textarea onchange='changeFMD(\"description\",this.value,true);'>"+md.description+"</textarea></td></tr>";
+			"<tr><td>Font Version:</td><td><input type='text' onchange='changeFMD(\"version\",this.value,true);' value='"+fs.version+"' /></td></tr>" + 
+			"<tr><td>Font Description:</td><td><textarea onchange='changeFMD(\"description\",this.value,true);'>"+fs.description+"</textarea></td></tr>";
 				
 		// Manufacturer
 		content += "<tr><td colspan=2><h3>Manufacturer</h3></td></tr>" + 
-			"<tr><td>Name:</td><td><input type='text' onchange='changeFMD(\"manufacturername\",this.value,true);' value='"+md.manufacturername+"'/></td></tr>" + 
-			"<tr><td>URL:</td><td><input type='text' onchange='changeFMD(\"manufacturerurl\",this.value,true);' value='"+md.manufacturerurl+"'/></td></tr>";
+			"<tr><td>Name:</td><td><input type='text' onchange='changeFMD(\"manufacturername\",this.value,true);' value='"+fs.manufacturername+"'/></td></tr>" + 
+			"<tr><td>URL:</td><td><input type='text' onchange='changeFMD(\"manufacturerurl\",this.value,true);' value='"+fs.manufacturerurl+"'/></td></tr>";
 		
 		// Designer
 		content += "<tr><td colspan=2><h3>Designer</h3></td></tr>" + 
-			"<tr><td>Names:</td><td><input type='text' onchange='changeFMD(\"designername\",this.value,true);' value='"+md.designername+"'/></td></tr>" + 
-			"<tr><td>URL:</td><td><input type='text' onchange='changeFMD(\"designerurl\",this.value,true);' value='"+md.designerurl+"'/></td></tr>";
+			"<tr><td>Names:</td><td><input type='text' onchange='changeFMD(\"designername\",this.value,true);' value='"+fs.designername+"'/></td></tr>" + 
+			"<tr><td>URL:</td><td><input type='text' onchange='changeFMD(\"designerurl\",this.value,true);' value='"+fs.designerurl+"'/></td></tr>";
 		
 		//License & Copyright
 		content += "<tr><td colspan=2><h3>Copyright & License</h3></td></tr>" + 
-			"<tr><td>Copyright Notice:</td><td><input type='text' onchange='changeFMD(\"copyright\",this.value,true);' value='"+md.copyright+"'/></td></tr>" + 
-			"<tr><td>License URL:</td><td><input type='text' onchange='changeFMD(\"licenseurl\",this.value,true);' value='"+md.licenseurl+"'/></td></tr>" + 
-			"<tr><td>License Description:</td><td><textarea onchange='changeFMD(\"licensedescription\",this.value,true);'>" + md.licensedescription + "</textarea>" + 
+			"<tr><td>Copyright Notice:</td><td><input type='text' onchange='changeFMD(\"copyright\",this.value,true);' value='"+fs.copyright+"'/></td></tr>" + 
+			"<tr><td>License URL:</td><td><input type='text' onchange='changeFMD(\"licenseurl\",this.value,true);' value='"+fs.licenseurl+"'/></td></tr>" + 
+			"<tr><td>License Description:</td><td><textarea onchange='changeFMD(\"licensedescription\",this.value,true);'>" + fs.licensedescription + "</textarea>" + 
 			"</td></tr>";
 		
 		// Font Weight Class
-		var fwei = md.weightclass;
+		var fwei = fs.weightclass;
 		content += "<tr><td colspan=2><h3>Classifications</h3></td></tr>" + 
 			"<tr><td>Weight Class:</td><td>" + 
 			"Indicates the visual weight (degree of blackness or thickness of strokes) of the characters in the font.<br><br>" + 
@@ -79,7 +80,7 @@
 			
 		
 		// Font Width Class
-		var fwid = md.widthclass;
+		var fwid = fs.widthclass;
 		content += "<tr><td>Width Class:</td><td>" + 
 			"Indicates a relative change from the normal aspect ratio (width to height ratio) as specified by a font designer for the glyphs in a font.<br><br>" + 
 			"<input type='radio' name='width' onchange='changeFMD(\"widthclass\",1);' "  + (fwid==1? "checked" : "") + ">	Ultra-condensed (50%)<br>" + 
