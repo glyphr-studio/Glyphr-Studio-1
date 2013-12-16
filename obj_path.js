@@ -241,7 +241,15 @@
 	}
 	
 	function reversePath(){
-		this.plathpoints.reverse();
+		var HT = {};
+		if(this.pathpoints){
+			for (var i = 0; i < this.pathpoints.length; i++) {
+				HT = this.pathpoints[i].H1;
+				this.pathpoints[i].H1 = this.pathpoints[i].H2;
+				this.pathpoints[i].H2 = HT;
+			}
+			this.pathpoints.reverse();
+		}
 	}
 
 	function flipns(){

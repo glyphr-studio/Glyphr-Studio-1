@@ -163,10 +163,6 @@
 			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s, this.path.isclosed); }
 			uistate.chareditctx.stroke();
 			
-			// Draw directionality arrows
-			for(var s=0; s<pp.length; s++){ pp[s].drawDirectionalityArrow(); }
-
-			
 			// Draw Handles
 			if(this.path.sp(false)){
 				if(sep == 0){
@@ -198,8 +194,8 @@
 			for(var s=0; s<pp.length; s++){	
 				var c = uistate.colors.accent;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
+				pp[s].drawDirectionalityPoint(c); 
 
-				pp[s].drawPoint(c); 
 				//debug("DRAWSELECTOUTLINE() - drew point " + s + " - selected: " + pp[s].selected);
 			}
 			

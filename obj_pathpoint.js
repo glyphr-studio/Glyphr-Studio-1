@@ -17,7 +17,7 @@
 		
 		this.drawPoint = drawPoint;
 		this.drawHandles = drawHandles;
-		this.drawDirectionalityArrow = drawDirectionalityArrow;
+		this.drawDirectionalityPoint = drawDirectionalityPoint;
 		this.updatePointPosition = updatePointPosition;
 		this.setPointPosition = setPointPosition;
 		this.resetHandles = resetHandles;
@@ -251,17 +251,19 @@
 		var ps = _G.projectsettings.pointsize +1;
 		var hp = ps/2;
 		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
-		uistate.chareditctx.lineWidth = 1;
 		
 		uistate.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 		uistate.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 	}
 
-	function drawDirectionalityArrow(){
-		//var ps = (_G.projectsettings.pointsize+1)/2;
-		var ps = 20;
+	function drawDirectionalityPoint(c){
+		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
+		uistate.chareditctx.strokeStyle = uistate.colors.accent;
+		uistate.chareditctx.lineWidth = 1;
+		
+		var ps = (_G.projectsettings.pointsize*2);
 		var arrow = [
-			[(ps*2), 0],
+			[(ps*3), 0],
 			[0, ps],
 			[-ps, ps],
 			[-ps, -ps],
@@ -280,18 +282,18 @@
 		debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
 
 		uistate.chareditctx.beginPath();
-		uistate.chareditctx.moveTo(sx_cx(rotatedarrow[0][0] + this.P.x).makeCrisp()-1, sy_cy(rotatedarrow[0][1] + this.P.y).makeCrisp()-1);
+		uistate.chareditctx.moveTo(sx_cx(rotatedarrow[0][0] + this.P.x), sy_cy(rotatedarrow[0][1] + this.P.y));
 
 		for(var p in rotatedarrow){
 			if (p > 0) {
-				uistate.chareditctx.lineTo(sx_cx(rotatedarrow[p][0] + this.P.x).makeCrisp()-1, sy_cy(rotatedarrow[p][1] + this.P.y).makeCrisp()-1);
+				uistate.chareditctx.lineTo(sx_cx(rotatedarrow[p][0] + this.P.x), sy_cy(rotatedarrow[p][1] + this.P.y));
 			}
 		}
 
-		uistate.chareditctx.lineTo(sx_cx(rotatedarrow[0][0] + this.P.x).makeCrisp()-1, sy_cy(rotatedarrow[0][1] + this.P.y).makeCrisp()-1);
-		uistate.chareditctx.fillStyle = uistate.colors.accent;	
-		//uistate.chareditctx.fillStyle = 'rgb(127,51,127)';
+		uistate.chareditctx.lineTo(sx_cx(rotatedarrow[0][0] + this.P.x), sy_cy(rotatedarrow[0][1] + this.P.y));
 		uistate.chareditctx.fill();
+		uistate.chareditctx.stroke();
+		
 	}
 	
 	function drawHandles(drawH1, drawH2) {
