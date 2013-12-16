@@ -254,7 +254,7 @@
 		patharr[2] = new PathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
 		patharr[3] = new PathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
-		var rp = new Path({"pathpoints":patharr, "isclosed":true});
+		var rp = new Path({"pathpoints":patharr, "isclosed":true, "leftx":lx, "rightx":rx, "topy":ty, "bottomy":by, "needsnewcalcmaxes":false});
 		//debug("RETURNING PATH: " + JSON.stringify(rp));
 
 		return rp;
@@ -400,7 +400,8 @@
 			if(newshape.seed){
 				uistate.selectedtool = "shaperesize";
 			} else if(newshape.path && (uistate.selectedtool == "shapemove")) {
-				newshape.path.calcMaxes();
+				deubg("ADDSHAPE triggered as true: newshape.path && uistate.selectedtool == shapemove \n >> NOT calling calcmaxes, okay?");
+				//newshape.path.calcMaxes();
 			}
 		} else {
 			newshape = new Shape({});

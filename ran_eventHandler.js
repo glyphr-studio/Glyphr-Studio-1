@@ -155,7 +155,7 @@
 				debug("EVENTHANDLER - NewPath mousedown - after MakePointedTo");
 				
 				currpath.addPathPoint(newpoint, false);
-				currpath.haschanged = true;
+				currpath.needsnewcalcmaxes = true;
 				debug("EVENTHANDLER - NewPath mousedown - after AddPathPoint");
 			}			
 				
@@ -293,7 +293,7 @@
 				lasty = mousey;
 			} else {
 				if(s){
-					if(s.path.haschanged) { 
+					if(s.path.needsnewcalcmaxes) { 
 						s.path.calcMaxes();
 					}
 				}
@@ -341,7 +341,7 @@
 						break;
 				}
 				sp.updatePointPosition(this.controlpoint, dx, dy); 
-				s.path.haschanged = true;
+				s.path.needsnewcalcmaxes = true;
 				
 				lastx = mousex;
 				lasty = mousey;
@@ -405,9 +405,9 @@
 			}
 			
 			if(this.resizing) { 
-				debug("SHAPERESIZE MOUSEUP - resizing, calling calcMaxes on mouseup");
-				s.path.haschanged = true;
-				s.path.calcMaxes(); 
+				debug("SHAPERESIZE MOUSEUP - resizing, NOT calling calcMaxes on mouseup");
+				//s.path.needsnewcalcmaxes = true;
+				//s.path.calcMaxes(); 
 			}
 			
 			this.dragging = false;

@@ -232,7 +232,7 @@
 		} else {
 			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
-			ns.path.calcMaxes();
+			//ns.path.calcMaxes();
 			ns.drawselectoutline(onlycenter);
 		}
 	}

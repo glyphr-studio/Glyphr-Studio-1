@@ -279,7 +279,7 @@
 			]);
 		}
 
-		debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
+		//debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
 
 		uistate.chareditctx.beginPath();
 		uistate.chareditctx.moveTo(sx_cx(rotatedarrow[0][0] + this.P.x), sy_cy(rotatedarrow[0][1] + this.P.y));

@@ -629,12 +629,12 @@
 /*	ACTIONS		*/	 
 	
 	.actionsgrid {
-		padding:0px 10px 0px 5px;
-		height:200px;
+		padding:0px 10px 30px 5px;
+		width:380px;
 	}
 	
 	.actionsgrid td{
-		width:180px;
+		width:33%;
 	}
 	
 	.actionsgrid h3 {
@@ -642,7 +642,8 @@
 	}
 	
 	.actionsgrid input {
-		width:120px;
+		width:123px;
+		text-transform: lowercase;
 	}
 		
 	

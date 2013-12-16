@@ -520,7 +520,6 @@
 			
 		var shapeactions = "<td><h3>shape</h3>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
-			
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Reverse Direction' onclick='ss().path.reversePath();putundoq(\"reverse path\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipns();putundoq(\"flip shape vertical\");redraw();'><br>";
@@ -924,8 +923,8 @@
 		} else if (ctool = "shapemove"){
 			uistate.showrightline = true;
 			if(s){
-				if(s.path.haschanged) {
-					debug("CLICKTOOL - shapemove, path.haschanged = true.  Calc'ing Maxes.");
+				if(s.path.needsnewcalcmaxes) {
+					debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
 					s.path.calcMaxes();
 				}
 			}

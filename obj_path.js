@@ -18,13 +18,12 @@
 			}
 		}
 		this.isclosed = oa.isclosed || false;
-		
-		// Not settable internal 
-		this.topy = -1;	
-		this.bottomy = -1;
-		this.leftx = -1;
-		this.rightx = -1;
-		this.haschanged = true;
+		// internal
+		this.topy = isval(oa.topy)? oa.topy : -1;	
+		this.bottomy = isval(oa.bottomy)? oa.bottomy : -1;
+		this.leftx = isval(oa.leftx)? oa.leftx : -1;
+		this.rightx = isval(oa.rightx)? oa.rightx : -1;
+		this.needsnewcalcmaxes = isval(oa.needsnewcalcmaxes)? oa.needsnewcalcmaxes : true;
 		
 		// declare public functions
 		this.addPathPoint = addPathPoint;
@@ -181,7 +180,7 @@
 		this.drawPath(uistate.calcmaxesghostctx);
 		//debug("UPDATEPATHSIZE - Just finished drawing to CMGC");
 		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
-		drawCMGCorigins("lime");
+		//drawCMGCorigins("lime");
 				
 		var rx = r.rightx;
 		var lx = r.leftx;
@@ -269,7 +268,7 @@
 			pp.H2.y += ((mid-pp.H2.y)*2);
 		}
 		
-		this.haschanged = true;
+		this.needsnewcalcmaxes = true;
 		this.setTopY(ly);
 		this.setLeftX(lx);
 	}
@@ -292,7 +291,7 @@
 			pp.H2.x += ((mid-pp.H2.x)*2);
 		}
 		
-		this.haschanged = true;
+		this.needsnewcalcmaxes = true;
 		this.setTopY(ly);
 		this.setLeftX(lx);
 	}
@@ -396,10 +395,10 @@
 //	----------------------------------
 
 	function calcMaxes(){
-		if(this.haschanged){
+		if(this.needsnewcalcmaxes){
 			debug("!!!!!!!!!!!!!!!!!!!CALCMAXES!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			debug("!!!----------------before ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);
-			//debug("!!!CALCMAXES - uistate.calcmaxesghostcanvassettings. size/ox/oy: " + uistate.calcmaxesghostcanvassettings.size + " / " + uistate.calcmaxesghostcanvassettings.originx + " / " + uistate.calcmaxesghostcanvassettings.originy);
+			debug("!!!CALCMAXES - uistate.cmgcs.size/ox/oy: " + uistate.calcmaxesghostcanvassettings.size + " / " + uistate.calcmaxesghostcanvassettings.originx + " / " + uistate.calcmaxesghostcanvassettings.originy);
 			
 			this.topy = (uistate.calcmaxesghostcanvassettings.size*-1);
 			this.bottomy = uistate.calcmaxesghostcanvassettings.size;
@@ -410,7 +409,7 @@
 			this.drawPath(uistate.calcmaxesghostctx);
 			
 			var mp = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
-			drawCMGCorigins("lime");
+			//drawCMGCorigins("lime");
 			
 			
 			this.topy = mp.topy;
@@ -421,16 +420,18 @@
 			debug("!!!----------------afters ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);	
 		}
 		
-		this.haschanged = false;
+		this.needsnewcalcmaxes = false;
 		
 	}
 
 	function getMaxesFromGhostCanvas(sr){
-		//Convert Saved to uistate.calcmaxesghostcanvas dimensions
+		//debug("GETMAXESFROMGHOSTCANVAS - sr passed: " + JSON.stringify(sr));
+
 		sr.topy = Math.ceil(uistate.calcmaxesghostcanvassettings.size - (sr.topy+(uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originy)));
 		sr.bottomy = Math.floor(uistate.calcmaxesghostcanvassettings.size - (sr.bottomy+(uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originy)));
 		sr.leftx = Math.ceil(uistate.calcmaxesghostcanvassettings.originx + sr.leftx);
 		sr.rightx = Math.floor(uistate.calcmaxesghostcanvassettings.originx + sr.rightx);
+		
 		//debug("GETMAXESFROMGHOSTCANVAS - Converted ty/by/lx/rx: " + sr.topy + "/" + sr.bottomy + "/" + sr.leftx + "/" + sr.rightx);	
 		
 		var initialrow = sr.topy;
@@ -520,12 +521,13 @@
 	}
 
 	function getMaxesFromPathPoints(){
-		var fs = _G.projectsettings;
-		var r = {};
-		r.topy = (fs.upm*-1);
-		r.rightx = (fs.upm*-1);
-		r.bottomy = fs.upm;
-		r.leftx = fs.upm;
+		var fs = _G.fontsettings;
+		var r = {
+			"topy" : (fs.upm*-1),
+			"rightx" : (fs.upm*-1),
+			"bottomy" : fs.upm,
+			"leftx" : fs.upm
+		};
 		
 		for(var j=0; j<this.pathpoints.length; j++){
 			var pp = this.pathpoints[j];

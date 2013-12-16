@@ -159,8 +159,8 @@
 			allactions += "</td>";
 		
 		var seedshapeactions = "<td><h3>seed shape</h3>";
-			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='create new seed shape' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
-			seedshapeactions += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' style='width:150px;' type='button' value='delete this seed shape' onclick='deleteSeedShapeConfirm();'><br>";		
+			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='create new' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
+			seedshapeactions += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' style='width:150px;' type='button' value='delete' onclick='deleteSeedShapeConfirm();'><br>";		
 			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 			
 		var shapeactions = "";
