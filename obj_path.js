@@ -35,6 +35,7 @@
 		this.genPathPostScript = genPathPostScript;
 		this.updatePathPosition = updatePathPosition;
 		this.updatePathSize = updatePathSize;
+		this.reversePath = reversePath;
 		this.calcMaxes = calcMaxes;
 		this.flipew = flipew;
 		this.flipns = flipns;
@@ -90,7 +91,10 @@
 		
 		lctx.beginPath();
 		
-		for(var tp=0; tp<this.pathpoints.length; tp++){ drawPathToPoint(lctx, this.pathpoints, tp, this.isclosed); }
+		for(var tp=0; tp<this.pathpoints.length; tp++){ 
+			drawPathToPoint(lctx, this.pathpoints, tp, this.isclosed); 
+		}
+		
 		if(this.isclosed) lctx.closePath();
 		
 		lctx.fill();
@@ -117,44 +121,7 @@
 	}
 	
 	function genPathPostScript(){
-		var ws = "            ";
-		var re = " <contour>";
-		
-		//debug("GENPATHPOSTSCRIPT");
 
-		//re += (ws + "newpath \n");
-		
-		for(var tp=0; tp<this.pathpoints.length; tp++){ 
-			var pp = this.pathpoints[tp];				
-
-			// H1
-			re += ' <pt x="';
-			re += pp.H1.x;
-			re += '" y="';
-			re += pp.H1.y;
-			re += '" on="0"/> ';
-
-			// P
-			re += ' <pt x="';
-			re += pp.P.x;
-			re += '" y="';
-			re += pp.P.y;
-			re += '" on="1"/> ';
-
-			// H2
-			re += ' <pt x="';
-			re += pp.H2.x;
-			re += '" y="';
-			re += pp.H2.y;
-			re += '" on="0"/> ';			
-		}
-		
-		re += "</contour> ";
-		
-		//if(this.isclosed) re += (ws + "closepath \n");		
-		//re += (ws + "fill \n\n");
-		
-		//debug("GENPATHPOSTSCRIPT - returning:<br><pre>" + re + "</pre>");
 		return re;
 	}
 	
@@ -273,6 +240,10 @@
 		this.rightx += dx;
 	}
 	
+	function reversePath(){
+		this.plathpoints.reverse();
+	}
+
 	function flipns(){
 		var ly = this.topy;
 		var lx = this.leftx;

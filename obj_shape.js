@@ -162,7 +162,10 @@
 			uistate.chareditctx.beginPath();
 			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s, this.path.isclosed); }
 			uistate.chareditctx.stroke();
-			//debug("DRAWSELECTOUTLINE - tool=pathedit, drew pathpoints length = " + pp.length);
+			
+			// Draw directionality arrows
+			for(var s=0; s<pp.length; s++){ pp[s].drawDirectionalityArrow(); }
+
 			
 			// Draw Handles
 			if(this.path.sp(false)){

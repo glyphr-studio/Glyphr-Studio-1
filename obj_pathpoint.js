@@ -17,6 +17,7 @@
 		
 		this.drawPoint = drawPoint;
 		this.drawHandles = drawHandles;
+		this.drawDirectionalityArrow = drawDirectionalityArrow;
 		this.updatePointPosition = updatePointPosition;
 		this.setPointPosition = setPointPosition;
 		this.resetHandles = resetHandles;
@@ -27,7 +28,6 @@
 		
 		this.roundall = roundall;
 		
-		this.debugout = debugout;
 		//debug("PathPoint() - new pathPoint created");	
 	}
 
@@ -170,7 +170,6 @@
 			if(force){
 				lockx = false;
 				locky = false;
-				//debug("--------------------- FORCE detected, lockx/y set to false"); 
 			}
 		}
 		
@@ -181,21 +180,14 @@
 				lockx? true : this.H1.x += dx;
 				locky? true : this.H1.y += dy;
 				lockx? true : this.H2.x += dx;
-				locky? true : this.H2.y += dy;
-				//debug("--------------------- P dx/dy: " + dx + " " + dy);
-				debugout();
-				
+				locky? true : this.H2.y += dy;				
 				break;
 			
 			case "H1" :
 				this.H1.x += dx;
 				this.H1.y += dy;
 				if(this.type == "symmetric"){ this.makeSymmetric("H1"); } 
-				else if (this.type == "flat") { this.makeFlat("H1"); }
-				
-				//debug("--------------------- H1 dx/dy: " + dx + " " + dy);
-				this.debugout();
-				
+				else if (this.type == "flat") { this.makeFlat("H1"); }				
 				break;
 			
 			case "H2" : 
@@ -203,10 +195,6 @@
 				this.H2.y += dy;
 				if(this.type == "symmetric"){ this.makeSymmetric("H2"); } 
 				else if (this.type == "flat") { this.makeFlat("H2"); }
-				
-				//debug("--------------------- H2 dx/dy: " + dx + " " + dy);
-				debugout();
-				
 				break;
 		}
 		
@@ -220,10 +208,6 @@
 		this.H1.y = Math.round(this.H1.y);
 		this.H2.x = Math.round(this.H2.x);
 		this.H2.y = Math.round(this.H2.y);
-	}
-	
-	function debugout(){
-		//debug("PATH POINT DEBUG::::::::::::::::::: " + this.P.x + " " + this.P.xlock + " " + this.P.y + " " + this.P.ylock + " " + this.H1.x + " " + this.H1.y + " " + this.H2.x + " " + this.H2.y + " " + this.type + " " + this.selected);
 	}
 	
 	function drawPathToPoint(lctx, pathpoints, num, closed) {
@@ -271,6 +255,43 @@
 		
 		uistate.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 		uistate.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
+	}
+
+	function drawDirectionalityArrow(){
+		//var ps = (_G.projectsettings.pointsize+1)/2;
+		var ps = 20;
+		var arrow = [
+			[(ps*2), 0],
+			[0, ps],
+			[-ps, ps],
+			[-ps, -ps],
+			[0, -ps]
+		];
+		var rotatedarrow = [];
+		var ang = Math.atan2((this.H2.y-this.P.y),(this.H2.x-this.P.x));
+		
+		for(var p in arrow){
+			rotatedarrow.push([
+				Math.round((arrow[p][0] * Math.cos(ang)) - (arrow[p][1] * Math.sin(ang))),
+				Math.round((arrow[p][0] * Math.sin(ang)) + (arrow[p][1] * Math.cos(ang)))
+			]);
+		}
+
+		debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
+
+		uistate.chareditctx.beginPath();
+		uistate.chareditctx.moveTo(sx_cx(rotatedarrow[0][0] + this.P.x).makeCrisp()-1, sy_cy(rotatedarrow[0][1] + this.P.y).makeCrisp()-1);
+
+		for(var p in rotatedarrow){
+			if (p > 0) {
+				uistate.chareditctx.lineTo(sx_cx(rotatedarrow[p][0] + this.P.x).makeCrisp()-1, sy_cy(rotatedarrow[p][1] + this.P.y).makeCrisp()-1);
+			}
+		}
+
+		uistate.chareditctx.lineTo(sx_cx(rotatedarrow[0][0] + this.P.x).makeCrisp()-1, sy_cy(rotatedarrow[0][1] + this.P.y).makeCrisp()-1);
+		uistate.chareditctx.fillStyle = uistate.colors.accent;	
+		//uistate.chareditctx.fillStyle = 'rgb(127,51,127)';
+		uistate.chareditctx.fill();
 	}
 	
 	function drawHandles(drawH1, drawH2) {
