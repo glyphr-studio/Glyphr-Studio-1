@@ -379,7 +379,7 @@
 	
 	function drawShapeToArea(lctx, size, offsetX, offsetY){
 		//debug("DRAWSHAPETOAREA for shape: " + this.name);
-		lctx.fillStyle = "#000";
+		lctx.fillStyle = _G.projectsettings.color_glyphfill;
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 		//debug("DRAWSHAPETOAREA end for shape: " + this.name);
 		//debug("<hr>");

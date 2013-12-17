@@ -717,23 +717,26 @@
 	function updatelayers(){
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
-		
+		var layerthumbsize = 50;
+		var layerthumbgutter = 5;	
+
 		if(uistate.shapelayers.length > 0){
+			content += "<table class='layertable'>"
 			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
-				content += "<input type='button'";
 				if(i==uistate.selectedshape){
-					content += " class='layer buttonsel'";
+					content += "<tr class='layersel'";
 				} else {
-					content += " class='layer button'";
+					content += "<tr class='layer'";
 				}
-				content += " onclick='uistate.selectedshape = " + i + "; redraw();'";
-				content += " value='" + uistate.shapelayers[i].name;
+				content += " onclick='uistate.selectedshape = " + i + "; redraw();'>";
 				
-				if(uistate.shapelayers[i].seed) {
-					content += "&nbsp;&nbsp;[seed]";
-				}
-				content += "'><br>";
+				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+layerthumbsize+"' width='"+layerthumbsize+"'></canvas></td>";
+				
+				content += "<td class='layername'>" + uistate.shapelayers[i].name ;
+				if(uistate.shapelayers[i].seed) { content += "&nbsp;&nbsp;<span class='unit'>[seed]</span>"; }
+				content += "</td></tr>";
 			}
+			content += "</table>";
 		} else {
 			//debug("UPDATELAYERS() - Shapelayers.length = Zero");
 			content += "<div style='margin-left:10px; font-style:oblique;'>No shapes exist yet.<br><br></div>";
@@ -750,8 +753,24 @@
 		} catch(err) {
 			debug("UPDATELAYERS - <b>innerHTML update error caught</b>");
 		}
+
+		// Update the thumbs		
+		if(uistate.shapelayers.length > 0){
+			var fs = _G.fontsettings;
+			var tctx = {};
+			var tele = false;
+			var factor = ((layerthumbsize-(2*layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
+			var yoffset = (layerthumbgutter+(fs.upm*factor));
+			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
+				tele = document.getElementById(("layerthumb"+i))
+				tctx = tele.getContext("2d");
+				tele.style.backgroundColor = uistate.colors.offwhite;
+				if(i == uistate.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
+				uistate.shapelayers[i].drawShapeToArea(tctx, factor, layerthumbgutter, yoffset);
+			}
+		}
 	}
-	
+
 
 //-------------------
 // Update Tools

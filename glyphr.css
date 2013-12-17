@@ -92,6 +92,9 @@
 		margin-top:8px;
 	}
 
+	table {
+		border-collapse: collapse;
+	}
 
 
 
@@ -577,10 +580,45 @@
 
 /*	LAYERS		*/
 	
-	.layer	{
+	.layertable {
 		width:100%;
-		margin-top:2px;
-		padding-left:10px;
+	}
+
+	.layer,
+	.layersel	{
+		width:100%;
+		border-bottom:6px solid rgb(229, 234, 239);
+		background-color: rgb(178,183,188);
+		height: 50px;
+		margin-bottom: -10px;
+		cursor: pointer;
+	}
+
+	.layer .layername{
+		color:rgb(250,252,255);
+	}
+
+	.layersel .layername {
+		background-color: rgb(40,170,255);  
+		color: rgb(150,225,255);
+	}
+
+	.layername{
+		padding:10px 0px 0px 10px;
+		height: 45px;
+		text-align: left;
+		font-size: 26px;
+	}
+
+	.layerthumb {
+		height:50px;
+		width:50px;
+		background-color: rgb(250,252,255);
+	}
+
+	.layerthumb canvas {
+		height: 50px;
+		width: 50px;
 	}
 	
 /*	DETAILS		*/
