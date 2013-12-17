@@ -111,9 +111,9 @@
 	
 	function resetHandles(){
 		this.type = "flat";
-		this.H2.x = this.P.x - 50;
+		this.H2.x = this.P.x - 100;
 		this.H2.y = this.P.y;
-		this.H1.x = this.P.x + 50;
+		this.H1.x = this.P.x + 100;
 		this.H1.y = this.P.y;
 	}
 	
@@ -256,12 +256,18 @@
 		uistate.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 	}
 
-	function drawDirectionalityPoint(c){
+	function drawDirectionalityPoint(c, next){
 		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
 		uistate.chareditctx.strokeStyle = uistate.colors.accent;
 		uistate.chareditctx.lineWidth = 1;
-		
-		var ps = (_G.projectsettings.pointsize*2);
+		var begin = {"x":this.P.x, "y":this.P.y};
+		var end = {"x":this.H2.x, "y":this.H2.y};
+
+		if(!this.useh2) {
+			end = {"x":next.P.x, "y":next.P.y};
+		}
+
+		var ps = (_G.projectsettings.pointsize*.75);
 		var arrow = [
 			[(ps*3), 0],
 			[0, ps],
@@ -270,7 +276,7 @@
 			[0, -ps]
 		];
 		var rotatedarrow = [];
-		var ang = Math.atan2((this.H2.y-this.P.y),(this.H2.x-this.P.x));
+		var ang = Math.atan2((end.y-begin.y),(end.x-begin.x))*-1;
 		
 		for(var p in arrow){
 			rotatedarrow.push([
@@ -282,15 +288,15 @@
 		//debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
 
 		uistate.chareditctx.beginPath();
-		uistate.chareditctx.moveTo(sx_cx(rotatedarrow[0][0] + this.P.x), sy_cy(rotatedarrow[0][1] + this.P.y));
+		uistate.chareditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
 
 		for(var p in rotatedarrow){
 			if (p > 0) {
-				uistate.chareditctx.lineTo(sx_cx(rotatedarrow[p][0] + this.P.x), sy_cy(rotatedarrow[p][1] + this.P.y));
+				uistate.chareditctx.lineTo((rotatedarrow[p][0] + sx_cx(this.P.x)), (rotatedarrow[p][1] + sy_cy(this.P.y)));
 			}
 		}
 
-		uistate.chareditctx.lineTo(sx_cx(rotatedarrow[0][0] + this.P.x), sy_cy(rotatedarrow[0][1] + this.P.y));
+		uistate.chareditctx.lineTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
 		uistate.chareditctx.fill();
 		uistate.chareditctx.stroke();
 		

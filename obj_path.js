@@ -246,6 +246,10 @@
 				HT = this.pathpoints[i].H1;
 				this.pathpoints[i].H1 = this.pathpoints[i].H2;
 				this.pathpoints[i].H2 = HT;
+				if(this.pathpoints[i].useh1 !== this.pathpoints[i].useh2){
+					this.pathpoints[i].useh1 = !this.pathpoints[i].useh1;
+					this.pathpoints[i].useh2 = !this.pathpoints[i].useh2;
+				}
 			}
 			this.pathpoints.reverse();
 		}

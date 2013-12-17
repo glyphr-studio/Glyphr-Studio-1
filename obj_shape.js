@@ -194,7 +194,8 @@
 			for(var s=0; s<pp.length; s++){	
 				var c = uistate.colors.accent;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
-				pp[s].drawDirectionalityPoint(c); 
+				if(s == pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]); 
+				else pp[s].drawDirectionalityPoint(c, pp[s+1]); 
 
 				//debug("DRAWSELECTOUTLINE() - drew point " + s + " - selected: " + pp[s].selected);
 			}
