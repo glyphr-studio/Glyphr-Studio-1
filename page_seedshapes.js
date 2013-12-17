@@ -28,24 +28,44 @@
 
 	function seedshapes_subnav(){
 		var re = "<div class='subnavunit'>";
+		re += "<table class='layertable'>";
 		for(var ssid in _G.seedshapes){
 			//debug("SEEDSHAPES_SUBNAV - making button for " + ssid);
 			re += makeSSSubnavButton(ssid);
 		}
+		re += "</table>";
 		re += "<br><br><input type='button' class='button' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();' value='Add a new seed shape'></div>";
 		return re;
 	}
 	
+	function drawSeedShapeLayerThumbs(){
+		var fs = _G.fontsettings;
+		var tctx = {};
+		var tele = false;
+		var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
+		var yoffset = (uistate.layerthumbgutter+(fs.upm*factor));
+		for(var ssid in _G.seedshapes){
+			tele = document.getElementById(("layerthumb"+ssid))
+			tctx = tele.getContext("2d");
+			tele.style.backgroundColor = uistate.colors.offwhite;
+			if(ssid==uistate.shownseedshape) tele.style.backgroundColor = "rgb(255,255,255)";
+			_G.seedshapes[ssid].shape.drawShapeToArea(tctx, factor, uistate.layerthumbgutter, yoffset);
+		}
+	}
+
 	function makeSSSubnavButton(ssid){
 		//debug("MAKESSSUBNAVBUTTON passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(_G.seedshapes.id0));
-		var re = "<input class='button' ";
-		if(ssid==uistate.shownseedshape) { re = "<input class='buttonsel' "; }
-		
-		re += "value='" + _G.seedshapes[ssid].shape.name + "' ";
-		re += "style='width:100%' type='button'";
-		re += "onclick='makeSeedShapeSelected(\"" + ssid + "\");' ";
-		re += ">";
-		
+		var re = "";
+
+		if(ssid==uistate.shownseedshape){
+			re += "<tr class='layersel'";
+		} else {
+			re += "<tr class='layer'";
+		}
+		re += " onclick='makeSeedShapeSelected(\"" + ssid + "\");'>";
+		re += "<td class='layerthumb'><canvas id='layerthumb"+ssid+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
+		re += "<td class='layername'>" + _G.seedshapes[ssid].shape.name + "</td></tr>";
+
 		return re;
 	}
 	

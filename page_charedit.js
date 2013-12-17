@@ -717,8 +717,6 @@
 	function updatelayers(){
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
-		var layerthumbsize = 50;
-		var layerthumbgutter = 5;	
 
 		if(uistate.shapelayers.length > 0){
 			content += "<table class='layertable'>"
@@ -730,7 +728,7 @@
 				}
 				content += " onclick='uistate.selectedshape = " + i + "; redraw();'>";
 				
-				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+layerthumbsize+"' width='"+layerthumbsize+"'></canvas></td>";
+				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
 				
 				content += "<td class='layername'>" + uistate.shapelayers[i].name ;
 				if(uistate.shapelayers[i].seed) { content += "&nbsp;&nbsp;<span class='unit'>[seed]</span>"; }
@@ -759,14 +757,14 @@
 			var fs = _G.fontsettings;
 			var tctx = {};
 			var tele = false;
-			var factor = ((layerthumbsize-(2*layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
-			var yoffset = (layerthumbgutter+(fs.upm*factor));
+			var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
+			var yoffset = (uistate.layerthumbgutter+(fs.upm*factor));
 			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
 				tele = document.getElementById(("layerthumb"+i))
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = uistate.colors.offwhite;
 				if(i == uistate.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-				uistate.shapelayers[i].drawShapeToArea(tctx, factor, layerthumbgutter, yoffset);
+				uistate.shapelayers[i].drawShapeToArea(tctx, factor, uistate.layerthumbgutter, yoffset);
 			}
 		}
 	}

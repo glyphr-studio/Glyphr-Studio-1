@@ -100,7 +100,10 @@
 					nt.innerHTML = "<h1>character edit</h1>"+updateselectchar();
 					drawselectcharcanvas();
 				}
-				if(uistate.navhere == "seed shapes") nt.innerHTML = "<h1>seed shapes</h1>"+seedshapes_subnav();
+				if(uistate.navhere == "seed shapes") {
+					nt.innerHTML = "<h1>seed shapes</h1>"+seedshapes_subnav();
+					drawSeedShapeLayerThumbs();
+				}
 				break;
 			
 			case "npLayers":

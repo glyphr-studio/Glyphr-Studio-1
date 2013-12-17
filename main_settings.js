@@ -61,6 +61,8 @@
 			"originx" : 140,
 			"originy" : 740
 		},
+		"layerthumbsize" : 50,
+		"layerthumbgutter" : 5,
 
 		"chareditcanvassettings" : {
 			"size" : 1500, 			// How big the canvas is
@@ -74,6 +76,7 @@
 		// page: test drive
 		"testdrivectx" : false,
 		"testdrivecanvas" : false
+
 	}
 
 	uistate.colors.text_dark = uistate.colors.g1;
