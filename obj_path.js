@@ -18,6 +18,7 @@
 			}
 		}
 		this.isclosed = oa.isclosed || false;
+		this.clockwise = isval(oa.clockwise)? oa.clockwise : findClockwise(this.pathpoints);
 		// internal
 		this.topy = isval(oa.topy)? oa.topy : -1;	
 		this.bottomy = isval(oa.bottomy)? oa.bottomy : -1;
@@ -240,6 +241,28 @@
 		this.rightx += dx;
 	}
 	
+	function findClockwise(parr){
+		var j,k,z;
+		var count = 0;
+
+		if (parr.length < 3) return 0;
+
+		for (var i=0; i<parr.length; i++) {
+			j = (i + 1) % parr.length;
+			k = (i + 2) % parr.length;
+			z  = (parr[j].P.x - parr[i].P.x) * (parr[k].P.y - parr[j].P.y);
+			z -= (parr[j].P.y - parr[i].P.y) * (parr[k].P.x - parr[j].P.x);
+			
+			if (z < 0) count--;
+			else if (z > 0) count++;
+		}
+
+		// negative = clockwise
+		// positive = counterclockwise
+		debug("FINDCLOCKWISE returning " + count);
+		return count;
+	}
+
 	function reversePath(){
 		var HT = {};
 		if(this.pathpoints){
@@ -253,6 +276,7 @@
 				}
 			}
 			this.pathpoints.reverse();
+			this.clockwise *= -1;
 		}
 	}
 
