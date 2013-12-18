@@ -135,10 +135,10 @@
 			uistate.chareditctx.fillStyle = "transparent";
 			
 			//draw bounding box and 8points
-			var lx = temppathdragshape? sx_cx(temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
-			var rx = temppathdragshape? sx_cx(temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
-			var ty = temppathdragshape? sy_cy(temppathdragshape.topy) 		: sy_cy(this.path.topy);
-			var by = temppathdragshape? sy_cy(temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
+			var lx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
+			var rx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
+			var ty = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
+			var by = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
 			
 			var x = (lx).makeCrisp()-1;
 			var y = (ty).makeCrisp()-1;
@@ -202,7 +202,7 @@
 			
 		} else if ((uistate.selectedtool=="newoval")){
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
-			var tpdso = ovalPathFromCorners(temppathdragshape);
+			var tpdso = ovalPathFromCorners(uistate.eventhandlers.temppathdragshape);
 			
 			uistate.chareditctx.beginPath();
 			uistate.chareditctx.lineWidth = 1;
@@ -308,10 +308,10 @@
 		var ps = _G.projectsettings.pointsize+1;
 		var hp = ps/2;
 	
-		var lx = temppathdragshape? sx_cx(temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
-		var rx = temppathdragshape? sx_cx(temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
-		var ty = temppathdragshape? sy_cy(temppathdragshape.topy) 		: sy_cy(this.path.topy);
-		var by = temppathdragshape? sy_cy(temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
+		var lx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
+		var rx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
+		var ty = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
+		var by = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
 
 		var bleftx = (lx-hp).makeCrisp();
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp();

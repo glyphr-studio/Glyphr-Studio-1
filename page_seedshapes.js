@@ -188,7 +188,7 @@
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
 			shapeactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteSeedShape();putundoq(\"paste seed shape\");redraw();'><br>";
 			*/
-			if(temppathdragshape && uistate.selectedtool=="pathedit"){
+			if(uistate.eventhandlers.temppathdragshape && uistate.selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
 			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
 			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipns();putundoq(\"flip shape vertical\");redraw();'><br>";

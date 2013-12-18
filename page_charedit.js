@@ -221,8 +221,8 @@
 			//uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
 			uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
 			var rhl = (fc[uistate.selectedchar].charwidth*uistate.chareditcanvassettings.zoom) + uistate.chareditcanvassettings.originx;
-			if(temppathdragshape){
-				rhl = Math.max(sx_cx(temppathdragshape.rightx), rhl);
+			if(uistate.eventhandlers.temppathdragshape){
+				rhl = Math.max(sx_cx(uistate.eventhandlers.temppathdragshape.rightx), rhl);
 			}
 			if(neww){rhl += (_G.fontsettings.upm*_G.fontsettings.kerning*uistate.chareditcanvassettings.zoom) }
 			vertical(rhl);
@@ -380,7 +380,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td></tr>\n";
 		
 		
-		if(!temppathdragshape){
+		if(!uistate.eventhandlers.temppathdragshape){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); redraw();'") + " value='" + s.path.leftx + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); redraw();'") + " value='" + s.path.topy + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
 			
@@ -391,11 +391,11 @@
 			
 		
 		} else {
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' value='" + temppathdragshape.leftx + "'>&nbsp;</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' value='" + temppathdragshape.topy + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' value='" + uistate.eventhandlers.temppathdragshape.leftx + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' value='" + uistate.eventhandlers.temppathdragshape.topy + "'>&nbsp;</td></tr>\n";
 			
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' value='" + Math.round(temppathdragshape.rightx-temppathdragshape.leftx) + "'>&nbsp;</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + Math.round(temppathdragshape.topy-temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' value='" + Math.round(uistate.eventhandlers.temppathdragshape.rightx-uistate.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + Math.round(uistate.eventhandlers.temppathdragshape.topy-uistate.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
 		}
 		
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> closed path </td><td>"+checkUI("ss().path.isclosed="+!s.path.isclosed+"; putundoq(\"Closed Path\"); ss().path.calcMaxes(); redraw();", s.path.isclosed)+"</td></tr>\n";
@@ -926,7 +926,7 @@
 		var s = ss("clicktool");
 		
 		//debug("CLICKTOOL - was passed: " + ctool + " and uistate.selectedtool now is: " + uistate.selectedtool);
-		addpath.firstpoint = true; 
+		uistate.eventhandlers.eh_addpath.firstpoint = true; 
 		if((ctool=="newrect")||(ctool=="newoval")){
 			uistate.showrightline = true;
 			uistate.selectedshape = -1; 
