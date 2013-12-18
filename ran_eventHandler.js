@@ -133,7 +133,7 @@
 				debug("EVENTHANDLER - NewPath mousedown - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = _G.projectsettings.pointsize/2/uistate.chareditcanvassettings.zoom;
+					var hp = _G.projectsettings.pointsize/uistate.chareditcanvassettings.zoom;
 					if( ((p.P.x+hp) > cx_sx(uistate.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(uistate.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(uistate.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(uistate.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
@@ -146,6 +146,7 @@
 						this.firstmove = false;
 						uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
 						uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
+						currpath.clockwise = findClockwise(currpath.pathpoints);
 						redraw();
 						return;
 					}

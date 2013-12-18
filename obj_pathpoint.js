@@ -270,18 +270,20 @@
 		var ps = (_G.projectsettings.pointsize*.75);
 		var arrow = [
 			[(ps*3), 0],
-			[0, ps],
+			[ps, ps],
 			[-ps, ps],
 			[-ps, -ps],
-			[0, -ps]
+			[ps, -ps]
 		];
 		var rotatedarrow = [];
 		var ang = Math.atan2((end.y-begin.y),(end.x-begin.x))*-1;
 		
 		for(var p in arrow){
 			rotatedarrow.push([
-				Math.round((arrow[p][0] * Math.cos(ang)) - (arrow[p][1] * Math.sin(ang))),
-				Math.round((arrow[p][0] * Math.sin(ang)) + (arrow[p][1] * Math.cos(ang)))
+				//Math.round((arrow[p][0] * Math.cos(ang)) - (arrow[p][1] * Math.sin(ang))),
+				//Math.round((arrow[p][0] * Math.sin(ang)) + (arrow[p][1] * Math.cos(ang)))
+				((arrow[p][0] * Math.cos(ang)) - (arrow[p][1] * Math.sin(ang))),
+				((arrow[p][0] * Math.sin(ang)) + (arrow[p][1] * Math.cos(ang)))
 			]);
 		}
 
@@ -299,7 +301,11 @@
 		uistate.chareditctx.lineTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
 		uistate.chareditctx.fill();
 		uistate.chareditctx.stroke();
-		
+
+		// Exact Middle Point
+		uistate.chareditctx.fillStyle = uistate.colors.accent;
+		uistate.chareditctx.fillRect((sx_cx(this.P.x)-.5), (sy_cy(this.P.y)-.5), 1, 1);
+	
 	}
 	
 	function drawHandles(drawH1, drawH2) {
