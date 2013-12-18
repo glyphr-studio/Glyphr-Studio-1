@@ -73,7 +73,7 @@
 		var tc = _G.fontchars[charcode];
 		uistate.shapelayers = tc.charshapes;
 		var width = 0;
-		debug("DRAWCHARTOAREA - starting " + charcode);
+		//debug("DRAWCHARTOAREA - starting " + charcode);
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
@@ -81,7 +81,7 @@
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 
-				debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (fs.upm*fs.kerning*tdFontScale) + " to width " + width);
+				//debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (fs.upm*fs.kerning*tdFontScale) + " to width " + width);
 				width += (fs.upm*fs.kerning*tdFontScale); 
 			}
 		}
@@ -99,11 +99,11 @@
 		var sh = {};
 		for(var j=0; j<uistate.shapelayers.length; j++) {
 			sh = uistate.shapelayers[j];
-			debug("---------------- starting shape " + sh.name);
+			//debug("---------------- starting shape " + sh.name);
 			sh.drawShapeToArea(lctx, size, offsetX, offsetY);
 		}
 		
-		debug("---------------- done with " + charcode);
+		//debug("---------------- done with " + charcode);
 		
 		return width;
 	}

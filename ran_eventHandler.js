@@ -115,8 +115,7 @@
 				var newpath = new Path({"pathpoints":[newpoint]});
 				newpath.selectPathPoint(0);
 				
-				debug("EVENTHANDLER - NewPath mousedown - after new path is made.");
-				//alert("EVENTHANDLER - NewPath mousedown - after new path is made.");
+				//debug("EVENTHANDLER - NewPath mousedown - after new path is made.");
 				
 				// make a new shape with the new path
 				var newshape = addShape();
@@ -184,6 +183,7 @@
 		this.mousemove = function (ev) {
 			if(this.dragging){
 				//avoid really small handles
+				debug("NEWPATH MOUSEMOVE - ps*2 = " + (_G.projectsettings.pointsize*2) + "");
 				if( (Math.abs(this.currpt.P.x-cx_sx(uistate.eventhandlers.mousex)) > (_G.projectsettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(uistate.eventhandlers.mousey)) > (_G.projectsettings.pointsize*2)) ){
 					this.currpt.H2.x = cx_sx(uistate.eventhandlers.mousex);
 					this.currpt.H2.y = cy_sy(uistate.eventhandlers.mousey);

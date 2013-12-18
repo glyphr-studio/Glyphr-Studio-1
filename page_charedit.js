@@ -44,7 +44,7 @@
 		ccon += buildbutton(32, fname);
 		ccon += "</div>";
 		
-		debug("UPDATESELECTCHAR - selectchardrawarr.length = " + selectchardrawarr.length);
+		//debug("UPDATESELECTCHAR - selectchardrawarr.length = " + selectchardrawarr.length);
 		
 		return ccon;
 	}	
