@@ -17,7 +17,6 @@
 				this.pathpoints[i] = new PathPoint(oa.pathpoints[i]);
 			}
 		}
-		this.isclosed = oa.isclosed || false;
 		this.clockwise = isval(oa.clockwise)? oa.clockwise : findClockwise(this.pathpoints);
 		// internal
 		this.topy = isval(oa.topy)? oa.topy : -1;	
@@ -92,11 +91,10 @@
 		lctx.beginPath();
 		
 		for(var tp=0; tp<this.pathpoints.length; tp++){ 
-			drawPathToPoint(lctx, this.pathpoints, tp, this.isclosed); 
+			drawPathToPoint(lctx, this.pathpoints, tp); 
 		}
 		
-		if(this.isclosed) lctx.closePath();
-		
+		lctx.closePath();
 		lctx.fill();
 
 		uistate.chareditcanvassettings.originx = tempzp.x;

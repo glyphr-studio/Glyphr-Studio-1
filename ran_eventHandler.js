@@ -137,7 +137,6 @@
 					if( ((p.P.x+hp) > cx_sx(uistate.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(uistate.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(uistate.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(uistate.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
-						currpath.isclosed = true;
 						uistate.selectedtool = "pathedit";
 						uistate.eventhandlers.eh_shapesel.moving = true;
 						uistate.eventhandlers.eh_shapesel.controlpoint = "H2";

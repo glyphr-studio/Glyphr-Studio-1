@@ -160,34 +160,16 @@
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
 			uistate.chareditctx.beginPath();
-			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s, this.path.isclosed); }
+			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s); }
 			uistate.chareditctx.stroke();
 			
-			// Draw Handles
-			if(this.path.sp(false)){
-				if(sep == 0){
-					this.path.isclosed? pp[sep].drawHandles(true, true) : pp[sep].drawHandles(false, true);
-				} else if (sep == pp.length-1){
-					if(this.path.isclosed || uistate.selectedtool=="newpath"){
-						pp[sep].drawHandles(true, true);
-					} else {
-						pp[sep].drawHandles(true, false);
-					}
-				} else {
-					pp[sep].drawHandles(true, true);
-				}
-			}
-			
-			// Draw prev/next handles
-			if(sep==0){
-				if(pp.length > 1){ pp[sep+1].drawHandles(true, false); }
-				if(this.path.isclosed){ pp[pp.length-1].drawHandles(false, true); }
-			} else if (sep == (pp.length-1)){
-				if(pp.length > 1){ pp[sep-1].drawHandles(false, true); }
-				if(this.path.isclosed){ pp[0].drawHandles(true, false); }
-			} else {
-				pp[sep-1].drawHandles(false, true);
-				pp[sep+1].drawHandles(true, false);
+			if(isval(sep)){
+				// Draw Handles
+				pp[sep].drawHandles(true, true);
+				
+				// Draw prev/next handles
+				sep>0? pp[sep-1].drawHandles(false, true) : pp[pp.length-1].drawHandles(false, true);
+				pp[(sep+1) % pp.length].drawHandles(true, false);
 			}
 			
 			// Draw points 
@@ -206,8 +188,8 @@
 			
 			uistate.chareditctx.beginPath();
 			uistate.chareditctx.lineWidth = 1;
-			for(var tp=0; tp<tpdso.pathpoints.length; tp++){ drawPathToPoint(uistate.chareditctx, tpdso.pathpoints, tp, tpdso.isclosed); }
-			if(tpdso.isclosed) uistate.chareditctx.closePath();
+			for(var tp=0; tp<tpdso.pathpoints.length; tp++){ drawPathToPoint(uistate.chareditctx, tpdso.pathpoints, tp); }
+			uistate.chareditctx.closePath();
 			uistate.chareditctx.stroke();
 		}
 	}
@@ -255,7 +237,7 @@
 		patharr[2] = new PathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
 		patharr[3] = new PathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
-		var rp = new Path({"pathpoints":patharr, "isclosed":true, "leftx":lx, "rightx":rx, "topy":ty, "bottomy":by, "needsnewcalcmaxes":false});
+		var rp = new Path({"pathpoints":patharr, "leftx":lx, "rightx":rx, "topy":ty, "bottomy":by, "needsnewcalcmaxes":false});
 		//debug("RETURNING PATH: " + JSON.stringify(rp));
 
 		return rp;
@@ -298,7 +280,7 @@
 		patharr[2] = new PathPoint({"P":Pb, "H1":H1b, "H2":H2b, "type":"symmetric"});
 		patharr[3] = new PathPoint({"P":Pl, "H1":H1l, "H2":H2l, "type":"symmetric"});
 		
-		return new Path({"pathpoints":patharr, "isclosed":true});
+		return new Path({"pathpoints":patharr});
 	}
 	
 	function draw8points(onlycenter){
@@ -439,7 +421,7 @@
 			shapetype = "rect ";
 		}
 		
-		newshape.path = new Path({"pathpoints":parr, "isclosed":true});		
+		newshape.path = new Path({"pathpoints":parr});		
 		newshape.name = (shapetype + uistate.shapelayers.length);
 		
 		if(uistate.navhere == "character edit") { uistate.selectedshape = uistate.shapelayers.length; }

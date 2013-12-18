@@ -398,7 +398,6 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + Math.round(uistate.eventhandlers.temppathdragshape.topy-uistate.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
 		}
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> closed path </td><td>"+checkUI("ss().path.isclosed="+!s.path.isclosed+"; putundoq(\"Closed Path\"); ss().path.calcMaxes(); redraw();", s.path.isclosed)+"</td></tr>\n";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td>"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"</td></tr>\n";
 		
 		//debug("<b>SHAPE DETAILS OUTPUT:<b><br><textarea rows=9 cols=3000>" + content + "</textarea>");

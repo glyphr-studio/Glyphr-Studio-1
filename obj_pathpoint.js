@@ -210,15 +210,10 @@
 		this.H2.y = Math.round(this.H2.y);
 	}
 	
-	function drawPathToPoint(lctx, pathpoints, num, closed) {
+	function drawPathToPoint(lctx, pathpoints, num) {
 		//debug("DRAWPATHTOPOINT("+num+") - begin drawing pp");
 		var pp = pathpoints[num];	
-		var next = false;
-		if(pathpoints[num+1]){
-			next = pathpoints[num+1];
-		} else if (closed){
-			next = pathpoints[0];
-		}
+		var next = pathpoints[(num+1) % pathpoints.length];
 		
 		if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
 		else if (pp.type == "flat") { pp.makeFlat("H1"); }
