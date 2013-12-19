@@ -43,12 +43,11 @@
 //	-----
 	
 	function drawShape(lctx){
-
-		var ds = this;		
 		
 		/* BUG FIX? */
-		if(ds.seed){
-			_G.seedshapes[ds.seed].shape.drawShape(lctx);
+		if(this.seed){
+			_G.seedshapes[this.seed].shape.drawShape(lctx);
+			return;
 		}
 			
 		var z = uistate.chareditcanvassettings.zoom;
@@ -68,12 +67,12 @@
 		
 		//debug("DRAWSHAPE - origin x/y/z: "+uistate.chareditcanvassettings.originx+","+uistate.chareditcanvassettings.originy+","+uistate.chareditcanvassettings.zoom);
 		
-		if((ds.path.rightx == -1) && (lctx == uistate.chareditctx)) ds.path.calcMaxes();
+		if((this.path.rightx == -1) && (lctx == uistate.chareditctx) && (uistate.selectedtool != "newpath")) this.path.calcMaxes();
 		
 		if(lctx==uistate.chareditctx){
 			// Set the appropriate fill color
 			var s = ss("DrawShape - set fill color");
-			if(!this.hidden){						// Possible ds.isvisible?
+			if(!this.hidden){						// Possible this.isvisible?
 				lctx.fillStyle = "#000";
 				
 				if(s.seed){
@@ -95,15 +94,15 @@
 		// Draw the appropriate stuff for each shape's fill & border
 		
 		/*
-		if(ds.seed){
+		if(this.seed){
 			// BUG here about drawshape !seedislocked
-			//_G.seedshapes[ds.seed].shape.path.drawPath(lctx);
-			_G.seedshapes[ds.seed].shape.drawShape(lctx);
+			//_G.seedshapes[this.seed].shape.path.drawPath(lctx);
+			_G.seedshapes[this.seed].shape.drawShape(lctx);
 		} else {
-			ds.path.drawPath(lctx);
+			this.path.drawPath(lctx);
 		}
 		*/
-		ds.path.drawPath(lctx);
+		this.path.drawPath(lctx);
 		
 		uistate.chareditcanvassettings.originx = tempzp.x;
 		uistate.chareditcanvassettings.originy = tempzp.y;
@@ -148,8 +147,9 @@
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
 			//debug("DRAWSELECTOUTLINE - real shape detected, and xywh= " + x + "," + y + "," + w + "," + h);
 
-			uistate.chareditctx.strokeRect(x,y,w,h);
-			if(uistate.selectedtool=="shaperesize"){ this.draw8points(onlycenter); }
+
+			uistate.chareditctx.strokeRect(x,y,w,h); 
+			if(uistate.selectedtool=="shaperesize"){ uistate.chareditctx.strokeRect(x,y,w,h);}
 			
 		} else if ((uistate.selectedtool == "pathedit")||(uistate.selectedtool=="newpath")){
 			// Draw Path Points
@@ -159,8 +159,7 @@
 			// Draw path selection outline
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
-			uistate.chareditctx.beginPath();
-			for(var s=0; s<pp.length; s++){ drawPathToPoint(uistate.chareditctx, pp, s); }
+			this.path.outlinePathOnCanvas(uistate.chareditctx);
 			uistate.chareditctx.stroke();
 			
 			if(isval(sep)){
@@ -186,10 +185,9 @@
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
 			var tpdso = ovalPathFromCorners(uistate.eventhandlers.temppathdragshape);
 			
-			uistate.chareditctx.beginPath();
 			uistate.chareditctx.lineWidth = 1;
-			for(var tp=0; tp<tpdso.pathpoints.length; tp++){ drawPathToPoint(uistate.chareditctx, tpdso.pathpoints, tp); }
-			uistate.chareditctx.closePath();
+			uistate.chareditctx.strokeStyle = uistate.colors.accent;
+			tpdso.outlinePathOnCanvas(uistate.chareditctx);
 			uistate.chareditctx.stroke();
 		}
 	}
@@ -379,7 +377,7 @@
 	function addShape(newshape){
 
 		if(newshape){
-			debug("ADDSHAPE - was passed: " + newshape.type);			
+			//debug("ADDSHAPE - was passed: " + JSON.stringify(newshape));			
 			if(newshape.seed){
 				uistate.selectedtool = "shaperesize";
 			} else if(newshape.path && (uistate.selectedtool == "shapemove")) {

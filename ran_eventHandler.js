@@ -104,32 +104,27 @@
 		this.currpt;
 		
 		this.mousedown = function (ev) { 
+			//debug("NEWPATH MOUSEDOWN");
 			var newpoint = new PathPoint({"P":new Coord({"x":cx_sx(uistate.eventhandlers.mousex), "y":cy_sy(uistate.eventhandlers.mousey)}), "H1":new Coord({"x":cx_sx(uistate.eventhandlers.mousex-100), "y":cy_sy(uistate.eventhandlers.mousey)}), "H2":new Coord({"x":cx_sx(uistate.eventhandlers.mousex+100), "y":cy_sy(uistate.eventhandlers.mousey)}), "type":"flat", "selected":true, "useh1":false, "useh2":false});			
-			var currpath;	
 		
 			if(this.firstpoint) {
-				debug("EVENTHANDLER - NewPath mousedown - tool.firstpoint=true, making a new path");
+				//debug("NEWPATH MOUSEDOWN - tool.firstpoint=true, making a new path");
 				//alert("EVENTHANDLER - NewPath mousedown - tool.firstpoint=true, making a new path");
 				
 				// make a new path with one point
 				var newpath = new Path({"pathpoints":[newpoint]});
-				newpath.selectPathPoint(0);
-				
-				//debug("EVENTHANDLER - NewPath mousedown - after new path is made.");
+				//debug("NEWPATH MOUSEDOWN - after new path is made.");
 				
 				// make a new shape with the new path
-				var newshape = addShape();
-				newshape.name = ("path "+(uistate.shapelayers.length+1));
-				newshape.path = newpath;
+				var newshape = addShape(new Shape({"name": ("path "+(uistate.shapelayers.length+1)), "path": newpath}));	
+				newshape.path.selectPathPoint(0);			
+				//debug("NEWPATH MOUSEDOWN - end of firstpoint, new shape added with new path with single point.");
 				
-				debug("EVENTHANDLER - NewPath mousedown - end of firstpoint, new shape added with new path with single point.");
-				//alert("EVENTHANDLER - NewPath mousedown - end of firstpoint, new shape added with new path with single point.");
-			
 			} else {
-				debug("EVENTHANDLER - NewPath mousedown - after firstpoint, placing another point"); 
-				currpath = ss("Event Handler New Path").path;
+				//debug("NEWPATH MOUSEDOWN - after firstpoint, placing another point"); 
+				var currpath = ss("Event Handler New Path").path;
 				var ccp = currpath.isOverControlPoint(cx_sx(uistate.eventhandlers.mousex), cy_sy(uistate.eventhandlers.mousey));
-				debug("EVENTHANDLER - NewPath mousedown - after creating ccp: " + ccp);
+				//debug("NEWPATH MOUSEDOWN - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
 					var hp = _G.projectsettings.pointsize/uistate.chareditcanvassettings.zoom;
@@ -149,27 +144,23 @@
 						return;
 					}
 				}
-				
-				var lastp = currpath.pathpoints[currpath.pathpoints.length-1].P;
-				//newpoint.makePointedTo(lastp.x, lastp.y, 200);
-				
-				debug("EVENTHANDLER - NewPath mousedown - after MakePointedTo");
-				
+					
 				currpath.addPathPoint(newpoint, false);
 				currpath.needsnewcalcmaxes = true;
-				debug("EVENTHANDLER - NewPath mousedown - after AddPathPoint");
+				//debug("NEWPATH MOUSEDOWN - after AddPathPoint");
 			}			
-				
-			this.currpt = newpoint;
+
+			this.currpt = ss("Event Handler New Path").path.sp(false, "Event Handler New Path");
 			this.firstpoint = false;
 			this.dragging = true;
 			uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
 			uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
 			
-			debug("EVENTHANDLER - NewPath mousedown - end of function");
+			//debug("NEWPATH MOUSEDOWN - end of function, this.currpt:\n" + JSON.stringify(newpoint));
 		}
 		
 		this.mouseup = function () {
+			//debug("NEWPATH MOUSEUP");
 			this.dragging = false;
 			this.firstmove = false;
 			uistate.eventhandlers.lastx = -100;
@@ -181,17 +172,19 @@
 		};
 		
 		this.mousemove = function (ev) {
+			//debug("NEWPATH MOUSEMOVE");
 			if(this.dragging){
 				//avoid really small handles
-				debug("NEWPATH MOUSEMOVE - ps*2 = " + (_G.projectsettings.pointsize*2) + "");
+				//debug("NEWPATH MOUSEMOVE - ps*2 = " + (_G.projectsettings.pointsize*2) + " x / y: " + Math.abs(this.currpt.P.x-cx_sx(uistate.eventhandlers.mousex)) + " / " + Math.abs(this.currpt.P.y-cy_sy(uistate.eventhandlers.mousey)) );
 				if( (Math.abs(this.currpt.P.x-cx_sx(uistate.eventhandlers.mousex)) > (_G.projectsettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(uistate.eventhandlers.mousey)) > (_G.projectsettings.pointsize*2)) ){
-					this.currpt.H2.x = cx_sx(uistate.eventhandlers.mousex);
-					this.currpt.H2.y = cy_sy(uistate.eventhandlers.mousey);
+					//debug("NEWPATH MOUSEMOVE - dragging H2, this.currpt:\n" + JSON.stringify(this.currpt));
 					this.currpt.useh1 = true;
 					this.currpt.useh2 = true;
+					this.currpt.H2.x = cx_sx(uistate.eventhandlers.mousex);
+					this.currpt.H2.y = cy_sy(uistate.eventhandlers.mousey);
 					this.currpt.makeSymmetric("H2");
 				} else {
-					debug("NEWPATH MOUSEMOVE - no handle created yet");
+					//debug("NEWPATH MOUSEMOVE - no handle created yet");
 				}
 				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
 				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
@@ -640,7 +633,7 @@
 	}
 
 	function updateTPDS(dx,dy,dw,dh){
-		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
+		debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
 		uistate.eventhandlers.temppathdragshape.leftx += Math.round(dx);
 		uistate.eventhandlers.temppathdragshape.topy += Math.round(dy);
 		uistate.eventhandlers.temppathdragshape.rightx += Math.round(dw+dx);

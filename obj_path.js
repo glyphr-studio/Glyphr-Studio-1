@@ -30,6 +30,7 @@
 		this.deletePathPoint = deletePathPoint;
 		this.selectPathPoint = selectPathPoint;
 		this.drawPath = drawPath;
+		this.outlinePathOnCanvas = outlinePathOnCanvas;
 		this.drawPathToArea = drawPathToArea;
 		this.genPathPostScript = genPathPostScript;
 		this.updatePathPosition = updatePathPosition;
@@ -88,18 +89,39 @@
 			uistate.chareditcanvassettings.originy = uistate.calcmaxesghostcanvassettings.originy;
 		}
 		
-		lctx.beginPath();
-		
-		for(var tp=0; tp<this.pathpoints.length; tp++){ 
-			drawPathToPoint(lctx, this.pathpoints, tp); 
-		}
-		
-		lctx.closePath();
+		this.outlinePathOnCanvas(lctx); 
 		lctx.fill();
 
 		uistate.chareditcanvassettings.originx = tempzp.x;
 		uistate.chareditcanvassettings.originy = tempzp.y;
 		uistate.chareditcanvassettings.zoom = tempzp.z;
+	}
+
+	function outlinePathOnCanvas(lctx) {
+		if(this.pathpoints.length < 2) return;
+		var cp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
+
+		lctx.beginPath();
+		lctx.moveTo(sx_cx(this.pathpoints[0].P.x), sy_cy(this.pathpoints[0].P.y));
+
+		for(var cp = 0; cp < this.pathpoints.length; cp++){
+			pp = this.pathpoints[cp];
+			np = this.pathpoints[(cp+1) % this.pathpoints.length];
+			
+			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
+			else if (pp.type == "flat") { pp.makeFlat("H1"); }
+			
+			pph2x = (pp.useh2? sx_cx(pp.H2.x) : sx_cx(pp.P.x));
+			pph2y = (pp.useh2? sy_cy(pp.H2.y) : sy_cy(pp.P.y));
+			nxh1x = (np.useh1? sx_cx(np.H1.x) : sx_cx(np.P.x));
+			nxh1y = (np.useh1? sy_cy(np.H1.y) : sy_cy(np.P.y));
+			nxppx = sx_cx(np.P.x);
+			nxppy = sy_cy(np.P.y);
+			
+			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
+		}
+
+		lctx.closePath();
 	}
 	
 	function drawPathToArea(lctx, size, offsetX, offsetY){

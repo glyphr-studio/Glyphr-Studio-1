@@ -210,38 +210,6 @@
 		this.H2.y = Math.round(this.H2.y);
 	}
 	
-	function drawPathToPoint(lctx, pathpoints, num) {
-		//debug("DRAWPATHTOPOINT("+num+") - begin drawing pp");
-		var pp = pathpoints[num];	
-		var next = pathpoints[(num+1) % pathpoints.length];
-		
-		if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
-		else if (pp.type == "flat") { pp.makeFlat("H1"); }
-		
-		if(num==0){ 
-			lctx.moveTo(sx_cx(pp.P.x), sy_cy(pp.P.y));
-			//debug("DRAWPATHTOPOINT - first point, cnvas orgin: " + uistate.chareditcanvassettings.originx + "," + uistate.chareditcanvassettings.originy);
-			//debug("DRAWPATHTOPOINT - first point, saved coord: " + pp.P.x + "," + pp.P.y);
-			//debug("DRAWPATHTOPOINT - FOR CMGC cnvas coord clc: " + (pp.P.x+_G.fontsettings.upm) + "," + ((_G.fontsettings.upm*2)-pp.P.y) );
-			//debug("DRAWPATHTOPOINT - first point, cnvas coord: " + sx_cx(pp.P.x) + "," + sy_cy(pp.P.y));
-		}
-		
-		if (next) {
-			var pph2x = (pp.useh2? sx_cx(pp.H2.x) : sx_cx(pp.P.x));
-			var pph2y = (pp.useh2? sy_cy(pp.H2.y) : sy_cy(pp.P.y));
-			var nxh1x = (next.useh1? sx_cx(next.H1.x) : sx_cx(next.P.x));
-			var nxh1y = (next.useh1? sy_cy(next.H1.y) : sy_cy(next.P.y));
-			var nxppx = sx_cx(next.P.x);
-			var nxppy = sy_cy(next.P.y);
-			
-			//debug("DRAWPATHTOPOINT: pph2x/y, nxh1x/y, nxppx/y: " + pph2x + "/" + pph2y + " , " + nxh1x + "/" + nxh1y + " , " + nxppx + "/" + nxppy);
-			
-			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
-		}
-	
-		//debug("DRAWPATHTOPOINT("+num+") - end");
-	}
-	
 	function drawPoint(c) {
 		var ps = _G.projectsettings.pointsize +1;
 		var hp = ps/2;
