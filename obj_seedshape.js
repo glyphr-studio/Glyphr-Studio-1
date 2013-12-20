@@ -29,9 +29,11 @@
 		this.wlock = false;
 		
 		// Functions
-		this.drawShape = drawSeedShape;
+		this.drawShapeAsPartOfStack = drawSeedShapeAsPartOfStack;
+		this.drawShapeAsSingle = drawSeedShapeAsSingle;
 		this.genPostScript = genSeedPostScript;
-		this.drawShapeToArea = drawSeedShapeToArea;
+		this.drawShapeToAreaAsSingle = drawSeedShapeToArea;
+		this.drawShapeToAreaAsPartOfStack = drawSeedShapeToArea;
 		this.drawselectoutline = drawSeedShapeSelectOutline;
 		this.draw8points = drawSeedShape8Points;	
 		this.isHere = isSeedShapeHere;
@@ -92,7 +94,7 @@
 		for(var ssid in _G.seedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			_G.seedshapes[ssid].shape.drawShapeToArea(tctx, factor, ssthumbgutter, yoffset);
+			_G.seedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, ssthumbgutter, yoffset);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -183,17 +185,31 @@
 //	---------------------------
 //	Seed Shape Paridy Functions
 //	---------------------------
-	function drawSeedShape(lctx){
+	function drawSeedShape_Stack(lctx){
 		//debug("DRAWSEEDSHAPE");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
-			_G.seedshapes[this.seed].shape.drawShape(lctx);
+			_G.seedshapes[this.seed].shape.drawShape_Stack(lctx);
 		} else {
 			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
 			//debug("------------- this.seed: " + this.seed);
 			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
-			ns.drawShape(lctx);
+			ns.drawShape_Stack(lctx);
+		}
+	}	
+
+	function drawSeedShape_Single(lctx){
+		//debug("DRAWSEEDSHAPE");
+		if(this.useseedxy){
+			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
+			_G.seedshapes[this.seed].shape.drawShape_Single(lctx);
+		} else {
+			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
+			//debug("------------- this.seed: " + this.seed);
+			var ns = clone(_G.seedshapes[this.seed].shape);
+			ns.path.updatePathPosition(this.xpos, this.ypos, true);
+			ns.drawShape_Single(lctx);
 		}
 	}
 	
@@ -214,13 +230,13 @@
 		//debug("DRAWSEEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.useseedxy){
 			//debug("--------------------- useseedxy=true, calling drawShapeToArea for seedshape.");
-			_G.seedshapes[this.seed].shape.drawShapeToArea(lctx, size, offsetX, offsetY);
+			_G.seedshapes[this.seed].shape.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
 		} else {
 			//debug("--------------------- useseedxy=false, calling updatepathposition with FORCE.");
 			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.name += " HAS BEEN MOVED";
-			ns.drawShapeToArea(lctx, size, offsetX, offsetY);
+			ns.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
 		}
 	}
 	

@@ -49,7 +49,7 @@
 			return function(e) {
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
-				if(fcontent.settings.version){
+				if(fcontent.projectsettings.version){
 					_G = hydrateGlyphrProject(fcontent);
 					debug("Loading project; " + _G.fontsettings.familyname);
 					finalizeGlyphrProject();

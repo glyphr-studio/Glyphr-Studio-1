@@ -24,9 +24,11 @@
 		this.hidden = false;
 				
 		// Functions
-		this.drawShape = drawShape;
+		this.drawShapeAsSingle = drawShapeAsSingle;
+		this.drawShapeAsPartOfStack = drawShapeAsPartOfStack;
 		this.genPostScript = genPostScript;
-		this.drawShapeToArea = drawShapeToArea;
+		this.drawShapeToAreaAsSingle = drawShapeToAreaAsSingle;
+		this.drawShapeToAreaAsPartOfStack = drawShapeToAreaAsPartOfStack;
 		this.drawselectoutline = drawselectoutline;
 		this.draw8points = draw8points;
 		this.isHere = isHere;
@@ -42,14 +44,8 @@
 //	Draw
 //	-----
 	
-	function drawShape(lctx){
-		
-		/* BUG FIX? */
-		if(this.seed){
-			_G.seedshapes[this.seed].shape.drawShape(lctx);
-			return;
-		}
-			
+	function drawShape_Single(lctx){
+					
 		var z = uistate.chareditcanvassettings.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
@@ -64,51 +60,39 @@
 			uistate.chareditcanvassettings.originx = uistate.calcmaxesghostcanvassettings.originx;
 			uistate.chareditcanvassettings.originy = uistate.calcmaxesghostcanvassettings.originy;
 		}
-		
-		//debug("DRAWSHAPE - origin x/y/z: "+uistate.chareditcanvassettings.originx+","+uistate.chareditcanvassettings.originy+","+uistate.chareditcanvassettings.zoom);
-		
-		if((this.path.rightx == -1) && (lctx == uistate.chareditctx) && (uistate.selectedtool != "newpath")) this.path.calcMaxes();
-		
-		if(lctx==uistate.chareditctx){
-			// Set the appropriate fill color
-			var s = ss("DrawShape - set fill color");
-			if(!this.hidden){						// Possible this.isvisible?
-				lctx.fillStyle = "#000";
-				
-				if(s.seed){
-					if(_G.seedshapes[s.seed].shape == this) {
-						lctx.fillStyle = shiftColor(_G.projectsettings.color_glyphfill, .1, true); 					
-					}
-				} else if(s == this){
-						lctx.fillStyle = shiftColor(_G.projectsettings.color_glyphfill, .1, true); 
-				}
-			} else {	
-				lctx.fillStyle = "transparent";	
-			}
-			
 
-		} 
 		else if(lctx == uistate.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
 		else if(lctx == uistate.calcmaxesghostctx) { lctx.fillStyle = "rgba(0,255,0,0.2)"; }
 		
 		// Draw the appropriate stuff for each shape's fill & border
 		
-		/*
-		if(this.seed){
-			// BUG here about drawshape !seedislocked
-			//_G.seedshapes[this.seed].shape.path.drawPath(lctx);
-			_G.seedshapes[this.seed].shape.drawShape(lctx);
-		} else {
-			this.path.drawPath(lctx);
-		}
-		*/
+		lctx.beginPath();
 		this.path.drawPath(lctx);
-		
+		lctx.closePath();
+		lctx.fillStyle = _G.projectsettings.color_glyphfill;
+		lctx.fill();
+
 		uistate.chareditcanvassettings.originx = tempzp.x;
 		uistate.chareditcanvassettings.originy = tempzp.y;
 		uistate.chareditcanvassettings.zoom = tempzp.z;
 	}
-	
+
+
+	function drawShape_Stack(lctx){
+		
+		/* BUG FIX? */
+		if(this.seed){
+			_G.seedshapes[this.seed].shape.drawShape_Stack(lctx);
+			return;
+		}
+		
+		if((this.path.rightx == -1) && (lctx == uistate.chareditctx) && (uistate.selectedtool != "newpath")) this.path.calcMaxes();
+		
+		this.path.drawPath(lctx);
+		
+	}
+
+
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
 		var canvasx = uistate.chareditcanvassettings.originx;
@@ -145,11 +129,8 @@
 			var h = Math.ceil(by-ty);
 			
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
-			//debug("DRAWSELECTOUTLINE - real shape detected, and xywh= " + x + "," + y + "," + w + "," + h);
-
-
 			uistate.chareditctx.strokeRect(x,y,w,h); 
-			if(uistate.selectedtool=="shaperesize"){ uistate.chareditctx.strokeRect(x,y,w,h);}
+			if(uistate.selectedtool=="shaperesize"){ this.draw8points(onlycenter);}
 			
 		} else if ((uistate.selectedtool == "pathedit")||(uistate.selectedtool=="newpath")){
 			// Draw Path Points
@@ -159,11 +140,15 @@
 			// Draw path selection outline
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
+
+			uistate.chareditctx.beginPath();
 			this.path.outlinePathOnCanvas(uistate.chareditctx);
+			uistate.chareditctx.closePath();
 			uistate.chareditctx.stroke();
 			
-			if(isval(sep)){
+			if(sep !== false){
 				// Draw Handles
+				//debug("DRAWSELECTOUTLINE - new path added, sep=" + sep + " pathpoints: " + JSON.stringify(this.path.pathpoints))
 				pp[sep].drawHandles(true, true);
 				
 				// Draw prev/next handles
@@ -187,7 +172,10 @@
 			
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = uistate.colors.accent;
+
+			uistate.chareditctx.beginPath();
 			tpdso.outlinePathOnCanvas(uistate.chareditctx);
+			uistate.chareditctx.closePath();
 			uistate.chareditctx.stroke();
 		}
 	}
@@ -358,12 +346,18 @@
 		uistate.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
 	}
 	
-	function drawShapeToArea(lctx, size, offsetX, offsetY){
+	function drawShapeToArea_Single(lctx, size, offsetX, offsetY){
 		//debug("DRAWSHAPETOAREA for shape: " + this.name);
 		lctx.fillStyle = _G.projectsettings.color_glyphfill;
+		lctx.beginPath();
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
-		//debug("DRAWSHAPETOAREA end for shape: " + this.name);
-		//debug("<hr>");
+		lctx.closePath();
+		lctx.fill();
+	}	
+
+	function drawShapeToArea_Stack(lctx, size, offsetX, offsetY){
+		//debug("DRAWSHAPETOAREA for shape: " + this.name);
+		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 	}
 
 	function genPostScript(){
@@ -477,7 +471,7 @@
 	function isHere(x,y){
 		var imageData;
 		uistate.ishereghostctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
-		this.drawShape(uistate.ishereghostctx);
+		this.drawShape_Single(uistate.ishereghostctx);
 		imageData = uistate.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug("ISHERE? alpha = " + imageData.data[3] + "  returning: " + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);

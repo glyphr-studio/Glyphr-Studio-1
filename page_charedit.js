@@ -170,6 +170,8 @@
 		if(neww) {fc[uistate.selectedchar].charwidth = 0;}
 		
 
+		uistate.chareditctx.beginPath();
+		
 		var sh;
 		for(var jj=0; jj<uistate.shapelayers.length; jj++) {
 			//debug("================ shape " + jj + "/" + uistate.shapelayers.length);
@@ -177,7 +179,7 @@
 			sh = uistate.shapelayers[jj];
 			//debug("================ JSON: " + JSON.stringify(sh));
 			
-			sh.drawShape(uistate.chareditctx);
+			sh.drawShape_Stack(uistate.chareditctx);
 			
 			if(neww) {
 				var thisrightx = 0;
@@ -197,6 +199,9 @@
 				//debug("REDRAW - charwidth as of shape# " + jj + " set to: " + fc[uistate.selectedchar].charwidth);
 			}
 		}
+
+		uistate.chareditctx.fillStyle = _G.projectsettings.color_glyphfill;
+		uistate.chareditctx.fill("nonzero");
 		//debug("REDRAW - done drawing, charwidth is: " + fc[uistate.selectedchar].charwidth);
 
 		var s = ss("Redraw");
@@ -764,7 +769,7 @@
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = uistate.colors.offwhite;
 				if(i == uistate.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-				uistate.shapelayers[i].drawShapeToArea(tctx, factor, uistate.layerthumbgutter, yoffset);
+				uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
 			}
 		}
 	}

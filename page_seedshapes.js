@@ -49,7 +49,7 @@
 			tctx = tele.getContext("2d");
 			tele.style.backgroundColor = uistate.colors.offwhite;
 			if(ssid==uistate.shownseedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-			_G.seedshapes[ssid].shape.drawShapeToArea(tctx, factor, uistate.layerthumbgutter, yoffset);
+			_G.seedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
 		}
 	}
 
@@ -89,7 +89,7 @@
 		grid();
 		vertical(uistate.chareditcanvassettings.size.makeCrisp());
 		
-		_G.seedshapes[uistate.shownseedshape].shape.drawShape(uistate.chareditctx);
+		_G.seedshapes[uistate.shownseedshape].shape.drawShape_Single(uistate.chareditctx);
 		
 		if(_G.seedshapes[uistate.selectedshape]) {
 			_G.seedshapes[uistate.selectedshape].shape.drawselectoutline();

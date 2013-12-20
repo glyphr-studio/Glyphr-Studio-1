@@ -56,7 +56,10 @@
 	function sp(wantindex, calledby){
 		//debug("SP - Called By : " + calledby);
 		
-		if(!this.pathpoints) return false;
+		if(!this.pathpoints) {
+			//debug("SP - returning false, this.pathpoints = " + JSON.stringify(this.pathpoints));
+			return false;
+		}
 		
 		for(var p=0; p<this.pathpoints.length; p++){
 			var thisp = this.pathpoints[p];
@@ -90,7 +93,6 @@
 		}
 		
 		this.outlinePathOnCanvas(lctx); 
-		lctx.fill();
 
 		uistate.chareditcanvassettings.originx = tempzp.x;
 		uistate.chareditcanvassettings.originy = tempzp.y;
@@ -101,7 +103,6 @@
 		if(this.pathpoints.length < 2) return;
 		var cp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
-		lctx.beginPath();
 		lctx.moveTo(sx_cx(this.pathpoints[0].P.x), sy_cy(this.pathpoints[0].P.y));
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
@@ -121,7 +122,6 @@
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
 		}
 
-		lctx.closePath();
 	}
 	
 	function drawPathToArea(lctx, size, offsetX, offsetY){
@@ -320,6 +320,8 @@
 		this.needsnewcalcmaxes = true;
 		this.setTopY(ly);
 		this.setLeftX(lx);
+
+		this.reversePath();
 	}
 	
 	function flipew(){
@@ -343,6 +345,8 @@
 		this.needsnewcalcmaxes = true;
 		this.setTopY(ly);
 		this.setLeftX(lx);
+
+		this.reversePath();
 	}
 	
 	function setTopY(newvalue){

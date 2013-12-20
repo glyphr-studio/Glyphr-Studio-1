@@ -633,7 +633,7 @@
 	}
 
 	function updateTPDS(dx,dy,dw,dh){
-		debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
+		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
 		uistate.eventhandlers.temppathdragshape.leftx += Math.round(dx);
 		uistate.eventhandlers.temppathdragshape.topy += Math.round(dy);
 		uistate.eventhandlers.temppathdragshape.rightx += Math.round(dw+dx);

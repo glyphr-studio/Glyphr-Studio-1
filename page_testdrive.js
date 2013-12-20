@@ -97,12 +97,16 @@
 		}	
 		
 		var sh = {};
+		lctx.beginPath();
 		for(var j=0; j<uistate.shapelayers.length; j++) {
 			sh = uistate.shapelayers[j];
 			//debug("---------------- starting shape " + sh.name);
-			sh.drawShapeToArea(lctx, size, offsetX, offsetY);
+			sh.drawShapeToArea_Stack(lctx, size, offsetX, offsetY);
 		}
-		
+		lctx.fillStyle = _G.projectsettings.color_glyphfill;
+		lctx.closePath();
+		lctx.fill("nonzero");
+
 		//debug("---------------- done with " + charcode);
 		
 		return width;
