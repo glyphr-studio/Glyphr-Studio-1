@@ -543,8 +543,7 @@
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
-			pointactions += "<input class='button' type='button' value='Add to start' onclick='ss().path.addPathPoint(false, true); putundoq(\"add pp start\"); redraw();'><br>";
-			pointactions += "<input class='button' type='button' value='Add to end' onclick='ss().path.addPathPoint(false, false); putundoq(\"add pp end\"); redraw();'><br>";
+			pointactions += "<input class='button' type='button' value='Insert' onclick='ss().path.insertPathPoint(); putundoq(\"insert PP\"); redraw();'><br>";
 			pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"delete pp\"); redraw();'><br>";
 			pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"reset pp\"); redraw();'><br>";	
 			pointactions += "</td>";
@@ -584,7 +583,7 @@
 			allactions += "<input class='button' type='button' value='insert seed shape' onclick='insertSeedShapeDialog();'><br>";
 			
 		var shapeactions = "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"delete shape\");redraw();'><br>";
-		
+			
 		var layeractions = "<td><h3>layer</h3>";
 			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupShape();putundoq(\"move up shape\");'><br>";
 			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownShape();putundoq(\"move down shape\");'><br>";
@@ -592,16 +591,12 @@
 			
 		content += allactions;
 		
-		if(uistate.shapelayers.length > 0){ 
-			content += shapeactions; 
-			content += "</td>"
-		} else {
-			content += "</td>";
-		}
+		if(uistate.shapelayers.length > 0){ content += shapeactions; }
+		content += "</td>";
 			
 		if(uistate.shapelayers.length > 1){ content += layeractions; }
 		
-		content += "</tr></table>";
+		content += "<td> &nbsp; </td></tr></table>";
 		
 		return content;
 	}

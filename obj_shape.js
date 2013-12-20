@@ -24,11 +24,11 @@
 		this.hidden = false;
 				
 		// Functions
-		this.drawShapeAsSingle = drawShapeAsSingle;
-		this.drawShapeAsPartOfStack = drawShapeAsPartOfStack;
+		this.drawShape_Single = drawShape_Single;
+		this.drawShape_Stack = drawShape_Stack;
+		this.drawShapeToArea_Single = drawShapeToArea_Single;
+		this.drawShapeToArea_Stack = drawShapeToArea_Stack;
 		this.genPostScript = genPostScript;
-		this.drawShapeToAreaAsSingle = drawShapeToAreaAsSingle;
-		this.drawShapeToAreaAsPartOfStack = drawShapeToAreaAsPartOfStack;
 		this.drawselectoutline = drawselectoutline;
 		this.draw8points = draw8points;
 		this.isHere = isHere;
@@ -194,8 +194,9 @@
 			by = cdata.bottomy;
 		}
 		
-		var qw = Math.round((rx-lx)/4);
-		var qh = Math.round((ty-by)/4);
+		//var qw = Math.round((rx-lx)/4);
+		//var qh = Math.round((ty-by)/4);
+		var qw = qh = 100;
 
 		// First Point
 		var Pul = new Coord({"x":lx, "y":ty});
@@ -450,6 +451,7 @@
 		for(var j=(uistate.shapelayers.length-1); j>=0; j--){
 			//debug("CLICKSELECTShape() - Checking shape " + j);
 			if(uistate.shapelayers[j].isHere(x,y)){
+				uistate.shapelayers[j].path.selectPathPoint(-1);
 				if(j != uistate.selectedshape){
 					//debug("CLICKSELECTShape() - selecting shape " + j);
 					uistate.selectedshape = j;				

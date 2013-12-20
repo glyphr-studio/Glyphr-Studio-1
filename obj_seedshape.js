@@ -29,11 +29,11 @@
 		this.wlock = false;
 		
 		// Functions
-		this.drawShapeAsPartOfStack = drawSeedShapeAsPartOfStack;
-		this.drawShapeAsSingle = drawSeedShapeAsSingle;
+		this.drawShape_Stack = drawSeedShape_Stack;
+		this.drawShape_Single = drawSeedShape_Single;
+		this.drawShapeToArea_Single = drawSeedShapeToArea;
+		this.drawShapeToArea_Stack = drawSeedShapeToArea;
 		this.genPostScript = genSeedPostScript;
-		this.drawShapeToAreaAsSingle = drawSeedShapeToArea;
-		this.drawShapeToAreaAsPartOfStack = drawSeedShapeToArea;
 		this.drawselectoutline = drawSeedShapeSelectOutline;
 		this.draw8points = drawSeedShape8Points;	
 		this.isHere = isSeedShapeHere;

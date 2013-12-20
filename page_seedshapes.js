@@ -175,19 +175,15 @@
 		var s = ss("Update Actions");		
 		
 		var allactions = "<td><h3>*</h3>";
-			allactions += "<input class='"+(uistate.seedundoq.length>0? "button": "buttondis")+"' style='width:150px;' type='button' value='Undo" + ((uistate.seedundoq.length > 0) ? (" " + uistate.seedundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input class='"+(uistate.seedundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.seedundoq.length > 0) ? (" " + uistate.seedundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "</td>";
 		
 		var seedshapeactions = "<td><h3>seed shape</h3>";
-			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='create new' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
-			seedshapeactions += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' style='width:150px;' type='button' value='delete' onclick='deleteSeedShapeConfirm();'><br>";		
-			seedshapeactions += "<input class='button' style='width:150px;' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
+			seedshapeactions += "<input class='button' type='button' value='create new' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
+			seedshapeactions += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteSeedShapeConfirm();'><br>";		
+			seedshapeactions += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 			
 		var shapeactions = "";
-			/*
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
-			shapeactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteSeedShape();putundoq(\"paste seed shape\");redraw();'><br>";
-			*/
 			if(uistate.eventhandlers.temppathdragshape && uistate.selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
 			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
@@ -216,6 +212,7 @@
 		if(s && !s.seed) ispointsel = s.path.sp(false);
 		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		if(ispointsel) {content += pointactions; }
+		else { content += "<td><h3>&nbsp;</h3></td>"; }
 		
 		content += "</tr><tr>";
 		content += canvasactions;

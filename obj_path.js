@@ -27,6 +27,7 @@
 		
 		// declare public functions
 		this.addPathPoint = addPathPoint;
+		this.insertPathPoint = insertPathPoint;
 		this.deletePathPoint = deletePathPoint;
 		this.selectPathPoint = selectPathPoint;
 		this.drawPath = drawPath;
@@ -403,6 +404,40 @@
 		}		
 	}
 	
+	function insertPathPoint() {
+
+		var p1i = this.sp(true, "insert path point");
+		var p1 = (p1i === false ? this.pathpoints[0] : this.pathpoints[p1i]);
+
+		if(this.pathpoints.length > 1){
+			var p2 = this.pathpoints[(p1i+1)%this.pathpoints.length];
+
+	  		var newPx = (p1.P.x*.125) + (p1.H2.x*.375) + (p2.H1.x*.375) + (p2.P.x*.125);
+	  		var newPy = (p1.P.y*.125) + (p1.H2.y*.375) + (p2.H1.y*.375) + (p2.P.y*.125);
+
+	  		var newpp = new PathPoint({"P":new Coord({"x":newPx, "y":newPy}), "type":"flat"});
+	  		// Handles (tangents)
+
+	  		var newH2x = ((p2.H1.x - p2.P.x) / 2) + p2.P.x;
+	  		var newH2y = ((p2.P.y - p2.H1.y) / 2) + p2.H1.y;
+
+		    debug("INSERTPATHPOINT - before makepointedto " + JSON.stringify(newpp));
+
+	  		newpp.makePointedTo(newH2x, newH2y, 100);
+	  		var tempH2 = newpp.H2;
+	  		newpp.H2 = newpp.H1;
+	  		newpp.H1 = tempH2;
+	  		newpp.makeSymmetric("H2");
+
+		    debug("INSERTPATHPOINT - afters makepointedto " + JSON.stringify(newpp));
+
+
+		    this.pathpoints.splice((p1i+1)%this.pathpoints.length, 0, newpp);
+		    this.selectPathPoint((p1i+1)%this.pathpoints.length);
+
+	  	}
+	}
+
 	function deletePathPoint(){
 		var pp = this.pathpoints;
 		
