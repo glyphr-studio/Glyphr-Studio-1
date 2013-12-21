@@ -447,16 +447,18 @@
 		if(uistate.navhere == "seed shapes"){
 			return clickSelectSeedShape(x,y);
 		}
-		
+		var ts;
 		for(var j=(uistate.shapelayers.length-1); j>=0; j--){
+			ts = uistate.shapelayers[j];
 			//debug("CLICKSELECTShape() - Checking shape " + j);
-			if(uistate.shapelayers[j].isHere(x,y)){
-				uistate.shapelayers[j].path.selectPathPoint(-1);
+			
+			if(ts.isHere(x,y)){
+				if(!ts.seed) ts.path.selectPathPoint(-1);
 				if(j != uistate.selectedshape){
 					//debug("CLICKSELECTShape() - selecting shape " + j);
 					uistate.selectedshape = j;				
 					
-					if(uistate.shapelayers[j].seed){
+					if(ts.seed){
 						debug("CLICKSELECTSHAPE - detected this.seed, setting uistate.selectedtool = shaperesize");
 						uistate.selectedtool = "shaperesize";
 					}

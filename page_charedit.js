@@ -57,11 +57,11 @@
 		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (scthumbgutter+(fs.upm*factor));
 		
-		//debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
+		debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
 		
 		for(var sc=0; sc<selectchardrawarr.length; sc++){
 			var tc = selectchardrawarr[sc];
-			//debug("---------------------- i: " + sc + " id: " + tc);
+			debug("---------------------- i: " + sc + " id: " + tc);
 			var scan = document.getElementById("cs"+tc);
 			scan.width = scthumbsize;
 			scan.height = scthumbsize;
@@ -83,8 +83,12 @@
 			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
 			selectchardrawarr.push(index);
 		} else {	
-			if(issel) {rv += "<div class='charselectbuttonsel'>";} 
-			else {rv += "<div class='charselectbutton'>";}
+			if(issel) {rv += "<div class='charselectbuttonsel'";} 
+			else {rv += "<div class='charselectbutton'";}
+
+			if(index == 32) rv += " style='font-size:13px; padding-top:15px;'";	// SPACE needs to be smaller font size
+
+			rv += ">";
 
 			var bv = _G.fontchars[index].charvalue;
 			if(bv == "'") bv = "&#39";
@@ -97,12 +101,12 @@
 		return rv;
 	}
 	
-	function selectchar(c){
+	function selectchar(c, dontnavigate){
 		//debug("SELECTCHAR - Selecting " + _G.fontchars[c].charvalue + " from value " + c);
 		uistate.selectedchar = c;
 		uistate.shapelayers = _G.fontchars[c].charshapes;
 		uistate.selectedshape = -1;
-		navigate();
+		dontnavigate? true : navigate();
 	}
 
 	function setupGhostCanvas(){
@@ -306,10 +310,9 @@
 				content += shapeDetails(s);
 				if(ispointsel){ 
 					content += pointDetails(s); 
-				} else {
-					content += seedShapeCharDetails();
 				}
 			}
+			content += seedShapeCharDetails();
 			content += "</table><br>";
 			content += updateseedshapeactions();
 		}

@@ -34,11 +34,19 @@
 			re += makeSSSubnavButton(ssid);
 		}
 		re += "</table>";
-		re += "<br><br><input type='button' class='button' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();' value='Add a new seed shape'></div>";
+		
+		re += "<h1>actions</h1>";
+		re += "<table class='actionsgrid'><tr><td><h3>seed shape</h3>";
+		re += "<input class='button' type='button' value='create new' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
+		re += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteSeedShapeConfirm();'><br>";		
+		re += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
+		re += "</td> &nbsp; </td></td> &nbsp; </td></tr></table>";
+
 		return re;
 	}
 	
 	function drawSeedShapeLayerThumbs(){
+		debug("DRAWSEEDSHAPELAYERTHUMBS - start");
 		var fs = _G.fontsettings;
 		var tctx = {};
 		var tele = false;
@@ -51,6 +59,7 @@
 			if(ssid==uistate.shownseedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 			_G.seedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
 		}
+		debug("DRAWSEEDSHAPELAYERTHUMBS - end");
 	}
 
 	function makeSSSubnavButton(ssid){
@@ -83,7 +92,7 @@
 //-------------------
 
 	function seedshapesredraw(){
-		debug("<b>!!! SEEDSHAPEREDRAW !!!</b> - shownseedshape:" + uistate.shownseedshape + ", uistate.selectedshape:" + uistate.selectedshape);
+		debug("!!! SEEDSHAPEREDRAW !!! - shownseedshape:" + uistate.shownseedshape + ", uistate.selectedshape:" + uistate.selectedshape);
 				
 		uistate.chareditctx.clearRect(0,0,5000,5000);
 		grid();
@@ -110,14 +119,14 @@
 		//content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Seed Shape ID </td><td> " + uistate.shownseedshape + " </td></tr>";	
 			
 		if(_G.seedshapes[uistate.shownseedshape].usedin.length > 0){
-			content += "<table><tr><td colspan=3><h3>characters that use this seed shape</h3>";
+			content += "<table style='margin-top:10px;'><tr><td colspan=3><h3>characters that use this seed shape</h3>";
 			content += generateUsedinThumbs();
 			content += "</td></tr></table>";	
 		} else {
 			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this seed shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this seed shape to a character now</a>.</i></td></tr></table>"
 		}
 
-		debug("SEEDSHAPECHARDETAILS - returning html");
+		debug("SEEDSHAPECHARDETAILS - returning html:\n" + content);
 		return content;
 	}
 	
@@ -144,12 +153,14 @@
 		uistate.selectedshape = -1;	
 		uistate.selectedchar = chid;
 		uistate.navhere = "character edit";
+		uistate.navprimaryhere = "npAttributes";
 		navigate();	
 	}
 	
 	function drawUsedinThumbs(){
 		var fs = _G.fontsettings;
 		var ui = _G.seedshapes[uistate.shownseedshape].usedin;
+		debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
@@ -157,10 +168,10 @@
 		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
 
 		for(var k=0; k<ui.length; k++){
-			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
+			debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
 			drawCharToArea(tctx, ui[k], factor, ssthumbgutter, yoffset);
-			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
+			debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}
 	
@@ -290,23 +301,26 @@
 		}
 	}
 
-	function showAddSSToCharDialog(){
-		var content = "Select the character into which you would like to insert this seed shape:<br><br><div style='width:800px;'>";
+	function showAddSSToCharDialog(msg){
+		var content = "<table style='width:756px'><tr><td>";
+		content += msg? msg : "";
+		content += "Select the character into which you would like to insert this seed shape:<br><br></td></tr>";
+		content += "<tr><td>";
 		content += updateselectchar("insertSeedShapeToChar");
-		content += "</div>";
+		content += "</td></tr>";
+		content += "<tr><td><br><input type='button' class='button' value='done' onclick='closeDialog();'/></td></tr></table>";
 		openDialog(content);
+		drawselectcharcanvas();
 	}
 	
 	function insertSeedShapeToChar(chid){
 		var temschar = uistate.selectedchar;
-		selectchar(chid);
+		selectchar(chid, true);
 		insertSeedShape(uistate.shownseedshape);
 		uistate.selectedchar = temschar;
 		putundoq("insert seed shape from seedshapes");
 		closeDialog();
-		var con = "The SeedShape '" + _G.seedshapes[uistate.shownseedshape].shape.name + "' was successfully inserted<br>into character " + _G.fontchars[chid].charname + ".";
-		con += "<br><br><input type='button' value='insert to another character' onclick='showAddSSToCharDialog();'> &nbsp; <input type='button' value='close' onclick='closeDialog();'>";
-		openDialog(con);
+		showAddSSToCharDialog("The SeedShape '" + _G.seedshapes[uistate.shownseedshape].shape.name + "' was successfully inserted into character " + _G.fontchars[chid].charname + ".<br><br>");
 	}
 
 	
