@@ -11,6 +11,50 @@
 		"seedshapes" : {}
 	};
 
+	_G.projectsettings = {
+		"debug": true,				// global debug console switch
+		"version": uistate.thisGlyphrStudioVersion,	// console version
+		"seedshapecounter": 0,		// private counter for ss id
+		
+		// Grid stuff
+		"griddivisions": 16,		// how many squares of grid per emsize
+		"xheight": (9/16),			// % of emsize lowercase letter height
+		"descender": (4/16),		// % of emsize descender
+		"overshoot": (1/(16*8)),	// % of emsize overshoot for round glyphs
+
+		// UI stuff
+		"pointsize" : 5,			// square points size - SHOULD BE ODD	
+		"spinnervaluechange" : 1,	// how much spinner controls change a value
+		"stoppagenavigation" : false,	// asks to save on window close or refresh
+		"quickpathupdating" : true,		// does not redraw path while drag resizing
+		"showoutline" : false,			// outline shapes when drawing
+		"showfill" : true,				// fill shapes when drawing
+		"color_glyphfill" : "rgb(0,0,0)",		//shape base color
+		"color_glyphoutline" : "rgb(0,0,0)",	//shape outline color
+		"color_grid" : "rgb(240,240,240)",		//grid base color
+		"color_guideline" : "rgb(204,79,34)"	//guide base color
+	}
+
+	_G.fontsettings = {
+		"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
+		"kerning": (1/16),			// default kerning, as a % of emsize
+		"familyname": "",
+		"subfamilyname": "Regular",
+		"genericfamilyname": 'Sans-Serif',
+		"fullname": "",
+		"version": "Version 1.0",
+		"copyright": ("Copyright " + new Date().getFullYear()),
+		"manufacturername": "",
+		"manufacturerurl": "",
+		"designername": "",
+		"designerurl": "",
+		"description": "",
+		"licensedescription": "You are free to share, copy, distribute and transmit the work.  You are free to remix and adapt the work.  You are free to make commercial use of the work. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.",
+		"licenseurl": "http://creativecommons.org/licenses/by-sa/3.0/",
+		"weightclass": "400",
+		"widthclass": "5"
+	};
+
 	// Global UI state variables
 	var uistate = {
 		// all pages

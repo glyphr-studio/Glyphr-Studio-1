@@ -464,6 +464,7 @@
 	}
 
 	function genTable_name(oa){
+		/*
 		var con = '<name>';
 		con += '<namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">' + '&#169; 1987, 1990, 1994, 2001, 2002 Adobe Systems Incorporated. All rights reserved.' + '</namerecord>';
 		con += '<namerecord nameID="1" platformID="1" platEncID="0" langID="0x0">' + 'Hobo Std' + '</namerecord>';
@@ -488,10 +489,45 @@
 		con += '<namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">' + 'http://www.adobe.com/type' + '</namerecord>';
 		con += '<namerecord nameID="14" platformID="3" platEncID="1" langID="0x409">' + 'http://www.adobe.com/type/legal.html' + '</namerecord>';
 		con += '<namerecord nameID="17" platformID="3" platEncID="1" langID="0x409">' + 'Medium' + '</namerecord>';
-		
 		con += '</name>';
+		*/
+
+		var md = _G.fontsettings;
+		
+-		con += '<name>\n';
+-		con += '   <namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">'+md.copyright+'</namerecord>\n';
+-		con += '   <namerecord nameID="1" platformID="1" platEncID="0" langID="0x0">'+md.familyname+'</namerecord>\n';
+-		con += '   <namerecord nameID="2" platformID="1" platEncID="0" langID="0x0">'+md.subfamilyname+'</namerecord>\n';
+-		con += '   <namerecord nameID="3" platformID="1" platEncID="0" langID="0x0">'+(md.fullname+' ; '+md.version)+'</namerecord>\n';
+-		con += '   <namerecord nameID="4" platformID="1" platEncID="0" langID="0x0">'+md.fullname+'</namerecord>\n';
+-		con += '   <namerecord nameID="5" platformID="1" platEncID="0" langID="0x0">'+md.version+'</namerecord>\n';
+-		con += '   <namerecord nameID="6" platformID="1" platEncID="0" langID="0x0">'+md.fullname+'</namerecord>\n';
+-		con += '   <namerecord nameID="8" platformID="1" platEncID="0" langID="0x0">'+md.manufacturername+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="9" platformID="1" platEncID="0" langID="0x0">'+md.designername+'</namerecord>\n';
+-		con += '   <namerecord nameID="10" platformID="1" platEncID="0" langID="0x0">'+md.description+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="11" platformID="1" platEncID="0" langID="0x0">'+md.manufacturerurl+'</namerecord>\n';
+-		con += '   <namerecord nameID="12" platformID="1" platEncID="0" langID="0x0">'+md.designerurl+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="13" platformID="1" platEncID="0" langID="0x0">'+md.licensedescription+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="14" platformID="1" platEncID="0" langID="0x0">'+md.licenseurl+'</namerecord>\n';
+-		con += '   <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">'+md.copyright+'</namerecord>\n';
+-		con += '   <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">'+md.familyname+'</namerecord>\n';
+-		con += '   <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">'+md.subfamilyname+'</namerecord>\n';
+-		con += '   <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">'+(md.fullname+' ; '+md.version)+'</namerecord>\n';
+-		con += '   <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">'+md.fullname+'</namerecord>\n';
+-		con += '   <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">'+md.version+'</namerecord>\n';
+-		con += '   <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">'+md.fullname+'</namerecord>\n';
+-		con += '   <namerecord nameID="8" platformID="3" platEncID="1" langID="0x409">'+md.manufacturername+'</namerecord>\n';
+-		con += '   <namerecord nameID="9" platformID="3" platEncID="1" langID="0x409">'+md.designername+'</namerecord>\n';
+-		con += '   <namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">'+md.description+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">'+md.manufacturerurl+'</namerecord>\n';
+-		con += '   <namerecord nameID="12" platformID="3" platEncID="1" langID="0x409">'+md.designerurl+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="13" platformID="3" platEncID="1" langID="0x409">'+md.licensedescription+'</namerecord>\n'; //ADDED
+-		con += '   <namerecord nameID="14" platformID="3" platEncID="1" langID="0x409">'+md.licenseurl+'</namerecord>\n';
+-		con += '</name>\n\n\n';
+
 		return con;
 	}
+
 
 	function genTable_cmap(oa){
 		var con = '<cmap>';
