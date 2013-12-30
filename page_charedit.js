@@ -726,7 +726,7 @@
 				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
 				
 				content += "<td class='layername'>" + uistate.shapelayers[i].name ;
-				if(uistate.shapelayers[i].seed) { content += "&nbsp;&nbsp;<span class='unit'>[seed]</span>"; }
+				if(uistate.shapelayers[i].seed) { content += "<span class='layernote'>[seed shape]</span>"; }
 				content += "</td></tr>";
 			}
 			content += "</table>";

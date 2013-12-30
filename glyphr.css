@@ -604,10 +604,18 @@
 	}
 
 	.layername{
-		padding:10px 0px 0px 10px;
+		padding:6px 0px 6px 10px;
 		height: 45px;
 		text-align: left;
-		font-size: 26px;
+		font-size: 24px;
+	}
+
+	.layernote {
+		font-size: .4em;
+		color:white;
+		display: block;
+		margin-top:4px;
+		clear: both;
 	}
 
 	.layerthumb {
