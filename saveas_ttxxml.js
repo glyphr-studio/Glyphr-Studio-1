@@ -600,6 +600,7 @@
 			con += '<map code="0x7c" name="bar"/> ';
 			con += '<map code="0x7d" name="braceright"/> ';
 			con += '<map code="0x7e" name="asciitilde"/> ';
+			/*
 			con += '<map code="0xa0" name="uni00A0"/> ';
 			con += '<map code="0xa1" name="exclamdown"/> ';
 			con += '<map code="0xa2" name="cent"/> ';
@@ -758,6 +759,7 @@
 			con += '<map code="0x25ca" name="lozenge"/> ';
 			con += '<map code="0xfb01" name="fi"/> ';
 			con += '<map code="0xfb02" name="fl"/> ';
+			*/
 		con += '</cmap_format_4>';
 		con += '<cmap_format_6 platformID="1" platEncID="0" language="0">';
 			con += '<map code="0x9" name="space"/>';
@@ -878,6 +880,7 @@
 			con += '<map code="0x7c" name="bar"/>';
 			con += '<map code="0x7d" name="braceright"/>';
 			con += '<map code="0x7e" name="asciitilde"/>';
+			/*
 			con += '<map code="0x7f" name=".notdef"/>';
 			con += '<map code="0x80" name="Adieresis"/>';
 			con += '<map code="0x81" name="Aring"/>';
@@ -1007,6 +1010,7 @@
 			con += '<map code="0xfd" name="hungarumlaut"/>';
 			con += '<map code="0xfe" name="ogonek"/>';
 			con += '<map code="0xff" name="caron"/>';
+			*/
 		con += '</cmap_format_6>';
 		con += '<cmap_format_4 platformID="3" platEncID="1" language="0">';
 			con += '<map code="0x20" name="space"/>';
@@ -1104,6 +1108,7 @@
 			con += '<map code="0x7c" name="bar"/>';
 			con += '<map code="0x7d" name="braceright"/>';
 			con += '<map code="0x7e" name="asciitilde"/>';
+			/*
 			con += '<map code="0xa0" name="uni00A0"/>';
 			con += '<map code="0xa1" name="exclamdown"/>';
 			con += '<map code="0xa2" name="cent"/>';
@@ -1262,6 +1267,7 @@
 			con += '<map code="0x25ca" name="lozenge"/>';
 			con += '<map code="0xfb01" name="fi"/>';
 			con += '<map code="0xfb02" name="fl"/>';
+			*/
 		con += '</cmap_format_4>';
 
 		
