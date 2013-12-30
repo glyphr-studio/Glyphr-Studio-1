@@ -762,6 +762,7 @@
 			*/
 		con += '</cmap_format_4>';
 		con += '<cmap_format_6 platformID="1" platEncID="0" language="0">';
+			/*
 			con += '<map code="0x9" name="space"/>';
 			con += '<map code="0xa" name=".notdef"/>';
 			con += '<map code="0xb" name=".notdef"/>';
@@ -785,6 +786,7 @@
 			con += '<map code="0x1d" name=".notdef"/>';
 			con += '<map code="0x1e" name=".notdef"/>';
 			con += '<map code="0x1f" name=".notdef"/>';
+			*/
 			con += '<map code="0x20" name="space"/>';
 			con += '<map code="0x21" name="exclam"/>';
 			con += '<map code="0x22" name="quotedbl"/>';
