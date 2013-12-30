@@ -1294,13 +1294,14 @@
 	}
 
 	function genTable_cff(oa){
+		var md = _G.fontsettings;
 		var con = '<CFF>';
-		con += '<CFFFont name="HoboStd">';
+		con += '<CFFFont name="'+md.familyname+'">';
 		con += '<version value="002.000"/>';
-		con += '<Notice value="Copyright 1987, 1990, 1994, 2001, 2002 Adobe Systems Incorporated. All rights reserved. Hobo"/>';
-		con += '<FullName value="Hobo Std Medium"/>';
-		con += '<FamilyName value="Hobo Std"/>';
-		con += '<Weight value="Medium"/>';
+		con += '<Notice value="'+md.copyright+'"/>';
+		con += '<FullName value="'+md.fullname+'"/>';
+		con += '<FamilyName value="'+md.familyname+'"/>';
+		con += '<Weight value="'+md.weghtclass+'"/>';
 		con += '<isFixedPitch value="0"/>';
 		con += '<ItalicAngle value="0"/>';
 		con += '<UnderlineThickness value="50"/>';
