@@ -28,6 +28,7 @@
 	function navigate(){
 		//debug("<b>>>NAVIGATE STARTED</b> - to " + uistate.navhere);
 
+
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
 		document.getElementById("mainpane").style.marginLeft = "470px";
@@ -38,7 +39,7 @@
 		if(uistate.navhere=="test drive") uistate.navprimaryhere = "npAttributes";
 		
 		updateNavPrimaryNavTarget();
-		
+
 		switch(uistate.navhere){
 			case "firstrun":		updatefirstrun();		break;	
 			case "font settings":	updatefontsettings();	break;
@@ -73,11 +74,13 @@
 		
 		document.body.focus();
 		
-		debug("\tNAVIGATE FINISHED - to " + uistate.navhere);
+
+		debug("\nNAVIGATE FINISHED - to " + uistate.navhere + "\n");
 
 	}
 	
 	function updateNavPrimaryNavTarget(){
+
 		document.getElementById("navprimarypane").innerHTML = generateNavPrimaryOptions();
 		drawNavPrimaryOptions();
 		
@@ -90,6 +93,7 @@
 				return;
 		}
 				
+		
 		switch(uistate.navprimaryhere){
 			case "npNav":
 				nt.innerHTML = generateNavTargetOptions();

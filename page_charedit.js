@@ -49,7 +49,6 @@
 		ccon += "</div>";
 		
 		//debug("UPDATESELECTCHAR - selectchardrawarr.length = " + selectchardrawarr.length);
-		
 		return ccon;
 	}	
 
@@ -61,11 +60,11 @@
 		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (scthumbgutter+(fs.upm*factor));
 		
-		debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
+		//debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
 		
 		for(var sc=0; sc<selectchardrawarr.length; sc++){
 			var tc = selectchardrawarr[sc];
-			debug("---------------------- i: " + sc + " id: " + tc);
+			//debug("---------------------- i: " + sc + " id: " + tc);
 			var scan = document.getElementById("cs"+tc);
 			scan.width = scthumbsize;
 			scan.height = scthumbsize;
@@ -110,7 +109,12 @@
 		uistate.selectedchar = c;
 		uistate.shapelayers = _G.fontchars[c].charshapes;
 		uistate.selectedshape = -1;
-		dontnavigate? true : navigate();
+
+		debug("SELECTCHAR: shapelayers is now " + JSON.stringify(uistate.shapelayers));
+		if(!dontnavigate){
+			debug("SELECTCHAR: selecting " + _G.fontchars[c].charvalue + " and navigating.");
+			navigate();
+		}
 	}
 
 	function setupGhostCanvas(){
@@ -710,6 +714,7 @@
 		content += "<div style='height:7px; display:block;'></div>";
 
 		if(uistate.shapelayers.length > 0){
+			debug("UPDATELAYERS: shapelayers is now " + JSON.stringify(uistate.shapelayers));
 			content += "<table class='layertable'>"
 			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
 				if(i==uistate.selectedshape){
@@ -727,7 +732,7 @@
 			}
 			content += "</table>";
 		} else {
-			//debug("UPDATELAYERS() - Shapelayers.length = Zero");
+			debug("UPDATELAYERS: Shapelayers.length = Zero");
 			content += "<div style='margin-left:10px; font-style:oblique;'>No shapes exist yet.<br><br></div>";
 		}
 		
@@ -738,6 +743,7 @@
 		content += updateLayerActions();
 		
 		try {
+			debug("UPDATELAYERS: final html content: \n " + content);
 			document.getElementById("navtargetpane").innerHTML = content;	
 		} catch(err) {
 			debug("UPDATELAYERS - <b>innerHTML update error caught</b>");

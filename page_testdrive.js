@@ -71,13 +71,13 @@
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
 		var fs = _G.fontsettings;
 		var tc = _G.fontchars[charcode];
-		uistate.shapelayers = tc.charshapes;
+		var sl = tc.charshapes;
 		var width = 0;
 		//debug("DRAWCHARTOAREA - starting " + charcode);
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
-			uistate.shapelayers = [_G.seedshapes[charcode].shape];
+			sl = [_G.seedshapes[charcode].shape];
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 
@@ -98,8 +98,8 @@
 		
 		var sh = {};
 		lctx.beginPath();
-		for(var j=0; j<uistate.shapelayers.length; j++) {
-			sh = uistate.shapelayers[j];
+		for(var j=0; j<sl.length; j++) {
+			sh = sl[j];
 			//debug("---------------- starting shape " + sh.name);
 			sh.drawShapeToArea_Stack(lctx, size, offsetX, offsetY);
 		}
