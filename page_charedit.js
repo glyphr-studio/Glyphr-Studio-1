@@ -1,4 +1,8 @@
 
+//-------------------
+// UBER FUCNTIONS
+//-------------------
+
 	function updatecharedit(){
 		document.getElementById("mainpane").innerHTML = charedit_content();
 			
@@ -178,29 +182,31 @@
 		
 		var sh;
 		for(var jj=0; jj<uistate.shapelayers.length; jj++) {
-			//debug("================ shape " + jj + "/" + uistate.shapelayers.length);
 			
 			sh = uistate.shapelayers[jj];
-			//debug("================ JSON: " + JSON.stringify(sh));
 			
-			sh.drawShape_Stack(uistate.chareditctx);
-			
+			if(uistate.eventhandlers.temppathdragshape){
+				if(jj!==uistate.selectedshape){
+					sh.drawShape_Stack(uistate.chareditctx);
+				}
+			} else {
+				sh.drawShape_Stack(uistate.chareditctx);
+			}
+
+			// Recompute Right Hand Line
 			if(neww) {
 				var thisrightx = 0;
 				if(sh.seed){
 					var tss = _G.seedshapes[sh.seed].shape;
 					if(sh.useseedxy) {
 						thisrightx = tss.path.rightx;
-						//debug("REDRAW - useseedxy=true, thisrightx set to: " + thisrightx);
 					} else {
 						thisrightx = (tss.path.rightx + sh.xpos);
-						//debug("REDRAW - useseedxy=false, thisrightx set to: " + thisrightx);
 					}
 				} else {
 					thisrightx = sh.path.rightx;
 				}
 				fc[uistate.selectedchar].charwidth = Math.max(fc[uistate.selectedchar].charwidth, thisrightx);
-				//debug("REDRAW - charwidth as of shape# " + jj + " set to: " + fc[uistate.selectedchar].charwidth);
 			}
 		}
 
@@ -210,11 +216,9 @@
 
 		var s = ss("Redraw");
 		if(s) {
-			//debug("REDRAW - selected shape .seed: " + s.seed + " which evals as: " + (s.seed!=false) );
 			s.drawselectoutline(s.seed != false);
 							
 			if(s.seed){
-				//debug("REDRAW - detected this.seed, setting uistate.selectedtool = shaperesize");
 				uistate.selectedtool = "shaperesize";
 			}
 		}
@@ -236,22 +240,6 @@
 			if(neww){rhl += (_G.fontsettings.upm*_G.fontsettings.kerning*uistate.chareditcanvassettings.zoom) }
 			vertical(rhl);
 		}
-		
-		/*
-		// debug points
-		if(uistate.debugpoints[0]){
-			for(var s=0; s<uistate.debugpoints[0].path.pathpoints.length; s++){ 
-				uistate.debugpoints[0].path.pathpoints[s].drawPoint("lime"); 
-				uistate.debugpoints[0].path.pathpoints[s].drawHandles(true, true);
-			}
-		}
-		if(uistate.debugpoints[1]){
-			for(var s=0; s<uistate.debugpoints[1].path.pathpoints.length; s++){ 
-				uistate.debugpoints[1].path.pathpoints[s].drawPoint("lime"); 
-				uistate.debugpoints[1].path.pathpoints[s].drawHandles(true, true);
-			}
-		}
-		*/
 	}
 
 	

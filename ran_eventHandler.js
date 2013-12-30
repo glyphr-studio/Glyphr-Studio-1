@@ -206,10 +206,9 @@
 			newshape.name = (uistate.selectedtool=="newrect")? ("rect " + (uistate.shapelayers.length+1)) : ("oval " + (uistate.shapelayers.length+1));
 			uistate.selectedshape = uistate.shapelayers.length;
 			uistate.shapelayers.push(newshape);
-		
-			var s = ss("eventHandler - newbasicshape mousedown");
-			s.path.setLeftX(cx_sx(uistate.eventhandlers.mousex));
-			s.path.setTopY(cy_sy(uistate.eventhandlers.mousey));
+			newshape.path.setLeftX(cx_sx(uistate.eventhandlers.mousex));
+			newshape.path.setTopY(cy_sy(uistate.eventhandlers.mousey));
+			
 			uistate.eventhandlers.temppathdragshape = {
 				"leftx": cx_sx(uistate.eventhandlers.mousex),
 				"rightx": cx_sx(uistate.eventhandlers.mousex),
@@ -217,8 +216,6 @@
 				"bottomy": cy_sy(uistate.eventhandlers.mousey)
 			};
 
-			s.hidden = true;
-			
 			this.dragging = true;
 			uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
 			uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
@@ -229,8 +226,21 @@
 		}
 		
 		this.mouseup = function () { 
+			
 			var s = ss("eventHandler - newbasicshape mouseup");
+			
+			// prevent really small shapes
+			if ( (Math.abs(uistate.eventhandlers.lastx - uistate.eventhandlers.firstx) < _G.projectsettings.pointsize) &&
+				(Math.abs(uistate.eventhandlers.lasty - uistate.eventhandlers.firsty) < _G.projectsettings.pointsize) ){
 				
+				uistate.eventhandlers.temppathdragshape = {
+					"leftx": s.path.leftx,
+					"rightx": s.path.rightx,
+					"topy": s.path.topy,
+					"bottomy": s.path.bottomy
+				};
+			}
+
 			if(uistate.selectedtool=="newrect"){				
 				//debug("NEWBASICSHAPE MOUSEUP - reading TPDS lx-ty-rx-by: " + lx + " : " + ty + " : " + rx + " : " + by);
 				s.path = rectPathFromCorners(uistate.eventhandlers.temppathdragshape);
@@ -245,7 +255,6 @@
 			uistate.eventhandlers.firstx = -100;
 			uistate.eventhandlers.firsty = -100;
 			uistate.eventhandlers.temppathdragshape = false;
-			s.hidden = false;
 			putundoq("New Basic Shape tool");
 			
 			uistate.showrightline = true;
