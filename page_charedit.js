@@ -714,7 +714,6 @@
 		content += "<div style='height:7px; display:block;'></div>";
 
 		if(uistate.shapelayers.length > 0){
-			debug("UPDATELAYERS: shapelayers is now " + JSON.stringify(uistate.shapelayers));
 			content += "<table class='layertable'>"
 			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
 				if(i==uistate.selectedshape){
@@ -732,7 +731,6 @@
 			}
 			content += "</table>";
 		} else {
-			debug("UPDATELAYERS: Shapelayers.length = Zero");
 			content += "<div style='margin-left:10px; font-style:oblique;'>No shapes exist yet.<br><br></div>";
 		}
 		
@@ -761,7 +759,15 @@
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = uistate.colors.offwhite;
 				if(i == uistate.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-				uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+
+				//only draw the thumbs if it's not a temppathdragshape
+				if(uistate.eventhandlers.temppathdragshape){
+					if(i!==uistate.selectedshape){
+						uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+					}
+				} else {
+					uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+				}					
 			}
 		}
 	}
