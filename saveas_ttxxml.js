@@ -37,20 +37,6 @@
 		return con;
 	}
 
-	function genCharStringsPostScript(){
-		var con = '<CharString name=".notdef">endchar</CharString>';
-
-		for(var tc=32; tc<_G.fontchars.length; tc++){
-			con += '<CharString name="' + _G.fontchars[tc].charname + '">';
-			for(var ts=0; ts<_G.fontchars[tc].charshapes.length){
-				con += _G.fontchars[tc].charshapes[ts].genPostScript();
-			}
-			con += 'endchar';
-			con += '</CharString>';
-		}
-
-		return con;
-	}
 
 
 	function genTable_glyphorder(oa){
@@ -309,6 +295,22 @@
 		return con;
 	}
 
+	function genCharStringsPostScript(){
+		var con = '<CharString name=".notdef">endchar</CharString>';
+		for(var tc=32; tc<_G.fontchars.length; tc++){
+			con += '<CharString name="' + _G.fontchars[tc].charname + '">';
+
+			for(var ts=0; ts<_G.fontchars[tc].charshapes.length; ts++){
+				con += _G.fontchars[tc].charshapes[ts].genPostScript();
+			}
+			
+			con += 'endchar';
+			con += '</CharString>';
+		}
+		return con;
+	}
+
+
 	function genTable_hmtx(oa){
 		var con = '<hmtx>';
 		con += '<mtx name=".notdef" width="500" lsb="0"/>';
@@ -320,4 +322,4 @@
 		con += '</hmtx>';
 		return con;
 	}
-	
+

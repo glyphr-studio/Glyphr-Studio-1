@@ -362,7 +362,7 @@
 	}
 
 	function genPostScript(){
-		return this.path.genPathPostScript();
+		return this.path? this.path.genPathPostScript() : "";
 	}
 	
 	
