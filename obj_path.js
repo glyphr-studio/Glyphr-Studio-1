@@ -145,8 +145,8 @@
 		if(!this.pathpoints) return " ";
 
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
-		var p1ppx = sx_cx(this.pathpoints[0].P.x);
-		var p1ppy = sy_cy(this.pathpoints[0].P.y);
+		var p1ppx = this.pathpoints[0].P.x;
+		var p1ppy = this.pathpoints[0].P.y;
 
 		var re = "" + p1ppx + " " + p1ppy + " rmoveto ";
 		
