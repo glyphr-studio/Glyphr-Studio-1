@@ -297,11 +297,22 @@
 
 	function genCharStringsPostScript(){
 		var con = '<CharString name=".notdef">endchar</CharString>';
+		var lastx, lasty;
+
 		for(var tc=32; tc<_G.fontchars.length; tc++){
 			con += '<CharString name="' + _G.fontchars[tc].charname + '">';
+			lastx = 0;
+			lasty = 0;
+			rvar = {};
+
+			debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _G.fontchars[tc].charname);
 
 			for(var ts=0; ts<_G.fontchars[tc].charshapes.length; ts++){
-				con += _G.fontchars[tc].charshapes[ts].genPostScript();
+				rvar = _G.fontchars[tc].charshapes[ts].genPostScript(lastx, lasty);
+				debug("path " + ts + " returning \t " + JSON.stringify(rvar));
+				con += rvar.re;
+				lastx = rvar.lastx;
+				lasty = rvar.lasty;
 			}
 			
 			con += 'endchar';

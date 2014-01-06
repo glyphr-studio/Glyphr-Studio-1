@@ -213,16 +213,16 @@
 		}
 	}
 	
-	function genSeedPostScript(){
+	function genSeedPostScript(lastx, lasty){
 		//debug("GENSEEDPOSTSCRIPT");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
-			return _G.seedshapes[this.seed].shape.path.genPathPostScript();
+			return _G.seedshapes[this.seed].shape.path.genPathPostScript(lastx, lasty);
 		} else {
 			//debug("------------- does not useseedxy, calling FORCE=true updatepathposition");
 			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
-			return ns.path.genPathPostScript();
+			return ns.path.genPathPostScript(lastx, lasty);
 		}
 	}
 	

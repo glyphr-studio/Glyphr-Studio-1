@@ -141,14 +141,14 @@
 		uistate.chareditcanvassettings.zoom = tempz;	
 	}
 	
-	function genPathPostScript(){
-		if(!this.pathpoints) return " ";
+	function genPathPostScript(lastx, lasty){
+		if(!this.pathpoints) return {"re":"", "lastx":lastx, "lasty":lasty};
 
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
-		var lastx = this.pathpoints[0].P.x;
-		var lasty = this.pathpoints[0].P.y;
 		var trr = "";
 
+		lastx = this.pathpoints[0].P.x - lastx;
+		lasty = this.pathpoints[0].P.y - lasty;
 		var re = "" + lastx + " " + lasty + " rmoveto ";
 		
 		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
@@ -174,7 +174,11 @@
 			lasty = p2.P.y;
 		}
 
-		return re;
+		return {
+			"re" : re,
+			"lastx" : lastx,
+			"lasty" : lasty
+			};
 	}
 	
 	function isOverControlPoint(x, y){

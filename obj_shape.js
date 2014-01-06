@@ -361,8 +361,8 @@
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 	}
 
-	function genPostScript(){
-		return this.path? this.path.genPathPostScript() : "";
+	function genPostScript(lastx, lasty){
+		return this.path? this.path.genPathPostScript(lastx, lasty) : {"re":"", "lastx":lastx, "lasty":lasty};
 	}
 	
 	
