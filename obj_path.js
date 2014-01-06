@@ -147,24 +147,29 @@
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
 		var p1ppx = sx_cx(this.pathpoints[0].P.x);
 		var p1ppy = sy_cy(this.pathpoints[0].P.y);
-		var r1, r2, r3, r4, r5, r6;
 
 		var re = "" + p1ppx + " " + p1ppy + " rmoveto ";
+		
+		var lastx = p1ppx;
+		var lasty = p1ppy;
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-			p1ppx = p1.P.x;
-			p1ppy = p1.P.y;
-			p1h2x = p1.useh2? p1.H2.x : p1.P.x;
-			p1h2y = p1.useh2? p1.H2.y : p1.P.y;
-			p2h1x = p2.useh1? p2.H1.x : p2.P.x;
-			p2h1y = p2.useh1? p2.H1.y : p2.P.y;
-			p2ppx = p2.P.x;
-			p2ppy = p2.P.y;
+			p1ppx = (p1.P.x - lastx);
+			p1ppy = (p1.P.y - lasty);
+			p1h2x = p1.useh2? (p1.H2.x - p1ppx) : (p1.P.x - p1ppx);
+			p1h2y = p1.useh2? (p1.H2.y - p1ppy) : (p1.P.y - p1ppy);
+			p2h1x = p2.useh1? (p2.H1.x - p1h2x) : (p2.P.x - p1h2x);
+			p2h1y = p2.useh1? (p2.H1.y - p1h2y) : (p2.P.y - p1h2y);
+			p2ppx = (p2.P.x - p2h1x);
+			p2ppy = (p2.P.y - p2h1y);
 
-			re += p1h2x + " " + p1h2y + " " + p2h1x + " " + p2h1y + " " + p2ppx + " " + p2ppy + " rrcurveto "; 
+			re += p1h2x + " " + p1h2y + " " + p2h1x + " " + p2h1y + " " + p2ppx + " " + p2ppy + " rrcurveto ";
+
+			lastx = p2ppx;
+			lasty = p2ppy;
 		}
 
 		return re;
