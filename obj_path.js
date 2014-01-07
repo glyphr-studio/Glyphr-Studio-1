@@ -147,9 +147,7 @@
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
 		var trr = "";
 
-		lastx = this.pathpoints[0].P.x - lastx;
-		lasty = this.pathpoints[0].P.y - lasty;
-		var re = "" + lastx + " " + lasty + " rmoveto ";
+		var re = "" + (this.pathpoints[0].P.x - lastx) + " " + (this.pathpoints[0].P.y - lasty) + " rmoveto ";
 		
 		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
 
@@ -157,8 +155,8 @@
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-			p1h2x = p1.useh2? (p1.H2.x - lastx) : (p1.P.x - lastx);
-			p1h2y = p1.useh2? (p1.H2.y - lasty) : (p1.P.y - lasty);
+			p1h2x = p1.useh2? (p1.H2.x - p1.P.x) : 0;
+			p1h2y = p1.useh2? (p1.H2.y - p1.P.y) : 0;
 			p2h1x = p2.useh1? (p2.H1.x - (p1.useh2? p1.H2.x : p1.P.x)) : (p2.P.x - (p1.useh2? p1.H2.x : p1.P.x));
 			p2h1y = p2.useh1? (p2.H1.y - (p1.useh2? p1.H2.y : p1.P.y)) : (p2.P.y - (p1.useh2? p1.H2.y : p1.P.y));
 			p2ppx = (p2.P.x - (p2.useh1? p2.H1.x : p2.P.x));
@@ -169,15 +167,12 @@
 			//debug("\t " + trr);
 
 			re += trr;
-
-			lastx = p2.P.x;
-			lasty = p2.P.y;
 		}
 
 		return {
 			"re" : re,
-			"lastx" : lastx,
-			"lasty" : lasty
+			"lastx" : p2.P.x,
+			"lasty" : p2.P.y
 			};
 	}
 	
