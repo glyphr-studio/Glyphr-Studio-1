@@ -60,17 +60,17 @@
 		var con = '<head>';
 		//con += '<!-- Most of this table will be recalculated by the compiler -->';
 		con += '<tableVersion value="1.0"/>';
-		con += '<fontRevision value="2.04098510742"/>';
+		con += '<fontRevision value="2.04098510742"/>';				// VAR VERSION
 		con += '<checkSumAdjustment value="0xfd4639aa"/>';
 		con += '<magicNumber value="0x5f0f3cf5"/>';
 		con += '<flags value="00000000 00000011"/>';
-		con += '<unitsPerEm value="2024"/>';										// UPM?
-		con += '<created value="Tue Jul 28 19:44:19 2009"/>';
-		con += '<modified value="Tue Jul 28 19:44:19 2009"/>';
-		con += '<xMin value="-100"/>';
-		con += '<yMin value="-100"/>';
-		con += '<xMax value="4048"/>';												// UPM?
-		con += '<yMax value="4048"/>';
+		con += '<unitsPerEm value="2100"/>';						// VAR UPM?
+		con += '<created value="Tue Jul 28 19:44:19 2009"/>';		// VAR CREATED DATE
+		con += '<modified value="Tue Jul 28 19:44:19 2009"/>';		// COMPUTED SAVE DATE
+		con += '<xMin value="-100"/>';								// COMPUTED
+		con += '<yMin value="-100"/>';								// COMPUTED
+		con += '<xMax value="4048"/>';								// COMPUTED
+		con += '<yMax value="4048"/>';								// COMPUTED
 		con += '<macStyle value="00000000 00000000"/>';
 		con += '<lowestRecPPEM value="3"/>';
 		con += '<fontDirectionHint value="2"/>';
@@ -84,23 +84,25 @@
 	function genTable_hhea(oa){
 		var con = '<hhea>';
 		con += '<tableVersion value="1.0"/>';
-		con += '<ascent value="2024"/>';							// UPM??
-		con += '<descent value="-147"/>';
-		con += '<lineGap value="200"/>';
-		con += '<advanceWidthMax value="2024"/>';				// UPM?
-		con += '<minLeftSideBearing value="-123"/>';
-		con += '<minRightSideBearing value="-124"/>';
-		con += '<xMaxExtent value="1264"/>';
+		con += '<ascent value="2100"/>';					// COMPUTED - distance from the baseline to the highest ascender
+		con += '<descent value="-147"/>';					// COMPUTED - distance from the baseline to the lowest descender
+		con += '<lineGap value="200"/>';					// VAR
+		con += '<advanceWidthMax value="2100"/>';			// COMPUTED - max advance width from hmtx table
+		con += '<minLeftSideBearing value="-123"/>';		// COMPUTED - min lsb from hmtx
+		con += '<minRightSideBearing value="-124"/>';		// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
+		con += '<xMaxExtent value="2100"/>';				// COMPUTED - MAX(lsb + (xMax - xMin))
+		// italics
 		con += '<caretSlopeRise value="1"/>';
 		con += '<caretSlopeRun value="0"/>';
 		con += '<caretOffset value="0"/>';
+		// reserved = 0
 		con += '<reserved0 value="0"/>';
 		con += '<reserved1 value="0"/>';
 		con += '<reserved2 value="0"/>';
 		con += '<reserved3 value="0"/>';
 		con += '<metricDataFormat value="0"/>';
 
-		// GLYPH COUNT!!!
+		// # entries in the hmtx table: GLYPH COUNT!!!
 		con += '<numberOfHMetrics value="95"/>';		
 		
 		con += '</hhea>';
@@ -121,10 +123,12 @@
 	function genTable_os_2(oa){
 		var con = '<OS_2>';
 		con += '<version value="3"/>';
-		con += '<xAvgCharWidth value="2024"/>';			// UPM??
-		con += '<usWeightClass value="500"/>';
-		con += '<usWidthClass value="5"/>';
+		con += '<xAvgCharWidth value="2100"/>';			// COMPUTED
+		con += '<usWeightClass value="500"/>';			// VAR weight class
+		con += '<usWidthClass value="5"/>';				// VAR width class
 		con += '<fsType value="00000000 00001000"/>';
+
+		// Subscript
 		con += '<ySubscriptXSize value="650"/>';
 		con += '<ySubscriptYSize value="600"/>';
 		con += '<ySubscriptXOffset value="0"/>';
@@ -136,35 +140,37 @@
 		con += '<yStrikeoutSize value="50"/>';
 		con += '<yStrikeoutPosition value="384"/>';
 		con += '<sFamilyClass value="0"/>';
-		con += '<panose>';
-			con += '<bFamilyType value="2"/>';
-			con += '<bSerifStyle value="11"/>';
-			con += '<bWeight value="8"/>';
-			con += '<bProportion value="3"/>';
-			con += '<bContrast value="4"/>';
-			con += '<bStrokeVariation value="7"/>';
-			con += '<bArmStyle value="9"/>';
-			con += '<bLetterForm value="2"/>';
-			con += '<bMidline value="2"/>';
-			con += '<bXHeight value="4"/>';
+		con += '<panose>';								// http://www.monotypeimaging.com/ProductsServices/pan1.aspx
+			con += '<bFamilyType value="2"/>';			// 2 = Latin
+			con += '<bSerifStyle value="0"/>';			// 0 = 'any' ...
+			con += '<bWeight value="0"/>';
+			con += '<bProportion value="0"/>';
+			con += '<bContrast value="0"/>';
+			con += '<bStrokeVariation value="0"/>';
+			con += '<bArmStyle value="0"/>';
+			con += '<bLetterForm value="0"/>';
+			con += '<bMidline value="0"/>';
+			con += '<bXHeight value="0"/>';
 		con += '</panose>';
-		con += '<ulUnicodeRange1 value="00000000 00000000 00000000 00000011"/>';
+		con += '<ulUnicodeRange1 value="00000000 00000000 00000000 00000001"/>';
 		con += '<ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>';
 		con += '<ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>';
 		con += '<ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>';
-		con += '<achVendID value="ADBE"/>';
+		con += '<achVendID value=""/>';
 		con += '<fsSelection value="00000000 00000000"/>';
 		con += '<fsFirstCharIndex value="32"/>';
 		con += '<fsLastCharIndex value="64258"/>';
-		con += '<sTypoAscender value="853"/>';
-		con += '<sTypoDescender value="-147"/>';
+
+		// Line Metrics
+		con += '<sTypoAscender value="853"/>';			// COMPUTED top of text frame to the next baseline
+		con += '<sTypoDescender value="-147"/>';		// COMPUTED asc - dsc = em
 		con += '<sTypoLineGap value="200"/>';
-		con += '<usWinAscent value="2024"/>';			// UPM??
-		con += '<usWinDescent value="315"/>';
+		con += '<usWinAscent value="2100"/>';			// COMPUTED yMax for all chars
+		con += '<usWinDescent value="315"/>';			// COMPUTED yMin for all chars
 		con += '<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>';
 		con += '<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>';
-		con += '<sxHeight value="640"/>';
-		con += '<sCapHeight value="832"/>';
+		con += '<sxHeight value="640"/>';				// COMPUTED - xheight
+		con += '<sCapHeight value="832"/>';				// COMPUTED - Hheight
 		con += '<usDefaultChar value="0"/>';
 		con += '<usBreakChar value="32"/>';
 		con += '<usMaxContex value="4"/>';
@@ -267,8 +273,8 @@
 		con += '<PaintType value="0"/>';
 		con += '<CharstringType value="2"/>';
 		con += '<FontMatrix value="0.001 0 0 0.001 0 0"/>';
-		con += '<FontBBox value="-100 -100 2024 2024"/>';			// UPM??
-		//con += '<FontBBox value="-123 -315 1264 1101"/>';			// UPM??
+		con += '<FontBBox value="0 0 2100 2100"/>';				// UPM??
+		//con += '<FontBBox value="-123 -315 1264 1101"/>';		// UPM??
 		con += '<StrokeWidth value="0"/>';
 		con += '<Encoding name="StandardEncoding"/>';
 		con += '<Private>';
@@ -327,10 +333,10 @@
 
 	function genTable_hmtx(oa){
 		var con = '<hmtx>';
-		con += '<mtx name=".notdef" width="2024" lsb="0"/>';
+		con += '<mtx name=".notdef" width="2100" lsb="0"/>';
 
 		for(var tc=32; tc<_G.fontchars.length; tc++){
-			con += '<mtx name="' + _G.fontchars[tc].charname + '" width="2024" lsb="20"/>';			// UPM?
+			con += '<mtx name="' + _G.fontchars[tc].charname + '" width="2100" lsb="20"/>';			// UPM?
 		}
 
 		con += '</hmtx>';
