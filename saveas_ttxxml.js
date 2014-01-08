@@ -58,19 +58,19 @@
 
 	function genTable_head(oa){
 		var con = '<head>';
-		con += '<!-- Most of this table will be recalculated by the compiler -->';
+		//con += '<!-- Most of this table will be recalculated by the compiler -->';
 		con += '<tableVersion value="1.0"/>';
 		con += '<fontRevision value="2.04098510742"/>';
 		con += '<checkSumAdjustment value="0xfd4639aa"/>';
 		con += '<magicNumber value="0x5f0f3cf5"/>';
 		con += '<flags value="00000000 00000011"/>';
-		con += '<unitsPerEm value="1000"/>';
+		con += '<unitsPerEm value="2024"/>';										// UPM?
 		con += '<created value="Tue Jul 28 19:44:19 2009"/>';
 		con += '<modified value="Tue Jul 28 19:44:19 2009"/>';
-		con += '<xMin value="-123"/>';
-		con += '<yMin value="-315"/>';
-		con += '<xMax value="1264"/>';
-		con += '<yMax value="1101"/>';
+		con += '<xMin value="-100"/>';
+		con += '<yMin value="-100"/>';
+		con += '<xMax value="4048"/>';												// UPM?
+		con += '<yMax value="4048"/>';
 		con += '<macStyle value="00000000 00000000"/>';
 		con += '<lowestRecPPEM value="3"/>';
 		con += '<fontDirectionHint value="2"/>';
@@ -84,10 +84,10 @@
 	function genTable_hhea(oa){
 		var con = '<hhea>';
 		con += '<tableVersion value="1.0"/>';
-		con += '<ascent value="853"/>';
+		con += '<ascent value="2024"/>';							// UPM??
 		con += '<descent value="-147"/>';
 		con += '<lineGap value="200"/>';
-		con += '<advanceWidthMax value="1293"/>';
+		con += '<advanceWidthMax value="2024"/>';				// UPM?
 		con += '<minLeftSideBearing value="-123"/>';
 		con += '<minRightSideBearing value="-124"/>';
 		con += '<xMaxExtent value="1264"/>';
@@ -121,7 +121,7 @@
 	function genTable_os_2(oa){
 		var con = '<OS_2>';
 		con += '<version value="3"/>';
-		con += '<xAvgCharWidth value="553"/>';
+		con += '<xAvgCharWidth value="2024"/>';			// UPM??
 		con += '<usWeightClass value="500"/>';
 		con += '<usWidthClass value="5"/>';
 		con += '<fsType value="00000000 00001000"/>';
@@ -159,7 +159,7 @@
 		con += '<sTypoAscender value="853"/>';
 		con += '<sTypoDescender value="-147"/>';
 		con += '<sTypoLineGap value="200"/>';
-		con += '<usWinAscent value="1101"/>';
+		con += '<usWinAscent value="2024"/>';			// UPM??
 		con += '<usWinDescent value="315"/>';
 		con += '<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>';
 		con += '<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>';
@@ -267,10 +267,12 @@
 		con += '<PaintType value="0"/>';
 		con += '<CharstringType value="2"/>';
 		con += '<FontMatrix value="0.001 0 0 0.001 0 0"/>';
-		con += '<FontBBox value="-123 -315 1264 1101"/>';
+		con += '<FontBBox value="-100 -100 2024 2024"/>';			// UPM??
+		//con += '<FontBBox value="-123 -315 1264 1101"/>';			// UPM??
 		con += '<StrokeWidth value="0"/>';
 		con += '<Encoding name="StandardEncoding"/>';
 		con += '<Private>';
+		/*
 			con += '<BlueValues value="-15 0 832 847 640 655"/>';
 			con += '<OtherBlues value="-206 -200"/>';
 			con += '<BlueScale value="0.039625"/>';
@@ -284,6 +286,7 @@
 			con += '<initialRandomSeed value="0"/>';
 			con += '<defaultWidthX value="580"/>';
 			con += '<nominalWidthX value="607"/>';
+		*/
 		con += '</Private>';
 		con += '<CharStrings>';
 
@@ -324,10 +327,10 @@
 
 	function genTable_hmtx(oa){
 		var con = '<hmtx>';
-		con += '<mtx name=".notdef" width="500" lsb="0"/>';
+		con += '<mtx name=".notdef" width="2024" lsb="0"/>';
 
 		for(var tc=32; tc<_G.fontchars.length; tc++){
-			con += '<mtx name="' + _G.fontchars[tc].charname + '" width="1000" lsb="20"/>';
+			con += '<mtx name="' + _G.fontchars[tc].charname + '" width="2024" lsb="20"/>';			// UPM?
 		}
 
 		con += '</hmtx>';
