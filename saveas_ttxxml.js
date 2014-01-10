@@ -50,7 +50,7 @@
 			count++;
 		}
 
-		debug("EXPORT TTX - Loop Count = " + count);
+		//debug("EXPORT TTX - Loop Count = " + count);
 
 		con += '</GlyphOrder>';
 		return con;
@@ -245,9 +245,9 @@
 	function genTable_post(oa){
 		var con = '<post>';
 		con += '<formatType value="3.0"/>';
-		con += '<italicAngle value="0.0"/>';
-		con += '<underlinePosition value="-75"/>';
-		con += '<underlineThickness value="50"/>';
+		con += '<italicAngle value="0.0"/>';		// VAR
+		con += '<underlinePosition value="-75"/>';	// VAR
+		con += '<underlineThickness value="50"/>';	// VAR
 		con += '<isFixedPitch value="0"/>';
 		con += '<minMemType42 value="0"/>';
 		con += '<maxMemType42 value="0"/>';
@@ -273,7 +273,7 @@
 		con += '<PaintType value="0"/>';
 		con += '<CharstringType value="2"/>';
 		con += '<FontMatrix value="0.001 0 0 0.001 0 0"/>';
-		con += '<FontBBox value="0 0 2100 2100"/>';				// UPM??
+		con += '<FontBBox value="0 0 0 0"/>';				// UPM??
 		//con += '<FontBBox value="-123 -315 1264 1101"/>';		// UPM??
 		con += '<StrokeWidth value="0"/>';
 		con += '<Encoding name="StandardEncoding"/>';
