@@ -101,7 +101,7 @@
 		return canvasy;
 	}
 	
-	Shape.prototype.drawselectoutline = function(onlycenter){
+	Shape.prototype.drawSelectOutline = function(onlycenter){
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
 		var z = uistate.chareditcanvassettings.zoom;
@@ -427,11 +427,11 @@
 				uistate.selectedshape = uistate.selectedshape-1;
 			}
 		} else {
-			debug("DELETESHAPES - no shapes left");
+			//debug("DELETESHAPES - no shapes left");
 		}				
 		
 		if((uistate.selectedshape >= 0) && (uistate.shapelayers[uistate.selectedshape].seed)){
-			debug("DELETESHAPE - newly selected shape is seedshape, changing tool");
+			//debug("DELETESHAPE - newly selected shape is seedshape, changing tool");
 			uistate.selectedtool = "shaperesize";
 		}
 	}
@@ -454,7 +454,7 @@
 					uistate.selectedshape = j;				
 					
 					if(ts.seed){
-						debug("CLICKSELECTSHAPE - detected this.seed, setting uistate.selectedtool = shaperesize");
+						//debug("CLICKSELECTSHAPE - detected this.seed, setting uistate.selectedtool = shaperesize");
 						uistate.selectedtool = "shaperesize";
 					}
 				}
@@ -476,7 +476,7 @@
 		return (imageData.data[3] > 0);
 	}
 
-	Shape.prototype.isoverhandle = function(px,py){
+	Shape.prototype.isOverHandle = function(px,py){
 		//debug("ISOVERHANDLE() - checking x:" + px + " y:" + py);
 		
 		// Translation Fidelity - converting passed canvas values to saved value system
@@ -599,7 +599,7 @@
 
 	Shape.prototype.changeShapeName = function(sn){
 		sn = strSan(sn);
-		debug("CHANGESHAPENAME - sanitized name: " + sn);
+		//debug("CHANGESHAPENAME - sanitized name: " + sn);
 		if(sn != ""){
 			this.name = sn;
 			putundoq("shape name"); 

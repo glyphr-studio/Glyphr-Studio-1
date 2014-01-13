@@ -314,11 +314,11 @@
 			lasty = 0;
 			rvar = {};
 
-			debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _G.fontchars[tc].charname);
+			//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _G.fontchars[tc].charname);
 
 			for(var ts=0; ts<_G.fontchars[tc].charshapes.length; ts++){
 				rvar = _G.fontchars[tc].charshapes[ts].genPostScript(lastx, lasty);
-				debug("path " + ts + " returning \t " + JSON.stringify(rvar));
+				//debug("path " + ts + " returning \t " + JSON.stringify(rvar));
 				con += rvar.re;
 				lastx = rvar.lastx;
 				lasty = rvar.lasty;

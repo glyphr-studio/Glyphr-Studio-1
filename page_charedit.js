@@ -110,9 +110,9 @@
 		uistate.shapelayers = _G.fontchars[c].charshapes;
 		uistate.selectedshape = -1;
 
-		debug("SELECTCHAR: shapelayers is now " + JSON.stringify(uistate.shapelayers));
+		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(uistate.shapelayers));
 		if(!dontnavigate){
-			debug("SELECTCHAR: selecting " + _G.fontchars[c].charvalue + " and navigating.");
+			//debug("SELECTCHAR: selecting " + _G.fontchars[c].charvalue + " and navigating.");
 			navigate();
 		}
 	}
@@ -220,7 +220,7 @@
 
 		var s = ss("Redraw");
 		if(s) {
-			s.drawselectoutline(s.seed != false);
+			s.drawSelectOutline(s.seed != false);
 							
 			if(s.seed){
 				uistate.selectedtool = "shaperesize";
@@ -521,8 +521,8 @@
 		var shapeactions = "<td><h3>shape</h3>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Reverse Direction' onclick='ss().path.reversePath();putundoq(\"reverse path\");redraw();'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipns();putundoq(\"flip shape vertical\");redraw();'><br>";
+			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"flip shape horizontal\");redraw();'><br>";
+			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"flip shape vertical\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"delete shape\");redraw();'><br>";
 
 			shapeactions += "</td>";
@@ -639,7 +639,7 @@
 			
 			if(newshape.seed){
 				addToUsedIn(newshape.seed, uistate.selectedchar);
-				debug("PASTESHAPE - pasted a seedshape, added " + uistate.selectedchar + " to usedin array.");
+				//debug("PASTESHAPE - pasted a seedshape, added " + uistate.selectedchar + " to usedin array.");
 			}
 
 			addShape(newshape);
@@ -739,10 +739,10 @@
 		content += updateLayerActions();
 		
 		try {
-			debug("UPDATELAYERS: final html content: \n " + content);
+			//debug("UPDATELAYERS: final html content: \n " + content);
 			document.getElementById("navtargetpane").innerHTML = content;	
 		} catch(err) {
-			debug("UPDATELAYERS - <b>innerHTML update error caught</b>");
+			//debug("UPDATELAYERS - <b>innerHTML update error caught</b>");
 		}
 
 		// Update the thumbs		
@@ -1061,5 +1061,5 @@
 	
 // RANDOMS
 	function debugZoomPan(zid){
-		debug("<b>ZOOM PAN STATE - " + zid + " - z:" + uistate.chareditcanvassettings.zoom + " - px:" + uistate.chareditcanvassettings.originx + " - py:" + uistate.chareditcanvassettings.originy + "</b>");
+		debug("ZOOM PAN STATE - " + zid + " - z:" + uistate.chareditcanvassettings.zoom + " - px:" + uistate.chareditcanvassettings.originx + " - py:" + uistate.chareditcanvassettings.originy);
 	}

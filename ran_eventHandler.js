@@ -367,7 +367,7 @@
 		this.mousedown = function (ev) { 
 			//debug("SHAPERESIZE TOOL: mouse down: " + uistate.eventhandlers.mousex + ":" + uistate.eventhandlers.mousey);
 			var s = ss("eventHandler - mousedown");
-			uistate.eventhandlers.corner = s? s.isoverhandle(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey) : false;
+			uistate.eventhandlers.corner = s? s.isOverHandle(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey) : false;
 			uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
 			uistate.eventhandlers.firstx = uistate.eventhandlers.mousex;
 			uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
@@ -409,7 +409,7 @@
 			}
 			
 			if(this.resizing) { 
-				debug("SHAPERESIZE MOUSEUP - resizing, NOT calling calcMaxes on mouseup");
+				//debug("SHAPERESIZE MOUSEUP - resizing, NOT calling calcMaxes on mouseup");
 				//s.path.needsnewcalcmaxes = true;
 				//s.path.calcMaxes(); 
 			}
@@ -459,7 +459,7 @@
 				}
 			
 				//Translation fidelity, passing raw canvas values
-				s? s.isoverhandle(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey) : false;
+				s? s.isOverHandle(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey) : false;
 			}
 			
 			if(didstuff){

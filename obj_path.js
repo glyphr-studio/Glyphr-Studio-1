@@ -297,7 +297,8 @@
 
 		// negative = clockwise
 		// positive = counterclockwise
-		debug("FINDCLOCKWISE returning " + count);
+		
+		//debug("FINDCLOCKWISE returning " + count);
 		return count;
 	}
 
@@ -318,7 +319,7 @@
 		}
 	}
 
-	Path.prototype.flipns = function(){
+	Path.prototype.flipNS = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
 		uistate.calcmaxesghostctx.clearRect(0,0,uistate.calcmaxesghostcanvas.width,uistate.calcmaxesghostcanvas.height);
@@ -342,7 +343,7 @@
 		this.reversePath();
 	}
 	
-	Path.prototype.flipew = function(){
+	Path.prototype.flipEW = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
 		uistate.calcmaxesghostctx.lineWidth = ss().strokeweight;
@@ -351,7 +352,7 @@
 		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 
 		var mid = ((r.rightx - r.leftx)/2)+r.leftx;
-		//debug("FLIPEW - calculating mid: (b-t)/2 + t = mid: " + r.rightx +","+ r.leftx +","+ mid);
+		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + r.rightx +","+ r.leftx +","+ mid);
 		
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -438,7 +439,7 @@
 	  		var newH2x = ((p2.H1.x - p2.P.x) / 2) + p2.P.x;
 	  		var newH2y = ((p2.P.y - p2.H1.y) / 2) + p2.H1.y;
 
-		    debug("INSERTPATHPOINT - before makepointedto " + JSON.stringify(newpp));
+		    //debug("INSERTPATHPOINT - before makepointedto " + JSON.stringify(newpp));
 
 	  		newpp.makePointedTo(newH2x, newH2y, 100);
 	  		var tempH2 = newpp.H2;
@@ -446,7 +447,7 @@
 	  		newpp.H1 = tempH2;
 	  		newpp.makeSymmetric("H2");
 
-		    debug("INSERTPATHPOINT - afters makepointedto " + JSON.stringify(newpp));
+		    //debug("INSERTPATHPOINT - afters makepointedto " + JSON.stringify(newpp));
 
 
 		    this.pathpoints.splice((p1i+1)%this.pathpoints.length, 0, newpp);
@@ -501,9 +502,10 @@
 
 	Path.prototype.calcMaxes = function(){
 		if(this.needsnewcalcmaxes){
+			debug("\n");
 			debug("!!!!!!!!!!!!!!!!!!!CALCMAXES!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			debug("!!!----------------before ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);
-			debug("!!!CALCMAXES - uistate.cmgcs.size/ox/oy: " + uistate.calcmaxesghostcanvassettings.size + " / " + uistate.calcmaxesghostcanvassettings.originx + " / " + uistate.calcmaxesghostcanvassettings.originy);
+			//debug("!!!CALCMAXES - uistate.cmgcs.size/ox/oy: " + uistate.calcmaxesghostcanvassettings.size + " / " + uistate.calcmaxesghostcanvassettings.originx + " / " + uistate.calcmaxesghostcanvassettings.originy);
 			
 			this.topy = (uistate.calcmaxesghostcanvassettings.size*-1);
 			this.bottomy = uistate.calcmaxesghostcanvassettings.size;
@@ -523,6 +525,7 @@
 			this.rightx = mp.rightx;
 			
 			debug("!!!----------------afters ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);	
+			debug("\n");
 		}
 		
 		this.needsnewcalcmaxes = false;

@@ -69,7 +69,7 @@
 				break;
 		}
 		
-		this.roundall();
+		this.roundAll();
 	}
 	
 	PathPoint.prototype.makeSymmetric = function(move){
@@ -84,7 +84,7 @@
 				break;
 		}
 		
-		this.roundall();
+		this.roundAll();
 	}
 	
 	PathPoint.prototype.makePointedTo = function(px, py, length){
@@ -101,7 +101,7 @@
 		this.makeFlat("H1");
 		//debug("MAKEPOINTEDTO - after makesymmetric H1x/y " + this.H1.x + " " + this.H1.y);
 		
-		this.roundall();
+		this.roundAll();
 	}
 	
 	PathPoint.prototype.resetHandles = function(){
@@ -151,7 +151,7 @@
 				break;
 		}
 		
-		this.roundall();
+		this.roundAll();
 		
 		//debug("SETPOINTPOSITION x/y/dx/dy: " + nx +" "+ ny +" "+ dx +" "+ dy)
 	}
@@ -193,10 +193,10 @@
 				break;
 		}
 		
-		this.roundall();
+		this.roundAll();
 	}
 	
-	PathPoint.prototype.roundall = function(){	
+	PathPoint.prototype.roundAll = function(){	
 		this.P.x = Math.round(this.P.x);
 		this.P.y = Math.round(this.P.y);
 		this.H1.x = Math.round(this.H1.x);

@@ -51,7 +51,7 @@
 				fcontent = JSON.parse(reader.result);
 				if(fcontent.projectsettings.version){
 					_G = hydrateGlyphrProject(fcontent);
-					debug("Loading project; " + _G.fontsettings.familyname);
+					//debug("Loading project; " + _G.fontsettings.familyname);
 					finalizeGlyphrProject();
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
@@ -78,9 +78,9 @@
 		}
 
 		// Seed Shapes
-		debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.seedshapes));
+		//debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.seedshapes));
 		for (var ssid in data.seedshapes) {
-			debug("HYDRATEGLYPHRPROJECT hydrating seedshape " + ssid)
+			//debug("HYDRATEGLYPHRPROJECT hydrating seedshape " + ssid)
 			var ss = data.seedshapes.ssid;
 			if(ss){ ss = new SeedShape(ss); }
 		}
@@ -126,12 +126,12 @@
 	}
 	
 	function finalizeGlyphrProject(){
-		debug("FINALIZEGLYPHRPROJECT - start of function");
+		//debug("FINALIZEGLYPHRPROJECT - start of function");
 		uistate.charcurrstate = clone(_G.fontchars);
 		uistate.seedcurrstate = clone(_G.seedshapes);
 		var ps = _G.projectsettings;
-		debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + ps);
-		debug("FINALIZEGLYPHRPROJECT - ps.seedshapecounter: " + ps.seedshapecounter);
+		//debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + ps);
+		//debug("FINALIZEGLYPHRPROJECT - ps.seedshapecounter: " + ps.seedshapecounter);
 		
 		if(isval(ps.seedshapecounter)){
 			seedshapecounter = ps.seedshapecounter;
@@ -139,7 +139,7 @@
 			seedshapecounter = 0;
 		}
 		
-		debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
+		//debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
 		
 		uistate.selectedchar = 97;
 		uistate.shownseedshape = getFirstSeedShape();

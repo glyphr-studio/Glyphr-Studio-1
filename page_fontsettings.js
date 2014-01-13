@@ -122,5 +122,5 @@
 		if(san) mdvalue = strSan(mdvalue);
 		_G.fontsettings[mdname] = mdvalue;
 		if((mdname == "fontname")||(mdname == "subfamilyname")) {updateFontNames();}
-		debug("CHANGEFMD - set " + mdname + " to " + mdvalue);
+		//debug("CHANGEFMD - set " + mdname + " to " + mdvalue);
 	}

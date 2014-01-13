@@ -46,7 +46,7 @@
 	}
 	
 	function drawSeedShapeLayerThumbs(){
-		debug("DRAWSEEDSHAPELAYERTHUMBS - start");
+		//debug("DRAWSEEDSHAPELAYERTHUMBS - start");
 		var fs = _G.fontsettings;
 		var tctx = {};
 		var tele = false;
@@ -59,7 +59,7 @@
 			if(ssid==uistate.shownseedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 			_G.seedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
 		}
-		debug("DRAWSEEDSHAPELAYERTHUMBS - end");
+		//debug("DRAWSEEDSHAPELAYERTHUMBS - end");
 	}
 
 	function makeSSSubnavButton(ssid){
@@ -101,7 +101,7 @@
 		_G.seedshapes[uistate.shownseedshape].shape.drawShape_Single(uistate.chareditctx);
 		
 		if(_G.seedshapes[uistate.selectedshape]) {
-			_G.seedshapes[uistate.selectedshape].shape.drawselectoutline();
+			_G.seedshapes[uistate.selectedshape].shape.drawSelectOutline();
 		}
 
 		updateNavPrimaryNavTarget();
@@ -126,7 +126,7 @@
 			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this seed shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this seed shape to a character now</a>.</i></td></tr></table>"
 		}
 
-		debug("SEEDSHAPECHARDETAILS - returning html:\n" + content);
+		//debug("SEEDSHAPECHARDETAILS - returning html:\n" + content);
 		return content;
 	}
 	
@@ -143,7 +143,7 @@
 			re += "</td></tr><tr><td>"
 			re += _G.fontchars[(ui[k]*1)].charvalue;
 			re += "</td></tr></table>";
-			debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+ui[k]+"'");
+			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+ui[k]+"'");
 		}
 		re += "</div>";
 		return re;
@@ -160,7 +160,7 @@
 	function drawUsedinThumbs(){
 		var fs = _G.fontsettings;
 		var ui = _G.seedshapes[uistate.shownseedshape].usedin;
-		debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
+		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));
@@ -168,10 +168,10 @@
 		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
 
 		for(var k=0; k<ui.length; k++){
-			debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
+			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
 			drawCharToArea(tctx, ui[k], factor, ssthumbgutter, yoffset);
-			debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
+			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}
 	
@@ -197,8 +197,8 @@
 		var shapeactions = "";
 			if(uistate.eventhandlers.temppathdragshape && uistate.selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
-			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipew();putundoq(\"flip shape horizontal\");redraw();'><br>";
-			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipns();putundoq(\"flip shape vertical\");redraw();'><br>";
+			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"flip shape horizontal\");redraw();'><br>";
+			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"flip shape vertical\");redraw();'><br>";
 			shapeactions += "</td>";
 			}
 			

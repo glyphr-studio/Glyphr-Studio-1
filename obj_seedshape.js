@@ -61,7 +61,7 @@
 		//debug("INSERTSEEDSHAPE - adding seed shape (id) " + ssid + " to char (id) " + uistate.selectedchar);
 		var ns = new SeedShapeInstance({"seed":ssid, "xpos":100, "ypos":100});
 
-		debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
+		//debug("INSERT SEED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
 		_G.fontchars[uistate.selectedchar].charwidth = Math.max(_G.fontchars[uistate.selectedchar].charwidth, _G.seedshapes[ssid].shape.path.rightx);
@@ -104,12 +104,12 @@
 //	UsedIn Array Stuff
 	function addToUsedIn(ssid, charid){
 		charid = (""+charid);
-		debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
+		//debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var uia = _G.seedshapes[ssid].usedin;
-		debug("------------- uia: " + uia);
+		//debug("------------- uia: " + uia);
 		//Make sure array values are unique
 		if(uia.indexOf(charid) == -1){
-			debug("------------- uia.indexOf(charid): " + uia.indexOf(charid) + ", should be -1, pusing charid: " + charid);
+			//debug("------------- uia.indexOf(charid): " + uia.indexOf(charid) + ", should be -1, pusing charid: " + charid);
 			uia.push(charid);
 			// sort numerically as opposed to alpha
 			uia.sort(function(a,b){return a-b});
@@ -117,7 +117,7 @@
 	}
 	
 	function removeFromUsedIn(ssid, charid){
-		debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
+		//debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var seedcount = 0;
 		var tcgd = _G.fontchars[charid].charshapes;
 		
@@ -128,17 +128,17 @@
 			}
 		}
 		
-		debug("------------------ seedcount = " + seedcount);
+		//debug("------------------ seedcount = " + seedcount);
 		
 		if(seedcount == 1){
 			var uia = _G.seedshapes[ssid].usedin;
 			var charindex = uia.indexOf(charid);
-			debug("------------------ charindex: " + charindex);
+			//debug("------------------ charindex: " + charindex);
 			if(charindex != -1){
-				debug("------------------ deleting from uia charindex " + charindex);
-				debug("------------------ uia before<br>" + uia);
+				//debug("------------------ deleting from uia charindex " + charindex);
+				//debug("------------------ uia before<br>" + uia);
 				uia.splice(charindex, 1);
-				debug("------------------ uia after<br>" + uia);
+				//debug("------------------ uia after<br>" + uia);
 			}
 		}
 	}
@@ -244,16 +244,16 @@
 	SeedShapeInstance.prototype.drawShapeToArea_Stack = SeedShapeInstance.prototype.drawShapeToArea_Single;
 
 
-	SeedShapeInstance.prototype.drawselectoutline = function(onlycenter){
-		//_G.seedshapes[this.seed].shape.drawselectoutline();
+	SeedShapeInstance.prototype.drawSelectOutline = function(onlycenter){
+		//_G.seedshapes[this.seed].shape.drawSelectOutline();
 		
 		if(this.useseedxy){
-			_G.seedshapes[this.seed].shape.drawselectoutline(onlycenter);
+			_G.seedshapes[this.seed].shape.drawSelectOutline(onlycenter);
 		} else {
 			var ns = clone(_G.seedshapes[this.seed].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			//ns.path.calcMaxes();
-			ns.drawselectoutline(onlycenter);
+			ns.drawSelectOutline(onlycenter);
 		}
 	}
 	
@@ -272,7 +272,7 @@
 		}
 	}
 	
-	SeedShapeInstance.prototype.isoverhandle = function(){ return false;	}
+	SeedShapeInstance.prototype.isOverHandle = function(){ return false;	}
 
 
 	
