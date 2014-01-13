@@ -1,6 +1,6 @@
 
 //-------------------------------------------------------
-// SEED SHAPE INSTANCE OBJECT
+// SEED SHAPE OBJECT
 //-------------------------------------------------------
 
 	function SeedShape(oa){
@@ -10,6 +10,12 @@
 		this.shape.name = oa.name || "New Seed Shape";
 		this.usedin = [];
 	}
+
+
+
+//-------------------------------------------------------
+// SEED SHAPE INSTANCE OBJECT
+//-------------------------------------------------------
 
 	function SeedShapeInstance(oa){
 		this.objtype = "seedshapeinstance";
@@ -28,20 +34,15 @@
 		this.hlock = false;
 		this.wlock = false;
 		
-		// Functions
-		this.drawShape_Stack = drawSeedShape_Stack;
-		this.drawShape_Single = drawSeedShape_Single;
-		this.drawShapeToArea_Single = drawSeedShapeToArea;
-		this.drawShapeToArea_Stack = drawSeedShapeToArea;
-		this.genPostScript = genSeedPostScript;
-		this.drawselectoutline = drawSeedShapeSelectOutline;
-		this.draw8points = drawSeedShape8Points;	
-		this.isHere = isSeedShapeHere;
-		this.isoverhandle = isOverSeedShapeHandle;
-		this.debugShape = debugSeedShape;
-		
 		//debug("SEEDSHAPEINSTANCE - end");
 	}
+
+
+
+//-------------------------------------------------------
+// SEED SHAPE INSTANCE METHODS
+//-------------------------------------------------------
+
 	
 //	Insert Seed Shape
 	function insertSeedShapeDialog(){
@@ -185,7 +186,7 @@
 //	---------------------------
 //	Seed Shape Paridy Functions
 //	---------------------------
-	function drawSeedShape_Stack(lctx){
+	SeedShapeInstance.prototype.drawShape_Stack = function(lctx){
 		//debug("DRAWSEEDSHAPE");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
@@ -199,7 +200,7 @@
 		}
 	}	
 
-	function drawSeedShape_Single(lctx){
+	SeedShapeInstance.prototype.drawShape_Single = function(lctx){
 		//debug("DRAWSEEDSHAPE");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
@@ -213,7 +214,7 @@
 		}
 	}
 	
-	function genSeedPostScript(lastx, lasty){
+	SeedShapeInstance.prototype.genPostScript = function(lastx, lasty){
 		//debug("GENSEEDPOSTSCRIPT");
 		if(this.useseedxy){
 			//debug("------------- useseedxy=true, calling seedshapes[this.seed].shape.drawShape");
@@ -226,7 +227,7 @@
 		}
 	}
 	
-	function drawSeedShapeToArea(lctx, size, offsetX, offsetY){
+	SeedShapeInstance.prototype.drawShapeToArea_Single = function(lctx, size, offsetX, offsetY){
 		//debug("DRAWSEEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.useseedxy){
 			//debug("--------------------- useseedxy=true, calling drawShapeToArea for seedshape.");
@@ -240,7 +241,10 @@
 		}
 	}
 	
-	function drawSeedShapeSelectOutline(onlycenter){
+	SeedShapeInstance.prototype.drawShapeToArea_Stack = SeedShapeInstance.prototype.drawShapeToArea_Single;
+
+
+	SeedShapeInstance.prototype.drawselectoutline = function(onlycenter){
 		//_G.seedshapes[this.seed].shape.drawselectoutline();
 		
 		if(this.useseedxy){
@@ -253,11 +257,11 @@
 		}
 	}
 	
-	function drawSeedShape8Points(onlycenter){
+	SeedShapeInstance.prototype.draw8points = function(onlycenter){
 		//_G.seedshapes[this.seed].shape.draw8points(onlycenter);
 	}
 	
-	function isSeedShapeHere(x,y){
+	SeedShapeInstance.prototype.isHere = function(x,y){
 		//debug("ISSEEDSHAPEHERE - checking " + x + "," + y);
 		if(this.useseedxy){
 			return _G.seedshapes[this.seed].shape.isHere(x,y);
@@ -268,15 +272,8 @@
 		}
 	}
 	
-	function isOverSeedShapeHandle(){ return false;	}
+	SeedShapeInstance.prototype.isoverhandle = function(){ return false;	}
 
-	function debugSeedShape(){
-		var rv = "<br>     Local Seedshape Instance attributes <br> seedshapename: " + this.seed + " useseedxy: " + this.useseedxy;
-		rv += "<br>     Local Seedshape fake shape attributes <br>";
-		rv += "name:" + this.name +", x:"+this.xpos+", y:"+(this.ypos);
-		//rv += "<br>     Actual Seed attributes <br>" + _G.seedshapes[this.seed].shape.debugShape();
-		return rv;
-	}
 
 	
 //	------------------------------

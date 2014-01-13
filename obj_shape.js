@@ -23,28 +23,23 @@
 		this.useseedxy = false;
 		this.hidden = false;
 				
-		// Functions
-		this.drawShape_Single = drawShape_Single;
-		this.drawShape_Stack = drawShape_Stack;
-		this.drawShapeToArea_Single = drawShapeToArea_Single;
-		this.drawShapeToArea_Stack = drawShapeToArea_Stack;
-		this.genPostScript = genPostScript;
-		this.drawselectoutline = drawselectoutline;
-		this.draw8points = draw8points;
-		this.isHere = isHere;
-		this.isoverhandle = isoverhandle;
-		this.changeShapeName = changeShapeName;
-		this.debugShape = debugShape;
-
 		//debug("Just created a SHAPE: " + JSON.stringify(this));
 	}
 
-	
+
+
+
+
+//-------------------------------------------------------
+// SHAPE METHODS
+//-------------------------------------------------------
+
+
 //	-----`
 //	Draw
 //	-----
 	
-	function drawShape_Single(lctx){
+	Shape.prototype.drawShape_Single = function(lctx){
 					
 		var z = uistate.chareditcanvassettings.zoom;
 		
@@ -78,7 +73,7 @@
 	}
 
 
-	function drawShape_Stack(lctx){
+	Shape.prototype.drawShape_Stack = function(lctx){
 		
 		/* BUG FIX? */
 		if(this.seed){
@@ -106,7 +101,7 @@
 		return canvasy;
 	}
 	
-	function drawselectoutline(onlycenter){
+	Shape.prototype.drawselectoutline = function(onlycenter){
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
 		var z = uistate.chareditcanvassettings.zoom;
@@ -270,7 +265,7 @@
 		return new Path({"pathpoints":patharr});
 	}
 	
-	function draw8points(onlycenter){
+	Shape.prototype.draw8points = function(onlycenter){
 		//if(this.seed) { return; }
 		//debug("DRAW8POINTS - onlycenter: " + onlycenter);
 		
@@ -347,7 +342,7 @@
 		uistate.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
 	}
 	
-	function drawShapeToArea_Single(lctx, size, offsetX, offsetY){
+	Shape.prototype.drawShapeToArea_Single = function(lctx, size, offsetX, offsetY){
 		//debug("DRAWSHAPETOAREA for shape: " + this.name);
 		lctx.fillStyle = _G.projectsettings.color_glyphfill;
 		lctx.beginPath();
@@ -356,12 +351,12 @@
 		lctx.fill();
 	}	
 
-	function drawShapeToArea_Stack(lctx, size, offsetX, offsetY){
+	Shape.prototype.drawShapeToArea_Stack = function(lctx, size, offsetX, offsetY){
 		//debug("DRAWSHAPETOAREA for shape: " + this.name);
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 	}
 
-	function genPostScript(lastx, lasty){
+	Shape.prototype.genPostScript = function(lastx, lasty){
 		return this.path? this.path.genPathPostScript(lastx, lasty) : {"re":"", "lastx":lastx, "lasty":lasty};
 	}
 	
@@ -472,7 +467,7 @@
 		return false;
 	}
 	
-	function isHere(x,y){
+	Shape.prototype.isHere = function(x,y){
 		var imageData;
 		uistate.ishereghostctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
 		this.drawShape_Single(uistate.ishereghostctx);
@@ -481,7 +476,7 @@
 		return (imageData.data[3] > 0);
 	}
 
-	function isoverhandle(px,py){
+	Shape.prototype.isoverhandle = function(px,py){
 		//debug("ISOVERHANDLE() - checking x:" + px + " y:" + py);
 		
 		// Translation Fidelity - converting passed canvas values to saved value system
@@ -601,28 +596,8 @@
 			return false;
 		}
 	}
-	
-	function debugShape(){
-		/* ALL MESSED UP
-		var sp = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		var rv = sp+"name:" + this.name +", x:"+this.xpos+", y:"+(this.ypos)+", w:"+this.width+", h:"+this.height+"<br>";
-		rv += sp+"fill:"+this.fillbool+", stroke:"+this.stroketype+", sweight:"+this.strokeweight+", type:"+this.type+"<br>";
-		rv += sp+"topy:"+this.path.topy+", bottomy:"+this.path.bottomy+", leftx:"+this.path.leftx+", rightx:"+this.path.rightx+"<br>";
-		rv += sp+"seed:"+this.seed+", useseedxy:"+this.useseedxy+"<br>";
-		
-		if(this.path){
-			rv += sp+"path:" + this.path.pathpoints.length + " points long";
-		} else {
-			rv += sp+"path:false";
-		}
-		
-		return rv;	
-		*/
-		
-		return "debugShape is all messed up";
-	}
 
-	function changeShapeName(sn){
+	Shape.prototype.changeShapeName = function(sn){
 		sn = strSan(sn);
 		debug("CHANGESHAPENAME - sanitized name: " + sn);
 		if(sn != ""){

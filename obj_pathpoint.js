@@ -15,23 +15,18 @@
 		this.useh1 = (isval(oa.useh1)? oa.useh1 : true);
 		this.useh2 = (isval(oa.useh2)? oa.useh2 : true);
 		
-		this.drawPoint = drawPoint;
-		this.drawHandles = drawHandles;
-		this.drawDirectionalityPoint = drawDirectionalityPoint;
-		this.updatePointPosition = updatePointPosition;
-		this.setPointPosition = setPointPosition;
-		this.resetHandles = resetHandles;
-				
-		this.makeFlat = makeFlat;
-		this.makeSymmetric = makeSymmetric;
-		this.makePointedTo = makePointedTo;
-		
-		this.roundall = roundall;
-		
 		//debug("PathPoint() - new pathPoint created");	
 	}
 
-	function makeFlat(move){
+
+
+
+//-------------------------------------------------------
+// PATH POINT METHODS
+//-------------------------------------------------------
+
+
+	PathPoint.prototype.makeFlat = function(move){
 
 		//figure out length (hypotenuse) of H1
 		var adj1 = this.P.x-this.H1.x;
@@ -77,7 +72,7 @@
 		this.roundall();
 	}
 	
-	function makeSymmetric(move){
+	PathPoint.prototype.makeSymmetric = function(move){
 		switch(move){
 			case "H1" :
 				this.H2.x = ((this.P.x - this.H1.x) + this.P.x)
@@ -92,7 +87,7 @@
 		this.roundall();
 	}
 	
-	function makePointedTo(px, py, length){
+	PathPoint.prototype.makePointedTo = function(px, py, length){
 		//figure out angle
 		var adj1 = this.P.x-px;
 		var opp1 = this.P.y-py;
@@ -109,7 +104,7 @@
 		this.roundall();
 	}
 	
-	function resetHandles(){
+	PathPoint.prototype.resetHandles = function(){
 		this.type = "flat";
 		this.H2.x = this.P.x - 100;
 		this.H2.y = this.P.y;
@@ -117,7 +112,7 @@
 		this.H1.y = this.P.y;
 	}
 	
-	function setPointPosition(controlpoint, nx, ny){
+	PathPoint.prototype.setPointPosition = function(controlpoint, nx, ny){
 		var dx = 0;
 		var dy = 0;
 		
@@ -161,7 +156,7 @@
 		//debug("SETPOINTPOSITION x/y/dx/dy: " + nx +" "+ ny +" "+ dx +" "+ dy)
 	}
 	
-	function updatePointPosition(controlpoint, dx,dy, force){
+	PathPoint.prototype.updatePointPosition = function(controlpoint, dx,dy, force){
 		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
 		var lockx = (uistate.selectedtool=='pathedit'? this.P.xlock : false);
 		var locky = (uistate.selectedtool=='pathedit'? this.P.ylock : false);
@@ -201,7 +196,7 @@
 		this.roundall();
 	}
 	
-	function roundall(){	
+	PathPoint.prototype.roundall = function(){	
 		this.P.x = Math.round(this.P.x);
 		this.P.y = Math.round(this.P.y);
 		this.H1.x = Math.round(this.H1.x);
@@ -210,7 +205,7 @@
 		this.H2.y = Math.round(this.H2.y);
 	}
 	
-	function drawPoint(c) {
+	PathPoint.prototype.drawPoint = function(c) {
 		var ps = _G.projectsettings.pointsize +1;
 		var hp = ps/2;
 		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
@@ -219,7 +214,7 @@
 		uistate.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 	}
 
-	function drawDirectionalityPoint(c, next){
+	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
 		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
 		uistate.chareditctx.strokeStyle = uistate.colors.accent;
 		uistate.chareditctx.lineWidth = 1;
@@ -271,7 +266,7 @@
 	
 	}
 	
-	function drawHandles(drawH1, drawH2) {
+	PathPoint.prototype.drawHandles = function(drawH1, drawH2) {
 		uistate.chareditctx.fillStyle = uistate.colors.accent;
 		uistate.chareditctx.lineWidth = 1;
 		var hp = _G.projectsettings.pointsize/2

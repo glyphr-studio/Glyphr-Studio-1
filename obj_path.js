@@ -25,36 +25,23 @@
 		this.rightx = isval(oa.rightx)? oa.rightx : -1;
 		this.needsnewcalcmaxes = isval(oa.needsnewcalcmaxes)? oa.needsnewcalcmaxes : true;
 		
-		// declare public functions
-		this.addPathPoint = addPathPoint;
-		this.insertPathPoint = insertPathPoint;
-		this.deletePathPoint = deletePathPoint;
-		this.selectPathPoint = selectPathPoint;
-		this.drawPath = drawPath;
-		this.outlinePathOnCanvas = outlinePathOnCanvas;
-		this.drawPathToArea = drawPathToArea;
-		this.genPathPostScript = genPathPostScript;
-		this.updatePathPosition = updatePathPosition;
-		this.updatePathSize = updatePathSize;
-		this.reversePath = reversePath;
-		this.calcMaxes = calcMaxes;
-		this.flipew = flipew;
-		this.flipns = flipns;
-		this.setLeftX = setLeftX;
-		this.setTopY = setTopY;
-		this.isOverControlPoint = isOverControlPoint;
-		this.sp = sp;
-		this.getMaxesFromPathPoints = getMaxesFromPathPoints;
-		
 		// Setup the object
 		this.selectPathPoint(-1);
 		//if(this.pathpoints) this.calcMaxes();
 		
 		//debug("Path() - created new path: " + this.pathpoints);
 	}
+
+
 	
+
+//  -----------------------------------
+//  PATH METHODS
+//  -----------------------------------
+
+
 	// Selected Point - returns the selected point object
-	function sp(wantindex, calledby){
+	Path.prototype.sp = function(wantindex, calledby){
 		//debug("SP - Called By : " + calledby);
 		
 		if(!this.pathpoints) {
@@ -76,7 +63,7 @@
 		return false;
 	}
 	
-	function drawPath(lctx) {
+	Path.prototype.drawPath = function(lctx) {
 		var z = uistate.chareditcanvassettings.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
@@ -100,7 +87,7 @@
 		uistate.chareditcanvassettings.zoom = tempzp.z;
 	}
 
-	function outlinePathOnCanvas(lctx) {
+	Path.prototype.outlinePathOnCanvas = function(lctx) {
 		if(this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
@@ -125,7 +112,7 @@
 
 	}
 	
-	function drawPathToArea(lctx, size, offsetX, offsetY){
+	Path.prototype.drawPathToArea = function(lctx, size, offsetX, offsetY){
 		var tempx = uistate.chareditcanvassettings.originx;
 		var tempy = uistate.chareditcanvassettings.originy;
 		var tempz = uistate.chareditcanvassettings.zoom;
@@ -141,7 +128,7 @@
 		uistate.chareditcanvassettings.zoom = tempz;	
 	}
 	
-	function genPathPostScript(lastx, lasty){
+	Path.prototype.genPathPostScript = function(lastx, lasty){
 		if(!this.pathpoints) return {"re":"", "lastx":lastx, "lasty":lasty};
 
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
@@ -176,7 +163,7 @@
 			};
 	}
 	
-	function isOverControlPoint(x, y){
+	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints;
 		//var hp = _G.projectsettings.pointsize/2/uistate.chareditcanvassettings.zoom;
 		var hp = _G.projectsettings.pointsize/uistate.chareditcanvassettings.zoom;
@@ -206,7 +193,7 @@
 		return false;
 	}
 	
-	function updatePathSize(dw, dh){
+	Path.prototype.updatePathSize = function(dw, dh){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
 		var fs = _G.fontsettings;
 		
@@ -276,7 +263,7 @@
 		//debug("UPDATEPATHSIZE - done");
 	}
 	
-	function updatePathPosition(dx, dy, force){
+	Path.prototype.updatePathPosition = function(dx, dy, force){
 		isval(force)? true : force = false;
 		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
 
@@ -314,7 +301,7 @@
 		return count;
 	}
 
-	function reversePath(){
+	Path.prototype.reversePath = function(){
 		var HT = {};
 		if(this.pathpoints){
 			for (var i = 0; i < this.pathpoints.length; i++) {
@@ -331,7 +318,7 @@
 		}
 	}
 
-	function flipns(){
+	Path.prototype.flipns = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
 		uistate.calcmaxesghostctx.clearRect(0,0,uistate.calcmaxesghostcanvas.width,uistate.calcmaxesghostcanvas.height);
@@ -355,7 +342,7 @@
 		this.reversePath();
 	}
 	
-	function flipew(){
+	Path.prototype.flipew = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
 		uistate.calcmaxesghostctx.lineWidth = ss().strokeweight;
@@ -380,16 +367,16 @@
 		this.reversePath();
 	}
 	
-	function setTopY(newvalue){
+	Path.prototype.setTopY = function(newvalue){
 		var delta = ((newvalue*1) - ss("setTopY").path.topy);
 		this.updatePathPosition(0,delta);
 	}
 	
-	function setLeftX(newvalue){
+	Path.prototype.setLeftX = function(newvalue){
 		this.updatePathPosition(((newvalue*1) - ss("SetLeftX").path.leftx),0);
 	}
 
-	function addPathPoint(newpp, addtostart){
+	Path.prototype.addPathPoint = function(newpp, addtostart){
 		//debug("ADDPATHPOINT - new point? " + newpp);
 		
 		if(!newpp) { 
@@ -434,7 +421,7 @@
 		}		
 	}
 	
-	function insertPathPoint() {
+	Path.prototype.insertPathPoint = function() {
 
 		var p1i = this.sp(true, "insert path point");
 		var p1 = (p1i === false ? this.pathpoints[0] : this.pathpoints[p1i]);
@@ -468,7 +455,7 @@
 	  	}
 	}
 
-	function deletePathPoint(){
+	Path.prototype.deletePathPoint = function(){
 		var pp = this.pathpoints;
 		
 		if(pp.length > 1){
@@ -488,7 +475,7 @@
 		}
 	}
 	
-	function selectPathPoint(index){
+	Path.prototype.selectPathPoint = function(index){
 	// FOR NOW, ONLY ONE POINT SELECTED
 		for(var j=0; j<this.pathpoints.length; j++){
 			this.pathpoints[j].selected = false;
@@ -512,7 +499,7 @@
 //	Calc Maxes Stuff
 //	----------------------------------
 
-	function calcMaxes(){
+	Path.prototype.calcMaxes = function(){
 		if(this.needsnewcalcmaxes){
 			debug("!!!!!!!!!!!!!!!!!!!CALCMAXES!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			debug("!!!----------------before ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);
@@ -638,7 +625,7 @@
 		return "clear";
 	}
 
-	function getMaxesFromPathPoints(){
+	Path.prototype.getMaxesFromPathPoints = function(){
 		var fs = _G.fontsettings;
 		var r = {
 			"topy" : (fs.upm*-1),

@@ -642,8 +642,6 @@
 				debug("PASTESHAPE - pasted a seedshape, added " + uistate.selectedchar + " to usedin array.");
 			}
 
-			//debug("PASTEShape() - OLD " + s.debugShape());
-			//debug("PASTEShape() - NEW " + newshape.debugShape());		
 			addShape(newshape);
 		}
 	}
