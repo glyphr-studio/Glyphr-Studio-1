@@ -81,7 +81,10 @@
 			return;
 		}
 		
-		if((this.path.rightx == -1) && (lctx == uistate.chareditctx) && (uistate.selectedtool != "newpath")) this.path.calcMaxes();
+		if((this.path.rightx == -1) && (lctx == uistate.chareditctx) && (uistate.selectedtool != "newpath")) {
+			showLoading();
+			this.path.calcMaxes();
+		}
 		
 		this.path.drawPath(lctx);
 		

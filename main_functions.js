@@ -5,7 +5,9 @@
 	
 	function setup() {
 		debug("MAIN SETUP() - START");
-			
+		
+		showLoading();
+
 		// Draw Glyphr Logo
 		drawLogo();	
 		
@@ -28,7 +30,7 @@
 	function navigate(){
 		//debug("<b>>>NAVIGATE STARTED</b> - to " + uistate.navhere);
 
-
+		hideLoading();
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
 		document.getElementById("mainpane").style.marginLeft = "470px";
@@ -296,6 +298,32 @@
 	
 
 	
+//-------------------
+// Loading Spinner
+//-------------------	
+
+	function showLoading(){
+		uistate.loading = true;
+		var total = 10;
+		var current = 0;
+
+		function rotateLoading(){
+			debug("ROTATE LOADING " + current);
+			var str = "";
+			for(var i=0; i<current; i++){str += "/";}
+			document.getElementById("loading").innerHTML = str;
+			current = (current+1)%total;
+			if(uistate.loading) setTimeout(rotateLoading, 10);
+		}
+
+		rotateLoading();
+	}
+
+	function hideLoading(){
+		uistate.loading = false;
+		document.getElementById("loading").innerHTML = "";
+	}
+
 //-------------------
 // Debug
 //-------------------

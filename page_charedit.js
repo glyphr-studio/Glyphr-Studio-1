@@ -422,14 +422,14 @@
 		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.ylock",tp.P.ylock)+"</td><td> point y </td><td><input class='input' type='text' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", \"null\", Math.round(this.value)); putundoq(\"point y\"); redraw();'") + " value='" + tp.P.y + "' >" + (tp.P.ylock? "" : spinner()) + "</td></tr>";
 		
 		content += "<tr><td colspan=3><h3>handle1</h3></td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> use handle1 </td><td>"+checkUI("ss().path.sp().useh1="+!tp.useh1+"; putundoq(\"Use H1\"); ss().path.calcMaxes(); redraw();", tp.useh1)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> use handle1 </td><td>"+checkUI("ss().path.sp().useh1="+!tp.useh1+"; putundoq(\"Use H1\"); showLoading(); ss().path.calcMaxes(); redraw();", tp.useh1)+"</td></tr>";
 		if(tp.useh1){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.xlock",tp.H1.xlock)+"</td><td> handle1 x </td><td><input class='input' type='text' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", Math.round(this.value), \"null\"); putundoq(\"h1 x\"); redraw();'") + " value='" + tp.H1.x + "' >" + (tp.H1.xlock? "" : spinner()) + "</td></tr>";
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.ylock",tp.H1.ylock)+"</td><td> handle1 y </td><td><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", \"null\", Math.round(this.value)); putundoq(\"h1 y\"); redraw();'") + " value='" + tp.H1.y + "' >" + (tp.H1.ylock? "" : spinner()) + "</td></tr>";
 		}
 		
 		content += "<tr><td colspan=3><h3>handle2</h3></td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> use handle2 </td><td>"+checkUI("ss().path.sp().useh2="+!tp.useh2+"; putundoq(\"Use H2\"); ss().path.calcMaxes(); redraw();", tp.useh2)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> use handle2 </td><td>"+checkUI("ss().path.sp().useh2="+!tp.useh2+"; putundoq(\"Use H2\"); showLoading(); ss().path.calcMaxes(); redraw();", tp.useh2)+"</td></tr>";
 		if(tp.useh2){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.xlock",tp.H2.xlock)+"</td><td> handle2 x </td><td><input class='input' type='text' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", Math.round(this.value), \"null\"); putundoq(\"h2 x\"); redraw();'") + " value='" + tp.H2.x + "' >" + (tp.H2.xlock? "" : spinner()) + "</td></tr>";
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.ylock",tp.H2.ylock)+"</td><td> handle2 y </td><td><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", \"null\", Math.round(this.value)); putundoq(\"h2 y\"); redraw();'") + " value='" + tp.H2.y + "' >" + (tp.H2.ylock? "" : spinner()) + "</td></tr>";
@@ -937,12 +937,13 @@
 		} else if(ctool=="pathedit"){
 			uistate.showrightline = false;
 			if(s) {s.path.selectPathPoint(0);}
-			debug("CLICKTOOL() - setting selectPathPoint = 0");
+			//debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
 			uistate.showrightline = true;
 			if(s){
 				if(s.path.needsnewcalcmaxes) {
-					debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
+					//debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
+					showLoading();
 					s.path.calcMaxes();
 				}
 			}

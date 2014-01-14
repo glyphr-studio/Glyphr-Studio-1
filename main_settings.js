@@ -9,6 +9,7 @@
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npNav",
 		"thisGlyphrStudioVersion" : "Beta 3 Working Edition - 0.3.2013.12.00.Working",
+		"loading": true,
 		"colors" : {
 			"accent" : "rgb(40,170,255)",		//os accent base color  
 			"accent_light" : "rgb(150,225,255)",	//os light accent base color
