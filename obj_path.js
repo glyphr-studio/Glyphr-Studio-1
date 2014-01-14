@@ -529,7 +529,7 @@
 		}
 		
 		this.needsnewcalcmaxes = false;
-		hideLoading();
+		
 	}
 
 	function getMaxesFromGhostCanvas(sr){

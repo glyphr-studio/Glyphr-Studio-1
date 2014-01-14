@@ -36,9 +36,6 @@
 	}
 
 	function handleDrop(evt) {
-		showLoading();
-		document.getElementById("droptarget").innerHTML = "Loading File...";
-		
 		evt.stopPropagation();
 		evt.preventDefault();
 
@@ -46,6 +43,7 @@
 		var reader = new FileReader();
 		var fcontent = "";
 
+		document.getElementById("droptarget").innerHTML = "Loading File...";
 		// Closure to capture the file information.
 		reader.onload = (function(theFile) {
 			return function(e) {

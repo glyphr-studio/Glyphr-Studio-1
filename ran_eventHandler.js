@@ -297,8 +297,7 @@
 				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
 			} else {
 				if(s){
-					if(s.path.needsnewcalcmaxes) {
-						showLoading();
+					if(s.path.needsnewcalcmaxes) { 
 						s.path.calcMaxes();
 					}
 				}
@@ -522,7 +521,6 @@
 		uistate.showrightline = true;
 		var s = ss("Click Empty Space");
 		if(s) {
-			showLoading();
 			s.path.selectPathPoint(-1);
 			s.path.calcMaxes();
 		}
