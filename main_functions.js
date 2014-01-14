@@ -4,35 +4,15 @@
 
 	
 	function setup() {
-		
-		console.log("\n       _             _          \n"+
-					"      | |           | |         \n"+
-					"  __ _| |_   _ _ __ | |__  _ __ \n"+
-					" / _` | | | | | '_ \\| '_ \\| '__|\n"+
-					"| (_| | | |_| | |_) | | | | |   \n"+
-					" \\__, |_|\\__, | .__/|_| |_|_|   \n"+
-					"  __/ |   __/ | |               \n"+
-					" |___/   |___/|_|               \n\n"+
-					uistate.thisGlyphrStudioVersion + "\n\n");
-		
-
+		console.log("\n                GGG                                GGG\n                GG                                 GG\n                GG                                 GG\n   GGGGGGGGG    GG GGG          GG    GGGGGGGGG    GG GGGGGGGGG       GGGGGGGGG\n GG         GG  GG GG           GG  GG         GG  GGG         GG   GG         GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG\nGGG         GGG GG GGG         GGG GGG         GGG GG           GG GG\n   GGGGGGGGG GG GG    GGGGGGGGGGGG GG GGGGGGGGG    GGG          GG GGG\nGGG          GG    GGG          GG GG\nGG           GG    GG           GG GG\n GGG       GGG      GGG       GGG  GG\n    GGGGGGG            GGGGGGG     GGG\n\n\n" + uistate.thisGlyphrStudioVersion + "\n\n");
 		//debug("MAIN SETUP() - START");
-			
-		// Draw Glyphr Logo
 		drawLogo();	
-		
-		// Setup Nav Stuff
 		navigate();
-
-		// Shows a popup if the window is closed or refreshed
 		if(_G.projectsettings.stoppagenavigation){
 			window.onbeforeunload = function() {
 				return "\n\nUnless you specifically exported your data via the 'Save Project' page, all your progress will be lost.\n\n";
 			}
 		}
-
-
-
 		//debug("MAIN SETUP() - END");
 	}
 		
