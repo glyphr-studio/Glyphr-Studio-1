@@ -149,7 +149,7 @@
 			p2ppx = (p2.P.x - (p2.useh1? p2.H1.x : p2.P.x));
 			p2ppy = (p2.P.y - (p2.useh1? p2.H1.y : p2.P.y));
 
-			trr = p1h2x + " " + p1h2y + " " + p2h1x + " " + p2h1y + " " + p2ppx + " " + p2ppy + " rrcurveto ";
+			trr = "\t\t\t\t" + p1h2x + " " + p1h2y + " " + p2h1x + " " + p2h1y + " " + p2ppx + " " + p2ppy + " rrcurveto \n";
 
 			//debug("\t " + trr);
 
