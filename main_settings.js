@@ -73,7 +73,7 @@
 		"defaultopentypeproperties" : {
 			"head" : [
 				{"key": "unitsPerEm", "val" : "2048", "shared" : "upm"},
-				{"key": "created", "val": (new Date().toDateString()) },
+				{"key": "created", "val": "" },
 				{"key": "fontRevision", "val": "1.0" }
 			],
 			"hhea": [
@@ -119,7 +119,6 @@
 	uistate.colors.button_disabled = uistate.colors.g4;
 	uistate.colors.button_resting = uistate.colors.g8;
 	uistate.colors.button_selected = uistate.colors.accent;
-
 
 		
 //------------------------------

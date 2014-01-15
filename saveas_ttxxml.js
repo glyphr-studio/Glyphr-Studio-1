@@ -10,7 +10,7 @@
 
 		var link = document.createElement('a');
 		link.href = window.URL.createObjectURL(blob);
-		link.download = "TTX Data - " + _G.fontsettings.familyname + " - " + genDateStampSuffix() + ".ttx";
+		link.download = "TTX Data - " + _G.projectsettings.name + " - " + genDateStampSuffix() + ".ttx";
 		link.click();
 	}
 
@@ -61,7 +61,7 @@
 		con += '\t<flags value="00000000 00000011"/>\n';
 		con += '\t<unitsPerEm value="' + getOTprop("head","unitsPerEm") + '"/>\n';		// VAR UPM?
 		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';			// VAR CREATED DA\nTE
-		con += '\t<modified value="' + (new Date().toDateString()) + '"/>\n';		// COMPUTED SAVE DATE
+		con += '\t<modified value="' + ttxDateString() + '"/>\n';		// COMPUTED SAVE DATE
 		con += '\t<xMin value="-100"/>\n';											// COMPUTED
 		con += '\t<yMin value="-100"/>\n';											// COMPUTED
 		con += '\t<xMax value="4048"/>\n';											// COMPUTED
@@ -74,6 +74,16 @@
 		
 		con += '</head>\n\n';
 		return con;
+	}
+
+	function ttxDateString(){
+		var d = new Date();
+		var t = (d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
+		d = d.toDateString().split(" ");
+		d.splice(3,0,t);
+		var re = d.join(" ");
+		debug("TTXDATESTRING :  resulted " + re);
+		return re;
 	}
 
 	function genTable_hhea(oa){
