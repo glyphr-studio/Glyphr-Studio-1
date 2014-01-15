@@ -280,8 +280,6 @@
 //	Generic Seed Shape Functions
 //	------------------------------
 
-	var seedshapecounter = 0;
-	
 	function getFirstSeedShape(){
 		for(var ssid in _G.seedshapes){
 			return ssid;
@@ -291,6 +289,6 @@
 	}
 	
 	function generateNewSSID(){
-		seedshapecounter++;
-		return ("id"+seedshapecounter);
+		_G.projectsettings.seedshapecounter++;
+		return ("id"+_G.projectsettings.seedshapecounter);
 	}

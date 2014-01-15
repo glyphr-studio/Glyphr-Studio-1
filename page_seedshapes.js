@@ -234,7 +234,7 @@
 
 	function addSeedShape(){
 		var newid = generateNewSSID();
-		var newname = ("seedshape " + seedshapecounter);
+		var newname = ("seedshape " + _G.projectsettings.seedshapecounter);
 
 		uistate.shownseedshape = newid;
 		uistate.selectedshape = newid;

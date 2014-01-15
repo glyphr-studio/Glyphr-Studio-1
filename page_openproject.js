@@ -129,17 +129,12 @@
 		//debug("FINALIZEGLYPHRPROJECT - start of function");
 		uistate.charcurrstate = clone(_G.fontchars);
 		uistate.seedcurrstate = clone(_G.seedshapes);
-		var ps = _G.projectsettings;
-		//debug("FINALIZEGLYPHRPROJECT - checking GP.settings: " + ps);
-		//debug("FINALIZEGLYPHRPROJECT - ps.seedshapecounter: " + ps.seedshapecounter);
 		
-		if(isval(ps.seedshapecounter)){
-			seedshapecounter = ps.seedshapecounter;
-		} else {
-			seedshapecounter = 0;
+		if(!isval(_G.projectsettings.seedshapecounter)){
+			_G.projectsettings.seedshapecounter = 0;
 		}
 		
-		//debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + seedshapecounter);
+		//debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + _G.projectsettings.seedshapecounter);
 		
 		uistate.selectedchar = 97;
 		uistate.shownseedshape = getFirstSeedShape();

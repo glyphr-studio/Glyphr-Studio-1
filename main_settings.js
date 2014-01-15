@@ -2,7 +2,7 @@
 //------------------------------
 // GLOBAL UI VARIABLES
 //------------------------------
-
+// These are NOT SAVED with the project
 
 	var uistate = {
 		// all pages
@@ -80,9 +80,9 @@
 
 		
 //------------------------------
-// GLOBAL FONT VARIABLES
+// GLOBAL PROJECT VARIABLES
 //------------------------------
-
+// These ARE saved with the project
 
 	var _G = {
 		"projectsettings": {
