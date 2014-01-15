@@ -51,7 +51,7 @@
 				fcontent = JSON.parse(reader.result);
 				if(fcontent.projectsettings.version){
 					_G = hydrateGlyphrProject(fcontent);
-					//debug("Loading project; " + _G.fontsettings.familyname);
+					//debug("Loading project; " + _G.projectsettings.name);
 					finalizeGlyphrProject();
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
@@ -97,13 +97,13 @@
 
 
 	function importOrCreateNew(){
-		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:50%;'>"+
-						"<h3>Load an existing<br>Glyphr Project</h3>"+
+		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:45%;'>"+
+						"<h3>Load an existing Glyphr Project</h3>"+
 						"<div id='droptarget'>drop file here...</div>"+
-					"</td><td style='width:50%;'>"+
-						"<h3>Start a new<br>Glyphr Project</h3>"+
-						"Font name:<br>"+
-						"<input id='newfontname' type='text' value='My New Font'/><br>"+
+					"</td><td style='width:9%'>&nbsp;</td>"+
+					"</td><td style='width:45%;'>"+
+						"<h3>Start a new Glyphr Project</h3>"+
+						"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
 					"</td></tr></table>";
 		
@@ -111,9 +111,10 @@
 	}
 		
 	function newGlyphrProject(){
-		var fn = document.getElementById("newfontname").value;
+		var fn = document.getElementById("newprojectname").value;
 		fn = (fn? fn : "My Font");
-
+		
+		_G.projectsettings.name = fn;
 		_G.fontsettings.familyname = fn;
 		_G.fontsettings.fullname = fn;
 

@@ -10,7 +10,7 @@
 
 		var link = document.createElement('a');
 		link.href = window.URL.createObjectURL(blob);
-		link.download = _G.fontsettings.familyname + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
+		link.download = _G.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
 		link.click();
 	}
 

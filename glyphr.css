@@ -495,17 +495,18 @@
 		left:0px;
 	}
 	
-	#newfontname	{
-		width:100%;
+	#newprojectname	{
+		width:98%;
 		height:25px;
-		margin:10px 0px 20px 0px;
+		margin:10px 0px 0px 0px;
 		color:rgb(51,56,61);
+		display: block;
 	}
 
 	#droptarget {
 		width: 90%;
 		height: 72px;
-		margin: 4px 0px 20px 0px;
+		margin: 7px 0px 20px 0px;
 		background-color: white;
 		border:1px dashed rgb(127,134,137);
 		color: rgb(40,170,255);
