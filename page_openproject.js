@@ -115,8 +115,12 @@
 		fn = (fn? fn : "My Font");
 		
 		_G.projectsettings.name = fn;
-		_G.fontsettings.familyname = fn;
-		_G.fontsettings.fullname = fn;
+		_G.opentypeproperties.name[1].val = fn;
+		_G.opentypeproperties.name[3].val = (fn + " 1.0");
+		_G.opentypeproperties.name[4].val = fn;
+		_G.opentypeproperties.name[6].val = fn;
+		setOTprop("cff", "FullName", fn);
+		setOTprop("cff", "FamilyName", fn);
 
 		_G.fontchars = createNewFontObject();
 	

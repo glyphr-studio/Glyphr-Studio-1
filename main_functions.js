@@ -6,6 +6,7 @@
 	function setup() {
 		console.log("%c\n                GGG                                GGG\n                GG                                 GG\n                GG                                 GG\n   GGGGGGGGG    GG GGG          GG    GGGGGGGGG    GG GGGGGGGGG       GGGGGGGGG\n GG         GG  GG GG           GG  GG         GG  GGG         GG   GG         GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG\nGGG         GGG GG GGG         GGG GGG         GGG GG           GG GG\n   GGGGGGGGG GG GG    GGGGGGGGGGGG GG GGGGGGGGG    GGG          GG GGG\nGGG          GG    GGG          GG GG\nGG           GG    GG           GG GG\n GGG       GGG      GGG       GGG  GG\n    GGGGGGG            GGGGGGG     GGG\n\n\n" + uistate.thisGlyphrStudioVersion + "\n\n", "color:rgb(40,170,255)");
 		//debug("MAIN SETUP() - START");
+		_G.opentypeproperties = clone(uistate.defaultopentypeproperties);
 		drawLogo();	
 		navigate();
 		if(_G.projectsettings.stoppagenavigation){

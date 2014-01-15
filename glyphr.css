@@ -694,30 +694,26 @@
 	}
 		
 	
-/* --------------------- */
-/* Page - Font Metadata */
-/* ------------------- */	
+/* ----------------------- */
+/* Page - Font Properties */
+/* --------------------- */	
 
 	.metadata h3 {
 		margin-top:30px;
 	}
 	
-	.metadatanametable input[type=text]{
-		width:500px;
-		margin:0px 0px 10px 0px;
-	}
-	
-	.metadatanametable textarea {
-		width:480px;
-		padding:7px 20px 10px 10px;
-		line-height:1.5em;
-		height:200px;
-		margin:0px 0px 10px 0px;
+	.opentypepropertiestable {
+		width:100%;
 	}
 
-	#fontfullname {
-		width:500px;
-		margin:0px 0px 10px 0px;
+	.propname {
+		padding:4px 0px 0px 0px;
+		width:20%;
+	}
+
+	.opentypepropertiestable input[type=text]{
+		width:100%;
+		margin:0px 0px 10px 20px;
 	}
 	
 	

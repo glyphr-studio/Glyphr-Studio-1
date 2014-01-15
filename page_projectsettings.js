@@ -6,6 +6,9 @@
 		var content = "<div class='pagecontent textpage'><h1>Project Settings</h1>";
 		content += "These project and interface settings will be saved with your Glyphr project file.";
 
+		content += "<h3>Project Name</h3>"+
+					"<input type='text' style='width:100%' value='" + ps.name + "' onchange='_G.projectsettings.name = this.value;' />";
+					
 		content += "<h3>Grid System</h3>" + 
 					"Defining a grid system to use while editing characters in this font makes stuff a whole " + 
 					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " + 

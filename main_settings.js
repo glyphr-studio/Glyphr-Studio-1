@@ -67,8 +67,51 @@
 
 		// page: test drive
 		"testdrivectx" : false,
-		"testdrivecanvas" : false
+		"testdrivecanvas" : false,
 
+		// default open type settings
+		"defaultopentypeproperties" : {
+			"head" : [
+				{"key": "unitsPerEm", "val" : "2048", "shared" : "upm"},
+				{"key": "created", "val": (new Date().toDateString()) },
+				{"key": "fontRevision", "val": "1.0" }
+			],
+			"hhea": [
+				{"key": "lineGap", "val": "200" }
+			],
+			"os_2": [
+				{"key": "usWeightClass", "val": "500"},
+				{"key": "usWidthClass", "val": "5"}
+			],
+			"name": [
+				{"key": "Copyright notice", "val": ("Copyright " + new Date().getFullYear())},
+				{"key": "Font Family name", "val": "My Font"},
+				{"key": "Font Subfamily name", "val": ""},
+				{"key": "Unique font identifier", "val": "My Font 1.0"},
+				{"key": "Full Font name", "val": "My Font"},
+				{"key": "Version string", "val": "Version 1.0"},
+				{"key": "Postscript name", "val": "My Font"},
+				null,
+				{"key": "Manufacturer name", "val": ""},
+				{"key": "Designer's name", "val": ""},
+				{"key": "Description", "val": ""},
+				{"key": "Vendor URL", "val": ""},
+				{"key": "Designer's URL", "val": ""},
+				{"key": "License Description", "val": "Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)"},
+				{"key": "License URL", "val": "http://creativecommons.org/licenses/by-sa/3.0/"}
+			],
+			"post": [
+				{"key": "italicAngle", "val": "0.0"},
+				{"key": "underlinePosition", "val": "-75"},
+				{"key": "underlineThickness", "val": "50"}
+			],
+			"cff": [
+				{"key": "Notice", "val": ""},
+				{"key": "FullName", "val": "My Font"},
+				{"key": "FamilyName", "val": "My Font"},
+				{"key": "Weight", "val": "500"},
+			]
+		}
 	}
 
 	uistate.colors.text_dark = uistate.colors.g1;
@@ -86,6 +129,7 @@
 
 	var _G = {
 		"projectsettings": {
+			"name": "My Font",
 			"debug": true,				// global debug console switch
 			"version": uistate.thisGlyphrStudioVersion,	// console version
 			"seedshapecounter": 0,		// private counter for ss id
@@ -111,32 +155,49 @@
 
 		"fontsettings": {
 			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
-			"kerning": (1/16),			// default kerning, as a % of emsize
-			"familyname": "",
-			"subfamilyname": "Regular",
-			"genericfamilyname": 'Sans-Serif',
-			"fullname": "",
-			"version": "Version 1.0",
-			"copyright": ("Copyright " + new Date().getFullYear()),
-			"manufacturername": "",
-			"manufacturerurl": "",
-			"designername": "",
-			"designerurl": "",
-			"description": "",
-			"licensedescription": "You are free to share, copy, distribute and transmit the work.  You are free to remix and adapt the work.  You are free to make commercial use of the work. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.",
-			"licenseurl": "http://creativecommons.org/licenses/by-sa/3.0/",
-			"weightclass": "400",
-			"widthclass": "5"
+			"kerning": (1/16)			// default kerning, as a % of emsize
 		},
+
+		"opentypeproperties" : {},
 
 		"fontchars" : {},
 
 		"seedshapes" : {}
 	};
 
+	
+	function setOTprop(tname, tkey, tval){
+		if(_G.opentypeproperties[tname]){
+			var ot = _G.opentypeproperties[tname];
+			for(var i=0; i<ot.length; i++){
+				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
+				if(ot[i].key == tkey) {
+					ot[i].val = tval; 
+					return;
+				}
+			}
+			console.log("SETOTPROP ERROR: could not find " + tkey + " in " + tname);
+		} else {
+			console.log("SETOTPROP ERROR: could not find table" + tname);
+		}
+	}
 
+	function getOTprop(tname, tkey){
+		if(_G.opentypeproperties[tname]){
+			var ot = _G.opentypeproperties[tname];
+			for(var i=0; i<ot.length; i++){
+				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
+				if(ot[i].key == tkey) {
+					return ot[i].val;
+				}
+			}
+			console.log("GETOTPROP ERROR: could not find " + tkey + " in " + tname);
+		} else {
+			console.log("GETOTPROP ERROR: could not find table" + tname);
+		}
 
-
+		return "|| RETURN VALUE ERROR ||";
+	}
 
 /*
 	Actual Grays

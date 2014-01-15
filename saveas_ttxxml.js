@@ -55,17 +55,17 @@
 		var con = '<head>\n';
 		//con += '<!-- Most of this table will be recalculated by the compiler -->';
 		con += '\t<tableVersion value="1.0"/>\n';
-		con += '\t<fontRevision value="2.04098510742"/>\n';				// VAR VERSION
+		con += '\t<fontRevision value="' + getOTprop("head","fontRevision") + '"/>\n';	// VAR VERSION
 		con += '\t<checkSumAdjustment value="0xfd4639aa"/>\n';
 		con += '\t<magicNumber value="0x5f0f3cf5"/>\n';
 		con += '\t<flags value="00000000 00000011"/>\n';
-		con += '\t<unitsPerEm value="2100"/>\n';						// VAR UPM?
-		con += '\t<created value="Tue Jul 28 19:44:19 2009"/>\n';		// VAR CREATED DA\nTE
-		con += '\t<modified value="Tue Jul 28 19:44:19 2009"/>\n';		// COMPUTED SAVE DATE
-		con += '\t<xMin value="-100"/>\n';								// COMPUTED
-		con += '\t<yMin value="-100"/>\n';								// COMPUTED
-		con += '\t<xMax value="4048"/>\n';								// COMPUTED
-		con += '\t<yMax value="4048"/>\n';								// COMPUTED
+		con += '\t<unitsPerEm value="' + getOTprop("head","unitsPerEm") + '"/>\n';		// VAR UPM?
+		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';			// VAR CREATED DA\nTE
+		con += '\t<modified value="' + (new Date().toDateString()) + '"/>\n';		// COMPUTED SAVE DATE
+		con += '\t<xMin value="-100"/>\n';											// COMPUTED
+		con += '\t<yMin value="-100"/>\n';											// COMPUTED
+		con += '\t<xMax value="4048"/>\n';											// COMPUTED
+		con += '\t<yMax value="4048"/>\n';											// COMPUTED
 		con += '\t<macStyle value="00000000 00000000"/>\n';
 		con += '\t<lowestRecPPEM value="3"/>\n';
 		con += '\t<fontDirectionHint value="2"/>\n';
@@ -81,7 +81,7 @@
 		con += '\t<tableVersion value="1.0"/>\n';
 		con += '\t<ascent value="2100"/>\n';					// COMPUTED - distance from the baseline to the highest ascender
 		con += '\t<descent value="-147"/>\n';					// COMPUTED - distance from the baseline to the lowest descender
-		con += '\t<lineGap value="200"/>\n';					// VAR
+		con += '\t<lineGap value="' + getOTprop("hhea","lineGap") + '"/>\n';					// VAR
 		con += '\t<advanceWidthMax value="2100"/>\n';			// COMPUTED - max advance width from hmtx table
 		con += '\t<minLeftSideBearing value="-123"/>\n';		// COMPUTED - min lsb from hmtx
 		con += '\t<minRightSideBearing value="-124"/>\n';		// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
@@ -119,8 +119,8 @@
 		var con = '<OS_2>\n';
 		con += '\t<version value="3"/>\n';
 		con += '\t<xAvgCharWidth value="2100"/>\n';			// COMPUTED
-		con += '\t<usWeightClass value="500"/>\n';			// VAR weight class
-		con += '\t<usWidthClass value="5"/>\n';				// VAR width class
+		con += '\t<usWeightClass value="' + getOTprop("os_2","usWeightClass") + '"/>\n';	// VAR weight class
+		con += '\t<usWidthClass value="' + getOTprop("os_2","usWidthClass") + '"/>\n';		// VAR width class
 		con += '\t<fsType value="00000000 00001000"/>\n';
 
 		// Subscript
@@ -175,37 +175,37 @@
 	}
 
 	function genTable_name(oa){
-		var md = _G.fontsettings;
+		var otsn = _G.opentypeproperties.name;
 		
 		var con = '<name>\n';
-		con += '\t<namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.copyright+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="1" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.familyname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="2" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.subfamilyname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="3" platformID="1" platEncID="0" langID="0x0">\n\t\t'+(md.fullname+' ; '+md.version)+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="4" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.fullname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="5" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.version+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="6" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.fullname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="8" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.manufacturername+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="9" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.designername+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="10" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.description+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="11" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.manufacturerurl+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="12" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.designerurl+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="13" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.licensedescription+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="14" platformID="1" platEncID="0" langID="0x0">\n\t\t'+md.licenseurl+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.copyright+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.familyname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.subfamilyname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">\n\t\t'+(md.fullname+' ; '+md.version)+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.fullname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.version+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.fullname+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="8" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.manufacturername+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="9" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.designername+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.description+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.manufacturerurl+'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="12" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.designerurl+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="13" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.licensedescription+'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="14" platformID="3" platEncID="1" langID="0x409">\n\t\t'+md.licenseurl+'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[0].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="1" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[1].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="2" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[2].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="3" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[3].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="4" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[4].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="5" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[5].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="6" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[6].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="8" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[8].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="9" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[9].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="10" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[10].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="11" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[11].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="12" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[12].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="13" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[13].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="14" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[14].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[0].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[1].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[2].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[3].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[4].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[5].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[6].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="8" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[8].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="9" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[9].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[10].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[11].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="12" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[12].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="13" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[13].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="14" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[14].val +'\n\t</namerecord>\n';
 		con += '</name>\n\n';
 
 		return con;
@@ -240,9 +240,9 @@
 	function genTable_post(oa){
 		var con = '<post>\n';
 		con += '\t<formatType value="3.0"/>\n';
-		con += '\t<italicAngle value="0.0"/>\n';		// VAR
-		con += '\t<underlinePosition value="-75"/>\n';	// VAR
-		con += '\t<underlineThickness value="50"/>\n';	// VAR
+		con += '\t<italicAngle value="'+getOTprop("post","italicAngle")+'"/>\n';				// VAR
+		con += '\t<underlinePosition value="'+getOTprop("post","underlinePosition")+'"/>\n';	// VAR
+		con += '\t<underlineThickness value="'+getOTprop("post","underlineThickness")+'"/>\n';	// VAR
 		con += '\t<isFixedPitch value="0"/>\n';
 		con += '\t<minMemType42 value="0"/>\n';
 		con += '\t<maxMemType42 value="0"/>\n';
@@ -254,22 +254,22 @@
 	}
 
 	function genTable_cff(oa){
-		var md = _G.fontsettings;
+		var md = _G.opentypeproperties;
 		var con = '<CFF>\n';
-		con += '\t<CFFFont name="'+md.familyname+'">\n';
-		con += '\t\t<version value="002.000"/>\n';
-		con += '\t\t<Notice value="'+md.copyright+'"/>\n';
-		con += '\t\t<FullName value="'+md.fullname+'"/>\n';
-		con += '\t\t<FamilyName value="'+md.familyname+'"/>\n';
-		con += '\t\t<Weight value="'+md.weghtclass+'"/>\n';
+		con += '\t<CFFFont name="'+md.name[1].val+'">\n';							//VAR
+		con += '\t\t<version value="002.000"/>\n';		
+		con += '\t\t<Notice value="'+getOTprop("cff","Notice")+'"/>\n';				//VAR
+		con += '\t\t<FullName value="'+getOTprop("cff","FullName")+'"/>\n';			//VAR
+		con += '\t\t<FamilyName value="'+getOTprop("cff","FamilyName")+'"/>\n';		//VAR
+		con += '\t\t<Weight value="'+getOTprop("cff","Weight")+'"/>\n';				//VAR
 		con += '\t\t<isFixedPitch value="0"/>\n';
 		con += '\t\t<ItalicAngle value="0"/>\n';
 		con += '\t\t<UnderlineThickness value="50"/>\n';
 		con += '\t\t<PaintType value="0"/>\n';
 		con += '\t\t<CharstringType value="2"/>\n';
 		con += '\t\t<FontMatrix value="0.001 0 0 0.001 0 0"/>\n';
-		con += '\t\t<FontBBox value="0 0 0 0"/>\n';				// UPM??
-		//con += '\t\t<FontBBox value="-123 -315 1264 1101"/>\n';		// UPM??
+		con += '\t\t<FontBBox value="0 0 0 0"/>\n';					// UPM??
+		//con += '\t\t<FontBBox value="-123 -315 1264 1101"/>\n';	// UPM??
 		con += '\t\t<StrokeWidth value="0"/>\n';
 		con += '\t\t<Encoding name="StandardEncoding"/>\n';
 		con += '\t\t<Private>\n';
