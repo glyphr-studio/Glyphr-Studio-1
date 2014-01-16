@@ -256,6 +256,7 @@
 			uistate.eventhandlers.firsty = -100;
 			uistate.eventhandlers.temppathdragshape = false;
 			putundoq("New Basic Shape tool");
+			uistate.eventhandlers.uqhaschanged = false;
 			
 			uistate.showrightline = true;
 			
