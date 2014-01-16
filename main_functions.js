@@ -267,7 +267,7 @@
 	}
 
 	function genEmailContent(){		
-		var con = "Sorry about the issue � so we can fix it, please explain step by step how to re-create the issue you ran into. If there was a JavaScript Error message or line number, include that too.%0A%0A%0A%0A";
+		var con = "Sorry about the issue – so we can fix it, please explain step by step how to re-create the issue you ran into. If there was a JavaScript Error message or line number, include that too.%0A%0A%0A%0A";
 		con += "Thank you!%0A%09The Glyphr Team%0A%0A";
 		con += "___________________________________________%0A%0A";
 		con += "Glyphr Studio Version %09%09" + thisGlyphrStudioVersion + "%0A";
@@ -320,7 +320,7 @@
 	function setProjectAsSaved(){
 		uistate.projectsaved = true;
 		window.onbeforeunload = null;
-		window.title = 'glyphr';
+		document.title = 'glyphr';
 	}
 
 	function setProjectAsUnsaved(){
@@ -333,7 +333,7 @@
 			}
 		}
 
-		window.title = 'glyphr (unsaved)';
+		document.title = 'glyphr ❖';
 	}
 
 
