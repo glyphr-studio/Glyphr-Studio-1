@@ -10,11 +10,6 @@
 		setOTprop("head", "created", ttxDateString());
 		drawLogo();	
 		navigate();
-		if(_G.projectsettings.stoppagenavigation){
-			window.onbeforeunload = function() {
-				return "\n\nUnless you specifically exported your data via the 'Save Project' page, all your progress will be lost.\n\n";
-			}
-		}
 		//debug("MAIN SETUP() - END");
 	}
 		
@@ -318,7 +313,30 @@
 		document.getElementById('dialog_bg').style.display='block';
 	}
 
-	
+		
+//-------------------
+// Project Saved Sate
+//-------------------
+	function setProjectAsSaved(){
+		uistate.projectsaved = true;
+		window.onbeforeunload = null;
+		window.title = 'glyphr';
+	}
+
+	function setProjectAsUnsaved(){
+		
+		uistate.projectsaved = false;
+
+		if(_G.projectsettings.stoppagenavigation){
+			window.onbeforeunload = function() {
+				return "\n\nUnless you specifically saved your data, all your progress will be lost.\n\n";
+			}
+		}
+
+		window.title = 'glyphr (unsaved)';
+	}
+
+
 //-------------------
 // Undo Queue
 //-------------------	
@@ -333,10 +351,12 @@
 			uistate.charcurrstate = clone(_G.fontchars);
 		} else if (uistate.navhere == "linked shapes"){
 			uqo.state = clone(uistate.linkcurrstate);
-			uistate.linkundoq.push(uqo);
+			uistate.linkedshapeundoq.push(uqo);
 			uistate.linkcurrstate = clone(_G.linkedshapes);
 		}
 		
+		setProjectAsUnsaved();
+
 		/*
 		var uqdebug = "<b>Put Undo Queue</b><br>";
 		for(var i=0; i<uistate.charundoq.length; i++){
@@ -359,12 +379,16 @@
 				redraw();
 			}
 		} else if (uistate.navhere == "linked shapes"){
-			if(uistate.linkundoq.length > 0){
-				var uqo = uistate.linkundoq.pop();
+			if(uistate.linkedshapeundoq.length > 0){
+				var uqo = uistate.linkedshapeundoq.pop();
 				_G.linkedshapes = uqo.state;
 				uistate.linkcurrstate = clone(_G.linkedshapes);
 				redraw();
 			}
+		}
+
+		if(uistate.charundoq.length == 0 && uistate.linkedshapeundoq.length == 0){
+			setProjectAsSaved();
 		}
 	}
 

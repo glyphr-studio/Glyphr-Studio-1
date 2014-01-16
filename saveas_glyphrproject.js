@@ -12,6 +12,8 @@
 		link.href = window.URL.createObjectURL(blob);
 		link.download = _G.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
 		link.click();
+
+		setProjectAsSaved();
 	}
 
 	function genDateStampSuffix(){

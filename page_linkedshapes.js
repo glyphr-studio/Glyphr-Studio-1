@@ -186,7 +186,7 @@
 		var s = ss("Update Actions");		
 		
 		var allactions = "<td><h3>*</h3>";
-			allactions += "<input class='"+(uistate.linkundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.linkundoq.length > 0) ? (" " + uistate.linkundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input class='"+(uistate.linkedshapeundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.linkedshapeundoq.length > 0) ? (" " + uistate.linkedshapeundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "</td>";
 		
 		var linkedshapeactions = "<td><h3>linked shape</h3>";
