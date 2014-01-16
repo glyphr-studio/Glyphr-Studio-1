@@ -19,8 +19,8 @@
 		this.negative = oa.negative || false;
 				
 		// not settable defaults
-		this.seed = false;
-		this.useseedxy = false;
+		this.link = false;
+		this.uselinkedshapexy = false;
 		this.hidden = false;
 				
 		//debug("Just created a SHAPE: " + JSON.stringify(this));
@@ -76,8 +76,8 @@
 	Shape.prototype.drawShape_Stack = function(lctx){
 		
 		/* BUG FIX? */
-		if(this.seed){
-			_G.seedshapes[this.seed].shape.drawShape_Stack(lctx);
+		if(this.link){
+			_G.linkedshapes[this.link].shape.drawShape_Stack(lctx);
 			return;
 		}
 		
@@ -266,7 +266,7 @@
 	}
 	
 	Shape.prototype.draw8points = function(onlycenter){
-		//if(this.seed) { return; }
+		//if(this.link) { return; }
 		//debug("DRAW8POINTS - onlycenter: " + onlycenter);
 		
 		var ps = _G.projectsettings.pointsize+1;
@@ -368,7 +368,7 @@
 
 		if(newshape){
 			//debug("ADDSHAPE - was passed: " + JSON.stringify(newshape));			
-			if(newshape.seed){
+			if(newshape.link){
 				uistate.selectedtool = "shaperesize";
 			} else if(newshape.path && (uistate.selectedtool == "shapemove")) {
 				deubg("ADDSHAPE triggered as true: newshape.path && uistate.selectedtool == shapemove \n >> NOT calling calcmaxes, okay?");
@@ -417,8 +417,8 @@
 	}
 
 	function deleteShape(){
-		if(uistate.shapelayers[uistate.selectedshape].seed){
-			removeFromUsedIn(uistate.shapelayers[uistate.selectedshape].seed, uistate.selectedchar);
+		if(uistate.shapelayers[uistate.selectedshape].link){
+			removeFromUsedIn(uistate.shapelayers[uistate.selectedshape].link, uistate.selectedchar);
 		}
 		
 		if((uistate.shapelayers.length > 0) && (uistate.selectedshape >= 0)){
@@ -430,8 +430,8 @@
 			//debug("DELETESHAPES - no shapes left");
 		}				
 		
-		if((uistate.selectedshape >= 0) && (uistate.shapelayers[uistate.selectedshape].seed)){
-			//debug("DELETESHAPE - newly selected shape is seedshape, changing tool");
+		if((uistate.selectedshape >= 0) && (uistate.shapelayers[uistate.selectedshape].link)){
+			//debug("DELETESHAPE - newly selected shape is linkedshape, changing tool");
 			uistate.selectedtool = "shaperesize";
 		}
 	}
@@ -439,8 +439,8 @@
 	function clickSelectShape(x,y){
 		//debug("CLICKSELECTShape() - checking x:" + x + " y:" + y);
 		
-		if(uistate.navhere == "seed shapes"){
-			return clickSelectSeedShape(x,y);
+		if(uistate.navhere == "linked shapes"){
+			return clickSelectLinkedShape(x,y);
 		}
 		var ts;
 		for(var j=(uistate.shapelayers.length-1); j>=0; j--){
@@ -448,13 +448,13 @@
 			//debug("CLICKSELECTShape() - Checking shape " + j);
 			
 			if(ts.isHere(x,y)){
-				if(!ts.seed) ts.path.selectPathPoint(-1);
+				if(!ts.link) ts.path.selectPathPoint(-1);
 				if(j != uistate.selectedshape){
 					//debug("CLICKSELECTShape() - selecting shape " + j);
 					uistate.selectedshape = j;				
 					
-					if(ts.seed){
-						//debug("CLICKSELECTSHAPE - detected this.seed, setting uistate.selectedtool = shaperesize");
+					if(ts.link){
+						//debug("CLICKSELECTSHAPE - detected this.link, setting uistate.selectedtool = shaperesize");
 						uistate.selectedtool = "shaperesize";
 					}
 				}
@@ -574,9 +574,9 @@
 		req? true : req="[probably a dynamically-generated page control]";
 		//debug("SS() - Requested by: " + req + " - CURRENT uistate.selectedshape = " + uistate.selectedshape);	
 		
-		if(uistate.navhere == "seed shapes"){
-			//debug("SS() - SEEDSHAPE - Requested by: " + req + " - returning shownseedshape: " + uistate.shownseedshape);
-			return _G.seedshapes[uistate.shownseedshape].shape;
+		if(uistate.navhere == "linked shapes"){
+			//debug("SS() - LINKEDSHAPE - Requested by: " + req + " - returning shownlinkedshape: " + uistate.shownlinkedshape);
+			return _G.linkedshapes[uistate.shownlinkedshape].shape;
 		}
 		
 		if(uistate.selectedshape != -1){

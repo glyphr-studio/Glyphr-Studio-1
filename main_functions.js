@@ -58,10 +58,10 @@
 				uistate.selectedshape = -1;
 				break;
 			
-			case "seed shapes":
+			case "linked shapes":
 				uistate.navprimaryhere = "npChar";
 				resetZoomPan();
-				updateseedshapes();
+				updatelinkedshapes();
 				document.getElementById("mainwrapper").style.overflowY = "hidden";
 				break;
 		}
@@ -83,7 +83,7 @@
 		var nt = document.getElementById("navtargetpane");
 		nt.innerHTML = "";
 		
-		if((uistate.navhere!="character edit")&&(uistate.navhere!="seed shapes")&&(uistate.navhere!="test drive")) {
+		if((uistate.navhere!="character edit")&&(uistate.navhere!="linked shapes")&&(uistate.navhere!="test drive")) {
 				uistate.navprimaryhere = "npNav";
 				nt.innerHTML = generateNavTargetOptions();
 				return;
@@ -100,9 +100,9 @@
 					nt.innerHTML = "<h1>character edit</h1>"+updateselectchar();
 					drawselectcharcanvas();
 				}
-				if(uistate.navhere == "seed shapes") {
-					nt.innerHTML = "<h1>seed shapes</h1>"+seedshapes_subnav();
-					drawSeedShapeLayerThumbs();
+				if(uistate.navhere == "linked shapes") {
+					nt.innerHTML = "<h1>linked shapes</h1>"+linkedshapes_subnav();
+					drawLinkedShapeLayerThumbs();
 				}
 				break;
 			
@@ -160,7 +160,7 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 		
-		if(uistate.navhere=="seed shapes"){
+		if(uistate.navhere=="linked shapes"){
 			uistate.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
@@ -203,7 +203,7 @@
 			navarr.push("npAttributes");
 		}
 		
-		if(uistate.navhere=="seed shapes"){
+		if(uistate.navhere=="linked shapes"){
 			navarr.push("npChar");
 			navarr.push("npAttributes");
 		}
@@ -227,7 +227,7 @@
 	function generateNavTargetOptions(){
 		var navarr = [];
 		navarr.push("character edit");
-		navarr.push("seed shapes");
+		navarr.push("linked shapes");
 		navarr.push("test drive");
 		navarr.push("_");
 		navarr.push("font settings");
@@ -331,10 +331,10 @@
 			uqo.state = clone(uistate.charcurrstate);
 			uistate.charundoq.push(uqo);
 			uistate.charcurrstate = clone(_G.fontchars);
-		} else if (uistate.navhere == "seed shapes"){
-			uqo.state = clone(uistate.seedcurrstate);
-			uistate.seedundoq.push(uqo);
-			uistate.seedcurrstate = clone(_G.seedshapes);
+		} else if (uistate.navhere == "linked shapes"){
+			uqo.state = clone(uistate.linkcurrstate);
+			uistate.linkundoq.push(uqo);
+			uistate.linkcurrstate = clone(_G.linkedshapes);
 		}
 		
 		/*
@@ -358,11 +358,11 @@
 				uistate.charcurrstate = clone(_G.fontchars);
 				redraw();
 			}
-		} else if (uistate.navhere == "seed shapes"){
-			if(uistate.seedundoq.length > 0){
-				var uqo = uistate.seedundoq.pop();
-				_G.seedshapes = uqo.state;
-				uistate.seedcurrstate = clone(_G.seedshapes);
+		} else if (uistate.navhere == "linked shapes"){
+			if(uistate.linkundoq.length > 0){
+				var uqo = uistate.linkundoq.pop();
+				_G.linkedshapes = uqo.state;
+				uistate.linkcurrstate = clone(_G.linkedshapes);
 				redraw();
 			}
 		}

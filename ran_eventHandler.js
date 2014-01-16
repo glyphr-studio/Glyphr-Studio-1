@@ -428,13 +428,13 @@
 		
 		this.mousemove = function (ev) {
 			var s = ss("eventHandler - pathedit mousemove");
-			//debug("<b><i>SHAPERESIZE TOOL</i></b> - ss returned s.seed: " + s.seed);
+			//debug("<b><i>SHAPERESIZE TOOL</i></b> - ss returned s.link: " + s.link);
 			var didstuff = false;
 
-			if(s.seed){
-				//debug("SHAPERESIZE dragging seed shape");
-				if(this.dragging && !s.useseedxy){
-					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.useseedxy=" + !s.useseedxy);
+			if(s.link){
+				//debug("SHAPERESIZE dragging linked shape");
+				if(this.dragging && !s.uselinkedshapexy){
+					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
 					s.xpos += Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.chareditcanvassettings.zoom);
 					s.ypos += Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.chareditcanvassettings.zoom);
 					didstuff = true;
@@ -666,7 +666,7 @@
 	
 	function mousewheel(event){	
 	    var delta = event.detail? event.detail*(-120) : event.wheelDelta 	//cross browser
-		var canscroll = ((uistate.navhere == "character edit") || (uistate.navhere == "seed shapes"));
+		var canscroll = ((uistate.navhere == "character edit") || (uistate.navhere == "linked shapes"));
 		canscroll = canscroll && (document.getElementById('dialog_box').style.display != 'block');
 		
 		if(canscroll){

@@ -1,8 +1,8 @@
 
 
-	function updateseedshapes(toggle){
+	function updatelinkedshapes(toggle){
 
-		document.getElementById("mainpane").innerHTML = seedshapes_content();
+		document.getElementById("mainpane").innerHTML = linkedshapes_content();
 		
 		setupEditCanvas();
 		setupGhostCanvas();
@@ -12,10 +12,10 @@
 		document.onkeypress = keypress;
 		
 		uistate.selectedshape = -1;
-		seedshapesredraw();	
+		linkedshapesredraw();	
 	}
 
-	function seedshapes_content(){					
+	function linkedshapes_content(){					
 		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
 		re += '<table class="charedittable" cellspacing=0 cellpadding=0 border=0><tr>';
@@ -26,63 +26,63 @@
 		return re;
 	}
 
-	function seedshapes_subnav(){
+	function linkedshapes_subnav(){
 		var re = "<div class='subnavunit'>";
 		re += "<table class='layertable'>";
-		for(var ssid in _G.seedshapes){
-			//debug("SEEDSHAPES_SUBNAV - making button for " + ssid);
+		for(var ssid in _G.linkedshapes){
+			//debug("LINKEDSHAPES_SUBNAV - making button for " + ssid);
 			re += makeSSSubnavButton(ssid);
 		}
 		re += "</table>";
 		
 		re += "<h1>actions</h1>";
-		re += "<table class='actionsgrid'><tr><td><h3>seed shape</h3>";
-		re += "<input class='button' type='button' value='create new' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
-		re += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteSeedShapeConfirm();'><br>";		
+		re += "<table class='actionsgrid'><tr><td><h3>linked shape</h3>";
+		re += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"create new linked shape\");navigate();'><br>";
+		re += "<input class='"+(aalength(_G.linkedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteLinkedShapeConfirm();'><br>";		
 		re += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 		re += "</td> &nbsp; </td></td> &nbsp; </td></tr></table>";
 
 		return re;
 	}
 	
-	function drawSeedShapeLayerThumbs(){
-		//debug("DRAWSEEDSHAPELAYERTHUMBS - start");
+	function drawLinkedShapeLayerThumbs(){
+		//debug("DRAWLINKEDSHAPELAYERTHUMBS - start");
 		var fs = _G.fontsettings;
 		var tctx = {};
 		var tele = false;
 		var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (uistate.layerthumbgutter+(fs.upm*factor));
-		for(var ssid in _G.seedshapes){
+		for(var ssid in _G.linkedshapes){
 			tele = document.getElementById(("layerthumb"+ssid))
 			tctx = tele.getContext("2d");
 			tele.style.backgroundColor = uistate.colors.offwhite;
-			if(ssid==uistate.shownseedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-			_G.seedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+			if(ssid==uistate.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
+			_G.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
 		}
-		//debug("DRAWSEEDSHAPELAYERTHUMBS - end");
+		//debug("DRAWLINKEDSHAPELAYERTHUMBS - end");
 	}
 
 	function makeSSSubnavButton(ssid){
-		//debug("MAKESSSUBNAVBUTTON passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(_G.seedshapes.id0));
+		//debug("MAKESSSUBNAVBUTTON passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(_G.linkedshapes.id0));
 		var re = "";
 
-		if(ssid==uistate.shownseedshape){
+		if(ssid==uistate.shownlinkedshape){
 			re += "<tr class='layersel'";
 		} else {
 			re += "<tr class='layer'";
 		}
-		re += " onclick='makeSeedShapeSelected(\"" + ssid + "\");'>";
+		re += " onclick='makeLinkedShapeSelected(\"" + ssid + "\");'>";
 		re += "<td class='layerthumb'><canvas id='layerthumb"+ssid+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
-		re += "<td class='layername'>" + _G.seedshapes[ssid].shape.name + "</td></tr>";
+		re += "<td class='layername'>" + _G.linkedshapes[ssid].shape.name + "</td></tr>";
 
 		return re;
 	}
 	
-	function makeSeedShapeSelected(ssid){
-		//debug("MAKESEEDSHAPESELECTED - ssid: " + ssid);
-		uistate.shownseedshape = ssid;
+	function makeLinkedShapeSelected(ssid){
+		//debug("MAKELINKEDSHAPESELECTED - ssid: " + ssid);
+		uistate.shownlinkedshape = ssid;
 		uistate.selectedshape = ssid;
-		uistate.shapelayers = [_G.seedshapes[ssid].shape];
+		uistate.shapelayers = [_G.linkedshapes[ssid].shape];
 		navigate();
 	}
 
@@ -91,17 +91,17 @@
 // REDRAW
 //-------------------
 
-	function seedshapesredraw(){
-		debug("!!! SEEDSHAPEREDRAW !!! - shownseedshape:" + uistate.shownseedshape + ", uistate.selectedshape:" + uistate.selectedshape);
+	function linkedshapesredraw(){
+		debug("!!! LINKEDSHAPEREDRAW !!! - shownlinkedshape:" + uistate.shownlinkedshape + ", uistate.selectedshape:" + uistate.selectedshape);
 				
 		uistate.chareditctx.clearRect(0,0,5000,5000);
 		grid();
 		vertical(uistate.chareditcanvassettings.size.makeCrisp());
 		
-		_G.seedshapes[uistate.shownseedshape].shape.drawShape_Single(uistate.chareditctx);
+		_G.linkedshapes[uistate.shownlinkedshape].shape.drawShape_Single(uistate.chareditctx);
 		
-		if(_G.seedshapes[uistate.selectedshape]) {
-			_G.seedshapes[uistate.selectedshape].shape.drawSelectOutline();
+		if(_G.linkedshapes[uistate.selectedshape]) {
+			_G.linkedshapes[uistate.selectedshape].shape.drawSelectOutline();
 		}
 
 		updateNavPrimaryNavTarget();
@@ -113,20 +113,20 @@
 //-------------------
 // Update Details
 //-------------------
-	function seedShapeCharDetails(){
+	function linkedShapeCharDetails(){
 		var content = "";	
 
-		//content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Seed Shape ID </td><td> " + uistate.shownseedshape + " </td></tr>";	
+		//content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Linked Shape ID </td><td> " + uistate.shownlinkedshape + " </td></tr>";	
 			
-		if(_G.seedshapes[uistate.shownseedshape].usedin.length > 0){
-			content += "<table style='margin-top:10px;'><tr><td colspan=3><h3>characters that use this seed shape</h3>";
+		if(_G.linkedshapes[uistate.shownlinkedshape].usedin.length > 0){
+			content += "<table style='margin-top:10px;'><tr><td colspan=3><h3>characters that use this linked shape</h3>";
 			content += generateUsedinThumbs();
 			content += "</td></tr></table>";	
 		} else {
-			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this seed shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this seed shape to a character now</a>.</i></td></tr></table>"
+			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this linked shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this linked shape to a character now</a>.</i></td></tr></table>"
 		}
 
-		//debug("SEEDSHAPECHARDETAILS - returning html:\n" + content);
+		//debug("LINKEDSHAPECHARDETAILS - returning html:\n" + content);
 		return content;
 	}
 	
@@ -135,7 +135,7 @@
 	
 	function generateUsedinThumbs(){		
 		var re = "<div class='ssthumbcontainer'>";
-		var ui = _G.seedshapes[uistate.shownseedshape].usedin;
+		var ui = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 
 		for(var k=0; k<ui.length; k++){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
@@ -159,7 +159,7 @@
 	
 	function drawUsedinThumbs(){
 		var fs = _G.fontsettings;
-		var ui = _G.seedshapes[uistate.shownseedshape].usedin;
+		var ui = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
@@ -180,19 +180,19 @@
 //-------------------
 // Update Actions
 //-------------------
-	function updateseedshapeactions(){
+	function updatelinkedshapeactions(){
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 				
 		var s = ss("Update Actions");		
 		
 		var allactions = "<td><h3>*</h3>";
-			allactions += "<input class='"+(uistate.seedundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.seedundoq.length > 0) ? (" " + uistate.seedundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input class='"+(uistate.linkundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.linkundoq.length > 0) ? (" " + uistate.linkundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "</td>";
 		
-		var seedshapeactions = "<td><h3>seed shape</h3>";
-			seedshapeactions += "<input class='button' type='button' value='create new' onclick='addSeedShape();putundoq(\"create new seed shape\");navigate();'><br>";
-			seedshapeactions += "<input class='"+(aalength(_G.seedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteSeedShapeConfirm();'><br>";		
-			seedshapeactions += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
+		var linkedshapeactions = "<td><h3>linked shape</h3>";
+			linkedshapeactions += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"create new linked shape\");navigate();'><br>";
+			linkedshapeactions += "<input class='"+(aalength(_G.linkedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteLinkedShapeConfirm();'><br>";		
+			linkedshapeactions += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 			
 		var shapeactions = "";
 			if(uistate.eventhandlers.temppathdragshape && uistate.selectedtool=="pathedit"){
@@ -216,11 +216,11 @@
 		
 		// Put it all together
 		content += allactions;
-		content += seedshapeactions;
+		content += linkedshapeactions;
 		content += shapeactions;
 
 		var ispointsel = false;
-		if(s && !s.seed) ispointsel = s.path.sp(false);
+		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		if(ispointsel) {content += pointactions; }
 		else { content += "<td><h3>&nbsp;</h3></td>"; }
@@ -232,49 +232,49 @@
 		return content;
 	}
 
-	function addSeedShape(){
+	function addLinkedShape(){
 		var newid = generateNewSSID();
-		var newname = ("seedshape " + _G.projectsettings.seedshapecounter);
+		var newname = ("linkedshape " + _G.projectsettings.linkedshapecounter);
 
-		uistate.shownseedshape = newid;
+		uistate.shownlinkedshape = newid;
 		uistate.selectedshape = newid;
 
-		_G.seedshapes[newid] = new SeedShape({"name":newname});
+		_G.linkedshapes[newid] = new LinkedShape({"name":newname});
 
-		debug("Added New Seed Shape: " + newid + " JSON=" + JSON.stringify(_G.seedshapes));
+		debug("Added New Linked Shape: " + newid + " JSON=" + JSON.stringify(_G.linkedshapes));
 	}
 
-	function deleteSeedShapeConfirm(){
-		var content = "Are you sure you want to delete this seed shape?<br>";
-		var uia = _G.seedshapes[uistate.shownseedshape].usedin;
+	function deleteLinkedShapeConfirm(){
+		var content = "Are you sure you want to delete this linked shape?<br>";
+		var uia = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 		if(uia.length > 0){
-			content += "If you do, the seed shape instances will also be removed from the following characters:<br><br>";
+			content += "If you do, the linked shape instances will also be removed from the following characters:<br><br>";
 			for(var ssu=0; ssu<uia.length; ssu++){
 				content += ("&nbsp; &nbsp; " + _G.fontchars[uia[ssu]].charname.replace(/LATIN /gi,"") + "<br>");
 			}
 		} else {
-			content += "This seed shape is not currently being used by any characters.<br>";
+			content += "This linked shape is not currently being used by any characters.<br>";
 		}
 		
 		content += "<br>Warning: This action cannot be undone!<br>";
-		content += "<br><input type='button' value='permanently delete this seed shape' onclick='deleteSeedShape();'> &nbsp; <input type='button' value='cancel' onclick='closeDialog();'>";
+		content += "<br><input type='button' value='permanently delete this linked shape' onclick='deleteLinkedShape();'> &nbsp; <input type='button' value='cancel' onclick='closeDialog();'>";
 
 		openDialog(content);
 	}
 	
-	function deleteSeedShape(){
-		//debug("DELETESEEDSHAPE - deleting " + uistate.shownseedshape);
+	function deleteLinkedShape(){
+		//debug("DELETELINKEDSHAPE - deleting " + uistate.shownlinkedshape);
 		closeDialog();
-		if(aalength(_G.seedshapes)>1){
-			// find & delete all seed shape instances
-			var uia = _G.seedshapes[uistate.shownseedshape].usedin;
+		if(aalength(_G.linkedshapes)>1){
+			// find & delete all linked shape instances
+			var uia = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 			//debug("----------------- starting to go through uia: " + uia);
 			for(var cui=0; cui<uia.length; cui++){
 				var tc = _G.fontchars[uia[cui]].charshapes;
 				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #uistate.shapelayers " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
-					//debug("----------------- shapelayer " + sl + " has .seed " + tc[sl].seed + " checking against " + uistate.shownseedshape);
-					if(tc[sl].seed == uistate.shownseedshape){
+					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + uistate.shownlinkedshape);
+					if(tc[sl].link == uistate.shownlinkedshape){
 						//debug("----------------- they are =, deleting index " + sl + " from array.");
 						//debug("----------------- (befor): " + tc);
 						tc.splice(sl, 1);
@@ -283,44 +283,44 @@
 				}
 			}
 			
-			// delete seedshape and switch selection
-			delete _G.seedshapes[uistate.shownseedshape];
-			uistate.shownseedshape = getFirstSeedShape();
-			uistate.selectedshape = uistate.shownseedshape;
-			//debug("DELETESEEDSHAPE - delete complete, new shownseedshape = " + shownseedshape);
+			// delete linkedshape and switch selection
+			delete _G.linkedshapes[uistate.shownlinkedshape];
+			uistate.shownlinkedshape = getFirstLinkedShape();
+			uistate.selectedshape = uistate.shownlinkedshape;
+			//debug("DELETELINKEDSHAPE - delete complete, new shownlinkedshape = " + shownlinkedshape);
 			
 			navigate();
 		} else {
-			alert("Error: deleting the last seed shape should not have been an allowed action.");
+			alert("Error: deleting the last linked shape should not have been an allowed action.");
 		}
 	}
 
-	function pasteSeedShape(){
+	function pasteLinkedShape(){
 		if(uistate.clipboardshape){
-			_G.seedshapes[uistate.shownseedshape].shape = uistate.clipboardshape;
+			_G.linkedshapes[uistate.shownlinkedshape].shape = uistate.clipboardshape;
 		}
 	}
 
 	function showAddSSToCharDialog(msg){
 		var content = "<table style='width:756px'><tr><td>";
 		content += msg? msg : "";
-		content += "Select the character into which you would like to insert this seed shape:<br><br></td></tr>";
+		content += "Select the character into which you would like to insert this linked shape:<br><br></td></tr>";
 		content += "<tr><td>";
-		content += updateselectchar("insertSeedShapeToChar");
+		content += updateselectchar("insertLinkedShapeToChar");
 		content += "</td></tr>";
 		content += "<tr><td><br><input type='button' class='button' value='done' onclick='closeDialog();'/></td></tr></table>";
 		openDialog(content);
 		drawselectcharcanvas();
 	}
 	
-	function insertSeedShapeToChar(chid){
+	function insertLinkedShapeToChar(chid){
 		var temschar = uistate.selectedchar;
 		selectchar(chid, true);
-		insertSeedShape(uistate.shownseedshape);
+		insertLinkedShape(uistate.shownlinkedshape);
 		uistate.selectedchar = temschar;
-		putundoq("insert seed shape from seedshapes");
+		putundoq("insert linked shape from linkedshapes");
 		closeDialog();
-		showAddSSToCharDialog("The SeedShape '" + _G.seedshapes[uistate.shownseedshape].shape.name + "' was successfully inserted into character " + _G.fontchars[chid].charname + ".<br><br>");
+		showAddSSToCharDialog("The LinkedShape '" + _G.linkedshapes[uistate.shownlinkedshape].shape.name + "' was successfully inserted into character " + _G.fontchars[chid].charname + ".<br><br>");
 	}
 
 	

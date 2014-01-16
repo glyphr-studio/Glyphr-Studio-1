@@ -77,7 +77,7 @@
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
-			sl = [_G.seedshapes[charcode].shape];
+			sl = [_G.linkedshapes[charcode].shape];
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 

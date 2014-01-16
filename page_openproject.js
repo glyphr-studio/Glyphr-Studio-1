@@ -77,12 +77,12 @@
 			}
 		}
 
-		// Seed Shapes
-		//debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.seedshapes));
-		for (var ssid in data.seedshapes) {
-			//debug("HYDRATEGLYPHRPROJECT hydrating seedshape " + ssid)
-			var ss = data.seedshapes.ssid;
-			if(ss){ ss = new SeedShape(ss); }
+		// Linked Shapes
+		//debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.linkedshapes));
+		for (var ssid in data.linkedshapes) {
+			//debug("HYDRATEGLYPHRPROJECT hydrating linkedshape " + ssid)
+			var ss = data.linkedshapes.ssid;
+			if(ss){ ss = new LinkedShape(ss); }
 		}
 
 		//debug("HDRYATEGLYPHRPROJECT: JSON \n" + JSON.stringify(data));
@@ -124,8 +124,8 @@
 
 		_G.fontchars = createNewFontObject();
 	
-		_G.seedshapes = {};
-		_G.seedshapes["id0"] = new SeedShape({});
+		_G.linkedshapes = {};
+		_G.linkedshapes["id0"] = new LinkedShape({});
 
 		finalizeGlyphrProject();
 	}
@@ -133,16 +133,16 @@
 	function finalizeGlyphrProject(){
 		//debug("FINALIZEGLYPHRPROJECT - start of function");
 		uistate.charcurrstate = clone(_G.fontchars);
-		uistate.seedcurrstate = clone(_G.seedshapes);
+		uistate.linkcurrstate = clone(_G.linkedshapes);
 		
-		if(!isval(_G.projectsettings.seedshapecounter)){
-			_G.projectsettings.seedshapecounter = 0;
+		if(!isval(_G.projectsettings.linkedshapecounter)){
+			_G.projectsettings.linkedshapecounter = 0;
 		}
 		
-		//debug("FINALIZEGLYPHRPROJECT - After seedshapecounter: " + _G.projectsettings.seedshapecounter);
+		//debug("FINALIZEGLYPHRPROJECT - After linkedshapecounter: " + _G.projectsettings.linkedshapecounter);
 		
 		uistate.selectedchar = 97;
-		uistate.shownseedshape = getFirstSeedShape();
+		uistate.shownlinkedshape = getFirstLinkedShape();
 		
 		setupCECandCGC();
 		

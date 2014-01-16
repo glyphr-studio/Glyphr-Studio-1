@@ -13,15 +13,15 @@ function updatehelp(){
 	"<li>Black Navigation buttons </li>" +
 	"<ul>" +
 	"<li>For all sections there is at least one Navigation button, right after the small Save button.  When clicked on, this displays all the pages within Glyphr Studio.</li>" +
-	"<li>The second Navigation button only appears on the Character Edit and Seed Shapes sections.  This button chooses the Character or Seed Shape to currently edit.</li>  " +
+	"<li>The second Navigation button only appears on the Character Edit and Linked Shapes sections.  This button chooses the Character or Linked Shape to currently edit.</li>  " +
 	"</ul>" +
 	"<li>(for Dev editions, the 'Show Debug Thingy' button is on the far right)</li>" +
 	"</ul>" +
-	"On the Character Edit and Seed Shapes sections, the main lower section is split between the Attributes area on the left, and the Editing Canvas on the right. " +
+	"On the Character Edit and Linked Shapes sections, the main lower section is split between the Attributes area on the left, and the Editing Canvas on the right. " +
 
 	"<a name='s'></a>" +
 	"<h2>Shapes<a href='#top' class='btt'>back to top</a></h2>" +
-	"The follwing Editing and Attributes help topics apply to the Charcter Edit section, and the Seed Shapes section." +
+	"The follwing Editing and Attributes help topics apply to the Charcter Edit section, and the Linked Shapes section." +
 	"<a name='et'></a>" +
 	"<h3>Editing Tools</h3>" +
 	"In the Upper Left hand side of the Editing Canvas there are 10 tools.  The currently selected tool has a blue background.  The tools, from left to right, are:" +
@@ -58,10 +58,10 @@ function updatehelp(){
 	"</ul>" +
 
 	"<a name='ss'></a>" +
-	"<h2>Seed Shapes<a href='#top' class='btt'>back to top</a></h2>" +
-	"Seed Shapes are individual shapes that can be added to many Characters.  Any time the Seed Shape is edited, all the Characters that use that Seed Shape are updated.  There are many individual letter forms that are shared across characters in a single font – for example the round o form of the letters b,d,g,o,p,q.  Seed Shapes were designed to make it easy to keep similar letter forms consistent across a font.<br><br>" +
-	"Creating new Seed Shapes, and adding a Seed Shape to a character can be done through the Actions list, located to the left of the Editing Canvas. The Seed Shapes page is very similar to the Character Edit page.  Each Seed Shape is just a single Shape, so there are no shape layers, or add shape buttons.  The Seed Shapes page also displays all the shapes that use the current Seed Shape – they are displayed as a thumbnail in the lower left, and update as the Seed Shape is edited.  Clicking on one of these thumbnails will navigate to the Character Edit page for that character.<br><br>" +
-	"Once in Character Edit, selecting a Seed Shape will display a short list of Attributes.  A Seed Shape Instance can be given a specific name per-character to which it’s added.  The default location for the Seed Shape Instance is the location of the original Seed Shape.  Unchecking “Use Seed Shape Position” will bring up options to move the Seed Shape Instance – the X/Y coordinates are not absolute, they are a delta from the original Seed Shape X/Y coordinates.  Clicking the “Edit this Seed Shape” button will navigate back to Seed Shapes where that Seed Shape can be edited." +
+	"<h2>Linked Shapes<a href='#top' class='btt'>back to top</a></h2>" +
+	"Linked Shapes are individual shapes that can be added to many Characters.  Any time the Linked Shape is edited, all the Characters that use that Linked Shape are updated.  There are many individual letter forms that are shared across characters in a single font – for example the round o form of the letters b,d,g,o,p,q.  Linked Shapes were designed to make it easy to keep similar letter forms consistent across a font.<br><br>" +
+	"Creating new Linked Shapes, and adding a Linked Shape to a character can be done through the Actions list, located to the left of the Editing Canvas. The Linked Shapes page is very similar to the Character Edit page.  Each Linked Shape is just a single Shape, so there are no shape layers, or add shape buttons.  The Linked Shapes page also displays all the shapes that use the current Linked Shape – they are displayed as a thumbnail in the lower left, and update as the Linked Shape is edited.  Clicking on one of these thumbnails will navigate to the Character Edit page for that character.<br><br>" +
+	"Once in Character Edit, selecting a Linked Shape will display a short list of Attributes.  A Linked Shape Instance can be given a specific name per-character to which it’s added.  The default location for the Linked Shape Instance is the location of the original Linked Shape.  Unchecking “Use Linked Shape Position” will bring up options to move the Linked Shape Instance – the X/Y coordinates are not absolute, they are a delta from the original Linked Shape X/Y coordinates.  Clicking the “Edit this Linked Shape” button will navigate back to Linked Shapes where that Linked Shape can be edited." +
 
 	"<a name='td'></a>" +
 	"<h2>Test Drive<a href='#top' class='btt'>back to top</a></h2>" +
@@ -136,7 +136,7 @@ function updatehelp(){
 	"<li><a href='#sa'>Shape Attributes</a></li>" +
 	"<li><a href='#ppa'>Path Point Attributes</a></li>" +
 	"</ul>" +
-	"<li><a href='#ss'>Seed Shapes</a></li>" +
+	"<li><a href='#ss'>Linked Shapes</a></li>" +
 	"<li><a href='#td'>Test Drive</a></li>" +
 	"<li><a href='#fsfm'>Font Settings and Font Metadata</a></li>" +
 	"<ul>" +

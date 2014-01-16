@@ -78,7 +78,7 @@
 		var onc = (fname + "(" + index + ");");
 		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_G.fontchars[index].charname+"'>";
 		var issel = _G.fontchars[index].charvalue == _G.fontchars[uistate.selectedchar].charvalue;
-		issel = issel & (uistate.navhere != "seed shapes");
+		issel = issel & (uistate.navhere != "linked shapes");
 		
 		if(_G.fontchars[index].charshapes[0]){
 			var extra = "";
@@ -166,7 +166,7 @@
 // REDRAW
 //-------------------
 	function redraw(){
-		if(uistate.navhere == "seed shapes") {seedshapesredraw(); return;}		
+		if(uistate.navhere == "linked shapes") {linkedshapesredraw(); return;}		
 		
 		var fc = _G.fontchars;
 		
@@ -200,9 +200,9 @@
 			// Recompute Right Hand Line
 			if(neww) {
 				var thisrightx = 0;
-				if(sh.seed){
-					var tss = _G.seedshapes[sh.seed].shape;
-					if(sh.useseedxy) {
+				if(sh.link){
+					var tss = _G.linkedshapes[sh.link].shape;
+					if(sh.uselinkedshapexy) {
 						thisrightx = tss.path.rightx;
 					} else {
 						thisrightx = (tss.path.rightx + sh.xpos);
@@ -220,9 +220,9 @@
 
 		var s = ss("Redraw");
 		if(s) {
-			s.drawSelectOutline(s.seed != false);
+			s.drawSelectOutline(s.link != false);
 							
-			if(s.seed){
+			if(s.link){
 				uistate.selectedtool = "shaperesize";
 			}
 		}
@@ -260,12 +260,12 @@
 		var s = ss("update details");
 		
 		var ispointsel = false;
-		if(s && !s.seed) ispointsel = s.path.sp(false);
+		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		
 		var content = "";
-		if(uistate.navhere == "seed shapes"){
-			content = "<h1>" + _G.seedshapes[uistate.shownseedshape].shape.name + "</h1>";
+		if(uistate.navhere == "linked shapes"){
+			content = "<h1>" + _G.linkedshapes[uistate.shownlinkedshape].shape.name + "</h1>";
 		} else {
 			content = "<h1>attributes</h1>";
 		}
@@ -278,10 +278,10 @@
 		//debug("UPDATEDETAILS - uistate.selectedshape: " + uistate.selectedshape + " - s.name: " + s.name + " - navhere: " + uistate.navhere);
 		if (uistate.navhere == "character edit"){
 			//debug("UPDATEDETAILS - detected navhere = character edit");
-			if(s && s.seed){
-				// seed shape selected
-				//debug("UPDATEDETAILS: seed shape selected");
-				content += seedShapeInstanceDetails(s);
+			if(s && s.link){
+				// linked shape selected
+				//debug("UPDATEDETAILS: linked shape selected");
+				content += linkedShapeInstanceDetails(s);
 			} else if (s){
 				// regular shape selected
 				//debug("UPDATEDETAILS: regular shape selected");
@@ -296,17 +296,17 @@
 			content += "</table><br>";
 			content += updateactions();
 
-		} else if (uistate.navhere == "seed shapes"){
-			//debug("UPDATEDETAILS - detected navhere = seed shapes");
+		} else if (uistate.navhere == "linked shapes"){
+			//debug("UPDATEDETAILS - detected navhere = linked shapes");
 			if (s){
 				content += shapeDetails(s);
 				if(ispointsel){ 
 					content += pointDetails(s); 
 				}
 			}
-			content += seedShapeCharDetails();
+			content += linkedShapeCharDetails();
 			content += "</table><br>";
-			content += updateseedshapeactions();
+			content += updatelinkedshapeactions();
 		}
 		
 		try {
@@ -317,8 +317,8 @@
 		
 		ispointsel? drawPointButtons(s) : false;
 
-	   	// draw UsedInThumbs for SeedShapes
-	   	if(uistate.navhere == "seed shapes"){
+	   	// draw UsedInThumbs for LinkedShapes
+	   	if(uistate.navhere == "linked shapes"){
 	   		drawUsedinThumbs();
 	   	}
 
@@ -513,7 +513,7 @@
 		var allactions = "<td><h3>*</h3>";
 			allactions += "<input  class='"+(uistate.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.charundoq.length > 0) ? (" " + uistate.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"add shape\");redraw();'><br>";
-			allactions += "<input class='button' type='button' value='insert seed shape' onclick='insertSeedShapeDialog();'><br>";
+			allactions += "<input class='button' type='button' value='insert linked shape' onclick='insertLinkedShapeDialog();'><br>";
 			allactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";
 			
 			allactions += "</td>";
@@ -551,7 +551,7 @@
 		else { content += "<td> &nbsp; </td>";}
 		
 		var ispointsel = false;
-		if(s && !s.seed) ispointsel = s.path.sp(false);
+		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(uistate.selectedtool != "pathedit") ispointsel = false;
 		
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
@@ -575,7 +575,7 @@
 		var s = ss("Update Actions");
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"add shape\");redraw();'><br>";
-			allactions += "<input class='button' type='button' value='insert seed shape' onclick='insertSeedShapeDialog();'><br>";
+			allactions += "<input class='button' type='button' value='insert linked shape' onclick='insertLinkedShapeDialog();'><br>";
 			
 		var shapeactions = "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"delete shape\");redraw();'><br>";
 			
@@ -637,9 +637,9 @@
 			}
 			newshape.name = newname + newsuffix;
 			
-			if(newshape.seed){
-				addToUsedIn(newshape.seed, uistate.selectedchar);
-				//debug("PASTESHAPE - pasted a seedshape, added " + uistate.selectedchar + " to usedin array.");
+			if(newshape.link){
+				addToUsedIn(newshape.link, uistate.selectedchar);
+				//debug("PASTESHAPE - pasted a linkedshape, added " + uistate.selectedchar + " to usedin array.");
 			}
 
 			addShape(newshape);
@@ -724,7 +724,7 @@
 				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
 				
 				content += "<td class='layername'>" + uistate.shapelayers[i].name ;
-				if(uistate.shapelayers[i].seed) { content += "<span class='layernote'>[seed shape]</span>"; }
+				if(uistate.shapelayers[i].link) { content += "<span class='layernote'>[linked shape]</span>"; }
 				content += "</td></tr>";
 			}
 			content += "</table>";
@@ -778,13 +778,13 @@
 		var pointselectclass = "";
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
-		if(uistate.navhere == "seed shapes") {
-			if(!_G.seedshapes[uistate.selectedshape]) { s = false; }
+		if(uistate.navhere == "linked shapes") {
+			if(!_G.linkedshapes[uistate.selectedshape]) { s = false; }
 		}
 		
 		if(uistate.selectedtool=='pathedit'){
 			pointselectclass = "buttonsel tool";
-		} else if (s.seed){
+		} else if (s.link){
 			pointselectclass = "buttondis tool";
 			pointselectclickable = false;
 		} else {

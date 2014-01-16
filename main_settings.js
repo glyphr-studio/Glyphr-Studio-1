@@ -25,10 +25,10 @@
 			"g1" : "rgb(25,30,35)"				// 10% gray
 		},
 
-		// page: seed shapes
-		"shownseedshape" : "id0",
-		"seedcurrstate" : {},
-		"seedundoq" : [],
+		// page: linked shapes
+		"shownlinkedshape" : "id0",
+		"linkedshapecurrstate" : {},
+		"linkedshapeundoq" : [],
 
 		// page: charedit
 		"charundoq" : [],
@@ -131,7 +131,7 @@
 			"name": "My Font",
 			"debug": true,				// global debug console switch
 			"version": uistate.thisGlyphrStudioVersion,	// console version
-			"seedshapecounter": 0,		// private counter for ss id
+			"linkedshapecounter": 0,		// private counter for ss id
 			
 			// Grid stuff
 			"griddivisions": 16,		// how many squares of grid per emsize
@@ -161,7 +161,7 @@
 
 		"fontchars" : {},
 
-		"seedshapes" : {}
+		"linkedshapes" : {}
 	};
 
 	
