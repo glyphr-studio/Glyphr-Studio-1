@@ -722,7 +722,7 @@
 	function keypress(event){
 		//debug("Key Pressed: " + event.keyCode);
 		/*
-		debug("Key Pressed: " + event.keyCode);
+		//debug("Key Pressed: " + event.keyCode);
 		var s = ss("keypress event");
 		var changed = false;
 		if(s){

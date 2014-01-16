@@ -270,7 +270,7 @@
 		var con = "Sorry about the issue – so we can fix it, please explain step by step how to re-create the issue you ran into. If there was a JavaScript Error message or line number, include that too.%0A%0A%0A%0A";
 		con += "Thank you!%0A%09The Glyphr Team%0A%0A";
 		con += "___________________________________________%0A%0A";
-		con += "Glyphr Studio Version %09%09" + thisGlyphrStudioVersion + "%0A";
+		con += "Glyphr Studio Version %09%09" + uistate.thisGlyphrStudioVersion + "%0A";
 		//con += "appCodeName %09%09" + navigator.appCodeName + "%0A";
 		con += "appName %09%09" + navigator.appName + "%0A";
 		//con += "appVersion %09%09" + navigator.appVersion + "%0A";
@@ -280,7 +280,7 @@
 		con += "userLanguage %09%09" + navigator.userLanguage + "%0A";		
 		con += "userAgent %09%09" + encodeURIComponent(navigator.userAgent) + "%0A";
 		
-		debug(con);
+		//debug(con);
 		
 		return con;
 	}
@@ -364,7 +364,7 @@
 			uqdebug += undoq[i].nav + " - ";
 			uqdebug += undoq[i].name + "<br>";
 		}
-		debug(uqdebug);
+		//debug(uqdebug);
 		*/
 	}
 	

@@ -82,7 +82,7 @@
 		d = d.toDateString().split(" ");
 		d.splice(3,0,t);
 		var re = d.join(" ");
-		debug("TTXDATESTRING :  resulted " + re);
+		//debug("TTXDATESTRING :  resulted " + re);
 		return re;
 	}
 

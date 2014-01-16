@@ -92,7 +92,7 @@
 //-------------------
 
 	function linkedshapesredraw(){
-		debug("!!! LINKEDSHAPEREDRAW !!! - shownlinkedshape:" + uistate.shownlinkedshape + ", uistate.selectedshape:" + uistate.selectedshape);
+		//debug("!!! LINKEDSHAPEREDRAW !!! - shownlinkedshape:" + uistate.shownlinkedshape + ", uistate.selectedshape:" + uistate.selectedshape);
 				
 		uistate.chareditctx.clearRect(0,0,5000,5000);
 		grid();
@@ -241,7 +241,7 @@
 
 		_G.linkedshapes[newid] = new LinkedShape({"name":newname});
 
-		debug("Added New Linked Shape: " + newid + " JSON=" + JSON.stringify(_G.linkedshapes));
+		//debug("Added New Linked Shape: " + newid + " JSON=" + JSON.stringify(_G.linkedshapes));
 	}
 
 	function deleteLinkedShapeConfirm(){

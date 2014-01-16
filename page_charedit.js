@@ -312,7 +312,7 @@
 		try {
 			document.getElementById("navtargetpane").innerHTML = content;	
 		} catch(err) {
-			debug("UPDATEDETAILS - <b>innerHTML update error caught</b>");
+			debug("UPDATEDETAILS - innerHTML update error caught");
 		}
 		
 		ispointsel? drawPointButtons(s) : false;
@@ -813,7 +813,7 @@
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
 		} catch(err) {
-			debug("UPDATETOOLS - <b>innerHTML update error caught</b>");
+			debug("UPDATETOOLS - innerHTML update error caught");
 		}
 		
 		// Draw the buttons
@@ -937,12 +937,12 @@
 		} else if(ctool=="pathedit"){
 			uistate.showrightline = false;
 			if(s) {s.path.selectPathPoint(0);}
-			debug("CLICKTOOL() - setting selectPathPoint = 0");
+			//debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
 			uistate.showrightline = true;
 			if(s){
 				if(s.path.needsnewcalcmaxes) {
-					debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
+					//debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
 					s.path.calcMaxes();
 				}
 			}
@@ -1057,9 +1057,4 @@
 		uistate.chareditctx.lineTo(x,xs.ymax+1);		
 		uistate.chareditctx.stroke();
 		uistate.chareditctx.closePath();
-	}
-	
-// RANDOMS
-	function debugZoomPan(zid){
-		debug("ZOOM PAN STATE - " + zid + " - z:" + uistate.chareditcanvassettings.zoom + " - px:" + uistate.chareditcanvassettings.originx + " - py:" + uistate.chareditcanvassettings.originy);
 	}
