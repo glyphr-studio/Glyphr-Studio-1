@@ -76,9 +76,6 @@
 				{"key": "created", "val": "" },
 				{"key": "fontRevision", "val": "1.0" }
 			],
-			"hhea": [
-				{"key": "lineGap", "val": "200" }
-			],
 			"os_2": [
 				{"key": "usWeightClass", "val": "500"},
 				{"key": "usWidthClass", "val": "5"}
@@ -134,13 +131,13 @@
 			"linkedshapecounter": 0,		// private counter for ss id
 			
 			// Grid stuff
-			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
-			"descender": (4/16),		// % of emsize descender
-			"linegap": 0,
-			"griddivisions": 16,		// how many squares of grid per emsize
-			"xheight": (9/16),			// % of emsize lowercase letter height
-			"overshoot": (1/(16*8)),	// % of emsize overshoot for round glyphs
-			"kerning": (1/16),			// default kerning, as a % of emsize
+			"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are		
+			"ascent": 700,			// ascender
+			"linegap": 250,
+			"griddivisions": 10,	// how many squares of grid per emsize
+			"xheight": 500,			// lowercase letter height
+			"overshoot": 5,			// overshoot for round glyphs
+			"defaultlsb": 40,		// default kerning
 
 			// UI stuff
 			"pointsize" : 5,			// square points size - SHOULD BE ODD	

@@ -3,28 +3,40 @@
 
 		// SETTINGS
 		var ps = _G.projectsettings;
-		var fs = _G.projectsettings;
 
 		var content = "<div class='pagecontent textpage'><h1>Font Settings</h1>";
 		content += "<p style='margin-bottom:20px;'>These properties are used by the Glyphr project while you are designing this font.  By default, these are the same as some of the OpenType settings below." +
 					"<br><i>Values will be saved as you change them</i>.</p>";
 		
-		content += "<h3>Units per Em</h3>" + 
-					"Total height and width of the area on which characters are stored. " + 
-					"This number should be a square, 2048 is recommended.<br>" + 
-					"<input type='text' value='"+fs.upm+"' onchange='updateFontSetting(\"upm\", this.value);'><span class='unit'>(em units)</span><br>";
-	
-		content += "<h3>Default Kerning</h3>" + 
-					"This is the amount of trailing space that is added to all characters, unless a specific " + 
-					"character width is specified, in which case this number is ignored.<br>" + 
-					"<input type='text' value='"+(fs.kerning*fs.upm)+"' onchange='updateFontSetting(\"kerning\", this.value);'><span class='unit'>(em units)</span><br>";
-		
+		content += "<h3>Character Proportions</h3>"; 
+		content += "Glyphr projects export OpenType fonts with PostScript outlines.  Characters in this kind of font have a total height of 1000 Em units. "+
+					"There is one main dividing line for each character.  The baseline is where the bottom " + 
+					"of most characters sit, above it is the ascent height.  Some characters, like p and y, fall below the baseline into the descent.<br>" + 
+					"<table class='fontmetricstable'>"+
+					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
+					"<tr><td>Descent height: </td><td><div id='metric-des' class='disdisplay'>"+(ps.ascent - ps.upm)+"</div></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
+					"<tr><td>Total Units per Em: </td><td><div class='disdisplay'>"+ps.upm+"</div></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
+					"</table><br>";
+
+		content += "<h3>Default Left Side Bearing</h3>" + 
+					"This is the amount of blank space that is added to the left of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
+					"<table class='fontmetricstable'>"+
+					"<tr><td>Left Side Bearing: </td><td><input type='text' value='"+ps.defaultlsb+"' onchange='_G.projectsettings.lsb = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+		
+					"</table><br>";
+
+		content += "<h3>Line Gap</h3>" + 
+					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
+					"<table class='fontmetricstable'>"+
+					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_G.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+	
+					"</table><br>";
 
 		// METADATA
 		content += "<br><h1>OpenType Properties</h1>" + 
 			"<p style='margin-bottom:20px;'>These properties will be saved directly to the various OpenType tables when the font is exported to TTX format.  More information about all of these properties can be found in the <a href='http://www.microsoft.com/typography/otspec/otff.htm#otttables' target=_new>OpenType Specification</a>." + 
 			"<br><i>Values will be saved as you change them</i>.</p>";
 		
+
+
 		content += "<h2>Tables</h2>";
 
 		var otp = _G.opentypeproperties;
@@ -48,16 +60,6 @@
 		
 		for(var prop=0; prop<otp.head.length; prop++){
 			content += "<tr><td class='propname'>" + otp.head[prop].key + "</td><td><input type='text' value='" + otp.head[prop].val + "' onchange='setOTprop(\"head\", \"" + otp.head[prop].key + "\", this.value);' /></td></tr>";
-		}
-		content += "</table>";
-
-
-		// HHEA TABLE
-		content += "<h3>hhea</h3>";
-		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
-		
-		for(var prop=0; prop<otp.hhea.length; prop++){
-			content += "<tr><td class='propname'>" + otp.hhea[prop].key + "</td><td><input type='text' value='" + otp.hhea[prop].val + "' onchange='setOTprop(\"hhea\", \"" + otp.hhea[prop].key + "\", this.value);' /></td></tr>";
 		}
 		content += "</table>";
 
@@ -97,24 +99,8 @@
 		document.getElementById("mainpane").innerHTML = content;
 	}
 
-
-	function updateFontNames(){
-		var fam = strSan(document.getElementById("fontname").value);
-		var sub = _G.projectsettings.subfamilyname;
-		
-		sub = sub.replace(/regular/i, "");
-		if(sub != "") sub = (" " + sub);
-		
-		_G.projectsettings.familyname = fam;
-		_G.projectsettings.fullname = (fam + sub);
-				
-		document.getElementById("fontfullname").innerHTML = (fam + sub);
-		//updatefontmetadata();
-	}
-	
-	function changeFMD(mdname, mdvalue, san){
-		if(san) mdvalue = strSan(mdvalue);
-		_G.projectsettings[mdname] = mdvalue;
-		if((mdname == "fontname")||(mdname == "subfamilyname")) {updateFontNames();}
-		//debug("CHANGEFMD - set " + mdname + " to " + mdvalue);
+	function updateAscender(val){
+		var ps = _G.projectsettings;
+		ps.ascent = Math.max(0, Math.min(ps.upm, Math.round(val)));
+		document.getElementById('metric-des').innerHTML = (ps.ascent - ps.upm);
 	}
