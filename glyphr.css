@@ -193,6 +193,10 @@
 		overflow-x:hidden;
 	}
 	
+	#navtargetpane a {
+		color:rgb(51, 56, 61);	
+	}
+	
 	#mainwrapper {
 		position:absolute;
 		top:0px;
