@@ -73,7 +73,6 @@
 		// default open type settings
 		"defaultopentypeproperties" : {
 			"head" : [
-				{"key": "unitsPerEm", "val" : "2048", "shared" : "upm"},
 				{"key": "created", "val": "" },
 				{"key": "fontRevision", "val": "1.0" }
 			],
@@ -135,10 +134,13 @@
 			"linkedshapecounter": 0,		// private counter for ss id
 			
 			// Grid stuff
+			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
+			"descender": (4/16),		// % of emsize descender
+			"linegap": 0,
 			"griddivisions": 16,		// how many squares of grid per emsize
 			"xheight": (9/16),			// % of emsize lowercase letter height
-			"descender": (4/16),		// % of emsize descender
 			"overshoot": (1/(16*8)),	// % of emsize overshoot for round glyphs
+			"kerning": (1/16),			// default kerning, as a % of emsize
 
 			// UI stuff
 			"pointsize" : 5,			// square points size - SHOULD BE ODD	
@@ -151,11 +153,6 @@
 			"color_glyphoutline" : "rgb(0,0,0)",	//shape outline color
 			"color_grid" : "rgb(240,240,240)",		//grid base color
 			"color_guideline" : "rgb(204,79,34)"	//guide base color
-		},
-
-		"fontsettings": {
-			"upm": 2048,				// Units Per Em - (emsize) how tall normal cap letters are		
-			"kerning": (1/16)			// default kerning, as a % of emsize
 		},
 
 		"opentypeproperties" : {},

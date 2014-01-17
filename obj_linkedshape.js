@@ -88,7 +88,7 @@
 	}
 	
 	function drawSSThumbs(){
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var tctx = {};
 		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (ssthumbgutter+(fs.upm*factor));

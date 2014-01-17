@@ -195,7 +195,7 @@
 	
 	Path.prototype.updatePathSize = function(dw, dh){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		
 		var s = ss("updatePathPosition");
 		s.wlock? dw = 0 : false;
@@ -629,7 +629,7 @@
 	}
 
 	Path.prototype.getMaxesFromPathPoints = function(){
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var r = {
 			"topy" : (fs.upm*-1),
 			"rightx" : (fs.upm*-1),

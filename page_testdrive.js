@@ -36,7 +36,7 @@
 		var text = document.getElementById("tdtextarea").value;
 		uistate.testdrivectx.clearRect(0,0,5000,5000);
 		var contentArray = text.split("");
-		var textEm = (_G.fontsettings.upm*tdFontScale);
+		var textEm = (_G.projectsettings.upm*tdFontScale);
 		var currx = padsize;
 		var curry = padsize + textEm;
 		
@@ -69,7 +69,7 @@
 	}
 
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var tc = _G.fontchars[charcode];
 		var sl = tc.charshapes;
 		var width = 0;
@@ -91,7 +91,7 @@
 			lctx.strokeStyle = uistate.colors.accent;
 			lctx.lineWidth = 1;
 			var trailspace = 0;
-			if(tc.isautowide) trailspace = _G.fontsettings.upm*_G.fontsettings.kerning*tdFontScale;
+			if(tc.isautowide) trailspace = _G.projectsettings.upm*_G.projectsettings.kerning*tdFontScale;
 			
 			lctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(fs.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((fs.upm*tdFontScale) + (fs.descender*fs.upm*tdFontScale)));
 		}	
@@ -152,7 +152,7 @@
 	}
 
 	function changefontscale(newval){
-		tdFontScale = (newval/_G.fontsettings.upm);
+		tdFontScale = (newval/_G.projectsettings.upm);
 		document.getElementById("roughptsize").innerHTML = (newval*.75);
 	}
 

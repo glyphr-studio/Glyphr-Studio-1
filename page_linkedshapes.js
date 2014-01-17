@@ -47,7 +47,7 @@
 	
 	function drawLinkedShapeLayerThumbs(){
 		//debug("DRAWLINKEDSHAPELAYERTHUMBS - start");
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var tctx = {};
 		var tele = false;
 		var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
@@ -158,7 +158,7 @@
 	}
 	
 	function drawUsedinThumbs(){
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var ui = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};

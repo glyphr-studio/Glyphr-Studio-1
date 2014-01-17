@@ -3,7 +3,7 @@
 
 		// SETTINGS
 		var ps = _G.projectsettings;
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 
 		var content = "<div class='pagecontent textpage'><h1>Font Settings</h1>";
 		content += "<p style='margin-bottom:20px;'>These properties are used by the Glyphr project while you are designing this font.  By default, these are the same as some of the OpenType settings below." +
@@ -100,13 +100,13 @@
 
 	function updateFontNames(){
 		var fam = strSan(document.getElementById("fontname").value);
-		var sub = _G.fontsettings.subfamilyname;
+		var sub = _G.projectsettings.subfamilyname;
 		
 		sub = sub.replace(/regular/i, "");
 		if(sub != "") sub = (" " + sub);
 		
-		_G.fontsettings.familyname = fam;
-		_G.fontsettings.fullname = (fam + sub);
+		_G.projectsettings.familyname = fam;
+		_G.projectsettings.fullname = (fam + sub);
 				
 		document.getElementById("fontfullname").innerHTML = (fam + sub);
 		//updatefontmetadata();
@@ -114,7 +114,7 @@
 	
 	function changeFMD(mdname, mdvalue, san){
 		if(san) mdvalue = strSan(mdvalue);
-		_G.fontsettings[mdname] = mdvalue;
+		_G.projectsettings[mdname] = mdvalue;
 		if((mdname == "fontname")||(mdname == "subfamilyname")) {updateFontNames();}
 		//debug("CHANGEFMD - set " + mdname + " to " + mdvalue);
 	}

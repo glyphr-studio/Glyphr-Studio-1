@@ -272,7 +272,7 @@
 	}
 	
 	.pagecontent h3 {
-		margin-top:10px;
+		margin-top:16px;
 	}
 	
 	.btt {
@@ -720,8 +720,8 @@
 /* --------------------- */
 /* Page - Font Settings */
 /* ------------------- */	
-	
-	.charprotable td {
+
+	.fontmetricstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
 	}

@@ -1,37 +1,46 @@
 
 	function updateprojectsettings(){
 		var ps = _G.projectsettings;
-		var fs = _G.fontsettings;
 		
 		var content = "<div class='pagecontent textpage'><h1>Project Settings</h1>";
 		content += "These project and interface settings will be saved with your Glyphr project file.";
 
-		content += "<h3>Project Name</h3>"+
+		content += "<h2>Project Name</h2>"+
+					"The Font Name and the Project name can be different, but they start out the same.  The Font Name can be changed on the Font Settings page."
 					"<input type='text' style='width:100%' value='" + ps.name + "' onchange='_G.projectsettings.name = this.value;' />";
-					
-		content += "<h3>Grid System</h3>" + 
-					"Defining a grid system to use while editing characters in this font makes stuff a whole " + 
+		
+		var gridsize = (ps.upm/ps.griddivisions);
+		content += "<h2>Font Metrics</h2>";
+		content += "<h3>Grid System</h3>";
+		content += "Defining a grid system to use while editing characters in this font makes stuff a whole " + 
 					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " + 
 					"divide evenly into the Units per Em.<br>" + 
-					"<div><input type='text' value='"+ps.griddivisions+"' onchange='updateFontSetting(\"griddivisions\", this.value);'>"+spinner();+"</div><br>";
+					"<table class='fontmetricstable'>"+
+					"<tr><td>Units per Em:</td><td><div class='disdisplay' id='metric-upm'>" + ps.upm + "</div><span class='unit'>(total em units)</span></td></tr>"+
+					"<tr><td>Grid Divisions</td><td><input type='text' value='"+ps.griddivisions+"' onchange='updateFontSetting(\"griddivisions\", this.value);'/>"+spinner()+"</td></tr>"+
+					"<tr><td>Grid Square Size:</td><td><div class='disdisplay' id='metirc-ssize'>" + gridsize + "</div><span class='unit'>(em units)</span></td></tr>" + 
+					"</table>";
 
-		var gridsize = (fs.upm/ps.griddivisions);
-		content += "<h3>Character Proportions</h3>" + 
-					"There are two main horizontal dividing lines for each character.  The baseline is where the bottom " + 
-					"of most characters sit, except characters like g and y that fall below.  X height is the height of most " + 
-					"lowercase characters, except characters like h and l that go above it.<br>" + 
-					"These are specified in grid division units.<br><br>" + 
-					"<table cellpadding=4 cellspacing=0 border=0 class='charprotable'>" + 
-					"<tr><td rowspan=3 style='width:100px;'>total height:<br><b id='gd'>"+ps.griddivisions+"</b><br>grid units</td>" + 
-					"<td><div class='disdisplay' id='ascheight'></div></td><td><i>ascender height</i></td></tr>" + 
-					"<tr><td><input type='text' id='xheight' value='"+ps.xheight*fs.upm/gridsize+"' onchange='updateFontSetting(\"xheight\", this.value);'>"+spinner()+"</td><td><i>x height</i></td></tr>" + 
-					"<tr><td><input type='text' id='descheight' value='"+ps.descender*fs.upm/gridsize+"' onchange='updateFontSetting(\"descender\", this.value);'>"+spinner()+"</td><td><i>descender height</i></td></tr>" + 
+		content += "<h3>Character Proportions</h3>"; 
+		content += "There is one main dividing line for each character.  The baseline is where the bottom " + 
+					"of most characters sit, above it is the ascent height.  Some characters, like g and y, fall below the baseline into the descent.<br>" + 
+					"<table class='fontmetricstable'>"+
+					"<tr><td>ascent height</td><td><div class='disdisplay' id='metric-asc'>"+((ps.upm - (ps.upm*ps.descender))/gridsize)+"</div></td><td><span class='unit'>(grid units)</span></td></tr>" + 
+					"<tr><td>descent height</td><td><input type='text' id='metric-des' value='"+ps.descender*ps.upm/gridsize+"' onchange='updateFontSetting(\"descender\", this.value);'>"+spinner()+"</td><td><span class='unit'>(grid units)</span></td></tr>" + 
 					"</table><br>";
+					
+		content += "<h3>Guidelines</h3>";
+		content += "X-height is the distance between the baseline, and the top of lowercase letters.<br>"
+					"<table class='fontmetricstable'>"+
+					"<tr><td><input type='text' id='metric-xheight' value='"+ps.xheight*ps.upm/gridsize+"' onchange='updateFontSetting(\"xheight\", this.value);'>"+spinner()+"</td><td><i>x height</i></td></tr>" +
+					"</table>";
 		
-		content += "<h3>Overshoot Guideline</h3>" + 
-					"Round letters usually extend a little above the x height line and below the baseline. " + 
+		content += "Round letters usually extend a little above the x height line and below the baseline. " + 
 					"A light guideline will show this overshoot distance.<br>" + 
-					"<input type='text' value='"+(ps.overshoot*fs.upm)+"' onchange='updateFontSetting(\"overshoot\", this.value);'><span class='unit'>(em units)</span><br>";
+					"<table class='fontmetricstable'>"+
+					"<tr><td>Overshoot:</td><td>"+
+					"<input type='text' value='"+(ps.overshoot*ps.upm)+"' onchange='updateFontSetting(\"overshoot\", this.value);'><span class='unit'>(em units)</span>"+
+					"</td></tr></table>";
 
 		content += "</div>";
 		
@@ -41,20 +50,22 @@
 
 
 	function updateFontSetting(sname, svalue){
-		var fs = _G.projectsettings;
+		var ps = _G.projectsettings;
 		if((sname=="descender") || (sname=="xheight")){
-			svalue = (svalue * (fs.upm/fs.griddivisions))/fs.upm;	
+			svalue = (svalue * (ps.upm/ps.griddivisions))/ps.upm;	
 		}
 		
 		if((sname=="kerning") || (sname=="overshoot")){
-			svalue = (svalue/fs.upm);
+			svalue = (svalue/ps.upm);
 		}
 		
-		fs[sname] = svalue;
+		ps[sname] = svalue;
 		updateCharPro();
 	}
 	
 	function updateCharPro(){
-		document.getElementById("ascheight").innerHTML = _G.projectsettings.griddivisions-document.getElementById("descheight").value-document.getElementById("xheight").value; 
-		document.getElementById("gd").innerHTML = _G.projectsettings.griddivisions;
+		var ps = _G.projectsettings;
+		document.getElementById("metric-griddivisions").innerHTML = ps.griddivisions;
+		document.getElementById("metirc-ssize").innerHTML = (ps.upm / ps.griddivisions);
+		document.getElementById("metric-asc").innerHTML = (ps.griddivisions-document.getElementById("metric-des").value-document.getElementById("metric-xheight").value); 
 	}

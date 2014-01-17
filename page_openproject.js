@@ -151,7 +151,7 @@
 	}
 
 	function setupCECandCGC(){
-		uistate.calcmaxesghostcanvassettings.size = _G.fontsettings.upm*1.75;
-		uistate.calcmaxesghostcanvassettings.originx = _G.fontsettings.upm*.25;
-		uistate.calcmaxesghostcanvassettings.originy = _G.fontsettings.upm*1.25;	
+		uistate.calcmaxesghostcanvassettings.size = _G.projectsettings.upm*1.75;
+		uistate.calcmaxesghostcanvassettings.originx = _G.projectsettings.upm*.25;
+		uistate.calcmaxesghostcanvassettings.originy = _G.projectsettings.upm*1.25;	
 	}

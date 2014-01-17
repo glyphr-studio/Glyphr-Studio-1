@@ -59,9 +59,9 @@
 		con += '\t<checkSumAdjustment value="0xfd4639aa"/>\n';
 		con += '\t<magicNumber value="0x5f0f3cf5"/>\n';
 		con += '\t<flags value="00000000 00000011"/>\n';
-		con += '\t<unitsPerEm value="' + getOTprop("head","unitsPerEm") + '"/>\n';		// VAR UPM?
+		con += '\t<unitsPerEm value="' + _G.projectsettings.upm + '"/>\n';		// VAR UPM?
 		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';			// VAR CREATED DA\nTE
-		con += '\t<modified value="' + ttxDateString() + '"/>\n';		// COMPUTED SAVE DATE
+		con += '\t<modified value="' + ttxDateString() + '"/>\n';				// COMPUTED SAVE DATE
 		con += '\t<xMin value="-100"/>\n';											// COMPUTED
 		con += '\t<yMin value="-100"/>\n';											// COMPUTED
 		con += '\t<xMax value="4048"/>\n';											// COMPUTED
@@ -89,9 +89,9 @@
 	function genTable_hhea(oa){
 		var con = '<hhea>\n';
 		con += '\t<tableVersion value="1.0"/>\n';
-		con += '\t<ascent value="2100"/>\n';					// COMPUTED - distance from the baseline to the highest ascender
-		con += '\t<descent value="-147"/>\n';					// COMPUTED - distance from the baseline to the lowest descender
-		con += '\t<lineGap value="' + getOTprop("hhea","lineGap") + '"/>\n';					// VAR
+		con += '\t<ascent value="1836"/>\n';					// COMPUTED - OS_2 winAscender
+		con += '\t<descent value="-724"/>\n';					// COMPUTED - OS_2 winDescender
+		con += '\t<lineGap value="0"/>\n';						// COMPUTED - 0
 		con += '\t<advanceWidthMax value="2100"/>\n';			// COMPUTED - max advance width from hmtx table
 		con += '\t<minLeftSideBearing value="-123"/>\n';		// COMPUTED - min lsb from hmtx
 		con += '\t<minRightSideBearing value="-124"/>\n';		// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
@@ -167,15 +167,22 @@
 		con += '\t<fsLastCharIndex value="64258"/>\n';
 
 		// Line Metrics
-		con += '\t<sTypoAscender value="853"/>\n';			// COMPUTED top of text frame to the next baseline
-		con += '\t<sTypoDescender value="-147"/>\n';		// COMPUTED asc - dsc = em
-		con += '\t<sTypoLineGap value="200"/>\n';
-		con += '\t<usWinAscent value="2100"/>\n';			// COMPUTED yMax for all chars
-		con += '\t<usWinDescent value="315"/>\n';			// COMPUTED yMin for all chars
+		// $$$ http://typophile.com/node/13081
+		// $$$ 2048 * 1.25 = 2560 = Asc + Des + LineGap
+		// $$$ sTypoAsc + sTypoDes = UPM, or if not
+		// $$$ 		(UPM - (sTypoAsc + sTypoDes))/2, add back to sTypoAsc and sTypoDes
+		// $$$ 2560 - 2048 = difference = STypoLineGap = 512
+
+		con += '\t<sTypoAscender value="1464"/>\n';		// COMPUTED vertical above baseline		$$$ ex 1430
+		con += '\t<sTypoDescender value="-584"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
+		con += '\t<sTypoLineGap value="512"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
+		con += '\t<usWinAscent value="1836"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
+		con += '\t<usWinDescent value="724"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
+
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
-		con += '\t<sxHeight value="640"/>\n';				// COMPUTED - xheight
-		con += '\t<sCapHeight value="832"/>\n';				// COMPUTED - Hheight
+		con += '\t<sxHeight value="640"/>\n';			// COMPUTED - xheight
+		con += '\t<sCapHeight value="1464"/>\n';		// COMPUTED - Hheight
 		con += '\t<usDefaultChar value="0"/>\n';
 		con += '\t<usBreakChar value="32"/>\n';
 		con += '\t<usMaxContex value="4"/>\n';

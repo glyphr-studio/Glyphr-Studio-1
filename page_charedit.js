@@ -56,7 +56,7 @@
 		var scthumbsize = 50;
 		var scthumbgutter = 5;	
 		
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
 		var yoffset = (scthumbgutter+(fs.upm*factor));
 		
@@ -241,7 +241,7 @@
 			if(uistate.eventhandlers.temppathdragshape){
 				rhl = Math.max(sx_cx(uistate.eventhandlers.temppathdragshape.rightx), rhl);
 			}
-			if(neww){rhl += (_G.fontsettings.upm*_G.fontsettings.kerning*uistate.chareditcanvassettings.zoom) }
+			if(neww){rhl += (_G.projectsettings.upm*_G.projectsettings.kerning*uistate.chareditcanvassettings.zoom) }
 			vertical(rhl);
 		}
 	}
@@ -365,7 +365,7 @@
 			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em %</span> </td><td> " + rounddec(sc.charwidth/_G.fontsettings.upm) + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em %</span> </td><td> " + rounddec(sc.charwidth/_G.projectsettings.upm) + " </td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + uistate.shapelayers.length + " </td></tr>";
 
 		return content;
@@ -747,7 +747,7 @@
 
 		// Update the thumbs		
 		if(uistate.shapelayers.length > 0){
-			var fs = _G.fontsettings;
+			var fs = _G.projectsettings;
 			var tctx = {};
 			var tele = false;
 			var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
@@ -964,7 +964,7 @@
 	var xs = {};
 	
 	function grid(){
-		var fs = _G.fontsettings;
+		var fs = _G.projectsettings;
 		var ps = _G.projectsettings;
 		
 		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
