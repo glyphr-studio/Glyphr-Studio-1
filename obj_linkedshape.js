@@ -88,10 +88,10 @@
 	}
 	
 	function drawSSThumbs(){
-		var fs = _G.projectsettings;
+		var ps = _G.projectsettings;
 		var tctx = {};
-		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
-		var yoffset = (ssthumbgutter+(fs.upm*factor));
+		var factor = ((ssthumbsize-(2*ssthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
+		var yoffset = (ssthumbgutter+(ps.upm*factor));
 		for(var ssid in _G.linkedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);

@@ -69,7 +69,7 @@
 	}
 
 	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
-		var fs = _G.projectsettings;
+		var ps = _G.projectsettings;
 		var tc = _G.fontchars[charcode];
 		var sl = tc.charshapes;
 		var width = 0;
@@ -81,8 +81,8 @@
 		} else {
 			width = (tc.charwidth*tdFontScale);
 			if(tc.isautowide){ 
-				//debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (fs.upm*fs.kerning*tdFontScale) + " to width " + width);
-				width += (fs.upm*fs.kerning*tdFontScale); 
+				//debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (ps.upm*ps.kerning*tdFontScale) + " to width " + width);
+				width += (ps.upm*ps.kerning*tdFontScale); 
 			}
 		}
 		
@@ -93,7 +93,7 @@
 			var trailspace = 0;
 			if(tc.isautowide) trailspace = _G.projectsettings.upm*_G.projectsettings.kerning*tdFontScale;
 			
-			lctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(fs.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((fs.upm*tdFontScale) + (fs.descender*fs.upm*tdFontScale)));
+			lctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(ps.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((ps.upm*tdFontScale) + (ps.descender*ps.upm*tdFontScale)));
 		}	
 		
 		var sh = {};

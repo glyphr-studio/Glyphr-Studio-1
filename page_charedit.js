@@ -1,4 +1,6 @@
 
+
+
 //-------------------
 // UBER FUCNTIONS
 //-------------------
@@ -56,9 +58,9 @@
 		var scthumbsize = 50;
 		var scthumbgutter = 5;	
 		
-		var fs = _G.projectsettings;
-		var factor = ((scthumbsize-(2*scthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
-		var yoffset = (scthumbgutter+(fs.upm*factor));
+		var ps = _G.projectsettings;
+		var factor = ((scthumbsize-(2*scthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
+		var yoffset = (scthumbgutter+(ps.upm*factor));
 		
 		//debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
 		
@@ -118,13 +120,10 @@
 	}
 
 	function setupGhostCanvas(){
-		//	Check Maxes Ghost Canvas Dimensions
-		//	.5em to the left of x=0 and below descender
-		//	1.25em to the right of x=0 and above descender 
-		
+	
 		uistate.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
-		uistate.calcmaxesghostcanvas.height = uistate.calcmaxesghostcanvassettings.size;
-		uistate.calcmaxesghostcanvas.width = uistate.calcmaxesghostcanvassettings.size;
+		uistate.calcmaxesghostcanvas.height = uistate.chareditcanvassettings.size;
+		uistate.calcmaxesghostcanvas.width = uistate.chareditcanvassettings.size;
 		uistate.calcmaxesghostctx = uistate.calcmaxesghostcanvas.getContext('2d');
 		uistate.calcmaxesghostctx.fillStyle = "lime";
 		uistate.calcmaxesghostctx.globalAlpha = .5;
@@ -133,7 +132,6 @@
 		
 		//Is Here Ghost Canvas - same size as CEC
 		uistate.ishereghostcanvas = document.getElementById('ishereghostcanvas');
-		//ishereghostcanvas = document.createElement('canvas');
 		uistate.ishereghostcanvas.height = uistate.chareditcanvassettings.size;
 		uistate.ishereghostcanvas.width = uistate.chareditcanvassettings.size;
 		uistate.ishereghostctx = uistate.ishereghostcanvas.getContext('2d');
@@ -149,19 +147,18 @@
 		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
 		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		uistate.chareditcanvas.onmouseout = mouseoutcec;
-		uistate.chareditcanvas.onmouseover = mouseovercec;
-		
+		uistate.chareditcanvas.onmouseover = mouseovercec;	
 	}
 	
 	function resetCursor() { document.body.style.cursor = 'default'; }
 		
 	function resetZoomPan(){
-		uistate.chareditcanvassettings.originx = 140;
-		uistate.chareditcanvassettings.originy = 740;
-		uistate.chareditcanvassettings.zoom = .32;
+		uistate.chareditcanvassettings.originx = uistate.defaultchareditcanvassettings.originx;
+		uistate.chareditcanvassettings.originy = uistate.defaultchareditcanvassettings.originy;
+		uistate.chareditcanvassettings.zoom = uistate.defaultchareditcanvassettings.zoom;
 	}
 
-		
+
 //-------------------
 // REDRAW
 //-------------------
@@ -747,11 +744,11 @@
 
 		// Update the thumbs		
 		if(uistate.shapelayers.length > 0){
-			var fs = _G.projectsettings;
+			var ps = _G.projectsettings;
 			var tctx = {};
 			var tele = false;
-			var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
-			var yoffset = (uistate.layerthumbgutter+(fs.upm*factor));
+			var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
+			var yoffset = (uistate.layerthumbgutter+(ps.upm*factor));
 			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
 				tele = document.getElementById(("layerthumb"+i))
 				tctx = tele.getContext("2d");
@@ -964,57 +961,72 @@
 	var xs = {};
 	
 	function grid(){
-		var fs = _G.projectsettings;
 		var ps = _G.projectsettings;
-		
+		var cec = uistate.chareditcanvassettings;
+
 		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
 		uistate.chareditctx.fillRect(0,0,99999,99999);
 		
+		var zupm = (ps.upm * cec.zoom);
+		var gutter = ((cec.size*cec.zoom) - zupm)/2;
+		var zasc = (ps.ascent * cec.zoom);
 		// background white square
-		xs.xmax = uistate.chareditcanvassettings.originx + ((uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originx)*uistate.chareditcanvassettings.zoom);
-		xs.xmin = uistate.chareditcanvassettings.originx - (uistate.calcmaxesghostcanvassettings.originx*uistate.chareditcanvassettings.zoom) -1;
-		xs.ymax = uistate.chareditcanvassettings.originy + ((uistate.calcmaxesghostcanvassettings.size-uistate.calcmaxesghostcanvassettings.originy)*uistate.chareditcanvassettings.zoom);
-		xs.ymin = uistate.chareditcanvassettings.originy - (uistate.calcmaxesghostcanvassettings.originy*uistate.chareditcanvassettings.zoom) -1;
-		
+		/*
+		xs.xmax = cec.originx + ((cec.size-cec.originx)*cec.zoom);
+		xs.xmin = cec.originx - (cec.originx*cec.zoom) -1;
+		xs.ymax = cec.originy + ((cec.size-cec.originy)*cec.zoom);
+		xs.ymin = cec.originy - (cec.originy*cec.zoom) -1;
+		*/
+
+		xs.xmax = Math.round(cec.originx + zupm + gutter);
+		xs.xmin = Math.round(cec.originx - gutter);
+		xs.ymax = Math.round(cec.originy + (zupm - zasc) + gutter);
+		xs.ymin = Math.round(cec.originy - zasc - gutter);
+
+		debug("GRID: cec:" + JSON.stringify(cec));
+		debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
+
 		uistate.chareditctx.fillStyle = "white";
 		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 		
 		// Grids		
-		var mline = uistate.chareditcanvassettings.originy - (fs.upm*uistate.chareditcanvassettings.zoom);
-		var xline = uistate.chareditcanvassettings.originy - (fs.upm*ps.xheight*uistate.chareditcanvassettings.zoom);
-		var dline = uistate.chareditcanvassettings.originy + (fs.upm*ps.descender*uistate.chareditcanvassettings.zoom);
-		var overshootsize = (fs.upm*ps.overshoot*uistate.chareditcanvassettings.zoom);
+		var mline = cec.originy - (ps.ascent*cec.zoom);
+		var xline = cec.originy - (ps.xheight*cec.zoom);
+		var dline = cec.originy - ((ps.ascent - ps.upm)*cec.zoom);
+		var overshootsize = (ps.overshoot*cec.zoom);
 
-		if(uistate.chareditcanvassettings.showgrid || uistate.chareditcanvassettings.showguides){
-			var size = uistate.chareditcanvassettings.size/ps.griddivisions;
+		//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
+
+		if(cec.showgrid || cec.showguides){
+			var size = cec.size/ps.griddivisions;
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = _G.projectsettings.color_grid;
 			
-			if(uistate.chareditcanvassettings.showgrid){
-				var gsize = ((fs.upm/ps.griddivisions)*uistate.chareditcanvassettings.zoom);
+			if(cec.showgrid){
+				var gsize = ((ps.upm/ps.griddivisions)*cec.zoom);
 				//debug("GRID - gridsize set as: " + gsize);
 				
-				for(var j=uistate.chareditcanvassettings.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
+				for(var j=cec.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
 				vertical(xs.xmax+1);
-				for(var j=uistate.chareditcanvassettings.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
+				for(var j=cec.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
 				
-				for(var j=uistate.chareditcanvassettings.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
+				for(var j=cec.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
 				horizontal(xs.ymax+1);
-				for(var j=uistate.chareditcanvassettings.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
+				for(var j=cec.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
 
 			}
 			
-			if(uistate.chareditcanvassettings.showguides){
+			if(cec.showguides){
 				
 				// Minor Guidelines - Overshoots
 				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
-				horizontal(uistate.chareditcanvassettings.originy+overshootsize);
+				horizontal(cec.originy+overshootsize);
 				horizontal(dline+overshootsize);
 				
 				// Right hand Em Square
-				vertical(uistate.chareditcanvassettings.originx+(fs.upm*uistate.chareditcanvassettings.zoom));
+				vertical(cec.originx+(ps.upm*cec.zoom));
 				
 				// major guidelines - xheight, top (emzize)
 				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
@@ -1027,16 +1039,16 @@
 				// Out of bounds triangle
 				uistate.chareditctx.fillStyle = _G.projectsettings.color_guideline;		
 				uistate.chareditctx.beginPath();
-				uistate.chareditctx.moveTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy);
-				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx, uistate.chareditcanvassettings.originy+(_G.projectsettings.pointsize*2));
-				uistate.chareditctx.lineTo(uistate.chareditcanvassettings.originx-(_G.projectsettings.pointsize*2), uistate.chareditcanvassettings.originy);
+				uistate.chareditctx.moveTo(cec.originx, cec.originy);
+				uistate.chareditctx.lineTo(cec.originx, cec.originy+(_G.projectsettings.pointsize*2));
+				uistate.chareditctx.lineTo(cec.originx-(_G.projectsettings.pointsize*2), cec.originy);
 				uistate.chareditctx.closePath();
 				uistate.chareditctx.fill();
 				
 				// Origin Lines
 				uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
-				horizontal(uistate.chareditcanvassettings.originy);
-				vertical(uistate.chareditcanvassettings.originx);
+				horizontal(cec.originy);
+				vertical(cec.originx);
 			}
 		}
 	}

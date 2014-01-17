@@ -47,11 +47,11 @@
 	
 	function drawLinkedShapeLayerThumbs(){
 		//debug("DRAWLINKEDSHAPELAYERTHUMBS - start");
-		var fs = _G.projectsettings;
+		var ps = _G.projectsettings;
 		var tctx = {};
 		var tele = false;
-		var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
-		var yoffset = (uistate.layerthumbgutter+(fs.upm*factor));
+		var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
+		var yoffset = (uistate.layerthumbgutter+(ps.upm*factor));
 		for(var ssid in _G.linkedshapes){
 			tele = document.getElementById(("layerthumb"+ssid))
 			tctx = tele.getContext("2d");
@@ -158,12 +158,12 @@
 	}
 	
 	function drawUsedinThumbs(){
-		var fs = _G.projectsettings;
+		var ps = _G.projectsettings;
 		var ui = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};
-		var factor = ((ssthumbsize-(2*ssthumbgutter))/(fs.upm + (fs.upm*_G.projectsettings.descender)));
-		var yoffset = (ssthumbgutter+(fs.upm*factor));
+		var factor = ((ssthumbsize-(2*ssthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
+		var yoffset = (ssthumbgutter+(ps.upm*factor));
 		
 		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
 

@@ -47,23 +47,22 @@
 		"selectedchar" : 97,
 		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
 		"debugpoints" : [false,false],
-		
-		// Char Edit Canvas Area and Calc Maxes Ghost Canvas
-		"calcmaxesghostcanvassettings" : {
-			"size" : 1500,
-			"originx" : 140,
-			"originy" : 740
-		},
 		"layerthumbsize" : 50,
 		"layerthumbgutter" : 5,
-
+		
+		// Char Edit Canvas 
 		"chareditcanvassettings" : {
-			"size" : 1500, 			// How big the canvas is
-			"originx" : 140,		// Where on the canvas the origin is
-			"originy" : 740,		// Where on the canvas the origin is
-			"zoom" : .32,			// Either reduces or increases objects size
+			"size" : 1600, 			// How big the canvas is
+			"originx" : 200,		// Where on the canvas the origin is
+			"originy" : 500,		// Where on the canvas the origin is
+			"zoom" : .5,			// Either reduces or increases objects size
 			"showgrid" : true,		// display the grid
 			"showguides" : true		// display guides
+		}, 
+		"defaultchareditcanvassettings" : {
+			"originx" : 200,
+			"originy" : 500,
+			"zoom" : .5
 		},
 
 		// page: test drive
@@ -135,8 +134,8 @@
 			"ascent": 700,			// ascender
 			"linegap": 250,
 			"griddivisions": 10,	// how many squares of grid per emsize
-			"xheight": 500,			// lowercase letter height
-			"overshoot": 5,			// overshoot for round glyphs
+			"xheight": 400,			// lowercase letter height
+			"overshoot": 10,			// overshoot for round glyphs
 			"defaultlsb": 40,		// default kerning
 
 			// UI stuff

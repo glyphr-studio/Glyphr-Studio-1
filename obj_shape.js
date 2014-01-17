@@ -52,8 +52,8 @@
 			//debug("DRAWSHAPE - CMGC DETECTED");
 			z = 1;
 			uistate.chareditcanvassettings.zoom = 1;			
-			uistate.chareditcanvassettings.originx = uistate.calcmaxesghostcanvassettings.originx;
-			uistate.chareditcanvassettings.originy = uistate.calcmaxesghostcanvassettings.originy;
+			uistate.chareditcanvassettings.originx = uistate.chareditcanvassettings.originx;
+			uistate.chareditcanvassettings.originy = uistate.chareditcanvassettings.originy;
 		}
 
 		else if(lctx == uistate.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
@@ -178,8 +178,8 @@
 	function rectPathFromCorners(cdata){
 		//Default Shape size
 		var lx = 0;
-		var ty = 1152;
-		var rx = 200;
+		var ty = _G.projectsettings.ascent;
+		var rx = (_G.projectsettings.upm / _G.projectsettings.griddivisions);
 		var by = 0;
 		
 		if(cdata){
