@@ -28,16 +28,17 @@
 	input[type=text],
 	input[type=file],
 	textarea {
+		background-color: white;
 		color:rgb(25,30,35);
-		border:0px;
-		background-color:rgb(229,234,239);
+		border:1px solid rgb(229,234,239);
 	}
 	
-	input[type=text][disabled='disabled'] {
-		background-color:rgb(204,209,214);	
-		color:rgb(153,158,163);
+	input[type=text][disabled='disabled']{
+		background-color:rgb(229,234,239);	
+		border:1px solid rgb(229,234,239);
+		color:rgb(127,134,137);
 	}
-	
+
 	input[type='radio']{
 		margin-bottom:6px;
 	}
@@ -148,7 +149,7 @@
 
 	.spinnerbutton,
 	.spinnerbutton:active {
-		height:20px;
+		height:22px;
 		width:20px;
 		font-size:15px;
 		text-align:center;
@@ -156,6 +157,11 @@
 		vertical-align:4px;
 		font-weight:bold;
 		margin:0px 0px 0px 0px;
+		background-color: rgb(153,158,163);
+	}
+
+	.spinnerbutton:hover {
+		color:white;
 	}
 
 
@@ -288,13 +294,6 @@
 	.pagecontent input[type=text]{
 		margin:6px 3px 2px 0px;
 		padding-left:10px;
-	}
-
-	.disdisplay {
-		background-color:rgb(102,107,112);
-		margin:6px 3px 2px 0px;	
-		padding:4px 4px 4px 10px;
-		color:white;
 	}
 	
 	.charselectarea {
@@ -652,8 +651,11 @@
 		width:100px;
 		height:20px;
 		vertical-align:top;
+		border:1px solid white;
+		/*
 		color:rgb(51,56,61);
 		background-color: rgb(204,209,214);
+		*/
 	}	
 	
 	.detail .leftcol	{
@@ -726,6 +728,12 @@
 		vertical-align:middle;
 	}
 	
+	.fontmetricstable .spinnerbutton {
+		height:28px;
+		position: relative;
+		top:4px;
+		left:-4px;
+	}
 	
 /* -------------------- */
 /* Page - Save Project */
@@ -733,7 +741,6 @@
 	
 	#genoutput {
 		font-family:monospace;
-		padding:10px;
 	}
 	
 	

@@ -14,8 +14,8 @@
 					"of most characters sit, above it is the ascent height.  Some characters, like p and y, fall below the baseline into the descent.<br>" + 
 					"<table class='fontmetricstable'>"+
 					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
-					"<tr><td>Descent height: </td><td><div id='metric-des' class='disdisplay'>"+(ps.ascent - ps.upm)+"</div></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
-					"<tr><td>Total Units per Em: </td><td><div class='disdisplay'>"+ps.upm+"</div></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
+					"<tr><td>Descent height: </td><td><input type='text' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
+					"<tr><td>Total Units per Em: </td><td><input type='text' disabled='disabled' value='"+ps.upm+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
 					"</table><br>";
 
 		content += "<h3>Default Left Side Bearing</h3>" + 
@@ -102,5 +102,5 @@
 	function updateAscender(val){
 		var ps = _G.projectsettings;
 		ps.ascent = Math.max(0, Math.min(ps.upm, Math.round(val)));
-		document.getElementById('metric-des').innerHTML = (ps.ascent - ps.upm);
+		document.getElementById('metric-des').value = (ps.ascent - ps.upm);
 	}
