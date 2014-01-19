@@ -127,7 +127,7 @@
 				//debug("NEWPATH MOUSEDOWN - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = _G.projectsettings.pointsize/uistate.chareditcanvassettings.zoom;
+					var hp = _G.projectsettings.pointsize/uistate.viewport.zoom;
 					if( ((p.P.x+hp) > cx_sx(uistate.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(uistate.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(uistate.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(uistate.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
@@ -333,16 +333,16 @@
 				var dy = 0;
 				switch (this.controlpoint){
 					case "P":
-						if(!sp.P.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.chareditcanvassettings.zoom;
-						if(!sp.P.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.chareditcanvassettings.zoom;
+						if(!sp.P.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom;
+						if(!sp.P.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom;
 						break;
 					case "H1":
-						if(!sp.H1.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.chareditcanvassettings.zoom;
-						if(!sp.H1.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.chareditcanvassettings.zoom;
+						if(!sp.H1.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom;
+						if(!sp.H1.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom;
 						break;
 					case "H2":
-						if(!sp.H2.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.chareditcanvassettings.zoom;
-						if(!sp.H2.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.chareditcanvassettings.zoom;
+						if(!sp.H2.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom;
+						if(!sp.H2.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom;
 						break;
 				}
 				sp.updatePointPosition(this.controlpoint, dx, dy); 
@@ -436,8 +436,8 @@
 				//debug("SHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
-					s.xpos += Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.chareditcanvassettings.zoom);
-					s.ypos += Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.chareditcanvassettings.zoom);
+					s.xpos += Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom);
+					s.ypos += Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom);
 					didstuff = true;
 					resetCursor();
 				}
@@ -446,9 +446,9 @@
 				if (this.dragging) {
 					// Moving shapes if mousedown
 					var dx = 0;
-					s.xlock? true : dx = Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.chareditcanvassettings.zoom);
+					s.xlock? true : dx = Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom);
 					var dy = 0;
-					s.ylock? true : dy = Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.chareditcanvassettings.zoom);
+					s.ylock? true : dy = Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom);
 					
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
@@ -483,8 +483,8 @@
 		
 		this.mousedown = function (ev) { 
 			//debug("PAN TOOL - mouse down: " + uistate.eventhandlers.mousex + ":" + uistate.eventhandlers.mousey);
-			this.deltax = (uistate.eventhandlers.mousex-uistate.chareditcanvassettings.originx);
-			this.deltay = (uistate.eventhandlers.mousey-uistate.chareditcanvassettings.originy);
+			this.deltax = (uistate.eventhandlers.mousex-uistate.viewport.originx);
+			this.deltay = (uistate.eventhandlers.mousey-uistate.viewport.originy);
 			this.dragging = true; 
 		};
 		
@@ -498,9 +498,9 @@
 		this.mousemove = function (ev) {
 			if (this.dragging) {
 				// Moving shapes if mousedown
-				uistate.chareditcanvassettings.originx = (uistate.eventhandlers.mousex-this.deltax);
-				uistate.chareditcanvassettings.originy = (uistate.eventhandlers.mousey-this.deltay);
-				//debug("EVENTHANDLER - PAN - new x/y: " + uistate.chareditcanvassettings.originx + " / " + uistate.chareditcanvassettings.originy);
+				uistate.viewport.originx = (uistate.eventhandlers.mousex-this.deltax);
+				uistate.viewport.originy = (uistate.eventhandlers.mousey-this.deltay);
+				//debug("EVENTHANDLER - PAN - new x/y: " + uistate.viewport.originx + " / " + uistate.viewport.originy);
 				redraw();
 			}
 		};
@@ -511,11 +511,11 @@
 	
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
-		return Math.round((cx-uistate.chareditcanvassettings.originx)/(uistate.chareditcanvassettings.zoom));
+		return Math.round((cx-uistate.viewport.originx)/(uistate.viewport.zoom));
 	}
 	
 	function cy_sy(cy){
-		return Math.round((uistate.chareditcanvassettings.originy-cy)/(uistate.chareditcanvassettings.zoom));
+		return Math.round((uistate.viewport.originy-cy)/(uistate.viewport.zoom));
 	}
 	
 	function clickEmptySpace(){

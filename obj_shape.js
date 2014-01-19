@@ -41,19 +41,19 @@
 	
 	Shape.prototype.drawShape_Single = function(lctx){
 					
-		var z = uistate.chareditcanvassettings.zoom;
+		var z = uistate.viewport.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
 		var tempzp = {};
-		tempzp.x = uistate.chareditcanvassettings.originx;
-		tempzp.y = uistate.chareditcanvassettings.originy;
-		tempzp.z = uistate.chareditcanvassettings.zoom;
+		tempzp.x = uistate.viewport.originx;
+		tempzp.y = uistate.viewport.originy;
+		tempzp.z = uistate.viewport.zoom;
 		if(lctx == uistate.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
 			z = 1;
-			uistate.chareditcanvassettings.zoom = 1;			
-			uistate.chareditcanvassettings.originx = uistate.chareditcanvassettings.originx;
-			uistate.chareditcanvassettings.originy = uistate.chareditcanvassettings.originy;
+			uistate.viewport.zoom = 1;			
+			uistate.viewport.originx = uistate.viewport.originx;
+			uistate.viewport.originy = uistate.viewport.originy;
 		}
 
 		else if(lctx == uistate.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
@@ -67,9 +67,9 @@
 		lctx.fillStyle = _G.projectsettings.color_glyphfill;
 		lctx.fill();
 
-		uistate.chareditcanvassettings.originx = tempzp.x;
-		uistate.chareditcanvassettings.originy = tempzp.y;
-		uistate.chareditcanvassettings.zoom = tempzp.z;
+		uistate.viewport.originx = tempzp.x;
+		uistate.viewport.originy = tempzp.y;
+		uistate.viewport.zoom = tempzp.z;
 	}
 
 
@@ -90,21 +90,21 @@
 
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
-		var canvasx = uistate.chareditcanvassettings.originx;
-		canvasx += (sx*uistate.chareditcanvassettings.zoom);
+		var canvasx = uistate.viewport.originx;
+		canvasx += (sx*uistate.viewport.zoom);
 		return canvasx;
 	}
 	
 	function sy_cy(sy){
-		var canvasy = uistate.chareditcanvassettings.originy;
-		canvasy -= (sy*uistate.chareditcanvassettings.zoom);
+		var canvasy = uistate.viewport.originy;
+		canvasy -= (sy*uistate.viewport.zoom);
 		return canvasy;
 	}
 	
 	Shape.prototype.drawSelectOutline = function(onlycenter){
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
-		var z = uistate.chareditcanvassettings.zoom;
+		var z = uistate.viewport.zoom;
 		var hp = (_G.projectsettings.pointsize/2);
 		uistate.chareditctx.lineWidth = 1;
 		uistate.chareditctx.strokeStyle = uistate.colors.accent;
@@ -469,7 +469,7 @@
 	
 	Shape.prototype.isHere = function(x,y){
 		var imageData;
-		uistate.ishereghostctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
+		uistate.ishereghostctx.clearRect(0,0,uistate.chareditcanvassize,uistate.chareditcanvassize);
 		this.drawShape_Single(uistate.ishereghostctx);
 		imageData = uistate.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug("ISHERE? alpha = " + imageData.data[3] + "  returning: " + (imageData.data[3] > 0));

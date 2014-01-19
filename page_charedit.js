@@ -122,8 +122,8 @@
 	function setupGhostCanvas(){
 	
 		uistate.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
-		uistate.calcmaxesghostcanvas.height = uistate.chareditcanvassettings.size;
-		uistate.calcmaxesghostcanvas.width = uistate.chareditcanvassettings.size;
+		uistate.calcmaxesghostcanvas.height = uistate.chareditcanvassize;
+		uistate.calcmaxesghostcanvas.width = uistate.chareditcanvassize;
 		uistate.calcmaxesghostctx = uistate.calcmaxesghostcanvas.getContext('2d');
 		uistate.calcmaxesghostctx.fillStyle = "lime";
 		uistate.calcmaxesghostctx.globalAlpha = .5;
@@ -132,8 +132,8 @@
 		
 		//Is Here Ghost Canvas - same size as CEC
 		uistate.ishereghostcanvas = document.getElementById('ishereghostcanvas');
-		uistate.ishereghostcanvas.height = uistate.chareditcanvassettings.size;
-		uistate.ishereghostcanvas.width = uistate.chareditcanvassettings.size;
+		uistate.ishereghostcanvas.height = uistate.chareditcanvassize;
+		uistate.ishereghostcanvas.width = uistate.chareditcanvassize;
 		uistate.ishereghostctx = uistate.ishereghostcanvas.getContext('2d');
 		uistate.ishereghostctx.fillStyle = "cyan";
 		uistate.ishereghostctx.globalAlpha = .5;
@@ -142,8 +142,8 @@
 
 	function setupEditCanvas(){
 		uistate.chareditcanvas = document.getElementById("chareditcanvas");
-		uistate.chareditcanvas.height = uistate.chareditcanvassettings.size;
-		uistate.chareditcanvas.width = uistate.chareditcanvassettings.size;
+		uistate.chareditcanvas.height = uistate.chareditcanvassize;
+		uistate.chareditcanvas.width = uistate.chareditcanvassize;
 		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
 		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		uistate.chareditcanvas.onmouseout = mouseoutcec;
@@ -152,11 +152,7 @@
 	
 	function resetCursor() { document.body.style.cursor = 'default'; }
 		
-	function resetZoomPan(){
-		uistate.chareditcanvassettings.originx = uistate.defaultchareditcanvassettings.originx;
-		uistate.chareditcanvassettings.originy = uistate.defaultchareditcanvassettings.originy;
-		uistate.chareditcanvassettings.zoom = uistate.defaultchareditcanvassettings.zoom;
-	}
+	function resetZoomPan(){ uistate.viewport = uistate.defaultviewport; }
 
 
 //-------------------
@@ -167,7 +163,7 @@
 		
 		var fc = _G.fontchars;
 		
-		uistate.chareditctx.clearRect(0,0,uistate.chareditcanvassettings.size,uistate.chareditcanvassettings.size);
+		uistate.chareditctx.clearRect(0,0,uistate.chareditcanvassize,uistate.chareditcanvassize);
 		grid();
 		
 		// load char info
@@ -230,15 +226,15 @@
 		
 		
 		//show right hand line
-		if(uistate.chareditcanvassettings.showguides && uistate.showrightline){
+		if(uistate.showguides && uistate.showrightline){
 			uistate.chareditctx.lineWidth = 1;
 			//uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
 			uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
-			var rhl = (fc[uistate.selectedchar].charwidth*uistate.chareditcanvassettings.zoom) + uistate.chareditcanvassettings.originx;
+			var rhl = (fc[uistate.selectedchar].charwidth*uistate.viewport.zoom) + uistate.viewport.originx;
 			if(uistate.eventhandlers.temppathdragshape){
 				rhl = Math.max(sx_cx(uistate.eventhandlers.temppathdragshape.rightx), rhl);
 			}
-			if(neww){rhl += (_G.projectsettings.upm*_G.projectsettings.kerning*uistate.chareditcanvassettings.zoom) }
+			if(neww){rhl += (_G.projectsettings.upm*_G.projectsettings.kerning*uistate.viewport.zoom) }
 			vertical(rhl);
 		}
 	}
@@ -530,8 +526,8 @@
 			layeractions += "</td>";
 			
 		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.chareditcanvassettings.showgrid? uistate.chareditcanvassettings.showgrid=false : uistate.chareditcanvassettings.showgrid=true; redraw();'><br>"; 
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.chareditcanvassettings.showguides? uistate.chareditcanvassettings.showguides=false : uistate.chareditcanvassettings.showguides=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.showgrid? uistate.showgrid=false : uistate.showgrid=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.showguides? uistate.showguides=false : uistate.showguides=true; redraw();'><br>"; 
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
@@ -803,9 +799,9 @@
 		content += "<div title='scroll and pan' class='" + (uistate.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: in' class='button tool' onclick='canvasZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: out' class='button tool' onclick='canvasZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: one to one' class='button tool' onclick='uistate.chareditcanvassettings.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
+		content += "<div title='zoom: one to one' class='button tool' onclick='uistate.viewport.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
 		content += "<div title='zoom: full em' class='button tool' onclick='resetZoomPan(); redraw();'><canvas id='zoomembuttoncanvas'></canvas></div>";
-		content += "<div title='zoom level' class='tool out'>" + round(uistate.chareditcanvassettings.zoom*100, 2) + "%</div>";
+		content += "<div title='zoom level' class='tool out'>" + round(uistate.viewport.zoom*100, 2) + "%</div>";
 		
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
@@ -949,7 +945,7 @@
 	}
 
 	function canvasZoom(zfactor){
-		uistate.chareditcanvassettings.zoom*=zfactor;
+		uistate.viewport.zoom*=zfactor;
 		redraw();
 	}
 	
@@ -962,71 +958,66 @@
 	
 	function grid(){
 		var ps = _G.projectsettings;
-		var cec = uistate.chareditcanvassettings;
+		var vp = uistate.viewport;
+
+		debug("GRID: vp:" + JSON.stringify(vp));
 
 		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
 		uistate.chareditctx.fillRect(0,0,99999,99999);
 		
-		var zupm = (ps.upm * cec.zoom);
-		var gutter = ((cec.size*cec.zoom) - zupm)/2;
-		var zasc = (ps.ascent * cec.zoom);
+		var zupm = (ps.upm * vp.zoom);
+		var gutter = ((uistate.chareditcanvassize*vp.zoom) - zupm)/2;
+		var zasc = (ps.ascent * vp.zoom);
 		// background white square
-		/*
-		xs.xmax = cec.originx + ((cec.size-cec.originx)*cec.zoom);
-		xs.xmin = cec.originx - (cec.originx*cec.zoom) -1;
-		xs.ymax = cec.originy + ((cec.size-cec.originy)*cec.zoom);
-		xs.ymin = cec.originy - (cec.originy*cec.zoom) -1;
-		*/
 
-		xs.xmax = Math.round(cec.originx + zupm + gutter);
-		xs.xmin = Math.round(cec.originx - gutter);
-		xs.ymax = Math.round(cec.originy + (zupm - zasc) + gutter);
-		xs.ymin = Math.round(cec.originy - zasc - gutter);
+		xs.xmax = Math.round(vp.originx + zupm + gutter);
+		xs.xmin = Math.round(vp.originx - gutter);
+		xs.ymax = Math.round(vp.originy + (zupm - zasc) + gutter);
+		xs.ymin = Math.round(vp.originy - zasc - gutter);
 
-		debug("GRID: cec:" + JSON.stringify(cec));
 		debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
 
 		uistate.chareditctx.fillStyle = "white";
 		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 		
 		// Grids		
-		var mline = cec.originy - (ps.ascent*cec.zoom);
-		var xline = cec.originy - (ps.xheight*cec.zoom);
-		var dline = cec.originy - ((ps.ascent - ps.upm)*cec.zoom);
-		var overshootsize = (ps.overshoot*cec.zoom);
+		var mline = vp.originy - (ps.ascent*vp.zoom);
+		var xline = vp.originy - (ps.xheight*vp.zoom);
+		var dline = vp.originy - ((ps.ascent - ps.upm)*vp.zoom);
+		var overshootsize = (ps.overshoot*vp.zoom);
 
 		//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
 
-		if(cec.showgrid || cec.showguides){
-			var size = cec.size/ps.griddivisions;
+		if(uistate.showgrid || uistate.showguides){
+			var size = vp.size/ps.griddivisions;
 			uistate.chareditctx.lineWidth = 1;
 			uistate.chareditctx.strokeStyle = _G.projectsettings.color_grid;
 			
-			if(cec.showgrid){
-				var gsize = ((ps.upm/ps.griddivisions)*cec.zoom);
+			if(uistate.showgrid){
+				var gsize = ((ps.upm/ps.griddivisions)*vp.zoom);
 				//debug("GRID - gridsize set as: " + gsize);
 				
-				for(var j=cec.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
+				for(var j=vp.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
 				vertical(xs.xmax+1);
-				for(var j=cec.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
+				for(var j=vp.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
 				
-				for(var j=cec.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
+				for(var j=vp.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
 				horizontal(xs.ymax+1);
-				for(var j=cec.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
+				for(var j=vp.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
 
 			}
 			
-			if(cec.showguides){
+			if(uistate.showguides){
 				
 				// Minor Guidelines - Overshoots
 				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
-				horizontal(cec.originy+overshootsize);
+				horizontal(vp.originy+overshootsize);
 				horizontal(dline+overshootsize);
 				
 				// Right hand Em Square
-				vertical(cec.originx+(ps.upm*cec.zoom));
+				vertical(vp.originx+(ps.upm*vp.zoom));
 				
 				// major guidelines - xheight, top (emzize)
 				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
@@ -1039,16 +1030,16 @@
 				// Out of bounds triangle
 				uistate.chareditctx.fillStyle = _G.projectsettings.color_guideline;		
 				uistate.chareditctx.beginPath();
-				uistate.chareditctx.moveTo(cec.originx, cec.originy);
-				uistate.chareditctx.lineTo(cec.originx, cec.originy+(_G.projectsettings.pointsize*2));
-				uistate.chareditctx.lineTo(cec.originx-(_G.projectsettings.pointsize*2), cec.originy);
+				uistate.chareditctx.moveTo(vp.originx, vp.originy);
+				uistate.chareditctx.lineTo(vp.originx, vp.originy+(_G.projectsettings.pointsize*2));
+				uistate.chareditctx.lineTo(vp.originx-(_G.projectsettings.pointsize*2), vp.originy);
 				uistate.chareditctx.closePath();
 				uistate.chareditctx.fill();
 				
 				// Origin Lines
 				uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
-				horizontal(cec.originy);
-				vertical(cec.originx);
+				horizontal(vp.originy);
+				vertical(vp.originx);
 			}
 		}
 	}

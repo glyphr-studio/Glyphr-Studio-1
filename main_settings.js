@@ -36,6 +36,7 @@
 		"charcurrstate" : {},
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
+		"chareditcanvassize" : 1600, 			// How big the viewport canvas is
 		"chareditctx" : false, 
 		"calcmaxesghostcanvas" : false, 
 		"calcmaxesghostctx" : false, 
@@ -49,17 +50,16 @@
 		"debugpoints" : [false,false],
 		"layerthumbsize" : 50,
 		"layerthumbgutter" : 5,
+		"showgrid" : true,		// display the grid
+		"showguides" : true,		// display guides
 		
 		// Char Edit Canvas 
-		"chareditcanvassettings" : {
-			"size" : 1600, 			// How big the canvas is
+		"viewport" : {
 			"originx" : 200,		// Where on the canvas the origin is
 			"originy" : 500,		// Where on the canvas the origin is
 			"zoom" : .5,			// Either reduces or increases objects size
-			"showgrid" : true,		// display the grid
-			"showguides" : true		// display guides
 		}, 
-		"defaultchareditcanvassettings" : {
+		"defaultviewport" : {
 			"originx" : 200,
 			"originy" : 500,
 			"zoom" : .5

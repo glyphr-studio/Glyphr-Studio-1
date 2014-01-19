@@ -96,7 +96,7 @@
 				
 		uistate.chareditctx.clearRect(0,0,5000,5000);
 		grid();
-		vertical(uistate.chareditcanvassettings.size.makeCrisp());
+		vertical(uistate.chareditcanvassize.makeCrisp());
 		
 		_G.linkedshapes[uistate.shownlinkedshape].shape.drawShape_Single(uistate.chareditctx);
 		
@@ -203,8 +203,8 @@
 			}
 			
 		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.chareditcanvassettings.showgrid? uistate.chareditcanvassettings.showgrid=false : uistate.chareditcanvassettings.showgrid=true; redraw();'><br>"; 
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.chareditcanvassettings.showguides? uistate.chareditcanvassettings.showguides=false : uistate.chareditcanvassettings.showguides=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.showgrid? uistate.showgrid=false : uistate.showgrid=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.showguides? uistate.showguides=false : uistate.showguides=true; redraw();'><br>"; 
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
