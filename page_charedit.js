@@ -349,12 +349,25 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("_G.fontchars[uistate.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
 
 		if(!sc.isautowide){
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='_G.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='_G.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em units</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>em %</span> </td><td> " + rounddec(sc.charwidth/_G.projectsettings.upm) + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em %)</span> </td><td> " + rounddec(sc.charwidth/_G.projectsettings.upm) + " </td></tr>";
+		
+		content += "<tr><td colspan=3>&nbsp;</td></tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td><td width='50%'>"+checkUI("_G.fontchars[uistate.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw();", !sc.leftsidebearing)+"</td></tr>";
+		if(sc.leftsidebearing){
+			if(sc.leftsidebearing === true) sc.leftsidebearing = _G.projectsettings.defaultlsb;
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> custom<br>left side bearing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.leftsidebearing + "' onchange='_G.fontchars[uistate.selectedchar].leftsidebearing = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+		} else {
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> default<br>left side bearing <span class='unit'>(em units)</span> </td><td> " + rounddec(_G.projectsettings.defaultlsb) + " </td></tr>";
+		}
+
+		content += "<tr><td colspan=3>&nbsp;</td></tr>";
+
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + uistate.shapelayers.length + " </td></tr>";
 
 		return content;

@@ -140,7 +140,7 @@
 			"griddivisions": 10,	// how many squares of grid per emsize
 			"xheight": 400,			// lowercase letter height
 			"overshoot": 10,			// overshoot for round glyphs
-			"defaultlsb": 40,		// default kerning
+			"defaultlsb": 5,		// default left space
 
 			// UI stuff
 			"pointsize" : 5,			// square points size - SHOULD BE ODD	

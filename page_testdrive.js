@@ -97,8 +97,8 @@
 		} else {
 			width = (tc.charwidth*size);
 			if(tc.isautowide){ 
-				debug("---------------- for " + tc.charname + " isautowide=false, adding left side bearing width " + ps.defaultlsb + " to width " + width);
-				width += ps.defaultlsb; 
+				debug("---------------- for " + tc.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*size) + " to width " + width);
+				width += (ps.defaultlsb*size); 
 			}
 		}
 		
