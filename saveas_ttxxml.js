@@ -346,9 +346,12 @@
 	function genTable_hmtx(oa){
 		var con = '<hmtx>\n';
 		con += '\t<mtx name=".notdef" width="2100" lsb="0"/>\n';
+		var lsb, curr;
 
 		for(var tc=32; tc<_G.fontchars.length; tc++){
-			con += '\t<mtx name="' + _G.fontchars[tc].charname + '" width="2100" lsb="20"/>\n';			// UPM?
+			curr = _G.fontchars[tc];
+			lsb = (curr.leftsidebearing === false)? _G.projectsettings.defaultlsb : curr.leftsidebearing;
+			con += '\t<mtx name="' + curr.charname + '" width="'+curr.charwidth+'" lsb="'+lsb+'"/>\n';
 		}
 
 		con += '</hmtx>\n\n';
