@@ -43,9 +43,22 @@
 				curry += ((textEm) + (document.getElementById("linegap").value*1));
 				uistate.testdrive_showhorizontals? drawLine(curry) : false;
 			} else {
+				if(uistate.testdrive_showcharbox){
+					lctx.fillStyle = "transparent";
+					lctx.strokeStyle = uistate.colors.accent;
+					lctx.lineWidth = 1;
+					
+					lctx.strokeRect(
+						currx.makeCrisp(), 
+						(curry.makeCrisp()-(ps.upm*uistate.testdrive_fontscale)), 
+						Math.round(_G.fontchars[charToUnicode[contentArray[k]]].charwidth*uistate.testdrive_fontscale), 
+						Math.round(ps.upm*uistate.testdrive_fontscale)
+					);
+				}
+
 				currx += drawCharToArea(uistate.testdrivectx, charToUnicode[contentArray[k]], uistate.testdrive_fontscale, currx, curry);
 				currx += (document.getElementById("charspacing").value*1);
-				
+					
 			}
 		}
 	}
@@ -73,25 +86,12 @@
 			//assumes one shape per ss
 			sl = [_G.linkedshapes[charcode].shape];
 		} else {
-			width = (tc.charwidth*uistate.testdrive_fontscale);
+			width = (tc.charwidth*size);
 			if(tc.isautowide){ 
-				debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (ps.upm*ps.kerning*uistate.testdrive_fontscale) + " to width " + width);
-				width += (ps.upm*ps.kerning*uistate.testdrive_fontscale); 
+				debug("---------------- for " + tc.charname + " isautowide=false, adding left side bearing width " + ps.defaultlsb + " to width " + width);
+				width += ps.defaultlsb; 
 			}
 		}
-		
-		if(uistate.testdrive_showcharbox){
-			lctx.fillStyle = "transparent";
-			lctx.strokeStyle = uistate.colors.accent;
-			lctx.lineWidth = 1;
-			
-			lctx.strokeRect(
-				offsetX.makeCrisp(), 
-				(offsetY.makeCrisp()-(ps.upm*uistate.testdrive_fontscale)), 
-				Math.round(tc.charwidth*uistate.testdrive_fontscale), 
-				Math.round(ps.upm*uistate.testdrive_fontscale)
-			);
-		}	
 		
 		var sh = {};
 		lctx.beginPath();
@@ -104,7 +104,7 @@
 		lctx.closePath();
 		lctx.fill("nonzero");
 
-		debug("---------------- done with " + charcode);
+		debug("---------------- done with " + charcode + "\n");
 		
 		return width;
 	}

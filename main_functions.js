@@ -93,7 +93,7 @@
 			case "npChar":
 				if(uistate.navhere == "character edit") {
 					nt.innerHTML = "<h1>character edit</h1>"+updateselectchar();
-					drawselectcharcanvas();
+					drawselectcharthumbs();
 				}
 				if(uistate.navhere == "linked shapes") {
 					nt.innerHTML = "<h1>linked shapes</h1>"+linkedshapes_subnav();

@@ -63,28 +63,20 @@
 		return false;
 	}
 	
-	Path.prototype.drawPath = function(lctx) {
-		var z = uistate.viewport.zoom;
+	Path.prototype.drawPath = function(lctx) {		
+		var tempvp = clone(uistate.viewport);
 		
 		// Check to see if this is a Ghost Canvas draw
-		var tempzp = {};
-		tempzp.x = uistate.viewport.originx;
-		tempzp.y = uistate.viewport.originy;
-		tempzp.z = uistate.viewport.zoom;
-		
 		if(lctx == uistate.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
-			z = 1;
 			uistate.viewport.zoom = 1;			
-			uistate.viewport.originx = uistate.viewport.originx;
-			uistate.viewport.originy = uistate.viewport.originy;
+			uistate.viewport.originx = uistate.defaultviewport.originx;
+			uistate.viewport.originy = uistate.defaultviewport.originy;
 		}
 		
 		this.outlinePathOnCanvas(lctx); 
 
-		uistate.viewport.originx = tempzp.x;
-		uistate.viewport.originy = tempzp.y;
-		uistate.viewport.zoom = tempzp.z;
+		uistate.viewport = tempvp;
 	}
 
 	Path.prototype.outlinePathOnCanvas = function(lctx) {
@@ -113,11 +105,7 @@
 	}
 	
 	Path.prototype.drawPathToArea = function(lctx, size, offsetX, offsetY){
-		if(lctx != uistate.chareditctx){
-			debug("DRAWPATHTOAREA: offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " + size);
-		}
-
-		var tempv = uistate.viewport;
+		var tempv = clone(uistate.viewport);
 
 		uistate.viewport.originx = offsetX;
 		uistate.viewport.originy = offsetY;
@@ -209,10 +197,7 @@
 		uistate.calcmaxesghostctx.strokeStyle = "lime";
 		
 		//Setup temp zoom/pan for cmgc
-		var tempzp = {};
-		tempzp.x = uistate.viewport.originx;
-		tempzp.y = uistate.viewport.originy;
-		tempzp.z = uistate.viewport.zoom;
+		var tempvp = clone(viewport);
 		uistate.viewport.zoom = 1;			
 		uistate.viewport.originx = ps.upm;
 		uistate.viewport.originy = ps.upm*2;
@@ -257,9 +242,7 @@
 		this.rightx += dw;
 		//this.leftx += (dw/2);
 		
-		uistate.viewport.originx = tempzp.x;
-		uistate.viewport.originy = tempzp.y;
-		uistate.viewport.zoom = tempzp.z;
+		uistate.viewport = tempvp;
 		//debug("UPDATEPATHSIZE - done");
 	}
 	

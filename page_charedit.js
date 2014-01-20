@@ -54,12 +54,12 @@
 		return ccon;
 	}	
 
-	function drawselectcharcanvas(){		
+	function drawselectcharthumbs(){		
 		var ps = _G.projectsettings;
 		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
 		var yoffset = (uistate.thumbgutter+(ps.ascent*factor));
 		
-		debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
+		debug("drawselectcharthumbs - selectchardrawarr: " + selectchardrawarr);
 		
 		for(var sc=0; sc<selectchardrawarr.length; sc++){
 			var tc = selectchardrawarr[sc];
@@ -697,6 +697,7 @@
 // Update Layers
 //-------------------
 	function updatelayers(){
+		
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
 
@@ -734,6 +735,7 @@
 			//debug("UPDATELAYERS - <b>innerHTML update error caught</b>");
 		}
 
+		
 		// Update the thumbs		
 		if(uistate.shapelayers.length > 0){
 			var ps = _G.projectsettings;
@@ -747,6 +749,7 @@
 				tele.style.backgroundColor = uistate.colors.offwhite;
 				if(i == uistate.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 
+			debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(uistate.viewport));
 				//only draw the thumbs if it's not a temppathdragshape
 				if(uistate.eventhandlers.temppathdragshape){
 					if(i!==uistate.selectedshape){

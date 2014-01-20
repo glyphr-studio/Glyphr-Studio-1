@@ -307,7 +307,7 @@
 		content += "</td></tr>";
 		content += "<tr><td><br><input type='button' class='button' value='done' onclick='closeDialog();'/></td></tr></table>";
 		openDialog(content);
-		drawselectcharcanvas();
+		drawselectcharthumbs();
 	}
 	
 	function insertLinkedShapeToChar(chid){

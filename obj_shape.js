@@ -40,24 +40,18 @@
 //	-----
 	
 	Shape.prototype.drawShape_Single = function(lctx){
-					
-		var z = uistate.viewport.zoom;
 		
 		// Check to see if this is a Ghost Canvas draw
-		var tempzp = {};
-		tempzp.x = uistate.viewport.originx;
-		tempzp.y = uistate.viewport.originy;
-		tempzp.z = uistate.viewport.zoom;
+		var tempvp = clone(uistate.viewport);
+
 		if(lctx == uistate.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
-			z = 1;
-			uistate.viewport.zoom = 1;			
-			uistate.viewport.originx = uistate.viewport.originx;
-			uistate.viewport.originy = uistate.viewport.originy;
+			uistate.viewport = uistate.defaultviewport;
+			uistate.viewport.zoom = 1;
+			lctx.fillStyle = "rgba(0,255,0,0.2)";
 		}
 
 		else if(lctx == uistate.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
-		else if(lctx == uistate.calcmaxesghostctx) { lctx.fillStyle = "rgba(0,255,0,0.2)"; }
 		
 		// Draw the appropriate stuff for each shape's fill & border
 		
@@ -67,9 +61,7 @@
 		lctx.fillStyle = _G.projectsettings.color_glyphfill;
 		lctx.fill();
 
-		uistate.viewport.originx = tempzp.x;
-		uistate.viewport.originy = tempzp.y;
-		uistate.viewport.zoom = tempzp.z;
+		uistate.viewport = tempvp;
 	}
 
 
