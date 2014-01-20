@@ -113,19 +113,19 @@
 	}
 	
 	Path.prototype.drawPathToArea = function(lctx, size, offsetX, offsetY){
-		var tempx = uistate.viewport.originx;
-		var tempy = uistate.viewport.originy;
-		var tempz = uistate.viewport.zoom;
-		
+		if(lctx != uistate.chareditctx){
+			debug("DRAWPATHTOAREA: offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " + size);
+		}
+
+		var tempv = uistate.viewport;
+
 		uistate.viewport.originx = offsetX;
 		uistate.viewport.originy = offsetY;
 		uistate.viewport.zoom = size;	
 		
 		this.drawPath(lctx);
 		
-		uistate.viewport.originx = tempx;
-		uistate.viewport.originy = tempy;
-		uistate.viewport.zoom = tempz;	
+		uistate.viewport = tempv;
 	}
 	
 	Path.prototype.genPathPostScript = function(lastx, lasty){

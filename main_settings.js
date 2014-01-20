@@ -26,14 +26,12 @@
 			"g1" : "rgb(25,30,35)"				// 10% gray
 		},
 
-		// page: linked shapes
-		"shownlinkedshape" : "id0",
-		"linkedshapecurrstate" : {},
-		"linkedshapeundoq" : [],
-
-		// page: charedit
-		"charundoq" : [],
-		"charcurrstate" : {},
+		// Shared edit pages
+		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
+		"thumbsize" : 50,
+		"thumbgutter" : 5,
+		"showgrid" : true,		// display the grid
+		"showguides" : true,		// display guides
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
 		"chareditcanvassize" : 1600, 			// How big the viewport canvas is
@@ -42,18 +40,6 @@
 		"calcmaxesghostctx" : false, 
 		"ishereghostcanvas" : false, 
 		"ishereghostctx" : false,
-		"showrightline" : true,	
-		"shapelayers" : [],
-		"selectedshape" : -1,
-		"selectedchar" : 97,
-		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
-		"debugpoints" : [false,false],
-		"layerthumbsize" : 50,
-		"layerthumbgutter" : 5,
-		"showgrid" : true,		// display the grid
-		"showguides" : true,		// display guides
-		
-		// Char Edit Canvas 
 		"viewport" : {
 			"originx" : 200,		// Where on the canvas the origin is
 			"originy" : 500,		// Where on the canvas the origin is
@@ -65,9 +51,27 @@
 			"zoom" : .5
 		},
 
+		// page: linked shapes
+		"shownlinkedshape" : "id0",
+		"linkedshapecurrstate" : {},
+		"linkedshapeundoq" : [],
+		
+		// page: charedit
+		"charundoq" : [],
+		"charcurrstate" : {},
+		"showrightline" : true,	
+		"shapelayers" : [],
+		"selectedshape" : -1,
+		"selectedchar" : 97,
+		"debugpoints" : [false,false],
+		
 		// page: test drive
 		"testdrivectx" : false,
 		"testdrivecanvas" : false,
+		"testdrive_fontscale" : 0,
+		"testdrive_showcharbox" : false,
+		"testdrive_showhorizontals" : false,
+		"testdrive_padsize" : 10,
 
 		// default open type settings
 		"defaultopentypeproperties" : {

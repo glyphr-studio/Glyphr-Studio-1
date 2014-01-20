@@ -77,7 +77,7 @@
 		var re = "<div class='ssthumbcontainer'>";
 		for(var ssid in _G.linkedshapes){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
-			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\");' height="+ssthumbsize+"' width="+ssthumbsize+"></canvas>";
+			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\");' height="+uistate.thumbsize+"' width="+uistate.thumbsize+"></canvas>";
 			re += "</td></tr><tr><td>"
 			re += _G.linkedshapes[ssid].shape.name;
 			re += "</td></tr></table>";
@@ -90,12 +90,12 @@
 	function drawSSThumbs(){
 		var ps = _G.projectsettings;
 		var tctx = {};
-		var factor = ((ssthumbsize-(2*ssthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
-		var yoffset = (ssthumbgutter+(ps.upm*factor));
+		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
+		var yoffset = (uistate.thumbgutter+(ps.ascent*factor));
 		for(var ssid in _G.linkedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			_G.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, ssthumbgutter, yoffset);
+			_G.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}

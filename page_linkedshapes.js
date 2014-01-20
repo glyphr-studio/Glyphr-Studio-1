@@ -50,14 +50,14 @@
 		var ps = _G.projectsettings;
 		var tctx = {};
 		var tele = false;
-		var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
-		var yoffset = (uistate.layerthumbgutter+(ps.upm*factor));
+		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
+		var yoffset = (uistate.thumbgutter+(ps.upm*factor));
 		for(var ssid in _G.linkedshapes){
 			tele = document.getElementById(("layerthumb"+ssid))
 			tctx = tele.getContext("2d");
 			tele.style.backgroundColor = uistate.colors.offwhite;
 			if(ssid==uistate.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-			_G.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+			_G.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
 		}
 		//debug("DRAWLINKEDSHAPELAYERTHUMBS - end");
 	}
@@ -72,7 +72,7 @@
 			re += "<tr class='layer'";
 		}
 		re += " onclick='makeLinkedShapeSelected(\"" + ssid + "\");'>";
-		re += "<td class='layerthumb'><canvas id='layerthumb"+ssid+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
+		re += "<td class='layerthumb'><canvas id='layerthumb"+ssid+"' height='"+uistate.thumbsize+"' width='"+uistate.thumbsize+"'></canvas></td>";
 		re += "<td class='layername'>" + _G.linkedshapes[ssid].shape.name + "</td></tr>";
 
 		return re;
@@ -130,16 +130,13 @@
 		return content;
 	}
 	
-	var ssthumbsize = 49;
-	var ssthumbgutter = 5;	
-	
 	function generateUsedinThumbs(){		
 		var re = "<div class='ssthumbcontainer'>";
 		var ui = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 
 		for(var k=0; k<ui.length; k++){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
-			re += "<canvas id='thumb"+ui[k]+"' class='ssusedinthumb' height="+ssthumbsize+"' width="+ssthumbsize+" onclick='goToEditChar("+(ui[k]*1)+");'></canvas>";
+			re += "<canvas id='thumb"+ui[k]+"' class='ssusedinthumb' height="+uistate.thumbsize+"' width="+uistate.thumbsize+" onclick='goToEditChar("+(ui[k]*1)+");'></canvas>";
 			re += "</td></tr><tr><td>"
 			re += _G.fontchars[(ui[k]*1)].charvalue;
 			re += "</td></tr></table>";
@@ -162,16 +159,16 @@
 		var ui = _G.linkedshapes[uistate.shownlinkedshape].usedin;
 		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};
-		var factor = ((ssthumbsize-(2*ssthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
-		var yoffset = (ssthumbgutter+(ps.upm*factor));
+		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
+		var yoffset = (uistate.thumbgutter+(ps.upm*factor));
 		
 		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
 
 		for(var k=0; k<ui.length; k++){
-			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
+			debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
-			drawCharToArea(tctx, ui[k], factor, ssthumbgutter, yoffset);
-			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
+			drawCharToArea(tctx, ui[k], factor, uistate.thumbgutter, yoffset);
+			debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}
 	

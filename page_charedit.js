@@ -54,25 +54,22 @@
 		return ccon;
 	}	
 
-	function drawselectcharcanvas(){
-		var scthumbsize = 50;
-		var scthumbgutter = 5;	
-		
+	function drawselectcharcanvas(){		
 		var ps = _G.projectsettings;
-		var factor = ((scthumbsize-(2*scthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
-		var yoffset = (scthumbgutter+(ps.upm*factor));
+		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
+		var yoffset = (uistate.thumbgutter+(ps.ascent*factor));
 		
-		//debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
+		debug("DRAWSELECTCHARCANVAS - selectchardrawarr: " + selectchardrawarr);
 		
 		for(var sc=0; sc<selectchardrawarr.length; sc++){
 			var tc = selectchardrawarr[sc];
-			//debug("---------------------- i: " + sc + " id: " + tc);
+			debug("---------------------- i: " + sc + " id: " + tc);
 			var scan = document.getElementById("cs"+tc);
-			scan.width = scthumbsize;
-			scan.height = scthumbsize;
+			scan.width = uistate.thumbsize;
+			scan.height = uistate.thumbsize;
 			var sctx = scan.getContext("2d");
 			
-			drawCharToArea(sctx, tc, factor, scthumbgutter, yoffset);
+			drawCharToArea(sctx, tc, factor, uistate.thumbgutter, yoffset);
 		}
 	}
 	
@@ -171,8 +168,8 @@
 		//debug("!!! REDRAW !!! - uistate.selectedchar: " + uistate.selectedchar + " - numshapes: " + uistate.shapelayers.length + " - navhere: " + navhere);	
 		
 		// Only update charwidth if isautowide is true
-		var neww = fc[uistate.selectedchar].isautowide;
-		if(neww) {fc[uistate.selectedchar].charwidth = 0;}
+		var aw = fc[uistate.selectedchar].isautowide;
+		if(aw) {fc[uistate.selectedchar].charwidth = 0;}
 		
 
 		uistate.chareditctx.beginPath();
@@ -191,7 +188,7 @@
 			}
 
 			// Recompute Right Hand Line
-			if(neww) {
+			if(aw) {
 				var thisrightx = 0;
 				if(sh.link){
 					var tss = _G.linkedshapes[sh.link].shape;
@@ -234,7 +231,6 @@
 			if(uistate.eventhandlers.temppathdragshape){
 				rhl = Math.max(sx_cx(uistate.eventhandlers.temppathdragshape.rightx), rhl);
 			}
-			if(neww){rhl += (_G.projectsettings.upm*_G.projectsettings.kerning*uistate.viewport.zoom) }
 			vertical(rhl);
 		}
 	}
@@ -714,7 +710,7 @@
 				}
 				content += " onclick='uistate.selectedshape = " + i + "; redraw();'>";
 				
-				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+uistate.layerthumbsize+"' width='"+uistate.layerthumbsize+"'></canvas></td>";
+				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+uistate.thumbsize+"' width='"+uistate.thumbsize+"'></canvas></td>";
 				
 				content += "<td class='layername'>" + uistate.shapelayers[i].name ;
 				if(uistate.shapelayers[i].link) { content += "<span class='layernote'>[linked shape]</span>"; }
@@ -743,8 +739,8 @@
 			var ps = _G.projectsettings;
 			var tctx = {};
 			var tele = false;
-			var factor = ((uistate.layerthumbsize-(2*uistate.layerthumbgutter))/(ps.upm + (ps.upm*_G.projectsettings.descender)));
-			var yoffset = (uistate.layerthumbgutter+(ps.upm*factor));
+			var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
+			var yoffset = (uistate.thumbgutter+(ps.upm*factor));
 			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
 				tele = document.getElementById(("layerthumb"+i))
 				tctx = tele.getContext("2d");
@@ -754,10 +750,10 @@
 				//only draw the thumbs if it's not a temppathdragshape
 				if(uistate.eventhandlers.temppathdragshape){
 					if(i!==uistate.selectedshape){
-						uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+						uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
 					}
 				} else {
-					uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.layerthumbgutter, yoffset);
+					uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
 				}					
 			}
 		}
@@ -960,7 +956,7 @@
 		var ps = _G.projectsettings;
 		var vp = uistate.viewport;
 
-		debug("GRID: vp:" + JSON.stringify(vp));
+		//debug("GRID: vp:" + JSON.stringify(vp));
 
 		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
 		uistate.chareditctx.fillRect(0,0,99999,99999);
@@ -975,7 +971,7 @@
 		xs.ymax = Math.round(vp.originy + (zupm - zasc) + gutter);
 		xs.ymin = Math.round(vp.originy - zasc - gutter);
 
-		debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
+		//debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
 
 		uistate.chareditctx.fillStyle = "white";
 		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);

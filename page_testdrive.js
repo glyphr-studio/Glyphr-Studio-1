@@ -27,29 +27,23 @@
 		return content;
 	}
 
-	var tdFontScale = 0;
-	var showcharbox = false;
-	var showhorizontals = false;
-	var padsize = 10;
-
 	function updateTestdriveCanvas(){
 		var text = document.getElementById("tdtextarea").value;
 		uistate.testdrivectx.clearRect(0,0,5000,5000);
 		var contentArray = text.split("");
-		var textEm = (_G.projectsettings.upm*tdFontScale);
-		var currx = padsize;
-		var curry = padsize + textEm;
+		var textEm = (_G.projectsettings.upm*uistate.testdrive_fontscale);
+		var currx = uistate.testdrive_padsize;
+		var curry = uistate.testdrive_padsize + textEm;
 		
-		showhorizontals? drawLine(padsize+textEm) : false;
+		uistate.testdrive_showhorizontals? drawLine(uistate.testdrive_padsize+textEm) : false;
 		
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
-				currx = padsize;
-				curry += ((textEm+(textEm*_G.projectsettings.descender)));
-				curry += (document.getElementById("linespacing").value*1);
-				showhorizontals? drawLine(curry) : false;
+				currx = uistate.testdrive_padsize;
+				curry += ((textEm) + (document.getElementById("linegap").value*1));
+				uistate.testdrive_showhorizontals? drawLine(curry) : false;
 			} else {
-				currx += drawCharToArea(uistate.testdrivectx, charToUnicode[contentArray[k]], tdFontScale, currx, curry);
+				currx += drawCharToArea(uistate.testdrivectx, charToUnicode[contentArray[k]], uistate.testdrive_fontscale, currx, curry);
 				currx += (document.getElementById("charspacing").value*1);
 				
 			}
@@ -73,41 +67,44 @@
 		var tc = _G.fontchars[charcode];
 		var sl = tc.charshapes;
 		var width = 0;
-		//debug("DRAWCHARTOAREA - starting " + charcode);
+		debug("DRAWCHARTOAREA - starting " + charcode + " \t offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " +size);
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
 			sl = [_G.linkedshapes[charcode].shape];
 		} else {
-			width = (tc.charwidth*tdFontScale);
+			width = (tc.charwidth*uistate.testdrive_fontscale);
 			if(tc.isautowide){ 
-				//debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (ps.upm*ps.kerning*tdFontScale) + " to width " + width);
-				width += (ps.upm*ps.kerning*tdFontScale); 
+				debug("---------------- for " + tc.charname + " isautowide=false, adding kern width " + (ps.upm*ps.kerning*uistate.testdrive_fontscale) + " to width " + width);
+				width += (ps.upm*ps.kerning*uistate.testdrive_fontscale); 
 			}
 		}
 		
-		if(showcharbox){
+		if(uistate.testdrive_showcharbox){
 			lctx.fillStyle = "transparent";
 			lctx.strokeStyle = uistate.colors.accent;
 			lctx.lineWidth = 1;
-			var trailspace = 0;
-			if(tc.isautowide) trailspace = _G.projectsettings.upm*_G.projectsettings.kerning*tdFontScale;
 			
-			lctx.strokeRect(offsetX.makeCrisp(), (offsetY.makeCrisp()-(ps.upm*tdFontScale)), Math.round((tc.charwidth*tdFontScale)+trailspace), Math.round((ps.upm*tdFontScale) + (ps.descender*ps.upm*tdFontScale)));
+			lctx.strokeRect(
+				offsetX.makeCrisp(), 
+				(offsetY.makeCrisp()-(ps.upm*uistate.testdrive_fontscale)), 
+				Math.round(tc.charwidth*uistate.testdrive_fontscale), 
+				Math.round(ps.upm*uistate.testdrive_fontscale)
+			);
 		}	
 		
 		var sh = {};
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
 			sh = sl[j];
-			//debug("---------------- starting shape " + sh.name);
+			debug("---------------- starting shape " + sh.name);
 			sh.drawShapeToArea_Stack(lctx, size, offsetX, offsetY);
 		}
 		lctx.fillStyle = _G.projectsettings.color_glyphfill;
 		lctx.closePath();
 		lctx.fill("nonzero");
 
-		//debug("---------------- done with " + charcode);
+		debug("---------------- done with " + charcode);
 		
 		return width;
 	}
@@ -141,10 +138,10 @@
 		var content = "<table class='detail'>";
 		content += "<tr><td> font size <span class='unit'>px</span> </td><td><input class='input' type='text' value='100' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> 96dpi font size <span class='unit'>pt</span> </td><td id='roughptsize'>75</td></tr>";
-		content += "<tr><td> line spacing <span class='unit'>px</span> </td><td><input class='input' id='linespacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> line spacing <span class='unit'>px</span> </td><td><input class='input' id='linegap' type='text' value='"+_G.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> character spacing <span class='unit'>px</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> show character boxes </td><td><input type='checkbox' onchange='showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
-		content += "<tr><td> show baseline </td><td><input type='checkbox' onchange='showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show character boxes </td><td><input type='checkbox' onchange='uistate.testdrive_showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show baseline </td><td><input type='checkbox' onchange='uistate.testdrive_showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
 		
 		content += "<tr><td colspan=2><input type='button' class='button' value='generate png file' onclick='createimg();'></td></tr>";
 		content += "</table>";
@@ -152,7 +149,7 @@
 	}
 
 	function changefontscale(newval){
-		tdFontScale = (newval/_G.projectsettings.upm);
+		uistate.testdrive_fontscale = (newval/_G.projectsettings.upm);
 		document.getElementById("roughptsize").innerHTML = (newval*.75);
 	}
 
