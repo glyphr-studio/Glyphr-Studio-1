@@ -29,35 +29,44 @@
 
 	function updateTestdriveCanvas(){
 		var text = document.getElementById("tdtextarea").value;
-		uistate.testdrivectx.clearRect(0,0,5000,5000);
+		var tctx = uistate.testdrivectx;
+		var ps = _G.projectsettings;
+		var scale = uistate.testdrive_fontscale;
 		var contentArray = text.split("");
-		var textEm = (_G.projectsettings.upm*uistate.testdrive_fontscale);
+		var textEm = (_G.projectsettings.upm*scale);
 		var currx = uistate.testdrive_padsize;
-		var curry = uistate.testdrive_padsize + textEm;
+		var curry = uistate.testdrive_padsize + (ps.ascent*scale);
 		
-		uistate.testdrive_showhorizontals? drawLine(uistate.testdrive_padsize+textEm) : false;
+		tctx.clearRect(0,0,5000,5000);
+		uistate.testdrive_showhorizontals? drawLine(curry) : false;
 		
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
+				// reset X val
 				currx = uistate.testdrive_padsize;
-				curry += ((textEm) + (document.getElementById("linegap").value*1));
+				
+				// calc Y val
+				curry += (textEm);
+				curry += ((document.getElementById("linegap").value*1)*scale);
+				
+				// draw baseline
 				uistate.testdrive_showhorizontals? drawLine(curry) : false;
 			} else {
 				if(uistate.testdrive_showcharbox){
-					lctx.fillStyle = "transparent";
-					lctx.strokeStyle = uistate.colors.accent;
-					lctx.lineWidth = 1;
+					tctx.fillStyle = "transparent";
+					tctx.strokeStyle = uistate.colors.accent;
+					tctx.lineWidth = 1;
 					
-					lctx.strokeRect(
+					tctx.strokeRect(
 						currx.makeCrisp(), 
-						(curry.makeCrisp()-(ps.upm*uistate.testdrive_fontscale)), 
-						Math.round(_G.fontchars[charToUnicode[contentArray[k]]].charwidth*uistate.testdrive_fontscale), 
-						Math.round(ps.upm*uistate.testdrive_fontscale)
+						(curry.makeCrisp()-(ps.ascent*scale)), 
+						Math.round(_G.fontchars[charToUnicode[contentArray[k]]].charwidth*scale), 
+						Math.round(textEm)
 					);
 				}
 
-				currx += drawCharToArea(uistate.testdrivectx, charToUnicode[contentArray[k]], uistate.testdrive_fontscale, currx, curry);
-				currx += (document.getElementById("charspacing").value*1);
+				currx += drawCharToArea(tctx, charToUnicode[contentArray[k]], uistate.testdrive_fontscale, currx, curry);
+				currx += (document.getElementById("charspacing").value*1*scale);
 					
 			}
 		}
@@ -136,10 +145,10 @@
 
 	function drawTDOptions(){
 		var content = "<table class='detail'>";
-		content += "<tr><td> font size <span class='unit'>px</span> </td><td><input class='input' type='text' value='100' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> 96dpi font size <span class='unit'>pt</span> </td><td id='roughptsize'>75</td></tr>";
-		content += "<tr><td> line spacing <span class='unit'>px</span> </td><td><input class='input' id='linegap' type='text' value='"+_G.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> character spacing <span class='unit'>px</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> font size <span class='unit'>(px)</span> </td><td><input class='input' type='text' value='100' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> 96dpi font size <span class='unit'>(pt)</span> </td><td id='roughptsize'>75</td></tr>";
+		content += "<tr><td> line gap <span class='unit'>(em units)</span> </td><td><input class='input' id='linegap' type='text' value='"+_G.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> character spacing <span class='unit'>(em units)</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> show character boxes </td><td><input type='checkbox' onchange='uistate.testdrive_showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
 		content += "<tr><td> show baseline </td><td><input type='checkbox' onchange='uistate.testdrive_showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
 		
