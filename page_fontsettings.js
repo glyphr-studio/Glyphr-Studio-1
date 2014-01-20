@@ -2,7 +2,7 @@
 	function updatefontsettings(){
 
 		// SETTINGS
-		var ps = _G.projectsettings;
+		var ps = _GP.projectsettings;
 
 		var content = "<div class='pagecontent textpage'><h1>Font Settings</h1>";
 		content += "<p style='margin-bottom:20px;'>These properties are used by the Glyphr project while you are designing this font.  By default, these are the same as some of the OpenType settings below." +
@@ -21,13 +21,13 @@
 		content += "<h3>Default Left Side Bearing</h3>" + 
 					"This is the amount of blank space that is added to the left of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
 					"<table class='fontmetricstable'>"+
-					"<tr><td>Left Side Bearing: </td><td><input type='text' value='"+ps.defaultlsb+"' onchange='_G.projectsettings.lsb = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+		
+					"<tr><td>Left Side Bearing: </td><td><input type='text' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+		
 					"</table><br>";
 
 		content += "<h3>Line Gap</h3>" + 
 					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
 					"<table class='fontmetricstable'>"+
-					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_G.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+	
+					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+	
 					"</table><br>";
 
 		// METADATA
@@ -39,7 +39,7 @@
 
 		content += "<h2>Tables</h2>";
 
-		var otp = _G.opentypeproperties;
+		var otp = _GP.opentypeproperties;
 
 
 		// NAME TABLE
@@ -48,7 +48,7 @@
 		
 		for(var prop=0; prop<otp.name.length; prop++){
 			if(prop!=7){
-				content += "<tr><td class='propname'>" + otp.name[prop].key + "</td><td><input type='text' value='" + otp.name[prop].val + "' onchange='_G.opentypeproperties.name[" + prop + "].val = this.value;' /></td></tr>";
+				content += "<tr><td class='propname'>" + otp.name[prop].key + "</td><td><input type='text' value='" + otp.name[prop].val + "' onchange='_GP.opentypeproperties.name[" + prop + "].val = this.value;' /></td></tr>";
 			}
 		}
 		content += "</table>";
@@ -100,7 +100,7 @@
 	}
 
 	function updateAscender(val){
-		var ps = _G.projectsettings;
+		var ps = _GP.projectsettings;
 		ps.ascent = Math.max(0, Math.min(ps.upm, Math.round(val)));
 		document.getElementById('metric-des').value = (ps.ascent - ps.upm);
 	}

@@ -13,7 +13,7 @@
 		
 		initEventHandlers();
 		
-		uistate.selectedtool = "pathedit";
+		_UI.selectedtool = "pathedit";
 		
 		redraw();	
 	}
@@ -55,9 +55,9 @@
 	}	
 
 	function drawselectcharthumbs(){		
-		var ps = _G.projectsettings;
-		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
-		var yoffset = (uistate.thumbgutter+(ps.ascent*factor));
+		var ps = _GP.projectsettings;
+		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
+		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		
 		debug("drawselectcharthumbs - selectchardrawarr: " + selectchardrawarr);
 		
@@ -65,21 +65,21 @@
 			var tc = selectchardrawarr[sc];
 			debug("---------------------- i: " + sc + " id: " + tc);
 			var scan = document.getElementById("cs"+tc);
-			scan.width = uistate.thumbsize;
-			scan.height = uistate.thumbsize;
+			scan.width = _UI.thumbsize;
+			scan.height = _UI.thumbsize;
 			var sctx = scan.getContext("2d");
 			
-			drawCharToArea(sctx, tc, factor, uistate.thumbgutter, yoffset);
+			drawCharToArea(sctx, tc, factor, _UI.thumbgutter, yoffset);
 		}
 	}
 	
 	function buildbutton(index, fname){
 		var onc = (fname + "(" + index + ");");
-		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_G.fontchars[index].charname+"'>";
-		var issel = _G.fontchars[index].charvalue == _G.fontchars[uistate.selectedchar].charvalue;
-		issel = issel & (uistate.navhere != "linked shapes");
+		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_GP.fontchars[index].charname+"'>";
+		var issel = _GP.fontchars[index].charvalue == _GP.fontchars[_UI.selectedchar].charvalue;
+		issel = issel & (_UI.navhere != "linked shapes");
 		
-		if(_G.fontchars[index].charshapes[0]){
+		if(_GP.fontchars[index].charshapes[0]){
 			var extra = "";
 			if(issel) {extra = " charselectcanvassel";} 
 			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
@@ -92,7 +92,7 @@
 
 			rv += ">";
 
-			var bv = _G.fontchars[index].charvalue;
+			var bv = _GP.fontchars[index].charvalue;
 			if(bv == "'") bv = "&#39";
 			
 			rv += (bv+"</div>");
@@ -104,94 +104,94 @@
 	}
 	
 	function selectchar(c, dontnavigate){
-		//debug("SELECTCHAR - Selecting " + _G.fontchars[c].charvalue + " from value " + c);
-		uistate.selectedchar = c;
-		uistate.shapelayers = _G.fontchars[c].charshapes;
-		uistate.selectedshape = -1;
+		//debug("SELECTCHAR - Selecting " + _GP.fontchars[c].charvalue + " from value " + c);
+		_UI.selectedchar = c;
+		_UI.shapelayers = _GP.fontchars[c].charshapes;
+		_UI.selectedshape = -1;
 
-		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(uistate.shapelayers));
+		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(_UI.shapelayers));
 		if(!dontnavigate){
-			//debug("SELECTCHAR: selecting " + _G.fontchars[c].charvalue + " and navigating.");
+			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
 			navigate();
 		}
 	}
 
 	function setupGhostCanvas(){
 	
-		uistate.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
-		uistate.calcmaxesghostcanvas.height = uistate.chareditcanvassize;
-		uistate.calcmaxesghostcanvas.width = uistate.chareditcanvassize;
-		uistate.calcmaxesghostctx = uistate.calcmaxesghostcanvas.getContext('2d');
-		uistate.calcmaxesghostctx.fillStyle = "lime";
-		uistate.calcmaxesghostctx.globalAlpha = .5;
-		uistate.calcmaxesghostcanvas.style.backgroundColor = "transparent";
+		_UI.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
+		_UI.calcmaxesghostcanvas.height = _UI.chareditcanvassize;
+		_UI.calcmaxesghostcanvas.width = _UI.chareditcanvassize;
+		_UI.calcmaxesghostctx = _UI.calcmaxesghostcanvas.getContext('2d');
+		_UI.calcmaxesghostctx.fillStyle = "lime";
+		_UI.calcmaxesghostctx.globalAlpha = .5;
+		_UI.calcmaxesghostcanvas.style.backgroundColor = "transparent";
 		
 		
 		//Is Here Ghost Canvas - same size as CEC
-		uistate.ishereghostcanvas = document.getElementById('ishereghostcanvas');
-		uistate.ishereghostcanvas.height = uistate.chareditcanvassize;
-		uistate.ishereghostcanvas.width = uistate.chareditcanvassize;
-		uistate.ishereghostctx = uistate.ishereghostcanvas.getContext('2d');
-		uistate.ishereghostctx.fillStyle = "cyan";
-		uistate.ishereghostctx.globalAlpha = .5;
-		uistate.ishereghostcanvas.style.backgroundColor = "transparent";
+		_UI.ishereghostcanvas = document.getElementById('ishereghostcanvas');
+		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
+		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
+		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
+		_UI.ishereghostctx.fillStyle = "cyan";
+		_UI.ishereghostctx.globalAlpha = .5;
+		_UI.ishereghostcanvas.style.backgroundColor = "transparent";
 	}
 
 	function setupEditCanvas(){
-		uistate.chareditcanvas = document.getElementById("chareditcanvas");
-		uistate.chareditcanvas.height = uistate.chareditcanvassize;
-		uistate.chareditcanvas.width = uistate.chareditcanvassize;
-		uistate.chareditctx = uistate.chareditcanvas.getContext("2d");
-		uistate.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		uistate.chareditcanvas.onmouseout = mouseoutcec;
-		uistate.chareditcanvas.onmouseover = mouseovercec;	
+		_UI.chareditcanvas = document.getElementById("chareditcanvas");
+		_UI.chareditcanvas.height = _UI.chareditcanvassize;
+		_UI.chareditcanvas.width = _UI.chareditcanvassize;
+		_UI.chareditctx = _UI.chareditcanvas.getContext("2d");
+		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
+		_UI.chareditcanvas.onmouseout = mouseoutcec;
+		_UI.chareditcanvas.onmouseover = mouseovercec;	
 	}
 	
 	function resetCursor() { document.body.style.cursor = 'default'; }
 		
-	function resetZoomPan(){ uistate.viewport = uistate.defaultviewport; }
+	function resetZoomPan(){ _UI.viewport = _UI.defaultviewport; }
 
 
 //-------------------
 // REDRAW
 //-------------------
 	function redraw(){
-		if(uistate.navhere == "linked shapes") {linkedshapesredraw(); return;}		
+		if(_UI.navhere == "linked shapes") {linkedshapesredraw(); return;}		
 		
-		var fc = _G.fontchars;
+		var fc = _GP.fontchars;
 		
-		uistate.chareditctx.clearRect(0,0,uistate.chareditcanvassize,uistate.chareditcanvassize);
+		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 		grid();
 		
 		// load char info
-		uistate.shapelayers = fc[uistate.selectedchar].charshapes;
-		//debug("!!! REDRAW !!! - uistate.selectedchar: " + uistate.selectedchar + " - numshapes: " + uistate.shapelayers.length + " - navhere: " + navhere);	
+		_UI.shapelayers = fc[_UI.selectedchar].charshapes;
+		//debug("!!! REDRAW !!! - _UI.selectedchar: " + _UI.selectedchar + " - numshapes: " + _UI.shapelayers.length + " - navhere: " + navhere);	
 		
 		// Only update charwidth if isautowide is true
-		var aw = fc[uistate.selectedchar].isautowide;
-		if(aw) {fc[uistate.selectedchar].charwidth = 0;}
+		var aw = fc[_UI.selectedchar].isautowide;
+		if(aw) {fc[_UI.selectedchar].charwidth = 0;}
 		
 
-		uistate.chareditctx.beginPath();
+		_UI.chareditctx.beginPath();
 		
 		var sh;
-		for(var jj=0; jj<uistate.shapelayers.length; jj++) {
+		for(var jj=0; jj<_UI.shapelayers.length; jj++) {
 			
-			sh = uistate.shapelayers[jj];
+			sh = _UI.shapelayers[jj];
 			
-			if(uistate.eventhandlers.temppathdragshape){
-				if(jj!==uistate.selectedshape){
-					sh.drawShape_Stack(uistate.chareditctx);
+			if(_UI.eventhandlers.temppathdragshape){
+				if(jj!==_UI.selectedshape){
+					sh.drawShape_Stack(_UI.chareditctx);
 				}
 			} else {
-				sh.drawShape_Stack(uistate.chareditctx);
+				sh.drawShape_Stack(_UI.chareditctx);
 			}
 
 			// Recompute Right Hand Line
 			if(aw) {
 				var thisrightx = 0;
 				if(sh.link){
-					var tss = _G.linkedshapes[sh.link].shape;
+					var tss = _GP.linkedshapes[sh.link].shape;
 					if(sh.uselinkedshapexy) {
 						thisrightx = tss.path.rightx;
 					} else {
@@ -200,20 +200,20 @@
 				} else {
 					thisrightx = sh.path.rightx;
 				}
-				fc[uistate.selectedchar].charwidth = Math.max(fc[uistate.selectedchar].charwidth, thisrightx);
+				fc[_UI.selectedchar].charwidth = Math.max(fc[_UI.selectedchar].charwidth, thisrightx);
 			}
 		}
 
-		uistate.chareditctx.fillStyle = _G.projectsettings.color_glyphfill;
-		uistate.chareditctx.fill("nonzero");
-		//debug("REDRAW - done drawing, charwidth is: " + fc[uistate.selectedchar].charwidth);
+		_UI.chareditctx.fillStyle = _GP.projectsettings.color_glyphfill;
+		_UI.chareditctx.fill("nonzero");
+		//debug("REDRAW - done drawing, charwidth is: " + fc[_UI.selectedchar].charwidth);
 
 		var s = ss("Redraw");
 		if(s) {
 			s.drawSelectOutline(s.link != false);
 							
 			if(s.link){
-				uistate.selectedtool = "shaperesize";
+				_UI.selectedtool = "shaperesize";
 			}
 		}
 		
@@ -223,13 +223,13 @@
 		
 		
 		//show right hand line
-		if(uistate.showguides && uistate.showrightline){
-			uistate.chareditctx.lineWidth = 1;
-			//uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
-			uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
-			var rhl = (fc[uistate.selectedchar].charwidth*uistate.viewport.zoom) + uistate.viewport.originx;
-			if(uistate.eventhandlers.temppathdragshape){
-				rhl = Math.max(sx_cx(uistate.eventhandlers.temppathdragshape.rightx), rhl);
+		if(_UI.showguides && _UI.showrightline){
+			_UI.chareditctx.lineWidth = 1;
+			//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
+			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
+			var rhl = (fc[_UI.selectedchar].charwidth*_UI.viewport.zoom) + _UI.viewport.originx;
+			if(_UI.eventhandlers.temppathdragshape){
+				rhl = Math.max(sx_cx(_UI.eventhandlers.temppathdragshape.rightx), rhl);
 			}
 			vertical(rhl);
 		}
@@ -250,11 +250,11 @@
 		
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
-		if(uistate.selectedtool != "pathedit") ispointsel = false;
+		if(_UI.selectedtool != "pathedit") ispointsel = false;
 		
 		var content = "";
-		if(uistate.navhere == "linked shapes"){
-			content = "<h1>" + _G.linkedshapes[uistate.shownlinkedshape].shape.name + "</h1>";
+		if(_UI.navhere == "linked shapes"){
+			content = "<h1>" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "</h1>";
 		} else {
 			content = "<h1>attributes</h1>";
 		}
@@ -264,8 +264,8 @@
 
 		content += "<table class='detail'>";	
 		
-		//debug("UPDATEDETAILS - uistate.selectedshape: " + uistate.selectedshape + " - s.name: " + s.name + " - navhere: " + uistate.navhere);
-		if (uistate.navhere == "character edit"){
+		//debug("UPDATEDETAILS - _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
+		if (_UI.navhere == "character edit"){
 			//debug("UPDATEDETAILS - detected navhere = character edit");
 			if(s && s.link){
 				// linked shape selected
@@ -285,7 +285,7 @@
 			content += "</table><br>";
 			content += updateactions();
 
-		} else if (uistate.navhere == "linked shapes"){
+		} else if (_UI.navhere == "linked shapes"){
 			//debug("UPDATEDETAILS - detected navhere = linked shapes");
 			if (s){
 				content += shapeDetails(s);
@@ -307,7 +307,7 @@
 		ispointsel? drawPointButtons(s) : false;
 
 	   	// draw UsedInThumbs for LinkedShapes
-	   	if(uistate.navhere == "linked shapes"){
+	   	if(_UI.navhere == "linked shapes"){
 	   		drawUsedinThumbs();
 	   	}
 
@@ -320,7 +320,7 @@
 			if(obj){
 				obj.height = 11;
 				obj.width = 11;
-				var color = locarr[j]? uistate.colors.button_selected : uistate.colors.button_resting;
+				var color = locarr[j]? _UI.colors.button_selected : _UI.colors.button_resting;
 				drawLockButton(obj, color);
 			}
 		}
@@ -342,33 +342,33 @@
 	}
 	
 	function charDetails(s){
-		var sc = _G.fontchars[uistate.selectedchar];
+		var sc = _GP.fontchars[_UI.selectedchar];
 		var content = "";	
 		
 		content += "<tr><td colspan=3><h3>character "+sc.charvalue+"</h3></td></tr>";	
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("_G.fontchars[uistate.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("_GP.fontchars[_UI.selectedchar].isautowide="+!sc.isautowide+"; redraw();", sc.isautowide)+"</td></tr>";
 
 		if(!sc.isautowide){
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='_G.fontchars[uistate.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='_GP.fontchars[_UI.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em %)</span> </td><td> " + rounddec(sc.charwidth/_G.projectsettings.upm) + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em %)</span> </td><td> " + rounddec(sc.charwidth/_GP.projectsettings.upm) + " </td></tr>";
 		
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td><td width='50%'>"+checkUI("_G.fontchars[uistate.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw();", !sc.leftsidebearing)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td><td width='50%'>"+checkUI("_GP.fontchars[_UI.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw();", !sc.leftsidebearing)+"</td></tr>";
 		if(sc.leftsidebearing){
-			if(sc.leftsidebearing === true) sc.leftsidebearing = _G.projectsettings.defaultlsb;
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> custom<br>left side bearing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.leftsidebearing + "' onchange='_G.fontchars[uistate.selectedchar].leftsidebearing = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> custom<br>left side bearing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.leftsidebearing + "' onchange='_GP.fontchars[_UI.selectedchar].leftsidebearing = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> default<br>left side bearing <span class='unit'>(em units)</span> </td><td> " + rounddec(_G.projectsettings.defaultlsb) + " </td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> default<br>left side bearing <span class='unit'>(em units)</span> </td><td> " + rounddec(_GP.projectsettings.defaultlsb) + " </td></tr>";
 		}
 
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + uistate.shapelayers.length + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + _UI.shapelayers.length + " </td></tr>";
 
 		return content;
 
@@ -382,7 +382,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td></tr>\n";
 		
 		
-		if(!uistate.eventhandlers.temppathdragshape){
+		if(!_UI.eventhandlers.temppathdragshape){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); redraw();'") + " value='" + s.path.leftx + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); redraw();'") + " value='" + s.path.topy + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
 			
@@ -393,11 +393,11 @@
 			
 		
 		} else {
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' value='" + uistate.eventhandlers.temppathdragshape.leftx + "'>&nbsp;</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' value='" + uistate.eventhandlers.temppathdragshape.topy + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' value='" + _UI.eventhandlers.temppathdragshape.leftx + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' value='" + _UI.eventhandlers.temppathdragshape.topy + "'>&nbsp;</td></tr>\n";
 			
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' value='" + Math.round(uistate.eventhandlers.temppathdragshape.rightx-uistate.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + Math.round(uistate.eventhandlers.temppathdragshape.topy-uistate.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' value='" + Math.round(_UI.eventhandlers.temppathdragshape.rightx-_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + Math.round(_UI.eventhandlers.temppathdragshape.topy-_UI.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
 		}
 		
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td>"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"</td></tr>\n";
@@ -452,7 +452,7 @@
 		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		color = (tp.type=='corner'? uistate.colors.button_selected : uistate.colors.button_resting);
+		color = (tp.type=='corner'? _UI.colors.button_selected : _UI.colors.button_resting);
 		drawPointCornerButton(tempctx, color);
 		
 		tempcanvas = document.getElementById("pointflatcanvas");
@@ -460,7 +460,7 @@
 		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		color = (tp.type=='flat'? uistate.colors.button_selected : uistate.colors.button_resting);
+		color = (tp.type=='flat'? _UI.colors.button_selected : _UI.colors.button_resting);
 		drawPointFlatButton(tempctx, color);
 		
 		tempcanvas = document.getElementById("pointsymmetriccanvas");
@@ -468,7 +468,7 @@
 		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		color = (tp.type=='symmetric'? uistate.colors.button_selected : uistate.colors.button_resting);
+		color = (tp.type=='symmetric'? _UI.colors.button_selected : _UI.colors.button_resting);
 		drawPointSymmetricButton(tempctx, color);
 	}
 	
@@ -513,10 +513,10 @@
 		var s = ss("Update Actions");		
 		
 		var allactions = "<td><h3>*</h3>";
-			allactions += "<input  class='"+(uistate.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((uistate.charundoq.length > 0) ? (" " + uistate.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input  class='"+(_UI.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"add shape\");redraw();'><br>";
 			allactions += "<input class='button' type='button' value='insert linked shape' onclick='insertLinkedShapeDialog();'><br>";
-			allactions += "<input class='"+(uistate.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";
+			allactions += "<input class='"+(_UI.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"paste shape\");redraw();'><br>";
 			
 			allactions += "</td>";
 			
@@ -535,8 +535,8 @@
 			layeractions += "</td>";
 			
 		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='uistate.showgrid? uistate.showgrid=false : uistate.showgrid=true; redraw();'><br>"; 
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='uistate.showguides? uistate.showguides=false : uistate.showguides=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw();'><br>"; 
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
@@ -549,12 +549,12 @@
 
 		content += allactions;
 		
-		if(uistate.shapelayers.length > 0){ content += shapeactions; }
+		if(_UI.shapelayers.length > 0){ content += shapeactions; }
 		else { content += "<td> &nbsp; </td>";}
 		
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
-		if(uistate.selectedtool != "pathedit") ispointsel = false;
+		if(_UI.selectedtool != "pathedit") ispointsel = false;
 		
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
 		if(ispointsel){ content += pointactions; }
@@ -564,7 +564,7 @@
 		
 		content += canvasactions;
 		
-		if(uistate.shapelayers.length > 1){ content += layeractions; }
+		if(_UI.shapelayers.length > 1){ content += layeractions; }
 		
 		content += "</td></tr></table><br><br>";
 		
@@ -588,10 +588,10 @@
 			
 		content += allactions;
 		
-		if(uistate.shapelayers.length > 0){ content += shapeactions; }
+		if(_UI.shapelayers.length > 0){ content += shapeactions; }
 		content += "</td>";
 			
-		if(uistate.shapelayers.length > 1){ content += layeractions; }
+		if(_UI.shapelayers.length > 1){ content += layeractions; }
 		
 		content += "<td> &nbsp; </td></tr></table>";
 		
@@ -604,19 +604,19 @@
 	function copyShape(){
 		var s = ss("copy shape")
 		if(s){
-			uistate.clipboardshape = {
+			_UI.clipboardshape = {
 				"s":s,
-				"c":uistate.selectedchar
+				"c":_UI.selectedchar
 			};
-			//debug("COPYShape() - new clipboard shape: " + uistate.clipboardshape.s.name); 
+			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name); 
 		}
 		redraw();
 	}
 	
 	function pasteShape(){
-		if(uistate.clipboardshape){
-			var newshape = clone(uistate.clipboardshape.s);
-			uistate.clipboardshape.c == uistate.selectedchar ? newshape.path.updatePathPosition(20,20) : true;
+		if(_UI.clipboardshape){
+			var newshape = clone(_UI.clipboardshape.s);
+			_UI.clipboardshape.c == _UI.selectedchar ? newshape.path.updatePathPosition(20,20) : true;
 			
 			var newname = newshape.name;
 			var newsuffix = " (copy)";
@@ -640,8 +640,8 @@
 			newshape.name = newname + newsuffix;
 			
 			if(newshape.link){
-				addToUsedIn(newshape.link, uistate.selectedchar);
-				//debug("PASTESHAPE - pasted a linkedshape, added " + uistate.selectedchar + " to usedin array.");
+				addToUsedIn(newshape.link, _UI.selectedchar);
+				//debug("PASTESHAPE - pasted a linkedshape, added " + _UI.selectedchar + " to usedin array.");
 			}
 
 			addShape(newshape);
@@ -655,11 +655,11 @@
 	function moveupShape(){
 		var s = ss("Move Up Shape");
 		
-		if(s && (uistate.selectedshape < (uistate.shapelayers.length-1))){
-			var tempshape = uistate.shapelayers[uistate.selectedshape+1];
-			uistate.shapelayers[uistate.selectedshape+1] = uistate.shapelayers[uistate.selectedshape];
-			uistate.shapelayers[uistate.selectedshape] = tempshape;
-			uistate.selectedshape++;
+		if(s && (_UI.selectedshape < (_UI.shapelayers.length-1))){
+			var tempshape = _UI.shapelayers[_UI.selectedshape+1];
+			_UI.shapelayers[_UI.selectedshape+1] = _UI.shapelayers[_UI.selectedshape];
+			_UI.shapelayers[_UI.selectedshape] = tempshape;
+			_UI.selectedshape++;
 			redraw();
 		}
 	}
@@ -667,11 +667,11 @@
 	function movedownShape(){
 		var s = ss("Move Down Shape");
 		
-		if(s && (uistate.selectedshape > 0)){
-			var tempshape = uistate.shapelayers[uistate.selectedshape-1];
-			uistate.shapelayers[uistate.selectedshape-1] = uistate.shapelayers[uistate.selectedshape];
-			uistate.shapelayers[uistate.selectedshape] = tempshape;
-			uistate.selectedshape--;
+		if(s && (_UI.selectedshape > 0)){
+			var tempshape = _UI.shapelayers[_UI.selectedshape-1];
+			_UI.shapelayers[_UI.selectedshape-1] = _UI.shapelayers[_UI.selectedshape];
+			_UI.shapelayers[_UI.selectedshape] = tempshape;
+			_UI.selectedshape--;
 			redraw();
 		}
 	}
@@ -690,7 +690,7 @@
 	function inc(obj){
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + _G.projectsettings.spinnervaluechange);
+			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + _GP.projectsettings.spinnervaluechange);
 			obj.parentNode.childNodes[0].onchange();
 			putundoq("Up Spinner");
 		}
@@ -699,7 +699,7 @@
 	function dec(obj){
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - _G.projectsettings.spinnervaluechange);
+			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - _GP.projectsettings.spinnervaluechange);
 			obj.parentNode.childNodes[0].onchange();
 			putundoq("Down Spinner");
 		}
@@ -714,20 +714,20 @@
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
 
-		if(uistate.shapelayers.length > 0){
+		if(_UI.shapelayers.length > 0){
 			content += "<table class='layertable'>"
-			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
-				if(i==uistate.selectedshape){
+			for(var i=(_UI.shapelayers.length-1); i>=0; i--){
+				if(i==_UI.selectedshape){
 					content += "<tr class='layersel'";
 				} else {
 					content += "<tr class='layer'";
 				}
-				content += " onclick='uistate.selectedshape = " + i + "; redraw();'>";
+				content += " onclick='_UI.selectedshape = " + i + "; redraw();'>";
 				
-				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+uistate.thumbsize+"' width='"+uistate.thumbsize+"'></canvas></td>";
+				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+_UI.thumbsize+"' width='"+_UI.thumbsize+"'></canvas></td>";
 				
-				content += "<td class='layername'>" + uistate.shapelayers[i].name ;
-				if(uistate.shapelayers[i].link) { content += "<span class='layernote'>[linked shape]</span>"; }
+				content += "<td class='layername'>" + _UI.shapelayers[i].name ;
+				if(_UI.shapelayers[i].link) { content += "<span class='layernote'>[linked shape]</span>"; }
 				content += "</td></tr>";
 			}
 			content += "</table>";
@@ -735,8 +735,8 @@
 			content += "<div style='margin-left:10px; font-style:oblique;'>No shapes exist yet.<br><br></div>";
 		}
 		
-		if(uistate.clipboardshape){
-			content += "<br>Clipboard: " + uistate.clipboardshape.s.name;
+		if(_UI.clipboardshape){
+			content += "<br>Clipboard: " + _UI.clipboardshape.s.name;
 		}
 		
 		content += updateLayerActions();
@@ -750,26 +750,26 @@
 
 		
 		// Update the thumbs		
-		if(uistate.shapelayers.length > 0){
-			var ps = _G.projectsettings;
+		if(_UI.shapelayers.length > 0){
+			var ps = _GP.projectsettings;
 			var tctx = {};
 			var tele = false;
-			var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
-			var yoffset = (uistate.thumbgutter+(ps.upm*factor));
-			for(var i=(uistate.shapelayers.length-1); i>=0; i--){
+			var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
+			var yoffset = (_UI.thumbgutter+(ps.upm*factor));
+			for(var i=(_UI.shapelayers.length-1); i>=0; i--){
 				tele = document.getElementById(("layerthumb"+i))
 				tctx = tele.getContext("2d");
-				tele.style.backgroundColor = uistate.colors.offwhite;
-				if(i == uistate.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
+				tele.style.backgroundColor = _UI.colors.offwhite;
+				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 
-			debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(uistate.viewport));
+			debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(_UI.viewport));
 				//only draw the thumbs if it's not a temppathdragshape
-				if(uistate.eventhandlers.temppathdragshape){
-					if(i!==uistate.selectedshape){
-						uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
+				if(_UI.eventhandlers.temppathdragshape){
+					if(i!==_UI.selectedshape){
+						_UI.shapelayers[i].drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
 					}
 				} else {
-					uistate.shapelayers[i].drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
+					_UI.shapelayers[i].drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
 				}					
 			}
 		}
@@ -783,11 +783,11 @@
 		var pointselectclass = "";
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
-		if(uistate.navhere == "linked shapes") {
-			if(!_G.linkedshapes[uistate.selectedshape]) { s = false; }
+		if(_UI.navhere == "linked shapes") {
+			if(!_GP.linkedshapes[_UI.selectedshape]) { s = false; }
 		}
 		
-		if(uistate.selectedtool=='pathedit'){
+		if(_UI.selectedtool=='pathedit'){
 			pointselectclass = "buttonsel tool";
 		} else if (s.link){
 			pointselectclass = "buttondis tool";
@@ -798,22 +798,22 @@
 			
 		var content = "";
 		content += "<div title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clicktool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></div>";
-		content += "<div title='move & resize shape' class='" + (uistate.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></div>";
+		content += "<div title='move & resize shape' class='" + (_UI.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></div>";
 		
-		if(uistate.navhere == "character edit"){
+		if(_UI.navhere == "character edit"){
 			content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
-			content += "<div title='new rectangle shape' class='" + (uistate.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></div>";
-			content += "<div title='new oval shape' class='" + (uistate.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></div>";
-			content += "<div title='new path shape' class='" + (uistate.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></div>";
+			content += "<div title='new rectangle shape' class='" + (_UI.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></div>";
+			content += "<div title='new oval shape' class='" + (_UI.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></div>";
+			content += "<div title='new path shape' class='" + (_UI.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></div>";
 		}
 		
 		content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
-		content += "<div title='scroll and pan' class='" + (uistate.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
+		content += "<div title='scroll and pan' class='" + (_UI.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: in' class='button tool' onclick='canvasZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: out' class='button tool' onclick='canvasZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: one to one' class='button tool' onclick='uistate.viewport.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
+		content += "<div title='zoom: one to one' class='button tool' onclick='_UI.viewport.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
 		content += "<div title='zoom: full em' class='button tool' onclick='resetZoomPan(); redraw();'><canvas id='zoomembuttoncanvas'></canvas></div>";
-		content += "<div title='zoom level' class='tool out'>" + round(uistate.viewport.zoom*100, 2) + "%</div>";
+		content += "<div title='zoom level' class='tool out'>" + round(_UI.viewport.zoom*100, 2) + "%</div>";
 		
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
@@ -833,9 +833,9 @@
 		tempcanvas.width = bw;
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		if(uistate.selectedtool == "pathedit"){ drawPathEditButton(tempctx, "white", "black"); }
+		if(_UI.selectedtool == "pathedit"){ drawPathEditButton(tempctx, "white", "black"); }
 		else if (!pointselectclickable) { drawPathEditButton(tempctx, "rgb(80,80,80)", "rgb(80,80,80)"); }
-		else { drawPathEditButton(tempctx, "transparent", uistate.colors.accent); }
+		else { drawPathEditButton(tempctx, "transparent", _UI.colors.accent); }
 		
 		// Shape Resize
 		tempcanvas = document.getElementById("shaperesizebuttoncanvas");
@@ -844,8 +844,8 @@
 		tempcanvas.style.margin = "3px 3px 0px 3px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		if(uistate.selectedtool == "shaperesize"){ drawShapeResizeButton(tempctx, "white", "black"); }
-		else { drawShapeResizeButton(tempctx, "transparent", uistate.colors.accent); }
+		if(_UI.selectedtool == "shaperesize"){ drawShapeResizeButton(tempctx, "white", "black"); }
+		else { drawShapeResizeButton(tempctx, "transparent", _UI.colors.accent); }
 
 		// Pan
 		tempcanvas = document.getElementById("panbuttoncanvas");
@@ -854,8 +854,8 @@
 		tempcanvas.style.margin = "3px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		if(uistate.selectedtool == "pan"){ drawPanButton(tempctx, "white", "black"); }
-		else { drawPanButton(tempctx, uistate.colors.accent, "transparent"); }
+		if(_UI.selectedtool == "pan"){ drawPanButton(tempctx, "white", "black"); }
+		else { drawPanButton(tempctx, _UI.colors.accent, "transparent"); }
 		
 		// Zoom In
 		tempcanvas = document.getElementById("zoominbuttoncanvas");
@@ -864,7 +864,7 @@
 		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoomInButton(tempctx, uistate.colors.accent, "transparent");
+		drawZoomInButton(tempctx, _UI.colors.accent, "transparent");
 
 		// Zoom Out
 		tempcanvas = document.getElementById("zoomoutbuttoncanvas");
@@ -873,7 +873,7 @@
 		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoomOutButton(tempctx, uistate.colors.accent, "transparent");
+		drawZoomOutButton(tempctx, _UI.colors.accent, "transparent");
 		
 		// Zoom 1:1
 		tempcanvas = document.getElementById("zoom1to1buttoncanvas");
@@ -882,7 +882,7 @@
 		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoom1to1Button(tempctx, uistate.colors.accent, "transparent");
+		drawZoom1to1Button(tempctx, _UI.colors.accent, "transparent");
 		
 		// Zoom Em
 		tempcanvas = document.getElementById("zoomembuttoncanvas");
@@ -891,9 +891,9 @@
 		tempcanvas.style.margin = "4px 4px 0px 3px";
 		tempcanvas.style.backgroundColor = "transparent";		
 		tempctx = tempcanvas.getContext("2d");
-		drawZoomEmButton(tempctx, uistate.colors.accent, "transparent");		
+		drawZoomEmButton(tempctx, _UI.colors.accent, "transparent");		
 
-		if(uistate.navhere == "character edit"){
+		if(_UI.navhere == "character edit"){
 			// New Rectangle
 			tempcanvas = document.getElementById("newrectbuttoncanvas");
 			tempcanvas.height = bh;
@@ -901,8 +901,8 @@
 			tempcanvas.style.margin = "2px 4px 0px 4px";
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
-			if(uistate.selectedtool == "newrect") { drawNewRectButton(tempctx, "white", "black"); }
-			else { drawNewRectButton(tempctx, "transparent", uistate.colors.accent); }
+			if(_UI.selectedtool == "newrect") { drawNewRectButton(tempctx, "white", "black"); }
+			else { drawNewRectButton(tempctx, "transparent", _UI.colors.accent); }
 			
 			// New Oval
 			tempcanvas = document.getElementById("newovalbuttoncanvas");
@@ -911,8 +911,8 @@
 			tempcanvas.style.margin = "2px 4px 0px 4px";
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
-			if(uistate.selectedtool == "newoval"){ drawNewOvalButton(tempctx, "white", "black"); }
-			else { drawNewOvalButton(tempctx, "transparent", uistate.colors.accent); }
+			if(_UI.selectedtool == "newoval"){ drawNewOvalButton(tempctx, "white", "black"); }
+			else { drawNewOvalButton(tempctx, "transparent", _UI.colors.accent); }
 			
 			// New Path
 			tempcanvas = document.getElementById("newpathbuttoncanvas");
@@ -921,30 +921,30 @@
 			tempcanvas.style.margin = "2px 4px 0px 4px";
 			tempcanvas.style.backgroundColor = "transparent";		
 			tempctx = tempcanvas.getContext("2d");
-			if(uistate.selectedtool == "newpath"){ drawNewPathButton(tempctx, "white", "black"); }
-			else { drawNewPathButton(tempctx, "transparent", uistate.colors.accent); }
+			if(_UI.selectedtool == "newpath"){ drawNewPathButton(tempctx, "white", "black"); }
+			else { drawNewPathButton(tempctx, "transparent", _UI.colors.accent); }
 		}
 	}
 
 	function clicktool(ctool){
 		
-		uistate.selectedtool = ctool;
+		_UI.selectedtool = ctool;
 		var s = ss("clicktool");
 		
-		//debug("CLICKTOOL - was passed: " + ctool + " and uistate.selectedtool now is: " + uistate.selectedtool);
-		uistate.eventhandlers.eh_addpath.firstpoint = true; 
+		//debug("CLICKTOOL - was passed: " + ctool + " and _UI.selectedtool now is: " + _UI.selectedtool);
+		_UI.eventhandlers.eh_addpath.firstpoint = true; 
 		if((ctool=="newrect")||(ctool=="newoval")){
-			uistate.showrightline = true;
-			uistate.selectedshape = -1; 
+			_UI.showrightline = true;
+			_UI.selectedshape = -1; 
 		} else if (ctool=="newpath"){
-			uistate.showrightline = false;
-			uistate.selectedshape = -1; 
+			_UI.showrightline = false;
+			_UI.selectedshape = -1; 
 		} else if(ctool=="pathedit"){
-			uistate.showrightline = false;
+			_UI.showrightline = false;
 			if(s) {s.path.selectPathPoint(0);}
 			//debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
-			uistate.showrightline = true;
+			_UI.showrightline = true;
 			if(s){
 				if(s.path.needsnewcalcmaxes) {
 					//debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
@@ -957,7 +957,7 @@
 	}
 
 	function canvasZoom(zfactor){
-		uistate.viewport.zoom*=zfactor;
+		_UI.viewport.zoom*=zfactor;
 		redraw();
 	}
 	
@@ -969,16 +969,16 @@
 	var xs = {};
 	
 	function grid(){
-		var ps = _G.projectsettings;
-		var vp = uistate.viewport;
+		var ps = _GP.projectsettings;
+		var vp = _UI.viewport;
 
 		//debug("GRID: vp:" + JSON.stringify(vp));
 
-		uistate.chareditctx.fillStyle = uistate.colors.offwhite;
-		uistate.chareditctx.fillRect(0,0,99999,99999);
+		_UI.chareditctx.fillStyle = _UI.colors.offwhite;
+		_UI.chareditctx.fillRect(0,0,99999,99999);
 		
 		var zupm = (ps.upm * vp.zoom);
-		var gutter = ((uistate.chareditcanvassize*vp.zoom) - zupm)/2;
+		var gutter = ((_UI.chareditcanvassize*vp.zoom) - zupm)/2;
 		var zasc = (ps.ascent * vp.zoom);
 		// background white square
 
@@ -989,8 +989,8 @@
 
 		//debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
 
-		uistate.chareditctx.fillStyle = "white";
-		uistate.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
+		_UI.chareditctx.fillStyle = "white";
+		_UI.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 		
 		// Grids		
 		var mline = vp.originy - (ps.ascent*vp.zoom);
@@ -1000,12 +1000,12 @@
 
 		//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
 
-		if(uistate.showgrid || uistate.showguides){
+		if(_UI.showgrid || _UI.showguides){
 			var size = vp.size/ps.griddivisions;
-			uistate.chareditctx.lineWidth = 1;
-			uistate.chareditctx.strokeStyle = _G.projectsettings.color_grid;
+			_UI.chareditctx.lineWidth = 1;
+			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_grid;
 			
-			if(uistate.showgrid){
+			if(_UI.showgrid){
 				var gsize = ((ps.upm/ps.griddivisions)*vp.zoom);
 				//debug("GRID - gridsize set as: " + gsize);
 				
@@ -1019,10 +1019,10 @@
 
 			}
 			
-			if(uistate.showguides){
+			if(_UI.showguides){
 				
 				// Minor Guidelines - Overshoots
-				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .8, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .8, true);
 				horizontal(xline-overshootsize);
 				horizontal(mline-overshootsize);
 				horizontal(vp.originy+overshootsize);
@@ -1032,24 +1032,24 @@
 				vertical(vp.originx+(ps.upm*vp.zoom));
 				
 				// major guidelines - xheight, top (emzize)
-				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .5, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
 				horizontal(xline);
-				uistate.chareditctx.strokeStyle = shiftColor(_G.projectsettings.color_guideline, .2, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .2, true);
 				horizontal(mline);
 				horizontal(dline);
 				
 				
 				// Out of bounds triangle
-				uistate.chareditctx.fillStyle = _G.projectsettings.color_guideline;		
-				uistate.chareditctx.beginPath();
-				uistate.chareditctx.moveTo(vp.originx, vp.originy);
-				uistate.chareditctx.lineTo(vp.originx, vp.originy+(_G.projectsettings.pointsize*2));
-				uistate.chareditctx.lineTo(vp.originx-(_G.projectsettings.pointsize*2), vp.originy);
-				uistate.chareditctx.closePath();
-				uistate.chareditctx.fill();
+				_UI.chareditctx.fillStyle = _GP.projectsettings.color_guideline;		
+				_UI.chareditctx.beginPath();
+				_UI.chareditctx.moveTo(vp.originx, vp.originy);
+				_UI.chareditctx.lineTo(vp.originx, vp.originy+(_GP.projectsettings.pointsize*2));
+				_UI.chareditctx.lineTo(vp.originx-(_GP.projectsettings.pointsize*2), vp.originy);
+				_UI.chareditctx.closePath();
+				_UI.chareditctx.fill();
 				
 				// Origin Lines
-				uistate.chareditctx.strokeStyle = _G.projectsettings.color_guideline;
+				_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
 				horizontal(vp.originy);
 				vertical(vp.originx);
 			}
@@ -1058,18 +1058,18 @@
 	
 	function horizontal(y){
 		y = Math.round(y)-.5;
-		uistate.chareditctx.beginPath();
-		uistate.chareditctx.moveTo(xs.xmin,y);
-		uistate.chareditctx.lineTo(xs.xmax,y);
-		uistate.chareditctx.stroke();
-		uistate.chareditctx.closePath();
+		_UI.chareditctx.beginPath();
+		_UI.chareditctx.moveTo(xs.xmin,y);
+		_UI.chareditctx.lineTo(xs.xmax,y);
+		_UI.chareditctx.stroke();
+		_UI.chareditctx.closePath();
 	}
 	
 	function vertical(x){
 		x = Math.round(x)-.5;
-		uistate.chareditctx.beginPath();
-		uistate.chareditctx.moveTo(x,xs.ymin);
-		uistate.chareditctx.lineTo(x,xs.ymax+1);		
-		uistate.chareditctx.stroke();
-		uistate.chareditctx.closePath();
+		_UI.chareditctx.beginPath();
+		_UI.chareditctx.moveTo(x,xs.ymin);
+		_UI.chareditctx.lineTo(x,xs.ymax+1);		
+		_UI.chareditctx.stroke();
+		_UI.chareditctx.closePath();
 	}

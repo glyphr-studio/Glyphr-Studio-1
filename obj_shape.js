@@ -42,26 +42,26 @@
 	Shape.prototype.drawShape_Single = function(lctx){
 		
 		// Check to see if this is a Ghost Canvas draw
-		var tempvp = clone(uistate.viewport);
+		var tempvp = clone(_UI.viewport);
 
-		if(lctx == uistate.calcmaxesghostctx) { 
+		if(lctx == _UI.calcmaxesghostctx) { 
 			//debug("DRAWSHAPE - CMGC DETECTED");
-			uistate.viewport = uistate.defaultviewport;
-			uistate.viewport.zoom = 1;
+			_UI.viewport = _UI.defaultviewport;
+			_UI.viewport.zoom = 1;
 			lctx.fillStyle = "rgba(0,255,0,0.2)";
 		}
 
-		else if(lctx == uistate.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
+		else if(lctx == _UI.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
 		
 		// Draw the appropriate stuff for each shape's fill & border
 		
 		lctx.beginPath();
 		this.path.drawPath(lctx);
 		lctx.closePath();
-		lctx.fillStyle = _G.projectsettings.color_glyphfill;
+		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.fill();
 
-		uistate.viewport = tempvp;
+		_UI.viewport = tempvp;
 	}
 
 
@@ -69,11 +69,11 @@
 		
 		/* BUG FIX? */
 		if(this.link){
-			_G.linkedshapes[this.link].shape.drawShape_Stack(lctx);
+			_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
 			return;
 		}
 		
-		if((this.path.rightx == -1) && (lctx == uistate.chareditctx) && (uistate.selectedtool != "newpath")) this.path.calcMaxes();
+		if((this.path.rightx == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != "newpath")) this.path.calcMaxes();
 		
 		this.path.drawPath(lctx);
 		
@@ -82,56 +82,56 @@
 
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
-		var canvasx = uistate.viewport.originx;
-		canvasx += (sx*uistate.viewport.zoom);
+		var canvasx = _UI.viewport.originx;
+		canvasx += (sx*_UI.viewport.zoom);
 		return canvasx;
 	}
 	
 	function sy_cy(sy){
-		var canvasy = uistate.viewport.originy;
-		canvasy -= (sy*uistate.viewport.zoom);
+		var canvasy = _UI.viewport.originy;
+		canvasy -= (sy*_UI.viewport.zoom);
 		return canvasy;
 	}
 	
 	Shape.prototype.drawSelectOutline = function(onlycenter){
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
-		var z = uistate.viewport.zoom;
-		var hp = (_G.projectsettings.pointsize/2);
-		uistate.chareditctx.lineWidth = 1;
-		uistate.chareditctx.strokeStyle = uistate.colors.accent;
+		var z = _UI.viewport.zoom;
+		var hp = (_GP.projectsettings.pointsize/2);
+		_UI.chareditctx.lineWidth = 1;
+		_UI.chareditctx.strokeStyle = _UI.colors.accent;
 		
-		if((uistate.selectedtool=="newrect")||(uistate.selectedtool=="shaperesize")){
-			uistate.chareditctx.fillStyle = "transparent";
+		if((_UI.selectedtool=="newrect")||(_UI.selectedtool=="shaperesize")){
+			_UI.chareditctx.fillStyle = "transparent";
 			
 			//draw bounding box and 8points
-			var lx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
-			var rx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
-			var ty = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
-			var by = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
+			var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
+			var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
+			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
+			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
 			
 			var x = (lx).makeCrisp()-1;
 			var y = (ty).makeCrisp()-1;
 			var w = Math.ceil(rx-lx);
 			var h = Math.ceil(by-ty);
 			
-			uistate.chareditctx.strokeStyle = uistate.colors.accent;
-			uistate.chareditctx.strokeRect(x,y,w,h); 
-			if(uistate.selectedtool=="shaperesize"){ this.draw8points(onlycenter);}
+			_UI.chareditctx.strokeStyle = _UI.colors.accent;
+			_UI.chareditctx.strokeRect(x,y,w,h); 
+			if(_UI.selectedtool=="shaperesize"){ this.draw8points(onlycenter);}
 			
-		} else if ((uistate.selectedtool == "pathedit")||(uistate.selectedtool=="newpath")){
+		} else if ((_UI.selectedtool == "pathedit")||(_UI.selectedtool=="newpath")){
 			// Draw Path Points
 			var sep = this.path.sp(true, "DRAWSELECTOUTLINE");
 			var pp = this.path.pathpoints;
 			
 			// Draw path selection outline
-			uistate.chareditctx.lineWidth = 1;
-			uistate.chareditctx.strokeStyle = uistate.colors.accent;
+			_UI.chareditctx.lineWidth = 1;
+			_UI.chareditctx.strokeStyle = _UI.colors.accent;
 
-			uistate.chareditctx.beginPath();
-			this.path.outlinePathOnCanvas(uistate.chareditctx);
-			uistate.chareditctx.closePath();
-			uistate.chareditctx.stroke();
+			_UI.chareditctx.beginPath();
+			this.path.outlinePathOnCanvas(_UI.chareditctx);
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.stroke();
 			
 			if(sep !== false){
 				// Draw Handles
@@ -145,7 +145,7 @@
 			
 			// Draw points 
 			for(var s=0; s<pp.length; s++){	
-				var c = uistate.colors.accent;
+				var c = _UI.colors.accent;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
 				if(s == pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]); 
 				else pp[s].drawDirectionalityPoint(c, pp[s+1]); 
@@ -153,25 +153,25 @@
 				//debug("DRAWSELECTOUTLINE() - drew point " + s + " - selected: " + pp[s].selected);
 			}
 			
-		} else if ((uistate.selectedtool=="newoval")){
-			uistate.chareditctx.strokeStyle = uistate.colors.accent;
-			var tpdso = ovalPathFromCorners(uistate.eventhandlers.temppathdragshape);
+		} else if ((_UI.selectedtool=="newoval")){
+			_UI.chareditctx.strokeStyle = _UI.colors.accent;
+			var tpdso = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
 			
-			uistate.chareditctx.lineWidth = 1;
-			uistate.chareditctx.strokeStyle = uistate.colors.accent;
+			_UI.chareditctx.lineWidth = 1;
+			_UI.chareditctx.strokeStyle = _UI.colors.accent;
 
-			uistate.chareditctx.beginPath();
-			tpdso.outlinePathOnCanvas(uistate.chareditctx);
-			uistate.chareditctx.closePath();
-			uistate.chareditctx.stroke();
+			_UI.chareditctx.beginPath();
+			tpdso.outlinePathOnCanvas(_UI.chareditctx);
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.stroke();
 		}
 	}
 
 	function rectPathFromCorners(cdata){
 		//Default Shape size
 		var lx = 0;
-		var ty = _G.projectsettings.ascent;
-		var rx = (_G.projectsettings.upm / _G.projectsettings.griddivisions);
+		var ty = _GP.projectsettings.ascent;
+		var rx = (_GP.projectsettings.upm / _GP.projectsettings.griddivisions);
 		var by = 0;
 		
 		if(cdata){
@@ -261,13 +261,13 @@
 		//if(this.link) { return; }
 		//debug("DRAW8POINTS - onlycenter: " + onlycenter);
 		
-		var ps = _G.projectsettings.pointsize+1;
+		var ps = _GP.projectsettings.pointsize+1;
 		var hp = ps/2;
 	
-		var lx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
-		var rx = uistate.eventhandlers.temppathdragshape? sx_cx(uistate.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
-		var ty = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
-		var by = uistate.eventhandlers.temppathdragshape? sy_cy(uistate.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
+		var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
+		var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
+		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
+		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
 
 		var bleftx = (lx-hp).makeCrisp();
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp();
@@ -276,67 +276,67 @@
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp();
 		var bbottomy = (by-hp).makeCrisp();
 
-		onlycenter? uistate.chareditctx.fillStyle = uistate.colors.accent : uistate.chareditctx.fillStyle = "white";
+		onlycenter? _UI.chareditctx.fillStyle = _UI.colors.accent : _UI.chareditctx.fillStyle = "white";
 		
 		if(!onlycenter){
 			//upper left
 			if(canResize("nw")){
-				uistate.chareditctx.fillRect(bleftx, btopy, ps, ps);
-				uistate.chareditctx.strokeRect(bleftx, btopy, ps, ps); 
+				_UI.chareditctx.fillRect(bleftx, btopy, ps, ps);
+				_UI.chareditctx.strokeRect(bleftx, btopy, ps, ps); 
 			}
 
 			//top
 			if(canResize("n")){
-				uistate.chareditctx.fillRect(bmidx, btopy, ps, ps);
-				uistate.chareditctx.strokeRect(bmidx, btopy, ps, ps); 
+				_UI.chareditctx.fillRect(bmidx, btopy, ps, ps);
+				_UI.chareditctx.strokeRect(bmidx, btopy, ps, ps); 
 			}
 
 			//upper right
 			if(canResize("ne")){
-				uistate.chareditctx.fillRect(brightx, btopy, ps, ps);
-				uistate.chareditctx.strokeRect(brightx, btopy, ps, ps); 
+				_UI.chareditctx.fillRect(brightx, btopy, ps, ps);
+				_UI.chareditctx.strokeRect(brightx, btopy, ps, ps); 
 			}
 
 			// right
 			if(canResize("e")){
-				uistate.chareditctx.fillRect(brightx, bmidy, ps, ps);
-				uistate.chareditctx.strokeRect(brightx, bmidy, ps, ps); 
+				_UI.chareditctx.fillRect(brightx, bmidy, ps, ps);
+				_UI.chareditctx.strokeRect(brightx, bmidy, ps, ps); 
 			}
 
 			//lower right	
 			if(canResize("se")){
-				uistate.chareditctx.fillRect(brightx, bbottomy, ps, ps);
-				uistate.chareditctx.strokeRect(brightx, bbottomy, ps, ps);	 
+				_UI.chareditctx.fillRect(brightx, bbottomy, ps, ps);
+				_UI.chareditctx.strokeRect(brightx, bbottomy, ps, ps);	 
 			}	
 
 			//bottom
 			if(canResize("s")){
-				uistate.chareditctx.fillRect(bmidx, bbottomy, ps, ps);
-				uistate.chareditctx.strokeRect(bmidx, bbottomy, ps, ps); 
+				_UI.chareditctx.fillRect(bmidx, bbottomy, ps, ps);
+				_UI.chareditctx.strokeRect(bmidx, bbottomy, ps, ps); 
 			}
 
 			//lower left
 			if(canResize("sw")){
-				uistate.chareditctx.fillRect(bleftx, bbottomy, ps, ps);
-				uistate.chareditctx.strokeRect(bleftx, bbottomy, ps, ps); 
+				_UI.chareditctx.fillRect(bleftx, bbottomy, ps, ps);
+				_UI.chareditctx.strokeRect(bleftx, bbottomy, ps, ps); 
 			}
 
 			//left
 			if(canResize("w")){
-				uistate.chareditctx.fillRect(bleftx, bmidy, ps, ps);
-				uistate.chareditctx.strokeRect(bleftx, bmidy, ps, ps); 
+				_UI.chareditctx.fillRect(bleftx, bmidy, ps, ps);
+				_UI.chareditctx.strokeRect(bleftx, bmidy, ps, ps); 
 			}
 
 		}
 		
 		//Center Dot
-		uistate.chareditctx.fillRect(bmidx, bmidy, ps, ps);
-		uistate.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
+		_UI.chareditctx.fillRect(bmidx, bmidy, ps, ps);
+		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
 	}
 	
 	Shape.prototype.drawShapeToArea_Single = function(lctx, size, offsetX, offsetY){
 		debug("DRAWSHAPETOAREA_SINGLE for shape: " + this.name);
-		lctx.fillStyle = _G.projectsettings.color_glyphfill;
+		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.beginPath();
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 		lctx.closePath();
@@ -361,18 +361,18 @@
 		if(newshape){
 			//debug("ADDSHAPE - was passed: " + JSON.stringify(newshape));			
 			if(newshape.link){
-				uistate.selectedtool = "shaperesize";
-			} else if(newshape.path && (uistate.selectedtool == "shapemove")) {
-				deubg("ADDSHAPE triggered as true: newshape.path && uistate.selectedtool == shapemove \n >> NOT calling calcmaxes, okay?");
+				_UI.selectedtool = "shaperesize";
+			} else if(newshape.path && (_UI.selectedtool == "shapemove")) {
+				deubg("ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shapemove \n >> NOT calling calcmaxes, okay?");
 				//newshape.path.calcMaxes();
 			}
 		} else {
 			newshape = new Shape({});
-			newshape.name = ("layer " + uistate.shapelayers.length);
+			newshape.name = ("layer " + _UI.shapelayers.length);
 		}
 		
-		if(uistate.navhere == "character edit") { uistate.selectedshape = uistate.shapelayers.length; }
-		uistate.shapelayers.push(newshape);
+		if(_UI.navhere == "character edit") { _UI.selectedshape = _UI.shapelayers.length; }
+		_UI.shapelayers.push(newshape);
 
 		return newshape;
 	}
@@ -402,68 +402,68 @@
 		}
 		
 		newshape.path = new Path({"pathpoints":parr});		
-		newshape.name = (shapetype + uistate.shapelayers.length);
+		newshape.name = (shapetype + _UI.shapelayers.length);
 		
-		if(uistate.navhere == "character edit") { uistate.selectedshape = uistate.shapelayers.length; }
-		uistate.shapelayers.push(newshape);
+		if(_UI.navhere == "character edit") { _UI.selectedshape = _UI.shapelayers.length; }
+		_UI.shapelayers.push(newshape);
 	}
 
 	function deleteShape(){
-		if(uistate.shapelayers[uistate.selectedshape].link){
-			removeFromUsedIn(uistate.shapelayers[uistate.selectedshape].link, uistate.selectedchar);
+		if(_UI.shapelayers[_UI.selectedshape].link){
+			removeFromUsedIn(_UI.shapelayers[_UI.selectedshape].link, _UI.selectedchar);
 		}
 		
-		if((uistate.shapelayers.length > 0) && (uistate.selectedshape >= 0)){
-			uistate.shapelayers.splice(uistate.selectedshape, 1);
-			if(uistate.shapelayers.length == uistate.selectedshape) {
-				uistate.selectedshape = uistate.selectedshape-1;
+		if((_UI.shapelayers.length > 0) && (_UI.selectedshape >= 0)){
+			_UI.shapelayers.splice(_UI.selectedshape, 1);
+			if(_UI.shapelayers.length == _UI.selectedshape) {
+				_UI.selectedshape = _UI.selectedshape-1;
 			}
 		} else {
 			//debug("DELETESHAPES - no shapes left");
 		}				
 		
-		if((uistate.selectedshape >= 0) && (uistate.shapelayers[uistate.selectedshape].link)){
+		if((_UI.selectedshape >= 0) && (_UI.shapelayers[_UI.selectedshape].link)){
 			//debug("DELETESHAPE - newly selected shape is linkedshape, changing tool");
-			uistate.selectedtool = "shaperesize";
+			_UI.selectedtool = "shaperesize";
 		}
 	}
 
 	function clickSelectShape(x,y){
 		//debug("CLICKSELECTShape() - checking x:" + x + " y:" + y);
 		
-		if(uistate.navhere == "linked shapes"){
+		if(_UI.navhere == "linked shapes"){
 			return clickSelectLinkedShape(x,y);
 		}
 		var ts;
-		for(var j=(uistate.shapelayers.length-1); j>=0; j--){
-			ts = uistate.shapelayers[j];
+		for(var j=(_UI.shapelayers.length-1); j>=0; j--){
+			ts = _UI.shapelayers[j];
 			//debug("CLICKSELECTShape() - Checking shape " + j);
 			
 			if(ts.isHere(x,y)){
 				if(!ts.link) ts.path.selectPathPoint(-1);
-				if(j != uistate.selectedshape){
+				if(j != _UI.selectedshape){
 					//debug("CLICKSELECTShape() - selecting shape " + j);
-					uistate.selectedshape = j;				
+					_UI.selectedshape = j;				
 					
 					if(ts.link){
-						//debug("CLICKSELECTSHAPE - detected this.link, setting uistate.selectedtool = shaperesize");
-						uistate.selectedtool = "shaperesize";
+						//debug("CLICKSELECTSHAPE - detected this.link, setting _UI.selectedtool = shaperesize");
+						_UI.selectedtool = "shaperesize";
 					}
 				}
 
 				return true;
 			}
 		}
-		uistate.selectedshape = -1;
+		_UI.selectedshape = -1;
 		//debug("CLICKSELECTShape() - deselecting, setting to -1");
 		return false;
 	}
 	
 	Shape.prototype.isHere = function(x,y){
 		var imageData;
-		uistate.ishereghostctx.clearRect(0,0,uistate.chareditcanvassize,uistate.chareditcanvassize);
-		this.drawShape_Single(uistate.ishereghostctx);
-		imageData = uistate.ishereghostctx.getImageData(x, y, 1, 1);
+		_UI.ishereghostctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
+		this.drawShape_Single(_UI.ishereghostctx);
+		imageData = _UI.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug("ISHERE? alpha = " + imageData.data[3] + "  returning: " + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);
 	}
@@ -472,7 +472,7 @@
 		//debug("ISOVERHANDLE() - checking x:" + px + " y:" + py);
 		
 		// Translation Fidelity - converting passed canvas values to saved value system
-		var hp = _G.projectsettings.pointsize/2;
+		var hp = _GP.projectsettings.pointsize/2;
 		var leftxb = sx_cx(this.path.leftx) -hp;
 		var midxb = Math.floor(sx_cx(this.path.leftx)+((sx_cx(this.path.rightx)-sx_cx(this.path.leftx))/2)-hp)+.5;
 		var rightxb = sx_cx(this.path.rightx) -hp;
@@ -483,7 +483,7 @@
 		
 		// upper left
 		if(canResize("nw")){
-			if( ((px > leftxb) && (px < leftxb+_G.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_G.projectsettings.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "nw-resize";
 				//debug("ISOVERHANDLE() -  upper left");
 				return "nw";
@@ -492,7 +492,7 @@
 		
 		// top
 		if(canResize("n")){
-			if( ((px > midxb) && (px < midxb+_G.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_G.projectsettings.pointsize)) ){
+			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "n-resize";
 				//debug("ISOVERHANDLE() -  top");
 				return "n";
@@ -501,7 +501,7 @@
 		
 		// upper right
 		if(canResize("ne")){
-			if( ((px > rightxb) && (px < rightxb+_G.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_G.projectsettings.pointsize)) ){
+			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "ne-resize";
 				//debug("ISOVERHANDLE() - upper right");
 				return "ne";
@@ -510,7 +510,7 @@
 		
 		// right
 		if(canResize("e")){
-			if( ((px > rightxb) && (px < rightxb+_G.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_G.projectsettings.pointsize)) ){
+			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "e-resize";
 				//debug("ISOVERHANDLE() - right");
 				return "e";
@@ -519,7 +519,7 @@
 		
 		// lower right
 		if(canResize("se")){
-				if( ((px > rightxb) && (px < rightxb+_G.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_G.projectsettings.pointsize)) ){
+				if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "se-resize";
 				//debug("ISOVERHANDLE() - lower right");
 				return "se";
@@ -528,7 +528,7 @@
 
 		// bottom
 		if(canResize("s")){
-			if( ((px > midxb) && (px < midxb+_G.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_G.projectsettings.pointsize)) ){
+			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "s-resize";
 				//debug("ISOVERHANDLE() - bottom");
 				return "s";
@@ -537,7 +537,7 @@
 
 		// lower left
 		if(canResize("sw")){
-			if( ((px > leftxb) && (px < leftxb+_G.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_G.projectsettings.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "sw-resize";
 				//debug("ISOVERHANDLE() - lower left");
 				return "sw";
@@ -546,7 +546,7 @@
 		
 		// left
 		if(canResize("w")){
-			if( ((px > leftxb) && (px < leftxb+_G.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_G.projectsettings.pointsize)) ){
+			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
 				document.body.style.cursor = "w-resize";
 					//debug("ISOVERHANDLE() - left");
 				return "w";
@@ -564,27 +564,27 @@
 //	-------------------------
 	function ss(req){
 		req? true : req="[probably a dynamically-generated page control]";
-		//debug("SS() - Requested by: " + req + " - CURRENT uistate.selectedshape = " + uistate.selectedshape);	
+		//debug("SS() - Requested by: " + req + " - CURRENT _UI.selectedshape = " + _UI.selectedshape);	
 		
-		if(uistate.navhere == "linked shapes"){
-			//debug("SS() - LINKEDSHAPE - Requested by: " + req + " - returning shownlinkedshape: " + uistate.shownlinkedshape);
-			return _G.linkedshapes[uistate.shownlinkedshape].shape;
+		if(_UI.navhere == "linked shapes"){
+			//debug("SS() - LINKEDSHAPE - Requested by: " + req + " - returning shownlinkedshape: " + _UI.shownlinkedshape);
+			return _GP.linkedshapes[_UI.shownlinkedshape].shape;
 		}
 		
-		if(uistate.selectedshape != -1){
-			if((uistate.selectedshape >= 0)&&(uistate.selectedshape < uistate.shapelayers.length)) {
+		if(_UI.selectedshape != -1){
+			if((_UI.selectedshape >= 0)&&(_UI.selectedshape < _UI.shapelayers.length)) {
 				// Charedit Selected Shape
-				//debug("SS() - CHAREDIT - returning shape object for position " + uistate.selectedshape);
-				return uistate.shapelayers[uistate.selectedshape];
+				//debug("SS() - CHAREDIT - returning shape object for position " + _UI.selectedshape);
+				return _UI.shapelayers[_UI.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
-				//debug("SS() - Selected Shape outside of expected boundary. uistate.selectedshape: " + uistate.selectedshape);
-				uistate.selectedshape = -1;
+				//debug("SS() - Selected Shape outside of expected boundary. _UI.selectedshape: " + _UI.selectedshape);
+				_UI.selectedshape = -1;
 				return false;
 			}				
 		} else {
 			// -1 = "no shape selected"
-			//debug("SS() - setting uistate.selectedshape = -1, returning false");
+			//debug("SS() - setting _UI.selectedshape = -1, returning false");
 			return false;
 		}
 	}

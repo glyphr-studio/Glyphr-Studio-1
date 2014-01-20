@@ -158,8 +158,8 @@
 	
 	PathPoint.prototype.updatePointPosition = function(controlpoint, dx,dy, force){
 		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
-		var lockx = (uistate.selectedtool=='pathedit'? this.P.xlock : false);
-		var locky = (uistate.selectedtool=='pathedit'? this.P.ylock : false);
+		var lockx = (_UI.selectedtool=='pathedit'? this.P.xlock : false);
+		var locky = (_UI.selectedtool=='pathedit'? this.P.ylock : false);
 		
 		if(isval(force)){
 			if(force){
@@ -206,18 +206,18 @@
 	}
 	
 	PathPoint.prototype.drawPoint = function(c) {
-		var ps = _G.projectsettings.pointsize +1;
+		var ps = _GP.projectsettings.pointsize +1;
 		var hp = ps/2;
-		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
+		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;	
 		
-		uistate.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
-		uistate.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
+		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
+		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 	}
 
 	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
-		uistate.chareditctx.fillStyle = c? c : uistate.colors.accent;	
-		uistate.chareditctx.strokeStyle = uistate.colors.accent;
-		uistate.chareditctx.lineWidth = 1;
+		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;	
+		_UI.chareditctx.strokeStyle = _UI.colors.accent;
+		_UI.chareditctx.lineWidth = 1;
 		var begin = {"x":this.P.x, "y":this.P.y};
 		var end = {"x":this.H2.x, "y":this.H2.y};
 
@@ -225,7 +225,7 @@
 			end = {"x":next.P.x, "y":next.P.y};
 		}
 
-		var ps = (_G.projectsettings.pointsize*.75);
+		var ps = (_GP.projectsettings.pointsize*.75);
 		var arrow = [
 			[(ps*3), 0],
 			[ps, ps],
@@ -247,54 +247,54 @@
 
 		//debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
 
-		uistate.chareditctx.beginPath();
-		uistate.chareditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
+		_UI.chareditctx.beginPath();
+		_UI.chareditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
 
 		for(var p in rotatedarrow){
 			if (p > 0) {
-				uistate.chareditctx.lineTo((rotatedarrow[p][0] + sx_cx(this.P.x)), (rotatedarrow[p][1] + sy_cy(this.P.y)));
+				_UI.chareditctx.lineTo((rotatedarrow[p][0] + sx_cx(this.P.x)), (rotatedarrow[p][1] + sy_cy(this.P.y)));
 			}
 		}
 
-		uistate.chareditctx.lineTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
-		uistate.chareditctx.fill();
-		uistate.chareditctx.stroke();
+		_UI.chareditctx.lineTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
+		_UI.chareditctx.fill();
+		_UI.chareditctx.stroke();
 
 		// Exact Middle Point
-		uistate.chareditctx.fillStyle = uistate.colors.accent;
-		uistate.chareditctx.fillRect((sx_cx(this.P.x)-.5), (sy_cy(this.P.y)-.5), 1, 1);
+		_UI.chareditctx.fillStyle = _UI.colors.accent;
+		_UI.chareditctx.fillRect((sx_cx(this.P.x)-.5), (sy_cy(this.P.y)-.5), 1, 1);
 	
 	}
 	
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2) {
-		uistate.chareditctx.fillStyle = uistate.colors.accent;
-		uistate.chareditctx.lineWidth = 1;
-		var hp = _G.projectsettings.pointsize/2
+		_UI.chareditctx.fillStyle = _UI.colors.accent;
+		_UI.chareditctx.lineWidth = 1;
+		var hp = _GP.projectsettings.pointsize/2
 		
 		if(drawH1 && this.useh1){
-			uistate.chareditctx.beginPath();
-			uistate.chareditctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
-			uistate.chareditctx.closePath();
-			uistate.chareditctx.fill();
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.fill();
 				
-			uistate.chareditctx.beginPath();
-			uistate.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			uistate.chareditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y)); 
-			uistate.chareditctx.closePath();
-			uistate.chareditctx.stroke();
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.chareditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y)); 
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.stroke();
 		}
 
 		if(drawH2 && this.useh2){
-			uistate.chareditctx.beginPath();
-			uistate.chareditctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
-			uistate.chareditctx.closePath();
-			uistate.chareditctx.fill();
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.fill();
 			
-			uistate.chareditctx.beginPath();
-			uistate.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			uistate.chareditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y)); 
-			uistate.chareditctx.closePath();
-			uistate.chareditctx.stroke();
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.chareditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y)); 
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.stroke();
 		}
 	}
 

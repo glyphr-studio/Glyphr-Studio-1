@@ -10,7 +10,7 @@
 
 		var link = document.createElement('a');
 		link.href = window.URL.createObjectURL(blob);
-		link.download = "TTX Data - " + _G.projectsettings.name + " - " + genDateStampSuffix() + ".ttx";
+		link.download = "TTX Data - " + _GP.projectsettings.name + " - " + genDateStampSuffix() + ".ttx";
 		link.click();
 	}
 
@@ -40,8 +40,8 @@
 
 		var count = 0;
 
-		for(var tc=32; tc<_G.fontchars.length; tc++){
-			con += '\t<GlyphID name="' + _G.fontchars[tc].charname + '"/>\n';
+		for(var tc=32; tc<_GP.fontchars.length; tc++){
+			con += '\t<GlyphID name="' + _GP.fontchars[tc].charname + '"/>\n';
 			count++;
 		}
 
@@ -59,7 +59,7 @@
 		con += '\t<checkSumAdjustment value="0xfd4639aa"/>\n';
 		con += '\t<magicNumber value="0x5f0f3cf5"/>\n';
 		con += '\t<flags value="00000000 00000011"/>\n';
-		con += '\t<unitsPerEm value="' + _G.projectsettings.upm + '"/>\n';		// VAR UPM?
+		con += '\t<unitsPerEm value="' + _GP.projectsettings.upm + '"/>\n';		// VAR UPM?
 		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';			// VAR CREATED DA\nTE
 		con += '\t<modified value="' + ttxDateString() + '"/>\n';				// COMPUTED SAVE DATE
 		con += '\t<xMin value="-100"/>\n';											// COMPUTED
@@ -192,7 +192,7 @@
 	}
 
 	function genTable_name(oa){
-		var otsn = _G.opentypeproperties.name;
+		var otsn = _GP.opentypeproperties.name;
 		
 		var con = '<name>\n';
 		con += '\t<namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[0].val +'\n\t</namerecord>\n';
@@ -231,8 +231,8 @@
 
 	function genTable_cmap(oa){
 		var cmapbody = "";
-		for(var tc=32; tc<_G.fontchars.length; tc++){
-			cmapbody += '\t\t<map code="'+_G.fontchars[tc].cmapcode+'" name="' + _G.fontchars[tc].charname + '"/>\n';
+		for(var tc=32; tc<_GP.fontchars.length; tc++){
+			cmapbody += '\t\t<map code="'+_GP.fontchars[tc].cmapcode+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
 		}
 
 		var con = '<cmap>\n';
@@ -271,7 +271,7 @@
 	}
 
 	function genTable_cff(oa){
-		var md = _G.opentypeproperties;
+		var md = _GP.opentypeproperties;
 		var con = '<CFF>\n';
 		con += '\t<CFFFont name="'+md.name[1].val+'">\n';							//VAR
 		con += '\t\t<version value="002.000"/>\n';		
@@ -320,16 +320,16 @@
 		var con = '\t\t\t<CharString name=".notdef">\n\t\t\t\tendchar\n\t\t\t</CharString>\n';
 		var lastx, lasty;
 
-		for(var tc=32; tc<_G.fontchars.length; tc++){
-			con += '\t\t\t<CharString name="' + _G.fontchars[tc].charname + '">\n';
+		for(var tc=32; tc<_GP.fontchars.length; tc++){
+			con += '\t\t\t<CharString name="' + _GP.fontchars[tc].charname + '">\n';
 			lastx = 0;
 			lasty = 0;
 			rvar = {};
 
-			//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _G.fontchars[tc].charname);
+			//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _GP.fontchars[tc].charname);
 
-			for(var ts=0; ts<_G.fontchars[tc].charshapes.length; ts++){
-				rvar = _G.fontchars[tc].charshapes[ts].genPostScript(lastx, lasty);
+			for(var ts=0; ts<_GP.fontchars[tc].charshapes.length; ts++){
+				rvar = _GP.fontchars[tc].charshapes[ts].genPostScript(lastx, lasty);
 				//debug("path " + ts + " returning \t " + JSON.stringify(rvar));
 				con += rvar.re;
 				lastx = rvar.lastx;
@@ -348,9 +348,9 @@
 		con += '\t<mtx name=".notdef" width="2100" lsb="0"/>\n';
 		var lsb, curr;
 
-		for(var tc=32; tc<_G.fontchars.length; tc++){
-			curr = _G.fontchars[tc];
-			lsb = (curr.leftsidebearing === false)? _G.projectsettings.defaultlsb : curr.leftsidebearing;
+		for(var tc=32; tc<_GP.fontchars.length; tc++){
+			curr = _GP.fontchars[tc];
+			lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
 			con += '\t<mtx name="' + curr.charname + '" width="'+curr.charwidth+'" lsb="'+lsb+'"/>\n';
 		}
 

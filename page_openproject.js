@@ -15,7 +15,7 @@
 	function updatefirstrun(){
 		//debug("UPDATEFIRSTRUN");
 		var ct = "<div class='splashscreen textpage'><canvas id='splashscreencanvas' height=494 width=800></canvas>";
-		ct += "<div class='splashver'>"+uistate.thisGlyphrStudioVersion+"<br><br>";
+		ct += "<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>";
 		ct += "For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>";
 		ct += "Glyphr Studio is licensed under a <a href='http://creativecommons.org/licenses/by-sa/3.0/' target=_new>Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br>";
 		ct += "Which basically means you can use Glyphr Studio for commercial purposes, remix and adapt Glyphr Studio to your own needs, and re-share Glyphr Studio with the same license applied.";
@@ -50,8 +50,8 @@
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
 				if(fcontent.projectsettings.version){
-					_G = hydrateGlyphrProject(fcontent);
-					//debug("Loading project; " + _G.projectsettings.name);
+					_GP = hydrateGlyphrProject(fcontent);
+					//debug("Loading project; " + _GP.projectsettings.name);
 					finalizeGlyphrProject();
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
@@ -114,36 +114,36 @@
 		var fn = document.getElementById("newprojectname").value;
 		fn = (fn? fn : "My Font");
 		
-		_G.projectsettings.name = fn;
-		_G.opentypeproperties.name[1].val = fn;
-		_G.opentypeproperties.name[3].val = (fn + " 1.0");
-		_G.opentypeproperties.name[4].val = fn;
-		_G.opentypeproperties.name[6].val = fn;
+		_GP.projectsettings.name = fn;
+		_GP.opentypeproperties.name[1].val = fn;
+		_GP.opentypeproperties.name[3].val = (fn + " 1.0");
+		_GP.opentypeproperties.name[4].val = fn;
+		_GP.opentypeproperties.name[6].val = fn;
 		setOTprop("cff", "FullName", fn);
 		setOTprop("cff", "FamilyName", fn);
 
-		_G.fontchars = createNewFontObject();
+		_GP.fontchars = createNewFontObject();
 	
-		_G.linkedshapes = {};
-		_G.linkedshapes["id0"] = new LinkedShape({});
+		_GP.linkedshapes = {};
+		_GP.linkedshapes["id0"] = new LinkedShape({});
 
 		finalizeGlyphrProject();
 	}
 	
 	function finalizeGlyphrProject(){
 		//debug("FINALIZEGLYPHRPROJECT - start of function");
-		uistate.charcurrstate = clone(_G.fontchars);
-		uistate.linkcurrstate = clone(_G.linkedshapes);
+		_UI.charcurrstate = clone(_GP.fontchars);
+		_UI.linkcurrstate = clone(_GP.linkedshapes);
 		
-		if(!isval(_G.projectsettings.linkedshapecounter)){
-			_G.projectsettings.linkedshapecounter = 0;
+		if(!isval(_GP.projectsettings.linkedshapecounter)){
+			_GP.projectsettings.linkedshapecounter = 0;
 		}
 		
-		//debug("FINALIZEGLYPHRPROJECT - After linkedshapecounter: " + _G.projectsettings.linkedshapecounter);
+		//debug("FINALIZEGLYPHRPROJECT - After linkedshapecounter: " + _GP.projectsettings.linkedshapecounter);
 		
-		uistate.selectedchar = 97;
-		uistate.shownlinkedshape = getFirstLinkedShape();
+		_UI.selectedchar = 97;
+		_UI.shownlinkedshape = getFirstLinkedShape();
 		
-		uistate.navhere = "character edit";
+		_UI.navhere = "character edit";
 		navigate();
 	}

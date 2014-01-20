@@ -46,7 +46,7 @@
 	
 //	Insert Linked Shape
 	function insertLinkedShapeDialog(){
-		if(aalength(_G.linkedshapes)>0){
+		if(aalength(_GP.linkedshapes)>0){
 			var content = "Choose a Linked Shape to insert as a layer in this character:";
 			content += generateSSThumbs();
 			content += "<div style='display:block;'><input type='button' class='button' value='cancel' onclick='closeDialog();'></div>";
@@ -58,15 +58,15 @@
 	}
 	
 	function insertLinkedShape(ssid){
-		//debug("INSERTLINKEDSHAPE - adding linked shape (id) " + ssid + " to char (id) " + uistate.selectedchar);
+		//debug("INSERTLINKEDSHAPE - adding linked shape (id) " + ssid + " to char (id) " + _UI.selectedchar);
 		var ns = new LinkedShapeInstance({"link":ssid, "xpos":100, "ypos":100});
 
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
-		_G.fontchars[uistate.selectedchar].charwidth = Math.max(_G.fontchars[uistate.selectedchar].charwidth, _G.linkedshapes[ssid].shape.path.rightx);
+		_GP.fontchars[_UI.selectedchar].charwidth = Math.max(_GP.fontchars[_UI.selectedchar].charwidth, _GP.linkedshapes[ssid].shape.path.rightx);
 		
-		addToUsedIn(ssid, uistate.selectedchar);
+		addToUsedIn(ssid, _UI.selectedchar);
 		
 		closeDialog();
 		putundoq("insert linked shape from charedit");
@@ -75,11 +75,11 @@
 	
 	function generateSSThumbs(){		
 		var re = "<div class='ssthumbcontainer'>";
-		for(var ssid in _G.linkedshapes){
+		for(var ssid in _GP.linkedshapes){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
-			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\");' height="+uistate.thumbsize+"' width="+uistate.thumbsize+"></canvas>";
+			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\");' height="+_UI.thumbsize+"' width="+_UI.thumbsize+"></canvas>";
 			re += "</td></tr><tr><td>"
-			re += _G.linkedshapes[ssid].shape.name;
+			re += _GP.linkedshapes[ssid].shape.name;
 			re += "</td></tr></table>";
 			//debug("GENERATESSTHUMBS - created canvas 'thumb"+ssid+"'");
 		}
@@ -88,14 +88,14 @@
 	}
 	
 	function drawSSThumbs(){
-		var ps = _G.projectsettings;
+		var ps = _GP.projectsettings;
 		var tctx = {};
-		var factor = ((uistate.thumbsize-(2*uistate.thumbgutter))/(ps.upm));
-		var yoffset = (uistate.thumbgutter+(ps.ascent*factor));
-		for(var ssid in _G.linkedshapes){
+		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
+		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
+		for(var ssid in _GP.linkedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			_G.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, uistate.thumbgutter, yoffset);
+			_GP.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -105,7 +105,7 @@
 	function addToUsedIn(ssid, charid){
 		charid = (""+charid);
 		//debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
-		var uia = _G.linkedshapes[ssid].usedin;
+		var uia = _GP.linkedshapes[ssid].usedin;
 		//debug("------------- uia: " + uia);
 		//Make sure array values are unique
 		if(uia.indexOf(charid) == -1){
@@ -119,7 +119,7 @@
 	function removeFromUsedIn(ssid, charid){
 		//debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var linkedshapecount = 0;
-		var tcgd = _G.fontchars[charid].charshapes;
+		var tcgd = _GP.fontchars[charid].charshapes;
 		
 		// make sure there is only one of this ss in the char
 		for(var sl=0; sl<tcgd.length; sl++){
@@ -131,7 +131,7 @@
 		//debug("------------------ linkedshapecount = " + linkedshapecount);
 		
 		if(linkedshapecount == 1){
-			var uia = _G.linkedshapes[ssid].usedin;
+			var uia = _GP.linkedshapes[ssid].usedin;
 			var charindex = uia.indexOf(charid);
 			//debug("------------------ charindex: " + charindex);
 			if(charindex != -1){
@@ -156,27 +156,27 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; y </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.ypos + "' onchange='ss().ypos = (this.value*1); putundoq(\"linkedshape ypos\"); redraw();'>"+spinner()+"</td></tr>";
 		}
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Linked Shape ID </td><td> " + s.link + " </td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> linked shape name </td><td>" + _G.linkedshapes[s.link].shape.name + "</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> linked shape name </td><td>" + _GP.linkedshapes[s.link].shape.name + "</td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><input type='button' class='button' value='edit this linked shape' onclick='goToEditLinkedShape(\""+s.link+"\");'/></td></tr>";
 		return content;
 	}
 	
 	function goToEditLinkedShape(ssid){
-		uistate.shownlinkedshape = ssid;
-		uistate.navhere = "linked shapes";
+		_UI.shownlinkedshape = ssid;
+		_UI.navhere = "linked shapes";
 		navigate();
 	}
 	
 	function clickSelectLinkedShape(x,y){
 		//debug("CLICKSELECTLinkedShape() - checking x:" + x + " y:" + y);
 		
-		if(_G.linkedshapes[uistate.shownlinkedshape].shape.isHere(x,y)){
-			uistate.selectedshape = uistate.shownlinkedshape;
-			//debug("CLICKSELECTLinkedShape() - selecting shape " + uistate.shownlinkedshape);
+		if(_GP.linkedshapes[_UI.shownlinkedshape].shape.isHere(x,y)){
+			_UI.selectedshape = _UI.shownlinkedshape;
+			//debug("CLICKSELECTLinkedShape() - selecting shape " + _UI.shownlinkedshape);
 			return true;
 		}
 		
-		uistate.selectedshape = -1;
+		_UI.selectedshape = -1;
 		//debug("CLICKSELECTLinkedShape() - deselecting, setting to -1");
 		
 		return false;
@@ -190,11 +190,11 @@
 		//debug("DRAWLINKEDSHAPE");
 		if(this.uselinkedshapexy){
 			//debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
-			_G.linkedshapes[this.link].shape.drawShape_Stack(lctx);
+			_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
 		} else {
 			//debug("------------- does not uselinkedshapexy, calling FORCE=true updatepathposition");
 			//debug("------------- this.link: " + this.link);
-			var ns = clone(_G.linkedshapes[this.link].shape);
+			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape_Stack(lctx);
 		}
@@ -204,11 +204,11 @@
 		//debug("DRAWLINKEDSHAPE");
 		if(this.uselinkedshapexy){
 			//debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
-			_G.linkedshapes[this.link].shape.drawShape_Single(lctx);
+			_GP.linkedshapes[this.link].shape.drawShape_Single(lctx);
 		} else {
 			//debug("------------- does not uselinkedshapexy, calling FORCE=true updatepathposition");
 			//debug("------------- this.link: " + this.link);
-			var ns = clone(_G.linkedshapes[this.link].shape);
+			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape_Single(lctx);
 		}
@@ -218,10 +218,10 @@
 		//debug("GENLINKEDPOSTSCRIPT");
 		if(this.uselinkedshapexy){
 			//debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
-			return _G.linkedshapes[this.link].shape.path.genPathPostScript(lastx, lasty);
+			return _GP.linkedshapes[this.link].shape.path.genPathPostScript(lastx, lasty);
 		} else {
 			//debug("------------- does not uselinkedshapexy, calling FORCE=true updatepathposition");
-			var ns = clone(_G.linkedshapes[this.link].shape);
+			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			return ns.path.genPathPostScript(lastx, lasty);
 		}
@@ -231,10 +231,10 @@
 		//debug("DRAWLINKEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.uselinkedshapexy){
 			//debug("--------------------- uselinkedshapexy=true, calling drawShapeToArea for linkedshape.");
-			_G.linkedshapes[this.link].shape.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
+			_GP.linkedshapes[this.link].shape.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
 		} else {
 			//debug("--------------------- uselinkedshapexy=false, calling updatepathposition with FORCE.");
-			var ns = clone(_G.linkedshapes[this.link].shape);
+			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.name += " HAS BEEN MOVED";
 			ns.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
@@ -245,12 +245,12 @@
 
 
 	LinkedShapeInstance.prototype.drawSelectOutline = function(onlycenter){
-		//_G.linkedshapes[this.link].shape.drawSelectOutline();
+		//_GP.linkedshapes[this.link].shape.drawSelectOutline();
 		
 		if(this.uselinkedshapexy){
-			_G.linkedshapes[this.link].shape.drawSelectOutline(onlycenter);
+			_GP.linkedshapes[this.link].shape.drawSelectOutline(onlycenter);
 		} else {
-			var ns = clone(_G.linkedshapes[this.link].shape);
+			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			//ns.path.calcMaxes();
 			ns.drawSelectOutline(onlycenter);
@@ -258,15 +258,15 @@
 	}
 	
 	LinkedShapeInstance.prototype.draw8points = function(onlycenter){
-		//_G.linkedshapes[this.link].shape.draw8points(onlycenter);
+		//_GP.linkedshapes[this.link].shape.draw8points(onlycenter);
 	}
 	
 	LinkedShapeInstance.prototype.isHere = function(x,y){
 		//debug("ISLINKEDSHAPEHERE - checking " + x + "," + y);
 		if(this.uselinkedshapexy){
-			return _G.linkedshapes[this.link].shape.isHere(x,y);
+			return _GP.linkedshapes[this.link].shape.isHere(x,y);
 		} else {
-			var ns = clone(_G.linkedshapes[this.link].shape);
+			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			return ns.isHere(x,y);
 		}
@@ -281,7 +281,7 @@
 //	------------------------------
 
 	function getFirstLinkedShape(){
-		for(var ssid in _G.linkedshapes){
+		for(var ssid in _GP.linkedshapes){
 			return ssid;
 		}
 		
@@ -289,6 +289,6 @@
 	}
 	
 	function generateNewSSID(){
-		_G.projectsettings.linkedshapecounter++;
-		return ("id"+_G.projectsettings.linkedshapecounter);
+		_GP.projectsettings.linkedshapecounter++;
+		return ("id"+_GP.projectsettings.linkedshapecounter);
 	}

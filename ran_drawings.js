@@ -7,7 +7,7 @@
 		logoctx.clearRect(0,0,3000,3000);
 		
 		// Main Logo
-		logoctx.strokeStyle = uistate.colors.accent;
+		logoctx.strokeStyle = _UI.colors.accent;
 
 		logoctx.beginPath();
 		logoctx.moveTo(37, 41);
@@ -80,7 +80,7 @@
 		logoctx.stroke();
 
 		// Beta Logo
-		logoctx.fillStyle = uistate.colors.accent_light;
+		logoctx.fillStyle = _UI.colors.accent_light;
 
 		logoctx.beginPath();
 		logoctx.moveTo(148, 49);
@@ -258,7 +258,7 @@
 		ssctx.clearRect(0,0,3000,3000);
 				
 		// splashScreen/BG
-		ssctx.fillStyle = uistate.colors.accent;
+		ssctx.fillStyle = _UI.colors.accent;
 		ssctx.save();
 		ssctx.beginPath();
 		ssctx.moveTo(800.0, 494.0);
@@ -270,7 +270,7 @@
 		ssctx.fill();
 
 		// splashScreen/LOGO
-		ssctx.strokeStyle = uistate.colors.offwhite;
+		ssctx.strokeStyle = _UI.colors.offwhite;
 		
 		// splashScreen/LOGO/Path
 		ssctx.save();
@@ -364,7 +364,7 @@
 
 		// splashScreen/STUDIO/Compound Path
 		ssctx.save();
-		ssctx.fillStyle = uistate.colors.accent_light;
+		ssctx.fillStyle = _UI.colors.accent_light;
 		ssctx.beginPath();
 
 		// splashScreen/STUDIO/Compound Path/Path
@@ -3185,7 +3185,7 @@ function drawCheckbox(obj, ischecked) {
 	var lctx = obj.getContext('2d');
 	
 	//Box
-	lctx.fillStyle = uistate.colors.text_light;
+	lctx.fillStyle = _UI.colors.text_light;
 	lctx.beginPath();
 	lctx.moveTo(12.0, 15.0);
 	lctx.lineTo(0.0, 15.0);
@@ -3197,7 +3197,7 @@ function drawCheckbox(obj, ischecked) {
 	
 	if(ischecked){
 		//Check
-		lctx.fillStyle = uistate.colors.accent;
+		lctx.fillStyle = _UI.colors.accent;
 		lctx.beginPath();
 		lctx.moveTo(0.0, 9.0);
 		lctx.lineTo(5.5, 15.0);

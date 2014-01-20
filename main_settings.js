@@ -4,7 +4,7 @@
 //------------------------------
 // These are NOT SAVED with the project
 
-	var uistate = {
+	var _UI = {
 		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npNav",
@@ -114,11 +114,11 @@
 		}
 	}
 
-	uistate.colors.text_dark = uistate.colors.g1;
-	uistate.colors.text_light = uistate.colors.g8;
-	uistate.colors.button_disabled = uistate.colors.g4;
-	uistate.colors.button_resting = uistate.colors.g8;
-	uistate.colors.button_selected = uistate.colors.accent;
+	_UI.colors.text_dark = _UI.colors.g1;
+	_UI.colors.text_light = _UI.colors.g8;
+	_UI.colors.button_disabled = _UI.colors.g4;
+	_UI.colors.button_resting = _UI.colors.g8;
+	_UI.colors.button_selected = _UI.colors.accent;
 
 		
 //------------------------------
@@ -126,11 +126,11 @@
 //------------------------------
 // These ARE saved with the project
 
-	var _G = {
+	var _GP = {
 		"projectsettings": {
 			"name": "My Font",
 			"debug": true,				// global debug console switch
-			"version": uistate.thisGlyphrStudioVersion,	// console version
+			"version": _UI.thisGlyphrStudioVersion,	// console version
 			"linkedshapecounter": 0,		// private counter for ss id
 			
 			// Grid stuff
@@ -164,8 +164,8 @@
 
 	
 	function setOTprop(tname, tkey, tval){
-		if(_G.opentypeproperties[tname]){
-			var ot = _G.opentypeproperties[tname];
+		if(_GP.opentypeproperties[tname]){
+			var ot = _GP.opentypeproperties[tname];
 			for(var i=0; i<ot.length; i++){
 				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
 				if(ot[i].key == tkey) {
@@ -180,8 +180,8 @@
 	}
 
 	function getOTprop(tname, tkey){
-		if(_G.opentypeproperties[tname]){
-			var ot = _G.opentypeproperties[tname];
+		if(_GP.opentypeproperties[tname]){
+			var ot = _GP.opentypeproperties[tname];
 			for(var i=0; i<ot.length; i++){
 				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
 				if(ot[i].key == tkey) {

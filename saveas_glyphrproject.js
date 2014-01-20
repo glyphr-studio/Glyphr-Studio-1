@@ -4,13 +4,13 @@
 
 	function triggerProjectFileDownload(){
 		
-		var jsonString = JSON.stringify(_G, undefined, '\t');
+		var jsonString = JSON.stringify(_GP, undefined, '\t');
 		jsonString = jsonString.replace(/\n/g, '\r\n');
 		var blob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
 		var link = document.createElement('a');
 		link.href = window.URL.createObjectURL(blob);
-		link.download = _G.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
+		link.download = _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
 		link.click();
 
 		setProjectAsSaved();

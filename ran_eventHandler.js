@@ -1,4 +1,4 @@
-	uistate.eventhandlers = {
+	_UI.eventhandlers = {
 		"temppathdragshape" : false,
 		"mousex" : 0,
 		"mousey" : 0,
@@ -18,19 +18,19 @@
 	
 	function initEventHandlers() {
 		var tool = new pathedit();		
-		uistate.eventhandlers.eh_addrectoval = new newbasicShape();
-		uistate.eventhandlers.eh_shapesel = new pathedit();
-		uistate.eventhandlers.eh_shaperesize = new shaperesize();
-		uistate.eventhandlers.eh_pantool = new pantool();
-		uistate.eventhandlers.eh_addpath = new newPath();
-		uistate.eventhandlers.eh_addrectoval = new newbasicShape();
+		_UI.eventhandlers.eh_addrectoval = new newbasicShape();
+		_UI.eventhandlers.eh_shapesel = new pathedit();
+		_UI.eventhandlers.eh_shaperesize = new shaperesize();
+		_UI.eventhandlers.eh_pantool = new pantool();
+		_UI.eventhandlers.eh_addpath = new newPath();
+		_UI.eventhandlers.eh_addrectoval = new newbasicShape();
 		
 		// Mouse Event Listeners
-		uistate.chareditcanvas.addEventListener('mousedown', ev_canvas, false);
-		uistate.chareditcanvas.addEventListener('mousemove', ev_canvas, false);
-		uistate.chareditcanvas.addEventListener('mouseup',   ev_canvas, false);
-		uistate.chareditcanvas.onmouseover = mouseovercec;
-		uistate.chareditcanvas.onmouseout = mouseoutcec;
+		_UI.chareditcanvas.addEventListener('mousedown', ev_canvas, false);
+		_UI.chareditcanvas.addEventListener('mousemove', ev_canvas, false);
+		_UI.chareditcanvas.addEventListener('mouseup',   ev_canvas, false);
+		_UI.chareditcanvas.onmouseover = mouseovercec;
+		_UI.chareditcanvas.onmouseout = mouseoutcec;
 		
 		// Document Key Listeners
 		document.onkeypress = keypress;
@@ -49,43 +49,43 @@
 		
 			if (ev.layerX || ev.layerX) { 
 				// Firefox
-				uistate.eventhandlers.mousex = ev.layerX; 
-				uistate.eventhandlers.mousey = ev.layerY; 		
+				_UI.eventhandlers.mousex = ev.layerX; 
+				_UI.eventhandlers.mousey = ev.layerY; 		
 			}
 			
 			if (ev.offsetX || ev.offsetX) { 
 				// IE, Chrome, (Opera?)				
-				uistate.eventhandlers.mousex = ev.offsetX; 
-				uistate.eventhandlers.mousey = ev.offsetY;
+				_UI.eventhandlers.mousex = ev.offsetX; 
+				_UI.eventhandlers.mousey = ev.offsetY;
 			}
 
 			//debug("EV_CANVAS offsetx / offsety / layerx / layery: " +  ev.offsetX + " " + ev.offsetY + " " + ev.layerX + " " + ev.layerY); 
 			
 			resetCursor();
-			uistate.showrightline = false;
+			_UI.showrightline = false;
 			
 			// Switch Tool function
-			switch(uistate.selectedtool){
+			switch(_UI.selectedtool){
 				case "pathedit" :
-					tool = uistate.eventhandlers.eh_shapesel;
+					tool = _UI.eventhandlers.eh_shapesel;
 					break;
 				case "shaperesize" :
-					uistate.showrightline = true;
-					tool = uistate.eventhandlers.eh_shaperesize;
+					_UI.showrightline = true;
+					tool = _UI.eventhandlers.eh_shaperesize;
 					break;
 				case "pan" :
-					uistate.showrightline = true;
+					_UI.showrightline = true;
 					document.body.style.cursor = "move";
-					tool = uistate.eventhandlers.eh_pantool;
+					tool = _UI.eventhandlers.eh_pantool;
 					break;
 				case "newpath" :
 					document.body.style.cursor = "crosshair";
-					tool = uistate.eventhandlers.eh_addpath;
+					tool = _UI.eventhandlers.eh_addpath;
 					break;
 				case "newrect" : 
 				case "newoval" :
 					document.body.style.cursor = "crosshair";
-					tool = uistate.eventhandlers.eh_addrectoval;
+					tool = _UI.eventhandlers.eh_addrectoval;
 					break;
 			}
 
@@ -105,7 +105,7 @@
 		
 		this.mousedown = function (ev) { 
 			//debug("NEWPATH MOUSEDOWN");
-			var newpoint = new PathPoint({"P":new Coord({"x":cx_sx(uistate.eventhandlers.mousex), "y":cy_sy(uistate.eventhandlers.mousey)}), "H1":new Coord({"x":cx_sx(uistate.eventhandlers.mousex-100), "y":cy_sy(uistate.eventhandlers.mousey)}), "H2":new Coord({"x":cx_sx(uistate.eventhandlers.mousex+100), "y":cy_sy(uistate.eventhandlers.mousey)}), "type":"flat", "selected":true, "useh1":false, "useh2":false});			
+			var newpoint = new PathPoint({"P":new Coord({"x":cx_sx(_UI.eventhandlers.mousex), "y":cy_sy(_UI.eventhandlers.mousey)}), "H1":new Coord({"x":cx_sx(_UI.eventhandlers.mousex-100), "y":cy_sy(_UI.eventhandlers.mousey)}), "H2":new Coord({"x":cx_sx(_UI.eventhandlers.mousex+100), "y":cy_sy(_UI.eventhandlers.mousey)}), "type":"flat", "selected":true, "useh1":false, "useh2":false});			
 		
 			if(this.firstpoint) {
 				//debug("NEWPATH MOUSEDOWN - tool.firstpoint=true, making a new path");
@@ -116,29 +116,29 @@
 				//debug("NEWPATH MOUSEDOWN - after new path is made.");
 				
 				// make a new shape with the new path
-				var newshape = addShape(new Shape({"name": ("path "+(uistate.shapelayers.length+1)), "path": newpath}));	
+				var newshape = addShape(new Shape({"name": ("path "+(_UI.shapelayers.length+1)), "path": newpath}));	
 				newshape.path.selectPathPoint(0);			
 				//debug("NEWPATH MOUSEDOWN - end of firstpoint, new shape added with new path with single point.");
 				
 			} else {
 				//debug("NEWPATH MOUSEDOWN - after firstpoint, placing another point"); 
 				var currpath = ss("Event Handler New Path").path;
-				var ccp = currpath.isOverControlPoint(cx_sx(uistate.eventhandlers.mousex), cy_sy(uistate.eventhandlers.mousey));
+				var ccp = currpath.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
 				//debug("NEWPATH MOUSEDOWN - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = _G.projectsettings.pointsize/uistate.viewport.zoom;
-					if( ((p.P.x+hp) > cx_sx(uistate.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(uistate.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(uistate.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(uistate.eventhandlers.mousey)) ){
+					var hp = _GP.projectsettings.pointsize/_UI.viewport.zoom;
+					if( ((p.P.x+hp) > cx_sx(_UI.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(_UI.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(_UI.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(_UI.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
-						uistate.selectedtool = "pathedit";
-						uistate.eventhandlers.eh_shapesel.moving = true;
-						uistate.eventhandlers.eh_shapesel.controlpoint = "H2";
-						uistate.eventhandlers.toolhandoff = true;
+						_UI.selectedtool = "pathedit";
+						_UI.eventhandlers.eh_shapesel.moving = true;
+						_UI.eventhandlers.eh_shapesel.controlpoint = "H2";
+						_UI.eventhandlers.toolhandoff = true;
 						this.dragging = false;
 						this.firstmove = false;
-						uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-						uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
+						_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+						_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 						currpath.clockwise = findClockwise(currpath.pathpoints);
 						redraw();
 						return;
@@ -153,8 +153,8 @@
 			this.currpt = ss("Event Handler New Path").path.sp(false, "Event Handler New Path");
 			this.firstpoint = false;
 			this.dragging = true;
-			uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-			uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
+			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			
 			//debug("NEWPATH MOUSEDOWN - end of function, this.currpt:\n" + JSON.stringify(newpoint));
 		}
@@ -163,8 +163,8 @@
 			//debug("NEWPATH MOUSEUP");
 			this.dragging = false;
 			this.firstmove = false;
-			uistate.eventhandlers.lastx = -100;
-			uistate.eventhandlers.lasty = -100;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
 			// For new shape tools, mouse up always adds to the undo-queue
 			putundoq("New Path tool");
 			
@@ -175,19 +175,19 @@
 			//debug("NEWPATH MOUSEMOVE");
 			if(this.dragging){
 				//avoid really small handles
-				//debug("NEWPATH MOUSEMOVE - ps*2 = " + (_G.projectsettings.pointsize*2) + " x / y: " + Math.abs(this.currpt.P.x-cx_sx(uistate.eventhandlers.mousex)) + " / " + Math.abs(this.currpt.P.y-cy_sy(uistate.eventhandlers.mousey)) );
-				if( (Math.abs(this.currpt.P.x-cx_sx(uistate.eventhandlers.mousex)) > (_G.projectsettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(uistate.eventhandlers.mousey)) > (_G.projectsettings.pointsize*2)) ){
+				//debug("NEWPATH MOUSEMOVE - ps*2 = " + (_GP.projectsettings.pointsize*2) + " x / y: " + Math.abs(this.currpt.P.x-cx_sx(_UI.eventhandlers.mousex)) + " / " + Math.abs(this.currpt.P.y-cy_sy(_UI.eventhandlers.mousey)) );
+				if( (Math.abs(this.currpt.P.x-cx_sx(_UI.eventhandlers.mousex)) > (_GP.projectsettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(_UI.eventhandlers.mousey)) > (_GP.projectsettings.pointsize*2)) ){
 					//debug("NEWPATH MOUSEMOVE - dragging H2, this.currpt:\n" + JSON.stringify(this.currpt));
 					this.currpt.useh1 = true;
 					this.currpt.useh2 = true;
-					this.currpt.H2.x = cx_sx(uistate.eventhandlers.mousex);
-					this.currpt.H2.y = cy_sy(uistate.eventhandlers.mousey);
+					this.currpt.H2.x = cx_sx(_UI.eventhandlers.mousex);
+					this.currpt.H2.y = cy_sy(_UI.eventhandlers.mousey);
 					this.currpt.makeSymmetric("H2");
 				} else {
 					//debug("NEWPATH MOUSEMOVE - no handle created yet");
 				}
-				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			
 				redraw();
 			}
@@ -203,24 +203,24 @@
 		this.mousedown = function (ev) { 
 			
 			var newshape = new Shape({});
-			newshape.name = (uistate.selectedtool=="newrect")? ("rect " + (uistate.shapelayers.length+1)) : ("oval " + (uistate.shapelayers.length+1));
-			uistate.selectedshape = uistate.shapelayers.length;
-			uistate.shapelayers.push(newshape);
-			newshape.path.setLeftX(cx_sx(uistate.eventhandlers.mousex));
-			newshape.path.setTopY(cy_sy(uistate.eventhandlers.mousey));
+			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
+			_UI.selectedshape = _UI.shapelayers.length;
+			_UI.shapelayers.push(newshape);
+			newshape.path.setLeftX(cx_sx(_UI.eventhandlers.mousex));
+			newshape.path.setTopY(cy_sy(_UI.eventhandlers.mousey));
 			
-			uistate.eventhandlers.temppathdragshape = {
-				"leftx": cx_sx(uistate.eventhandlers.mousex),
-				"rightx": cx_sx(uistate.eventhandlers.mousex),
-				"topy": cy_sy(uistate.eventhandlers.mousey),
-				"bottomy": cy_sy(uistate.eventhandlers.mousey)
+			_UI.eventhandlers.temppathdragshape = {
+				"leftx": cx_sx(_UI.eventhandlers.mousex),
+				"rightx": cx_sx(_UI.eventhandlers.mousex),
+				"topy": cy_sy(_UI.eventhandlers.mousey),
+				"bottomy": cy_sy(_UI.eventhandlers.mousey)
 			};
 
 			this.dragging = true;
-			uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-			uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
-			uistate.eventhandlers.firstx = uistate.eventhandlers.mousex;
-			uistate.eventhandlers.firsty = uistate.eventhandlers.mousey;
+			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 					
 			redraw();
 		}
@@ -230,10 +230,10 @@
 			var s = ss("eventHandler - newbasicshape mouseup");
 			
 			// prevent really small shapes
-			if ( (Math.abs(uistate.eventhandlers.lastx - uistate.eventhandlers.firstx) < _G.projectsettings.pointsize) &&
-				(Math.abs(uistate.eventhandlers.lasty - uistate.eventhandlers.firsty) < _G.projectsettings.pointsize) ){
+			if ( (Math.abs(_UI.eventhandlers.lastx - _UI.eventhandlers.firstx) < _GP.projectsettings.pointsize) &&
+				(Math.abs(_UI.eventhandlers.lasty - _UI.eventhandlers.firsty) < _GP.projectsettings.pointsize) ){
 				
-				uistate.eventhandlers.temppathdragshape = {
+				_UI.eventhandlers.temppathdragshape = {
 					"leftx": s.path.leftx,
 					"rightx": s.path.rightx,
 					"topy": s.path.topy,
@@ -241,24 +241,24 @@
 				};
 			}
 
-			if(uistate.selectedtool=="newrect"){				
+			if(_UI.selectedtool=="newrect"){				
 				//debug("NEWBASICSHAPE MOUSEUP - reading TPDS lx-ty-rx-by: " + lx + " : " + ty + " : " + rx + " : " + by);
-				s.path = rectPathFromCorners(uistate.eventhandlers.temppathdragshape);
+				s.path = rectPathFromCorners(_UI.eventhandlers.temppathdragshape);
 				//debug("NEWBASICSHAPE MOUSEUP - resulting path P1x/y P3x/y: " + s.path.pathpoints[0].P.x + " : " + s.path.pathpoints[0].P.y + " : " + s.path.pathpoints[2].P.x + " : " + s.path.pathpoints[2].P.y);
 			} else {
-				s.path = ovalPathFromCorners(uistate.eventhandlers.temppathdragshape);
+				s.path = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
 			}
 			
 			this.dragging = false;
-			uistate.eventhandlers.lastx = -100;
-			uistate.eventhandlers.lasty = -100;			
-			uistate.eventhandlers.firstx = -100;
-			uistate.eventhandlers.firsty = -100;
-			uistate.eventhandlers.temppathdragshape = false;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;			
+			_UI.eventhandlers.firstx = -100;
+			_UI.eventhandlers.firsty = -100;
+			_UI.eventhandlers.temppathdragshape = false;
 			putundoq("New Basic Shape tool");
-			uistate.eventhandlers.uqhaschanged = false;
+			_UI.eventhandlers.uqhaschanged = false;
 			
-			uistate.showrightline = true;
+			_UI.showrightline = true;
 			
 			clicktool("pathedit");
 		};
@@ -267,9 +267,9 @@
 			if(this.dragging){
 				var s = ss("eventHandler - newbasicshape mousemove");
 				evHanShapeResize(s, "se");	
-				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
-				uistate.eventhandlers.uqhaschanged = true;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
 				redraw();
 				//debug("NEWBASICSHAPE MOUSEMOVE past redraw");
 			}
@@ -285,17 +285,17 @@
 		this.controlpoint = false;
 		
 		this.mousedown = function (ev) { 
-			//debug("mouse down: " + uistate.eventhandlers.mousex + ":" + uistate.eventhandlers.mousey);
+			//debug("mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
 			var s = ss("Path Edit - Mouse Down");
-			this.controlpoint = s? s.path.isOverControlPoint(cx_sx(uistate.eventhandlers.mousex), cy_sy(uistate.eventhandlers.mousey)) : false; 
+			this.controlpoint = s? s.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey)) : false; 
 			if(this.controlpoint){
 				this.moving = true;
-				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
-			} else if (clickSelectShape(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey)){
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				//clickSelectShape checks to switch the tool if need be.
-				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			} else {
 				if(s){
 					if(s.path.needsnewcalcmaxes) { 
@@ -309,12 +309,12 @@
 		
 		this.mouseup = function () {
 			this.moving = false;
-			uistate.eventhandlers.lastx = -100;
-			uistate.eventhandlers.lasty = -100;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
 			
-			if(uistate.eventhandlers.uqhaschanged) {
+			if(_UI.eventhandlers.uqhaschanged) {
 				putundoq("Path Edit tool");
-				uistate.eventhandlers.uqhaschanged = false;
+				_UI.eventhandlers.uqhaschanged = false;
 				redraw();
 			}
 		};
@@ -323,34 +323,34 @@
 			if (this.moving) {
 				var s = ss("Path Edit - Mouse Move");
 				var sp = s.path.sp();
-				if(uistate.eventhandlers.toolhandoff){
-					sp.H2.x = cx_sx(uistate.eventhandlers.mousex);
-					sp.H2.y = cy_sy(uistate.eventhandlers.mousey);
-					uistate.eventhandlers.toolhandoff = false;
+				if(_UI.eventhandlers.toolhandoff){
+					sp.H2.x = cx_sx(_UI.eventhandlers.mousex);
+					sp.H2.y = cy_sy(_UI.eventhandlers.mousey);
+					_UI.eventhandlers.toolhandoff = false;
 				}
 				// Moving points if mousedown
 				var dx = 0;
 				var dy = 0;
 				switch (this.controlpoint){
 					case "P":
-						if(!sp.P.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom;
-						if(!sp.P.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom;
+						if(!sp.P.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom;
+						if(!sp.P.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom;
 						break;
 					case "H1":
-						if(!sp.H1.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom;
-						if(!sp.H1.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom;
+						if(!sp.H1.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom;
+						if(!sp.H1.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom;
 						break;
 					case "H2":
-						if(!sp.H2.xlock) dx = (uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom;
-						if(!sp.H2.ylock) dy = (uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom;
+						if(!sp.H2.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom;
+						if(!sp.H2.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom;
 						break;
 				}
 				sp.updatePointPosition(this.controlpoint, dx, dy); 
 				s.path.needsnewcalcmaxes = true;
 				
-				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
-				uistate.eventhandlers.uqhaschanged = true;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
 				redraw();
 			}
 		};		
@@ -363,23 +363,23 @@
 	function shaperesize(){
 		this.dragging = false;
 		this.resizing = false;
-		uistate.eventhandlers.corner = false;
+		_UI.eventhandlers.corner = false;
 		
 		this.mousedown = function (ev) { 
-			//debug("SHAPERESIZE TOOL: mouse down: " + uistate.eventhandlers.mousex + ":" + uistate.eventhandlers.mousey);
+			//debug("SHAPERESIZE TOOL: mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
 			var s = ss("eventHandler - mousedown");
-			uistate.eventhandlers.corner = s? s.isOverHandle(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey) : false;
-			uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-			uistate.eventhandlers.firstx = uistate.eventhandlers.mousex;
-			uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
-			uistate.eventhandlers.firsty = uistate.eventhandlers.mousey;
+			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
+			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 			
-			if (uistate.eventhandlers.corner){
-				//debug("SHAPERESIZE TOOL: clicked on uistate.eventhandlers.corner: " + uistate.eventhandlers.corner);
+			if (_UI.eventhandlers.corner){
+				//debug("SHAPERESIZE TOOL: clicked on _UI.eventhandlers.corner: " + _UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
-				if(_G.projectsettings.quickpathupdating){
-					uistate.eventhandlers.temppathdragshape = {
+				if(_GP.projectsettings.quickpathupdating){
+					_UI.eventhandlers.temppathdragshape = {
 						"leftx": s.path.leftx,
 						"rightx": s.path.rightx,
 						"topy": s.path.topy,
@@ -388,7 +388,7 @@
 					
 					s.hidden = true;
 				}
-			} else if (clickSelectShape(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey)){
+			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				this.dragging = true; 
 				this.resizing = false;
 				redraw();
@@ -401,12 +401,12 @@
 			//debug("Mouse Up");
 			resetCursor();
 			var s = ss("eventHandler - mouseup");
-			if(uistate.eventhandlers.temppathdragshape){
-				uistate.eventhandlers.temppathdragshape = false;
+			if(_UI.eventhandlers.temppathdragshape){
+				_UI.eventhandlers.temppathdragshape = false;
 				s.hidden = false;
-				uistate.eventhandlers.lastx = uistate.eventhandlers.firstx;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.firsty;
-				evHanShapeResize(s, uistate.eventhandlers.corner);
+				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
+				evHanShapeResize(s, _UI.eventhandlers.corner);
 			}
 			
 			if(this.resizing) { 
@@ -417,12 +417,12 @@
 			
 			this.dragging = false;
 			this.resizing = false;
-			uistate.eventhandlers.lastx = -100;
-			uistate.eventhandlers.lasty = -100;
-			uistate.eventhandlers.firstx = -100;
-			uistate.eventhandlers.firsty = -100;
-			uistate.eventhandlers.uqhaschanged ? putundoq("Path Edit tool") : true;
-			uistate.eventhandlers.uqhaschanged = false;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
+			_UI.eventhandlers.firstx = -100;
+			_UI.eventhandlers.firsty = -100;
+			_UI.eventhandlers.uqhaschanged ? putundoq("Path Edit tool") : true;
+			_UI.eventhandlers.uqhaschanged = false;
 			redraw();
 			//debug("EVENTHANDLER - after pathedit Mouse Up REDRAW");
 		};	
@@ -436,8 +436,8 @@
 				//debug("SHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
-					s.xpos += Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom);
-					s.ypos += Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom);
+					s.xpos += Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom);
+					s.ypos += Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom);
 					didstuff = true;
 					resetCursor();
 				}
@@ -446,27 +446,27 @@
 				if (this.dragging) {
 					// Moving shapes if mousedown
 					var dx = 0;
-					s.xlock? true : dx = Math.round((uistate.eventhandlers.mousex-uistate.eventhandlers.lastx)/uistate.viewport.zoom);
+					s.xlock? true : dx = Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom);
 					var dy = 0;
-					s.ylock? true : dy = Math.round((uistate.eventhandlers.lasty-uistate.eventhandlers.mousey)/uistate.viewport.zoom);
+					s.ylock? true : dy = Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom);
 					
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
 					didstuff = true;
 				} else if (this.resizing){
 					// Resizing shapes if mousedown over handle
-					evHanShapeResize(s, uistate.eventhandlers.corner);	
+					evHanShapeResize(s, _UI.eventhandlers.corner);	
 					didstuff = true;
 				}
 			
 				//Translation fidelity, passing raw canvas values
-				s? s.isOverHandle(uistate.eventhandlers.mousex, uistate.eventhandlers.mousey) : false;
+				s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			}
 			
 			if(didstuff){
-				uistate.eventhandlers.lastx = uistate.eventhandlers.mousex;
-				uistate.eventhandlers.lasty = uistate.eventhandlers.mousey;
-				uistate.eventhandlers.uqhaschanged = true;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
 				redraw();
 			}			
 		};
@@ -482,9 +482,9 @@
 		this.deltay = 0;
 		
 		this.mousedown = function (ev) { 
-			//debug("PAN TOOL - mouse down: " + uistate.eventhandlers.mousex + ":" + uistate.eventhandlers.mousey);
-			this.deltax = (uistate.eventhandlers.mousex-uistate.viewport.originx);
-			this.deltay = (uistate.eventhandlers.mousey-uistate.viewport.originy);
+			//debug("PAN TOOL - mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
+			this.deltax = (_UI.eventhandlers.mousex-_UI.viewport.originx);
+			this.deltay = (_UI.eventhandlers.mousey-_UI.viewport.originy);
 			this.dragging = true; 
 		};
 		
@@ -498,9 +498,9 @@
 		this.mousemove = function (ev) {
 			if (this.dragging) {
 				// Moving shapes if mousedown
-				uistate.viewport.originx = (uistate.eventhandlers.mousex-this.deltax);
-				uistate.viewport.originy = (uistate.eventhandlers.mousey-this.deltay);
-				//debug("EVENTHANDLER - PAN - new x/y: " + uistate.viewport.originx + " / " + uistate.viewport.originy);
+				_UI.viewport.originx = (_UI.eventhandlers.mousex-this.deltax);
+				_UI.viewport.originy = (_UI.eventhandlers.mousey-this.deltay);
+				//debug("EVENTHANDLER - PAN - new x/y: " + _UI.viewport.originx + " / " + _UI.viewport.originy);
 				redraw();
 			}
 		};
@@ -511,36 +511,36 @@
 	
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
-		return Math.round((cx-uistate.viewport.originx)/(uistate.viewport.zoom));
+		return Math.round((cx-_UI.viewport.originx)/(_UI.viewport.zoom));
 	}
 	
 	function cy_sy(cy){
-		return Math.round((uistate.viewport.originy-cy)/(uistate.viewport.zoom));
+		return Math.round((_UI.viewport.originy-cy)/(_UI.viewport.zoom));
 	}
 	
 	function clickEmptySpace(){
-		uistate.showrightline = true;
+		_UI.showrightline = true;
 		var s = ss("Click Empty Space");
 		if(s) {
 			s.path.selectPathPoint(-1);
 			s.path.calcMaxes();
 		}
-		uistate.selectedshape = -1;
+		_UI.selectedshape = -1;
 	}
 	
 	function evHanShapeResize(s, pcorner){
 		
-		var mx = cx_sx(uistate.eventhandlers.mousex);
-		var my = cy_sy(uistate.eventhandlers.mousey);
-		var lx = cx_sx(uistate.eventhandlers.lastx);
-		var ly = cy_sy(uistate.eventhandlers.lasty);
+		var mx = cx_sx(_UI.eventhandlers.mousex);
+		var my = cy_sy(_UI.eventhandlers.mousey);
+		var lx = cx_sx(_UI.eventhandlers.lastx);
+		var ly = cy_sy(_UI.eventhandlers.lasty);
 		
 		switch(pcorner){
 			case "nw": 
 				if(canResize("nw")){
 					var dh = (my-ly);
 					var dw = (mx-lx);
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,dh,(dw*-1),(dh*-1));
 					} else {
 						s.path.updatePathSize((dw*-1),dh); 
@@ -552,7 +552,7 @@
 			case "n":
 				if(canResize("n")){
 					var dh = (my-ly);
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,0,(dh*-1));
 					} else {
 						s.path.updatePathSize(0, dh);
@@ -565,7 +565,7 @@
 				if(canResize("ne")){
 					var dh = (my-ly);
 					var dw = (mx-lx);
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,dw,(dh*-1));
 					} else {
 						s.path.updatePathSize(dw,dh); 
@@ -577,7 +577,7 @@
 			case "e":
 				if(canResize("e")){
 					var dw = (mx-lx);
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,0);
 					} else {
 						s.path.updatePathSize(dw, 0); 
@@ -590,7 +590,7 @@
 				if(canResize("se")){
 					var dh = (ly-my)*-1;
 					var dw = (mx-lx);
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,dh);						
 					} else {
 						s.path.updatePathSize(dw, (dh*-1)); 
@@ -602,7 +602,7 @@
 			case "s":
 				if(canResize("s")){
 					var dh = (ly-my)*-1;
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,0,dh);
 					} else {
 						s.path.updatePathSize(0, (dh*-1));
@@ -615,7 +615,7 @@
 				if(canResize("sw")){
 					var dw = (mx-lx);
 					var dh = (ly-my)*-1;
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),dh);
 					} else {
 						s.path.updatePathSize((dw*-1),(dh*-1)); 
@@ -627,7 +627,7 @@
 			case "w":
 				if(canResize("w")){
 					var dw = (mx-lx);
-					if(uistate.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),0);
 					} else {
 						s.path.updatePathSize((dw*-1), 0); 
@@ -637,17 +637,17 @@
 				break;
 		}
 		
-		//if(!uistate.eventhandlers.temppathdragshape) s.path.calcMaxes();
+		//if(!_UI.eventhandlers.temppathdragshape) s.path.calcMaxes();
 
 		//debug("EVHANSHAPERESIZE - Done lx/rx/ty/by: " + s.path.leftx + "," + s.path.rightx + "," + s.path.topy + "," + s.path.bottomy);
 	}
 
 	function updateTPDS(dx,dy,dw,dh){
 		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
-		uistate.eventhandlers.temppathdragshape.leftx += Math.round(dx);
-		uistate.eventhandlers.temppathdragshape.topy += Math.round(dy);
-		uistate.eventhandlers.temppathdragshape.rightx += Math.round(dw+dx);
-		uistate.eventhandlers.temppathdragshape.bottomy += Math.round(dh+dy);
+		_UI.eventhandlers.temppathdragshape.leftx += Math.round(dx);
+		_UI.eventhandlers.temppathdragshape.topy += Math.round(dy);
+		_UI.eventhandlers.temppathdragshape.rightx += Math.round(dw+dx);
+		_UI.eventhandlers.temppathdragshape.bottomy += Math.round(dh+dy);
 	}
 	
 	function canResize(pc){
@@ -667,7 +667,7 @@
 	
 	function mousewheel(event){	
 	    var delta = event.detail? event.detail*(-120) : event.wheelDelta 	//cross browser
-		var canscroll = ((uistate.navhere == "character edit") || (uistate.navhere == "linked shapes"));
+		var canscroll = ((_UI.navhere == "character edit") || (_UI.navhere == "linked shapes"));
 		canscroll = canscroll && (document.getElementById('dialog_box').style.display != 'block');
 		
 		if(canscroll){
@@ -679,14 +679,14 @@
 	
 	function mouseovercec() {
 		//debug("MOUSEOVERCEC");
-		uistate.eventhandlers.ismouseovercec = true;
+		_UI.eventhandlers.ismouseovercec = true;
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () { return false; }  
 	}
 	
 	function mouseoutcec() {
 		//debug("MOUSEOUTCEC");
-		uistate.eventhandlers.ismouseovercec = false; 
+		_UI.eventhandlers.ismouseovercec = false; 
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () {}; 
 		resetCursor();
@@ -696,11 +696,11 @@
 	var iskeydown = false;
 	function keydown(event){
 		//debug("Key Down: " + event.keyCode);
-		if(event.keyCode == 32 && uistate.eventhandlers.ismouseovercec){
+		if(event.keyCode == 32 && _UI.eventhandlers.ismouseovercec){
 			if(!iskeydown){
 				//debug("KEYDOWN - pressed 32 spacebar");
-				lastTool = uistate.selectedtool;
-				uistate.selectedtool = "pan";
+				lastTool = _UI.selectedtool;
+				_UI.selectedtool = "pan";
 				iskeydown = true;
 				document.body.style.cursor = "move";
 				redraw();
@@ -710,9 +710,9 @@
 	
 	function keyup(event){
 		//debug("Key Up: " + event.keyCode);
-		if(event.keyCode == 32 && uistate.eventhandlers.ismouseovercec){
+		if(event.keyCode == 32 && _UI.eventhandlers.ismouseovercec){
 			//debug("KEYUP - releaseing 32 spacebar");
-			uistate.selectedtool = lastTool;
+			_UI.selectedtool = lastTool;
 			iskeydown = false;
 			resetCursor();
 			redraw();
@@ -726,7 +726,7 @@
 		var s = ss("keypress event");
 		var changed = false;
 		if(s){
-			if(uistate.selectedtool == "pathedit"){
+			if(_UI.selectedtool == "pathedit"){
 				switch(event.keyCode){
 					case 54:	//NumPad 6 Right
 						s.path.updatePathPosition(1,0);
@@ -745,7 +745,7 @@
 						changed = "NumPad 8 Up";
 						break;
 				}
-			} else if (uistate.selectedtool == "pointselect"){
+			} else if (_UI.selectedtool == "pointselect"){
 				var p = s.path.sp(false, "KEYPRESS");
 				if(p){
 					switch(event.keyCode){

@@ -1,6 +1,6 @@
 
 	function updateprojectsettings(){
-		var ps = _G.projectsettings;
+		var ps = _GP.projectsettings;
 		
 		var content = "<div class='pagecontent textpage'><h1>Project Settings</h1>";
 		content += "These project and interface settings will be saved with your Glyphr project file.";
@@ -8,7 +8,7 @@
 		content += "<h2>Project Name</h2>"+
 					"The Font Name and the Project name can be different, but they start out the same.  The Font Name details can be changed on the Font Settings page."+
 					"<table class='fontmetricstable'>"+
-					"<tr><td>Project Name:</td><td><input type='text' style='width:100%' value='" + ps.name + "' onchange='_G.projectsettings.name = this.value;' /></td></tr>"+
+					"<tr><td>Project Name:</td><td><input type='text' style='width:100%' value='" + ps.name + "' onchange='_GP.projectsettings.name = this.value;' /></td></tr>"+
 					"</table><br>";
 		
 		content += "<h2>Grids and Guides</h2>";
@@ -25,14 +25,14 @@
 		content += "<h3>x Height</h3>";
 		content += "X-height is the distance between the baseline, and the top of lowercase letters.<br>"+
 					"<table class='fontmetricstable'>"+
-					"<tr><td>x Height: </td><td><input type='text' id='metric-xheight' value='"+ps.xheight+"' onchange='_G.projectsettings.xheight = this.value'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>x Height: </td><td><input type='text' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = this.value'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
 		
 		content += "<h3>Overshoot</h3>";
 		content += "Round letters usually extend a little above the x height line and below the baseline. " + 
 					"A light guideline will show this overshoot distance.<br>" + 
 					"<table class='fontmetricstable'>"+
-					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_G.projectsettings.overshoot = this.value);'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value);'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 		content += "</div>";
@@ -41,7 +41,7 @@
 	}
 
 	function updateGridDivisions(val){
-		var ps = _G.projectsettings;
+		var ps = _GP.projectsettings;
 		ps.griddivisions = Math.min(ps.upm, Math.max(1, val));
 		document.getElementById('metirc-ssize').value = (ps.upm / ps.griddivisions);
 	}

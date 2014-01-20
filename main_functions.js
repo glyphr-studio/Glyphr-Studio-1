@@ -4,9 +4,9 @@
 
 	
 	function setup() {
-		console.log("%c\n                GGG                                GGG\n                GG                                 GG\n                GG                                 GG\n   GGGGGGGGG    GG GGG          GG    GGGGGGGGG    GG GGGGGGGGG       GGGGGGGGG\n GG         GG  GG GG           GG  GG         GG  GGG         GG   GG         GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG\nGGG         GGG GG GGG         GGG GGG         GGG GG           GG GG\n   GGGGGGGGG GG GG    GGGGGGGGGGGG GG GGGGGGGGG    GGG          GG GGG\nGGG          GG    GGG          GG GG\nGG           GG    GG           GG GG\n GGG       GGG      GGG       GGG  GG\n    GGGGGGG            GGGGGGG     GGG\n\n\n" + uistate.thisGlyphrStudioVersion + "\n\n", "color:rgb(40,170,255)");
+		console.log("%c\n                GGG                                GGG\n                GG                                 GG\n                GG                                 GG\n   GGGGGGGGG    GG GGG          GG    GGGGGGGGG    GG GGGGGGGGG       GGGGGGGGG\n GG         GG  GG GG           GG  GG         GG  GGG         GG   GG         GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG\nGGG         GGG GG GGG         GGG GGG         GGG GG           GG GG\n   GGGGGGGGG GG GG    GGGGGGGGGGGG GG GGGGGGGGG    GGG          GG GGG\nGGG          GG    GGG          GG GG\nGG           GG    GG           GG GG\n GGG       GGG      GGG       GGG  GG\n    GGGGGGG            GGGGGGG     GGG\n\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(40,170,255)");
 		//debug("MAIN SETUP() - START");
-		_G.opentypeproperties = clone(uistate.defaultopentypeproperties);
+		_GP.opentypeproperties = clone(_UI.defaultopentypeproperties);
 		setOTprop("head", "created", ttxDateString());
 		drawLogo();	
 		navigate();
@@ -17,7 +17,7 @@
 // Navigation Stuff
 //-------------------
 	function navigate(){
-		//debug("<b>>>NAVIGATE STARTED</b> - to " + uistate.navhere);
+		//debug("<b>>>NAVIGATE STARTED</b> - to " + _UI.navhere);
 
 
 		mouseoutcec();
@@ -27,16 +27,16 @@
 		document.getElementById("navtargetpane").style.display = "block";
 		document.getElementById("logocanvas").style.display = "block";
 		
-		if(uistate.navhere=="test drive") uistate.navprimaryhere = "npAttributes";
+		if(_UI.navhere=="test drive") _UI.navprimaryhere = "npAttributes";
 		
 		updateNavPrimaryNavTarget();
 
-		switch(uistate.navhere){
+		switch(_UI.navhere){
 			case "firstrun":		updatefirstrun();		break;	
 			case "font settings":	updatefontsettings();	break;
 			case "project settings":	updateprojectsettings();	break;
 			case "test drive":
-				uistate.navprimaryhere = "npAttributes";
+				_UI.navprimaryhere = "npAttributes";
 				updatetestdrive();		
 				break;	
 				
@@ -46,15 +46,15 @@
 			case "about":			updateabout();			break;
 				
 			case "character edit":
-				uistate.navprimaryhere = "npChar";
+				_UI.navprimaryhere = "npChar";
 				resetZoomPan();
 				updatecharedit();	
 				document.getElementById("mainwrapper").style.overflowY = "hidden";			
-				uistate.selectedshape = -1;
+				_UI.selectedshape = -1;
 				break;
 			
 			case "linked shapes":
-				uistate.navprimaryhere = "npChar";
+				_UI.navprimaryhere = "npChar";
 				resetZoomPan();
 				updatelinkedshapes();
 				document.getElementById("mainwrapper").style.overflowY = "hidden";
@@ -66,7 +66,7 @@
 		document.body.focus();
 		
 
-		debug("\nNAVIGATE FINISHED - to " + uistate.navhere + "\n");
+		debug("\nNAVIGATE FINISHED - to " + _UI.navhere + "\n");
 
 	}
 	
@@ -78,24 +78,24 @@
 		var nt = document.getElementById("navtargetpane");
 		nt.innerHTML = "";
 		
-		if((uistate.navhere!="character edit")&&(uistate.navhere!="linked shapes")&&(uistate.navhere!="test drive")) {
-				uistate.navprimaryhere = "npNav";
+		if((_UI.navhere!="character edit")&&(_UI.navhere!="linked shapes")&&(_UI.navhere!="test drive")) {
+				_UI.navprimaryhere = "npNav";
 				nt.innerHTML = generateNavTargetOptions();
 				return;
 		}
 				
 		
-		switch(uistate.navprimaryhere){
+		switch(_UI.navprimaryhere){
 			case "npNav":
 				nt.innerHTML = generateNavTargetOptions();
 				break;
 				
 			case "npChar":
-				if(uistate.navhere == "character edit") {
+				if(_UI.navhere == "character edit") {
 					nt.innerHTML = "<h1>character edit</h1>"+updateselectchar();
 					drawselectcharthumbs();
 				}
-				if(uistate.navhere == "linked shapes") {
+				if(_UI.navhere == "linked shapes") {
 					nt.innerHTML = "<h1>linked shapes</h1>"+linkedshapes_subnav();
 					drawLinkedShapeLayerThumbs();
 				}
@@ -106,7 +106,7 @@
 				break;
 				
 			case "npAttributes":
-				if(uistate.navhere == "test drive"){
+				if(_UI.navhere == "test drive"){
 					nt.innerHTML = updatetestdriveoptions();
 				} else {
 					updateCharEditDetails();
@@ -121,33 +121,33 @@
 	}
 	
 	function drawNavPrimaryOptions(){
-		var ngray = uistate.colors.g9;
-		var nselect = uistate.colors.accent;
+		var ngray = _UI.colors.g9;
+		var nselect = _UI.colors.accent;
 		var fill = ngray;
 		
-		uistate.navprimaryhere == "npNav" ? fill=nselect : fill=ngray;
+		_UI.navprimaryhere == "npNav" ? fill=nselect : fill=ngray;
 		var pncanvas = document.getElementById("npNav");
 		var pnctx = pncanvas.getContext("2d");
 		pncanvas.width = 50;
 		pncanvas.height = 50;
 		draw_primaryNav_navigate(pnctx, fill);
 		
-		if(uistate.navhere=="character edit"){
-			uistate.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
+		if(_UI.navhere=="character edit"){
+			_UI.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_character(pnctx, fill);
 			
-			uistate.navprimaryhere == "npLayers" ? fill=nselect : fill=ngray;
+			_UI.navprimaryhere == "npLayers" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npLayers");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_layers(pnctx, fill);
 			
-			uistate.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			_UI.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -155,15 +155,15 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 		
-		if(uistate.navhere=="linked shapes"){
-			uistate.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
+		if(_UI.navhere=="linked shapes"){
+			_UI.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_character(pnctx, fill);
 			
-			uistate.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			_UI.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -171,8 +171,8 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 		
-		if(uistate.navhere=="test drive"){
-			uistate.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+		if(_UI.navhere=="test drive"){
+			_UI.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -192,18 +192,18 @@
 		var navarr = [];
 		navarr.push("npNav");
 		
-		if(uistate.navhere=="character edit"){
+		if(_UI.navhere=="character edit"){
 			navarr.push("npChar");
 			navarr.push("npLayers");
 			navarr.push("npAttributes");
 		}
 		
-		if(uistate.navhere=="linked shapes"){
+		if(_UI.navhere=="linked shapes"){
 			navarr.push("npChar");
 			navarr.push("npAttributes");
 		}
 		
-		if(uistate.navhere=="test drive"){
+		if(_UI.navhere=="test drive"){
 			navarr.push("npAttributes");
 		}
 		
@@ -211,7 +211,7 @@
 		var bc = "primarynavbutton";
 		
 		for(var i=0; i<navarr.length; i++){
-			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='uistate.navprimaryhere=\""+navarr[i]+"\";updateNavPrimaryNavTarget();'></canvas>");
+			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\";updateNavPrimaryNavTarget();'></canvas>");
 		}
 		
 		newsub += ("<canvas class='"+bc+"' id='npSave' onclick='triggerProjectFileDownload();'></canvas>");
@@ -241,7 +241,7 @@
 		
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
-			if(navarr[i] == uistate.navhere) { bc = "navtargetbuttonsel"; }
+			if(navarr[i] == _UI.navhere) { bc = "navtargetbuttonsel"; }
 			
 			if(navarr[i]=="_"){
 				newsub += "<div style='height:10px;'></div>";
@@ -250,7 +250,7 @@
 			} else if (navarr[i] == "feat"){
 				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
 			} else {
-				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='uistate.navhere=\""+navarr[i]+"\"; uistate.selectedshape=-1; navigate(true);'>");
+				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate(true);'>");
 			}
 		}
 		
@@ -270,7 +270,7 @@
 		var con = "Sorry about the issue – so we can fix it, please explain step by step how to re-create the issue you ran into. If there was a JavaScript Error message or line number, include that too.%0A%0A%0A%0A";
 		con += "Thank you!%0A%09The Glyphr Team%0A%0A";
 		con += "___________________________________________%0A%0A";
-		con += "Glyphr Studio Version %09%09" + uistate.thisGlyphrStudioVersion + "%0A";
+		con += "Glyphr Studio Version %09%09" + _UI.thisGlyphrStudioVersion + "%0A";
 		//con += "appCodeName %09%09" + navigator.appCodeName + "%0A";
 		con += "appName %09%09" + navigator.appName + "%0A";
 		//con += "appVersion %09%09" + navigator.appVersion + "%0A";
@@ -292,7 +292,7 @@
 //-------------------
 		
 	function debug(message, force){
-		if(_G.projectsettings.debug | force){ console.log(message); }
+		if(_GP.projectsettings.debug | force){ console.log(message); }
 	}
 
 
@@ -318,16 +318,16 @@
 // Project Saved Sate
 //-------------------
 	function setProjectAsSaved(){
-		uistate.projectsaved = true;
+		_UI.projectsaved = true;
 		window.onbeforeunload = null;
 		document.title = 'glyphr';
 	}
 
 	function setProjectAsUnsaved(){
 		
-		uistate.projectsaved = false;
+		_UI.projectsaved = false;
 
-		if(_G.projectsettings.stoppagenavigation){
+		if(_GP.projectsettings.stoppagenavigation){
 			window.onbeforeunload = function() {
 				return "\n\nUnless you specifically saved your data, all your progress will be lost.\n\n";
 			}
@@ -345,21 +345,21 @@
 		uqo.name = calledfrom;
 		uqo.date = new Date().getTime();
 		
-		if(uistate.navhere == "character edit"){
-			uqo.state = clone(uistate.charcurrstate);
-			uistate.charundoq.push(uqo);
-			uistate.charcurrstate = clone(_G.fontchars);
-		} else if (uistate.navhere == "linked shapes"){
-			uqo.state = clone(uistate.linkcurrstate);
-			uistate.linkedshapeundoq.push(uqo);
-			uistate.linkcurrstate = clone(_G.linkedshapes);
+		if(_UI.navhere == "character edit"){
+			uqo.state = clone(_UI.charcurrstate);
+			_UI.charundoq.push(uqo);
+			_UI.charcurrstate = clone(_GP.fontchars);
+		} else if (_UI.navhere == "linked shapes"){
+			uqo.state = clone(_UI.linkcurrstate);
+			_UI.linkedshapeundoq.push(uqo);
+			_UI.linkcurrstate = clone(_GP.linkedshapes);
 		}
 		
 		setProjectAsUnsaved();
 
 		/*
 		var uqdebug = "<b>Put Undo Queue</b><br>";
-		for(var i=0; i<uistate.charundoq.length; i++){
+		for(var i=0; i<_UI.charundoq.length; i++){
 			uqdebug += i + ". ";
 			uqdebug += undoq[i].nav + " - ";
 			uqdebug += undoq[i].name + "<br>";
@@ -371,23 +371,23 @@
 	function pullundoq(){
 		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
 		
-		if(uistate.navhere == "character edit"){
-			if(uistate.charundoq.length > 0){
-				var uqo = uistate.charundoq.pop();
-				_G.fontchars = uqo.state;
-				uistate.charcurrstate = clone(_G.fontchars);
+		if(_UI.navhere == "character edit"){
+			if(_UI.charundoq.length > 0){
+				var uqo = _UI.charundoq.pop();
+				_GP.fontchars = uqo.state;
+				_UI.charcurrstate = clone(_GP.fontchars);
 				redraw();
 			}
-		} else if (uistate.navhere == "linked shapes"){
-			if(uistate.linkedshapeundoq.length > 0){
-				var uqo = uistate.linkedshapeundoq.pop();
-				_G.linkedshapes = uqo.state;
-				uistate.linkcurrstate = clone(_G.linkedshapes);
+		} else if (_UI.navhere == "linked shapes"){
+			if(_UI.linkedshapeundoq.length > 0){
+				var uqo = _UI.linkedshapeundoq.pop();
+				_GP.linkedshapes = uqo.state;
+				_UI.linkcurrstate = clone(_GP.linkedshapes);
 				redraw();
 			}
 		}
 
-		if(uistate.charundoq.length == 0 && uistate.linkedshapeundoq.length == 0){
+		if(_UI.charundoq.length == 0 && _UI.linkedshapeundoq.length == 0){
 			setProjectAsSaved();
 		}
 	}
