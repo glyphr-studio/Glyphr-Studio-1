@@ -146,7 +146,6 @@
 				}
 					
 				currpath.addPathPoint(newpoint, false);
-				currpath.needsnewcalcmaxes = true;
 				//debug("NEWPATH MOUSEDOWN - after AddPathPoint");
 			}			
 
@@ -297,11 +296,7 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			} else {
-				if(s){
-					if(s.path.needsnewcalcmaxes) { 
-						s.path.calcMaxes();
-					}
-				}
+				if(s){s.path.calcMaxes();}
 				clickEmptySpace();
 			}
 			redraw();
@@ -410,9 +405,7 @@
 			}
 			
 			if(this.resizing) { 
-				//debug("SHAPERESIZE MOUSEUP - resizing, NOT calling calcMaxes on mouseup");
-				//s.path.needsnewcalcmaxes = true;
-				//s.path.calcMaxes(); 
+				s.path.calcMaxes(); 
 			}
 			
 			this.dragging = false;

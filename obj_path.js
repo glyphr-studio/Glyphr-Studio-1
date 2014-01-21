@@ -23,7 +23,6 @@
 		this.bottomy = isval(oa.bottomy)? oa.bottomy : -1;
 		this.leftx = isval(oa.leftx)? oa.leftx : -1;
 		this.rightx = isval(oa.rightx)? oa.rightx : -1;
-		this.needsnewcalcmaxes = isval(oa.needsnewcalcmaxes)? oa.needsnewcalcmaxes : true;
 		
 		// Setup the object
 		this.selectPathPoint(-1);
@@ -424,7 +423,7 @@
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
-		console.time("CalcMaxes_NEW");
+		//console.time("CalcMaxes_NEW");
 		
 		this.topy = (_UI.chareditcanvassize*-1);
 		this.bottomy = _UI.chareditcanvassize;
@@ -444,7 +443,7 @@
 			this.bottomy = Math.min(this.bottomy, tbounds.miny);
 		}
 
-		console.timeEnd("CalcMaxes_NEW");
+		//console.timeEnd("CalcMaxes_NEW");
 	}
 
 	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){

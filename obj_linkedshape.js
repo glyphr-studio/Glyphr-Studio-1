@@ -252,7 +252,6 @@
 		} else {
 			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
-			//ns.path.calcMaxes();
 			ns.drawSelectOutline(onlycenter);
 		}
 	}

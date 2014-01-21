@@ -197,7 +197,7 @@
 		patharr[2] = new PathPoint({"P":Plr, "H1":H1lr, "H2":H2lr});
 		patharr[3] = new PathPoint({"P":Pll, "H1":H1ll, "H2":H2ll});
 		
-		var rp = new Path({"pathpoints":patharr, "leftx":lx, "rightx":rx, "topy":ty, "bottomy":by, "needsnewcalcmaxes":false});
+		var rp = new Path({"pathpoints":patharr, "leftx":lx, "rightx":rx, "topy":ty, "bottomy":by});
 		//debug("RETURNING PATH: " + JSON.stringify(rp));
 
 		return rp;

@@ -936,12 +936,7 @@
 			//debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
 			_UI.showrightline = true;
-			if(s){
-				if(s.path.needsnewcalcmaxes) {
-					//debug("CLICKTOOL - shapemove, path.needsnewcalcmaxes = true.  Calc'ing Maxes.");
-					s.path.calcMaxes();
-				}
-			}
+			if(s){s.path.calcMaxes();}
 		}
 		
 		redraw();
