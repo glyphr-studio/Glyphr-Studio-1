@@ -144,7 +144,7 @@
 			"pointsize" : 5,			// square points size - SHOULD BE ODD	
 			"spinnervaluechange" : 1,	// how much spinner controls change a value
 			"stoppagenavigation" : false,	// asks to save on window close or refresh
-			"quickpathupdating" : true,		// does not redraw path while drag resizing
+			"quickpathupdating" : false,		// does not redraw path while drag resizing
 			"showoutline" : false,			// outline shapes when drawing
 			"showfill" : true,				// fill shapes when drawing
 			"color_glyphfill" : "rgb(0,0,0)",		//shape base color

@@ -156,29 +156,15 @@
 		// load char info
 		_UI.shapelayers = fc[_UI.selectedchar].charshapes;
 		//debug("!!! REDRAW !!! - _UI.selectedchar: " + _UI.selectedchar + " - numshapes: " + _UI.shapelayers.length + " - navhere: " + navhere);	
-		
-		// Only update charwidth if isautowide is true
-		var aw = fc[_UI.selectedchar].isautowide;
-		if(aw) {fc[_UI.selectedchar].charwidth = 0;}
-		
-
-		_UI.chareditctx.beginPath();
-		
 		var sh;
-		for(var jj=0; jj<_UI.shapelayers.length; jj++) {
-			
-			sh = _UI.shapelayers[jj];
-			
-			if(_UI.eventhandlers.temppathdragshape){
-				if(jj!==_UI.selectedshape){
-					sh.drawShape_Stack(_UI.chareditctx);
-				}
-			} else {
-				sh.drawShape_Stack(_UI.chareditctx);
-			}
+		
 
-			// Recompute Right Hand Line
-			if(aw) {
+		// Recompute Right Hand Line
+		// Only update charwidth if isautowide is true
+		if(fc[_UI.selectedchar].isautowide) {
+			fc[_UI.selectedchar].charwidth = 0;
+			for(var jj=0; jj<_UI.shapelayers.length; jj++) {
+				sh = _UI.shapelayers[jj];
 				var thisrightx = 0;
 				if(sh.link){
 					var tss = _GP.linkedshapes[sh.link].shape;
@@ -193,25 +179,6 @@
 				fc[_UI.selectedchar].charwidth = Math.max(fc[_UI.selectedchar].charwidth, thisrightx);
 			}
 		}
-
-		_UI.chareditctx.fillStyle = _GP.projectsettings.color_glyphfill;
-		_UI.chareditctx.fill("nonzero");
-		//debug("REDRAW - done drawing, charwidth is: " + fc[_UI.selectedchar].charwidth);
-
-		var s = ss("Redraw");
-		if(s) {
-			s.drawSelectOutline(s.link != false);
-							
-			if(s.link){
-				_UI.selectedtool = "shaperesize";
-			}
-		}
-		
-		updateNavPrimaryNavTarget();
-		
-		updatetools();
-		
-		
 		//show right hand line
 		if(_UI.showguides && _UI.showrightline){
 			_UI.chareditctx.lineWidth = 1;
@@ -223,6 +190,41 @@
 			}
 			vertical(rhl);
 		}
+
+
+		// Draw all the char shapes
+		_UI.chareditctx.beginPath();
+		
+		for(var jj=0; jj<_UI.shapelayers.length; jj++) {
+			sh = _UI.shapelayers[jj];
+			
+			if(_UI.eventhandlers.temppathdragshape){
+				if(jj!==_UI.selectedshape){
+					sh.drawShape_Stack(_UI.chareditctx);
+				}
+			} else {
+				sh.drawShape_Stack(_UI.chareditctx);
+			}
+		}
+
+		_UI.chareditctx.fillStyle = _GP.projectsettings.color_glyphfill;
+		_UI.chareditctx.fill("nonzero");
+		//debug("REDRAW - done drawing, charwidth is: " + fc[_UI.selectedchar].charwidth);
+
+
+		// Finish up
+		var s = ss("Redraw");
+		if(s) {
+			s.drawSelectOutline(s.link != false);				
+			if(s.link){
+				_UI.selectedtool = "shaperesize";
+			}
+		}
+		
+		updateNavPrimaryNavTarget();
+		
+		updatetools();
+
 	}
 
 	
@@ -956,7 +958,6 @@
 // Drawing Grid
 //-------------------
 
-	var xs = {};
 	
 	function grid(){
 		var ps = _GP.projectsettings;
@@ -972,11 +973,18 @@
 		var zasc = (ps.ascent * vp.zoom);
 		// background white square
 
+		var xs = {};
+		/*
 		xs.xmax = Math.round(vp.originx + zupm + gutter);
 		xs.xmin = Math.round(vp.originx - gutter);
 		xs.ymax = Math.round(vp.originy + (zupm - zasc) + gutter);
 		xs.ymin = Math.round(vp.originy - zasc - gutter);
+		*/
 
+		xs.xmax = _UI.chareditcanvassize;
+		xs.xmin = 0;
+		xs.ymax = _UI.chareditcanvassize;
+		xs.ymin = 0;
 		//debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
 
 		_UI.chareditctx.fillStyle = "white";
@@ -987,6 +995,7 @@
 		var xline = vp.originy - (ps.xheight*vp.zoom);
 		var dline = vp.originy - ((ps.ascent - ps.upm)*vp.zoom);
 		var overshootsize = (ps.overshoot*vp.zoom);
+		var lgline = dline + overshootsize + (ps.linegap*vp.zoom);
 
 		//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
 
@@ -999,34 +1008,34 @@
 				var gsize = ((ps.upm/ps.griddivisions)*vp.zoom);
 				//debug("GRID - gridsize set as: " + gsize);
 				
-				for(var j=vp.originx; j<xs.xmax-1; j+=gsize){ vertical(j); }
-				vertical(xs.xmax+1);
-				for(var j=vp.originx; j>=xs.xmin; j-=gsize){ vertical(j); }
+				for(var j=vp.originx; j<xs.xmax-1; j+=gsize){ vertical(j, xs.ymin, xs.ymax); }
+				vertical(xs.xmax+1, xs.ymin, xs.ymax);
+				for(var j=vp.originx; j>=xs.xmin; j-=gsize){ vertical(j, xs.ymin, xs.ymax); }
 				
-				for(var j=vp.originy; j<xs.ymax-1; j+=gsize){ horizontal(j); }
-				horizontal(xs.ymax+1);
-				for(var j=vp.originy; j>=xs.ymin; j-=gsize){ horizontal(j); }
+				for(var j=vp.originy; j<xs.ymax-1; j+=gsize){ horizontal(j, xs.xmin, xs.xmax); }
+				horizontal(xs.ymax, xs.xmin, xs.xmax+1);
+				for(var j=vp.originy; j>=xs.ymin; j-=gsize){ horizontal(j, xs.xmin, xs.xmax); }
 
 			}
 			
 			if(_UI.showguides){
-				
 				// Minor Guidelines - Overshoots
 				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .8, true);
-				horizontal(xline-overshootsize);
-				horizontal(mline-overshootsize);
-				horizontal(vp.originy+overshootsize);
-				horizontal(dline+overshootsize);
+				horizontal(xline-overshootsize, xs.xmin, xs.xmax);
+				horizontal(mline-overshootsize, xs.xmin, xs.xmax);
+				horizontal(vp.originy+overshootsize, xs.xmin, xs.xmax);
+				horizontal(dline+overshootsize, xs.xmin, xs.xmax);
 				
-				// Right hand Em Square
-				vertical(vp.originx+(ps.upm*vp.zoom));
+				// Right hand Em Square and Line Gap
+				vertical(vp.originx+(ps.upm*vp.zoom), xs.ymin, xs.ymax);
+				horizontal(lgline, xs.xmin, xs.xmax);
 				
 				// major guidelines - xheight, top (emzize)
 				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
-				horizontal(xline);
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .2, true);
-				horizontal(mline);
-				horizontal(dline);
+				horizontal(xline, xs.xmin, xs.xmax);
+				//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .2, true);
+				horizontal(mline, xs.xmin, xs.xmax);
+				horizontal(dline, xs.xmin, xs.xmax);
 				
 				
 				// Out of bounds triangle
@@ -1040,26 +1049,26 @@
 				
 				// Origin Lines
 				_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
-				horizontal(vp.originy);
-				vertical(vp.originx);
+				horizontal(vp.originy, xs.xmin, xs.xmax);
+				vertical(vp.originx, xs.ymin, xs.ymax);
 			}
 		}
 	}
 	
-	function horizontal(y){
+	function horizontal(y, xmin, xmax){
 		y = Math.round(y)-.5;
 		_UI.chareditctx.beginPath();
-		_UI.chareditctx.moveTo(xs.xmin,y);
-		_UI.chareditctx.lineTo(xs.xmax,y);
+		_UI.chareditctx.moveTo(xmin,y);
+		_UI.chareditctx.lineTo(xmax,y);
 		_UI.chareditctx.stroke();
 		_UI.chareditctx.closePath();
 	}
 	
-	function vertical(x){
+	function vertical(x, ymin, ymax){
 		x = Math.round(x)-.5;
 		_UI.chareditctx.beginPath();
-		_UI.chareditctx.moveTo(x,xs.ymin);
-		_UI.chareditctx.lineTo(x,xs.ymax+1);		
+		_UI.chareditctx.moveTo(x,ymin);
+		_UI.chareditctx.lineTo(x,ymax+1);		
 		_UI.chareditctx.stroke();
 		_UI.chareditctx.closePath();
 	}
