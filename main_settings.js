@@ -35,9 +35,7 @@
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
 		"chareditcanvassize" : 1600, 			// How big the viewport canvas is
-		"chareditctx" : false, 
-		"calcmaxesghostcanvas" : false, 
-		"calcmaxesghostctx" : false, 
+		"chareditctx" : false,
 		"ishereghostcanvas" : false, 
 		"ishereghostctx" : false,
 		"viewport" : {

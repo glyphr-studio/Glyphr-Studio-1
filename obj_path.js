@@ -27,7 +27,7 @@
 		
 		// Setup the object
 		this.selectPathPoint(-1);
-		//if(this.pathpoints) this.calcMaxes();
+		if(this.pathpoints) this.calcMaxes();
 		
 		//debug("Path() - created new path: " + this.pathpoints);
 	}
@@ -63,20 +63,8 @@
 		return false;
 	}
 	
-	Path.prototype.drawPath = function(lctx) {		
-		var tempvp = clone(_UI.viewport);
-		
-		// Check to see if this is a Ghost Canvas draw
-		if(lctx == _UI.calcmaxesghostctx) { 
-			//debug("DRAWSHAPE - CMGC DETECTED");
-			_UI.viewport.zoom = 1;			
-			_UI.viewport.originx = _UI.defaultviewport.originx;
-			_UI.viewport.originy = _UI.defaultviewport.originy;
-		}
-		
+	Path.prototype.drawPath = function(lctx) {
 		this.outlinePathOnCanvas(lctx); 
-
-		_UI.viewport = tempvp;
 	}
 
 	Path.prototype.outlinePathOnCanvas = function(lctx) {
@@ -191,59 +179,24 @@
 		
 		if(s.wlock && s.hlock) return;
 		
-		_UI.calcmaxesghostctx.clearRect(0,0,_UI.calcmaxesghostcanvas.width,_UI.calcmaxesghostcanvas.height);
-		_UI.calcmaxesghostctx.lineWidth = 1;
-		_UI.calcmaxesghostctx.fillStyle = "lime";
-		_UI.calcmaxesghostctx.strokeStyle = "lime";
-		
-		//Setup temp zoom/pan for cmgc
-		var tempvp = clone(viewport);
-		_UI.viewport.zoom = 1;			
-		_UI.viewport.originx = ps.upm;
-		_UI.viewport.originy = ps.upm*2;
-			
-		this.drawPath(_UI.calcmaxesghostctx);
-		//debug("UPDATEPATHSIZE - Just finished drawing to CMGC");
-		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
-		//drawCMGCorigins("lime");
-				
-		var rx = r.rightx;
-		var lx = r.leftx;
-		var ty = r.topy;
-		var by = r.bottomy;
-		
-		var oldw = rx - lx;
-		var oldh = ty - by;
+		var oldw = this.rightx - this.leftx;
+		var oldh = this.topy - this.bottomy;
 		var neww = oldw + dw;
 		var newh = oldh + dh;
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
-		//debug("---------------- Saved Shape Maxes: l/r/t/b: " + s.leftx + " , " + s.rightx + " , " + s.topy + " , " + s.bottomy);
-		//debug("---------------- ---GC Shape Maxes: l/r/t/b: " + r.leftx + " , " + r.rightx + " , " + r.topy + " , " + r.bottomy);
-		
-		//debug("---------------- Passed Deltas-: w/h: " + dw + " , " + dh);
-		//debug("---------------- New Shape Size: w/h: " + neww + " , " + newh);
-		//debug("---------------- HEIGHT RATI new/old: " + (newh/oldh));
-
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
-			pp.P.x =   round( ((pp.P.x  - lx) * ratiodw) + lx  );
-			pp.H1.x =  round( ((pp.H1.x - lx) * ratiodw) + lx  );
-			pp.H2.x =  round( ((pp.H2.x - lx) * ratiodw) + lx  );
-			pp.P.y =   round( ((pp.P.y  - by) * ratiodh) + by  );
-			pp.H1.y =  round( ((pp.H1.y - by) * ratiodh) + by  );
-			pp.H2.y =  round( ((pp.H2.y - by) * ratiodh) + by  );
+			pp.P.x =   round( ((pp.P.x  - this.leftx) * ratiodw) + this.leftx  );
+			pp.H1.x =  round( ((pp.H1.x - this.leftx) * ratiodw) + this.leftx  );
+			pp.H2.x =  round( ((pp.H2.x - this.leftx) * ratiodw) + this.leftx  );
+			pp.P.y =   round( ((pp.P.y  - this.bottomy) * ratiodh) + this.bottomy  );
+			pp.H1.y =  round( ((pp.H1.y - this.bottomy) * ratiodh) + this.bottomy  );
+			pp.H2.y =  round( ((pp.H2.y - this.bottomy) * ratiodh) + this.bottomy  );
 		}
 		
-		//this.calcMaxes();
-		this.topy += dh;
-		//this.bottomy -= (dh/4);
-		this.rightx += dw;
-		//this.leftx += (dw/2);
-		
-		_UI.viewport = tempvp;
-		//debug("UPDATEPATHSIZE - done");
+		this.calcMaxes();
 	}
 	
 	Path.prototype.updatePathPosition = function(dx, dy, force){
@@ -256,10 +209,7 @@
 			pp.updatePointPosition("P",dx,dy,force);
 		}
 		
-		this.topy += dy;
-		this.bottomy += dy;
-		this.leftx += dx;
-		this.rightx += dx;
+		this.calcMaxes();
 	}
 	
 	function findClockwise(parr){
@@ -305,12 +255,9 @@
 	Path.prototype.flipNS = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
-		_UI.calcmaxesghostctx.clearRect(0,0,_UI.calcmaxesghostcanvas.width,_UI.calcmaxesghostcanvas.height);
-		this.drawPath(_UI.calcmaxesghostctx);
-		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 
-		var mid = ((r.topy - r.bottomy)/2)+r.bottomy;
-		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + r.bottomy +","+ r.topy + ","+ mid);
+		var mid = ((this.topy - this.bottomy)/2)+this.bottomy;
+		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
 		
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -319,7 +266,6 @@
 			pp.H2.y += ((mid-pp.H2.y)*2);
 		}
 		
-		this.needsnewcalcmaxes = true;
 		this.setTopY(ly);
 		this.setLeftX(lx);
 
@@ -329,13 +275,9 @@
 	Path.prototype.flipEW = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
-		_UI.calcmaxesghostctx.lineWidth = ss().strokeweight;
-		_UI.calcmaxesghostctx.clearRect(0,0,_UI.calcmaxesghostcanvas.width,_UI.calcmaxesghostcanvas.height);
-		this.drawPath(_UI.calcmaxesghostctx);
-		var r = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
 
-		var mid = ((r.rightx - r.leftx)/2)+r.leftx;
-		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + r.rightx +","+ r.leftx +","+ mid);
+		var mid = ((this.rightx - this.leftx)/2)+this.leftx;
+		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + this.rightx +","+ this.leftx +","+ mid);
 		
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -344,7 +286,6 @@
 			pp.H2.x += ((mid-pp.H2.x)*2);
 		}
 		
-		this.needsnewcalcmaxes = true;
 		this.setTopY(ly);
 		this.setLeftX(lx);
 
@@ -402,7 +343,9 @@
 			// Function was passed a new path point
 			this.pathpoints.push(newpp);
 			this.selectPathPoint(this.pathpoints.length-1);
-		}		
+		}
+
+		this.calcMaxes();	
 	}
 	
 	Path.prototype.insertPathPoint = function() {
@@ -437,6 +380,8 @@
 		    this.selectPathPoint((p1i+1)%this.pathpoints.length);
 
 	  	}
+
+	  	this.calcMaxes();
 	}
 
 	Path.prototype.deletePathPoint = function(){
@@ -453,6 +398,7 @@
 					}
 				}
 			}
+			this.calcMaxes();
 		} else {
 			_UI.selectedtool = "pathedit";
 			deleteShape();
@@ -471,12 +417,6 @@
 			this.pathpoints[index].selected = true;
 			//debug("SELECTPATHPOINT - selecting point " + index);
 		} 
-		/*
-		else if (this.pathpoints[0]){
-			this.pathpoints[0].selected = true;
-			//debug("SELECTPATHPOINT - defaulting to 0 index point selection");
-		}
-		*/
 	}
 
 //	----------------------------------
@@ -484,48 +424,12 @@
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
-		if(this.needsnewcalcmaxes){
-			debug("\n");
-			debug("!!!!!!!!!!!!!!!!!!!CALCMAXES!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			debug("!!!----------------before ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);
-			//debug("!!!CALCMAXES - _UI.cmgcs.size/ox/oy: " + _UI.chareditcanvassize + " / " + _UI.viewport.originx + " / " + _UI.viewport.originy);
-			
-			this.topy = (_UI.chareditcanvassize*-1);
-			this.bottomy = _UI.chareditcanvassize;
-			this.leftx = _UI.chareditcanvassize;
-			this.rightx = (_UI.chareditcanvassize*-1);
-
-			_UI.calcmaxesghostctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
-			this.drawPath(_UI.calcmaxesghostctx);
-			
-			console.time("CalcMaxes_origional");
-			var mp = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
-			console.timeEnd("CalcMaxes_origional");
-			
-			console.time("CalcMaxes_NEW");
-			var mp2 = this.getMaxesFromMath();
-			console.timeEnd("CalcMaxes_NEW");
-			
-			this.topy = mp.topy;
-			this.bottomy = mp.bottomy;
-			this.leftx = mp.leftx;
-			this.rightx = mp.rightx;
-			
-			debug("!!!----------------afters ty/by/lx/rx:\t" + this.topy + "\t" + this.bottomy + "\t" + this.leftx + "\t" + this.rightx);	
-			debug("!!!----------------afters max/x/y min/x/y:\t" + mp2.maxx + "\t" + mp2.maxy + "\t" + mp2.minx + "\t" + mp2.miny);	
-			debug("\n");
-		}
+		console.time("CalcMaxes_NEW");
 		
-		this.needsnewcalcmaxes = false;
-	}
-
-	Path.prototype.getMaxesFromMath = function(){
-		var finalbounds = {
-			"maxx" : -999999,
-			"minx" : 999999,
-			"maxy" : -999999,
-			"miny" : 999999
-		}
+		this.topy = (_UI.chareditcanvassize*-1);
+		this.bottomy = _UI.chareditcanvassize;
+		this.leftx = _UI.chareditcanvassize;
+		this.rightx = (_UI.chareditcanvassize*-1);
 
 		var tp, np, tbounds;
 
@@ -534,137 +438,14 @@
 			np = this.pathpoints[(s+1)%this.pathpoints.length];
 			tbounds = getBounds(tp.P.x, tp.P.y, tp.H2.x, tp.H2.y, np.H1.x, np.H1.y, np.P.x, np.P.y);
 
-			finalbounds.maxx = Math.max(finalbounds.maxx, tbounds.maxx);
-			finalbounds.maxy = Math.max(finalbounds.maxy, tbounds.maxy);
-			finalbounds.minx = Math.min(finalbounds.minx, tbounds.minx);
-			finalbounds.miny = Math.min(finalbounds.miny, tbounds.miny);
+			this.rightx = Math.max(this.rightx, tbounds.maxx);
+			this.topy = Math.max(this.topy, tbounds.maxy);
+			this.leftx = Math.min(this.leftx, tbounds.minx);
+			this.bottomy = Math.min(this.bottomy, tbounds.miny);
 		}
 
-		return finalbounds;
+		console.timeEnd("CalcMaxes_NEW");
 	}
-
-	function getMaxesFromGhostCanvas(sr){
-		//debug("GETMAXESFROMGHOSTCANVAS - sr passed: " + JSON.stringify(sr));
-
-		sr.topy = Math.ceil(_UI.chareditcanvassize - (sr.topy+(_UI.chareditcanvassize-_UI.viewport.originy)));
-		sr.bottomy = Math.floor(_UI.chareditcanvassize - (sr.bottomy+(_UI.chareditcanvassize-_UI.viewport.originy)));
-		sr.leftx = Math.ceil(_UI.viewport.originx + sr.leftx);
-		sr.rightx = Math.floor(_UI.viewport.originx + sr.rightx);
-		
-		//debug("GETMAXESFROMGHOSTCANVAS - Converted ty/by/lx/rx: " + sr.topy + "/" + sr.bottomy + "/" + sr.leftx + "/" + sr.rightx);	
-		
-		var initialrow = sr.topy;
-		
-		var leftmost = _UI.chareditcanvassize;
-		var rightmost = 0;
-		var topmost = _UI.chareditcanvassize;
-		var bottommost = 0;
-		
-		var imageData = _UI.calcmaxesghostctx.getImageData(0,0,_UI.calcmaxesghostcanvas.width,_UI.calcmaxesghostcanvas.height);
-		var colreturn = _UI.chareditcanvassize;
-		
-		//debug("GETMAXESNEW - starting BottomY, initialrow to _UI.chareditcanvassize: " + initialrow + " to " + _UI.chareditcanvassize);
-
-		//Get BottomY
-		//debug("---<b>GET BOTTOM Y</b>---");
-		for(var row=sr.bottomy; row<_UI.chareditcanvassize; row++){
-			colreturn = checkRowLTR(row, imageData);
-			if(colreturn == "clear"){
-				bottommost = (row);
-				break;
-			}
-		}
-		//debug("GETMAXESNEW - end of Bottom Y: " + bottommost);
-		
-		//Get TopY
-		//debug("---<b>GET TOP Y</b>---");
-		for(var row=sr.topy; row>0; row--){
-			colreturn = checkRowLTR(row, imageData);
-			if(colreturn == "clear"){
-				topmost = (row+1);
-				break;
-			}
-		}
-		//debug("GETMAXESNEW - end of Top Y: " + topmost);
-
-		//Get RightX
-		//debug("---<b>GET RIGHT X</b>---");
-		for(var col=sr.rightx; col<_UI.chareditcanvassize; col++){
-			rowreturn = checkColBTT(col, imageData);
-			if(rowreturn == "clear"){
-				rightmost = (col);
-				break;
-			}
-		}
-		//debug("GETMAXESNEW - end of Right X: " + rightmost);
-		
-		//Get LeftX
-		//debug("---<b>GET Left X</b>---");
-		for(var col=sr.leftx; col>0; col--){
-			rowreturn = checkColBTT(col, imageData);
-			if(rowreturn == "clear"){
-				leftmost = (col+1);
-				break;
-			}
-		}
-		//debug("GETMAXESNEW - end of Left X: " + rightmost);
-		
-		var nx = {};
-		nx.leftx = (leftmost - _UI.viewport.originx);
-		nx.rightx = (rightmost - _UI.viewport.originx);
-		nx.topy = (_UI.viewport.originy - topmost);
-		nx.bottomy = (_UI.viewport.originy - bottommost);
-		
-		return nx;
-		
-	}
-	
-	function checkRowLTR(row, imgdata){
-		for(var col=0; col<_UI.chareditcanvassize; col++){
-			thispx = (row*imgdata.width*4) + (col*4) + 3;
-			if(imgdata.data[thispx] > 0){
-				return col;
-			}
-		}
-		return "clear";
-	}
-	
-	function checkColBTT(col, imgdata){
-		for(var row=_UI.chareditcanvassize; row>0; row--){
-			thispx = (row*imgdata.width*4) + (col*4) + 3;
-			if(imgdata.data[thispx] > 0){
-				return row;
-			}
-		}
-		return "clear";
-	}
-
-	Path.prototype.getMaxesFromPathPoints = function(){
-		var ps = _GP.projectsettings;
-		var r = {
-			"topy" : (ps.upm*-1),
-			"rightx" : (ps.upm*-1),
-			"bottomy" : ps.upm,
-			"leftx" : ps.upm
-		};
-		
-		for(var j=0; j<this.pathpoints.length; j++){
-			var pp = this.pathpoints[j];
-			r.topy = Math.max(r.topy, pp.P.y);
-			r.bottomy = Math.min(r.bottomy, pp.P.y);
-			r.rightx = Math.max(r.rightx, pp.P.x);
-			r.leftx = Math.min(r.leftx, pp.P.x);
-		}
-		
-		//debug("GETMAXESFROMPATHPOINTS - returned top/bottom/left/right: " + r.topy + " / " + r.bottomy + " / " + r.leftx + " / " + r.rightx);
-		return r;
-	}
-	
-	
-
-
-
-
 
 	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){
 		var bounds = {

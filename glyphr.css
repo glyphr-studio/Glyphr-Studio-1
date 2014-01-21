@@ -534,8 +534,7 @@
 	#chareditcanvas {
 	}
 	
-	#ishereghostcanvas,
-	#calcmaxesghostcanvas { 
+	#ishereghostcanvas { 
 		display: none;
 	}	
 

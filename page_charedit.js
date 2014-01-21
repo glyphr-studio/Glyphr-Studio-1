@@ -117,16 +117,6 @@
 	}
 
 	function setupGhostCanvas(){
-	
-		_UI.calcmaxesghostcanvas = document.getElementById('calcmaxesghostcanvas');
-		_UI.calcmaxesghostcanvas.height = _UI.chareditcanvassize;
-		_UI.calcmaxesghostcanvas.width = _UI.chareditcanvassize;
-		_UI.calcmaxesghostctx = _UI.calcmaxesghostcanvas.getContext('2d');
-		_UI.calcmaxesghostctx.fillStyle = "lime";
-		_UI.calcmaxesghostctx.globalAlpha = .5;
-		_UI.calcmaxesghostcanvas.style.backgroundColor = "transparent";
-		
-		
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = document.getElementById('ishereghostcanvas');
 		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
@@ -762,7 +752,7 @@
 				tele.style.backgroundColor = _UI.colors.offwhite;
 				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 
-			debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(_UI.viewport));
+				//debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(_UI.viewport));
 				//only draw the thumbs if it's not a temppathdragshape
 				if(_UI.eventhandlers.temppathdragshape){
 					if(i!==_UI.selectedshape){
