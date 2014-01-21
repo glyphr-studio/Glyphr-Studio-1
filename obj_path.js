@@ -656,3 +656,65 @@
 
 	
 	
+
+
+
+
+
+	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){
+		var bounds = {
+			"minx" : Math.min(x1,x2),
+			"miny" : Math.min(y1,y2),
+			"maxx" : Math.max(x1,x2),
+			"maxy" : Math.max(y1,y2)
+		};
+
+		var dcx0 = cx1 - x1;
+		var dcy0 = cy1 - y1;
+		var dcx1 = cx2 - cx1;
+		var dcy1 = cy2 - cy1;
+		var dcx2 = x2 - cx2;
+		var dcy2 = y2 - cy2;
+
+		if(cx1<bounds["minx"] || cx1>bounds["maxx"] || cx2<bounds["minx"] || cx2>bounds["maxx"]) {   
+			// X bounds
+			if(dcx0+dcx2 != 2*dcx1) { dcx1+=0.01; }
+			var numerator = 2*(dcx0 - dcx1);
+			var denominator = 2*(dcx0 - 2*dcx1 + dcx2);
+			var quadroot = (2*dcx1-2*dcx0)*(2*dcx1-2*dcx0) - 2*dcx0*denominator;
+			var root = Math.sqrt(quadroot);
+			var t1 =  (numerator + root) / denominator;
+			var t2 =  (numerator - root) / denominator;
+			if(0<t1 && t1<1) { checkXbounds(bounds, getBezierValue((1-t1), x1, cx1, cx2, x2)); }
+			if(0<t2 && t2<1) { checkXbounds(bounds, getBezierValue((1-t2), x1, cx1, cx2, x2)); }
+		}
+
+		// Y bounds
+		if(cy1<bounds[miny] || cy1>bounds[maxy] || cy2<bounds[miny] || cy2>bounds[MAX_Y]) {
+			if(dcy0+dcy2 != 2*dcy1) { dcy1+=0.01; }
+			var numerator = 2*(dcy0 - dcy1);
+			var denominator = 2*(dcy0 - 2*dcy1 + dcy2);
+			var quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;
+			var root = sqrt(quadroot);
+			var t1 =  (numerator + root) / denominator;
+			var t2 =  (numerator - root) / denominator;
+			if(0<t1 && t1<1) { checkYbounds(bounds, getBezierValue((1-t1), y1, cy1, cy2, y2)); }
+			if(0<t2 && t2<1) { checkYbounds(bounds, getBezierValue((1-t2), y1, cy1, cy2, y2)); }
+		}
+
+		return bounds;
+	}
+
+	function checkXbounds(bounds, value) {
+		if(bounds["minx"] > value) { bounds["minx"] = value; }
+		else if(bounds["maxx"] < value) { bounds["maxx"] = value; }
+	}
+
+	function checkYbounds(bounds, value) {
+		if(bounds["miny"] > value) { bounds["miny"] = value; }
+		else if(bounds["maxy"] < value) { bounds["maxy"] = value; }
+	}
+
+	function getBezierValue(mt, p0, p1, p2, p3) {
+		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3); 
+	}
