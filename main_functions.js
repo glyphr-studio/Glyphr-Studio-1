@@ -4,7 +4,7 @@
 
 	
 	function setup() {
-		console.log("%c\n                GGG                                GGG\n                GG                                 GG\n                GG                                 GG\n   GGGGGGGGG    GG GGG          GG    GGGGGGGGG    GG GGGGGGGGG       GGGGGGGGG\n GG         GG  GG GG           GG  GG         GG  GGG         GG   GG         GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG           GG\nGG           GG GG GG           GG GG           GG GG           GG GG\nGGG         GGG GG GGG         GGG GGG         GGG GG           GG GG\n   GGGGGGGGG GG GG    GGGGGGGGGGGG GG GGGGGGGGG    GGG          GG GGG\nGGG          GG    GGG          GG GG\nGG           GG    GG           GG GG\n GGG       GGG      GGG       GGG  GG\n    GGGGGGG            GGGGGGG     GGG\n\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(40,170,255)");
+		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(40,170,255)");
 		//debug("MAIN SETUP() - START");
 		_GP.opentypeproperties = clone(_UI.defaultopentypeproperties);
 		setOTprop("head", "created", ttxDateString());
