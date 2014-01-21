@@ -498,21 +498,49 @@
 			_UI.calcmaxesghostctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 			this.drawPath(_UI.calcmaxesghostctx);
 			
+			console.time("CalcMaxes_origional");
 			var mp = getMaxesFromGhostCanvas(this.getMaxesFromPathPoints());
-			//drawCMGCorigins("lime");
+			console.timeEnd("CalcMaxes_origional");
 			
+			console.time("CalcMaxes_NEW");
+			var mp2 = this.getMaxesFromMath();
+			console.timeEnd("CalcMaxes_NEW");
 			
 			this.topy = mp.topy;
 			this.bottomy = mp.bottomy;
 			this.leftx = mp.leftx;
 			this.rightx = mp.rightx;
 			
-			debug("!!!----------------afters ty/by/lx/rx: " + this.topy + "/" + this.bottomy + "/" + this.leftx + "/" + this.rightx);	
+			debug("!!!----------------afters ty/by/lx/rx:\t" + this.topy + "\t" + this.bottomy + "\t" + this.leftx + "\t" + this.rightx);	
+			debug("!!!----------------afters max/x/y min/x/y:\t" + mp2.maxx + "\t" + mp2.maxy + "\t" + mp2.minx + "\t" + mp2.miny);	
 			debug("\n");
 		}
 		
 		this.needsnewcalcmaxes = false;
-		
+	}
+
+	Path.prototype.getMaxesFromMath = function(){
+		var finalbounds = {
+			"maxx" : -999999,
+			"minx" : 999999,
+			"maxy" : -999999,
+			"miny" : 999999
+		}
+
+		var tp, np, tbounds;
+
+		for(var s=0; s<this.pathpoints.length; s++){
+			tp = this.pathpoints[s];
+			np = this.pathpoints[(s+1)%this.pathpoints.length];
+			tbounds = getBounds(tp.P.x, tp.P.y, tp.H2.x, tp.H2.y, np.H1.x, np.H1.y, np.P.x, np.P.y);
+
+			finalbounds.maxx = Math.max(finalbounds.maxx, tbounds.maxx);
+			finalbounds.maxy = Math.max(finalbounds.maxy, tbounds.maxy);
+			finalbounds.minx = Math.min(finalbounds.minx, tbounds.minx);
+			finalbounds.miny = Math.min(finalbounds.miny, tbounds.miny);
+		}
+
+		return finalbounds;
 	}
 
 	function getMaxesFromGhostCanvas(sr){
@@ -630,30 +658,7 @@
 		
 		//debug("GETMAXESFROMPATHPOINTS - returned top/bottom/left/right: " + r.topy + " / " + r.bottomy + " / " + r.leftx + " / " + r.rightx);
 		return r;
-	}	
-	
-	function drawCMGCorigins(ocolor){
-	
-		//Draw GCanvas origins
-		_UI.calcmaxesghostctx.lineWidth = 1;
-		_UI.calcmaxesghostctx.strokeStyle = ocolor;
-		_UI.calcmaxesghostctx.beginPath();
-		_UI.calcmaxesghostctx.moveTo(_UI.viewport.originx,0);
-		_UI.calcmaxesghostctx.lineTo(_UI.viewport.originx, _UI.chareditcanvassize);
-		_UI.calcmaxesghostctx.stroke();
-		_UI.calcmaxesghostctx.closePath();
-		_UI.calcmaxesghostctx.beginPath();
-		_UI.calcmaxesghostctx.moveTo(0, _UI.viewport.originy);
-		_UI.calcmaxesghostctx.lineTo(_UI.chareditcanvassize, _UI.viewport.originy);		
-		_UI.calcmaxesghostctx.stroke();
-		_UI.calcmaxesghostctx.closePath();
-		
-		for(var i=0; i<_UI.calcmaxesghostcanvas.width; i+=100) {
-			_UI.calcmaxesghostctx.fillText((i-_UI.viewport.originx),i,_UI.viewport.originy+10); 
-			_UI.calcmaxesghostctx.fillText((_UI.viewport.originy-i),_UI.viewport.originx,i);  
-		}
 	}
-
 	
 	
 
@@ -685,21 +690,21 @@
 			var root = Math.sqrt(quadroot);
 			var t1 =  (numerator + root) / denominator;
 			var t2 =  (numerator - root) / denominator;
-			if(0<t1 && t1<1) { checkXbounds(bounds, getBezierValue((1-t1), x1, cx1, cx2, x2)); }
-			if(0<t2 && t2<1) { checkXbounds(bounds, getBezierValue((1-t2), x1, cx1, cx2, x2)); }
+			if(0<t1 && t1<1) { checkXbounds(bounds, getBezierValue(t1, x1, cx1, cx2, x2)); }
+			if(0<t2 && t2<1) { checkXbounds(bounds, getBezierValue(t2, x1, cx1, cx2, x2)); }
 		}
 
 		// Y bounds
-		if(cy1<bounds[miny] || cy1>bounds[maxy] || cy2<bounds[miny] || cy2>bounds[MAX_Y]) {
+		if(cy1<bounds["miny"] || cy1>bounds["maxy"] || cy2<bounds["miny"] || cy2>bounds["maxy"]) {
 			if(dcy0+dcy2 != 2*dcy1) { dcy1+=0.01; }
 			var numerator = 2*(dcy0 - dcy1);
 			var denominator = 2*(dcy0 - 2*dcy1 + dcy2);
 			var quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;
-			var root = sqrt(quadroot);
+			var root = Math.sqrt(quadroot);
 			var t1 =  (numerator + root) / denominator;
 			var t2 =  (numerator - root) / denominator;
-			if(0<t1 && t1<1) { checkYbounds(bounds, getBezierValue((1-t1), y1, cy1, cy2, y2)); }
-			if(0<t2 && t2<1) { checkYbounds(bounds, getBezierValue((1-t2), y1, cy1, cy2, y2)); }
+			if(0<t1 && t1<1) { checkYbounds(bounds, getBezierValue(t1, y1, cy1, cy2, y2)); }
+			if(0<t2 && t2<1) { checkYbounds(bounds, getBezierValue(t2, y1, cy1, cy2, y2)); }
 		}
 
 		return bounds;
@@ -715,6 +720,7 @@
 		else if(bounds["maxy"] < value) { bounds["maxy"] = value; }
 	}
 
-	function getBezierValue(mt, p0, p1, p2, p3) {
-		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3); 
+	function getBezierValue(t, p0, p1, p2, p3) {
+		var mt = (1-t);
+    	return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3); 
 	}

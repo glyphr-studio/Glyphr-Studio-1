@@ -59,11 +59,11 @@
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
 		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		
-		debug("drawselectcharthumbs - selectchardrawarr: " + selectchardrawarr);
+		//debug("drawselectcharthumbs - selectchardrawarr: " + selectchardrawarr);
 		
 		for(var sc=0; sc<selectchardrawarr.length; sc++){
 			var tc = selectchardrawarr[sc];
-			debug("---------------------- i: " + sc + " id: " + tc);
+			//debug("---------------------- i: " + sc + " id: " + tc);
 			var scan = document.getElementById("cs"+tc);
 			scan.width = _UI.thumbsize;
 			scan.height = _UI.thumbsize;

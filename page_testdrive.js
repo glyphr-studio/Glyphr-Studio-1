@@ -89,7 +89,7 @@
 		var tc = _GP.fontchars[charcode];
 		var sl = tc.charshapes;
 		var width = 0;
-		debug("DRAWCHARTOAREA - starting " + charcode + " \t offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " +size);
+		//debug("DRAWCHARTOAREA - starting " + charcode + " \t offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " +size);
 		
 		if(isNaN(charcode)){
 			//assumes one shape per ss
@@ -97,7 +97,7 @@
 		} else {
 			width = (tc.charwidth*size);
 			if(tc.isautowide){ 
-				debug("---------------- for " + tc.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*size) + " to width " + width);
+				//debug("---------------- for " + tc.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*size) + " to width " + width);
 				width += (ps.defaultlsb*size); 
 			}
 		}
@@ -106,14 +106,14 @@
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
 			sh = sl[j];
-			debug("---------------- starting shape " + sh.name);
+			//debug("---------------- starting shape " + sh.name);
 			sh.drawShapeToArea_Stack(lctx, size, offsetX, offsetY);
 		}
 		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.closePath();
 		lctx.fill("nonzero");
 
-		debug("---------------- done with " + charcode + "\n");
+		//debug("---------------- done with " + charcode + "\n");
 		
 		return width;
 	}

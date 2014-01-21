@@ -335,7 +335,7 @@
 	}
 	
 	Shape.prototype.drawShapeToArea_Single = function(lctx, size, offsetX, offsetY){
-		debug("DRAWSHAPETOAREA_SINGLE for shape: " + this.name);
+		//debug("DRAWSHAPETOAREA_SINGLE for shape: " + this.name);
 		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.beginPath();
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
@@ -344,7 +344,7 @@
 	}	
 
 	Shape.prototype.drawShapeToArea_Stack = function(lctx, size, offsetX, offsetY){
-		debug("DRAWSHAPETOAREA_STACK for shape: " + this.name);
+		//debug("DRAWSHAPETOAREA_STACK for shape: " + this.name);
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 	}
 

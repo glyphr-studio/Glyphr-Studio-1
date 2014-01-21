@@ -168,7 +168,7 @@
 			debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
 			drawCharToArea(tctx, ui[k], factor, _UI.thumbgutter, yoffset);
-			debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
+			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}
 	
