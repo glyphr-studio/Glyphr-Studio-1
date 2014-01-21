@@ -180,7 +180,12 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 
-		fill=ngray;
+		updateSaveIcon();
+	}
+
+	function updateSaveIcon(){
+		var fill = _UI.colors.g9;
+		if(!_UI.projectsaved) fill = "white";
 		pncanvas = document.getElementById("npSave");
 		pnctx = pncanvas.getContext("2d");
 		pncanvas.width = 50;
@@ -321,6 +326,7 @@
 		_UI.projectsaved = true;
 		window.onbeforeunload = null;
 		document.title = 'glyphr';
+		updateSaveIcon();
 	}
 
 	function setProjectAsUnsaved(){
@@ -334,6 +340,7 @@
 		}
 
 		document.title = 'glyphr ❖';
+		updateSaveIcon();
 	}
 
 
