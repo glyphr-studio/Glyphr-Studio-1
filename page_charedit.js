@@ -392,7 +392,7 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + Math.round(_UI.eventhandlers.temppathdragshape.topy-_UI.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
 		}
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td>"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"</td></tr>\n";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td><input type='text' disabled='disabled' value='"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/><input type='button' onclick='ss().path.reversePath();putundoq(\"reverse path\");redraw();' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td></tr>\n";
 		
 		//debug("<b>SHAPE DETAILS OUTPUT:<b><br><textarea rows=9 cols=3000>" + content + "</textarea>");
 		return content;
@@ -514,7 +514,6 @@
 			
 		var shapeactions = "<td><h3>shape</h3>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Reverse Direction' onclick='ss().path.reversePath();putundoq(\"reverse path\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"flip shape horizontal\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"flip shape vertical\");redraw();'><br>";
 			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"delete shape\");redraw();'><br>";
