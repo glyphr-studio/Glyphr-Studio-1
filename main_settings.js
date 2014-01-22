@@ -57,11 +57,17 @@
 		// page: charedit
 		"charundoq" : [],
 		"charcurrstate" : {},
+		"selectchardrawarr" : [],
 		"showrightline" : true,	
 		"shapelayers" : [],
 		"selectedshape" : -1,
 		"selectedchar" : 97,
 		"debugpoints" : [false,false],
+		"locid": 0,
+		"locarr": [],
+		"checkid": 0,
+		"checkarr": [],
+	
 		
 		// page: test drive
 		"testdrivectx" : false,

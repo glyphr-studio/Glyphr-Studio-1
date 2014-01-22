@@ -23,13 +23,11 @@
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
 		return re;
 	}
-	
-	var selectchardrawarr = [];
-	
+		
 	function updateselectchar(fname){
 		var ccon = "<div class='charselectarea'>"
 		fname = fname? fname : "selectchar";
-		selectchardrawarr = [];
+		_UI.selectchardrawarr = [];
 		
 		//Capitol Letters
 		for(var i=65; i<91; i++){ccon += buildbutton(i, fname);}
@@ -50,7 +48,7 @@
 		ccon += buildbutton(32, fname);
 		ccon += "</div>";
 		
-		//debug("UPDATESELECTCHAR - selectchardrawarr.length = " + selectchardrawarr.length);
+		//debug("UPDATESELECTCHAR - _UI.selectchardrawarr.length = " + _UI.selectchardrawarr.length);
 		return ccon;
 	}	
 
@@ -59,10 +57,10 @@
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
 		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		
-		//debug("drawselectcharthumbs - selectchardrawarr: " + selectchardrawarr);
+		//debug("drawselectcharthumbs - _UI.selectchardrawarr: " + _UI.selectchardrawarr);
 		
-		for(var sc=0; sc<selectchardrawarr.length; sc++){
-			var tc = selectchardrawarr[sc];
+		for(var sc=0; sc<_UI.selectchardrawarr.length; sc++){
+			var tc = _UI.selectchardrawarr[sc];
 			//debug("---------------------- i: " + sc + " id: " + tc);
 			var scan = document.getElementById("cs"+tc);
 			scan.width = _UI.thumbsize;
@@ -83,7 +81,7 @@
 			var extra = "";
 			if(issel) {extra = " charselectcanvassel";} 
 			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
-			selectchardrawarr.push(index);
+			_UI.selectchardrawarr.push(index);
 		} else {	
 			if(issel) {rv += "<div class='charselectbuttonsel'";} 
 			else {rv += "<div class='charselectbutton'";}
@@ -231,11 +229,6 @@
 //-------------------
 // Update Details
 //-------------------
-	var locid = 0;
-	var checkid = 0;
-	var locarr = [];
-	var checkarr = [];
-	
 	function updateCharEditDetails(){
 
 		var s = ss("update details");
@@ -251,8 +244,8 @@
 			content = "<h1>attributes</h1>";
 		}
 		
-		locarr = [];
-		checkarr = [];
+		_UI.locarr = [];
+		_UI.checkarr = [];
 
 		content += "<table class='detail'>";	
 		
@@ -304,33 +297,33 @@
 	   	}
 
 		// draw locks
-		//debug("UPDATEDETAILS - starting drawing locks, locarr.length = " + locarr.length);
-		for(var j=0; j<locarr.length; j++){
+		//debug("UPDATEDETAILS - starting drawing locks, locarr.length = " + _UI.locarr.length);
+		for(var j=0; j<_UI.locarr.length; j++){
 			var thislocid = ("locid"+j);
 			var obj = document.getElementById(thislocid);
 			//debug("UPDATEDETAILS - drawing lock id " + thislocid + " obj = " + obj);
 			if(obj){
 				obj.height = 11;
 				obj.width = 11;
-				var color = locarr[j]? _UI.colors.button_selected : _UI.colors.button_resting;
+				var color = _UI.locarr[j]? _UI.colors.button_selected : _UI.colors.button_resting;
 				drawLockButton(obj, color);
 			}
 		}
-		locid = 0;
+		_UI.locid = 0;
 		
 		
 		//draw checks
-		for(var k=0; k<checkarr.length; k++){
+		for(var k=0; k<_UI.checkarr.length; k++){
 			var thischeckid = ("checkid"+k);
 			var obj = document.getElementById(thischeckid);
 			if(obj){
-				//debug("Drawing Check with ID: " + thischeckid + ", obj: " + obj + " passed: " + checkarr[k]);
+				//debug("Drawing Check with ID: " + thischeckid + ", obj: " + obj + " passed: " + _UI.checkarr[k]);
 				obj.height = 15;
 				obj.width=15;
-				drawCheckbox(obj, checkarr[k]);			
+				drawCheckbox(obj, _UI.checkarr[k]);			
 			}
 		}
-		checkid = 0;
+		_UI.checkid = 0;
 	}
 	
 	function charDetails(s){
@@ -466,10 +459,10 @@
 	
 	// Helper Functions
 	function lockUI(varname, islocked){
-		//debug("LOCKUI - making html for varname " + varname + " was passed " + islocked + ", and locarr is now: [" + locarr + "]");
-		var re = "<canvas id='locid"+locid+"' ";
-		locarr[locid] = islocked;
-		locid = ((locid*1)+1);
+		//debug("LOCKUI - making html for varname " + varname + " was passed " + islocked + ", and locarr is now: [" + _UI.locarr + "]");
+		var re = "<canvas id='locid"+_UI.locid+"' ";
+		_UI.locarr[_UI.locid] = islocked;
+		_UI.locid = ((_UI.locid*1)+1);
 		//re += " onclick='debug(\"--CLICKED ON " + varname + " LOCK-- changing to \"+"+!islocked+"); "+varname+" = " + !islocked + "; redraw();'></canvas>";	
 		re += " onclick='"+varname+" = " + !islocked + "; redraw();'></canvas>";	
 				
@@ -477,10 +470,10 @@
 	}
 	
 	function checkUI(onclick, ischecked){
-		//debug("CHECKUI - making html for checkarr[" + checkid + "] = " + ischecked + ", and checkarr is now: [" + checkarr + "]");
-		var re = "<canvas id='checkid"+checkid+"' ";
-		checkarr[checkid] = ischecked;	
-		checkid = ((checkid*1)+1);
+		//debug("CHECKUI - making html for checkarr[" + _UI.checkid + "] = " + ischecked + ", and checkarr is now: [" + _UI.checkarr + "]");
+		var re = "<canvas id='checkid"+_UI.checkid+"' ";
+		_UI.checkarr[_UI.checkid] = ischecked;	
+		_UI.checkid = ((_UI.checkid*1)+1);
 		re += " onclick='"+onclick+"'></canvas>";	
 		return re;	
 	}
