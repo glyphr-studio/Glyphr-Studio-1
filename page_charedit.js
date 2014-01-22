@@ -67,7 +67,7 @@
 			scan.height = _UI.thumbsize;
 			var sctx = scan.getContext("2d");
 			
-			drawCharToArea(sctx, tc, factor, _UI.thumbgutter, yoffset);
+			_GP.fontchars[tc].drawCharToArea(sctx, factor, _UI.thumbgutter, yoffset);
 		}
 	}
 	

@@ -87,18 +87,6 @@
 
 	}
 	
-	Path.prototype.drawPathToArea = function(lctx, size, offsetX, offsetY){
-		var tempv = clone(_UI.viewport);
-
-		_UI.viewport.originx = offsetX;
-		_UI.viewport.originy = offsetY;
-		_UI.viewport.zoom = size;	
-		
-		this.drawPath(lctx);
-		
-		_UI.viewport = tempv;
-	}
-	
 	Path.prototype.genPathPostScript = function(lastx, lasty){
 		if(!this.pathpoints) return {"re":"", "lastx":lastx, "lasty":lasty};
 

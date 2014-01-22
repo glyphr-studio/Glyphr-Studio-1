@@ -65,7 +65,7 @@
 					);
 				}
 
-				currx += drawCharToArea(tctx, charToUnicode[contentArray[k]], _UI.testdrive_fontscale, currx, curry);
+				currx += _GP.fontchars[charToUnicode[contentArray[k]]].drawCharToArea(tctx, _UI.testdrive_fontscale, currx, curry);
 				currx += (document.getElementById("charspacing").value*1*scale);
 					
 			}
@@ -82,40 +82,6 @@
 		_UI.testdrivectx.lineTo(_UI.testdrivecanvas.width,y);
 		_UI.testdrivectx.stroke();
 		_UI.testdrivectx.closePath();
-	}
-
-	function drawCharToArea(lctx, charcode, size, offsetX, offsetY){
-		var ps = _GP.projectsettings;
-		var tc = _GP.fontchars[charcode];
-		var sl = tc.charshapes;
-		var width = 0;
-		//debug("DRAWCHARTOAREA - starting " + charcode + " \t offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " +size);
-		
-		if(isNaN(charcode)){
-			//assumes one shape per ss
-			sl = [_GP.linkedshapes[charcode].shape];
-		} else {
-			width = (tc.charwidth*size);
-			if(tc.isautowide){ 
-				//debug("---------------- for " + tc.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*size) + " to width " + width);
-				width += (ps.defaultlsb*size); 
-			}
-		}
-		
-		var sh = {};
-		lctx.beginPath();
-		for(var j=0; j<sl.length; j++) {
-			sh = sl[j];
-			//debug("---------------- starting shape " + sh.name);
-			sh.drawShapeToArea_Stack(lctx, size, offsetX, offsetY);
-		}
-		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
-		lctx.closePath();
-		lctx.fill("nonzero");
-
-		//debug("---------------- done with " + charcode + "\n");
-		
-		return width;
 	}
 
 	function drawSampletextButtons(){
@@ -172,11 +138,4 @@
 		'<body style="padding:40px; text-align:center;">'+
 		'<img src="' + imgd + '" title="Glyphr Test Drive" style="border:1px solid #f6f6f6;">'+
 		'</html>');
-
-	/*
-		var cpng = new Image();Canvas2Image.saveAsPNG(document.getElementById("tdcanvas"), true);
-		document.getElementById("genimg").innerHTML = "";
-		document.getElementById("genimg").appendChild(cpng);
-		openDialog(document.getElementById("genimg").innerHTML);	
-	*/
 	}

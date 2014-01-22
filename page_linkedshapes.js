@@ -167,7 +167,7 @@
 		for(var k=0; k<ui.length; k++){
 			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
-			drawCharToArea(tctx, ui[k], factor, _UI.thumbgutter, yoffset);
+			_GP.fontchars[ui[k]].drawCharToArea(tctx, factor, _UI.thumbgutter, yoffset);
 			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}
