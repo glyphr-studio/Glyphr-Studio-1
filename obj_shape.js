@@ -115,7 +115,7 @@
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
 
 			_UI.chareditctx.beginPath();
-			this.path.outlinePathOnCanvas(_UI.chareditctx);
+			this.path.drawPath(_UI.chareditctx);
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 			
@@ -147,7 +147,7 @@
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
 
 			_UI.chareditctx.beginPath();
-			tpdso.outlinePathOnCanvas(_UI.chareditctx);
+			tpdso.drawPath(_UI.chareditctx);
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 		}

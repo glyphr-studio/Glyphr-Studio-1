@@ -32,8 +32,8 @@
 		updateNavPrimaryNavTarget();
 
 		switch(_UI.navhere){
-			case "firstrun":		updatefirstrun();		break;	
-			case "font settings":	updatefontsettings();	break;
+			case "firstrun":			updatefirstrun();		break;	
+			case "font settings":		updatefontsettings();	break;
 			case "project settings":	updateprojectsettings();	break;
 			case "test drive":
 				_UI.navprimaryhere = "npAttributes";

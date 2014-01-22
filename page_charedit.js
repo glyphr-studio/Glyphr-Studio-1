@@ -139,7 +139,7 @@
 	
 	function resetCursor() { document.body.style.cursor = 'default'; }
 		
-	function resetZoomPan(){ _UI.viewport = _UI.defaultviewport; }
+	function resetZoomPan(){ _UI.viewport = clone(_UI.defaultviewport); }
 
 
 //-------------------

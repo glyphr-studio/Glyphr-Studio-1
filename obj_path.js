@@ -10,7 +10,7 @@
 
 		// declare attributes
 		this.pathpoints = false;
-		if(oa.pathpoints.length){
+		if(oa.pathpoints && oa.pathpoints.length){
 			this.pathpoints = [];
 			//debug("NEW PATH : Hydrating Path Points, length " + oa.pathpoints.length);
 			for (var i = 0; i < oa.pathpoints.length; i++) {
@@ -63,11 +63,7 @@
 	}
 	
 	Path.prototype.drawPath = function(lctx) {
-		this.outlinePathOnCanvas(lctx); 
-	}
-
-	Path.prototype.outlinePathOnCanvas = function(lctx) {
-		if(this.pathpoints.length < 2) return;
+		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
 		lctx.moveTo(sx_cx(this.pathpoints[0].P.x), sy_cy(this.pathpoints[0].P.y));
