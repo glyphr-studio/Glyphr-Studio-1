@@ -57,7 +57,7 @@
 			tctx = tele.getContext("2d");
 			tele.style.backgroundColor = _UI.colors.offwhite;
 			if(ssid==_UI.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-			_GP.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
+			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
 		}
 		//debug("DRAWLINKEDSHAPELAYERTHUMBS - end");
 	}

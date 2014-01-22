@@ -16,7 +16,6 @@
 		this.ylock = oa.ylock || false;
 		this.wlock = oa.wlock || false;
 		this.hlock = oa.hlock || false;
-		this.negative = oa.negative || false;
 				
 		// not settable defaults
 		this.link = false;
@@ -167,9 +166,8 @@
 			by = cdata.bottomy;
 		}
 		
-		//var qw = Math.round((rx-lx)/4);
-		//var qh = Math.round((ty-by)/4);
-		var qw = qh = 100;
+		var qw = Math.round((rx-lx)/4);
+		var qh = Math.round((ty-by)/4);
 
 		// First Point
 		var Pul = new Coord({"x":lx, "y":ty});
@@ -320,19 +318,14 @@
 		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
 	}
 	
-	Shape.prototype.drawShapeToArea_Single = function(lctx, size, offsetX, offsetY){
-		//debug("DRAWSHAPETOAREA_SINGLE for shape: " + this.name);
+	Shape.prototype.drawShapeToArea = function(lctx, size, offsetX, offsetY){
+		//debug("drawShapeToArea for shape: " + this.name);
 		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.beginPath();
 		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
 		lctx.closePath();
 		lctx.fill();
 	}	
-
-	Shape.prototype.drawShapeToArea_Stack = function(lctx, size, offsetX, offsetY){
-		//debug("DRAWSHAPETOAREA_STACK for shape: " + this.name);
-		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
-	}
 
 	Shape.prototype.genPostScript = function(lastx, lasty){
 		return this.path? this.path.genPathPostScript(lastx, lasty) : {"re":"", "lastx":lastx, "lasty":lasty};

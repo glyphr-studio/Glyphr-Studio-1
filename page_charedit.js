@@ -750,10 +750,10 @@
 				//only draw the thumbs if it's not a temppathdragshape
 				if(_UI.eventhandlers.temppathdragshape){
 					if(i!==_UI.selectedshape){
-						_UI.shapelayers[i].drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
+						_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
 					}
 				} else {
-					_UI.shapelayers[i].drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
+					_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
 				}					
 			}
 		}

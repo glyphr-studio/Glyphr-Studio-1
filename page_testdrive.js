@@ -52,6 +52,7 @@
 				// draw baseline
 				_UI.testdrive_showhorizontals? drawLine(curry) : false;
 			} else {
+				var cc = getCharFromText(contentArray[k]);
 				if(_UI.testdrive_showcharbox){
 					tctx.fillStyle = "transparent";
 					tctx.strokeStyle = _UI.colors.accent;
@@ -60,12 +61,12 @@
 					tctx.strokeRect(
 						currx.makeCrisp(), 
 						(curry.makeCrisp()-(ps.ascent*scale)), 
-						Math.round(_GP.fontchars[charToUnicode[contentArray[k]]].charwidth*scale), 
+						Math.round(cc.charwidth*scale), 
 						Math.round(textEm)
 					);
 				}
 
-				currx += _GP.fontchars[charToUnicode[contentArray[k]]].drawCharToArea(tctx, _UI.testdrive_fontscale, currx, curry);
+				currx += cc.drawCharToArea(tctx, _UI.testdrive_fontscale, currx, curry);
 				currx += (document.getElementById("charspacing").value*1*scale);
 					
 			}

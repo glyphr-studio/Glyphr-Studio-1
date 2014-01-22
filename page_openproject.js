@@ -68,21 +68,18 @@
 		for (var i = 0; i < data.fontchars.length; i++) {
 			// Shapes
 			if(data.fontchars[i]){
-				var cgd = data.fontchars[i].charshapes; 
-				if(cgd.length){
-					for (var j = 0; j < cgd.length; j++) {
-						cgd[j] = new Shape(cgd[j]);
-					};
-				}
+				data.fontchars[i] = new Char(data.fontchars[i]);
 			}
 		}
 
 		// Linked Shapes
 		//debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.linkedshapes));
 		for (var ssid in data.linkedshapes) {
-			//debug("HYDRATEGLYPHRPROJECT hydrating linkedshape " + ssid)
-			var ss = data.linkedshapes.ssid;
-			if(ss){ ss = new LinkedShape(ss); }
+			//debug("HYDRATEGLYPHRPROJECT - trying property " + ssid)
+			if(data.linkedshapes.hasOwnProperty(ssid)){
+				//debug("HYDRATEGLYPHRPROJECT - hydrating linkedshape " + ssid + " with data \n" + JSON.stringify(data.linkedshapes[ssid]));
+				data.linkedshapes[ssid] = new LinkedShape(data.linkedshapes[ssid]);
+			}
 		}
 
 		//debug("HDRYATEGLYPHRPROJECT: JSON \n" + JSON.stringify(data));

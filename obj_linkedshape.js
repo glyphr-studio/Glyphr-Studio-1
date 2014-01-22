@@ -6,9 +6,9 @@
 	function LinkedShape(oa){
 		this.objtype = "linkedshape";
 
-		this.shape = new Shape({});
+		this.shape = new Shape(oa.shape);
 		this.shape.name = oa.name || "New Linked Shape";
-		this.usedin = [];
+		this.usedin = oa.usedin || [];
 	}
 
 
@@ -24,10 +24,11 @@
 		this.uselinkedshapexy = (isval(oa.uselinkedshapexy)? oa.uselinkedshapexy : true);	
 		
 		this.name = oa.name || "new linkedshape instance";
-		this.xpos = oa.xpos || 0;	
+		this.xpos = oa.xpos || 0;
 		this.ypos = oa.ypos || 0; 
-		this.xlock = false;
-		this.ylock = false;
+		this.xlock = isval(oa.xlock)? oa.xlock : false;
+		this.ylock = isval(oa.ylock)? oa.ylock : false;
+		this.visible = isval(oa.visible)? oa.visible : true;
 
 		// shape settings that don't apply to linkedshapeinstance
 		this.path = false;
@@ -95,7 +96,7 @@
 		for(var ssid in _GP.linkedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			_GP.linkedshapes[ssid].shape.drawShapeToArea_Single(tctx, factor, _UI.thumbgutter, yoffset);
+			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -187,9 +188,9 @@
 //	Linked Shape Paridy Functions
 //	---------------------------
 	LinkedShapeInstance.prototype.drawShape_Stack = function(lctx){
-		//debug("DRAWLINKEDSHAPE");
+		debug("DRAWLINKEDSHAPE on \n " + JSON.stringify(this));
 		if(this.uselinkedshapexy){
-			//debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
+			debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
 			_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
 		} else {
 			//debug("------------- does not uselinkedshapexy, calling FORCE=true updatepathposition");
@@ -227,22 +228,19 @@
 		}
 	}
 	
-	LinkedShapeInstance.prototype.drawShapeToArea_Single = function(lctx, size, offsetX, offsetY){
+	LinkedShapeInstance.prototype.drawShapeToArea = function(lctx, size, offsetX, offsetY){
 		//debug("DRAWLINKEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.uselinkedshapexy){
 			//debug("--------------------- uselinkedshapexy=true, calling drawShapeToArea for linkedshape.");
-			_GP.linkedshapes[this.link].shape.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
+			_GP.linkedshapes[this.link].shape.drawShapeToArea(lctx, size, offsetX, offsetY);
 		} else {
 			//debug("--------------------- uselinkedshapexy=false, calling updatepathposition with FORCE.");
 			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.name += " HAS BEEN MOVED";
-			ns.drawShapeToArea_Single(lctx, size, offsetX, offsetY);
+			ns.drawShapeToArea(lctx, size, offsetX, offsetY);
 		}
 	}
-	
-	LinkedShapeInstance.prototype.drawShapeToArea_Stack = LinkedShapeInstance.prototype.drawShapeToArea_Single;
-
 
 	LinkedShapeInstance.prototype.drawSelectOutline = function(onlycenter){
 		//_GP.linkedshapes[this.link].shape.drawSelectOutline();
