@@ -101,27 +101,19 @@
 	
 //	UsedIn Array Stuff
 	function addToUsedIn(ssid, charid){
-		charid = (""+charid);
 		//debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
-		var uia = _GP.linkedshapes[ssid].usedin;
-		//debug("------------- uia: " + uia);
-		//debug("------------- uia.indexOf(charid): " + uia.indexOf(charid) + ", should be -1, pusing charid: " + charid);
-		uia.push(charid);
+		var uia = _GP.linkedshapes[ssid].usedin
+		uia.push(""+charid);
 		// sort numerically as opposed to alpha
 		uia.sort(function(a,b){return a-b});
 	}
 	
 	function removeFromUsedIn(ssid, charid){
-		debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
-
+		//debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var uia = _GP.linkedshapes[ssid].usedin;
-		var charindex = uia.indexOf(charid);
-		//debug("------------------ charindex: " + charindex);
+		var charindex = uia.indexOf(""+charid);
 		if(charindex != -1){
-			//debug("------------------ deleting from uia charindex " + charindex);
-			//debug("------------------ uia before<br>" + uia);
 			uia.splice(charindex, 1);
-			//debug("------------------ uia after<br>" + uia);
 		}
 
 	}
