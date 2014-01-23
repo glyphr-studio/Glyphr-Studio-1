@@ -58,7 +58,7 @@
 			sh = sl[j];
 			if(sh.link){ sh = _GP.linkedshapes[sh.link].shape; }
 			//debug("---------------- starting shape " + sh.name);
-			sh.path.drawPathToArea(lctx, size, offsetX, offsetY);
+			if(sh.visible) sh.path.drawPathToArea(lctx, size, offsetX, offsetY);
 		}
 		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.closePath();

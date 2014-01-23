@@ -118,30 +118,18 @@
 	}
 	
 	function removeFromUsedIn(ssid, charid){
-		//debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
-		var linkedshapecount = 0;
-		var tcgd = _GP.fontchars[charid].charshapes;
-		
-		// make sure there is only one of this ss in the char
-		for(var sl=0; sl<tcgd.length; sl++){
-			if(tcgd[sl].link){
-				if(tcgd[sl].link == ssid) linkedshapecount++;
-			}
+		debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
+
+		var uia = _GP.linkedshapes[ssid].usedin;
+		var charindex = uia.indexOf(charid);
+		debug("------------------ charindex: " + charindex);
+		if(charindex != -1){
+			debug("------------------ deleting from uia charindex " + charindex);
+			debug("------------------ uia before<br>" + uia);
+			uia.splice(charindex, 1);
+			debug("------------------ uia after<br>" + uia);
 		}
-		
-		//debug("------------------ linkedshapecount = " + linkedshapecount);
-		
-		if(linkedshapecount == 1){
-			var uia = _GP.linkedshapes[ssid].usedin;
-			var charindex = uia.indexOf(charid);
-			//debug("------------------ charindex: " + charindex);
-			if(charindex != -1){
-				//debug("------------------ deleting from uia charindex " + charindex);
-				//debug("------------------ uia before<br>" + uia);
-				uia.splice(charindex, 1);
-				//debug("------------------ uia after<br>" + uia);
-			}
-		}
+
 	}
 
 	

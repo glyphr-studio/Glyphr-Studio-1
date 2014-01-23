@@ -66,7 +66,7 @@
 			scan.width = _UI.thumbsize;
 			scan.height = _UI.thumbsize;
 			var sctx = scan.getContext("2d");
-			
+		
 			_GP.fontchars[tc].drawCharToArea(sctx, factor, _UI.thumbgutter, yoffset);
 		}
 	}
@@ -391,7 +391,6 @@
 		return content;
 	}
 	
-	//	Point Details
 	function pointDetails(s){
 		var tp = s.path.sp();
 		var content = "";
@@ -747,6 +746,8 @@
 				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 
 				//debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(_UI.viewport));
+				
+				/*
 				//only draw the thumbs if it's not a temppathdragshape
 				if(_UI.eventhandlers.temppathdragshape){
 					if(i!==_UI.selectedshape){
@@ -754,7 +755,9 @@
 					}
 				} else {
 					_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
-				}					
+				}
+				*/			
+				_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
 			}
 		}
 	}

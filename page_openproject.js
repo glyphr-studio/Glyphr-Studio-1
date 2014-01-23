@@ -122,7 +122,7 @@
 		_GP.fontchars = createNewFontObject();
 	
 		_GP.linkedshapes = {};
-		_GP.linkedshapes["id0"] = new LinkedShape({});
+		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
 
 		finalizeGlyphrProject();
 	}

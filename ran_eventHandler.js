@@ -201,13 +201,16 @@
 		
 		this.mousedown = function (ev) { 
 			
-			var newshape = new Shape({});
-			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
-			_UI.selectedshape = _UI.shapelayers.length;
-			_UI.shapelayers.push(newshape);
+			var newshape = new Shape({"visible":false})
+			//newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
+			newshape.name = "NEWBASICSHAPE";
+			newshape = addShape(newshape);
+			debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
+			// these rely on ss();
 			newshape.path.setLeftX(cx_sx(_UI.eventhandlers.mousex));
 			newshape.path.setTopY(cy_sy(_UI.eventhandlers.mousey));
 			
+
 			_UI.eventhandlers.temppathdragshape = {
 				"leftx": cx_sx(_UI.eventhandlers.mousex),
 				"rightx": cx_sx(_UI.eventhandlers.mousex),
@@ -222,6 +225,7 @@
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 					
 			redraw();
+			debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
 		}
 		
 		this.mouseup = function () { 
@@ -248,6 +252,8 @@
 				s.path = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
 			}
 			
+			s.visible = true;
+
 			this.dragging = false;
 			_UI.eventhandlers.lastx = -100;
 			_UI.eventhandlers.lasty = -100;			

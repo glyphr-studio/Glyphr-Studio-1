@@ -7,7 +7,7 @@
 		this.objtype = "shape";
 
 		// common settings
-		this.name = oa.name || "new shape";
+		this.name = isval(oa.name)? oa.name : "new shape";
 		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
 		this.ypos = isval(oa.ypos)? oa.ypos : 400;
 		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromCorners(false);
@@ -20,7 +20,6 @@
 		// not settable defaults
 		this.link = false;
 		this.uselinkedshapexy = false;
-		this.hidden = false;
 				
 		//debug("Just created a SHAPE: " + JSON.stringify(this));
 	}
@@ -39,31 +38,42 @@
 //	-----
 	
 	Shape.prototype.drawShape_Single = function(lctx){
-		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
-		if(lctx == _UI.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
-		
-		// Draw the appropriate stuff for each shape's fill & border
-		lctx.beginPath();
-		this.path.drawPath(lctx);
-		lctx.closePath();
-		lctx.fill();
+		if(this.visible){
+			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
+			if(lctx == _UI.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
+			
+			// Draw the appropriate stuff for each shape's fill & border
+			lctx.beginPath();
+			this.path.drawPath(lctx);
+			lctx.closePath();
+			lctx.fill();
+		}
 	}
 
 
 	Shape.prototype.drawShape_Stack = function(lctx){
-		
-		/* BUG FIX? */
-		if(this.link){
-			_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
-			return;
-		}
-		
-		if((this.path.rightx == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != "newpath")) this.path.calcMaxes();
-		
-		this.path.drawPath(lctx);
-		
+		if(this.visible){
+			if(this.link){
+				_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
+				return;
+			}
+			
+			if((this.path.rightx == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != "newpath")) this.path.calcMaxes();
+			
+			this.path.drawPath(lctx);
+		}		
 	}
 
+	Shape.prototype.drawShapeToArea = function(lctx, size, offsetX, offsetY){
+		if(this.visible){
+			//debug("drawShapeToArea for shape: " + this.name);
+			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
+			lctx.beginPath();
+			this.path.drawPathToArea(lctx, size, offsetX, offsetY);
+			lctx.closePath();
+			lctx.fill();
+		}
+	}
 
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
@@ -318,15 +328,6 @@
 		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);	 
 	}
 	
-	Shape.prototype.drawShapeToArea = function(lctx, size, offsetX, offsetY){
-		//debug("drawShapeToArea for shape: " + this.name);
-		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
-		lctx.beginPath();
-		this.path.drawPathToArea(lctx, size, offsetX, offsetY);
-		lctx.closePath();
-		lctx.fill();
-	}	
-
 	Shape.prototype.genPostScript = function(lastx, lasty){
 		return this.path? this.path.genPathPostScript(lastx, lasty) : {"re":"", "lastx":lastx, "lasty":lasty};
 	}
@@ -336,9 +337,8 @@
 //	Button Functions
 //	-----------------
 	function addShape(newshape){
-
+		//debug("ADDSHAPE - was passed:\n" + JSON.stringify(newshape));			
 		if(newshape){
-			//debug("ADDSHAPE - was passed: " + JSON.stringify(newshape));			
 			if(newshape.link){
 				_UI.selectedtool = "shaperesize";
 			} else if(newshape.path && (_UI.selectedtool == "shapemove")) {
@@ -346,6 +346,7 @@
 				//newshape.path.calcMaxes();
 			}
 		} else {
+			//debug("ADDSHAPE - passed null, creating new shape.");
 			newshape = new Shape({});
 			newshape.name = ("layer " + _UI.shapelayers.length);
 		}
@@ -353,6 +354,8 @@
 		if(_UI.navhere == "character edit") { _UI.selectedshape = _UI.shapelayers.length; }
 		_UI.shapelayers.push(newshape);
 
+		
+		//debug("ADDSHAPE - returns:\n" + JSON.stringify(newshape));			
 		return newshape;
 	}
 	
