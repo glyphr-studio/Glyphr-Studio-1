@@ -172,8 +172,8 @@
 		
 		var oldw = this.rightx - this.leftx;
 		var oldh = this.topy - this.bottomy;
-		var neww = oldw + dw;
-		var newh = oldh + dh;
+		var neww = Math.max((oldw + dw), 1);
+		var newh = Math.max((oldh + dh), 1);
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 

@@ -422,9 +422,9 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); redraw();'") + " value='" + s.path.topy + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
 			
 			var cw = (s.path.rightx-s.path.leftx);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize((this.value-"+cw+"),0); redraw();'") + " value='" + cw + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='var p=ss().path; p.updatePathSize((this.value-"+cw+"),0); p.calcMaxes(); redraw();'") + " value='" + cw + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
 			var ch = (s.path.topy-s.path.bottomy);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); redraw();'") + " value='" + ch + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='var p=ss().path; p.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); p.calcMaxes(); redraw();'") + " value='" + ch + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
 			
 		
 		} else {

@@ -958,369 +958,168 @@
 	
 		lctx.fillStyle = fill;
 
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(35.0, 34.0);
-		lctx.lineTo(34.0, 34.0);
-		lctx.lineTo(34.0, 48.0);
-		lctx.lineTo(35.0, 48.0);
-		lctx.lineTo(35.0, 34.0);
-		lctx.lineTo(35.0, 34.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(22.0, 34.0);
-		lctx.lineTo(21.0, 34.0);
-		lctx.lineTo(21.0, 48.0);
-		lctx.lineTo(22.0, 48.0);
-		lctx.lineTo(22.0, 34.0);
-		lctx.lineTo(22.0, 34.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 34.0);
-		lctx.lineTo(47.0, 34.0);
-		lctx.lineTo(47.0, 48.0);
-		lctx.lineTo(48.0, 48.0);
-		lctx.lineTo(48.0, 34.0);
-		lctx.lineTo(48.0, 34.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 47.0);
-		lctx.lineTo(21.0, 47.0);
-		lctx.lineTo(21.0, 48.0);
-		lctx.lineTo(48.0, 48.0);
-		lctx.lineTo(48.0, 47.0);
-		lctx.lineTo(48.0, 47.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 34.0);
-		lctx.lineTo(21.0, 34.0);
-		lctx.lineTo(21.0, 35.0);
-		lctx.lineTo(48.0, 35.0);
-		lctx.lineTo(48.0, 34.0);
-		lctx.lineTo(48.0, 34.0);
-		lctx.closePath();
-		lctx.fill();
-
 		// newAttributes/Check
 		lctx.beginPath();
-		lctx.moveTo(1.0, 7.2);
-		lctx.lineTo(5.8, 13.0);
-		lctx.lineTo(13.0, 2.5);
-		lctx.lineTo(11.1, 1.0);
-		lctx.lineTo(5.8, 9.0);
-		lctx.lineTo(2.7, 5.3);
-		lctx.lineTo(1.0, 7.2);
+		lctx.moveTo(1.0, 7.0);
+		lctx.lineTo(8.0, 14.0);
+		lctx.lineTo(17.0, 3.0);
+		lctx.lineTo(14.0, 0.0);
+		lctx.lineTo(8.0, 8.0);
+		lctx.lineTo(4.0, 4.0);
+		lctx.lineTo(1.0, 7.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(19.0, 44.0);
+		lctx.moveTo(19.0, 43.0);
+		lctx.lineTo(0.0, 43.0);
 		lctx.lineTo(0.0, 44.0);
-		lctx.lineTo(0.0, 45.0);
-		lctx.lineTo(19.0, 45.0);
 		lctx.lineTo(19.0, 44.0);
-		lctx.lineTo(19.0, 44.0);
+		lctx.lineTo(19.0, 43.0);
+		lctx.lineTo(19.0, 43.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(19.0, 36.0);
+		lctx.moveTo(19.0, 35.0);
+		lctx.lineTo(0.0, 35.0);
 		lctx.lineTo(0.0, 36.0);
-		lctx.lineTo(0.0, 37.0);
-		lctx.lineTo(19.0, 37.0);
 		lctx.lineTo(19.0, 36.0);
-		lctx.lineTo(19.0, 36.0);
+		lctx.lineTo(19.0, 35.0);
+		lctx.lineTo(19.0, 35.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(19.0, 40.0);
+		lctx.moveTo(19.0, 39.0);
+		lctx.lineTo(0.0, 39.0);
 		lctx.lineTo(0.0, 40.0);
-		lctx.lineTo(0.0, 41.0);
-		lctx.lineTo(19.0, 41.0);
 		lctx.lineTo(19.0, 40.0);
-		lctx.lineTo(19.0, 40.0);
+		lctx.lineTo(19.0, 39.0);
+		lctx.lineTo(19.0, 39.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(37.0, 39.0);
-		lctx.lineTo(41.0, 43.0);
-		lctx.lineTo(45.0, 39.0);
-		lctx.lineTo(37.0, 39.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(24.0, 43.0);
-		lctx.lineTo(28.0, 39.0);
-		lctx.lineTo(32.0, 43.0);
-		lctx.lineTo(24.0, 43.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(35.0, 17.0);
-		lctx.lineTo(34.0, 17.0);
-		lctx.lineTo(34.0, 31.0);
-		lctx.lineTo(35.0, 31.0);
-		lctx.lineTo(35.0, 17.0);
-		lctx.lineTo(35.0, 17.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(22.0, 17.0);
-		lctx.lineTo(21.0, 17.0);
-		lctx.lineTo(21.0, 31.0);
-		lctx.lineTo(22.0, 31.0);
-		lctx.lineTo(22.0, 17.0);
-		lctx.lineTo(22.0, 17.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 17.0);
-		lctx.lineTo(47.0, 17.0);
-		lctx.lineTo(47.0, 31.0);
-		lctx.lineTo(48.0, 31.0);
-		lctx.lineTo(48.0, 17.0);
-		lctx.lineTo(48.0, 17.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 30.0);
-		lctx.lineTo(21.0, 30.0);
-		lctx.lineTo(21.0, 31.0);
-		lctx.lineTo(48.0, 31.0);
-		lctx.lineTo(48.0, 30.0);
-		lctx.lineTo(48.0, 30.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 17.0);
-		lctx.lineTo(21.0, 17.0);
-		lctx.lineTo(21.0, 18.0);
-		lctx.lineTo(48.0, 18.0);
-		lctx.lineTo(48.0, 17.0);
-		lctx.lineTo(48.0, 17.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(14.0, 0.0);
-		lctx.lineTo(13.0, 0.0);
-		lctx.lineTo(13.0, 14.0);
-		lctx.lineTo(14.0, 14.0);
-		lctx.lineTo(14.0, 0.0);
-		lctx.lineTo(14.0, 0.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(1.0, 0.0);
-		lctx.lineTo(0.0, 0.0);
-		lctx.lineTo(0.0, 14.0);
-		lctx.lineTo(1.0, 14.0);
-		lctx.lineTo(1.0, 0.0);
-		lctx.lineTo(1.0, 0.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(14.0, 13.0);
-		lctx.lineTo(0.0, 13.0);
-		lctx.lineTo(0.0, 14.0);
-		lctx.lineTo(14.0, 14.0);
-		lctx.lineTo(14.0, 13.0);
-		lctx.lineTo(14.0, 13.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(14.0, 0.0);
-		lctx.lineTo(0.0, 0.0);
-		lctx.lineTo(0.0, 1.0);
-		lctx.lineTo(14.0, 1.0);
-		lctx.lineTo(14.0, 0.0);
-		lctx.lineTo(14.0, 0.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// newAttributes/Path
-		lctx.beginPath();
-		lctx.moveTo(19.0, 27.0);
+		lctx.moveTo(19.0, 26.0);
+		lctx.lineTo(0.0, 26.0);
 		lctx.lineTo(0.0, 27.0);
-		lctx.lineTo(0.0, 28.0);
-		lctx.lineTo(19.0, 28.0);
 		lctx.lineTo(19.0, 27.0);
-		lctx.lineTo(19.0, 27.0);
+		lctx.lineTo(19.0, 26.0);
+		lctx.lineTo(19.0, 26.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(19.0, 19.0);
+		lctx.moveTo(19.0, 18.0);
+		lctx.lineTo(0.0, 18.0);
 		lctx.lineTo(0.0, 19.0);
-		lctx.lineTo(0.0, 20.0);
-		lctx.lineTo(19.0, 20.0);
 		lctx.lineTo(19.0, 19.0);
-		lctx.lineTo(19.0, 19.0);
+		lctx.lineTo(19.0, 18.0);
+		lctx.lineTo(19.0, 18.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(19.0, 23.0);
+		lctx.moveTo(19.0, 22.0);
+		lctx.lineTo(0.0, 22.0);
 		lctx.lineTo(0.0, 23.0);
-		lctx.lineTo(0.0, 24.0);
-		lctx.lineTo(19.0, 24.0);
 		lctx.lineTo(19.0, 23.0);
-		lctx.lineTo(19.0, 23.0);
+		lctx.lineTo(19.0, 22.0);
+		lctx.lineTo(19.0, 22.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(48.0, 11.0);
-		lctx.lineTo(16.0, 11.0);
-		lctx.lineTo(16.0, 12.0);
-		lctx.lineTo(48.0, 12.0);
+		lctx.moveTo(48.0, 10.0);
+		lctx.lineTo(19.0, 10.0);
+		lctx.lineTo(19.0, 11.0);
 		lctx.lineTo(48.0, 11.0);
-		lctx.lineTo(48.0, 11.0);
+		lctx.lineTo(48.0, 10.0);
+		lctx.lineTo(48.0, 10.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(48.0, 3.0);
-		lctx.lineTo(16.0, 3.0);
-		lctx.lineTo(16.0, 4.0);
-		lctx.lineTo(48.0, 4.0);
+		lctx.moveTo(48.0, 2.0);
+		lctx.lineTo(19.0, 2.0);
+		lctx.lineTo(19.0, 3.0);
 		lctx.lineTo(48.0, 3.0);
-		lctx.lineTo(48.0, 3.0);
+		lctx.lineTo(48.0, 2.0);
+		lctx.lineTo(48.0, 2.0);
 		lctx.closePath();
 		lctx.fill();
 
 		// newAttributes/Path
 		lctx.beginPath();
-		lctx.moveTo(48.0, 7.0);
-		lctx.lineTo(16.0, 7.0);
-		lctx.lineTo(16.0, 8.0);
-		lctx.lineTo(48.0, 8.0);
+		lctx.moveTo(48.0, 6.0);
+		lctx.lineTo(19.0, 6.0);
+		lctx.lineTo(19.0, 7.0);
 		lctx.lineTo(48.0, 7.0);
-		lctx.lineTo(48.0, 7.0);
+		lctx.lineTo(48.0, 6.0);
+		lctx.lineTo(48.0, 6.0);
 		lctx.closePath();
 		lctx.fill();
 
-		// newAttributes/Path
+		// newAttributes/Compound Path
 		lctx.beginPath();
-		lctx.moveTo(37.0, 22.0);
-		lctx.lineTo(41.0, 26.0);
-		lctx.lineTo(45.0, 22.0);
-		lctx.lineTo(37.0, 22.0);
+
+		// newAttributes/Compound Path/Path
+		lctx.moveTo(23.0, 16.0);
+		lctx.lineTo(23.0, 29.0);
+		lctx.lineTo(48.0, 29.0);
+		lctx.lineTo(48.0, 16.0);
+		lctx.lineTo(23.0, 16.0);
+		lctx.closePath();
+
+		// newAttributes/Compound Path/Path
+		lctx.moveTo(25.0, 25.0);
+		lctx.lineTo(30.0, 20.0);
+		lctx.lineTo(35.0, 25.0);
+		lctx.lineTo(25.0, 25.0);
+		lctx.closePath();
+
+		// newAttributes/Compound Path/Path
+		lctx.moveTo(41.0, 25.0);
+		lctx.lineTo(36.0, 20.0);
+		lctx.lineTo(46.0, 20.0);
+		lctx.lineTo(41.0, 25.0);
 		lctx.closePath();
 		lctx.fill();
 
-		// newAttributes/Path
+		// newAttributes/Compound Path
 		lctx.beginPath();
-		lctx.moveTo(24.0, 26.0);
-		lctx.lineTo(28.0, 22.0);
-		lctx.lineTo(32.0, 26.0);
-		lctx.lineTo(24.0, 26.0);
+
+		// newAttributes/Compound Path/Path
+		lctx.moveTo(23.0, 33.0);
+		lctx.lineTo(23.0, 46.0);
+		lctx.lineTo(48.0, 46.0);
+		lctx.lineTo(48.0, 33.0);
+		lctx.lineTo(23.0, 33.0);
+		lctx.closePath();
+
+		// newAttributes/Compound Path/Path
+		lctx.moveTo(25.0, 42.0);
+		lctx.lineTo(30.0, 37.0);
+		lctx.lineTo(35.0, 42.0);
+		lctx.lineTo(25.0, 42.0);
+		lctx.closePath();
+
+		// newAttributes/Compound Path/Path
+		lctx.moveTo(41.0, 42.0);
+		lctx.lineTo(36.0, 37.0);
+		lctx.lineTo(46.0, 37.0);
+		lctx.lineTo(41.0, 42.0);
 		lctx.closePath();
 		lctx.fill();
-
-
-
-
-		/*
-		// attributesActions/Path
-		lctx.save();
-		lctx.beginPath();
-		lctx.moveTo(34.0, 14.0);
-		lctx.lineTo(32.0, 14.0);
-		lctx.lineTo(32.0, 48.0);
-		lctx.lineTo(34.0, 48.0);
-		lctx.lineTo(34.0, 14.0);
-		lctx.lineTo(34.0, 14.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// attributesActions/Path
-		lctx.beginPath();
-		lctx.moveTo(2.0, 14.0);
-		lctx.lineTo(0.0, 14.0);
-		lctx.lineTo(0.0, 48.0);
-		lctx.lineTo(2.0, 48.0);
-		lctx.lineTo(2.0, 14.0);
-		lctx.lineTo(2.0, 14.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// attributesActions/Path
-		lctx.beginPath();
-		lctx.moveTo(34.0, 14.0);
-		lctx.lineTo(0.0, 14.0);
-		lctx.lineTo(0.0, 16.0);
-		lctx.lineTo(34.0, 16.0);
-		lctx.lineTo(34.0, 14.0);
-		lctx.lineTo(34.0, 14.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// attributesActions/Path
-		lctx.beginPath();
-		lctx.moveTo(34.0, 46.0);
-		lctx.lineTo(0.0, 46.0);
-		lctx.lineTo(0.0, 48.0);
-		lctx.lineTo(34.0, 48.0);
-		lctx.lineTo(34.0, 46.0);
-		lctx.lineTo(34.0, 46.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// attributesActions/Check
-		lctx.beginPath();
-		lctx.moveTo(3.0, 27.4);
-		lctx.lineTo(19.1, 45.0);
-		lctx.lineTo(47.0, 11.3);
-		lctx.lineTo(41.1, 1.0);
-		lctx.lineTo(19.1, 33.3);
-		lctx.lineTo(8.9, 20.1);
-		lctx.lineTo(3.0, 27.4);
-		lctx.closePath();
-		lctx.fill();
-		lctx.restore();
-		*/
 	}
 
 	function draw_primaryNav_save(lctx, fill){

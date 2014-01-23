@@ -410,9 +410,7 @@
 				evHanShapeResize(s, _UI.eventhandlers.corner);
 			}
 			
-			if(this.resizing) { 
-				s.path.calcMaxes(); 
-			}
+			if(this.resizing) s.path.calcMaxes(); 
 			
 			this.dragging = false;
 			this.resizing = false;
@@ -444,10 +442,8 @@
 				//debug("SHAPERESIZE dragging normal shape");
 				if (this.dragging) {
 					// Moving shapes if mousedown
-					var dx = 0;
-					s.xlock? true : dx = Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					var dy = 0;
-					s.ylock? true : dy = Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+					var dx = s.xlock? 0 : dx = Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					var dy = s.ylock? 0 : dy = Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
