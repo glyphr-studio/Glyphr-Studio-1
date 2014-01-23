@@ -87,15 +87,13 @@
 
 	}
 	
-	Path.prototype.drawPathToArea = function(lctx, size, offsetX, offsetY){
-		var tempv = clone(_UI.viewport);
-		_UI.viewport.originx = offsetX;
-		_UI.viewport.originy = offsetY;
-		_UI.viewport.zoom = size;	
+	Path.prototype.drawPathToArea = function(lctx, view){
+		var tempv = clone(getView());
+		setView(view);
 
 		this.drawPath(lctx);
 
-		_UI.viewport = tempv;
+		setView(tempv);
 	}
 
 	Path.prototype.genPathPostScript = function(lastx, lasty){
@@ -135,8 +133,7 @@
 	
 	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints;
-		//var hp = _GP.projectsettings.pointsize/2/_UI.viewport.zoom;
-		var hp = _GP.projectsettings.pointsize/_UI.viewport.zoom;
+		var hp = _GP.projectsettings.pointsize/getView().dz;
 		
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){

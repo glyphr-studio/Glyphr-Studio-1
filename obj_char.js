@@ -39,17 +39,17 @@
 //-------------------------------------------------------
 
 
-	Char.prototype.drawCharToArea = function(lctx, size, offsetX, offsetY){
+	Char.prototype.drawCharToArea = function(lctx, view){
 		var ps = _GP.projectsettings;
 		var sl = this.charshapes;
 		var cc = this.getCharNumber();
 
-		//debug("DRAWCHARTOAREA - starting " + cc + " \t offsetx: " + offsetX + " \t offsety: " + offsetY + " \t size (zoom): " +size);
+		//debug("DRAWCHARTOAREA - starting " + cc);
 		
-		var width = (this.charwidth*size);
+		var width = (this.charwidth*view.dz);
 		if(this.isautowide){ 
-			//debug("---------------- for " + this.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*size) + " to width " + width);
-			width += (ps.defaultlsb*size); 
+			//debug("---------------- for " + this.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*view.dz) + " to width " + width);
+			width += (ps.defaultlsb*view.dz); 
 		}
 		
 		var sh = {};
@@ -58,7 +58,7 @@
 			sh = sl[j];
 			if(sh.link){ sh = _GP.linkedshapes[sh.link].shape; }
 			//debug("---------------- starting shape " + sh.name);
-			if(sh.visible) sh.path.drawPathToArea(lctx, size, offsetX, offsetY);
+			if(sh.visible) sh.path.drawPathToArea(lctx, view);
 		}
 		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.closePath();

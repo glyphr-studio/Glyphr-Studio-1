@@ -57,7 +57,7 @@
 			tctx = tele.getContext("2d");
 			tele.style.backgroundColor = _UI.colors.offwhite;
 			if(ssid==_UI.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
+			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 		}
 		//debug("DRAWLINKEDSHAPELAYERTHUMBS - end");
 	}
@@ -167,7 +167,7 @@
 		for(var k=0; k<ui.length; k++){
 			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
-			_GP.fontchars[ui[k]].drawCharToArea(tctx, factor, _UI.thumbgutter, yoffset);
+			_GP.fontchars[ui[k]].drawCharToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}

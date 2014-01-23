@@ -67,7 +67,7 @@
 			scan.height = _UI.thumbsize;
 			var sctx = scan.getContext("2d");
 		
-			_GP.fontchars[tc].drawCharToArea(sctx, factor, _UI.thumbgutter, yoffset);
+			_GP.fontchars[tc].drawCharToArea(sctx, {"dz": factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 		}
 	}
 	
@@ -136,8 +136,47 @@
 	}
 	
 	function resetCursor() { document.body.style.cursor = 'default'; }
+
+
+//-------------------
+// VIEW
+//-------------------
+
+	function setView(oa){
+		var sc = _UI.selectedchar;
+		var v = _UI.views;
 		
-	function resetZoomPan(){ _UI.viewport = clone(_UI.defaultviewport); }
+		// Ensure there are at least defaults
+		if(!isval(v[sc])){
+			debug("SETVIEW - char " + sc + " has no existing view, setting to default.");
+			v[sc] = getView();
+		}
+		
+		// Check for which to set
+		if(isval(oa.dx)){ v[sc].dx = oa.dx; }		
+		if(isval(oa.dy)){ v[sc].dy = oa.dy; }		
+		if(isval(oa.dz)){ v[sc].dz = round(oa.dz, 3); }
+		
+		//debug("SETVIEW - passed " + JSON.stringify(oa) + " selectedchar " + _UI.selectedchar + " VIEWS is\n" + JSON.stringify(_UI.views));
+	}
+
+	function getView(){
+		var sc = _UI.selectedchar;
+		var v = _UI.views;
+
+		if(isval(v[sc])){
+			//debug("GETVIEW - char " + sc + " HAS an existing value, returning \n" + JSON.stringify(v[sc]));
+			return clone(v[sc]);
+		} else {
+			//debug("GETVIEW - char " + sc + " HAS NO EXISTING value, returning default");
+			return clone(_UI.defaultview);
+		}
+	}
+
+	function viewZoom(zfactor){
+		setView({"dz" : (getView().dz*=zfactor)});
+		redraw();
+	}
 
 
 //-------------------
@@ -182,7 +221,8 @@
 			_UI.chareditctx.lineWidth = 1;
 			//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
 			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
-			var rhl = (fc[_UI.selectedchar].charwidth*_UI.viewport.zoom) + _UI.viewport.originx;
+			var v = getView();
+			var rhl = (fc[_UI.selectedchar].charwidth*v.dz) + v.dx;
 			if(_UI.eventhandlers.temppathdragshape){
 				rhl = Math.max(sx_cx(_UI.eventhandlers.temppathdragshape.rightx), rhl);
 			}
@@ -745,19 +785,7 @@
 				tele.style.backgroundColor = _UI.colors.offwhite;
 				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 
-				//debug("UPDATELAYERS: layer: " + i + " \t viewport: " + JSON.stringify(_UI.viewport));
-				
-				/*
-				//only draw the thumbs if it's not a temppathdragshape
-				if(_UI.eventhandlers.temppathdragshape){
-					if(i!==_UI.selectedshape){
-						_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
-					}
-				} else {
-					_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
-				}
-				*/			
-				_UI.shapelayers[i].drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
+				_UI.shapelayers[i].drawShapeToArea(tctx, {"dz": factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 			}
 		}
 	}
@@ -796,11 +824,11 @@
 		
 		content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
 		content += "<div title='scroll and pan' class='" + (_UI.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: in' class='button tool' onclick='canvasZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: out' class='button tool' onclick='canvasZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: one to one' class='button tool' onclick='_UI.viewport.zoom = 1;redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
-		content += "<div title='zoom: full em' class='button tool' onclick='resetZoomPan(); redraw();'><canvas id='zoomembuttoncanvas'></canvas></div>";
-		content += "<div title='zoom level' class='tool out'>" + round(_UI.viewport.zoom*100, 2) + "%</div>";
+		content += "<div title='zoom: in' class='button tool' onclick='viewZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></div>";
+		content += "<div title='zoom: out' class='button tool' onclick='viewZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
+		content += "<div title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw();'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
+		content += "<div title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw();'><canvas id='zoomembuttoncanvas'></canvas></div>";
+		content += "<div title='zoom level' class='tool out'>" + round(getView().dz*100, 2) + "%</div>";
 		
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
@@ -937,11 +965,6 @@
 		
 		redraw();
 	}
-
-	function canvasZoom(zfactor){
-		_UI.viewport.zoom*=zfactor;
-		redraw();
-	}
 	
 	
 //-------------------
@@ -951,24 +974,24 @@
 	
 	function grid(){
 		var ps = _GP.projectsettings;
-		var vp = _UI.viewport;
+		var v = getView();
 
-		//debug("GRID: vp:" + JSON.stringify(vp));
+		//debug("GRID: v:" + JSON.stringify(v));
 
 		_UI.chareditctx.fillStyle = _UI.colors.offwhite;
 		_UI.chareditctx.fillRect(0,0,99999,99999);
 		
-		var zupm = (ps.upm * vp.zoom);
-		var gutter = ((_UI.chareditcanvassize*vp.zoom) - zupm)/2;
-		var zasc = (ps.ascent * vp.zoom);
+		var zupm = (ps.upm * v.dz);
+		var gutter = ((_UI.chareditcanvassize*v.dz) - zupm)/2;
+		var zasc = (ps.ascent * v.dz);
 		// background white square
 
 		var xs = {};
 		/*
-		xs.xmax = Math.round(vp.originx + zupm + gutter);
-		xs.xmin = Math.round(vp.originx - gutter);
-		xs.ymax = Math.round(vp.originy + (zupm - zasc) + gutter);
-		xs.ymin = Math.round(vp.originy - zasc - gutter);
+		xs.xmax = Math.round(v.dx + zupm + gutter);
+		xs.xmin = Math.round(v.dx - gutter);
+		xs.ymax = Math.round(v.dy + (zupm - zasc) + gutter);
+		xs.ymin = Math.round(v.dy - zasc - gutter);
 		*/
 
 		xs.xmax = _UI.chareditcanvassize;
@@ -981,30 +1004,29 @@
 		_UI.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 		
 		// Grids		
-		var mline = vp.originy - (ps.ascent*vp.zoom);
-		var xline = vp.originy - (ps.xheight*vp.zoom);
-		var dline = vp.originy - ((ps.ascent - ps.upm)*vp.zoom);
-		var overshootsize = (ps.overshoot*vp.zoom);
-		var lgline = dline + overshootsize + (ps.linegap*vp.zoom);
+		var mline = v.dy - (ps.ascent*v.dz);
+		var xline = v.dy - (ps.xheight*v.dz);
+		var dline = v.dy - ((ps.ascent - ps.upm)*v.dz);
+		var overshootsize = (ps.overshoot*v.dz);
+		var lgline = dline + overshootsize + (ps.linegap*v.dz);
 
 		//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
 
 		if(_UI.showgrid || _UI.showguides){
-			var size = vp.size/ps.griddivisions;
 			_UI.chareditctx.lineWidth = 1;
 			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_grid;
 			
 			if(_UI.showgrid){
-				var gsize = ((ps.upm/ps.griddivisions)*vp.zoom);
+				var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 				//debug("GRID - gridsize set as: " + gsize);
 				
-				for(var j=vp.originx; j<xs.xmax-1; j+=gsize){ vertical(j, xs.ymin, xs.ymax); }
+				for(var j=v.dx; j<xs.xmax-1; j+=gsize){ vertical(j, xs.ymin, xs.ymax); }
 				vertical(xs.xmax+1, xs.ymin, xs.ymax);
-				for(var j=vp.originx; j>=xs.xmin; j-=gsize){ vertical(j, xs.ymin, xs.ymax); }
+				for(var j=v.dx; j>=xs.xmin; j-=gsize){ vertical(j, xs.ymin, xs.ymax); }
 				
-				for(var j=vp.originy; j<xs.ymax-1; j+=gsize){ horizontal(j, xs.xmin, xs.xmax); }
+				for(var j=v.dy; j<xs.ymax-1; j+=gsize){ horizontal(j, xs.xmin, xs.xmax); }
 				horizontal(xs.ymax, xs.xmin, xs.xmax+1);
-				for(var j=vp.originy; j>=xs.ymin; j-=gsize){ horizontal(j, xs.xmin, xs.xmax); }
+				for(var j=v.dy; j>=xs.ymin; j-=gsize){ horizontal(j, xs.xmin, xs.xmax); }
 
 			}
 			
@@ -1013,11 +1035,11 @@
 				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .8, true);
 				horizontal(xline-overshootsize, xs.xmin, xs.xmax);
 				horizontal(mline-overshootsize, xs.xmin, xs.xmax);
-				horizontal(vp.originy+overshootsize, xs.xmin, xs.xmax);
+				horizontal(v.dy+overshootsize, xs.xmin, xs.xmax);
 				horizontal(dline+overshootsize, xs.xmin, xs.xmax);
 				
 				// Right hand Em Square and Line Gap
-				vertical(vp.originx+(ps.upm*vp.zoom), xs.ymin, xs.ymax);
+				vertical(v.dx+(ps.upm*v.dz), xs.ymin, xs.ymax);
 				horizontal(lgline, xs.xmin, xs.xmax);
 				
 				// major guidelines - xheight, top (emzize)
@@ -1031,16 +1053,16 @@
 				// Out of bounds triangle
 				_UI.chareditctx.fillStyle = _GP.projectsettings.color_guideline;		
 				_UI.chareditctx.beginPath();
-				_UI.chareditctx.moveTo(vp.originx, vp.originy);
-				_UI.chareditctx.lineTo(vp.originx, vp.originy+(_GP.projectsettings.pointsize*2));
-				_UI.chareditctx.lineTo(vp.originx-(_GP.projectsettings.pointsize*2), vp.originy);
+				_UI.chareditctx.moveTo(v.dx, v.dy);
+				_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
+				_UI.chareditctx.lineTo(v.dx-(_GP.projectsettings.pointsize*2), v.dy);
 				_UI.chareditctx.closePath();
 				_UI.chareditctx.fill();
 				
 				// Origin Lines
 				_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
-				horizontal(vp.originy, xs.xmin, xs.xmax);
-				vertical(vp.originx, xs.ymin, xs.ymax);
+				horizontal(v.dy, xs.xmin, xs.xmax);
+				vertical(v.dx, xs.ymin, xs.ymax);
 			}
 		}
 	}

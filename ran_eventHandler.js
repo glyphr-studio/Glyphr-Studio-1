@@ -127,7 +127,7 @@
 				//debug("NEWPATH MOUSEDOWN - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = _GP.projectsettings.pointsize/_UI.viewport.zoom;
+					var hp = _GP.projectsettings.pointsize/getView().dz;
 					if( ((p.P.x+hp) > cx_sx(_UI.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(_UI.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(_UI.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(_UI.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
@@ -202,8 +202,7 @@
 		this.mousedown = function (ev) { 
 			
 			var newshape = new Shape({"visible":false})
-			//newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
-			newshape.name = "NEWBASICSHAPE";
+			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
 			newshape = addShape(newshape);
 			debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
 			// these rely on ss();
@@ -332,18 +331,19 @@
 				// Moving points if mousedown
 				var dx = 0;
 				var dy = 0;
+				var dz = getView().dz;
 				switch (this.controlpoint){
 					case "P":
-						if(!sp.P.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom;
-						if(!sp.P.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom;
+						if(!sp.P.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
+						if(!sp.P.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
 						break;
 					case "H1":
-						if(!sp.H1.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom;
-						if(!sp.H1.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom;
+						if(!sp.H1.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
+						if(!sp.H1.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
 						break;
 					case "H2":
-						if(!sp.H2.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom;
-						if(!sp.H2.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom;
+						if(!sp.H2.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
+						if(!sp.H2.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
 						break;
 				}
 				sp.updatePointPosition(this.controlpoint, dx, dy); 
@@ -430,13 +430,13 @@
 			var s = ss("eventHandler - pathedit mousemove");
 			//debug("<b><i>SHAPERESIZE TOOL</i></b> - ss returned s.link: " + s.link);
 			var didstuff = false;
-
+			var dz = getView().dz;
 			if(s.link){
 				//debug("SHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
-					s.xpos += Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom);
-					s.ypos += Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom);
+					s.xpos += Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					s.ypos += Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
 					resetCursor();
 				}
@@ -445,9 +445,9 @@
 				if (this.dragging) {
 					// Moving shapes if mousedown
 					var dx = 0;
-					s.xlock? true : dx = Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/_UI.viewport.zoom);
+					s.xlock? true : dx = Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					var dy = 0;
-					s.ylock? true : dy = Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/_UI.viewport.zoom);
+					s.ylock? true : dy = Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
@@ -482,8 +482,9 @@
 		
 		this.mousedown = function (ev) { 
 			//debug("PAN TOOL - mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
-			this.deltax = (_UI.eventhandlers.mousex-_UI.viewport.originx);
-			this.deltay = (_UI.eventhandlers.mousey-_UI.viewport.originy);
+			var v = getView();
+			this.deltax = (_UI.eventhandlers.mousex-v.dx);
+			this.deltay = (_UI.eventhandlers.mousey-v.dy);
 			this.dragging = true; 
 		};
 		
@@ -497,9 +498,7 @@
 		this.mousemove = function (ev) {
 			if (this.dragging) {
 				// Moving shapes if mousedown
-				_UI.viewport.originx = (_UI.eventhandlers.mousex-this.deltax);
-				_UI.viewport.originy = (_UI.eventhandlers.mousey-this.deltay);
-				//debug("EVENTHANDLER - PAN - new x/y: " + _UI.viewport.originx + " / " + _UI.viewport.originy);
+				setView({"dx" : (_UI.eventhandlers.mousex-this.deltax), "dy" : (_UI.eventhandlers.mousey-this.deltay)});
 				redraw();
 			}
 		};
@@ -510,11 +509,13 @@
 	
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
-		return Math.round((cx-_UI.viewport.originx)/(_UI.viewport.zoom));
+		var v = getView();
+		return Math.round((cx-v.dx)/(v.dz));
 	}
 	
 	function cy_sy(cy){
-		return Math.round((_UI.viewport.originy-cy)/(_UI.viewport.zoom));
+		var v = getView();
+		return Math.round((v.dy-cy)/(v.dz));
 	}
 	
 	function clickEmptySpace(){
@@ -671,8 +672,8 @@
 		
 		if(canscroll){
 		//debug("MOUSEWHEEL: canscroll=true and delta=" + delta );
-			if(delta > 0){ canvasZoom(1.1); }
-			else { canvasZoom(.9); }
+			if(delta > 0){ viewZoom(1.1); }
+			else { viewZoom(.9); }
 		}
 	}
 	

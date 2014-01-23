@@ -64,12 +64,12 @@
 		}		
 	}
 
-	Shape.prototype.drawShapeToArea = function(lctx, size, offsetX, offsetY){
+	Shape.prototype.drawShapeToArea = function(lctx, view){
 		if(this.visible){
 			//debug("drawShapeToArea for shape: " + this.name);
 			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 			lctx.beginPath();
-			this.path.drawPathToArea(lctx, size, offsetX, offsetY);
+			this.path.drawPathToArea(lctx, view);
 			lctx.closePath();
 			lctx.fill();
 		}
@@ -77,21 +77,22 @@
 
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
-		var canvasx = _UI.viewport.originx;
-		canvasx += (sx*_UI.viewport.zoom);
+		var v = getView();
+		var canvasx = v.dx;
+		canvasx += (sx*v.dz);
 		return canvasx;
 	}
 	
 	function sy_cy(sy){
-		var canvasy = _UI.viewport.originy;
-		canvasy -= (sy*_UI.viewport.zoom);
+		var v = getView();
+		var canvasy = v.dy;
+		canvasy -= (sy*v.dz);
 		return canvasy;
 	}
 	
 	Shape.prototype.drawSelectOutline = function(onlycenter){
 		//debug("DRAWSELECTOUTLINE - onlycenter: " + onlycenter);
 		
-		var z = _UI.viewport.zoom;
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.chareditctx.lineWidth = 1;
 		_UI.chareditctx.strokeStyle = _UI.colors.accent;

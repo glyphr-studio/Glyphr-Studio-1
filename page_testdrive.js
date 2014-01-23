@@ -66,7 +66,7 @@
 					);
 				}
 
-				currx += cc.drawCharToArea(tctx, _UI.testdrive_fontscale, currx, curry);
+				currx += cc.drawCharToArea(tctx, {"dz" : _UI.testdrive_fontscale, "dx" : currx, "dy" : curry});
 				currx += (document.getElementById("charspacing").value*1*scale);
 					
 			}

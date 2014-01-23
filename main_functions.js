@@ -47,7 +47,6 @@
 				
 			case "character edit":
 				_UI.navprimaryhere = "npChar";
-				resetZoomPan();
 				updatecharedit();	
 				document.getElementById("mainwrapper").style.overflowY = "hidden";			
 				_UI.selectedshape = -1;
@@ -55,7 +54,6 @@
 			
 			case "linked shapes":
 				_UI.navprimaryhere = "npChar";
-				resetZoomPan();
 				updatelinkedshapes();
 				document.getElementById("mainwrapper").style.overflowY = "hidden";
 				break;

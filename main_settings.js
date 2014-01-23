@@ -38,16 +38,12 @@
 		"chareditctx" : false,
 		"ishereghostcanvas" : false, 
 		"ishereghostctx" : false,
-		"viewport" : {
-			"originx" : 200,		// Where on the canvas the origin is
-			"originy" : 500,		// Where on the canvas the origin is
-			"zoom" : .5,			// Either reduces or increases objects size
-		}, 
-		"defaultviewport" : {
-			"originx" : 200,
-			"originy" : 500,
-			"zoom" : .5
+		"defaultview" : {
+			"dx" : 200,		// X offset for the canvas origin
+			"dy" : 500,		// Y offset for the canvas origin
+			"dz" : .5,		// Zoom or scale of the canvas
 		},
+		"views" : {},	// Holds the unique views per char & linkedshape
 
 		// page: linked shapes
 		"shownlinkedshape" : "id0",

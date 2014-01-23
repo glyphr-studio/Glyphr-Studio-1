@@ -96,7 +96,7 @@
 		for(var ssid in _GP.linkedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, factor, _UI.thumbgutter, yoffset);
+			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -216,17 +216,17 @@
 		}
 	}
 	
-	LinkedShapeInstance.prototype.drawShapeToArea = function(lctx, size, offsetX, offsetY){
+	LinkedShapeInstance.prototype.drawShapeToArea = function(lctx, view){
 		//debug("DRAWLINKEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.uselinkedshapexy){
 			//debug("--------------------- uselinkedshapexy=true, calling drawShapeToArea for linkedshape.");
-			_GP.linkedshapes[this.link].shape.drawShapeToArea(lctx, size, offsetX, offsetY);
+			_GP.linkedshapes[this.link].shape.drawShapeToArea(lctx, view);
 		} else {
 			//debug("--------------------- uselinkedshapexy=false, calling updatepathposition with FORCE.");
 			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.name += " HAS BEEN MOVED";
-			ns.drawShapeToArea(lctx, size, offsetX, offsetY);
+			ns.drawShapeToArea(lctx, view);
 		}
 	}
 
