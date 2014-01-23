@@ -1,5 +1,5 @@
 
-	function updatefontsettings(){
+	function loadPage_fontsettings(){
 
 		// SETTINGS
 		var ps = _GP.projectsettings;

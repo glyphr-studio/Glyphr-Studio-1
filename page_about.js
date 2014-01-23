@@ -1,5 +1,5 @@
 
-function updateabout(){
+function loadPage_about(){
 
 	var content = "<div class='pagecontent textpage'><h1>About Glyphr</h1>" + 
 	"<h2 style='margin-bottom:12px;'>"+_UI.thisGlyphrStudioVersion+"</h2>" + 

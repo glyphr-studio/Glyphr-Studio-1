@@ -6,7 +6,7 @@
 	function LinkedShape(oa){
 		this.objtype = "linkedshape";
 
-		this.shape = new Shape(oa.shape);
+		this.shape = oa.shape || new Shape({});
 		this.shape.name = oa.name || "New Linked Shape";
 		this.usedin = oa.usedin || [];
 	}

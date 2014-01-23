@@ -1,5 +1,5 @@
 
-	function updateopenproject(){
+	function loadPage_openproject(){
 		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
 		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
 		"project file if you want to save your current project.<br><br>\
@@ -12,7 +12,7 @@
 		document.getElementById("mainpane").innerHTML = ct;
 	}
 	
-	function updatefirstrun(){
+	function loadPage_firstrun(){
 		//debug("UPDATEFIRSTRUN");
 		var ct = "<div class='splashscreen textpage'><canvas id='splashscreencanvas' height=494 width=800></canvas>";
 		ct += "<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>";

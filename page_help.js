@@ -1,5 +1,5 @@
-function updatehelp(){
-	//debug("UPDATEHELP()");
+function loadPage_help(){
+	//debug("loadPage_help()");
 	
 	var content = "<div class='pagecontent textpage'><h1>Help</h1>" +
 	"<a name='top'></a>" +

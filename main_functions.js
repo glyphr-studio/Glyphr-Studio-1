@@ -17,9 +17,8 @@
 //-------------------
 // Navigation Stuff
 //-------------------
-	function navigate(){
+	function navigate(where){
 		//debug("<b>>>NAVIGATE STARTED</b> - to " + _UI.navhere);
-
 
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
@@ -28,34 +27,34 @@
 		document.getElementById("navtargetpane").style.display = "block";
 		document.getElementById("logocanvas").style.display = "block";
 		
+		_UI.navprimaryhere = where || "npChar";
 		if(_UI.navhere=="test drive") _UI.navprimaryhere = "npAttributes";
 		
 		updateNavPrimaryNavTarget();
 
 		switch(_UI.navhere){
-			case "firstrun":			updatefirstrun();		break;	
-			case "font settings":		updatefontsettings();	break;
-			case "project settings":	updateprojectsettings();	break;
-			case "test drive":
-				_UI.navprimaryhere = "npAttributes";
-				updatetestdrive();		
+			case "firstrun":			loadPage_firstrun();		break;	
+			case "font settings":		loadPage_fontsettings();	break;
+			case "project settings":	loadPage_projectsettings();	break;				
+			case "open project":		loadPage_openproject();		break;
+			case "export font":			loadPage_exportfont();		break;
+			case "help": 				loadPage_help();			break;
+			case "about":				loadPage_about();			break;
+
+			case "test drive": 
+				loadPage_testdrive();		
 				break;	
 				
-			case "open project":	updateopenproject();	break;
-			case "export font":		updateexportfont();		break;
-			case "help": 			updatehelp();			break;
-			case "about":			updateabout();			break;
-				
 			case "character edit":
-				_UI.navprimaryhere = "npChar";
-				updatecharedit();	
+				//_UI.navprimaryhere = "npChar";
+				loadPage_charedit();	
 				document.getElementById("mainwrapper").style.overflowY = "hidden";			
 				_UI.selectedshape = -1;
 				break;
 			
 			case "linked shapes":
-				_UI.navprimaryhere = "npChar";
-				updatelinkedshapes();
+				//_UI.navprimaryhere = "npChar";
+				loadPage_linkedshapes();
 				document.getElementById("mainwrapper").style.overflowY = "hidden";
 				break;
 		}
@@ -65,7 +64,7 @@
 		document.body.focus();
 		
 
-		debug("\nNAVIGATE FINISHED - to " + _UI.navhere + "\n");
+		debug("\nNAVIGATE FINISHED - to " + _UI.navhere + " passed " + where + "\n");
 
 	}
 	
@@ -197,14 +196,14 @@
 		navarr.push("npNav");
 		
 		if(_UI.navhere=="character edit"){
-			navarr.push("npChar");
-			navarr.push("npLayers");
 			navarr.push("npAttributes");
+			navarr.push("npLayers");
+			navarr.push("npChar");
 		}
 		
 		if(_UI.navhere=="linked shapes"){
-			navarr.push("npChar");
 			navarr.push("npAttributes");
+			navarr.push("npChar");
 		}
 		
 		if(_UI.navhere=="test drive"){
@@ -246,7 +245,7 @@
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
 			if(navarr[i] == _UI.navhere) { bc = "navtargetbuttonsel"; }
-			
+
 			if(navarr[i]=="_"){
 				newsub += "<div style='height:10px;'></div>";
 			} else if (navarr[i] == "bug"){
@@ -254,7 +253,7 @@
 			} else if (navarr[i] == "feat"){
 				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
 			} else {
-				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate(true);'>");
+				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>");
 			}
 		}
 		

@@ -7,7 +7,7 @@
 	var _UI = {
 		// all pages
 		"navhere" : "firstrun",
-		"navprimaryhere" : "npNav",
+		"navprimaryhere" : "npChar",
 		"thisGlyphrStudioVersion" : "Beta 3 Working Edition - 0.3.2014.1.00.Working",
 		"projectsaved": true,
 		"colors" : {

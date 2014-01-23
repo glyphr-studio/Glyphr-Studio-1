@@ -5,7 +5,7 @@
 // UBER FUCNTIONS
 //-------------------
 
-	function updatecharedit(){
+	function loadPage_charedit(){
 		document.getElementById("mainpane").innerHTML = charedit_content();
 			
 		setupEditCanvas();
@@ -109,8 +109,8 @@
 
 		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(_UI.shapelayers));
 		if(!dontnavigate){
-			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
-			navigate();
+			debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
+			navigate('npAttributes');
 		}
 	}
 

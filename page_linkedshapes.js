@@ -1,6 +1,6 @@
 
 
-	function updatelinkedshapes(toggle){
+	function loadPage_linkedshapes(){
 
 		document.getElementById("mainpane").innerHTML = linkedshapes_content();
 		
@@ -83,7 +83,7 @@
 		_UI.shownlinkedshape = ssid;
 		_UI.selectedshape = ssid;
 		_UI.shapelayers = [_GP.linkedshapes[ssid].shape];
-		navigate();
+		navigate('npAttributes');
 	}
 
 	

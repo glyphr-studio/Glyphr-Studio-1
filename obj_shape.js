@@ -7,7 +7,7 @@
 		this.objtype = "shape";
 
 		// common settings
-		this.name = isval(oa.name)? oa.name : "new shape";
+		this.name = oa.name || "new shape";
 		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
 		this.ypos = isval(oa.ypos)? oa.ypos : 400;
 		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromCorners(false);
