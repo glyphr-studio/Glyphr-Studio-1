@@ -132,15 +132,16 @@
 	
 	function generateUsedinThumbs(){		
 		var re = "<div class='ssthumbcontainer'>";
-		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
+		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin
+		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) == pos;});
 
-		for(var k=0; k<ui.length; k++){
+		for(var k=0; k<unique.length; k++){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
-			re += "<canvas id='thumb"+ui[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar("+(ui[k]*1)+");'></canvas>";
+			re += "<canvas id='thumb"+unique[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar("+(unique[k]*1)+");'></canvas>";
 			re += "</td></tr><tr><td>"
-			re += _GP.fontchars[(ui[k]*1)].charvalue;
+			re += _GP.fontchars[(unique[k]*1)].charvalue;
 			re += "</td></tr></table>";
-			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+ui[k]+"'");
+			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+unique[k]+"'");
 		}
 		re += "</div>";
 		return re;
@@ -300,7 +301,7 @@
 
 	function showAddSSToCharDialog(msg){
 		var content = "<table style='width:756px'><tr><td>";
-		content += msg? msg : "";
+		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.shownlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' being used.<br><br>";
 		content += "Select the character into which you would like to insert this linked shape:<br><br></td></tr>";
 		content += "<tr><td>";
 		content += updateselectchar("insertLinkedShapeToChar");

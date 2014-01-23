@@ -44,6 +44,7 @@
 			"dz" : .5,		// Zoom or scale of the canvas
 		},
 		"views" : {},	// Holds the unique views per char & linkedshape
+		"thumbview" : {},
 
 		// page: linked shapes
 		"shownlinkedshape" : "id0",

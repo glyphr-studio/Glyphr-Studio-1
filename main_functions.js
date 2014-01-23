@@ -7,6 +7,7 @@
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(40,170,255)");
 		//debug("MAIN SETUP() - START");
 		_GP.opentypeproperties = clone(_UI.defaultopentypeproperties);
+		resetThumbView();
 		setOTprop("head", "created", ttxDateString());
 		drawLogo();	
 		navigate();

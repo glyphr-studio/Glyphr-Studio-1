@@ -89,14 +89,11 @@
 	}
 	
 	function drawSSThumbs(){
-		var ps = _GP.projectsettings;
 		var tctx = {};
-		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		for(var ssid in _GP.linkedshapes){
 			tctx = document.getElementById(("thumb"+ssid)).getContext("2d");
 			//debug("DRAWSSTHUMBS - factor: " + factor + " yoffset: " + yoffset);
-			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
+			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, _UI.thumbview);
 			//debug("DRAWSSTHUMBS - drawCharToArea canvas 'thumb"+ssid+"'");
 		}
 	}
@@ -108,13 +105,10 @@
 		//debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var uia = _GP.linkedshapes[ssid].usedin;
 		//debug("------------- uia: " + uia);
-		//Make sure array values are unique
-		if(uia.indexOf(charid) == -1){
-			//debug("------------- uia.indexOf(charid): " + uia.indexOf(charid) + ", should be -1, pusing charid: " + charid);
-			uia.push(charid);
-			// sort numerically as opposed to alpha
-			uia.sort(function(a,b){return a-b});
-		}
+		//debug("------------- uia.indexOf(charid): " + uia.indexOf(charid) + ", should be -1, pusing charid: " + charid);
+		uia.push(charid);
+		// sort numerically as opposed to alpha
+		uia.sort(function(a,b){return a-b});
 	}
 	
 	function removeFromUsedIn(ssid, charid){
@@ -122,12 +116,12 @@
 
 		var uia = _GP.linkedshapes[ssid].usedin;
 		var charindex = uia.indexOf(charid);
-		debug("------------------ charindex: " + charindex);
+		//debug("------------------ charindex: " + charindex);
 		if(charindex != -1){
-			debug("------------------ deleting from uia charindex " + charindex);
-			debug("------------------ uia before<br>" + uia);
+			//debug("------------------ deleting from uia charindex " + charindex);
+			//debug("------------------ uia before<br>" + uia);
 			uia.splice(charindex, 1);
-			debug("------------------ uia after<br>" + uia);
+			//debug("------------------ uia after<br>" + uia);
 		}
 
 	}
@@ -176,9 +170,9 @@
 //	Linked Shape Paridy Functions
 //	---------------------------
 	LinkedShapeInstance.prototype.drawShape_Stack = function(lctx){
-		debug("DRAWLINKEDSHAPE on \n " + JSON.stringify(this));
+		//debug("DRAWLINKEDSHAPE on \n " + JSON.stringify(this));
 		if(this.uselinkedshapexy){
-			debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
+			//debug("------------- uselinkedshapexy=true, calling linkedshapes[this.link].shape.drawShape");
 			_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
 		} else {
 			//debug("------------- does not uselinkedshapexy, calling FORCE=true updatepathposition");

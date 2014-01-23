@@ -148,14 +148,14 @@
 		
 		// Ensure there are at least defaults
 		if(!isval(v[sc])){
-			debug("SETVIEW - char " + sc + " has no existing view, setting to default.");
+			//debug("SETVIEW - char " + sc + " has no existing view, setting to default.");
 			v[sc] = getView();
 		}
 		
 		// Check for which to set
 		if(isval(oa.dx)){ v[sc].dx = oa.dx; }		
 		if(isval(oa.dy)){ v[sc].dy = oa.dy; }		
-		if(isval(oa.dz)){ v[sc].dz = round(oa.dz, 3); }
+		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
 		
 		//debug("SETVIEW - passed " + JSON.stringify(oa) + " selectedchar " + _UI.selectedchar + " VIEWS is\n" + JSON.stringify(_UI.views));
 	}
@@ -178,7 +178,17 @@
 		redraw();
 	}
 
+	function resetThumbView(){
+		var zoom = ((_UI.thumbsize-(2*_UI.thumbgutter))/(_GP.projectsettings.upm));
 
+		_UI.thumbview = {
+			"dx" : _UI.thumbgutter,
+			"dy" : (_UI.thumbgutter+(_GP.projectsettings.ascent*zoom)),
+			"dz" : zoom
+		}
+
+		//debug("RESETTHUMBVIEW - set to \n" + JSON.stringify(_UI.thumbview));
+	}
 //-------------------
 // REDRAW
 //-------------------
@@ -376,24 +386,24 @@
 		if(!sc.isautowide){
 			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.charwidth + "' onchange='_GP.fontchars[_UI.selectedchar].charwidth = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td> " + rounddec(sc.charwidth) + " </td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input type='text' disabled='disabled' value='" + rounddec(sc.charwidth) + "'/></td></tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em %)</span> </td><td> " + rounddec(sc.charwidth/_GP.projectsettings.upm) + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em %)</span> </td><td><input type='text' disabled='disabled' value='" + rounddec(sc.charwidth/_GP.projectsettings.upm) + "'/></td></tr>";
 		
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td><td width='50%'>"+checkUI("_GP.fontchars[_UI.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw();", !sc.leftsidebearing)+"</td></tr>";
 		if(sc.leftsidebearing){
 			if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> custom<br>left side bearing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.leftsidebearing + "' onchange='_GP.fontchars[_UI.selectedchar].leftsidebearing = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td>left side bearing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.leftsidebearing + "' onchange='_GP.fontchars[_UI.selectedchar].leftsidebearing = (this.value*1); redraw();'>"+spinner()+"</td></tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> default<br>left side bearing <span class='unit'>(em units)</span> </td><td> " + rounddec(_GP.projectsettings.defaultlsb) + " </td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td><td>left side bearing <span class='unit'>(em units)</span> </td><td><input type='text' disabled='disabled' value='" + rounddec(_GP.projectsettings.defaultlsb) + "'/></td></tr>";
 		}
 
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td> " + _UI.shapelayers.length + " </td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td><input type='text' disabled='disabled' value='" + _UI.shapelayers.length + "'/></td></tr>";
 
 		return content;
 
@@ -774,18 +784,15 @@
 		
 		// Update the thumbs		
 		if(_UI.shapelayers.length > 0){
-			var ps = _GP.projectsettings;
 			var tctx = {};
 			var tele = false;
-			var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-			var yoffset = (_UI.thumbgutter+(ps.upm*factor));
 			for(var i=(_UI.shapelayers.length-1); i>=0; i--){
 				tele = document.getElementById(("layerthumb"+i))
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = _UI.colors.offwhite;
 				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 
-				_UI.shapelayers[i].drawShapeToArea(tctx, {"dz": factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
+				_UI.shapelayers[i].drawShapeToArea(tctx, _UI.thumbview);
 			}
 		}
 	}
