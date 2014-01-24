@@ -92,8 +92,9 @@
 //-------------------
 
 	function linkedshapesredraw(calledby){
-		debug("\nLINKEDSHAPESREDRAW\n\tCalled By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape + "\n");	
-				
+		debug(Date.now()+"\t:: LINKEDSHAPESREDRAW Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);	
+		_UI.redrawing = true;
+
 		_UI.chareditctx.clearRect(0,0,5000,5000);
 		grid();
 		vertical(_UI.chareditcanvassize.makeCrisp());
@@ -107,6 +108,8 @@
 		updateNavPrimaryNavTarget();
 
 		updatetools();	
+		_UI.redrawing = false;
+		debug(Date.now()+"\t:: LINKEDSHAPESREDRAW DONE - Called By: " + calledby);	
 	}
 
 	
