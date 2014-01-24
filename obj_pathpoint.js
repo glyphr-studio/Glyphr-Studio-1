@@ -144,16 +144,19 @@
 			case "H2":
 				if(!this.H2.xlock && !isNaN(nx)){
 					this.H2.x = nx;
+					if(this.type == "symmetric"){ this.makeSymmetric("H2"); } 
+					else if (this.type == "flat") { this.makeFlat("H2"); }
 				}
 				if(!this.H2.ylock && !isNaN(ny)){
 					this.H2.y = ny;
+					if(this.type == "symmetric"){ this.makeSymmetric("H1"); } 
+					else if (this.type == "flat") { this.makeFlat("H1"); }
 				}
 				break;
 		}
 		
 		this.roundAll();
 		
-		//debug("SETPOINTPOSITION x/y/dx/dy: " + nx +" "+ ny +" "+ dx +" "+ dy)
 	}
 	
 	PathPoint.prototype.updatePointPosition = function(controlpoint, dx,dy, force){

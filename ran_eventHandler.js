@@ -204,7 +204,7 @@
 			var newshape = new Shape({"visible":false})
 			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
 			newshape = addShape(newshape);
-			debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
+			//debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
 			// these rely on ss();
 			newshape.path.setLeftX(cx_sx(_UI.eventhandlers.mousex));
 			newshape.path.setTopY(cy_sy(_UI.eventhandlers.mousey));
@@ -224,7 +224,7 @@
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 					
 			redraw();
-			debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
+			//debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
 		}
 		
 		this.mouseup = function () { 

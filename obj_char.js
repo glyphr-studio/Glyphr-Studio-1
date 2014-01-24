@@ -20,9 +20,11 @@
 		if(oa.charshapes && oa.charshapes.length){
 			for(var i=0; i<oa.charshapes.length; i++) {
 				if(oa.charshapes[i].link){
+					//debug("CHAR - hydrating " + oa.charshapes[i].name);
 					this.charshapes[i] = new LinkedShapeInstance(oa.charshapes[i]);
 					lc++;
 				} else {
+					//debug("CHAR - hydrating " + oa.charshapes[i].name);
 					this.charshapes[i] = new Shape(oa.charshapes[i]);
 					cs++;
 				}
@@ -60,14 +62,16 @@
 				if(sh.link){
 					if(sh.uselinkedshapexy){
 						sh = _GP.linkedshapes[sh.link].shape;
+						//debug("DRAWCHARTOAREA - uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
 					} else {
 						var ns = clone(_GP.linkedshapes[sh.link].shape);
-						debug("DRAWCHARTOAREA - !uselinkedshapexy, shape before\n" + JSON.stringify(ns));
+						//debug("DRAWCHARTOAREA - !uselinkedshapexy, shape before\n" + JSON.stringify(ns));
 						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						debug("DRAWCHARTOAREA - !uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
+						//debug("DRAWCHARTOAREA - !uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
 						sh = ns;
 					}
 				}
+				//debug("DRAWCHARTOAREA - drawing path of char " + this.charname);
 				sh.path.drawPathToArea(lctx, view);
 			}
 		}

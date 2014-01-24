@@ -109,7 +109,7 @@
 
 		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(_UI.shapelayers));
 		if(!dontnavigate){
-			debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
+			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
 			navigate('npAttributes');
 		}
 	}
@@ -336,7 +336,7 @@
 		try {
 			document.getElementById("navtargetpane").innerHTML = content;	
 		} catch(err) {
-			debug("UPDATEDETAILS - innerHTML update error caught");
+			console.error("UPDATEDETAILS - innerHTML update error caught");
 		}
 		
 		ispointsel? drawPointButtons(s) : false;
@@ -840,7 +840,7 @@
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
 		} catch(err) {
-			debug("UPDATETOOLS - innerHTML update error caught");
+			console.error("UPDATETOOLS - innerHTML update error caught");
 		}
 		
 		// Draw the buttons
