@@ -1,6 +1,6 @@
 
 function loadPage_about(){
-
+	debug("LOADING PAGE >> loadPage_about");
 	var content = "<div class='pagecontent textpage'><h1>About Glyphr</h1>" + 
 	"<h2 style='margin-bottom:12px;'>"+_UI.thisGlyphrStudioVersion+"</h2>" + 
 	"For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>" + 

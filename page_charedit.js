@@ -6,6 +6,7 @@
 //-------------------
 
 	function loadPage_charedit(){
+		debug("LOADING PAGE >> loadPage_charedit");
 		document.getElementById("mainpane").innerHTML = charedit_content();
 			
 		setupEditCanvas();

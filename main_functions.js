@@ -10,7 +10,7 @@
 		resetThumbView();
 		setOTprop("head", "created", ttxDateString());
 		drawLogo();	
-		navigate();
+		navigate('setup');
 		//debug("MAIN SETUP() - END");
 	}
 		

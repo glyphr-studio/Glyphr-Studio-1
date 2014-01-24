@@ -1,5 +1,6 @@
 
 	function loadPage_exportfont(){
+		debug("LOADING PAGE >> loadPage_exportfont");
 		var con = document.getElementById("mainpane");
 		con.innerHTML = "<div class='pagecontent textpage'><h1>Export Font</h1>" + 
 		"To transform your Glyphr Project into an OTF font, you must use a tool called TTX. " + 

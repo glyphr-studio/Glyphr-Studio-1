@@ -138,7 +138,7 @@
 	function goToEditLinkedShape(ssid){
 		_UI.shownlinkedshape = ssid;
 		_UI.navhere = "linked shapes";
-		navigate();
+		navigate('goToEditLinkedShape');
 	}
 	
 	function clickSelectLinkedShape(x,y){
