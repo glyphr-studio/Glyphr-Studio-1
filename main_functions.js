@@ -381,14 +381,14 @@
 				var uqo = _UI.charundoq.pop();
 				_GP.fontchars = uqo.state;
 				_UI.charcurrstate = clone(_GP.fontchars);
-				redraw();
+				redraw("pullundoq");
 			}
 		} else if (_UI.navhere == "linked shapes"){
 			if(_UI.linkedshapeundoq.length > 0){
 				var uqo = _UI.linkedshapeundoq.pop();
 				_GP.linkedshapes = uqo.state;
 				_UI.linkcurrstate = clone(_GP.linkedshapes);
-				redraw();
+				redraw("pullundoq");
 			}
 		}
 

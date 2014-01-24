@@ -13,7 +13,9 @@
 		"eh_shapesel" : false,
 		"eh_shaperesize" : false,
 		"eh_pantool" : false,
-		"eh_addpath" : false
+		"eh_addpath" : false,
+		"lastTool" : "pathedit",
+		"iskeydown" : false
 	}
 	
 	function initEventHandlers() {
@@ -140,7 +142,7 @@
 						_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 						_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 						currpath.clockwise = findClockwise(currpath.pathpoints);
-						redraw();
+						redraw("Event Handler newPath mousedown");
 						return;
 					}
 				}
@@ -167,7 +169,7 @@
 			// For new shape tools, mouse up always adds to the undo-queue
 			putundoq("New Path tool");
 			
-			redraw();
+			redraw("Event Handler newPath mouseup");
 		};
 		
 		this.mousemove = function (ev) {
@@ -188,7 +190,7 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			
-				redraw();
+				redraw("Event Handler newPath mousemove");
 			}
 		}
 	}		
@@ -223,7 +225,7 @@
 			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 					
-			redraw();
+			redraw("Event Handler newbasicshape mousedown");
 			//debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
 		}
 		
@@ -274,7 +276,7 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
-				redraw();
+				redraw("Event Handler newbasicshape mousemove");
 				//debug("NEWBASICSHAPE MOUSEMOVE past redraw");
 			}
 		}
@@ -304,7 +306,7 @@
 				if(s){s.path.calcMaxes();}
 				clickEmptySpace();
 			}
-			redraw();
+			redraw("Event Handler pathedit mousedown");
 		};
 		
 		this.mouseup = function () {
@@ -316,7 +318,7 @@
 				putundoq("Path Edit tool");
 				ss("Path Edit - Mouse Up").path.calcMaxes();
 				_UI.eventhandlers.uqhaschanged = false;
-				redraw();
+				redraw("Event Handler pathedit mouseup");
 			}
 		};
 		
@@ -352,7 +354,7 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
-				redraw();
+				redraw("Event Handler pathedit mousemove");
 			}
 		};		
 	}
@@ -392,7 +394,7 @@
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				this.dragging = true; 
 				this.resizing = false;
-				redraw();
+				redraw("Event Handler shaperesize mousedown");
 			} else {
 				clickEmptySpace();
 			}
@@ -420,12 +422,12 @@
 			_UI.eventhandlers.firsty = -100;
 			_UI.eventhandlers.uqhaschanged ? putundoq("Path Edit tool") : true;
 			_UI.eventhandlers.uqhaschanged = false;
-			redraw();
-			//debug("EVENTHANDLER - after pathedit Mouse Up REDRAW");
+			redraw("Event Handler shaperesize mouseup");
+			//debug("EVENTHANDLER - after shaperesize Mouse Up REDRAW");
 		};	
 		
 		this.mousemove = function (ev) {
-			var s = ss("eventHandler - pathedit mousemove");
+			var s = ss("eventHandler - shaperesize mousemove");
 			//debug("<b><i>SHAPERESIZE TOOL</i></b> - ss returned s.link: " + s.link);
 			var didstuff = false;
 			var dz = getView().dz;
@@ -462,7 +464,7 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
-				redraw();
+				redraw("Event Handler shaperesize mousemove");
 			}			
 		};
 	}
@@ -495,7 +497,7 @@
 			if (this.dragging) {
 				// Moving shapes if mousedown
 				setView({"dx" : (_UI.eventhandlers.mousex-this.deltax), "dy" : (_UI.eventhandlers.mousey-this.deltay)});
-				redraw();
+				redraw("Event Handler pantool mousemove");
 			}
 		};
 	}
@@ -688,18 +690,16 @@
 		resetCursor();
 	}
 	
-	var lastTool = "pathedit";
-	var iskeydown = false;
 	function keydown(event){
 		//debug("Key Down: " + event.keyCode);
 		if(event.keyCode == 32 && _UI.eventhandlers.ismouseovercec){
-			if(!iskeydown){
+			if(!_UI.eventhandlers.iskeydown){
 				//debug("KEYDOWN - pressed 32 spacebar");
-				lastTool = _UI.selectedtool;
+				_UI.eventhandlers.lastTool = _UI.selectedtool;
 				_UI.selectedtool = "pan";
-				iskeydown = true;
+				_UI.eventhandlers.iskeydown = true;
 				document.body.style.cursor = "move";
-				redraw();
+				redraw("Event Handler - Keydown Spacebar for pan toggle");
 			}
 		}
 	}
@@ -708,15 +708,15 @@
 		//debug("Key Up: " + event.keyCode);
 		if(event.keyCode == 32 && _UI.eventhandlers.ismouseovercec){
 			//debug("KEYUP - releaseing 32 spacebar");
-			_UI.selectedtool = lastTool;
-			iskeydown = false;
+			_UI.selectedtool = _UI.eventhandlers.lastTool;
+			_UI.eventhandlers.iskeydown = false;
 			resetCursor();
-			redraw();
+			redraw("Event Handler - Keyup Spacebar for pan toggle");
 		}
 	}
 	
 	function keypress(event){
-		//debug("Key Pressed: " + event.keyCode);
+		debug("Key Pressed: " + event.keyCode);
 		/*
 		//debug("Key Pressed: " + event.keyCode);
 		var s = ss("keypress event");
@@ -767,7 +767,7 @@
 			
 			if(changed){
 				putundoq("Keypress : " + changed);
-				redraw();
+				redraw("Keypress");
 			}
 		}
 		*/

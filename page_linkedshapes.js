@@ -12,7 +12,7 @@
 		document.onkeypress = keypress;
 		
 		_UI.selectedshape = -1;
-		linkedshapesredraw();	
+		linkedshapesredraw("loadPage_linkedshapes");	
 	}
 
 	function linkedshapes_content(){					
@@ -91,8 +91,8 @@
 // REDRAW
 //-------------------
 
-	function linkedshapesredraw(){
-		//debug("!!! LINKEDSHAPEREDRAW !!! - shownlinkedshape:" + _UI.shownlinkedshape + ", _UI.selectedshape:" + _UI.selectedshape);
+	function linkedshapesredraw(calledby){
+		debug("\nLINKEDSHAPESREDRAW\n\tCalled By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape + "\n");	
 				
 		_UI.chareditctx.clearRect(0,0,5000,5000);
 		grid();
@@ -195,20 +195,20 @@
 		var shapeactions = "";
 			if(_UI.eventhandlers.temppathdragshape && _UI.selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
-			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw();'><br>";
-			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw();'><br>";
+			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'><br>";
+			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'><br>";
 			shapeactions += "</td>";
 			}
 			
 		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw();'><br>"; 
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw();'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updatelinkedshapeactions\");'><br>"; 
+			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw(\"updatelinkedshapeactions\");'><br>"; 
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
-			pointactions += "<input class='button' type='button' value='Insert' onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw();'><br>";
-			pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw();'><br>";
-			pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw();'><br>";	
+			pointactions += "<input class='button' type='button' value='Insert' onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'><br>";
+			pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw(\"updatelinkedshapeactions\");'><br>";
+			pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'><br>";	
 			pointactions += "</td>";
 		
 		// Put it all together
