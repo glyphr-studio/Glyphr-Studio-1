@@ -37,7 +37,7 @@
 		
 		re += "<h1>actions</h1>";
 		re += "<table class='actionsgrid'><tr><td><h3>linked shape</h3>";
-		re += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"create new linked shape\");navigate();'><br>";
+		re += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'><br>";
 		re += "<input class='"+(aalength(_GP.linkedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteLinkedShapeConfirm();'><br>";		
 		re += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 		re += "</td> &nbsp; </td></td> &nbsp; </td></tr></table>";
@@ -188,15 +188,15 @@
 			allactions += "</td>";
 		
 		var linkedshapeactions = "<td><h3>linked shape</h3>";
-			linkedshapeactions += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"create new linked shape\");navigate();'><br>";
+			linkedshapeactions += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'><br>";
 			linkedshapeactions += "<input class='"+(aalength(_GP.linkedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteLinkedShapeConfirm();'><br>";		
 			linkedshapeactions += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 			
 		var shapeactions = "";
 			if(_UI.eventhandlers.temppathdragshape && _UI.selectedtool=="pathedit"){
 			shapeactions += "<td><h3>shape</h3>";
-			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"flip shape horizontal\");redraw();'><br>";
-			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"flip shape vertical\");redraw();'><br>";
+			shapeactions += "<input class='button' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw();'><br>";
+			shapeactions += "<input class='button' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw();'><br>";
 			shapeactions += "</td>";
 			}
 			
@@ -206,10 +206,9 @@
 			canvasactions += "</td>";
 			
 		var pointactions = "<td><h3>path point</h3>";
-			pointactions += "<input class='button' type='button' value='Add to start' onclick='ss().path.addPathPoint(false, true); putundoq(\"add pp start\"); redraw();'><br>";
-			pointactions += "<input class='button' type='button' value='Add to end' onclick='ss().path.addPathPoint(false, false); putundoq(\"add pp end\"); redraw();'><br>";
-			pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"delete pp\"); redraw();'><br>";
-			pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"reset pp\"); redraw();'><br>";	
+			pointactions += "<input class='button' type='button' value='Insert' onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw();'><br>";
+			pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw();'><br>";
+			pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw();'><br>";	
 			pointactions += "</td>";
 		
 		// Put it all together
@@ -316,7 +315,7 @@
 		selectchar(chid, true);
 		insertLinkedShape(_UI.shownlinkedshape);
 		_UI.selectedchar = temschar;
-		putundoq("insert linked shape from linkedshapes");
+		putundoq("Insert Linked Shape to Character");
 		closeDialog();
 		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + _GP.fontchars[chid].charname + ".<br><br>");
 	}

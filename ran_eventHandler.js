@@ -314,6 +314,7 @@
 			
 			if(_UI.eventhandlers.uqhaschanged) {
 				putundoq("Path Edit tool");
+				ss("Path Edit - Mouse Up").path.calcMaxes();
 				_UI.eventhandlers.uqhaschanged = false;
 				redraw();
 			}
@@ -347,7 +348,6 @@
 						break;
 				}
 				sp.updatePointPosition(this.controlpoint, dx, dy); 
-				s.path.needsnewcalcmaxes = true;
 				
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
