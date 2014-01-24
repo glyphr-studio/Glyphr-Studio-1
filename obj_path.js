@@ -422,12 +422,17 @@
 		this.leftx = _UI.chareditcanvassize;
 		this.rightx = (_UI.chareditcanvassize*-1);
 
-		var tp, np, tbounds;
+		var pp1, pp2, pp1h2x, pp1h2y, pp2h1x, pp2h1y, tbounds;
 
 		for(var s=0; s<this.pathpoints.length; s++){
-			tp = this.pathpoints[s];
-			np = this.pathpoints[(s+1)%this.pathpoints.length];
-			tbounds = getBounds(tp.P.x, tp.P.y, tp.H2.x, tp.H2.y, np.H1.x, np.H1.y, np.P.x, np.P.y);
+			pp1 = this.pathpoints[s];
+			pp2 = this.pathpoints[(s+1)%this.pathpoints.length];
+			pp1h2x = (pp1.useh2? pp1.H2.x : pp1.P.x);
+			pp1h2y = (pp1.useh2? pp1.H2.y : pp1.P.y);
+			pp2h1x = (pp2.useh1? pp2.H1.x : pp2.P.x);
+			pp2h1y = (pp2.useh1? pp2.H1.y : pp2.P.y);
+
+			tbounds = getBounds(pp1.P.x, pp1.P.y, pp1h2x, pp1h2y, pp2h1x, pp2h1y, pp2.P.x, pp2.P.y);
 
 			this.rightx = Math.max(this.rightx, tbounds.maxx);
 			this.topy = Math.max(this.topy, tbounds.maxy);
