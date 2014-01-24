@@ -92,7 +92,14 @@
 //-------------------
 
 	function linkedshapesredraw(calledby){
-		debug(Date.now()+"\t:: LINKEDSHAPESREDRAW Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);	
+		//debug(Date.now()+"\t:: LINKEDSHAPESREDRAW Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);	
+		
+		if(_UI.redrawing){
+			// this is totally a hack
+			//debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			return;
+		}
+
 		_UI.redrawing = true;
 
 		_UI.chareditctx.clearRect(0,0,5000,5000);
@@ -109,7 +116,7 @@
 
 		updatetools();	
 		_UI.redrawing = false;
-		debug(Date.now()+"\t:: LINKEDSHAPESREDRAW DONE - Called By: " + calledby);	
+		//debug(Date.now()+"\t:: LINKEDSHAPESREDRAW DONE - Called By: " + calledby);	
 	}
 
 	

@@ -220,11 +220,11 @@
 //-------------------
 	function redraw(calledby){
 		//stack(arguments);
-		debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);	
+		//debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);	
 
 		if(_UI.redrawing){
 			// this is totally a hack
-			debug("REDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			//debug("REDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
 			return;
 		}
 
@@ -310,7 +310,7 @@
 		updatetools();
 
 		_UI.redrawing = false;
-		debug(Date.now()+"\t:: REDRAW DONE - Called By: " + calledby);	
+		//debug(Date.now()+"\t:: REDRAW DONE - Called By: " + calledby);	
 	}
 
 	
