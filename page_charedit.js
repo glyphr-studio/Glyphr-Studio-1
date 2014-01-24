@@ -221,6 +221,11 @@
 	function redraw(calledby){
 		//stack(arguments);
 		//debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);	
+		if(_UI.navhere == "linked shapes") {
+			_UI.redrawing = false;
+			linkedshapesredraw("redraw"); 
+			return;
+		}		
 
 		if(_UI.redrawing){
 			// this is totally a hack
@@ -230,7 +235,6 @@
 
 		_UI.redrawing = true;
 
-		if(_UI.navhere == "linked shapes") {linkedshapesredraw("redraw"); return;}		
 		
 		var fc = _GP.fontchars;
 		
@@ -697,15 +701,23 @@
 	function copyShape(){
 		//stack(arguments);
 
-		var s = ss("copy shape")
-		if(s){
+		if(_UI.navhere == "linked shapes"){
 			_UI.clipboardshape = {
-				"s":s,
-				"c":_UI.selectedchar
-			};
-			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name); 
+				"s":_GP.linkedshapes[_UI.shownlinkedshape].shape,
+				"c":_UI.shownlinkedshape
+			}
+		} else if (_UI.navhere == "character edit"){
+			var s = ss("copy shape");
+			if(s.link) s = _GP.linkedshapes[s.link].shape;
+			if(s){
+				_UI.clipboardshape = {
+					"s":s,
+					"c":_UI.selectedchar
+				};
+				//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name); 
+			}
+			redraw("copyShape");
 		}
-		redraw("copyShape");
 	}
 	
 	function pasteShape(){

@@ -96,7 +96,7 @@
 		
 		if(_UI.redrawing){
 			// this is totally a hack
-			//debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
 			return;
 		}
 
@@ -195,6 +195,7 @@
 		
 		var allactions = "<td><h3>*</h3>";
 			allactions += "<input class='"+(_UI.linkedshapeundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.linkedshapeundoq.length > 0) ? (" " + _UI.linkedshapeundoq.length) : "") + "' onclick='pullundoq()'><br>";
+			allactions += "<input class='button' type='button' value='Copy' onclick='copyShape()'><br>";
 			allactions += "</td>";
 		
 		var linkedshapeactions = "<td><h3>linked shape</h3>";
