@@ -148,6 +148,8 @@
 		if(_GP.linkedshapes[_UI.shownlinkedshape].shape.isHere(x,y)){
 			_UI.selectedshape = _UI.shownlinkedshape;
 			//debug("CLICKSELECTLinkedShape() - selecting shape " + _UI.shownlinkedshape);
+
+			_UI.navprimaryhere = 'npAttributes';
 			return true;
 		}
 		

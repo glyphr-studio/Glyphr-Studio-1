@@ -434,6 +434,7 @@
 					}
 				}
 
+				_UI.navprimaryhere = 'npAttributes';
 				return true;
 			}
 		}
