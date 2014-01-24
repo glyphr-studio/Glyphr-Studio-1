@@ -34,7 +34,7 @@
 	}
 	
 	input[type=text][disabled='disabled']{
-		background-color:rgb(229,234,239);	
+		background-color:rgb(229,234,239);
 		border:1px solid rgb(229,234,239);
 		color:rgb(127,134,137);
 	}
@@ -647,11 +647,11 @@
 	.detail h3 {
 		padding:0;
 	}
-	
+
 	.detail input[type='text'] {
 		padding:0 .4em;
 		display:inline;
-		width:100px;
+		width:140px;
 		height:20px;
 		vertical-align:top;
 		border:1px solid white;
@@ -660,6 +660,12 @@
 		background-color: rgb(204,209,214);
 		*/
 	}	
+	
+	.detail input[type=text][disabled='disabled']{
+		background-color:rgb(204,209,214);
+		border:1px solid rgb(204,209,214);
+		color:rgb(76,81,86);
+	}
 	
 	.detail .leftcol	{
 		width:11px;
