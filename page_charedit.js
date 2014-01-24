@@ -6,7 +6,7 @@
 //-------------------
 
 	function loadPage_charedit(){
-		stack(arguments);
+		//stack(arguments);
 
 		debug("LOADING PAGE >> loadPage_charedit");
 		document.getElementById("mainpane").innerHTML = charedit_content();
@@ -22,7 +22,7 @@
 	}
 	
 	function charedit_content(){
-		stack(arguments);
+		//stack(arguments);
 
 		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
@@ -30,7 +30,7 @@
 	}
 		
 	function updateselectchar(fname){
-		stack(arguments);
+		//stack(arguments);
 
 		var ccon = "<div class='charselectarea'>"
 		fname = fname? fname : "selectchar";
@@ -60,7 +60,7 @@
 	}	
 
 	function drawselectcharthumbs(){		
-		stack(arguments);
+		//stack(arguments);
 
 		var ps = _GP.projectsettings;
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
@@ -81,7 +81,7 @@
 	}
 	
 	function buildbutton(index, fname){
-		stack(arguments);
+		//stack(arguments);
 
 		var onc = (fname + "(" + index + ");");
 		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_GP.fontchars[index].charname+"'>";
@@ -113,7 +113,7 @@
 	}
 	
 	function selectchar(c, dontnavigate){
-		stack(arguments);
+		//stack(arguments);
 
 		//debug("SELECTCHAR - Selecting " + _GP.fontchars[c].charvalue + " from value " + c);
 		_UI.selectedchar = c;
@@ -128,7 +128,7 @@
 	}
 
 	function setupGhostCanvas(){
-		stack(arguments);
+		//stack(arguments);
 
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = document.getElementById('ishereghostcanvas');
@@ -141,7 +141,7 @@
 	}
 
 	function setupEditCanvas(){
-		stack(arguments);
+		//stack(arguments);
 
 		_UI.chareditcanvas = document.getElementById("chareditcanvas");
 		_UI.chareditcanvas.height = _UI.chareditcanvassize;
@@ -160,7 +160,7 @@
 //-------------------
 
 	function setView(oa){
-		stack(arguments);
+		//stack(arguments);
 
 		var sc = _UI.selectedchar;
 		var v = _UI.views;
@@ -180,8 +180,8 @@
 	}
 
 	function getView(calledby){
-		//stack(arguments);
-		debug("GETVIEW - called by " + calledby);
+		////stack(arguments);
+		//debug("GETVIEW - called by " + calledby);
 
 		var sc = _UI.selectedchar;
 		var v = _UI.views;
@@ -196,14 +196,14 @@
 	}
 
 	function viewZoom(zfactor){
-		stack(arguments);
+		//stack(arguments);
 
 		setView({"dz" : (getView("viewZoom").dz*=zfactor)});
 		redraw("viewZoom");
 	}
 
 	function resetThumbView(){
-		stack(arguments);
+		//stack(arguments);
 
 		var zoom = ((_UI.thumbsize-(2*_UI.thumbgutter))/(_GP.projectsettings.upm));
 
@@ -219,8 +219,16 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		stack(arguments);
-		debug("\n\tREDRAW - " + Date.now() + "\n\tCalled By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere + "\n");	
+		//stack(arguments);
+		debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);	
+
+		if(_UI.redrawing){
+			// this is totally a hack
+			debug("REDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			return;
+		}
+
+		_UI.redrawing = true;
 
 		if(_UI.navhere == "linked shapes") {linkedshapesredraw("redraw"); return;}		
 		
@@ -301,6 +309,8 @@
 		
 		updatetools();
 
+		_UI.redrawing = false;
+		debug(Date.now()+"\t:: REDRAW DONE - Called By: " + calledby);	
 	}
 
 	
@@ -308,9 +318,9 @@
 // Update Details
 //-------------------
 	function updateCharEditDetails(){
-		stack(arguments);
+		//stack(arguments);
 
-		debug("UPDATECHAREDITDETAILS");
+		//debug("UPDATECHAREDITDETAILS");
 
 		var s = ss("update details");
 		
@@ -408,7 +418,7 @@
 	}
 	
 	function charDetails(s){
-		stack(arguments);
+		//stack(arguments);
 
 		var sc = _GP.fontchars[_UI.selectedchar];
 		var content = "";	
@@ -443,7 +453,7 @@
 	}
 	
 	function shapeDetails(s){
-		stack(arguments);
+		//stack(arguments);
 
 		//debug("SHAPEDETAILS - Drawing Shape Details");
 		var content = "";
@@ -453,13 +463,13 @@
 		
 		
 		if(!_UI.eventhandlers.temppathdragshape){
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
 			
 			var cw = (s.path.rightx-s.path.leftx);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");'") + " value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");}'") + " value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
 			var ch = (s.path.topy-s.path.bottomy);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
 			
 		
 		} else {
@@ -477,7 +487,7 @@
 	}
 	
 	function pointDetails(s){
-		stack(arguments);
+		//stack(arguments);
 
 		var tp = s.path.sp();
 		var content = "";
@@ -512,7 +522,7 @@
 	}
 	
 	function drawPointButtons(s){
-		stack(arguments);
+		//stack(arguments);
 
 		//debug("DRAWPOINTBUTTONS");
 		var tp = s.path.sp();
@@ -548,7 +558,7 @@
 	// Helper Functions
 
 	function lockUI(varname, islocked){
-		stack(arguments);
+		//stack(arguments);
 
 		//debug("LOCKUI - making html for varname " + varname + " was passed " + islocked + ", and locarr is now: [" + _UI.locarr + "]");
 		var re = "<canvas id='locid"+_UI.locid+"' ";
@@ -561,7 +571,7 @@
 	}
 	
 	function checkUI(onclick, ischecked){
-		stack(arguments);
+		//stack(arguments);
 
 		//debug("CHECKUI - making html for checkarr[" + _UI.checkid + "] = " + ischecked + ", and checkarr is now: [" + _UI.checkarr + "]");
 		var re = "<canvas id='checkid"+_UI.checkid+"' ";
@@ -572,7 +582,7 @@
 	}
 	
 	function rounddec(num){
-		stack(arguments);
+		//stack(arguments);
 
 		num = (num? num : 0);
 		var numsplit = num.toString().split(".");
@@ -588,7 +598,7 @@
 // Update Actions
 //-------------------
 	function updateactions(){
-		stack(arguments);
+		//stack(arguments);
 
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 				
@@ -653,7 +663,7 @@
 	}
 
 	function updateLayerActions(){
-		stack(arguments);
+		//stack(arguments);
 
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 				
@@ -685,7 +695,7 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
-		stack(arguments);
+		//stack(arguments);
 
 		var s = ss("copy shape")
 		if(s){
@@ -699,7 +709,7 @@
 	}
 	
 	function pasteShape(){
-		stack(arguments);
+		//stack(arguments);
 
 		if(_UI.clipboardshape){
 			var newshape = clone(_UI.clipboardshape.s);
@@ -740,7 +750,7 @@
 // Move up / down
 //-------------------
 	function moveupShape(){
-		stack(arguments);
+		//stack(arguments);
 
 		var s = ss("Move Up Shape");
 		
@@ -754,7 +764,7 @@
 	}
 	
 	function movedownShape(){
-		stack(arguments);
+		//stack(arguments);
 
 		var s = ss("Move Down Shape");
 		
@@ -772,7 +782,7 @@
 // Generic Spinner Control
 //-------------------
 	function spinner(){
-		stack(arguments);
+		//stack(arguments);
 
 		var content ="";
 		content += "<input type='button' value='&#9652;' class='button spinnerbutton' onclick='inc(this);'>";  //&and;
@@ -781,7 +791,7 @@
 	}
 	
 	function inc(obj){
-		stack(arguments);
+		//stack(arguments);
 
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
@@ -792,7 +802,7 @@
 	}
 	
 	function dec(obj){
-		stack(arguments);
+		//stack(arguments);
 
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
@@ -807,7 +817,7 @@
 // Update Layers
 //-------------------
 	function updatelayers(){
-		stack(arguments);
+		//stack(arguments);
 
 		
 		var content = "<h1>shapes</h1>";
@@ -868,7 +878,7 @@
 // Update Tools
 //-------------------
 	function updatetools(){
-		stack(arguments);
+		//stack(arguments);
 
 		var pointselectclass = "";
 		var pointselectclickable = true;
@@ -1017,7 +1027,7 @@
 	}
 
 	function clicktool(ctool){
-		stack(arguments);
+		//stack(arguments);
 
 		_UI.selectedtool = ctool;
 		var s = ss("clicktool");
@@ -1049,7 +1059,7 @@
 
 	
 	function grid(){
-		stack(arguments);
+		//stack(arguments);
 
 		var ps = _GP.projectsettings;
 		var v = getView("grid");

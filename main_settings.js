@@ -28,6 +28,7 @@
 
 		// Shared edit pages
 		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
+		"redrawing" : false,
 		"thumbsize" : 50,
 		"thumbgutter" : 5,
 		"showgrid" : true,		// display the grid
