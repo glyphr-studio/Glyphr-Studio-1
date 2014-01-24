@@ -6,6 +6,8 @@
 //-------------------
 
 	function loadPage_charedit(){
+		stack(arguments);
+
 		debug("LOADING PAGE >> loadPage_charedit");
 		document.getElementById("mainpane").innerHTML = charedit_content();
 			
@@ -20,12 +22,16 @@
 	}
 	
 	function charedit_content(){
+		stack(arguments);
+
 		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';		
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
 		return re;
 	}
 		
 	function updateselectchar(fname){
+		stack(arguments);
+
 		var ccon = "<div class='charselectarea'>"
 		fname = fname? fname : "selectchar";
 		_UI.selectchardrawarr = [];
@@ -54,6 +60,8 @@
 	}	
 
 	function drawselectcharthumbs(){		
+		stack(arguments);
+
 		var ps = _GP.projectsettings;
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
 		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
@@ -73,6 +81,8 @@
 	}
 	
 	function buildbutton(index, fname){
+		stack(arguments);
+
 		var onc = (fname + "(" + index + ");");
 		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_GP.fontchars[index].charname+"'>";
 		var issel = _GP.fontchars[index].charvalue == _GP.fontchars[_UI.selectedchar].charvalue;
@@ -103,6 +113,8 @@
 	}
 	
 	function selectchar(c, dontnavigate){
+		stack(arguments);
+
 		//debug("SELECTCHAR - Selecting " + _GP.fontchars[c].charvalue + " from value " + c);
 		_UI.selectedchar = c;
 		_UI.shapelayers = _GP.fontchars[c].charshapes;
@@ -116,6 +128,8 @@
 	}
 
 	function setupGhostCanvas(){
+		stack(arguments);
+
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = document.getElementById('ishereghostcanvas');
 		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
@@ -127,6 +141,8 @@
 	}
 
 	function setupEditCanvas(){
+		stack(arguments);
+
 		_UI.chareditcanvas = document.getElementById("chareditcanvas");
 		_UI.chareditcanvas.height = _UI.chareditcanvassize;
 		_UI.chareditcanvas.width = _UI.chareditcanvassize;
@@ -144,13 +160,15 @@
 //-------------------
 
 	function setView(oa){
+		stack(arguments);
+
 		var sc = _UI.selectedchar;
 		var v = _UI.views;
 		
 		// Ensure there are at least defaults
 		if(!isval(v[sc])){
 			//debug("SETVIEW - char " + sc + " has no existing view, setting to default.");
-			v[sc] = getView();
+			v[sc] = getView("setView");
 		}
 		
 		// Check for which to set
@@ -161,7 +179,10 @@
 		//debug("SETVIEW - passed " + JSON.stringify(oa) + " selectedchar " + _UI.selectedchar + " VIEWS is\n" + JSON.stringify(_UI.views));
 	}
 
-	function getView(){
+	function getView(calledby){
+		//stack(arguments);
+		debug("GETVIEW - called by " + calledby);
+
 		var sc = _UI.selectedchar;
 		var v = _UI.views;
 
@@ -175,11 +196,15 @@
 	}
 
 	function viewZoom(zfactor){
-		setView({"dz" : (getView().dz*=zfactor)});
+		stack(arguments);
+
+		setView({"dz" : (getView("viewZoom").dz*=zfactor)});
 		redraw("viewZoom");
 	}
 
 	function resetThumbView(){
+		stack(arguments);
+
 		var zoom = ((_UI.thumbsize-(2*_UI.thumbgutter))/(_GP.projectsettings.upm));
 
 		_UI.thumbview = {
@@ -194,6 +219,9 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
+		stack(arguments);
+		debug("\n\tREDRAW - " + Date.now() + "\n\tCalled By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere + "\n");	
+
 		if(_UI.navhere == "linked shapes") {linkedshapesredraw("redraw"); return;}		
 		
 		var fc = _GP.fontchars;
@@ -203,7 +231,6 @@
 		
 		// load char info
 		_UI.shapelayers = fc[_UI.selectedchar].charshapes;
-		debug("\n\tREDRAW - " + Date.now() + "\n\tCalled By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Num Shapes: " + _UI.shapelayers.length + " - Navhere: " + _UI.navhere + "\n");	
 		var sh;
 		
 
@@ -232,7 +259,7 @@
 			_UI.chareditctx.lineWidth = 1;
 			//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
 			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
-			var v = getView();
+			var v = getView("redraw");
 			var rhl = (fc[_UI.selectedchar].charwidth*v.dz) + v.dx;
 			if(_UI.eventhandlers.temppathdragshape){
 				rhl = Math.max(sx_cx(_UI.eventhandlers.temppathdragshape.rightx), rhl);
@@ -281,6 +308,8 @@
 // Update Details
 //-------------------
 	function updateCharEditDetails(){
+		stack(arguments);
+
 		debug("UPDATECHAREDITDETAILS");
 
 		var s = ss("update details");
@@ -379,6 +408,8 @@
 	}
 	
 	function charDetails(s){
+		stack(arguments);
+
 		var sc = _GP.fontchars[_UI.selectedchar];
 		var content = "";	
 		
@@ -412,8 +443,9 @@
 	}
 	
 	function shapeDetails(s){
-		debug("function: " + arguments.callee.name + "("+arguments.length+") \tcalled by " + arguments.caller);
-		//debug("SHAPEDETAILS - <b>Drawing Shape Details</b>");
+		stack(arguments);
+
+		//debug("SHAPEDETAILS - Drawing Shape Details");
 		var content = "";
 		content += "<tr><td colspan=2><h3>shape</h3></td><td style='width:200px'>&nbsp;</td></tr>\n";		
 		
@@ -445,6 +477,8 @@
 	}
 	
 	function pointDetails(s){
+		stack(arguments);
+
 		var tp = s.path.sp();
 		var content = "";
 		content += "<tr><td colspan=3><h3>path point</h3></td></tr>";	
@@ -478,6 +512,8 @@
 	}
 	
 	function drawPointButtons(s){
+		stack(arguments);
+
 		//debug("DRAWPOINTBUTTONS");
 		var tp = s.path.sp();
 		var tempctx;
@@ -510,7 +546,10 @@
 	}
 	
 	// Helper Functions
+
 	function lockUI(varname, islocked){
+		stack(arguments);
+
 		//debug("LOCKUI - making html for varname " + varname + " was passed " + islocked + ", and locarr is now: [" + _UI.locarr + "]");
 		var re = "<canvas id='locid"+_UI.locid+"' ";
 		_UI.locarr[_UI.locid] = islocked;
@@ -522,6 +561,8 @@
 	}
 	
 	function checkUI(onclick, ischecked){
+		stack(arguments);
+
 		//debug("CHECKUI - making html for checkarr[" + _UI.checkid + "] = " + ischecked + ", and checkarr is now: [" + _UI.checkarr + "]");
 		var re = "<canvas id='checkid"+_UI.checkid+"' ";
 		_UI.checkarr[_UI.checkid] = ischecked;	
@@ -531,6 +572,8 @@
 	}
 	
 	function rounddec(num){
+		stack(arguments);
+
 		num = (num? num : 0);
 		var numsplit = num.toString().split(".");
 		if(numsplit.length == 1){
@@ -545,6 +588,8 @@
 // Update Actions
 //-------------------
 	function updateactions(){
+		stack(arguments);
+
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 				
 		var s = ss("Update Actions");		
@@ -608,6 +653,8 @@
 	}
 
 	function updateLayerActions(){
+		stack(arguments);
+
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 				
 		var s = ss("Update Actions");
@@ -638,6 +685,8 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
+		stack(arguments);
+
 		var s = ss("copy shape")
 		if(s){
 			_UI.clipboardshape = {
@@ -650,6 +699,8 @@
 	}
 	
 	function pasteShape(){
+		stack(arguments);
+
 		if(_UI.clipboardshape){
 			var newshape = clone(_UI.clipboardshape.s);
 			_UI.clipboardshape.c == _UI.selectedchar ? newshape.path.updatePathPosition(20,20) : true;
@@ -689,6 +740,8 @@
 // Move up / down
 //-------------------
 	function moveupShape(){
+		stack(arguments);
+
 		var s = ss("Move Up Shape");
 		
 		if(s && (_UI.selectedshape < (_UI.shapelayers.length-1))){
@@ -701,6 +754,8 @@
 	}
 	
 	function movedownShape(){
+		stack(arguments);
+
 		var s = ss("Move Down Shape");
 		
 		if(s && (_UI.selectedshape > 0)){
@@ -717,6 +772,8 @@
 // Generic Spinner Control
 //-------------------
 	function spinner(){
+		stack(arguments);
+
 		var content ="";
 		content += "<input type='button' value='&#9652;' class='button spinnerbutton' onclick='inc(this);'>";  //&and;
 		content += "<input type='button' value='&#9662;' class='button spinnerbutton' onclick='dec(this);'>";  //&or;
@@ -724,6 +781,8 @@
 	}
 	
 	function inc(obj){
+		stack(arguments);
+
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
 			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + _GP.projectsettings.spinnervaluechange);
@@ -733,6 +792,8 @@
 	}
 	
 	function dec(obj){
+		stack(arguments);
+
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
 			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - _GP.projectsettings.spinnervaluechange);
@@ -746,6 +807,8 @@
 // Update Layers
 //-------------------
 	function updatelayers(){
+		stack(arguments);
+
 		
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
@@ -805,6 +868,8 @@
 // Update Tools
 //-------------------
 	function updatetools(){
+		stack(arguments);
+
 		var pointselectclass = "";
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
@@ -838,7 +903,7 @@
 		content += "<div title='zoom: out' class='button tool' onclick='viewZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
 		content += "<div title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
 		content += "<div title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'><canvas id='zoomembuttoncanvas'></canvas></div>";
-		content += "<div title='zoom level' class='tool out'>" + round(getView().dz*100, 2) + "%</div>";
+		content += "<div title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</div>";
 		
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
@@ -952,7 +1017,8 @@
 	}
 
 	function clicktool(ctool){
-		
+		stack(arguments);
+
 		_UI.selectedtool = ctool;
 		var s = ss("clicktool");
 		
@@ -983,8 +1049,10 @@
 
 	
 	function grid(){
+		stack(arguments);
+
 		var ps = _GP.projectsettings;
-		var v = getView();
+		var v = getView("grid");
 
 		//debug("GRID: v:" + JSON.stringify(v));
 

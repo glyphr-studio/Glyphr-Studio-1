@@ -129,7 +129,7 @@
 				//debug("NEWPATH MOUSEDOWN - after creating ccp: " + ccp);
 				if((ccp=="P")&&(currpath.pathpoints.length > 1)){
 					var p = currpath.pathpoints[0];
-					var hp = _GP.projectsettings.pointsize/getView().dz;
+					var hp = _GP.projectsettings.pointsize/getView("Event Handler newPath mousedown").dz;
 					if( ((p.P.x+hp) > cx_sx(_UI.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(_UI.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(_UI.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(_UI.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
 						//if first point - close the path
@@ -334,7 +334,7 @@
 				// Moving points if mousedown
 				var dx = 0;
 				var dy = 0;
-				var dz = getView().dz;
+				var dz = getView("Event Handler pathedit mousemove").dz;
 				switch (this.controlpoint){
 					case "P":
 						if(!sp.P.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
@@ -430,7 +430,7 @@
 			var s = ss("eventHandler - shaperesize mousemove");
 			//debug("<b><i>SHAPERESIZE TOOL</i></b> - ss returned s.link: " + s.link);
 			var didstuff = false;
-			var dz = getView().dz;
+			var dz = getView("Event Handler shaperesize mousemove").dz;
 			if(s.link){
 				//debug("SHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
@@ -480,7 +480,7 @@
 		
 		this.mousedown = function (ev) { 
 			//debug("PAN TOOL - mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
-			var v = getView();
+			var v = getView("Event Handler pantool mousedown");
 			this.deltax = (_UI.eventhandlers.mousex-v.dx);
 			this.deltay = (_UI.eventhandlers.mousey-v.dy);
 			this.dragging = true; 
@@ -507,12 +507,12 @@
 	
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
-		var v = getView();
+		var v = getView("cx_sx");
 		return Math.round((cx-v.dx)/(v.dz));
 	}
 	
 	function cy_sy(cy){
-		var v = getView();
+		var v = getView("cy_sy");
 		return Math.round((v.dy-cy)/(v.dz));
 	}
 	

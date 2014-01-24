@@ -77,14 +77,14 @@
 
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
-		var v = getView();
+		var v = getView("sx_cx");
 		var canvasx = v.dx;
 		canvasx += (sx*v.dz);
 		return canvasx;
 	}
 	
 	function sy_cy(sy){
-		var v = getView();
+		var v = getView("sy_cy");
 		var canvasy = v.dy;
 		canvasy -= (sy*v.dz);
 		return canvasy;

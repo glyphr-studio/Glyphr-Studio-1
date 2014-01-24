@@ -88,7 +88,7 @@
 	}
 	
 	Path.prototype.drawPathToArea = function(lctx, view){
-		var tempv = clone(getView());
+		var tempv = clone(getView("Path.drawPathToArea"));
 		setView(view);
 
 		this.drawPath(lctx);
@@ -133,7 +133,7 @@
 	
 	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints;
-		var hp = _GP.projectsettings.pointsize/getView().dz;
+		var hp = _GP.projectsettings.pointsize/getView("Path.isOverControlPoint").dz;
 		
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){
