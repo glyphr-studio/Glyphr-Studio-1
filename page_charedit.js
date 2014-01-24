@@ -203,7 +203,7 @@
 		
 		// load char info
 		_UI.shapelayers = fc[_UI.selectedchar].charshapes;
-		debug("\nREDRAW\n\tCalled By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Num Shapes: " + _UI.shapelayers.length + " - Navhere: " + _UI.navhere + "\n");	
+		debug("\n\tREDRAW - " + Date.now() + "\n\tCalled By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Num Shapes: " + _UI.shapelayers.length + " - Navhere: " + _UI.navhere + "\n");	
 		var sh;
 		
 

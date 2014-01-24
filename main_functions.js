@@ -18,7 +18,7 @@
 // Navigation Stuff
 //-------------------
 	function navigate(where){
-		//debug("<b>>>NAVIGATE STARTED</b> - to " + _UI.navhere);
+		debug(">>> NAVIGATE STARTED - to " + _UI.navhere + " called by " + where);
 
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
@@ -64,7 +64,7 @@
 		document.body.focus();
 		
 
-		debug("\nNAVIGATE FINISHED - to " + _UI.navhere + " passed " + where + "\n");
+		debug(">>> NAVIGATE FINISHED - to " + _UI.navhere + " called by " + where);
 
 	}
 	
