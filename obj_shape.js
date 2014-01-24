@@ -352,7 +352,10 @@
 			newshape.name = ("layer " + _UI.shapelayers.length);
 		}
 		
-		if(_UI.navhere == "character edit") { _UI.selectedshape = _UI.shapelayers.length; }
+		if(_UI.navhere == "character edit") { 
+			_UI.selectedshape = _UI.shapelayers.length; 
+			_UI.navprimaryhere = 'npAttributes';
+		}
 		_UI.shapelayers.push(newshape);
 
 		

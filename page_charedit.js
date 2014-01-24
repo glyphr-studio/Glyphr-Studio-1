@@ -281,6 +281,7 @@
 // Update Details
 //-------------------
 	function updateCharEditDetails(){
+		debug("UPDATECHAREDITDETAILS");
 
 		var s = ss("update details");
 		
@@ -411,6 +412,7 @@
 	}
 	
 	function shapeDetails(s){
+		debug("function: " + arguments.callee.name + "("+arguments.length+") \tcalled by " + arguments.caller);
 		//debug("SHAPEDETAILS - <b>Drawing Shape Details</b>");
 		var content = "";
 		content += "<tr><td colspan=2><h3>shape</h3></td><td style='width:200px'>&nbsp;</td></tr>\n";		
@@ -419,13 +421,13 @@
 		
 		
 		if(!_UI.eventhandlers.temppathdragshape){
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); putundoq(\"Shape X Position\"); redraw(\"shapeDetails\");'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails\");'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
 			
 			var cw = (s.path.rightx-s.path.leftx);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails\");'") + " value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");'") + " value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
 			var ch = (s.path.topy-s.path.bottomy);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); putundoq(\"Shape Height\"); redraw(\"shapeDetails\");'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
 			
 		
 		} else {
@@ -436,7 +438,7 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + rounddec(_UI.eventhandlers.temppathdragshape.topy-_UI.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
 		}
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td><input type='text' disabled='disabled' value='"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/><input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails\");' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td></tr>\n";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td><input type='text' disabled='disabled' value='"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/><input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td></tr>\n";
 		
 		//debug("<b>SHAPE DETAILS OUTPUT:<b><br><textarea rows=9 cols=3000>" + content + "</textarea>");
 		return content;
