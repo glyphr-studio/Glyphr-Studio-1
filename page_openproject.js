@@ -10,6 +10,8 @@
 		ct += "</div>";
 		
 		document.getElementById("mainpane").innerHTML = ct;
+  		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
+  		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
 	}
 	
 	function loadPage_firstrun(){
