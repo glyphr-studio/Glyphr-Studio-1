@@ -56,15 +56,24 @@
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
 			sh = sl[j];
-			if(sh.link){ sh = _GP.linkedshapes[sh.link].shape; }
-			//debug("---------------- starting shape " + sh.name);
-			if(sh.visible) sh.path.drawPathToArea(lctx, view);
+			if(sh.visible) {
+				if(sh.link){
+					if(sh.uselinkedshapexy){
+						sh = _GP.linkedshapes[sh.link].shape;
+					} else {
+						var ns = clone(_GP.linkedshapes[sh.link].shape);
+						debug("DRAWCHARTOAREA - !uselinkedshapexy, shape before\n" + JSON.stringify(ns));
+						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
+						debug("DRAWCHARTOAREA - !uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
+						sh = ns;
+					}
+				}
+				sh.path.drawPathToArea(lctx, view);
+			}
 		}
 		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 		lctx.closePath();
 		lctx.fill("nonzero");
-
-		//debug("---------------- done with " + cc + "\n");
 		
 		return width;
 	}
