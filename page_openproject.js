@@ -145,5 +145,5 @@
 		_UI.shownlinkedshape = getFirstLinkedShape();
 		
 		_UI.navhere = "character edit";
-		navigate('finalizeGlyphrProject');
+		navigate();
 	}

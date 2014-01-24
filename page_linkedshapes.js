@@ -152,7 +152,7 @@
 		_UI.selectedchar = chid;
 		_UI.navhere = "character edit";
 		_UI.navprimaryhere = "npAttributes";
-		navigate('goToEditChar');	
+		navigate();	
 	}
 	
 	function drawUsedinThumbs(){
@@ -188,7 +188,7 @@
 			allactions += "</td>";
 		
 		var linkedshapeactions = "<td><h3>linked shape</h3>";
-			linkedshapeactions += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate(\"updatelinkedshapeactions\");'><br>";
+			linkedshapeactions += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'><br>";
 			linkedshapeactions += "<input class='"+(aalength(_GP.linkedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteLinkedShapeConfirm();'><br>";		
 			linkedshapeactions += "<input class='button' type='button' value='insert to character' onclick='showAddSSToCharDialog();'><br>";		
 			
@@ -286,7 +286,7 @@
 			_UI.selectedshape = _UI.shownlinkedshape;
 			//debug("DELETELINKEDSHAPE - delete complete, new shownlinkedshape = " + shownlinkedshape);
 			
-			navigate('deleteLinkedShape');
+			navigate();
 		} else {
 			alert("Error: deleting the last linked shape should not have been an allowed action.");
 		}
