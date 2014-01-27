@@ -467,13 +467,13 @@
 		
 		
 		if(!_UI.eventhandlers.temppathdragshape){
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"))); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0,true); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"),true)); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
 			
 			var cw = (s.path.rightx-s.path.leftx);
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");}'") + " value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
 			var ch = (s.path.topy-s.path.bottomy);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1)); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1),true); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
 			
 		
 		} else {
@@ -725,7 +725,7 @@
 
 		if(_UI.clipboardshape){
 			var newshape = clone(_UI.clipboardshape.s);
-			_UI.clipboardshape.c == _UI.selectedchar ? newshape.path.updatePathPosition(20,20) : true;
+			_UI.clipboardshape.c == _UI.selectedchar ? newshape.path.updatePathPosition(20,20,true) : true;
 			
 			var newname = newshape.name;
 			var newsuffix = " (copy)";

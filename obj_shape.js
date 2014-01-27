@@ -550,7 +550,7 @@
 //	Random Support Functions
 //	-------------------------
 	function ss(req){
-		req? true : req="[probably a dynamically-generated page control]";
+		//req? true : req="[probably a dynamically-generated page control]";
 		//debug("SS() - Requested by: " + req + " - CURRENT _UI.selectedshape = " + _UI.selectedshape);	
 		
 		if(_UI.navhere == "linked shapes"){
