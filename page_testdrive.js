@@ -117,8 +117,8 @@
 		content += "<tr><td> 96dpi font size <span class='unit'>(pt)</span> </td><td id='roughptsize'>75</td></tr>";
 		content += "<tr><td> line gap <span class='unit'>(em units)</span> </td><td><input class='input' id='linegap' type='text' value='"+_GP.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> character spacing <span class='unit'>(em units)</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> show character boxes </td><td><input type='checkbox' onchange='_UI.testdrive_showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
-		content += "<tr><td> show baseline </td><td><input type='checkbox' onchange='_UI.testdrive_showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show character boxes </td><td><input type='checkbox'" + (_UI.testdrive_showcharbox? " checked " : "") + " onchange='_UI.testdrive_showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show baseline </td><td><input type='checkbox'" + (_UI.testdrive_showhorizontals? " checked " : "") + " onchange='_UI.testdrive_showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
 		
 		content += "<tr><td colspan=2><input type='button' class='button' value='generate png file' onclick='createimg();'></td></tr>";
 		content += "</table>";
