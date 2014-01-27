@@ -427,30 +427,62 @@
 		var sc = _GP.fontchars[_UI.selectedchar];
 		var content = "";	
 		
-		content += "<tr><td colspan=3><h3>character "+sc.charvalue+"</h3></td></tr>";	
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> auto width </td><td width='50%'>"+checkUI("_GP.fontchars[_UI.selectedchar].isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td></tr>";
+		content += "<tr><td colspan=3><h3>character "+sc.charvalue+"</h3></td></tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td style='margin-top:0px; padding-top:0px;'> auto width </td>"+
+					"<td class='rightcol'>"+checkUI("_GP.fontchars[_UI.selectedchar].isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td>"+
+					"</tr>";
 
 		if(!sc.isautowide){
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + rounddec(sc.charwidth) + "' onchange='_GP.fontchars[_UI.selectedchar].charwidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> width <span class='unit'>(em units)</span> </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='"+
+					rounddec(sc.charwidth) + "' onchange='_GP.fontchars[_UI.selectedchar].charwidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+					"</tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em units)</span> </td><td><input type='text' disabled='disabled' value='" + rounddec(sc.charwidth) + "'/></td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> width <span class='unit'>(em units)</span> </td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
+					rounddec(sc.charwidth) + "'/></td>"+
+					"</tr>";
 		}		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> width <span class='unit'>(em %)</span> </td><td><input type='text' disabled='disabled' value='" + rounddec(sc.charwidth/_GP.projectsettings.upm) + "'/></td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> width <span class='unit'>(em %)</span> </td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
+					rounddec(sc.charwidth/_GP.projectsettings.upm) + "'/></td>"+
+					"</tr>";
 		
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td><td width='50%'>"+checkUI("_GP.fontchars[_UI.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw(\"charDetails\");", !sc.leftsidebearing)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td>"+
+					"<td class='rightcol'>"+checkUI("_GP.fontchars[_UI.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw(\"charDetails\");", !sc.leftsidebearing)+"</td>"+
+					"</tr>";
+		
 		if(sc.leftsidebearing){
 			if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
-			content += "<tr><td class='leftcol'>&nbsp;</td><td>left side bearing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='" + sc.leftsidebearing + "' onchange='_GP.fontchars[_UI.selectedchar].leftsidebearing = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='"+
+					sc.leftsidebearing + "' onchange='_GP.fontchars[_UI.selectedchar].leftsidebearing = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+					"</tr>";
 		} else {
-			content += "<tr><td class='leftcol'>&nbsp;</td><td>left side bearing <span class='unit'>(em units)</span> </td><td><input type='text' disabled='disabled' value='" + rounddec(_GP.projectsettings.defaultlsb) + "'/></td></tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
+					rounddec(_GP.projectsettings.defaultlsb) + "'/></td>"+
+					"</tr>";
 		}
 
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> number of shapes </td><td><input type='text' disabled='disabled' value='" + _UI.shapelayers.length + "'/></td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> number of shapes </td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
+					_UI.shapelayers.length + "'/></td>"+
+					"</tr>";
 
 		return content;
 
@@ -461,30 +493,77 @@
 
 		//debug("SHAPEDETAILS - Drawing Shape Details");
 		var content = "";
-		content += "<tr><td colspan=2><h3>shape</h3></td><td style='width:200px'>&nbsp;</td></tr>\n";		
+		content += "<tr><td colspan=2><h3>shape</h3></td><td style='width:200px'>&nbsp;</td></tr>";		
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td></tr>\n";
-		
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td style='margin-top:0px; padding-top:0px;'> name </td>"+
+					"<td class='rightcol' style='margin-top:0px; padding-top:0px; padding-right:10px;'>"+
+					"<input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td>"+
+					"</tr>";
 		
 		if(!_UI.eventhandlers.temppathdragshape){
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' " + (s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0,true); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'") + " value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' " + (s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"),true)); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'") + " value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td></tr>\n";			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
+					"<td> x </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0,true); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'")+
+					" value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td>"+
+					"</tr>";
+			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
+					"<td> y </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"),true)); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'")+
+					" value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
+					"</tr>";			
 			
 			var cw = (s.path.rightx-s.path.leftx);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' " + (s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");}'") + " value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
+					"<td> width </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");}'")+
+					" value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
+					"</tr>";
+			
 			var ch = (s.path.topy-s.path.bottomy);
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' " + (s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1),true); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'") + " value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
+					"<td> height </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1),true); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'")+
+					" value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
+					"</tr>";
 			
-		
 		} else {
-			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td><td> x </td><td><input class='input' type='text' value='" + rounddec(_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td><td> y </td><td><input class='input' type='text' value='" + rounddec(_UI.eventhandlers.temppathdragshape.topy) + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
+					"<td> x </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='"+
+					rounddec(_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td>"+
+					"</tr>";
 			
-			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td><td> width </td><td><input class='input' type='text' value='" + rounddec(_UI.eventhandlers.temppathdragshape.rightx-_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td></tr>\n";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td><td> height </td><td><input class='input' type='text' value='" + rounddec(_UI.eventhandlers.temppathdragshape.topy-_UI.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td></tr>\n";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
+					"<td> y </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='"+
+					rounddec(_UI.eventhandlers.temppathdragshape.topy) + "'>&nbsp;</td>"+
+					"</tr>";
+			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
+					"<td> width </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='"+
+					rounddec(_UI.eventhandlers.temppathdragshape.rightx-_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td>"+
+					"</tr>";
+			
+			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
+					"<td> height </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='"+
+					rounddec(_UI.eventhandlers.temppathdragshape.topy-_UI.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td>"+
+					"</tr>";
 		}
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> direction </td><td><input type='text' disabled='disabled' value='"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/><input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td></tr>\n";
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> direction </td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled'"+
+					" value='"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/>"+
+					"<input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td>"+
+					"</tr>";
 		
 		//debug("<b>SHAPE DETAILS OUTPUT:<b><br><textarea rows=9 cols=3000>" + content + "</textarea>");
 		return content;
@@ -497,29 +576,69 @@
 		var content = "";
 		content += "<tr><td colspan=3><h3>path point</h3></td></tr>";	
 
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> selected point </td><td><input class='input' type='text' value='" + s.path.sp(true) + "' onchange='ss().path.selectPathPoint(this.value); redraw(\"pointDetails\");'></td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> selected point </td>"+
+					"<td class='rightcol'><input class='input' type='text' value='" + s.path.sp(true) + "' onchange='ss().path.selectPathPoint(this.value); redraw(\"pointDetails\");'></td>"+
+					"</tr>";
 		
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> point type </td><td>  ";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> point type </td><td class='rightcol'>  ";
 		content += "<canvas class='canvasbutton' title='point type: corner' onclick='ss().path.sp().type = \"corner\"; putundoq(\"Point Type: Corner\"); redraw(\"pointDetails\");' id='pointcornercanvas'></canvas>";
 		content += "<canvas class='canvasbutton' title='point type: flat' onclick='ss().path.sp().type = \"flat\"; putundoq(\"Point Type: Flat\"); redraw(\"pointDetails\");' id='pointflatcanvas'></canvas>";
 		content += "<canvas class='canvasbutton' title='point type: symmetric' onclick='ss().path.sp().type = \"symmetric\"; putundoq(\"Point Type: Symmetric\"); redraw(\"pointDetails\");' id='pointsymmetriccanvas'></canvas>";
 		content += "</td></tr>";
 		
-		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.xlock",tp.P.xlock)+"</td><td> point x </td><td><input class='input' type='text' " + (tp.P.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", Math.round(this.value), \"null\"); putundoq(\"Point X Position\"); redraw(\"pointDetails\");'") + " value='" + rounddec(tp.P.x) + "' >" + (tp.P.xlock? "" : spinner()) + "</td></tr>";
-		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.ylock",tp.P.ylock)+"</td><td> point y </td><td><input class='input' type='text' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", \"null\", Math.round(this.value)); putundoq(\"Point Y Position\"); redraw(\"pointDetails\");'") + " value='" + rounddec(tp.P.y) + "' >" + (tp.P.ylock? "" : spinner()) + "</td></tr>";
+		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.xlock",tp.P.xlock)+"</td>"+
+					"<td> point x </td>"+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.P.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", Math.round(this.value), \"null\"); putundoq(\"Point X Position\"); redraw(\"pointDetails\");'")+
+					" value='" + rounddec(tp.P.x) + "' >" + (tp.P.xlock? "" : spinner()) + "</td>"+
+					"</tr>";
+
+		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.ylock",tp.P.ylock)+"</td>"+
+					"<td> point y </td>"+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", \"null\", Math.round(this.value)); putundoq(\"Point Y Position\"); redraw(\"pointDetails\");'")+
+					" value='" + rounddec(tp.P.y) + "' >" + (tp.P.ylock? "" : spinner()) + "</td>"+
+					"</tr>";
 		
 		content += "<tr><td colspan=3><h3>handle1</h3></td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> use handle1 </td><td>"+checkUI("ss().path.sp().useh1="+!tp.useh1+"; putundoq(\"Use H1\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh1)+"</td></tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> use handle1 </td>"+
+					"<td class='rightcol'>"+checkUI("ss().path.sp().useh1="+!tp.useh1+"; putundoq(\"Use H1\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh1)+"</td>"+
+					"</tr>";
+		
 		if(tp.useh1){
-			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.xlock",tp.H1.xlock)+"</td><td> handle1 x </td><td><input class='input' type='text' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", Math.round(this.value), \"null\"); putundoq(\"H1 X Position\"); redraw(\"pointDetails\");'") + " value='" + rounddec(tp.H1.x) + "' >" + (tp.H1.xlock? "" : spinner()) + "</td></tr>";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.ylock",tp.H1.ylock)+"</td><td> handle1 y </td><td><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", \"null\", Math.round(this.value)); putundoq(\"H1 Y Position\"); redraw(\"pointDetails\");'") + " value='" + rounddec(tp.H1.y) + "' >" + (tp.H1.ylock? "" : spinner()) + "</td></tr>";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.xlock",tp.H1.xlock)+"</td>"+
+					"<td> handle1 x </td>"+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", Math.round(this.value), \"null\"); putundoq(\"H1 X Position\"); redraw(\"pointDetails\");'")+
+					" value='" + rounddec(tp.H1.x) + "' >" + (tp.H1.xlock? "" : spinner()) + "</td>"+
+					"</tr>";
+
+			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.ylock",tp.H1.ylock)+"</td>"+
+					"<td> handle1 y </td>"+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", \"null\", Math.round(this.value)); putundoq(\"H1 Y Position\"); redraw(\"pointDetails\");'")+
+					" value='" + rounddec(tp.H1.y) + "' >" + (tp.H1.ylock? "" : spinner()) + "</td>"+
+					"</tr>";
 		}
 		
 		content += "<tr><td colspan=3><h3>handle2</h3></td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> use handle2 </td><td>"+checkUI("ss().path.sp().useh2="+!tp.useh2+"; putundoq(\"Use H2\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh2)+"</td></tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> use handle2 </td>"+
+					"<td class='rightcol'>"+checkUI("ss().path.sp().useh2="+!tp.useh2+"; putundoq(\"Use H2\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh2)+"</td>"+
+					"</tr>";
+
 		if(tp.useh2){
-			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.xlock",tp.H2.xlock)+"</td><td> handle2 x </td><td><input class='input' type='text' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", Math.round(this.value), \"null\"); putundoq(\"H2 X Position\"); redraw(\"pointDetails\");'") + " value='" + rounddec(tp.H2.x) + "' >" + (tp.H2.xlock? "" : spinner()) + "</td></tr>";
-			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.ylock",tp.H2.ylock)+"</td><td> handle2 y </td><td><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", \"null\", Math.round(this.value)); putundoq(\"H2 Y Position y\"); redraw(\"pointDetails\");'") + " value='" + rounddec(tp.H2.y) + "' >" + (tp.H2.ylock? "" : spinner()) + "</td></tr>";
+			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.xlock",tp.H2.xlock)+"</td>"+
+					"<td> handle2 x </td>"+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", Math.round(this.value), \"null\"); putundoq(\"H2 X Position\"); redraw(\"pointDetails\");'")+
+					" value='" + rounddec(tp.H2.x) + "' >" + (tp.H2.xlock? "" : spinner()) + "</td>"+
+					"</tr>";
+
+			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.ylock",tp.H2.ylock)+"</td>"+
+					"<td> handle2 y </td>"+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", \"null\", Math.round(this.value)); putundoq(\"H2 Y Position y\"); redraw(\"pointDetails\");'")+
+					" value='" + rounddec(tp.H2.y) + "' >" + (tp.H2.ylock? "" : spinner()) + "</td>"+
+					"</tr>";
 		}
 		
 		return content;
@@ -1087,13 +1206,6 @@
 		// background white square
 
 		var xs = {};
-		/*
-		xs.xmax = Math.round(v.dx + zupm + gutter);
-		xs.xmin = Math.round(v.dx - gutter);
-		xs.ymax = Math.round(v.dy + (zupm - zasc) + gutter);
-		xs.ymin = Math.round(v.dy - zasc - gutter);
-		*/
-
 		xs.xmax = _UI.chareditcanvassize;
 		xs.xmin = 0;
 		xs.ymax = _UI.chareditcanvassize;
@@ -1139,9 +1251,17 @@
 				horizontal(dline+overshootsize, xs.xmin, xs.xmax);
 				
 				// Right hand Em Square and Line Gap
-				vertical(v.dx+(ps.upm*v.dz), xs.ymin, xs.ymax);
+				//vertical(v.dx+(ps.upm*v.dz), xs.ymin, xs.ymax);
 				horizontal(lgline, xs.xmin, xs.xmax);
 				
+				// Char Width
+				if(_UI.navhere == 'character edit'){
+					var sc = _GP.fontchars[_UI.selectedchar];
+					vertical(v.dx - (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)), xs.xmin, xs.xmax);
+					debug("GRID - lsb: " + (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)) );
+					vertical(v.dx + (v.dz*sc.charwidth), xs.xmin, xs.xmax);
+				}
+
 				// major guidelines - xheight, top (emzize)
 				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
 				horizontal(xline, xs.xmin, xs.xmax);

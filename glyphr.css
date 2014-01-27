@@ -635,7 +635,7 @@
 /*	DETAILS		*/
 	
 	.detail	{
-		width:100%;
+		width:380px;
 	}
 	
 	.detail td {
@@ -665,6 +665,10 @@
 		background-color:rgb(204,209,214);
 		border:1px solid rgb(204,209,214);
 		color:rgb(76,81,86);
+	}
+
+	.detail .rightcol {
+		width:200px;
 	}
 	
 	.detail .leftcol	{
