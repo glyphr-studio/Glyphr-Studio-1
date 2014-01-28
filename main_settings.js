@@ -11,19 +11,18 @@
 		"thisGlyphrStudioVersion" : "Beta 3 Working Edition - 0.3.2014.1.00.Working",
 		"projectsaved": true,
 		"colors" : {
-			"accent" : "rgb(40,170,255)",		//os accent base color  
-			"accent_light" : "rgb(150,225,255)",	//os light accent base color
-			// Grays
-			"offwhite" : "rgb(250,252,255)",	// Off White
-			"g9" : "rgb(229,234,239)",			// 90% gray
-			"g8" : "rgb(204,209,214)",			// 80% gray
-			"g7" : "rgb(178,183,188)",			// 70% gray
-			"g6" : "rgb(153,158,163)",			// 60% gray
-			"g5" : "rgb(127,134,137)",			// 50% gray
-			"g4" : "rgb(102,107,112)",			// 40% gray
-			"g3" : "rgb(76,81,86)",				// 30% gray
-			"g2" : "rgb(51,56,61)",				// 20% gray
-			"g1" : "rgb(25,30,35)"				// 10% gray
+			"accent" :		"rgb(0,170,225)",	//os accent base color  
+			"accent_light": "rgb(165,222,240)",	//os light accent base color
+			"offwhite" :	"rgb(250,252,255)",	// Off White
+			"g9" :			"rgb(229,234,239)",	// 90% gray
+			"g8" :			"rgb(204,209,214)",	// 80% gray
+			"g7" :			"rgb(178,183,188)",	// 70% gray
+			"g6" :			"rgb(153,158,163)",	// 60% gray
+			"g5" :			"rgb(127,134,137)",	// 50% gray
+			"g4" :			"rgb(102,107,112)",	// 40% gray
+			"g3" :			"rgb(76,81,86)",	// 30% gray
+			"g2" :			"rgb(51,56,61)",	// 20% gray
+			"g1" :			"rgb(25,30,35)"		// 10% gray
 		},
 
 		// Shared edit pages
