@@ -134,7 +134,7 @@
 
 	function createNewFontcharsArray(){
 		return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-			new Char({"charname":"SPACE", "charvalue":"(space)", "cmapcode":"0x20"}), 
+			new Char({"charname":"SPACE", "charvalue":"(space)", "cmapcode":"0x20", "isautowide":false, "charwidth":200}), 
 			new Char({"charname":"EXCLAMATION MARK", "charvalue":"!", "cmapcode":"0x21"}), 
 			new Char({"charname":"QUOTATION MARK", "charvalue":'"', "cmapcode":"0x22"}), 
 			new Char({"charname":"NUMBER SIGN", "charvalue":"#", "cmapcode":"0x23"}), 
