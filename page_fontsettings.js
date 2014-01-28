@@ -10,8 +10,8 @@
 		
 		content += "<h3>Character Proportions</h3>"; 
 		content += "Glyphr projects export OpenType fonts with PostScript outlines.  Characters in this kind of font have a total height of 1000 Em units. "+
-					"There is one main dividing line for each character.  The baseline is where the bottom " + 
-					"of most characters sit, above it is the ascent height.  Some characters, like p and y, fall below the baseline into the descent.<br>" + 
+					"The baseline is the one main dividing line for each character, with the ascent and descent above it and below it. " + 
+					"Some characters, like p and y, fall below the baseline into the descent.<br>" + 
 					"<table class='fontmetricstable'>"+
 					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
 					"<tr><td>Descent height: </td><td><input type='text' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" + 
