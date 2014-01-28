@@ -893,7 +893,6 @@
 //-------------------
 	function updatelayers(){
 		//stack(arguments);
-
 		
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
@@ -942,7 +941,7 @@
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = _UI.colors.offwhite;
 				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-
+				debug("UPDATELAYERS - drawing layer " + i);
 				_UI.shapelayers[i].drawShapeToArea(tctx, _UI.thumbview);
 			}
 		}

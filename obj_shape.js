@@ -66,7 +66,7 @@
 
 	Shape.prototype.drawShapeToArea = function(lctx, view){
 		if(this.visible){
-			//debug("drawShapeToArea for shape: " + this.name);
+			debug("drawShapeToArea for shape: " + this.name + " view=" + JSON.stringify(view));
 			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 			lctx.beginPath();
 			this.path.drawPathToArea(lctx, view);

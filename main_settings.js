@@ -197,19 +197,3 @@
 
 		return "|| RETURN VALUE ERROR ||";
 	}
-
-/*
-	Actual Grays
-
-	// Grays
-	"offwhite" : "rgb(250,250,250)",	// Off White
-	"g9" : "rgb(229,229,229)",			// 90% gray
-	"g8" : "rgb(204,204,204)",			// 80% gray
-	"g7" : "rgb(178,178,178)",			// 70% gray
-	"g6" : "rgb(153,153,153)",			// 60% gray
-	"g5" : "rgb(127,127,127)",			// 50% gray
-	"g4" : "rgb(102,102,102)",			// 40% gray
-	"g3" : "rgb(76,76,76)",				// 30% gray
-	"g2" : "rgb(51,51,51)",				// 20% gray
-	"g1" : "rgb(25,25,25)",				// 10% gray
-*/

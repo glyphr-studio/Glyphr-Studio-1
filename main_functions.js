@@ -9,6 +9,7 @@
 		_GP = clone(_UI.default_GP);
 		setOTprop("head", "created", ttxDateString());
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
+		resetThumbView();
 		drawLogo();	
 		navigate();
 		//debug("MAIN SETUP() - END");
@@ -18,7 +19,7 @@
 // Navigation Stuff
 //-------------------
 	function navigate(where){
-		debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + where);
+		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + where);
 
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
@@ -64,7 +65,7 @@
 		document.body.focus();
 		
 
-		debug(">>> NAVIGATE FINISHED - to " + _UI.navhere);
+		//debug(">>> NAVIGATE FINISHED - to " + _UI.navhere);
 
 	}
 	
