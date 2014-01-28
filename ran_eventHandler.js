@@ -522,7 +522,7 @@
 		_UI.showrightline = true;
 		var s = ss("Click Empty Space");
 		if(s) {
-			s.path.selectPathPoint(-1);
+			s.path.selectPathPoint(false);
 			s.path.calcMaxes();
 		}
 		_UI.selectedshape = -1;

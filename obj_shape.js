@@ -428,7 +428,7 @@
 			//debug("CLICKSELECTShape() - Checking shape " + j);
 			
 			if(ts.isHere(x,y)){
-				if(!ts.link) ts.path.selectPathPoint(-1);
+				if(!ts.link) ts.path.selectPathPoint(false);
 				if(j != _UI.selectedshape){
 					//debug("CLICKSELECTShape() - selecting shape " + j);
 					_UI.selectedshape = j;				

@@ -126,9 +126,9 @@
 	function updateCurrentCharWidth() {
 		if(_UI.navhere == 'character edit'){
 			_GP.fontchars[_UI.selectedchar].calcCharWidth();
-		} else if (_UI.navhere == 'linked shapes') {
+		} else if (_UI.navhere == 'linked shapes' && _GP.linkedshapes[_UI.shownlinkedshape]) {
 			var lsarr = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
-			for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharWidth();
+			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharWidth();
 		}
 	}
 

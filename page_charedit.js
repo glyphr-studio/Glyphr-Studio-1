@@ -522,7 +522,7 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> selected point </td>"+
-					"<td class='rightcol'><input class='input' type='text' value='" + s.path.sp(true) + "' onchange='ss().path.selectPathPoint(this.value); redraw(\"pointDetails\");'></td>"+
+					"<td class='rightcol'><input class='input' type='text' value='" + s.path.sp(true) + "' onchange='ss().path.selectPathPoint(this.value); redraw(\"pointDetails\");'>"+spinner()+"</td>"+
 					"</tr>";
 		
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> point type </td><td class='rightcol'>  ";

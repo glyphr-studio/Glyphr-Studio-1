@@ -25,7 +25,7 @@
 		this.rightx = isval(oa.rightx)? oa.rightx : -1;
 		
 		// Setup the object
-		this.selectPathPoint(-1);
+		this.selectPathPoint(false);
 		if(this.pathpoints) this.calcMaxes();
 		
 		//debug("Path() - created new path: " + this.pathpoints);
@@ -398,16 +398,18 @@
 	}
 	
 	Path.prototype.selectPathPoint = function(index){
-	// FOR NOW, ONLY ONE POINT SELECTED
+		// FOR NOW, ONLY ONE POINT SELECTED
+		//debug("SELECTPATHPOINT - passed " + index + " length " + this.pathpoints.length + " mod " +(index%this.pathpoints.length));
 		for(var j=0; j<this.pathpoints.length; j++){
 			this.pathpoints[j].selected = false;
 		}
 		
-		if(index == -1){
+		if(index === false){
 			return;
-		} else if(this.pathpoints[index]){
-			this.pathpoints[index].selected = true;
-			//debug("SELECTPATHPOINT - selecting point " + index);
+		} else {
+			index = (index == -1)? (this.pathpoints.length-1) : Math.abs(index);
+			this.pathpoints[index%this.pathpoints.length].selected = true;
+			//debug("SELECTPATHPOINT - selecting point " + index%this.pathpoints.length));
 		} 
 	}
 
