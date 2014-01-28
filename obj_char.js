@@ -132,7 +132,7 @@
 		}
 	}
 
-	function createNewFontObject(){
+	function createNewFontcharsArray(){
 		return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 			new Char({"charname":"SPACE", "charvalue":"(space)", "cmapcode":"0x20"}), 
 			new Char({"charname":"EXCLAMATION MARK", "charvalue":"!", "cmapcode":"0x21"}), 
