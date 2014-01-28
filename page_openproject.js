@@ -150,9 +150,7 @@
 		if(!isval(_GP.projectsettings.linkedshapecounter)){
 			_GP.projectsettings.linkedshapecounter = 0;
 		}
-		
-		//debug("FINALIZEGLYPHRPROJECT - After linkedshapecounter: " + _GP.projectsettings.linkedshapecounter);
-		
+
 		_UI.selectedchar = 97;
 		_UI.shownlinkedshape = getFirstLinkedShape();
 		

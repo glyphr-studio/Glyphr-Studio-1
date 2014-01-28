@@ -910,7 +910,7 @@
 				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+_UI.thumbsize+"' width='"+_UI.thumbsize+"'></canvas></td>";
 				
 				content += "<td class='layername'>" + _UI.shapelayers[i].name ;
-				if(_UI.shapelayers[i].link) { content += "<span class='layernote'>[linked shape]</span>"; }
+				if(_UI.shapelayers[i].link) { content += "<span class='layernote'>[linked to "+_GP.linkedshapes[_UI.shapelayers[i].link].shape.name+"]</span>"; }
 				content += "</td></tr>";
 			}
 			content += "</table>";
