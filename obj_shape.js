@@ -66,7 +66,7 @@
 
 	Shape.prototype.drawShapeToArea = function(lctx, view){
 		if(this.visible){
-			debug("drawShapeToArea for shape: " + this.name + " view=" + JSON.stringify(view));
+			//debug("drawShapeToArea for shape: " + this.name + " view=" + JSON.stringify(view));
 			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 			lctx.beginPath();
 			this.path.drawPathToArea(lctx, view);
@@ -357,7 +357,7 @@
 			_UI.navprimaryhere = 'npAttributes';
 		}
 		_UI.shapelayers.push(newshape);
-
+		updateCurrentCharWidth();
 		
 		//debug("ADDSHAPE - returns:\n" + JSON.stringify(newshape));			
 		return newshape;
@@ -392,6 +392,7 @@
 		
 		if(_UI.navhere == "character edit") { _UI.selectedshape = _UI.shapelayers.length; }
 		_UI.shapelayers.push(newshape);
+		updateCurrentCharWidth();
 	}
 
 	function deleteShape(){
@@ -412,6 +413,7 @@
 			//debug("DELETESHAPE - newly selected shape is linkedshape, changing tool");
 			_UI.selectedtool = "shaperesize";
 		}
+		updateCurrentCharWidth();
 	}
 
 	function clickSelectShape(x,y){

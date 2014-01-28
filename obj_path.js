@@ -441,6 +441,7 @@
 			this.bottomy = Math.min(this.bottomy, tbounds.miny);
 		}
 
+		updateCurrentCharWidth();
 		//console.timeEnd("CalcMaxes_NEW");
 	}
 

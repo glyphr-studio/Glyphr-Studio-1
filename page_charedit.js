@@ -941,7 +941,7 @@
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = _UI.colors.offwhite;
 				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-				debug("UPDATELAYERS - drawing layer " + i);
+				//debug("UPDATELAYERS - drawing layer " + i);
 				_UI.shapelayers[i].drawShapeToArea(tctx, _UI.thumbview);
 			}
 		}
