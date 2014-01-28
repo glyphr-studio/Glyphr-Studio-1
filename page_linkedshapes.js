@@ -125,9 +125,7 @@
 //-------------------
 	function linkedShapeCharDetails(){
 		var content = "";	
-
-		//content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Linked Shape ID </td><td> " + _UI.shownlinkedshape + " </td></tr>";	
-			
+	
 		if(_GP.linkedshapes[_UI.shownlinkedshape].usedin.length > 0){
 			content += "<table style='margin-top:10px;'><tr><td colspan=3><h3>characters that use this linked shape</h3>";
 			content += generateUsedinThumbs();

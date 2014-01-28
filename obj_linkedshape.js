@@ -129,7 +129,6 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; x </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.xpos + "' onchange='ss().xpos = (this.value*1); putundoq(\"linkedshape xpos\"); redraw(\"linkedShapeInstanceDetails\");'>"+spinner()+"</td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; y </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.ypos + "' onchange='ss().ypos = (this.value*1); putundoq(\"linkedshape ypos\"); redraw(\"linkedShapeInstanceDetails\");'>"+spinner()+"</td></tr>";
 		}
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> Unique Linked Shape ID </td><td> " + s.link + " </td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> linked shape name </td><td>" + _GP.linkedshapes[s.link].shape.name + "</td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><input type='button' class='button' value='edit this linked shape' onclick='goToEditLinkedShape(\""+s.link+"\");'/></td></tr>";
 		return content;
