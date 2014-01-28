@@ -55,7 +55,6 @@
 				if(fcontent.projectsettings.version){
 					hydrateGlyphrProject(fcontent);
 					//debug("Loading project; " + _GP.projectsettings.name);
-					finalizeGlyphrProject();
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
 					alert("File does not appear to be a Glyphr Project, try again...");
@@ -91,6 +90,7 @@
 		}
 
 		//debug("HDRYATEGLYPHRPROJECT: JSON \n" + JSON.stringify(data));
+		finalizeGlyphrProject();
 	}
 
 	function handleDragOver(evt) {
@@ -128,6 +128,9 @@
 		setOTprop("cff", "FullName", fn);
 		setOTprop("cff", "FamilyName", fn);
 
+		setOTprop("head", "created", ttxDateString());
+		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
+
 		_GP.fontchars = createNewFontcharsArray();
 	
 		_GP.linkedshapes = {};
@@ -136,6 +139,9 @@
 		finalizeGlyphrProject();
 	}
 	
+
+
+
 	function finalizeGlyphrProject(){
 		//debug("FINALIZEGLYPHRPROJECT - start of function");
 		_UI.charcurrstate = clone(_GP.fontchars);
@@ -150,6 +156,8 @@
 		_UI.selectedchar = 97;
 		_UI.shownlinkedshape = getFirstLinkedShape();
 		
+		resetThumbView();
+
 		_UI.navhere = "character edit";
 		navigate();
 	}
