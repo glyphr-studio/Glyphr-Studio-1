@@ -449,14 +449,14 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
 					"<td> shape x </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0,true); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'")+
+					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setLeftX(this.value); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'")+
 					" value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 			
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
 					"<td> shape y </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"),true)); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'")+
+					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setTopY(this.value); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'")+
 					" value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
 					"</tr>";			
 			
@@ -674,7 +674,7 @@
 		var allactions = "<td><h3>universal</h3>";
 			allactions += "<input  class='"+(_UI.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'><br>";
-			allactions += "<input class='button' type='button' value='insert linked shape' onclick='insertLinkedShapeDialog();'><br>";
+			allactions += "<input class='button' type='button' value='add linked shape' onclick='insertLinkedShapeDialog();'><br>";
 			allactions += "<input class='"+(_UI.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'><br>";
 			
 			allactions += "</td>";
@@ -737,7 +737,7 @@
 		var s = ss("Update Actions");
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateLayerActions\");'><br>";
-			allactions += "<input class='button' type='button' value='insert linked shape' onclick='insertLinkedShapeDialog();'><br>";
+			allactions += "<input class='button' type='button' value='add linked shape' onclick='insertLinkedShapeDialog();'><br>";
 			
 		var shapeactions = "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateLayerActions\");'><br>";
 			

@@ -286,11 +286,12 @@
 	
 	Path.prototype.setTopY = function(newvalue){
 		var delta = ((newvalue*1) - ss("setTopY").path.topy);
-		this.updatePathPosition(0,delta);
+		this.updatePathPosition(0,delta,true);
 	}
 	
 	Path.prototype.setLeftX = function(newvalue){
-		this.updatePathPosition(((newvalue*1) - ss("SetLeftX").path.leftx),0);
+		var delta = ((newvalue*1) - ss("SetLeftX").path.leftx);
+		this.updatePathPosition(delta,0,true);
 	}
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
