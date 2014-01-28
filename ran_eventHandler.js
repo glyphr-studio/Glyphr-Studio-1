@@ -64,7 +64,6 @@
 			//debug("EV_CANVAS offsetx / offsety / layerx / layery: " +  ev.offsetX + " " + ev.offsetY + " " + ev.layerX + " " + ev.layerY); 
 			
 			resetCursor();
-			_UI.showrightline = false;
 			
 			// Switch Tool function
 			switch(_UI.selectedtool){
@@ -72,11 +71,9 @@
 					tool = _UI.eventhandlers.eh_shapesel;
 					break;
 				case "shaperesize" :
-					_UI.showrightline = true;
 					tool = _UI.eventhandlers.eh_shaperesize;
 					break;
 				case "pan" :
-					_UI.showrightline = true;
 					document.body.style.cursor = "move";
 					tool = _UI.eventhandlers.eh_pantool;
 					break;
@@ -519,7 +516,6 @@
 	}
 	
 	function clickEmptySpace(){
-		_UI.showrightline = true;
 		var s = ss("Click Empty Space");
 		if(s) {
 			s.path.selectPathPoint(false);

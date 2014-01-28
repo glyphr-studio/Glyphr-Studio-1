@@ -57,7 +57,6 @@
 		"charundoq" : [],
 		"charcurrstate" : {},
 		"selectchardrawarr" : [],
-		"showrightline" : true,	
 		"shapelayers" : [],
 		"debugpoints" : [false,false],
 		"locid": 0,

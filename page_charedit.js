@@ -1109,17 +1109,13 @@
 		//debug("CLICKTOOL - was passed: " + ctool + " and _UI.selectedtool now is: " + _UI.selectedtool);
 		_UI.eventhandlers.eh_addpath.firstpoint = true; 
 		if((ctool=="newrect")||(ctool=="newoval")){
-			_UI.showrightline = true;
 			_UI.selectedshape = -1; 
 		} else if (ctool=="newpath"){
-			_UI.showrightline = false;
 			_UI.selectedshape = -1; 
 		} else if(ctool=="pathedit"){
-			_UI.showrightline = false;
 			if(s) {s.path.selectPathPoint(0);}
 			//debug("CLICKTOOL() - setting selectPathPoint = 0");
 		} else if (ctool = "shapemove"){
-			_UI.showrightline = true;
 			if(s){s.path.calcMaxes();}
 		}
 		
