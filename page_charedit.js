@@ -447,14 +447,14 @@
 		
 		if(!_UI.eventhandlers.temppathdragshape){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
-					"<td> x </td>"+
+					"<td> shape x </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition((this.value-("+s.path.leftx+")),0,true); putundoq(\"Shape X Position\"); redraw(\"shapeDetails - X Position\");}'")+
 					" value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 			
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
-					"<td> y </td>"+
+					"<td> shape y </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathPosition(0,(this.value-("+s.path.topy+"),true)); putundoq(\"Shape Y Position\"); redraw(\"shapeDetails - Y Position\");}'")+
 					" value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
@@ -543,43 +543,43 @@
 					" value='" + rounddec(tp.P.y) + "' >" + (tp.P.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 		
-		content += "<tr><td colspan=3><h3>handle1</h3></td></tr>";
+		content += "<tr><td colspan=3><h3>handle 1 <span class='unit'>(before the point)</span></h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> use handle1 </td>"+
+					"<td> use handle 1 </td>"+
 					"<td class='rightcol'>"+checkUI("ss().path.sp().useh1="+!tp.useh1+"; putundoq(\"Use H1\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh1)+"</td>"+
 					"</tr>";
 		
 		if(tp.useh1){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.xlock",tp.H1.xlock)+"</td>"+
-					"<td> handle1 x </td>"+
+					"<td> handle 1 x </td>"+
 					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", Math.round(this.value), \"null\"); putundoq(\"H1 X Position\"); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H1.x) + "' >" + (tp.H1.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.ylock",tp.H1.ylock)+"</td>"+
-					"<td> handle1 y </td>"+
+					"<td> handle 1 y </td>"+
 					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", \"null\", Math.round(this.value)); putundoq(\"H1 Y Position\"); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H1.y) + "' >" + (tp.H1.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 		}
 		
-		content += "<tr><td colspan=3><h3>handle2</h3></td></tr>";
+		content += "<tr><td colspan=3><h3>handle 2 <span class='unit'>(after the point)</span></h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> use handle2 </td>"+
+					"<td> use handle 2 </td>"+
 					"<td class='rightcol'>"+checkUI("ss().path.sp().useh2="+!tp.useh2+"; putundoq(\"Use H2\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh2)+"</td>"+
 					"</tr>";
 
 		if(tp.useh2){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.xlock",tp.H2.xlock)+"</td>"+
-					"<td> handle2 x </td>"+
+					"<td> handle 2 x </td>"+
 					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", Math.round(this.value), \"null\"); putundoq(\"H2 X Position\"); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H2.x) + "' >" + (tp.H2.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.ylock",tp.H2.ylock)+"</td>"+
-					"<td> handle2 y </td>"+
+					"<td> handle 2 y </td>"+
 					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", \"null\", Math.round(this.value)); putundoq(\"H2 Y Position y\"); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H2.y) + "' >" + (tp.H2.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
@@ -671,7 +671,7 @@
 				
 		var s = ss("Update Actions");		
 		
-		var allactions = "<td><h3>*</h3>";
+		var allactions = "<td><h3>universal</h3>";
 			allactions += "<input  class='"+(_UI.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'><br>";
 			allactions += "<input class='button' type='button' value='insert linked shape' onclick='insertLinkedShapeDialog();'><br>";
