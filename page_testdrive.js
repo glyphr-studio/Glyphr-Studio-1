@@ -37,7 +37,8 @@
 		var textEm = (_GP.projectsettings.upm*scale);
 		var currx = _UI.testdrive_padsize;
 		var curry = _UI.testdrive_padsize + (ps.ascent*scale);
-		
+		var cc;
+
 		tctx.clearRect(0,0,5000,5000);
 		_UI.testdrive_showhorizontals? drawLine(curry) : false;
 		
@@ -53,23 +54,24 @@
 				// draw baseline
 				_UI.testdrive_showhorizontals? drawLine(curry) : false;
 			} else {
-				var cc = getCharFromText(contentArray[k]);
-				if(_UI.testdrive_showcharbox){
-					tctx.fillStyle = "transparent";
-					tctx.strokeStyle = _UI.colors.accent;
-					tctx.lineWidth = 1;
-					
-					tctx.strokeRect(
-						currx.makeCrisp(), 
-						(curry.makeCrisp()-(ps.ascent*scale)), 
-						Math.round(cc.charwidth*scale), 
-						Math.round(textEm)
-					);
-				}
+				cc = getCharFromText(contentArray[k]);
+				if(cc){
+					if(_UI.testdrive_showcharbox){
+						tctx.fillStyle = "transparent";
+						tctx.strokeStyle = _UI.colors.accent;
+						tctx.lineWidth = 1;
+						
+						tctx.strokeRect(
+							currx.makeCrisp(), 
+							(curry.makeCrisp()-(ps.ascent*scale)), 
+							Math.round(cc.charwidth*scale), 
+							Math.round(textEm)
+						);
+					}
 
-				currx += cc.drawCharToArea(tctx, {"dz" : _UI.testdrive_fontscale, "dx" : currx, "dy" : curry});
-				currx += (document.getElementById("charspacing").value*1*scale);
-					
+					currx += cc.drawCharToArea(tctx, {"dz" : _UI.testdrive_fontscale, "dx" : currx, "dy" : curry});
+					currx += (document.getElementById("charspacing").value*1*scale);
+				}					
 			}
 		}
 	}

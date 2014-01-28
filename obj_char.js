@@ -72,7 +72,11 @@
 		var width = (this.charwidth*view.dz);
 		if(this.isautowide){ 
 			//debug("---------------- for " + this.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*view.dz) + " to width " + width);
-			width += ((this.leftsidebearing === false ? ps.defaultlsb : this.leftsidebearing)*view.dz); 
+			if(this.leftsidebearing === false){
+				width += (ps.defaultlsb * view.dz);
+			} else {
+ 				width += (this.leftsidebearing * view.dz);
+			}
 		}
 		
 		var sh = {};
@@ -110,10 +114,10 @@
 		var tc;
 		for(var num=0; num<_GP.fontchars.length; num++){
 			tc = _GP.fontchars[num];
-			if(tc !== null){
-				if(tc.charvalue === c) return tc;
-			}
+			if(tc && tc.charvalue === c) return tc;
 		}
+		console.error("GETCHARFROMTEXT - could not find " + c);
+		return false;
 	}
 
 //-------------------------------------------------------

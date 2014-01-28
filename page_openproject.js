@@ -68,6 +68,13 @@
 	}
 
 	function hydrateGlyphrProject(data) {
+		_GP = clone(_UI.default_GP);
+		
+		// Project Settings
+		if(data.projectsettings) _GP.projectsettings = clone(data.projectsettings);
+		
+		// Open Type Properties
+		if(data.opentypeproperties) _GP.opentypeproperties = clone(data.opentypeproperties);
 
 		// Linked Shapes
 		for (var ssid in data.linkedshapes) {
@@ -79,7 +86,7 @@
 		// Characters
 		for (var i = 0; i < data.fontchars.length; i++) {
 			if(data.fontchars[i]){
-				_GP.fontchars[i] = new Char(data.fontchars[i]);
+				_GP.fontchars[i*1] = new Char(data.fontchars[i]);
 			}
 		}
 
@@ -111,6 +118,8 @@
 		var fn = document.getElementById("newprojectname").value;
 		fn = (fn? fn : "My Font");
 		
+		_GP = clone(_UI.default_GP);
+		
 		_GP.projectsettings.name = fn;
 		_GP.opentypeproperties.name[1].val = fn;
 		_GP.opentypeproperties.name[3].val = (fn + " 1.0");
@@ -119,7 +128,7 @@
 		setOTprop("cff", "FullName", fn);
 		setOTprop("cff", "FamilyName", fn);
 
-		_GP.fontchars = createNewFontObject();
+		_GP.fontchars = createNewFontcharsArray();
 	
 		_GP.linkedshapes = {};
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
