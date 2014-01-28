@@ -53,7 +53,7 @@
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
 				if(fcontent.projectsettings.version){
-					_GP = hydrateGlyphrProject(fcontent);
+					hydrateGlyphrProject(fcontent);
 					//debug("Loading project; " + _GP.projectsettings.name);
 					finalizeGlyphrProject();
 				} else {
@@ -68,25 +68,22 @@
 	}
 
 	function hydrateGlyphrProject(data) {
-		for (var i = 0; i < data.fontchars.length; i++) {
-			// Shapes
-			if(data.fontchars[i]){
-				data.fontchars[i] = new Char(data.fontchars[i]);
-			}
-		}
 
 		// Linked Shapes
-		//debug("HYDRATEGLYPHRPROJECT before 'for/in' loop \n" + JSON.stringify(data.linkedshapes));
 		for (var ssid in data.linkedshapes) {
-			//debug("HYDRATEGLYPHRPROJECT - trying property " + ssid)
 			if(data.linkedshapes.hasOwnProperty(ssid)){
-				//debug("HYDRATEGLYPHRPROJECT - hydrating linkedshape " + ssid + " with data \n" + JSON.stringify(data.linkedshapes[ssid]));
-				data.linkedshapes[ssid] = new LinkedShape(data.linkedshapes[ssid]);
+				_GP.linkedshapes[ssid] = new LinkedShape(data.linkedshapes[ssid]);
+			}
+		}
+		
+		// Characters
+		for (var i = 0; i < data.fontchars.length; i++) {
+			if(data.fontchars[i]){
+				_GP.fontchars[i] = new Char(data.fontchars[i]);
 			}
 		}
 
 		//debug("HDRYATEGLYPHRPROJECT: JSON \n" + JSON.stringify(data));
-		return data;
 	}
 
 	function handleDragOver(evt) {

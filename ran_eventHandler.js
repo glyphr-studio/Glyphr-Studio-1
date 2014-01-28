@@ -166,6 +166,7 @@
 			this.firstmove = false;
 			_UI.eventhandlers.lastx = -100;
 			_UI.eventhandlers.lasty = -100;
+			updateCurrentCharWidth();
 			// For new shape tools, mouse up always adds to the undo-queue
 			putundoq("New Path tool");
 			
@@ -261,11 +262,10 @@
 			_UI.eventhandlers.firstx = -100;
 			_UI.eventhandlers.firsty = -100;
 			_UI.eventhandlers.temppathdragshape = false;
+			updateCurrentCharWidth();
 			putundoq("New Basic Shape tool");
 			_UI.eventhandlers.uqhaschanged = false;
-			
-			_UI.showrightline = true;
-			
+						
 			clicktool("pathedit");
 		};
 		
@@ -315,8 +315,9 @@
 			_UI.eventhandlers.lasty = -100;
 			
 			if(_UI.eventhandlers.uqhaschanged) {
-				putundoq("Path Edit tool");
 				ss("Path Edit - Mouse Up").path.calcMaxes();
+				updateCurrentCharWidth();
+				putundoq("Path Edit tool");
 				_UI.eventhandlers.uqhaschanged = false;
 				redraw("Event Handler pathedit mouseup");
 			}
@@ -413,6 +414,7 @@
 			}
 			
 			if(this.resizing) s.path.calcMaxes(); 
+			updateCurrentCharWidth();
 			
 			this.dragging = false;
 			this.resizing = false;

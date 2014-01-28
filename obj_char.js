@@ -31,6 +31,7 @@
 			}
 		}
 
+		if(this.isautowide) this.calcCharWidth();
 		//debug("CHAR - finished " + this.charname + "\tlinks:" + lc + "\tshapes:" + cs);
 	}
 
@@ -40,7 +41,27 @@
 // CHAR METHODS
 //-------------------------------------------------------
 
-
+	Char.prototype.calcCharWidth = function(){
+		if(!this.isautowide) return;
+		//debug("CALCCHARWIDTH");
+		this.charwidth = 0;
+		if(this.charshapes){
+			for(var jj=0; jj<this.charshapes.length; jj++) {
+				sh = this.charshapes[jj];
+				if(sh.link){
+					var tss = _GP.linkedshapes[sh.link].shape;
+					if(sh.uselinkedshapexy) {
+						this.charwidth = Math.max(this.charwidth, tss.path.rightx);
+					} else {
+						this.charwidth = Math.max(this.charwidth, (tss.path.rightx + sh.xpos));
+					}
+				} else {
+					this.charwidth = Math.max(this.charwidth, sh.path.rightx);
+				}
+			}
+		}
+	}
+	
 	Char.prototype.drawCharToArea = function(lctx, view){
 		var ps = _GP.projectsettings;
 		var sl = this.charshapes;
@@ -51,7 +72,7 @@
 		var width = (this.charwidth*view.dz);
 		if(this.isautowide){ 
 			//debug("---------------- for " + this.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*view.dz) + " to width " + width);
-			width += (ps.defaultlsb*view.dz); 
+			width += ((this.leftsidebearing === false ? ps.defaultlsb : this.leftsidebearing)*view.dz); 
 		}
 		
 		var sh = {};
@@ -98,6 +119,15 @@
 //-------------------------------------------------------
 // CHAR FUNCTIONS
 //-------------------------------------------------------
+	function updateCurrentCharWidth() {
+		if(_UI.navhere == 'character edit'){
+			_GP.fontchars[_UI.selectedchar].calcCharWidth();
+		} else if (_UI.navhere == 'linked shapes') {
+			var lsarr = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
+			for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharWidth();
+		}
+	}
+
 	function createNewFontObject(){
 		return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 			new Char({"charname":"SPACE", "charvalue":"(space)", "cmapcode":"0x20"}), 

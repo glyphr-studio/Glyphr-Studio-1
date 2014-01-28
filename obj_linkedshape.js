@@ -64,7 +64,7 @@
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 		
-		_GP.fontchars[_UI.selectedchar].charwidth = Math.max(_GP.fontchars[_UI.selectedchar].charwidth, _GP.linkedshapes[ssid].shape.path.rightx);
+		_GP.fontchars[_UI.selectedchar].calcCharWidth();
 		
 		addToUsedIn(ssid, _UI.selectedchar);
 		

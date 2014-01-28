@@ -53,13 +53,13 @@
 		"linkedshapeundoq" : [],
 		
 		// page: charedit
+		"selectedchar" : 97,
+		"selectedshape" : -1,
 		"charundoq" : [],
 		"charcurrstate" : {},
 		"selectchardrawarr" : [],
 		"showrightline" : true,	
 		"shapelayers" : [],
-		"selectedshape" : -1,
-		"selectedchar" : 97,
 		"debugpoints" : [false,false],
 		"locid": 0,
 		"locarr": [],

@@ -235,70 +235,14 @@
 
 		_UI.redrawing = true;
 
-		
-		var fc = _GP.fontchars;
+		var sc = _GP.fontchars[_UI.selectedchar];
 		
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 		grid();
 		
 		// load char info
-		_UI.shapelayers = fc[_UI.selectedchar].charshapes;
-		var sh;
-		
-
-		// Recompute Right Hand Line
-		// Only update charwidth if isautowide is true
-		if(fc[_UI.selectedchar].isautowide) {
-			fc[_UI.selectedchar].charwidth = 0;
-			for(var jj=0; jj<_UI.shapelayers.length; jj++) {
-				sh = _UI.shapelayers[jj];
-				var thisrightx = 0;
-				if(sh.link){
-					var tss = _GP.linkedshapes[sh.link].shape;
-					if(sh.uselinkedshapexy) {
-						thisrightx = tss.path.rightx;
-					} else {
-						thisrightx = (tss.path.rightx + sh.xpos);
-					}
-				} else {
-					thisrightx = sh.path.rightx;
-				}
-				fc[_UI.selectedchar].charwidth = Math.max(fc[_UI.selectedchar].charwidth, thisrightx);
-			}
-		}
-		//show right hand line
-		if(_UI.showguides && _UI.showrightline){
-			_UI.chareditctx.lineWidth = 1;
-			//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
-			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
-			var v = getView("redraw");
-			var rhl = (fc[_UI.selectedchar].charwidth*v.dz) + v.dx;
-			if(_UI.eventhandlers.temppathdragshape){
-				rhl = Math.max(sx_cx(_UI.eventhandlers.temppathdragshape.rightx), rhl);
-			}
-			vertical(rhl);
-		}
-
-
-		// Draw all the char shapes
-		_UI.chareditctx.beginPath();
-		
-		for(var jj=0; jj<_UI.shapelayers.length; jj++) {
-			sh = _UI.shapelayers[jj];
-			
-			if(_UI.eventhandlers.temppathdragshape){
-				if(jj!==_UI.selectedshape){
-					sh.drawShape_Stack(_UI.chareditctx);
-				}
-			} else {
-				sh.drawShape_Stack(_UI.chareditctx);
-			}
-		}
-
-		_UI.chareditctx.fillStyle = _GP.projectsettings.color_glyphfill;
-		_UI.chareditctx.fill("nonzero");
-		//debug("REDRAW - done drawing, charwidth is: " + fc[_UI.selectedchar].charwidth);
-
+		_UI.shapelayers = sc.charshapes;
+		sc.drawCharToArea(_UI.chareditctx, getView("Redraw"));
 
 		// Finish up
 		var s = ss("Redraw");
@@ -1258,7 +1202,6 @@
 				if(_UI.navhere == 'character edit'){
 					var sc = _GP.fontchars[_UI.selectedchar];
 					vertical(v.dx - (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)), xs.xmin, xs.xmax);
-					debug("GRID - lsb: " + (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)) );
 					vertical(v.dx + (v.dz*sc.charwidth), xs.xmin, xs.xmax);
 				}
 

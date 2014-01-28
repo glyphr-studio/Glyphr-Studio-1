@@ -161,7 +161,7 @@
 	}
 	
 	Path.prototype.updatePathSize = function(dw, dh){
-		debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
+		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
 
 		var ps = _GP.projectsettings;
 		
