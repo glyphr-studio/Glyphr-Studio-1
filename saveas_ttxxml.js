@@ -15,18 +15,20 @@
 	}
 
 	function generateTTXXML(){
+		//var metrics = calcFontMetrics();
+		var metrics = {};
 		var con = '<?xml version="1.0" encoding="ISO-8859-1"?>\n';
 		con += '<ttFont sfntVersion="OTTO" ttLibVersion="2.3">\n\n';
-		con += genTable_glyphorder({});
-		con += genTable_head({});
-		con += genTable_hhea({});
-		con += genTable_maxp({});
-		con += genTable_os_2({});
-		con += genTable_name({});
-		con += genTable_cmap({});
-		con += genTable_post({});
-		con += genTable_cff({});
-		con += genTable_hmtx({});
+		con += genTable_glyphorder(metrics);
+		con += genTable_head(metrics);
+		con += genTable_hhea(metrics);
+		con += genTable_maxp(metrics);
+		con += genTable_os_2(metrics);
+		con += genTable_name(metrics);
+		con += genTable_cmap(metrics);
+		con += genTable_post(metrics);
+		con += genTable_cff(metrics);
+		con += genTable_hmtx(metrics);
 		con += '</ttFont>';
 
 		return con;
@@ -52,6 +54,7 @@
 	}
 
 	function genTable_head(oa){
+		var gp = _GP.projectsettings;
 		var con = '<head>\n';
 		//con += '<!-- Most of this table will be recalculated by the compiler -->';
 		con += '\t<tableVersion value="1.0"/>\n';
@@ -59,13 +62,13 @@
 		con += '\t<checkSumAdjustment value="0xfd4639aa"/>\n';
 		con += '\t<magicNumber value="0x5f0f3cf5"/>\n';
 		con += '\t<flags value="00000000 00000011"/>\n';
-		con += '\t<unitsPerEm value="' + _GP.projectsettings.upm + '"/>\n';		// VAR UPM?
+		con += '\t<unitsPerEm value="' + gp.upm + '"/>\n';		// VAR UPM?
 		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';			// VAR CREATED DA\nTE
-		con += '\t<modified value="' + ttxDateString() + '"/>\n';				// COMPUTED SAVE DATE
-		con += '\t<xMin value="-100"/>\n';											// COMPUTED
-		con += '\t<yMin value="-100"/>\n';											// COMPUTED
-		con += '\t<xMax value="4048"/>\n';											// COMPUTED
-		con += '\t<yMax value="4048"/>\n';											// COMPUTED
+		con += '\t<modified value="' + ttxDateString() + '"/>\n';						// COMPUTED SAVE DATE
+		con += '\t<xMin value="'+ ((oa.xmin || gp.defaultlsb)*-1) +'"/>\n';				// COMPUTED
+		con += '\t<yMin value="'+ ((oa.ymin || (gp.upm - gp.ascent)*-1) +'"/>\n';		// COMPUTED
+		con += '\t<xMax value="'+ ((oa.xmax || gp.upm)) +'"/>\n';						// COMPUTED
+		con += '\t<yMax value="'+ ((oa.ymax || gp.ascent)) +'"/>\n';					// COMPUTED
 		con += '\t<macStyle value="00000000 00000000"/>\n';
 		con += '\t<lowestRecPPEM value="3"/>\n';
 		con += '\t<fontDirectionHint value="2"/>\n';
@@ -87,15 +90,16 @@
 	}
 
 	function genTable_hhea(oa){
+		var gp = _GP.projectsettings;
 		var con = '<hhea>\n';
 		con += '\t<tableVersion value="1.0"/>\n';
-		con += '\t<ascent value="1836"/>\n';					// COMPUTED - OS_2 winAscender
-		con += '\t<descent value="-724"/>\n';					// COMPUTED - OS_2 winDescender
-		con += '\t<lineGap value="0"/>\n';						// COMPUTED - 0
-		con += '\t<advanceWidthMax value="2100"/>\n';			// COMPUTED - max advance width from hmtx table
-		con += '\t<minLeftSideBearing value="-123"/>\n';		// COMPUTED - min lsb from hmtx
-		con += '\t<minRightSideBearing value="-124"/>\n';		// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
-		con += '\t<xMaxExtent value="2100"/>\n';				// COMPUTED - MAX(lsb + (xMax - xMin))
+		con += '\t<ascent value="'+ (gp.ascent) +'"/>\n';					// COMPUTED - OS_2 winAscender
+		con += '\t<descent value="'+ ((gp.upm - gp.ascent)*-1) +'"/>\n';	// COMPUTED - OS_2 winDescender
+		con += '\t<lineGap value="'+(gp.linegap)+'"/>\n';								// COMPUTED - 0
+		con += '\t<advanceWidthMax value="'+ (gp.upm) +'"/>\n';			// COMPUTED - max advance width from hmtx table
+		con += '\t<minLeftSideBearing value="'+(gp.defaultlsb*-1)+'"/>\n';				// COMPUTED - min lsb from hmtx
+		con += '\t<minRightSideBearing value="'+(gp.defaultlsb*-1)+'"/>\n';				// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
+		con += '\t<xMaxExtent value="'+ (gp.upm) +'"/>\n';					// COMPUTED - MAX(lsb + (xMax - xMin))
 		// italics
 		con += '\t<caretSlopeRise value="1"/>\n';
 		con += '\t<caretSlopeRun value="0"/>\n';
@@ -126,9 +130,10 @@
 	}
 
 	function genTable_os_2(oa){
+		var gp = _GP.projectsettings;
 		var con = '<OS_2>\n';
 		con += '\t<version value="3"/>\n';
-		con += '\t<xAvgCharWidth value="2100"/>\n';			// COMPUTED
+		con += '\t<xAvgCharWidth value="'+(gp.upm)+'"/>\n';			// COMPUTED
 		con += '\t<usWeightClass value="' + getOTprop("os_2","usWeightClass") + '"/>\n';	// VAR weight class
 		con += '\t<usWidthClass value="' + getOTprop("os_2","usWidthClass") + '"/>\n';		// VAR width class
 		con += '\t<fsType value="00000000 00001000"/>\n';
@@ -173,16 +178,16 @@
 		// $$$ 		(UPM - (sTypoAsc + sTypoDes))/2, add back to sTypoAsc and sTypoDes
 		// $$$ 2560 - 2048 = difference = STypoLineGap = 512
 
-		con += '\t<sTypoAscender value="1464"/>\n';		// COMPUTED vertical above baseline		$$$ ex 1430
-		con += '\t<sTypoDescender value="-584"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
-		con += '\t<sTypoLineGap value="512"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
-		con += '\t<usWinAscent value="1836"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
-		con += '\t<usWinDescent value="724"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
+		con += '\t<sTypoAscender value="'+(gp.ascent)+'"/>\n';		// COMPUTED vertical above baseline		$$$ ex 1430
+		con += '\t<sTypoDescender value="'+(gp.ascent - gp.upm)+'"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
+		con += '\t<sTypoLineGap value="'+(gp.linegap)+'"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
+		con += '\t<usWinAscent value="'+(gp.ascent)+'"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
+		con += '\t<usWinDescent value="'+(gp.ascent - gp.upm)+'"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
-		con += '\t<sxHeight value="640"/>\n';			// COMPUTED - xheight
-		con += '\t<sCapHeight value="1464"/>\n';		// COMPUTED - Hheight
+		con += '\t<sxHeight value="'+(gp.xheight)+'"/>\n';			// COMPUTED - xheight
+		con += '\t<sCapHeight value="'+(gp.ascent)+'"/>\n';		// COMPUTED - Hheight
 		con += '\t<usDefaultChar value="0"/>\n';
 		con += '\t<usBreakChar value="32"/>\n';
 		con += '\t<usMaxContex value="4"/>\n';
