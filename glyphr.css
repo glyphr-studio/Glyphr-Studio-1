@@ -300,6 +300,10 @@
 		padding-left:10px;
 	}
 	
+	.pagecontent p {
+		margin-top:8px;
+	}
+	
 	.charselectarea {
 		width:100%;
 	}
