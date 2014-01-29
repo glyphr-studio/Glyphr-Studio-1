@@ -126,6 +126,8 @@
 	}
 
 	function genTable_os_2(oa){
+		var gp = _GP.projectsettings;
+
 		var con = '<OS_2>\n';
 		con += '\t<version value="3"/>\n';
 		con += '\t<xAvgCharWidth value="2100"/>\n';			// COMPUTED
@@ -181,8 +183,8 @@
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
-		con += '\t<sxHeight value="640"/>\n';			// COMPUTED - xheight
-		con += '\t<sCapHeight value="1464"/>\n';		// COMPUTED - Hheight
+		con += '\t<sxHeight value="'+(gp.xheight)+'"/>\n';			// COMPUTED - xheight
+		con += '\t<sCapHeight value="'+(gp.ascent)+'"/>\n';		// COMPUTED - Hheight
 		con += '\t<usDefaultChar value="0"/>\n';
 		con += '\t<usBreakChar value="32"/>\n';
 		con += '\t<usMaxContex value="4"/>\n';
