@@ -89,8 +89,8 @@
 	function genTable_hhea(oa){
 		var con = '<hhea>\n';
 		con += '\t<tableVersion value="1.0"/>\n';
-		con += '\t<ascent value="1836"/>\n';					// COMPUTED - OS_2 winAscender
-		con += '\t<descent value="-724"/>\n';					// COMPUTED - OS_2 winDescender
+		con += '\t<ascent value="700"/>\n';					// COMPUTED - OS_2 winAscender
+		con += '\t<descent value="-300"/>\n';					// COMPUTED - OS_2 winDescender
 		con += '\t<lineGap value="0"/>\n';						// COMPUTED - 0
 		con += '\t<advanceWidthMax value="2100"/>\n';			// COMPUTED - max advance width from hmtx table
 		con += '\t<minLeftSideBearing value="-123"/>\n';		// COMPUTED - min lsb from hmtx
@@ -175,11 +175,11 @@
 		// $$$ 		(UPM - (sTypoAsc + sTypoDes))/2, add back to sTypoAsc and sTypoDes
 		// $$$ 2560 - 2048 = difference = STypoLineGap = 512
 
-		con += '\t<sTypoAscender value="1464"/>\n';		// COMPUTED vertical above baseline		$$$ ex 1430
-		con += '\t<sTypoDescender value="-584"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
-		con += '\t<sTypoLineGap value="512"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
-		con += '\t<usWinAscent value="1836"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
-		con += '\t<usWinDescent value="724"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
+		con += '\t<sTypoAscender value="700"/>\n';		// COMPUTED vertical above baseline		$$$ ex 1430
+		con += '\t<sTypoDescender value="-300"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
+		con += '\t<sTypoLineGap value="250"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
+		con += '\t<usWinAscent value="700"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
+		con += '\t<usWinDescent value="-300"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
