@@ -179,7 +179,7 @@
 		con += '\t<sTypoDescender value="-300"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
 		con += '\t<sTypoLineGap value="250"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
 		con += '\t<usWinAscent value="700"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
-		con += '\t<usWinDescent value="-300"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
+		con += '\t<usWinDescent value="300"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
