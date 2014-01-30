@@ -112,13 +112,13 @@
 	function genTable_hhea(oa){
 		var con = '<hhea>\n';
 		con += '\t<tableVersion value="1.0"/>\n';
-		con += '\t<ascent value="700"/>\n';					// COMPUTED - OS_2 winAscender
-		con += '\t<descent value="-300"/>\n';					// COMPUTED - OS_2 winDescender
-		con += '\t<lineGap value="0"/>\n';						// COMPUTED - 0
-		con += '\t<advanceWidthMax value="2100"/>\n';			// COMPUTED - max advance width from hmtx table
-		con += '\t<minLeftSideBearing value="-123"/>\n';		// COMPUTED - min lsb from hmtx
-		con += '\t<minRightSideBearing value="-124"/>\n';		// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
-		con += '\t<xMaxExtent value="2100"/>\n';				// COMPUTED - MAX(lsb + (xMax - xMin))
+		con += '\t<ascent value="'+oa.ymax+'"/>\n';				// 700		// COMPUTED - OS_2 winAscender
+		con += '\t<descent value="'+oa.ymin+'"/>\n';			// -300 	// COMPUTED - OS_2 winDescender
+		con += '\t<lineGap value="0"/>\n';						// 0 		// COMPUTED - 0
+		con += '\t<advanceWidthMax value="1000"/>\n';			// 			// COMPUTED - max advance width from hmtx table
+		con += '\t<minLeftSideBearing value="'+oa.xmin+'"/>\n';	// -123 	// COMPUTED - min lsb from hmtx
+		con += '\t<minRightSideBearing value="0"/>\n';			// -124 	// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
+		con += '\t<xMaxExtent value="1000"/>\n';				// 			// COMPUTED - MAX(lsb + (xMax - xMin))
 		// italics
 		con += '\t<caretSlopeRise value="1"/>\n';
 		con += '\t<caretSlopeRun value="0"/>\n';
@@ -193,16 +193,17 @@
 
 		// Line Metrics
 		// $$$ http://typophile.com/node/13081
-		// $$$ 2048 * 1.25 = 2560 = Asc + Des + LineGap
-		// $$$ sTypoAsc + sTypoDes = UPM, or if not
-		// $$$ 		(UPM - (sTypoAsc + sTypoDes))/2, add back to sTypoAsc and sTypoDes
-		// $$$ 2560 - 2048 = difference = STypoLineGap = 512
+		// $$$ FontMetrics-kltf.pdf
 
-		con += '\t<sTypoAscender value="700"/>\n';		// COMPUTED vertical above baseline		$$$ ex 1430
-		con += '\t<sTypoDescender value="-300"/>\n';	// COMPUTED vertical below baseline		$$$ ex 550
-		con += '\t<sTypoLineGap value="250"/>\n';		// COMPUTED diff between bigUPM and UPM $$$ ex 512
-		con += '\t<usWinAscent value="700"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 1836
-		con += '\t<usWinDescent value="300"/>\n';		// COMPUTED proprotional split of 2560 	$$$ ex 724
+		// $$$ |-sTypoDescender| + sTypoAscender = regularUPM = 1000
+		// $$$ usWinAscent + usWinDescent = hhea.ascent + hhea.descent + hhea.lineGap(0)
+		// $$$ sTypoAscender + |-sTypoDescender| + sTypoLineGap === hhea.ascent + hhea.descent === usWinAscent + usWinDescent
+
+		con += '\t<sTypoAscender value="700"/>\n';	
+		con += '\t<sTypoDescender value="-300"/>\n';
+		con += '\t<sTypoLineGap value="250"/>\n';	
+		con += '\t<usWinAscent value="700"/>\n';	
+		con += '\t<usWinDescent value="300"/>\n';	
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
