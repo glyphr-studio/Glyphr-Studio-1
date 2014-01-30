@@ -41,15 +41,49 @@
 // CHAR METHODS
 //-------------------------------------------------------
 
+	Char.prototype.calcCharMaxes = function(){
+
+		var maxes = {
+			"xmax" : this.charwidth,
+			"xmin" : 0,
+			"ymax" : 0,
+			"ymin" : 0
+		}
+		var sh, tss;
+
+		for(var jj=0; jj<this.charshapes.length; jj++) {
+			sh = this.charshapes[jj];
+			if(sh.link){
+				tss = _GP.linkedshapes[sh.link].shape;
+				if(sh.uselinkedshapexy) {
+					maxes.xmin = Math.min(tss.path.leftx, maxes.xmin);
+					maxes.ymax = Math.max(tss.path.topy, maxes.ymax);
+					maxes.ymin = Math.min(tss.path.bottomy, maxes.ymin);
+				} else {
+					maxes.xmin = Math.min((tss.path.leftx + sh.xpos), maxes.xmin);
+					maxes.ymax = Math.max((tss.path.topy + sh.ypos), maxes.ymax);
+					maxes.ymin = Math.min((tss.path.bottomy + sh.ypos), maxes.ymin);
+				}
+			} else {
+				maxes.xmin = Math.min(sh.path.leftx, maxes.xmin);
+				maxes.ymax = Math.max(sh.path.topy, maxes.ymax);
+				maxes.ymin = Math.min(sh.path.bottomy, maxes.ymin);
+			}
+		}
+
+		return maxes;
+	}
+
 	Char.prototype.calcCharWidth = function(){
 		if(!this.isautowide) return;
 		//debug("CALCCHARWIDTH");
 		this.charwidth = 0;
+		var sh, tss;
 		if(this.charshapes){
 			for(var jj=0; jj<this.charshapes.length; jj++) {
 				sh = this.charshapes[jj];
 				if(sh.link){
-					var tss = _GP.linkedshapes[sh.link].shape;
+					tss = _GP.linkedshapes[sh.link].shape;
 					if(sh.uselinkedshapexy) {
 						this.charwidth = Math.max(this.charwidth, tss.path.rightx);
 					} else {

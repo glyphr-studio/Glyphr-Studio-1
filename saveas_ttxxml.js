@@ -15,6 +15,7 @@
 	}
 
 	function generateTTXXML(){
+		var maxes = calcFontMaxes();
 		var con = '<?xml version="1.0" encoding="ISO-8859-1"?>\n';
 		con += '<ttFont sfntVersion="OTTO" ttLibVersion="2.3">\n\n';
 		con += genTable_glyphorder({});
@@ -32,6 +33,28 @@
 		return con;
 	}
 
+	function calcFontMaxes(){
+		var maxes = {
+			"xmax" : 0,
+			"xmin" : 0,
+			"ymax" : 0,
+			"ymin" : 0
+		}
+		var cm = {};
+
+		for(var c=0; c<_GP.fontchars.length; c++){
+			if(_GP.fontchars[c] && _GP.fontchars[c].charshapes){
+				cm = _GP.fontchars[c].calcCharMaxes();
+				maxes.xmax = Math.max(cm.xmax, maxes.xmax);
+				maxes.xmin = Math.min(cm.xmin, maxes.xmin);
+				maxes.ymax = Math.max(cm.ymax, maxes.ymax);
+				maxes.ymin = Math.min(cm.ymin, maxes.ymin);
+			}
+		}
+
+		debug("CALCFONTMAXES - returns " + JSON.stringify(maxes));
+		return maxes;
+	}
 
 
 	function genTable_glyphorder(oa){
@@ -292,21 +315,6 @@
 		con += '\t\t<StrokeWidth value="0"/>\n';
 		con += '\t\t<Encoding name="StandardEncoding"/>\n';
 		con += '\t\t<Private>\n';
-		/*
-			con += '<BlueValues value="-15 0 832 847 640 655"/>';
-			con += '<OtherBlues value="-206 -200"/>';
-			con += '<BlueScale value="0.039625"/>';
-			con += '<BlueShift value="7"/>';
-			con += '<BlueFuzz value="1"/>';
-			con += '<StdHW value="118"/>';
-			con += '<StdVW value="135"/>';
-			con += '<ForceBold value="0"/>';
-			con += '<LanguageGroup value="0"/>';
-			con += '<ExpansionFactor value="0.06"/>';
-			con += '<initialRandomSeed value="0"/>';
-			con += '<defaultWidthX value="580"/>';
-			con += '<nominalWidthX value="607"/>';
-		*/
 		con += '\t\t</Private>\n';
 		con += '\t\t<CharStrings>\n';
 
@@ -353,7 +361,7 @@
 		for(var tc=32; tc<_GP.fontchars.length; tc++){
 			curr = _GP.fontchars[tc];
 			lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
-			con += '\t<mtx name="' + curr.charname + '" width="'+curr.charwidth+'" lsb="'+lsb+'"/>\n';
+			con += '\t<mtx name="' + curr.charname + '" width="'+(lsb+curr.charwidth)+'" lsb="'+lsb+'"/>\n';
 		}
 
 		con += '</hmtx>\n\n';
