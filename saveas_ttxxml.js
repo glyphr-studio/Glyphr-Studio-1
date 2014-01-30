@@ -20,9 +20,9 @@
 		con += '<ttFont sfntVersion="OTTO" ttLibVersion="2.3">\n\n';
 		con += genTable_glyphorder({});
 		con += genTable_head({});
-		con += genTable_hhea({});
+		con += genTable_hhea(maxes);
 		con += genTable_maxp({});
-		con += genTable_os_2({});
+		con += genTable_os_2(maxes);
 		con += genTable_name({});
 		con += genTable_cmap({});
 		con += genTable_post({});
@@ -199,11 +199,11 @@
 		// $$$ usWinAscent + usWinDescent = hhea.ascent + hhea.descent + hhea.lineGap(0)
 		// $$$ sTypoAscender + |-sTypoDescender| + sTypoLineGap === hhea.ascent + hhea.descent === usWinAscent + usWinDescent
 
-		con += '\t<sTypoAscender value="700"/>\n';	
-		con += '\t<sTypoDescender value="-300"/>\n';
-		con += '\t<sTypoLineGap value="250"/>\n';	
-		con += '\t<usWinAscent value="700"/>\n';	
-		con += '\t<usWinDescent value="300"/>\n';	
+		con += '\t<sTypoAscender value="'+gp.ascent+'"/>\n';			// 	700
+		con += '\t<sTypoDescender value="'+(gp.ascent-gp.upm)+'"/>\n';	//	-300
+		con += '\t<sTypoLineGap value="'+gp.linegap+'"/>\n';			// 	250
+		con += '\t<usWinAscent value="'+oa.ymax+'"/>\n';				// 	700
+		con += '\t<usWinDescent value="'+Math.abs(oa.ymin)+'"/>\n';		// 	300
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
