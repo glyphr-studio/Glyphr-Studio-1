@@ -72,6 +72,15 @@
 		"testdrive_showhorizontals" : false,
 		"testdrive_padsize" : 10,
 
+		// Saveas TTX
+		"fontmetrics" : {
+			"xmax" : 0,
+			"xmin" : 0,
+			"ymax" : 0, 
+			"ymin" : 0,
+			"hhea_ascent" : 0,
+			"hhea_descent" : 0
+		},
 
 
 		// default project properties

@@ -34,26 +34,25 @@
 	}
 
 	function calcFontMaxes(){
-		var maxes = {
-			"xmax" : 0,
-			"xmin" : 0,
-			"ymax" : 0,
-			"ymin" : 0
-		}
+		var fm = _UI.fontmetrics;
 		var cm = {};
 
 		for(var c=0; c<_GP.fontchars.length; c++){
 			if(_GP.fontchars[c] && _GP.fontchars[c].charshapes){
 				cm = _GP.fontchars[c].calcCharMaxes();
-				maxes.xmax = Math.max(cm.xmax, maxes.xmax);
-				maxes.xmin = Math.min(cm.xmin, maxes.xmin);
-				maxes.ymax = Math.max(cm.ymax, maxes.ymax);
-				maxes.ymin = Math.min(cm.ymin, maxes.ymin);
+				fm.xmax = Math.max(cm.xmax, fm.xmax);
+				fm.xmin = Math.min(cm.xmin, fm.xmin);
+				fm.ymax = Math.max(cm.ymax, fm.ymax);
+				fm.ymin = Math.min(cm.ymin, fm.ymin);
 			}
 		}
 
-		debug("CALCFONTMAXES - returns " + JSON.stringify(maxes));
-		return maxes;
+		var proportion = (fm.ymax / (fm.ymax-fm.ymin));
+		var total = fm.ymax + Math.abs(fm.ymin) + _GP.projectsettings.linegap;
+		fm.hhea_ascent = Math.round(total*proportion);
+		fm.hhea_descent = (fm.hhea_ascent - total);
+
+		debug("CALCFONTMAXES - returns " + JSON.stringify(fm));
 	}
 
 
@@ -110,13 +109,14 @@
 	}
 
 	function genTable_hhea(oa){
+		var fm = _UI.fontmetrics;
 		var con = '<hhea>\n';
 		con += '\t<tableVersion value="1.0"/>\n';
-		con += '\t<ascent value="'+oa.ymax+'"/>\n';				// 700		// COMPUTED - OS_2 winAscender
-		con += '\t<descent value="'+oa.ymin+'"/>\n';			// -300 	// COMPUTED - OS_2 winDescender
+		con += '\t<ascent value="'+fm.hhea_ascent+'"/>\n';		// 700		// COMPUTED - OS_2 winAscender
+		con += '\t<descent value="'+fm.hhea_descent+'"/>\n';	// -300 	// COMPUTED - OS_2 winDescender
 		con += '\t<lineGap value="0"/>\n';						// 0 		// COMPUTED - 0
 		con += '\t<advanceWidthMax value="1000"/>\n';			// 			// COMPUTED - max advance width from hmtx table
-		con += '\t<minLeftSideBearing value="'+oa.xmin+'"/>\n';	// -123 	// COMPUTED - min lsb from hmtx
+		con += '\t<minLeftSideBearing value="'+fm.xmin+'"/>\n';	// -123 	// COMPUTED - min lsb from hmtx
 		con += '\t<minRightSideBearing value="0"/>\n';			// -124 	// COMPUTED - MIN(advance width - lsb - (xMax-xMin))
 		con += '\t<xMaxExtent value="1000"/>\n';				// 			// COMPUTED - MAX(lsb + (xMax - xMin))
 		// italics
@@ -150,6 +150,7 @@
 
 	function genTable_os_2(oa){
 		var gp = _GP.projectsettings;
+		var fm = _UI.fontmetrics;
 
 		var con = '<OS_2>\n';
 		con += '\t<version value="3"/>\n';
@@ -202,8 +203,8 @@
 		con += '\t<sTypoAscender value="'+gp.ascent+'"/>\n';			// 	700
 		con += '\t<sTypoDescender value="'+(gp.ascent-gp.upm)+'"/>\n';	//	-300
 		con += '\t<sTypoLineGap value="'+gp.linegap+'"/>\n';			// 	250
-		con += '\t<usWinAscent value="'+oa.ymax+'"/>\n';				// 	700
-		con += '\t<usWinDescent value="'+Math.abs(oa.ymin)+'"/>\n';		// 	300
+		con += '\t<usWinAscent value="'+fm.hhea_ascent+'"/>\n';				// 	700
+		con += '\t<usWinDescent value="'+Math.abs(fm.hhea_descent)+'"/>\n';	// 	300
 
 		con += '\t<ulCodePageRange1 value="00100000 00000000 00000000 00000001"/>\n';
 		con += '\t<ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>\n';
