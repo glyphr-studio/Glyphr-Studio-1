@@ -51,7 +51,7 @@
 		var tctx = {};
 		var tele = false;
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-		var yoffset = (_UI.thumbgutter+(ps.upm*factor));
+		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		for(var ssid in _GP.linkedshapes){
 			tele = document.getElementById(("layerthumb"+ssid))
 			tctx = tele.getContext("2d");
@@ -169,7 +169,7 @@
 		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
 		var tctx = {};
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-		var yoffset = (_UI.thumbgutter+(ps.upm*factor));
+		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		
 		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
 
