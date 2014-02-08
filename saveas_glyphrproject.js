@@ -6,12 +6,24 @@
 		
 		var jsonString = JSON.stringify(_GP, undefined, '\t');
 		jsonString = jsonString.replace(/\n/g, '\r\n');
-		var blob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
-
-		var link = document.createElement('a');
-		link.href = window.URL.createObjectURL(blob);
-		link.download = _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
-		link.click();
+		var fblob = new Blob([jsonString], {"type":"text/plain;charset=utf-8", "endings":"native"});
+		var fname =  _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
+		
+		try {
+			// IE
+			window.navigator.msSaveBlob(fblob, fname);
+			debug("TRIGGERPROJECTFILEDOWNLOAD - IE");
+		} catch (err) {
+			// Others
+			var link = document.createElement('a');
+			//window.URL = window.URL || window.webkitURL;
+			link.href = window.URL.createObjectURL(fblob);
+			//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
+			link.download = fname;
+			debug("TRIGGERPROJECTFILEDOWNLOAD - Generic Link - JSON:" + JSON.stringify(link.href));
+			
+			link.click();
+		}
 
 		setProjectAsSaved();
 	}
