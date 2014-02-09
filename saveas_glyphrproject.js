@@ -12,7 +12,6 @@
 		try {
 			// IE
 			window.navigator.msSaveBlob(fblob, fname);
-			debug("TRIGGERPROJECTFILEDOWNLOAD - IE");
 		} catch (err) {
 			// Others
 			var link = document.createElement('a');
@@ -20,9 +19,10 @@
 			link.href = window.URL.createObjectURL(fblob);
 			//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
 			link.download = fname;
-			debug("TRIGGERPROJECTFILEDOWNLOAD - Generic Link - JSON:" + JSON.stringify(link.href));
-			
-			link.click();
+
+			var event = document.createEvent("MouseEvents");
+			event.initEvent("click", true, false);
+			link.dispatchEvent(event); 
 		}
 
 		setProjectAsSaved();
