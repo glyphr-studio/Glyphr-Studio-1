@@ -52,7 +52,7 @@
 		fm.hhea_ascent = Math.round(total*proportion);
 		fm.hhea_descent = (fm.hhea_ascent - total);
 
-		debug("CALCFONTMAXES - returns " + JSON.stringify(fm));
+		//debug("CALCFONTMAXES - returns " + JSON.stringify(fm));
 	}
 
 

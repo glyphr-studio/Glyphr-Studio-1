@@ -1,7 +1,7 @@
 
 
 	function loadPage_linkedshapes(){
-		debug("LOADING PAGE >> loadPage_linkedshapes");
+		//debug("LOADING PAGE >> loadPage_linkedshapes");
 		document.getElementById("mainpane").innerHTML = linkedshapes_content();
 		
 		setupEditCanvas();
@@ -96,7 +96,7 @@
 		
 		if(_UI.redrawing){
 			// this is totally a hack
-			debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			//debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
 			return;
 		}
 

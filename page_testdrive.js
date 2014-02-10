@@ -1,6 +1,6 @@
 
 	function loadPage_testdrive(){
-		debug("LOADING PAGE >> loadPage_testdrive");
+		//debug("LOADING PAGE >> loadPage_testdrive");
 		
 		var content = "<div class='pagecontent'><h1>Test Drive</h1>" + 
 			"<textarea id='tdtextarea' onkeyup='updateTestdriveCanvas()'></textarea><br>" + 
