@@ -295,22 +295,6 @@
 
 	
 //-------------------
-// Debug
-//-------------------
-		
-	function debug(message, force){
-		if(_GP.projectsettings.debug | force){ console.log(message); }
-	}
-
-	/*
-	function stack(a){
-		if(_GP.projectsettings.debug){
-			console.log(Date.now()+"\t%c::function: " + a.callee.name + "("+a.length+")", "color:rgb(0,100,0)");
-		}
-	}
-	*/
-	
-//-------------------
 // Dialog Box
 //-------------------
 	function closeDialog(){
