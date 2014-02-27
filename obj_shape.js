@@ -38,6 +38,9 @@
 //	-----
 	
 	Shape.prototype.drawShape_Single = function(lctx){
+		//debug("DRAWSHAPE_SINGLE");
+		//this.checkPath();
+
 		if(this.visible){
 			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
 			if(lctx == _UI.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
@@ -52,6 +55,7 @@
 
 
 	Shape.prototype.drawShape_Stack = function(lctx){
+		//debug("DRAWSHAPE_STACK");
 		if(this.visible){
 			if(this.link){
 				_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
@@ -59,12 +63,13 @@
 			}
 			
 			if((this.path.rightx == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != "newpath")) this.path.calcMaxes();
-			
+
 			this.path.drawPath(lctx);
 		}		
 	}
 
 	Shape.prototype.drawShapeToArea = function(lctx, view){
+		//debug("DRAWSHAPETOAREA");
 		if(this.visible){
 			//debug("drawShapeToArea for shape: " + this.name + " view=" + JSON.stringify(view));
 			lctx.fillStyle = _GP.projectsettings.color_glyphfill;
@@ -72,6 +77,22 @@
 			this.path.drawPathToArea(lctx, view);
 			lctx.closePath();
 			lctx.fill();
+		}
+	}
+
+	Shape.prototype.checkPath = function() {
+		debug("CHECKPATH - checking " + this.name + "\n" + JSON.stringify(this.path));
+
+		for(var pp = 0; pp < this.path.pathpoints.length; pp++){
+			var tp = this.path.pathpoints[pp];
+			if(!(tp.P.x)) debug(this.name + " p" + pp + ".P.x is " + tp.P.x);
+			if(!(tp.P.y)) debug(this.name + " p" + pp + ".P.y is " + tp.P.y);
+
+			if(!(tp.H1.x)) debug(this.name + " p" + pp + ".H1.x is " + tp.H1.x);
+			if(!(tp.H1.y)) debug(this.name + " p" + pp + ".H1.y is " + tp.H1.y);
+
+			if(!(tp.H2.x)) debug(this.name + " p" + pp + ".H2.x is " + tp.H2.x);
+			if(!(tp.H2.y)) debug(this.name + " p" + pp + ".H2.y is " + tp.H2.y);
 		}
 	}
 

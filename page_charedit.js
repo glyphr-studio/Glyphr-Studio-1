@@ -61,6 +61,7 @@
 
 	function drawselectcharthumbs(){		
 		//stack(arguments);
+		//debug("\n+++++++++++++++++++++\nONE\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
 
 		var ps = _GP.projectsettings;
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
@@ -78,6 +79,7 @@
 		
 			_GP.fontchars[tc].drawCharToArea(sctx, {"dz": factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 		}
+		//debug("\n+++++++++++++++++++++\nTWO\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
 	}
 	
 	function buildbutton(index, fname){
@@ -215,6 +217,9 @@
 
 		//debug("RESETTHUMBVIEW - set to \n" + JSON.stringify(_UI.thumbview));
 	}
+
+
+
 //-------------------
 // REDRAW
 //-------------------
@@ -235,8 +240,8 @@
 
 		_UI.redrawing = true;
 
+
 		var sc = _GP.fontchars[_UI.selectedchar];
-		
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 		grid();
 		

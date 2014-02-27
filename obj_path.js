@@ -63,6 +63,8 @@
 	}
 	
 	Path.prototype.drawPath = function(lctx) {
+		//if(lctx == _UI.chareditctx)	debug("DRAWPATH");
+		
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
@@ -72,6 +74,14 @@
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
 			
+			/*
+			if(lctx == _UI.chareditctx)	{
+				debug("  point " + cp);
+				debug("\n  pp\n" + JSON.stringify(pp));
+				debug("  np\n" + JSON.stringify(np));
+			}
+			*/
+
 			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
 			else if (pp.type == "flat") { pp.makeFlat("H1"); }
 			
@@ -82,15 +92,14 @@
 			nxppx = sx_cx(np.P.x);
 			nxppy = sy_cy(np.P.y);
 			
+			//if(lctx == _UI.chareditctx)	debug("  curve " + pph2x +" "+ pph2y +" "+ nxh1x +" "+ nxh1y +" "+ nxppx +" "+ nxppy); 
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
 		}
-
 	}
 	
 	Path.prototype.drawPathToArea = function(lctx, view){
 		var tempv = clone(getView("Path.drawPathToArea"));
 		setView(view);
-
 		this.drawPath(lctx);
 
 		setView(tempv);

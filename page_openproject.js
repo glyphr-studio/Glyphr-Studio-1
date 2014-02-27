@@ -89,7 +89,9 @@
 			}
 		}
 
-		//debug("HDRYATEGLYPHRPROJECT: JSON \n" + JSON.stringify(data));
+		//debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n" + JSON.stringify(data));
+		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n" + JSON.stringify(_GP));
+
 		finalizeGlyphrProject();
 	}
 
