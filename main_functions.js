@@ -18,6 +18,7 @@
 	function navigate(where){
 		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + where);
 
+
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
 		document.getElementById("mainpane").style.marginLeft = "470px";
@@ -28,7 +29,8 @@
 		_UI.navprimaryhere = where || "npChar";
 		if(_UI.navhere=="test drive") _UI.navprimaryhere = "npAttributes";
 		
-		updateNavPrimaryNavTarget();
+		// pages with redraw() call uNPNT
+		if(!(_UI.navhere=="character edit" || _UI.navhere=="linked shapes")) updateNavPrimaryNavTarget();;
 
 		switch(_UI.navhere){
 			case "firstrun":			loadPage_firstrun();		break;	

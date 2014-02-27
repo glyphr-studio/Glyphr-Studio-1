@@ -15,7 +15,7 @@
 		this.useh1 = (isval(oa.useh1)? oa.useh1 : true);
 		this.useh2 = (isval(oa.useh2)? oa.useh2 : true);
 		
-		//debug("PathPoint() - new pathPoint created");	
+		//debug("PATHPOINT was passed " + JSON.stringify(oa));	
 	}
 
 
@@ -27,20 +27,35 @@
 
 
 	PathPoint.prototype.makeFlat = function(move){
+		//debug("MAKEFLAT - move " + move + " starts as " + JSON.stringify(this));
 
 		//figure out length (hypotenuse) of H1
 		var adj1 = this.P.x-this.H1.x;
 		var opp1 = this.P.y-this.H1.y;
 		var hyp1 = Math.sqrt( (adj1*adj1) + (opp1*opp1) );
 		var angle1 = Math.acos(adj1 / hyp1);
+		//debug("MAKEFLAT adj1 opp1 hyp1 angle1 " + adj1 + " / " + opp1 + " / " + hyp1 + " / " + angle1);
 		
 		//figure out length (hypotenuse) of H2
 		var adj2 = this.P.x-this.H2.x;
 		var opp2 = this.P.y-this.H2.y;
 		var hyp2 = Math.sqrt( (adj2*adj2) + (opp2*opp2) );
 		var angle2 = Math.acos(adj2 / hyp2);
+		//debug("MAKEFLAT adj2 opp2 hyp2 angle2 " + adj2 + " / " + opp2 + " / " + hyp2 + " / " + angle2);
 
-		
+		if(angle1==angle2){
+			//debug("MAKEFLAT - Equal Angles, returning");
+			return;
+		}
+
+		if(isNaN(angle1) || isNaN(angle2)) {
+			//debug("MAKEFLAT - NaN found, returning");
+			return;
+		}
+
+		//new values
+		var newHx, newHy;
+
 		switch(move){
 			case "H1" :
 				//modifier
@@ -51,8 +66,11 @@
 				var newopp2 = Math.tan(angle1) * newadj2;
 				
 				//Set values
-				this.H2.x = (this.P.x + (newadj2));
-				this.H2.y = (this.P.y + (newopp2*mod));
+				newHx =  (this.P.x + (newadj2));
+				newHy = (this.P.y + (newopp2*mod));
+				//debug("MAKEFLAT move H1 - compute x/y " + newHx + " / " + newHy);
+				this.H2.x = newHx;
+				this.H2.y = newHy;
 				break;
 				
 			case "H2" :
@@ -64,15 +82,20 @@
 				var newopp1 = Math.tan(angle2) * newadj1;
 				
 				//Set values
-				this.H1.x = (this.P.x + (newadj1));
-				this.H1.y = (this.P.y + (newopp1*mod));
+				newHx =  (this.P.x + (newadj1));
+				newHy = (this.P.y + (newopp1*mod));
+				//debug("MAKEFLAT move H2 - compute x/y " + newHx + " / " + newHy);
+				this.H1.x = newHx;
+				this.H1.y = newHy;
 				break;
 		}
 		
 		this.roundAll();
+		//debug("MAKEFLAT - returns " + JSON.stringify(this));
 	}
 	
 	PathPoint.prototype.makeSymmetric = function(move){
+		//debug("MAKESYMETRIC - move " + move + " starts as " + JSON.stringify(this));
 		switch(move){
 			case "H1" :
 				this.H2.x = ((this.P.x - this.H1.x) + this.P.x)
@@ -85,6 +108,7 @@
 		}
 		
 		this.roundAll();
+		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));
 	}
 	
 	PathPoint.prototype.makePointedTo = function(px, py, length){
