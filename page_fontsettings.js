@@ -46,9 +46,9 @@
 		content += "<h3>name</h3>";
 		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
 		
-		for(var prop=0; prop<otp.name.length; prop++){
-			if(prop!=7){
-				content += "<tr><td class='propname'>" + otp.name[prop].key + "</td><td><input type='text' value='" + otp.name[prop].val + "' onchange='_GP.opentypeproperties.name[" + prop + "].val = this.value;' /></td></tr>";
+		for(var i=0; i<otp.name.length; i++){
+			if(i!=7){
+				content += "<tr><td class='propname'>" + otp.name[i].key + "</td><td><input type='text' value='" + otp.name[i].val + "' onchange='_GP.opentypeproperties.name[" + i + "].val = this.value;' /></td></tr>";
 			}
 		}
 		content += "</table>";
@@ -58,8 +58,8 @@
 		content += "<h3>head</h3>";
 		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
 		
-		for(var prop=0; prop<otp.head.length; prop++){
-			content += "<tr><td class='propname'>" + otp.head[prop].key + "</td><td><input type='text' value='" + otp.head[prop].val + "' onchange='setOTprop(\"head\", \"" + otp.head[prop].key + "\", this.value);' /></td></tr>";
+		for(var j=0; j<otp.head.length; j++){
+			content += "<tr><td class='propname'>" + otp.head[j].key + "</td><td><input type='text' value='" + otp.head[j].val + "' onchange='setOTprop(\"head\", \"" + otp.head[j].key + "\", this.value);' /></td></tr>";
 		}
 		content += "</table>";
 
@@ -68,8 +68,8 @@
 		content += "<h3>os/2</h3>";
 		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
 		
-		for(var prop=0; prop<otp.os_2.length; prop++){
-			content += "<tr><td class='propname'>" + otp.os_2[prop].key + "</td><td><input type='text' value='" + otp.os_2[prop].val + "' onchange='setOTprop(\"os_2\", \"" + otp.os_2[prop].key + "\", this.value);' /></td></tr>";
+		for(var k=0; k<otp.os_2.length; k++){
+			content += "<tr><td class='propname'>" + otp.os_2[k].key + "</td><td><input type='text' value='" + otp.os_2[k].val + "' onchange='setOTprop(\"os_2\", \"" + otp.os_2[k].key + "\", this.value);' /></td></tr>";
 		}
 		content += "</table>";
 
@@ -78,8 +78,8 @@
 		content += "<h3>post</h3>";
 		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
 		
-		for(var prop=0; prop<otp.post.length; prop++){
-			content += "<tr><td class='propname'>" + otp.post[prop].key + "</td><td><input type='text' value='" + otp.post[prop].val + "' onchange='setOTprop(\"post\", \"" + otp.post[prop].key + "\", this.value);' /></td></tr>";
+		for(var m=0; m<otp.post.length; m++){
+			content += "<tr><td class='propname'>" + otp.post[m].key + "</td><td><input type='text' value='" + otp.post[m].val + "' onchange='setOTprop(\"post\", \"" + otp.post[m].key + "\", this.value);' /></td></tr>";
 		}
 		content += "</table>";
 
@@ -88,8 +88,8 @@
 		content += "<h3>cff</h3>";
 		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
 		
-		for(var prop=0; prop<otp.cff.length; prop++){
-			content += "<tr><td class='propname'>" + otp.cff[prop].key + "</td><td><input type='text' value='" + otp.cff[prop].val + "' onchange='setOTprop(\"cff\", \"" + otp.cff[prop].key + "\", this.value);' /></td></tr>";
+		for(var n=0; n<otp.cff.length; n++){
+			content += "<tr><td class='propname'>" + otp.cff[n].key + "</td><td><input type='text' value='" + otp.cff[n].val + "' onchange='setOTprop(\"cff\", \"" + otp.cff[n].key + "\", this.value);' /></td></tr>";
 		}
 		content += "</table>";
 

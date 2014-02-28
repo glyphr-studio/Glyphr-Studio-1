@@ -16,7 +16,7 @@
 		"eh_addpath" : false,
 		"lastTool" : "pathedit",
 		"iskeydown" : false
-	}
+	};
 	
 	function initEventHandlers() {
 		var tool = new pathedit();		
@@ -47,12 +47,12 @@
 			mouseovercec();
 			
 			// Fixes a Chrome cursor problem
-			document.onselectstart = function () { return false; } 
+			document.onselectstart = function () { return false; };
 		
 			if (ev.layerX || ev.layerX) { 
 				// Firefox
-				_UI.eventhandlers.mousex = ev.layerX - 470; 	// Wierd Hack
-				_UI.eventhandlers.mousey = ev.layerY; 		
+				_UI.eventhandlers.mousex = ev.layerX - 470;	// Wierd Hack
+				_UI.eventhandlers.mousey = ev.layerY;		
 			}
 			
 			if (ev.offsetX || ev.offsetX) { 
@@ -100,7 +100,7 @@
 	function newPath(){
 		this.dragging = false;
 		this.firstpoint = true;
-		this.currpt;
+		this.currpt = {};
 		
 		this.mousedown = function (ev) { 
 			//debug("NEWPATH MOUSEDOWN");
@@ -155,7 +155,7 @@
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			
 			//debug("NEWPATH MOUSEDOWN - end of function, this.currpt:\n" + JSON.stringify(newpoint));
-		}
+		};
 		
 		this.mouseup = function () {
 			//debug("NEWPATH MOUSEUP");
@@ -190,7 +190,7 @@
 			
 				redraw("Event Handler newPath mousemove");
 			}
-		}
+		};
 	}		
 
 
@@ -201,7 +201,7 @@
 		
 		this.mousedown = function (ev) { 
 			
-			var newshape = new Shape({"visible":false})
+			var newshape = new Shape({"visible":false});
 			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
 			newshape = addShape(newshape);
 			//debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
@@ -225,7 +225,7 @@
 					
 			redraw("Event Handler newbasicshape mousedown");
 			//debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
-		}
+		};
 		
 		this.mouseup = function () { 
 			
@@ -276,7 +276,7 @@
 				redraw("Event Handler newbasicshape mousemove");
 				//debug("NEWBASICSHAPE MOUSEMOVE past redraw");
 			}
-		}
+		};
 	}		
 
 
@@ -419,7 +419,7 @@
 			_UI.eventhandlers.lasty = -100;
 			_UI.eventhandlers.firstx = -100;
 			_UI.eventhandlers.firsty = -100;
-			_UI.eventhandlers.uqhaschanged ? putundoq("Path Edit tool") : true;
+			if(_UI.eventhandlers.uqhaschanged) putundoq("Path Edit tool");
 			_UI.eventhandlers.uqhaschanged = false;
 			redraw("Event Handler shaperesize mouseup");
 			//debug("EVENTHANDLER - after shaperesize Mouse Up REDRAW");
@@ -456,7 +456,7 @@
 				}
 			
 				//Translation fidelity, passing raw canvas values
-				s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
+				if(s) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 			}
 			
 			if(didstuff){
@@ -530,12 +530,13 @@
 		var my = cy_sy(_UI.eventhandlers.mousey);
 		var lx = cx_sx(_UI.eventhandlers.lastx);
 		var ly = cy_sy(_UI.eventhandlers.lasty);
-		
+		var dh, dw;
+
 		switch(pcorner){
 			case "nw": 
 				if(canResize("nw")){
-					var dh = (my-ly);
-					var dw = (mx-lx);
+					dh = (my-ly);
+					dw = (mx-lx);
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,dh,(dw*-1),(dh*-1));
 					} else {
@@ -547,7 +548,7 @@
 				
 			case "n":
 				if(canResize("n")){
-					var dh = (my-ly);
+					dh = (my-ly);
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,0,(dh*-1));
 					} else {
@@ -559,8 +560,8 @@
 				
 			case "ne": 
 				if(canResize("ne")){
-					var dh = (my-ly);
-					var dw = (mx-lx);
+					dh = (my-ly);
+					dw = (mx-lx);
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,dw,(dh*-1));
 					} else {
@@ -572,7 +573,7 @@
 				
 			case "e":
 				if(canResize("e")){
-					var dw = (mx-lx);
+					dw = (mx-lx);
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,0);
 					} else {
@@ -584,8 +585,8 @@
 				
 			case "se":  
 				if(canResize("se")){
-					var dh = (ly-my)*-1;
-					var dw = (mx-lx);
+					dh = (ly-my)*-1;
+					dw = (mx-lx);
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,dh);						
 					} else {
@@ -597,7 +598,7 @@
 				
 			case "s":
 				if(canResize("s")){
-					var dh = (ly-my)*-1;
+					dh = (ly-my)*-1;
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,0,dh);
 					} else {
@@ -609,8 +610,8 @@
 				
 			case "sw": 
 				if(canResize("sw")){
-					var dw = (mx-lx);
-					var dh = (ly-my)*-1;
+					dw = (mx-lx);
+					dh = (ly-my)*-1;
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),dh);
 					} else {
@@ -622,7 +623,7 @@
 				
 			case "w":
 				if(canResize("w")){
-					var dw = (mx-lx);
+					dw = (mx-lx);
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),0);
 					} else {
@@ -661,15 +662,15 @@
 		return true;
 	}
 	
-	function mousewheel(event){	
-	    var delta = event.detail? event.detail*(-120) : event.wheelDelta 	//cross browser
+	function mousewheel(event){
+		var delta = event.detail? event.detail*(-120) : event.wheelDelta;	//cross browser
 		var canscroll = ((_UI.navhere == "character edit") || (_UI.navhere == "linked shapes"));
 		canscroll = canscroll && (document.getElementById('dialog_box').style.display != 'block');
 		
 		if(canscroll){
 		//debug("MOUSEWHEEL: canscroll=true and delta=" + delta );
 			if(delta > 0){ viewZoom(1.1); }
-			else { viewZoom(.9); }
+			else { viewZoom(0.9); }
 		}
 	}
 	
@@ -677,7 +678,7 @@
 		//debug("MOUSEOVERCEC");
 		_UI.eventhandlers.ismouseovercec = true;
 		// Fixes a Chrome cursor problem
-		document.onselectstart = function () { return false; }  
+		document.onselectstart = function () { return false; };
 	}
 	
 	function mouseoutcec() {

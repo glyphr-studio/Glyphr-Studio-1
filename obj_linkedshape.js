@@ -78,7 +78,7 @@
 		for(var ssid in _GP.linkedshapes){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
 			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\");' height="+_UI.thumbsize+"' width="+_UI.thumbsize+"></canvas>";
-			re += "</td></tr><tr><td>"
+			re += "</td></tr><tr><td>";
 			re += _GP.linkedshapes[ssid].shape.name;
 			re += "</td></tr></table>";
 			//debug("GENERATESSTHUMBS - created canvas 'thumb"+ssid+"'");
@@ -101,10 +101,10 @@
 //	UsedIn Array Stuff
 	function addToUsedIn(ssid, charid){
 		//debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
-		var uia = _GP.linkedshapes[ssid].usedin
+		var uia = _GP.linkedshapes[ssid].usedin;
 		uia.push(""+charid);
 		// sort numerically as opposed to alpha
-		uia.sort(function(a,b){return a-b});
+		uia.sort(function(a,b){return a-b;});
 	}
 	
 	function removeFromUsedIn(ssid, charid){
@@ -173,7 +173,7 @@
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape_Stack(lctx);
 		}
-	}	
+	};
 
 	LinkedShapeInstance.prototype.drawShape_Single = function(lctx){
 		//debug("DRAWLINKEDSHAPE");
@@ -187,7 +187,7 @@
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.drawShape_Single(lctx);
 		}
-	}
+	};
 	
 	LinkedShapeInstance.prototype.genPostScript = function(lastx, lasty){
 		//debug("GENLINKEDPOSTSCRIPT");
@@ -200,7 +200,7 @@
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			return ns.path.genPathPostScript(lastx, lasty);
 		}
-	}
+	};
 	
 	LinkedShapeInstance.prototype.drawShapeToArea = function(lctx, view){
 		//debug("DRAWLINKEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
@@ -214,7 +214,7 @@
 			ns.name += " HAS BEEN MOVED";
 			ns.drawShapeToArea(lctx, view);
 		}
-	}
+	};
 
 	LinkedShapeInstance.prototype.drawSelectOutline = function(onlycenter){
 		//_GP.linkedshapes[this.link].shape.drawSelectOutline();
@@ -226,11 +226,11 @@
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			ns.drawSelectOutline(onlycenter);
 		}
-	}
+	};
 	
 	LinkedShapeInstance.prototype.draw8points = function(onlycenter){
 		//_GP.linkedshapes[this.link].shape.draw8points(onlycenter);
-	}
+	};
 	
 	LinkedShapeInstance.prototype.isHere = function(x,y){
 		//debug("ISLINKEDSHAPEHERE - checking " + x + "," + y);
@@ -241,9 +241,9 @@
 			ns.path.updatePathPosition(this.xpos, this.ypos);
 			return ns.isHere(x,y);
 		}
-	}
+	};
 	
-	LinkedShapeInstance.prototype.isOverHandle = function(){ return false;	}
+	LinkedShapeInstance.prototype.isOverHandle = function(){ return false; };
 
 
 	

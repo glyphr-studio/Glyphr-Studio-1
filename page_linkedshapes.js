@@ -53,7 +53,7 @@
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
 		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		for(var ssid in _GP.linkedshapes){
-			tele = document.getElementById(("layerthumb"+ssid))
+			tele = document.getElementById(("layerthumb"+ssid));
 			tctx = tele.getContext("2d");
 			tele.style.backgroundColor = _UI.colors.offwhite;
 			if(ssid==_UI.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
@@ -131,7 +131,7 @@
 			content += generateUsedinThumbs();
 			content += "</td></tr></table>";	
 		} else {
-			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this linked shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this linked shape to a character now</a>.</i></td></tr></table>"
+			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this linked shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this linked shape to a character now</a>.</i></td></tr></table>";
 		}
 
 		//debug("LINKEDSHAPECHARDETAILS - returning html:\n" + content);
@@ -140,13 +140,13 @@
 	
 	function generateUsedinThumbs(){		
 		var re = "<div class='ssthumbcontainer'>";
-		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin
+		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
 		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) == pos;});
 
 		for(var k=0; k<unique.length; k++){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
 			re += "<canvas id='thumb"+unique[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar("+(unique[k]*1)+");'></canvas>";
-			re += "</td></tr><tr><td>"
+			re += "</td></tr><tr><td>";
 			re += _GP.fontchars[(unique[k]*1)].charvalue;
 			re += "</td></tr></table>";
 			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+unique[k]+"'");

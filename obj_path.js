@@ -60,7 +60,7 @@
 		}
 		
 		return false;
-	}
+	};
 	
 	Path.prototype.drawPath = function(lctx) {
 		//if(lctx == _UI.chareditctx)	debug("DRAWPATH");
@@ -95,7 +95,7 @@
 			//if(lctx == _UI.chareditctx)	debug("  curve " + pph2x +" "+ pph2y +" "+ nxh1x +" "+ nxh1y +" "+ nxppx +" "+ nxppy); 
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
 		}
-	}
+	};
 	
 	Path.prototype.drawPathToArea = function(lctx, view){
 		var tempv = clone(getView("Path.drawPathToArea"));
@@ -103,7 +103,7 @@
 		this.drawPath(lctx);
 
 		setView(tempv);
-	}
+	};
 
 	Path.prototype.genPathPostScript = function(lastx, lasty){
 		if(!this.pathpoints) return {"re":"", "lastx":lastx, "lasty":lasty};
@@ -138,7 +138,7 @@
 			"lastx" : p2.P.x,
 			"lasty" : p2.P.y
 			};
-	}
+	};
 	
 	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints;
@@ -167,7 +167,7 @@
 		this.selectPathPoint(0);
 		//debug("ISOVERCONTROLPOINT() - Returning FALSE");
 		return false;
-	}
+	};
 	
 	Path.prototype.updatePathSize = function(dw, dh){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
@@ -175,8 +175,8 @@
 		var ps = _GP.projectsettings;
 		
 		var s = ss("updatePathPosition");
-		s.wlock? dw = 0 : false;
-		s.hlock? dh = 0 : false;
+		dw = s.wlock? 0 : false;
+		dh = s.hlock? 0 : false;
 		
 		if(s.wlock && s.hlock) return;
 		
@@ -198,10 +198,10 @@
 		}
 		
 		this.calcMaxes();
-	}
+	};
 	
 	Path.prototype.updatePathPosition = function(dx, dy, force){
-		isval(force)? true : force = false;
+		force = isval(force)? force : false;
 		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
 
 		for(var d=0; d<this.pathpoints.length; d++){
@@ -211,7 +211,7 @@
 		}
 		
 		this.calcMaxes();
-	}
+	};
 	
 	function findClockwise(parr){
 		var j,k,z;
@@ -251,7 +251,7 @@
 			this.pathpoints.reverse();
 			this.clockwise *= -1;
 		}
-	}
+	};
 
 	Path.prototype.flipNS = function(){
 		var ly = this.topy;
@@ -271,7 +271,7 @@
 		this.setLeftX(lx);
 
 		this.reversePath();
-	}
+	};
 	
 	Path.prototype.flipEW = function(){
 		var ly = this.topy;
@@ -291,17 +291,17 @@
 		this.setLeftX(lx);
 
 		this.reversePath();
-	}
+	};
 	
 	Path.prototype.setTopY = function(newvalue){
 		var delta = ((newvalue*1) - ss("setTopY").path.topy);
 		this.updatePathPosition(0,delta,true);
-	}
+	};
 	
 	Path.prototype.setLeftX = function(newvalue){
 		var delta = ((newvalue*1) - ss("SetLeftX").path.leftx);
 		this.updatePathPosition(delta,0,true);
-	}
+	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
 		//debug("ADDPATHPOINT - new point? " + newpp);
@@ -348,7 +348,7 @@
 		}
 
 		this.calcMaxes();	
-	}
+	};
 	
 	Path.prototype.insertPathPoint = function() {
 
@@ -358,33 +358,33 @@
 		if(this.pathpoints.length > 1){
 			var p2 = this.pathpoints[(p1i+1)%this.pathpoints.length];
 
-	  		var newPx = (p1.P.x*.125) + (p1.H2.x*.375) + (p2.H1.x*.375) + (p2.P.x*.125);
-	  		var newPy = (p1.P.y*.125) + (p1.H2.y*.375) + (p2.H1.y*.375) + (p2.P.y*.125);
+			var newPx = (p1.P.x*0.125) + (p1.H2.x*0.375) + (p2.H1.x*0.375) + (p2.P.x*0.125);
+			var newPy = (p1.P.y*0.125) + (p1.H2.y*0.375) + (p2.H1.y*0.375) + (p2.P.y*0.125);
 
-	  		var newpp = new PathPoint({"P":new Coord({"x":newPx, "y":newPy}), "type":"flat"});
-	  		// Handles (tangents)
+			var newpp = new PathPoint({"P":new Coord({"x":newPx, "y":newPy}), "type":"flat"});
+			// Handles (tangents)
 
-	  		var newH2x = ((p2.H1.x - p2.P.x) / 2) + p2.P.x;
-	  		var newH2y = ((p2.P.y - p2.H1.y) / 2) + p2.H1.y;
+			var newH2x = ((p2.H1.x - p2.P.x) / 2) + p2.P.x;
+			var newH2y = ((p2.P.y - p2.H1.y) / 2) + p2.H1.y;
 
-		    //debug("INSERTPATHPOINT - before makepointedto " + JSON.stringify(newpp));
+			//debug("INSERTPATHPOINT - before makepointedto " + JSON.stringify(newpp));
 
-	  		newpp.makePointedTo(newH2x, newH2y, 100);
-	  		var tempH2 = newpp.H2;
-	  		newpp.H2 = newpp.H1;
-	  		newpp.H1 = tempH2;
-	  		newpp.makeSymmetric("H2");
+			newpp.makePointedTo(newH2x, newH2y, 100);
+			var tempH2 = newpp.H2;
+			newpp.H2 = newpp.H1;
+			newpp.H1 = tempH2;
+			newpp.makeSymmetric("H2");
 
-		    //debug("INSERTPATHPOINT - afters makepointedto " + JSON.stringify(newpp));
+			//debug("INSERTPATHPOINT - afters makepointedto " + JSON.stringify(newpp));
 
 
-		    this.pathpoints.splice((p1i+1)%this.pathpoints.length, 0, newpp);
-		    this.selectPathPoint((p1i+1)%this.pathpoints.length);
+			this.pathpoints.splice((p1i+1)%this.pathpoints.length, 0, newpp);
+			this.selectPathPoint((p1i+1)%this.pathpoints.length);
 
-	  	}
+		}
 
-	  	this.calcMaxes();
-	}
+		this.calcMaxes();
+	};
 
 	Path.prototype.deletePathPoint = function(){
 		var pp = this.pathpoints;
@@ -405,7 +405,7 @@
 			_UI.selectedtool = "pathedit";
 			deleteShape();
 		}
-	}
+	};
 	
 	Path.prototype.selectPathPoint = function(index){
 		// FOR NOW, ONLY ONE POINT SELECTED
@@ -421,7 +421,7 @@
 			this.pathpoints[index%this.pathpoints.length].selected = true;
 			//debug("SELECTPATHPOINT - selecting point " + index%this.pathpoints.length));
 		} 
-	}
+	};
 
 //	----------------------------------
 //	Calc Maxes Stuff
@@ -455,7 +455,7 @@
 
 		updateCurrentCharWidth();
 		//console.timeEnd("CalcMaxes_NEW");
-	}
+	};
 
 	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){
 		var bounds = {
@@ -472,15 +472,17 @@
 		var dcx2 = x2 - cx2;
 		var dcy2 = y2 - cy2;
 
+		var numerator, denominator, quadroot, root, t1, t2;
+
 		if(cx1<bounds["minx"] || cx1>bounds["maxx"] || cx2<bounds["minx"] || cx2>bounds["maxx"]) {   
 			// X bounds
 			if(dcx0+dcx2 != 2*dcx1) { dcx1+=0.01; }
-			var numerator = 2*(dcx0 - dcx1);
-			var denominator = 2*(dcx0 - 2*dcx1 + dcx2);
-			var quadroot = (2*dcx1-2*dcx0)*(2*dcx1-2*dcx0) - 2*dcx0*denominator;
-			var root = Math.sqrt(quadroot);
-			var t1 =  (numerator + root) / denominator;
-			var t2 =  (numerator - root) / denominator;
+			numerator = 2*(dcx0 - dcx1);
+			denominator = 2*(dcx0 - 2*dcx1 + dcx2);
+			quadroot = (2*dcx1-2*dcx0)*(2*dcx1-2*dcx0) - 2*dcx0*denominator;
+			root = Math.sqrt(quadroot);
+			t1 =  (numerator + root) / denominator;
+			t2 =  (numerator - root) / denominator;
 			if(0<t1 && t1<1) { checkXbounds(bounds, getBezierValue(t1, x1, cx1, cx2, x2)); }
 			if(0<t2 && t2<1) { checkXbounds(bounds, getBezierValue(t2, x1, cx1, cx2, x2)); }
 		}
@@ -488,12 +490,12 @@
 		// Y bounds
 		if(cy1<bounds["miny"] || cy1>bounds["maxy"] || cy2<bounds["miny"] || cy2>bounds["maxy"]) {
 			if(dcy0+dcy2 != 2*dcy1) { dcy1+=0.01; }
-			var numerator = 2*(dcy0 - dcy1);
-			var denominator = 2*(dcy0 - 2*dcy1 + dcy2);
-			var quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;
-			var root = Math.sqrt(quadroot);
-			var t1 =  (numerator + root) / denominator;
-			var t2 =  (numerator - root) / denominator;
+			numerator = 2*(dcy0 - dcy1);
+			denominator = 2*(dcy0 - 2*dcy1 + dcy2);
+			quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;
+			root = Math.sqrt(quadroot);
+			t1 =  (numerator + root) / denominator;
+			t2 =  (numerator - root) / denominator;
 			if(0<t1 && t1<1) { checkYbounds(bounds, getBezierValue(t1, y1, cy1, cy2, y2)); }
 			if(0<t2 && t2<1) { checkYbounds(bounds, getBezierValue(t2, y1, cy1, cy2, y2)); }
 		}
@@ -513,5 +515,5 @@
 
 	function getBezierValue(t, p0, p1, p2, p3) {
 		var mt = (1-t);
-    	return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3); 
+		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3); 
 	}

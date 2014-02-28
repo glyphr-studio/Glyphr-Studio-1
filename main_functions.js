@@ -30,7 +30,7 @@
 		if(_UI.navhere=="test drive") _UI.navprimaryhere = "npAttributes";
 		
 		// pages with redraw() call uNPNT
-		if(!(_UI.navhere=="character edit" || _UI.navhere=="linked shapes")) updateNavPrimaryNavTarget();;
+		if(!(_UI.navhere=="character edit" || _UI.navhere=="linked shapes")) updateNavPrimaryNavTarget();
 
 		switch(_UI.navhere){
 			case "firstrun":			loadPage_firstrun();		break;	
@@ -38,7 +38,7 @@
 			case "project settings":	loadPage_projectsettings();	break;				
 			case "open project":		loadPage_openproject();		break;
 			case "export font":			loadPage_exportfont();		break;
-			case "help": 				loadPage_help();			break;
+			case "help":				loadPage_help();			break;
 			case "about":				loadPage_about();			break;
 
 			case "test drive": 
@@ -123,7 +123,7 @@
 		var nselect = _UI.colors.accent;
 		var fill = ngray;
 		
-		_UI.navprimaryhere == "npNav" ? fill=nselect : fill=ngray;
+		fill = (_UI.navprimaryhere == "npNav") ? nselect : ngray;
 		var pncanvas = document.getElementById("npNav");
 		var pnctx = pncanvas.getContext("2d");
 		pncanvas.width = 50;
@@ -131,21 +131,21 @@
 		draw_primaryNav_navigate(pnctx, fill);
 		
 		if(_UI.navhere=="character edit"){
-			_UI.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
+			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_character(pnctx, fill);
 			
-			_UI.navprimaryhere == "npLayers" ? fill=nselect : fill=ngray;
+			fill = (_UI.navprimaryhere == "npLayers") ? nselect : ngray;
 			pncanvas = document.getElementById("npLayers");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_layers(pnctx, fill);
 			
-			_UI.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -154,14 +154,14 @@
 		}
 		
 		if(_UI.navhere=="linked shapes"){
-			_UI.navprimaryhere == "npChar" ? fill=nselect : fill=ngray;
+			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_character(pnctx, fill);
 			
-			_UI.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -170,7 +170,7 @@
 		}
 		
 		if(_UI.navhere=="test drive"){
-			_UI.navprimaryhere == "npAttributes" ? fill=nselect : fill=ngray;
+			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
@@ -341,7 +341,7 @@
 		if(_GP.projectsettings.stoppagenavigation){
 			window.onbeforeunload = function() {
 				return "\n\nUnless you specifically saved your data, all your progress will be lost.\n\n";
-			}
+			};
 		}
 
 		document.title = 'glyphr ❖';
@@ -353,7 +353,7 @@
 // Undo Queue
 //-------------------	
 	function putundoq(calledfrom){
-		var uqo = new Object;
+		var uqo = {};
 		uqo.name = calledfrom;
 		uqo.date = new Date().getTime();
 		
@@ -382,24 +382,25 @@
 	
 	function pullundoq(){
 		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
-		
+		var uqo;
+
 		if(_UI.navhere == "character edit"){
 			if(_UI.charundoq.length > 0){
-				var uqo = _UI.charundoq.pop();
+				uqo = _UI.charundoq.pop();
 				_GP.fontchars = uqo.state;
 				_UI.charcurrstate = clone(_GP.fontchars);
 				redraw("pullundoq");
 			}
 		} else if (_UI.navhere == "linked shapes"){
 			if(_UI.linkedshapeundoq.length > 0){
-				var uqo = _UI.linkedshapeundoq.pop();
+				uqo = _UI.linkedshapeundoq.pop();
 				_GP.linkedshapes = uqo.state;
 				_UI.linkcurrstate = clone(_GP.linkedshapes);
 				redraw("pullundoq");
 			}
 		}
 
-		if(_UI.charundoq.length == 0 && _UI.linkedshapeundoq.length == 0){
+		if(_UI.charundoq.length === 0 && _UI.linkedshapeundoq.length === 0){
 			setProjectAsSaved();
 		}
 	}
@@ -411,17 +412,17 @@
 	// returns a full new copy of any object
 	function clone(cobj){
 		var newObj = (cobj instanceof Array) ? [] : {};
-		for (i in cobj) {
+		for (var i in cobj) {
 			if (cobj[i] && typeof cobj[i] == "object") {
 				newObj[i] = clone(cobj[i]);
-			} else newObj[i] = cobj[i]
+			} else newObj[i] = cobj[i];
 		} return newObj;	
 	}
 	
 	// rounds a number to include a .5 so it draws nicely on canvas
 	Number.prototype.makeCrisp = function(){
-		return Math.round(this)+.5;
-	}
+		return Math.round(this)+0.5;
+	};
 
 	// returns the length of an associative array
 	function aalength(aa){
@@ -435,7 +436,7 @@
 		var na = num.toString().split(".");
 		if(na.length == 2) {
 			var right = na[1].substring(0,dec) + "." + na[1].substring(dec+1);
-			var right = Math.round(right);
+			right = Math.round(right);
 			num = ((na[0] + "." + right) * 1);
 		}
 		return (num*1);

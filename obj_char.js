@@ -48,7 +48,7 @@
 			"xmin" : 0,
 			"ymax" : 0,
 			"ymin" : 0
-		}
+		};
 		var sh, tss;
 
 		for(var jj=0; jj<this.charshapes.length; jj++) {
@@ -72,7 +72,7 @@
 		}
 
 		return maxes;
-	}
+	};
 
 	Char.prototype.calcCharWidth = function(){
 		if(!this.isautowide) return;
@@ -94,7 +94,7 @@
 				}
 			}
 		}
-	}
+	};
 	
 	Char.prototype.drawCharToArea = function(lctx, view){
 		var ps = _GP.projectsettings;
@@ -109,7 +109,7 @@
 			if(this.leftsidebearing === false){
 				width += (ps.defaultlsb * view.dz);
 			} else {
- 				width += (this.leftsidebearing * view.dz);
+				width += (this.leftsidebearing * view.dz);
 			}
 		}
 		
@@ -139,9 +139,9 @@
 		lctx.fill("nonzero");
 		
 		return width;
-	}
+	};
 
-	Char.prototype.getCharNumber = function(){ return parseInt(this.cmapcode.slice(2), 16); }
+	Char.prototype.getCharNumber = function(){ return parseInt(this.cmapcode.slice(2), 16); };
 
 	function getCharFromText(c){
 		if(c === " ") return _GP.fontchars[32];

@@ -51,7 +51,7 @@
 			lctx.closePath();
 			lctx.fill();
 		}
-	}
+	};
 
 
 	Shape.prototype.drawShape_Stack = function(lctx){
@@ -66,7 +66,7 @@
 
 			this.path.drawPath(lctx);
 		}		
-	}
+	};
 
 	Shape.prototype.drawShapeToArea = function(lctx, view){
 		//debug("DRAWSHAPETOAREA");
@@ -78,7 +78,7 @@
 			lctx.closePath();
 			lctx.fill();
 		}
-	}
+	};
 
 	Shape.prototype.checkPath = function() {
 		debug("CHECKPATH - checking " + this.name + "\n" + JSON.stringify(this.path));
@@ -94,7 +94,7 @@
 			if(!(tp.H2.x)) debug(this.name + " p" + pp + ".H2.x is " + tp.H2.x);
 			if(!(tp.H2.y)) debug(this.name + " p" + pp + ".H2.y is " + tp.H2.y);
 		}
-	}
+	};
 
 	//convert stored x-y coord to canvas x-y
 	function sx_cx(sx){
@@ -122,10 +122,10 @@
 			_UI.chareditctx.fillStyle = "transparent";
 			
 			//draw bounding box and 8points
-			var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
-			var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
-			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
-			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
+			var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx)		: sx_cx(this.path.leftx);
+			var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx)		: sx_cx(this.path.rightx);
+			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy)		: sy_cy(this.path.topy);
+			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy)	: sy_cy(this.path.bottomy);
 			
 			var x = (lx).makeCrisp()-1;
 			var y = (ty).makeCrisp()-1;
@@ -156,7 +156,9 @@
 				pp[sep].drawHandles(true, true);
 				
 				// Draw prev/next handles
-				sep>0? pp[sep-1].drawHandles(false, true) : pp[pp.length-1].drawHandles(false, true);
+				if(sep>0){ pp[sep-1].drawHandles(false, true); }
+				else { pp[pp.length-1].drawHandles(false, true); }
+
 				pp[(sep+1) % pp.length].drawHandles(true, false);
 			}
 			
@@ -182,7 +184,7 @@
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 		}
-	}
+	};
 
 	function rectPathFromCorners(cdata){
 		//Default Shape size
@@ -241,8 +243,8 @@
 
 		var hw = Math.round((rx-lx)/2);
 		var hh = Math.round((ty-by)/2);
-		var hwd = Math.round(hw*.448);
-		var hhd = Math.round(hh*.448);
+		var hwd = Math.round(hw*0.448);
+		var hhd = Math.round(hh*0.448);
 
 		// First Point - Top
 		var Pt = new Coord({"x":(lx+hw), "y":ty});

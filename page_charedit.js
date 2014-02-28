@@ -32,7 +32,7 @@
 	function updateselectchar(fname){
 		//stack(arguments);
 
-		var ccon = "<div class='charselectarea'>"
+		var ccon = "<div class='charselectarea'>";
 		fname = fname? fname : "selectchar";
 		_UI.selectchardrawarr = [];
 		
@@ -41,14 +41,14 @@
 		ccon += "<div style='display:block; clear:all;'></div>";
 		
 		//Lowercase Letters
-		for(var i=97; i<123; i++){ccon += buildbutton(i, fname);}
+		for(var j=97; j<123; j++){ccon += buildbutton(j, fname);}
 		ccon += "<div style='display:block; clear:all;'></div>";
 				
 		// Symbols		
-		for(var i=33; i<48; i++){ccon += buildbutton(i, fname);}
-		for(var i=58; i<65; i++){ccon += buildbutton(i, fname);}
-		for(var i=91; i<97; i++){ccon += buildbutton(i, fname);}
-		for(var i=123; i<127; i++){ccon += buildbutton(i, fname);}
+		for(var k=33; k<48; k++){ccon += buildbutton(k, fname);}
+		for(var m=58; m<65; m++){ccon += buildbutton(m, fname);}
+		for(var n=91; n<97; n++){ccon += buildbutton(n, fname);}
+		for(var p=123; p<127; p++){ccon += buildbutton(p, fname);}
 		ccon += "<div style='display:block; clear:all;'></div>";
 		
 		// Space
@@ -138,7 +138,7 @@
 		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
 		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
 		_UI.ishereghostctx.fillStyle = "cyan";
-		_UI.ishereghostctx.globalAlpha = .5;
+		_UI.ishereghostctx.globalAlpha = 0.5;
 		_UI.ishereghostcanvas.style.backgroundColor = "transparent";
 	}
 
@@ -213,7 +213,7 @@
 			"dx" : _UI.thumbgutter,
 			"dy" : (_UI.thumbgutter+(_GP.projectsettings.ascent*zoom)),
 			"dz" : zoom
-		}
+		};
 
 		//debug("RESETTHUMBVIEW - set to \n" + JSON.stringify(_UI.thumbview));
 	}
@@ -252,7 +252,7 @@
 		// Finish up
 		var s = ss("Redraw");
 		if(s) {
-			s.drawSelectOutline(s.link != false);				
+			s.drawSelectOutline(s.link !== false);				
 			if(s.link){
 				_UI.selectedtool = "shaperesize";
 			}
@@ -333,23 +333,23 @@
 			console.error("UPDATEDETAILS - innerHTML update error caught");
 		}
 		
-		ispointsel? drawPointButtons(s) : false;
+		if(ispointsel) drawPointButtons(s);
 
-	   	// draw UsedInThumbs for LinkedShapes
-	   	if(_UI.navhere == "linked shapes"){
-	   		drawUsedinThumbs();
-	   	}
+		// draw UsedInThumbs for LinkedShapes
+		if(_UI.navhere == "linked shapes") drawUsedinThumbs();
 
 		// draw locks
 		//debug("UPDATEDETAILS - starting drawing locks, locarr.length = " + _UI.locarr.length);
+		var obj, thislocid, thischeckid, color;
+
 		for(var j=0; j<_UI.locarr.length; j++){
-			var thislocid = ("locid"+j);
-			var obj = document.getElementById(thislocid);
+			thislocid = ("locid"+j);
+			obj = document.getElementById(thislocid);
 			//debug("UPDATEDETAILS - drawing lock id " + thislocid + " obj = " + obj);
 			if(obj){
 				obj.height = 11;
 				obj.width = 11;
-				var color = _UI.locarr[j]? _UI.colors.button_selected : _UI.colors.button_resting;
+				color = _UI.locarr[j]? _UI.colors.button_selected : _UI.colors.button_resting;
 				drawLockButton(obj, color);
 			}
 		}
@@ -358,8 +358,8 @@
 		
 		//draw checks
 		for(var k=0; k<_UI.checkarr.length; k++){
-			var thischeckid = ("checkid"+k);
-			var obj = document.getElementById(thischeckid);
+			thischeckid = ("checkid"+k);
+			obj = document.getElementById(thischeckid);
 			if(obj){
 				//debug("Drawing Check with ID: " + thischeckid + ", obj: " + obj + " passed: " + _UI.checkarr[k]);
 				obj.height = 15;
@@ -510,7 +510,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> direction </td>"+
 					"<td class='rightcol'><input type='text' disabled='disabled'"+
-					" value='"+(s.path.clockwise==0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/>"+
+					" value='"+(s.path.clockwise===0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/>"+
 					"<input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td>"+
 					"</tr>";
 		
@@ -773,7 +773,7 @@
 			_UI.clipboardshape = {
 				"s":_GP.linkedshapes[_UI.shownlinkedshape].shape,
 				"c":_UI.shownlinkedshape
-			}
+			};
 		} else if (_UI.navhere == "character edit"){
 			var s = ss("copy shape");
 			if(s.link) s = _GP.linkedshapes[s.link].shape;
@@ -793,7 +793,7 @@
 
 		if(_UI.clipboardshape){
 			var newshape = clone(_UI.clipboardshape.s);
-			_UI.clipboardshape.c == _UI.selectedchar ? newshape.path.updatePathPosition(20,20,true) : true;
+			if(_UI.clipboardshape.c != _UI.selectedchar) newshape.path.updatePathPosition(20,20,true);
 			
 			var newname = newshape.name;
 			var newsuffix = " (copy)";
@@ -903,7 +903,7 @@
 		content += "<div style='height:7px; display:block;'></div>";
 
 		if(_UI.shapelayers.length > 0){
-			content += "<table class='layertable'>"
+			content += "<table class='layertable'>";
 			for(var i=(_UI.shapelayers.length-1); i>=0; i--){
 				if(i==_UI.selectedshape){
 					content += "<tr class='layersel'";
@@ -941,13 +941,13 @@
 		if(_UI.shapelayers.length > 0){
 			var tctx = {};
 			var tele = false;
-			for(var i=(_UI.shapelayers.length-1); i>=0; i--){
-				tele = document.getElementById(("layerthumb"+i))
+			for(var j=(_UI.shapelayers.length-1); j>=0; j--){
+				tele = document.getElementById(("layerthumb"+j));
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = _UI.colors.offwhite;
-				if(i == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-				//debug("UPDATELAYERS - drawing layer " + i);
-				_UI.shapelayers[i].drawShapeToArea(tctx, _UI.thumbview);
+				if(j == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
+				//debug("UPDATELAYERS - drawing layer " + j);
+				_UI.shapelayers[j].drawShapeToArea(tctx, _UI.thumbview);
 			}
 		}
 	}
@@ -1120,7 +1120,7 @@
 		} else if(ctool=="pathedit"){
 			if(s) {s.path.selectPathPoint(0);}
 			//debug("CLICKTOOL() - setting selectPathPoint = 0");
-		} else if (ctool = "shapemove"){
+		} else if (ctool == "shapemove"){
 			if(s){s.path.calcMaxes();}
 		}
 		
@@ -1176,19 +1176,19 @@
 				var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 				//debug("GRID - gridsize set as: " + gsize);
 				
-				for(var j=v.dx; j<xs.xmax-1; j+=gsize){ vertical(j, xs.ymin, xs.ymax); }
+				for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i, xs.ymin, xs.ymax); }
 				vertical(xs.xmax+1, xs.ymin, xs.ymax);
 				for(var j=v.dx; j>=xs.xmin; j-=gsize){ vertical(j, xs.ymin, xs.ymax); }
 				
-				for(var j=v.dy; j<xs.ymax-1; j+=gsize){ horizontal(j, xs.xmin, xs.xmax); }
+				for(var k=v.dy; k<xs.ymax-1; k+=gsize){ horizontal(k, xs.xmin, xs.xmax); }
 				horizontal(xs.ymax, xs.xmin, xs.xmax+1);
-				for(var j=v.dy; j>=xs.ymin; j-=gsize){ horizontal(j, xs.xmin, xs.xmax); }
+				for(var p=v.dy; p>=xs.ymin; p-=gsize){ horizontal(p, xs.xmin, xs.xmax); }
 
 			}
 			
 			if(_UI.showguides){
 				// Minor Guidelines - Overshoots
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .8, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, 0.8, true);
 				horizontal(xline-overshootsize, xs.xmin, xs.xmax);
 				horizontal(mline-overshootsize, xs.xmin, xs.xmax);
 				horizontal(v.dy+overshootsize, xs.xmin, xs.xmax);
@@ -1206,7 +1206,7 @@
 				}
 
 				// major guidelines - xheight, top (emzize)
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .5, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, 0.5, true);
 				horizontal(xline, xs.xmin, xs.xmax);
 				//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .2, true);
 				horizontal(mline, xs.xmin, xs.xmax);
@@ -1231,7 +1231,7 @@
 	}
 	
 	function horizontal(y, xmin, xmax){
-		y = Math.round(y)-.5;
+		y = Math.round(y)-0.5;
 		_UI.chareditctx.beginPath();
 		_UI.chareditctx.moveTo(xmin,y);
 		_UI.chareditctx.lineTo(xmax,y);
@@ -1240,7 +1240,7 @@
 	}
 	
 	function vertical(x, ymin, ymax){
-		x = Math.round(x)-.5;
+		x = Math.round(x)-0.5;
 		_UI.chareditctx.beginPath();
 		_UI.chareditctx.moveTo(x,ymin);
 		_UI.chareditctx.lineTo(x,ymax+1);		

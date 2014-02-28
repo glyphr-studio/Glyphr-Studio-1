@@ -54,16 +54,16 @@
 		}
 
 		//new values
-		var newHx, newHy;
+		var newHx, newHy, mod, newadj1, newadj2;
 
 		switch(move){
 			case "H1" :
 				//modifier
-				var mod = (this.H1.y > this.P.y)? -1 : 1;
+				mod = (this.H1.y > this.P.y)? -1 : 1;
 				
 				//get new x and y for H2	
-				var newadj2 = Math.cos(angle1) * hyp2;
-				var newopp2 = Math.tan(angle1) * newadj2;
+				newadj2 = Math.cos(angle1) * hyp2;
+				newopp2 = Math.tan(angle1) * newadj2;
 				
 				//Set values
 				newHx =  (this.P.x + (newadj2));
@@ -75,11 +75,11 @@
 				
 			case "H2" :
 				//modifier
-				var mod = (this.H2.y > this.P.y)? -1 : 1;
+				mod = (this.H2.y > this.P.y)? -1 : 1;
 				
 				//get new x and y for H2	
-				var newadj1 = Math.cos(angle2) * hyp1;
-				var newopp1 = Math.tan(angle2) * newadj1;
+				newadj1 = Math.cos(angle2) * hyp1;
+				newopp1 = Math.tan(angle2) * newadj1;
 				
 				//Set values
 				newHx =  (this.P.x + (newadj1));
@@ -92,24 +92,24 @@
 		
 		this.roundAll();
 		//debug("MAKEFLAT - returns " + JSON.stringify(this));
-	}
+	};
 	
 	PathPoint.prototype.makeSymmetric = function(move){
 		//debug("MAKESYMETRIC - move " + move + " starts as " + JSON.stringify(this));
 		switch(move){
 			case "H1" :
-				this.H2.x = ((this.P.x - this.H1.x) + this.P.x)
-				this.H2.y = ((this.P.y - this.H1.y) + this.P.y)
+				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
+				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
 				break;
 			case "H2" :
-				this.H1.x = ((this.P.x - this.H2.x) + this.P.x)
-				this.H1.y = ((this.P.y - this.H2.y) + this.P.y)
+				this.H1.x = ((this.P.x - this.H2.x) + this.P.x);
+				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
 				break;
 		}
 		
 		this.roundAll();
 		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));
-	}
+	};
 	
 	PathPoint.prototype.makePointedTo = function(px, py, length){
 		//figure out angle
@@ -126,7 +126,7 @@
 		//debug("MAKEPOINTEDTO - after makesymmetric H1x/y " + this.H1.x + " " + this.H1.y);
 		
 		this.roundAll();
-	}
+	};
 	
 	PathPoint.prototype.resetHandles = function(){
 		this.type = "flat";
@@ -134,7 +134,7 @@
 		this.H2.y = this.P.y;
 		this.H1.x = this.P.x + 100;
 		this.H1.y = this.P.y;
-	}
+	};
 	
 	PathPoint.prototype.setPointPosition = function(controlpoint, nx, ny){
 		var dx = 0;
@@ -181,7 +181,7 @@
 		
 		this.roundAll();
 		
-	}
+	};
 	
 	PathPoint.prototype.updatePointPosition = function(controlpoint, dx,dy, force){
 		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
@@ -197,12 +197,12 @@
 		
 		switch(controlpoint){
 			case "P":
-				lockx? true : this.P.x += dx;
-				locky? true : this.P.y += dy;
-				lockx? true : this.H1.x += dx;
-				locky? true : this.H1.y += dy;
-				lockx? true : this.H2.x += dx;
-				locky? true : this.H2.y += dy;				
+				if(!lockx) this.P.x += dx;
+				if(!locky) this.P.y += dy;
+				if(!lockx) this.H1.x += dx;
+				if(!locky) this.H1.y += dy;
+				if(!lockx) this.H2.x += dx;
+				if(!locky) this.H2.y += dy;				
 				break;
 			
 			case "H1" :
@@ -221,7 +221,7 @@
 		}
 		
 		this.roundAll();
-	}
+	};
 	
 	PathPoint.prototype.roundAll = function(){	
 		this.P.x = Math.round(this.P.x);
@@ -230,7 +230,7 @@
 		this.H1.y = Math.round(this.H1.y);
 		this.H2.x = Math.round(this.H2.x);
 		this.H2.y = Math.round(this.H2.y);
-	}
+	};
 	
 	PathPoint.prototype.drawPoint = function(c) {
 		var ps = _GP.projectsettings.pointsize +1;
@@ -239,7 +239,7 @@
 		
 		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
 		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
-	}
+	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
 		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;	
@@ -252,7 +252,7 @@
 			end = {"x":next.P.x, "y":next.P.y};
 		}
 
-		var ps = (_GP.projectsettings.pointsize*.75);
+		var ps = (_GP.projectsettings.pointsize*0.75);
 		var arrow = [
 			[(ps*3), 0],
 			[ps, ps],
@@ -263,12 +263,12 @@
 		var rotatedarrow = [];
 		var ang = Math.atan2((end.y-begin.y),(end.x-begin.x))*-1;
 		
-		for(var p in arrow){
+		for(var a in arrow){
 			rotatedarrow.push([
-				//Math.round((arrow[p][0] * Math.cos(ang)) - (arrow[p][1] * Math.sin(ang))),
-				//Math.round((arrow[p][0] * Math.sin(ang)) + (arrow[p][1] * Math.cos(ang)))
-				((arrow[p][0] * Math.cos(ang)) - (arrow[p][1] * Math.sin(ang))),
-				((arrow[p][0] * Math.sin(ang)) + (arrow[p][1] * Math.cos(ang)))
+				//Math.round((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
+				//Math.round((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
+				((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
+				((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
 			]);
 		}
 
@@ -289,14 +289,14 @@
 
 		// Exact Middle Point
 		_UI.chareditctx.fillStyle = _UI.colors.accent;
-		_UI.chareditctx.fillRect((sx_cx(this.P.x)-.5), (sy_cy(this.P.y)-.5), 1, 1);
+		_UI.chareditctx.fillRect((sx_cx(this.P.x)-0.5), (sy_cy(this.P.y)-0.5), 1, 1);
 	
-	}
+	};
 	
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2) {
 		_UI.chareditctx.fillStyle = _UI.colors.accent;
 		_UI.chareditctx.lineWidth = 1;
-		var hp = _GP.projectsettings.pointsize/2
+		var hp = _GP.projectsettings.pointsize/2;
 		
 		if(drawH1 && this.useh1){
 			_UI.chareditctx.beginPath();
@@ -323,6 +323,4 @@
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 		}
-	}
-
-	
+	};

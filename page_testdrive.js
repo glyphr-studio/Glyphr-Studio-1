@@ -23,7 +23,7 @@
 		
 		var content = "<h1>settings</h1><h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";
 			content += "<br><h2>options</h2><div>" + drawTDOptions() + "</div>";
-			content += "</td></tr></table></div>"
+			content += "</td></tr></table></div>";
 			
 		return content;
 	}
@@ -40,7 +40,7 @@
 		var cc;
 
 		tctx.clearRect(0,0,5000,5000);
-		_UI.testdrive_showhorizontals? drawLine(curry) : false;
+		if(_UI.testdrive_showhorizontals) drawLine(curry);
 		
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
@@ -52,7 +52,7 @@
 				curry += ((document.getElementById("linegap").value*1)*scale);
 				
 				// draw baseline
-				_UI.testdrive_showhorizontals? drawLine(curry) : false;
+				if(_UI.testdrive_showhorizontals) drawLine(curry);
 			} else {
 				cc = getCharFromText(contentArray[k]);
 				if(cc){
@@ -129,7 +129,7 @@
 
 	function changefontscale(newval){
 		_UI.testdrive_fontscale = (newval/_GP.projectsettings.upm);
-		document.getElementById("roughptsize").innerHTML = (newval*.75);
+		document.getElementById("roughptsize").innerHTML = (newval*0.75);
 	}
 
 	function createimg(){

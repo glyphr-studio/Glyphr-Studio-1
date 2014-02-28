@@ -34,14 +34,14 @@
 		"showguides" : true,		// display guides
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
-		"chareditcanvassize" : 1600, 			// How big the viewport canvas is
+		"chareditcanvassize" : 1600,			// How big the viewport canvas is
 		"chareditctx" : false,
 		"ishereghostcanvas" : false, 
 		"ishereghostctx" : false,
 		"defaultview" : {
 			"dx" : 200,		// X offset for the canvas origin
 			"dy" : 500,		// Y offset for the canvas origin
-			"dz" : .5,		// Zoom or scale of the canvas
+			"dz" : 0.5,		// Zoom or scale of the canvas
 		},
 		"views" : {},	// Holds the unique views per char & linkedshape
 		"thumbview" : {},
