@@ -8,7 +8,7 @@
 		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npChar",
-		"thisGlyphrStudioVersion" : "Beta 3 - 0.3.0.min",
+		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
 		"projectsaved": true,
 		"colors" : {
 			"accent" :		"rgb(0,170,225)",	//os accent base color  
@@ -34,7 +34,7 @@
 		"showguides" : true,		// display guides
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
-		"chareditcanvassize" : 1600,			// How big the viewport canvas is
+		"chareditcanvassize" : 2000,			// How big the viewport canvas is
 		"chareditctx" : false,
 		"ishereghostcanvas" : false, 
 		"ishereghostctx" : false,
