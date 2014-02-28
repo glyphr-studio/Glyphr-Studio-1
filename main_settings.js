@@ -26,6 +26,7 @@
 		},
 
 		// Shared edit pages
+		"popout" : false,
 		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
 		"redrawing" : false,
 		"thumbsize" : 50,
