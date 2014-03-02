@@ -434,8 +434,8 @@
 				//debug("SHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
-					s.xpos += Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					s.ypos += Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+					s.xpos += round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					s.ypos += round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
 					resetCursor();
 				}
@@ -443,8 +443,8 @@
 				//debug("SHAPERESIZE dragging normal shape");
 				if (this.dragging) {
 					// Moving shapes if mousedown
-					var dx = s.xlock? 0 : dx = Math.round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					var dy = s.ylock? 0 : dy = Math.round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+					var dx = s.xlock? 0 : dx = round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					var dy = s.ylock? 0 : dy = round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
@@ -507,12 +507,12 @@
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
 		var v = getView("cx_sx");
-		return Math.round((cx-v.dx)/(v.dz));
+		return round((cx-v.dx)/(v.dz));
 	}
 	
 	function cy_sy(cy){
 		var v = getView("cy_sy");
-		return Math.round((v.dy-cy)/(v.dz));
+		return round((v.dy-cy)/(v.dz));
 	}
 	
 	function clickEmptySpace(){
@@ -641,10 +641,10 @@
 
 	function updateTPDS(dx,dy,dw,dh){
 		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
-		_UI.eventhandlers.temppathdragshape.leftx += Math.round(dx);
-		_UI.eventhandlers.temppathdragshape.topy += Math.round(dy);
-		_UI.eventhandlers.temppathdragshape.rightx += Math.round(dw+dx);
-		_UI.eventhandlers.temppathdragshape.bottomy += Math.round(dh+dy);
+		_UI.eventhandlers.temppathdragshape.leftx += round(dx);
+		_UI.eventhandlers.temppathdragshape.topy += round(dy);
+		_UI.eventhandlers.temppathdragshape.rightx += round(dw+dx);
+		_UI.eventhandlers.temppathdragshape.bottomy += round(dh+dy);
 	}
 	
 	function canResize(pc){

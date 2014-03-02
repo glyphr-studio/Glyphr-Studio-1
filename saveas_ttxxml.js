@@ -49,7 +49,7 @@
 
 		var proportion = (fm.ymax / (fm.ymax-fm.ymin));
 		var total = fm.ymax + Math.abs(fm.ymin) + _GP.projectsettings.linegap;
-		fm.hhea_ascent = Math.round(total*proportion);
+		fm.hhea_ascent = round(total*proportion);
 		fm.hhea_descent = (fm.hhea_ascent - total);
 
 		debug("CALCFONTMAXES - returns " + JSON.stringify(fm));

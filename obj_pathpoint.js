@@ -224,12 +224,12 @@
 	};
 	
 	PathPoint.prototype.roundAll = function(){	
-		this.P.x = Math.round(this.P.x);
-		this.P.y = Math.round(this.P.y);
-		this.H1.x = Math.round(this.H1.x);
-		this.H1.y = Math.round(this.H1.y);
-		this.H2.x = Math.round(this.H2.x);
-		this.H2.y = Math.round(this.H2.y);
+		this.P.x = round(this.P.x);
+		this.P.y = round(this.P.y);
+		this.H1.x = round(this.H1.x);
+		this.H1.y = round(this.H1.y);
+		this.H2.x = round(this.H2.x);
+		this.H2.y = round(this.H2.y);
 	};
 	
 	PathPoint.prototype.drawPoint = function(c) {
@@ -237,8 +237,8 @@
 		var hp = ps/2;
 		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;	
 		
-		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
-		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp()-1, (sy_cy(this.P.y)-hp).makeCrisp()-1, ps, ps);
+		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp(), (sy_cy(this.P.y)-hp).makeCrisp(), ps, ps);
+		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp(), (sy_cy(this.P.y)-hp).makeCrisp(), ps, ps);
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
@@ -265,8 +265,8 @@
 		
 		for(var a in arrow){
 			rotatedarrow.push([
-				//Math.round((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
-				//Math.round((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
+				//round((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
+				//round((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
 				((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
 				((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
 			]);
@@ -289,7 +289,7 @@
 
 		// Exact Middle Point
 		_UI.chareditctx.fillStyle = _UI.colors.accent;
-		_UI.chareditctx.fillRect((sx_cx(this.P.x)-0.5), (sy_cy(this.P.y)-0.5), 1, 1);
+		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 	
 	};
 	

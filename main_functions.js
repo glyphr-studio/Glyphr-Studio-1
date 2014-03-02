@@ -420,26 +420,33 @@
 	}
 	
 	// rounds a number to include a .5 so it draws nicely on canvas
-	Number.prototype.makeCrisp = function(){
-		return Math.round(this)+0.5;
+	// true = +0.5, false = -0.5
+	Number.prototype.makeCrisp = function(dir){
+		var mul = dir? 1 : -1;
+		return round(this) + (0.5 * mul);
 	};
+
+
+	function round(num, dec){
+		dec = isval(dec)? dec : 0;
+
+		return Number(Math.round(num+'e'+dec)+'e-'+dec);
+
+		/*var na = num.toString().split(".");
+		if(na.length == 2) {
+			var right = na[1].substring(0,dec) + "." + na[1].substring(dec+1);
+			right = round(right);
+			num = ((na[0] + "." + right) * 1);
+		}
+		return (num*1);
+		*/
+	}
 
 	// returns the length of an associative array
 	function aalength(aa){
 		var len = 0;
 		for(var key in aa){	len++; }
 		return len;
-	}
-
-	function round(num, dec){
-		dec = isval(dec)? dec : 4;
-		var na = num.toString().split(".");
-		if(na.length == 2) {
-			var right = na[1].substring(0,dec) + "." + na[1].substring(dec+1);
-			right = Math.round(right);
-			num = ((na[0] + "." + right) * 1);
-		}
-		return (num*1);
 	}
 	
 	function strSan(val){
@@ -482,13 +489,13 @@
 		val.b = Math.max(0,Math.min(val.b,255));
 		
 		if(lighter){
-			val.r = Math.round(((255-(val.r*1))*percent)+(val.r*1));
-			val.g = Math.round(((255-(val.g*1))*percent)+(val.g*1));
-			val.b = Math.round(((255-(val.b*1))*percent)+(val.b*1));
+			val.r = round(((255-(val.r*1))*percent)+(val.r*1));
+			val.g = round(((255-(val.g*1))*percent)+(val.g*1));
+			val.b = round(((255-(val.b*1))*percent)+(val.b*1));
 		} else {
-			val.r = Math.round((val.r*1)-(val.r*percent));
-			val.g = Math.round((val.g*1)-(val.g*percent));
-			val.b = Math.round((val.b*1)-(val.b*percent));
+			val.r = round((val.r*1)-(val.r*percent));
+			val.g = round((val.g*1)-(val.g*percent));
+			val.b = round((val.b*1)-(val.b*percent));
 		}
 
 		return "rgb("+val.r+","+val.g+","+val.b+")";

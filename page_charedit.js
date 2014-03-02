@@ -466,7 +466,7 @@
 	}
 	
 	function horizontal(y, xmin, xmax){
-		y = Math.round(y)-0.5;
+		y = y.makeCrisp();
 		_UI.chareditctx.beginPath();
 		_UI.chareditctx.moveTo(xmin,y);
 		_UI.chareditctx.lineTo(xmax,y);
@@ -475,7 +475,7 @@
 	}
 	
 	function vertical(x, ymin, ymax){
-		x = Math.round(x)-0.5;
+		x = x.makeCrisp();
 		_UI.chareditctx.beginPath();
 		_UI.chareditctx.moveTo(x,ymin);
 		_UI.chareditctx.lineTo(x,ymax+1);		

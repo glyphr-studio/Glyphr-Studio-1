@@ -64,8 +64,8 @@
 						tctx.strokeRect(
 							currx.makeCrisp(), 
 							(curry.makeCrisp()-(ps.ascent*scale)), 
-							Math.round(cc.charwidth*scale), 
-							Math.round(textEm)
+							round(cc.charwidth*scale), 
+							round(textEm)
 						);
 					}
 

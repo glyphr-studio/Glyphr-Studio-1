@@ -101,6 +101,6 @@
 
 	function updateAscender(val){
 		var ps = _GP.projectsettings;
-		ps.ascent = Math.max(0, Math.min(ps.upm, Math.round(val)));
+		ps.ascent = Math.max(0, Math.min(ps.upm, round(val)));
 		document.getElementById('metric-des').value = (ps.ascent - ps.upm);
 	}

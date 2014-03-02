@@ -127,8 +127,8 @@
 			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy)		: sy_cy(this.path.topy);
 			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy)	: sy_cy(this.path.bottomy);
 			
-			var x = (lx).makeCrisp()-1;
-			var y = (ty).makeCrisp()-1;
+			var x = (lx).makeCrisp(true);
+			var y = (ty).makeCrisp(true);
 			var w = Math.ceil(rx-lx);
 			var h = Math.ceil(by-ty);
 			
@@ -200,8 +200,8 @@
 			by = cdata.bottomy;
 		}
 		
-		var qw = Math.round((rx-lx)/4);
-		var qh = Math.round((ty-by)/4);
+		var qw = round((rx-lx)/4);
+		var qh = round((ty-by)/4);
 
 		// First Point
 		var Pul = new Coord({"x":lx, "y":ty});
@@ -241,10 +241,10 @@
 		var rx = cdata.rightx;
 		var by = cdata.bottomy;
 
-		var hw = Math.round((rx-lx)/2);
-		var hh = Math.round((ty-by)/2);
-		var hwd = Math.round(hw*0.448);
-		var hhd = Math.round(hh*0.448);
+		var hw = round((rx-lx)/2);
+		var hh = round((ty-by)/2);
+		var hwd = round(hw*0.448);
+		var hhd = round(hh*0.448);
 
 		// First Point - Top
 		var Pt = new Coord({"x":(lx+hw), "y":ty});
@@ -287,12 +287,12 @@
 		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
 		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
 
-		var bleftx = (lx-hp).makeCrisp();
-		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp();
-		var brightx = (rx-hp).makeCrisp();
-		var btopy = (ty-hp).makeCrisp();
-		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp();
-		var bbottomy = (by-hp).makeCrisp();
+		var bleftx = (lx-hp).makeCrisp(true);
+		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
+		var brightx = (rx-hp).makeCrisp(true);
+		var btopy = (ty-hp).makeCrisp(true);
+		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
+		var bbottomy = (by-hp).makeCrisp(true);
 
 		onlycenter? _UI.chareditctx.fillStyle = _UI.colors.accent : _UI.chareditctx.fillStyle = "white";
 		
