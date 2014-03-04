@@ -31,12 +31,12 @@
 			if(s && s.link){
 				// linked shape selected
 				//debug("UPDATEDETAILS: linked shape selected");
-				content += linkedShapeInstanceDetails(s);
+				content += makePanelContent_attributes_linkedShapeInstance(s);
 			} else if (s){
 				// regular shape selected
 				//debug("UPDATEDETAILS: regular shape selected");
-				content += shapeDetails(s);
-				if(ispointsel){ content += pointDetails(s); }
+				content += makePanelContent_attributes_shape(s);
+				if(ispointsel){ content += makePanelContent_attributes_point(s); }
 			} else {
 				// no shape selected
 				//debug("UPDATEDETAILS: no shape selected");
@@ -49,9 +49,9 @@
 		} else if (_UI.navhere == "linked shapes"){
 			//debug("UPDATEDETAILS - detected navhere = linked shapes");
 			if (s){
-				content += shapeDetails(s);
+				content += makePanelContent_attributes_shape(s);
 				if(ispointsel){ 
-					content += pointDetails(s); 
+					content += makePanelContent_attributes_point(s); 
 				}
 			}
 			content += linkedShapeCharDetails();
@@ -169,7 +169,7 @@
 
 	}
 	
-	function shapeDetails(s){
+	function makePanelContent_attributes_shape(s){
 		//stack(arguments);
 
 		//debug("SHAPEDETAILS - Drawing Shape Details");
@@ -250,7 +250,7 @@
 		return content;
 	}
 	
-	function pointDetails(s){
+	function makePanelContent_attributes_point(s){
 		//stack(arguments);
 
 		var tp = s.path.sp();
