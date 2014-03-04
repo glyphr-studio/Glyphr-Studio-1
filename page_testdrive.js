@@ -18,7 +18,7 @@
 		if(_UI.navprimaryhere == "npAttributes") changefontscale(100);
 	}
 
-	function updatetestdriveoptions(){
+	function makePanel_TestDriveOptions(){
 		if(_UI.navprimaryhere != "npAttributes") return;
 		
 		var content = "<h1>settings</h1><h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";

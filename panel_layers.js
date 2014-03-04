@@ -35,14 +35,10 @@
 		
 		content += updateLayerActions();
 		
-		try {
-			//debug("UPDATELAYERS: final html content: \n " + content);
-			document.getElementById("navarea_panel").innerHTML = content;	
-		} catch(err) {
-			//debug("UPDATELAYERS - <b>innerHTML update error caught</b>");
-		}
-
-		
+		return content;
+	}
+	
+	function drawPanel_LayerChooser() {		
 		// Update the thumbs		
 		if(_UI.shapelayers.length > 0){
 			var tctx = {};

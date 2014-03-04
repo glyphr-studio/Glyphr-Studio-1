@@ -157,7 +157,7 @@
 			}
 		}
 		
-		generateNavPanels();
+		makeAndDraw_NavPanels_PopIn();
 		
 		updatetools();
 

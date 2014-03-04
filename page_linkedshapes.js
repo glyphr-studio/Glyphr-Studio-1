@@ -26,8 +26,9 @@
 		return re;
 	}
 
-	function linkedshapes_subnav(){
-		var re = "<div class='subnavunit'>";
+	function makePanel_LinkedShapeChooser(){
+		var re = "<h1>linked shapes</h1>";
+		re += "<div class='subnavunit'>";
 		re += "<table class='layertable'>";
 		for(var ssid in _GP.linkedshapes){
 			//debug("LINKEDSHAPES_SUBNAV - making button for " + ssid);
@@ -45,8 +46,8 @@
 		return re;
 	}
 	
-	function drawLinkedShapeLayerThumbs(){
-		//debug("DRAWLINKEDSHAPELAYERTHUMBS - start");
+	function drawPanel_LinkedShapeChooser(){
+		//debug("drawPanel_LinkedShapeChooser - start");
 		var ps = _GP.projectsettings;
 		var tctx = {};
 		var tele = false;
@@ -59,7 +60,7 @@
 			if(ssid==_UI.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
 		}
-		//debug("DRAWLINKEDSHAPELAYERTHUMBS - end");
+		//debug("drawPanel_LinkedShapeChooser - end");
 	}
 
 	function makeLinkedShapeSubNavButton(ssid){
@@ -112,7 +113,7 @@
 			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline();
 		}
 
-		generateNavPanels();
+		makeAndDraw_NavPanels_PopIn();
 
 		updatetools();	
 		_UI.redrawing = false;
@@ -312,11 +313,11 @@
 		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.shownlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' being used.<br><br>";
 		content += "Select the character into which you would like to insert this linked shape:<br><br></td></tr>";
 		content += "<tr><td>";
-		content += makePanel_CharChooser("insertLinkedShapeToChar");
+		content += makeGenericCharChooserContent("insertLinkedShapeToChar");
 		content += "</td></tr>";
 		content += "<tr><td><br><input type='button' class='button' value='done' onclick='closeDialog();'/></td></tr></table>";
 		openDialog(content);
-		drawselectcharthumbs();
+		drawGenericCharChooserContent();
 	}
 	
 	function insertLinkedShapeToChar(chid){

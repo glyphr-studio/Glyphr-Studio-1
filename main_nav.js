@@ -8,9 +8,6 @@
 		if(_UI.popout){
 			makeLayout_PopOut();
 		} else {
-			document.getElementById('primaryScreenLayout').innerHTML = '<div id="mainwrapper"><div id="mainpane"></div></div>' + 
-				'<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>' + 
-				'<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
 			makeLayout_PopIn(nap);
 		}
 	}
@@ -22,6 +19,10 @@
 
 
 	function makeLayout_PopIn(nap){
+		document.getElementById('primaryScreenLayout').innerHTML = '<div id="mainwrapper"><div id="mainpane"></div></div>' + 
+			'<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>' + 
+			'<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
+				
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
 		document.getElementById("mainpane").style.marginLeft = "470px";
@@ -34,7 +35,7 @@
 		
 		// pages with redraw() call genNavPanels
 		if(!(_UI.navhere=="character edit" || _UI.navhere=="linked shapes")){
-			generateNavPanels();
+			makeAndDraw_NavPanels_PopIn();
 		} else {
 			document.getElementById("mainwrapper").style.overflowY = "hidden";	
 		}
@@ -53,64 +54,65 @@
 			
 		}
 		
-		drawNavPrimaryOptions();		
+		drawPanel_NavTabs();
 		document.body.focus();
 		//debug(">>> NAVIGATE FINISHED - to " + _UI.navhere);
 	}
 	
 
-	function generateNavPanels(){
+	function makeAndDraw_NavPanels_PopIn(){
 
-		document.getElementById("navarea_tabs").innerHTML = generateNavPrimaryOptions();
-		drawNavPrimaryOptions();
+		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
+		drawPanel_NavTabs();
 		
 		var nt = document.getElementById("navarea_panel");
 		nt.innerHTML = "";
 		
 		if((_UI.navhere!="character edit")&&(_UI.navhere!="linked shapes")&&(_UI.navhere!="test drive")) {
 				_UI.navprimaryhere = "npNav";
-				nt.innerHTML = generateNavTargetOptions();
+				nt.innerHTML = makePanel_PageNav();
 				return;
 		}
 				
 		
 		switch(_UI.navprimaryhere){
 			case "npNav":
-				nt.innerHTML = generateNavTargetOptions();
+				nt.innerHTML = makePanel_PageNav();
 				break;
 				
 			case "npChar":
 				if(_UI.navhere == "character edit") {
-					nt.innerHTML = "<h1>character edit</h1>"+makePanel_CharChooser();
-					drawselectcharthumbs();
+					nt.innerHTML = makePanel_CharChooser();
+					drawPanel_CharChooser();
 				}
 				if(_UI.navhere == "linked shapes") {
-					nt.innerHTML = "<h1>linked shapes</h1>"+linkedshapes_subnav();
-					drawLinkedShapeLayerThumbs();
+					nt.innerHTML = makePanel_LinkedShapeChooser();
+					drawPanel_LinkedShapeChooser();
 				}
 				break;
 			
 			case "npLayers":
-				makePanel_LayerChooser();
+				nt.innerHTML = makePanel_LayerChooser();
+				drawPanel_LayerChooser();
 				break;
 				
 			case "npAttributes":
 				if(_UI.navhere == "test drive"){
-					nt.innerHTML = updatetestdriveoptions();
+					nt.innerHTML = makePanel_TestDriveOptions();
 				} else {
-					makePanel_Attributes();
+					nt.innerHTML = makePanel_Attributes();
+					drawPanel_Attributes();
 				}
 				break;
 			
 			case "npSave":
-				triggerProjectFileDownload();
-		
+				triggerProjectFileDownload();		
 				break;
 		}			
 	}
 	
 
-	function drawNavPrimaryOptions(){
+	function drawPanel_NavTabs(){
 		var ngray = _UI.colors.g9;
 		var nselect = _UI.colors.accent;
 		var fill = ngray;
@@ -185,7 +187,7 @@
 	}
 
 
-	function generateNavPrimaryOptions(){
+	function makePanel_NavTabs(){
 		var navarr = [];
 		navarr.push("npNav");
 		
@@ -208,7 +210,7 @@
 		var bc = "primarynavbutton";
 		
 		for(var i=0; i<navarr.length; i++){
-			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\";generateNavPanels();'></canvas>");
+			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\";makeAndDraw_NavPanels_PopIn();'></canvas>");
 		}
 		
 		newsub += ("<canvas class='"+bc+"' id='npSave' onclick='triggerProjectFileDownload();'></canvas>");
@@ -217,7 +219,7 @@
 	}
 	
 
-	function generateNavTargetOptions(){
+	function makePanel_PageNav(){
 		var navarr = [];
 		navarr.push("character edit");
 		navarr.push("linked shapes");

@@ -58,12 +58,16 @@
 			content += "</table><br>";
 			content += updatelinkedshapeactions();
 		}
+
+		return content;
+	}
+
+	function drawPanel_Attributes(){
+		var s = ss("update details");
 		
-		try {
-			document.getElementById("navarea_panel").innerHTML = content;	
-		} catch(err) {
-			console.error("UPDATEDETAILS - innerHTML update error caught");
-		}
+		var ispointsel = false;
+		if(s && !s.link) ispointsel = s.path.sp(false);
+		if(_UI.selectedtool != "pathedit") ispointsel = false;
 		
 		if(ispointsel) drawPointButtons(s);
 

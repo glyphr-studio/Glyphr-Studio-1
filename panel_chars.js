@@ -3,7 +3,13 @@
 // Panel Char Select
 //-------------------
 
-	function makePanel_CharChooser(fname){
+	function makePanel_CharChooser(){
+		var con = "<h1>character edit</h1>";
+		con += makeGenericCharChooserContent();
+		return con;
+	}
+
+	function makeGenericCharChooserContent(fname) {
 		//stack(arguments);
 
 		var ccon = "<div class='charselectarea'>";
@@ -33,7 +39,7 @@
 		return ccon;
 	}	
 
-	function drawselectcharthumbs(){		
+	function drawGenericCharChooserContent(){		
 		//stack(arguments);
 		//debug("\n+++++++++++++++++++++\nONE\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
 
@@ -41,7 +47,7 @@
 		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
 		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
 		
-		//debug("drawselectcharthumbs - _UI.selectchardrawarr: " + _UI.selectchardrawarr);
+		//debug("drawGenericCharChooserContent - _UI.selectchardrawarr: " + _UI.selectchardrawarr);
 		
 		for(var sc=0; sc<_UI.selectchardrawarr.length; sc++){
 			var tc = _UI.selectchardrawarr[sc];
@@ -56,6 +62,9 @@
 		//debug("\n+++++++++++++++++++++\nTWO\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
 	}
 	
+	function drawPanel_CharChooser(){drawGenericCharChooserContent();}
+	
+
 	function buildbutton(index, fname){
 		//stack(arguments);
 
