@@ -2,7 +2,7 @@
 //-------------------
 // Layers Panel
 //-------------------
-	function updatelayers(){
+	function makePanel_LayerChooser(){
 		//stack(arguments);
 		
 		var content = "<h1>shapes</h1>";

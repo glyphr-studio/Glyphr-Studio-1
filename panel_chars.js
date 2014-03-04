@@ -3,7 +3,7 @@
 // Panel Char Select
 //-------------------
 
-	function updateselectchar(fname){
+	function makePanel_CharChooser(fname){
 		//stack(arguments);
 
 		var ccon = "<div class='charselectarea'>";
@@ -29,7 +29,7 @@
 		ccon += buildbutton(32, fname);
 		ccon += "</div>";
 		
-		//debug("UPDATESELECTCHAR - _UI.selectchardrawarr.length = " + _UI.selectchardrawarr.length);
+		//debug("makePanel_CharChooser - _UI.selectchardrawarr.length = " + _UI.selectchardrawarr.length);
 		return ccon;
 	}	
 

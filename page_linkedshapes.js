@@ -31,7 +31,7 @@
 		re += "<table class='layertable'>";
 		for(var ssid in _GP.linkedshapes){
 			//debug("LINKEDSHAPES_SUBNAV - making button for " + ssid);
-			re += makeSSSubnavButton(ssid);
+			re += makeLinkedShapeSubNavButton(ssid);
 		}
 		re += "</table>";
 		
@@ -62,8 +62,8 @@
 		//debug("DRAWLINKEDSHAPELAYERTHUMBS - end");
 	}
 
-	function makeSSSubnavButton(ssid){
-		//debug("MAKESSSUBNAVBUTTON passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(_GP.linkedshapes.id0));
+	function makeLinkedShapeSubNavButton(ssid){
+		//debug("makeLinkedShapeSubNavButton passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(_GP.linkedshapes.id0));
 		var re = "";
 
 		if(ssid==_UI.shownlinkedshape){
@@ -112,7 +112,7 @@
 			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline();
 		}
 
-		updateNavPrimaryNavTarget();
+		generateNavPanels();
 
 		updatetools();	
 		_UI.redrawing = false;
@@ -312,7 +312,7 @@
 		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.shownlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' being used.<br><br>";
 		content += "Select the character into which you would like to insert this linked shape:<br><br></td></tr>";
 		content += "<tr><td>";
-		content += updateselectchar("insertLinkedShapeToChar");
+		content += makePanel_CharChooser("insertLinkedShapeToChar");
 		content += "</td></tr>";
 		content += "<tr><td><br><input type='button' class='button' value='done' onclick='closeDialog();'/></td></tr></table>";
 		openDialog(content);

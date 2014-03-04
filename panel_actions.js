@@ -2,7 +2,7 @@
 //-------------------
 // Actions Panel
 //-------------------
-	function updateactions(){
+	function makePanel_Actions(){
 		//stack(arguments);
 
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";

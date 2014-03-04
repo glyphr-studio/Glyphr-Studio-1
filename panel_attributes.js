@@ -2,7 +2,7 @@
 //-------------------
 // Panel Attributes
 //-------------------
-	function updateCharEditDetails(){
+	function makePanel_Attributes(){
 		//stack(arguments);
 
 		//debug("UPDATECHAREDITDETAILS");
@@ -44,7 +44,7 @@
 			}
 
 			content += "</table><br>";
-			content += updateactions();
+			content += makePanel_Actions();
 
 		} else if (_UI.navhere == "linked shapes"){
 			//debug("UPDATEDETAILS - detected navhere = linked shapes");

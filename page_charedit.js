@@ -15,6 +15,7 @@
 		initEventHandlers();
 		
 		_UI.selectedtool = "pathedit";
+		_UI.selectedshape = -1;
 		
 		redraw("loadPage_charedit");	
 	}
@@ -156,7 +157,7 @@
 			}
 		}
 		
-		updateNavPrimaryNavTarget();
+		generateNavPanels();
 		
 		updatetools();
 
