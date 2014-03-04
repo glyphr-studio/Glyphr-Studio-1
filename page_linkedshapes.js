@@ -123,7 +123,7 @@
 //-------------------
 // Update Details
 //-------------------
-	function linkedShapemakePanelContent_attributes_char(){
+	function linkedShapeCharDetails(){
 		var content = "";	
 	
 		if(_GP.linkedshapes[_UI.shownlinkedshape].usedin.length > 0){

@@ -119,7 +119,7 @@
 
 	
 //	Detials
-	function makePanelContent_attributes_linkedShapeInstance(s){
+	function linkedShapeInstanceDetails(s){
 		//debug("LINKEDSHAPEINSTANCEDETAILS - start of function");
 		content = "<tr><td colspan=3><h3>linked shape</h3></td></tr>";	
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().name = this.value; putundoq(\"shape name\"); redraw(\"linkedShapeInstanceDetails\");'></td></tr>";
