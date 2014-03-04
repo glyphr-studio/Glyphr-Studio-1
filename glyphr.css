@@ -169,7 +169,7 @@
 /* Common Page Stuff */
 /* -----------------*/
 
-	#navprimarypane {
+	#navarea_tabs {
 		display:block;
 		position:absolute;
 		top:0px;
@@ -180,7 +180,7 @@
 		padding:0px;
 	}
 	
-	#navtargetpane {
+	#navarea_panel {
 		display:block;
 		position:absolute;
 		top:0px;
@@ -193,7 +193,7 @@
 		overflow-x:hidden;
 	}
 	
-	#navtargetpane a {
+	#navarea_panel a {
 		color:rgb(51, 56, 61);	
 	}
 	
@@ -224,7 +224,7 @@
 		cursor:pointer;
 	}
 		
-	#navtargetpane h1 {
+	#navarea_panel h1 {
 		color:rgb(204,209,214);
 		font-weight:normal;
 		margin:10px 0px 10px 0px;

@@ -60,7 +60,7 @@
 		}
 		
 		try {
-			document.getElementById("navtargetpane").innerHTML = content;	
+			document.getElementById("navarea_panel").innerHTML = content;	
 		} catch(err) {
 			console.error("UPDATEDETAILS - innerHTML update error caught");
 		}

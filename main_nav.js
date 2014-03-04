@@ -2,17 +2,34 @@
 // Navigation
 //-------------------
 
-	function navigate(where){
+	function navigate(nap){
 		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + where);
 
+		if(_UI.popout){
+			makeLayout_PopOut();
+		} else {
+			document.getElementById('primaryScreenLayout').innerHTML = '<div id="mainwrapper"><div id="mainpane"></div></div>' + 
+				'<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>' + 
+				'<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
+			makeLayout_PopIn(nap);
+		}
+	}
+
+	
+	function makeLayout_PopOut(){
+
+	}
+
+
+	function makeLayout_PopIn(nap){
 		mouseoutcec();
 		document.getElementById("mainwrapper").style.overflowY = "scroll";
 		document.getElementById("mainpane").style.marginLeft = "470px";
-		document.getElementById("navprimarypane").style.display = "block";
-		document.getElementById("navtargetpane").style.display = "block";
+		document.getElementById("navarea_tabs").style.display = "block";
+		document.getElementById("navarea_panel").style.display = "block";
 		document.getElementById("logocanvas").style.display = "block";
 		
-		_UI.navprimaryhere = where || "npChar";
+		_UI.navprimaryhere = nap || "npChar";
 		if(_UI.navhere=="test drive") _UI.navprimaryhere = "npAttributes";
 		
 		// pages with redraw() call genNavPanels
@@ -44,10 +61,10 @@
 
 	function generateNavPanels(){
 
-		document.getElementById("navprimarypane").innerHTML = generateNavPrimaryOptions();
+		document.getElementById("navarea_tabs").innerHTML = generateNavPrimaryOptions();
 		drawNavPrimaryOptions();
 		
-		var nt = document.getElementById("navtargetpane");
+		var nt = document.getElementById("navarea_panel");
 		nt.innerHTML = "";
 		
 		if((_UI.navhere!="character edit")&&(_UI.navhere!="linked shapes")&&(_UI.navhere!="test drive")) {

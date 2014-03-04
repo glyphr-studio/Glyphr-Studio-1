@@ -29,8 +29,8 @@
 		var mp = document.getElementById("mainpane");
 		mp.innerHTML = ct;
 		mp.style.marginLeft = "0px";
-		document.getElementById("navprimarypane").style.display = "none";
-		document.getElementById("navtargetpane").style.display = "none";
+		document.getElementById("navarea_tabs").style.display = "none";
+		document.getElementById("navarea_panel").style.display = "none";
 		document.getElementById("logocanvas").style.display = "none";
 		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
 		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);

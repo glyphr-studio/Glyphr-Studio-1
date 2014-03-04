@@ -7,11 +7,34 @@
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
 		//debug("MAIN SETUP() - START");
 		_GP = clone(_UI.default_GP);
+		insertGlobalDOMElements();
 		drawLogo();	
 		navigate();
 		//debug("MAIN SETUP() - END");
 	}
 		
+
+
+	function insertGlobalDOMElements(){
+
+		var dialogbox = '<div id="dialog_box">' +
+		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
+		'<td id="dialogLeftBar"><input type="button" class="dialogCloseButton" value="&times;" onclick="closeDialog();"></td>' +
+		'<td id="dialogRightContent"></td>' +
+		'</tr></table></div>' +
+		'<div id="dialog_bg" onclick="closeDialog();"></div>';
+
+		var logocanvas = '<canvas id="logocanvas" height="60" width="190"><h3>Hey there!</h3>You\'ll need a modern browser that supports HTML5 in order for this to work.</canvas>';
+
+		var ihgc = '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
+
+		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
+		document.body.innerHTML += dialogbox;
+		document.body.innerHTML += logocanvas;
+		document.body.innerHTML += ihgc;
+	}
+
+
 
 //-------------------
 // Debug

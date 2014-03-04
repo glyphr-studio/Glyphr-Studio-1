@@ -37,7 +37,7 @@
 		
 		try {
 			//debug("UPDATELAYERS: final html content: \n " + content);
-			document.getElementById("navtargetpane").innerHTML = content;	
+			document.getElementById("navarea_panel").innerHTML = content;	
 		} catch(err) {
 			//debug("UPDATELAYERS - <b>innerHTML update error caught</b>");
 		}
