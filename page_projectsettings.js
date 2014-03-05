@@ -38,7 +38,7 @@
 
 		content += "</div>";
 		
-		document.getElementById("mainpane").innerHTML = content;
+		document.getElementById("mainwrapper").innerHTML = content;
 	}
 
 	function updateGridDivisions(val){

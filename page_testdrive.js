@@ -2,12 +2,14 @@
 	function loadPage_testdrive(){
 		debug("LOADING PAGE >> loadPage_testdrive");
 		
+		update_NavPanels();
+		
 		var content = "<div class='pagecontent'><h1>Test Drive</h1>" + 
 			"<textarea id='tdtextarea' onkeyup='updateTestdriveCanvas()'></textarea><br>" + 
 			"<canvas id='tdcanvas'></canvas><br>" + 
 			"<div id='genimg' style='display:none;'></div></div>";
 
-		document.getElementById("mainpane").innerHTML = content;
+		document.getElementById("mainwrapper").innerHTML = content;
 		document.getElementById("tdtextarea").focus();
 		
 		_UI.testdrivecanvas = document.getElementById("tdcanvas");

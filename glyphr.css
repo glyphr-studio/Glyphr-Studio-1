@@ -15,7 +15,7 @@
 	}
 	
 	body {
-		background-color:rgb(0,170,225);
+		background-color:rgb(250,252,255);
 		overflow:hidden;
 	}
 	
@@ -168,6 +168,9 @@
 /*--------------------*/
 /* Common Page Stuff */
 /* -----------------*/
+	#primaryScreenLayout {
+		overflow: hidden;
+	}
 
 	#navarea_tabs {
 		display:block;
@@ -197,6 +200,18 @@
 		color:rgb(51, 56, 61);	
 	}
 	
+	.popout_table {
+		height: 100%;
+	}
+
+	.popout_column {
+		background-color:rgb(229,234,239);
+		border-right:1px solid rgb(204,209,214);
+		padding:10px 20px 10px 10px;
+		overflow-y:auto;
+		overflow-x:hidden;
+	}
+
 	#mainwrapper {
 		position:absolute;
 		top:0px;
@@ -209,9 +224,6 @@
 		top:0px;
 		left:0px;
 		background-color:rgb(250,252,255);
-	}
-	
-	#mainpane {
 		margin-left:470px;
 	}
 	

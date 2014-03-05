@@ -10,7 +10,7 @@
 		ct += importOrCreateNew();
 		ct += "</div>";
 		
-		document.getElementById("mainpane").innerHTML = ct;
+		document.getElementById("mainwrapper").innerHTML = ct;
 		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
 		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
 	}
@@ -26,12 +26,14 @@
 		ct += importOrCreateNew();
 		ct += "</div>";
 		
-		var mp = document.getElementById("mainpane");
+		var mp = document.getElementById("mainwrapper");
 		mp.innerHTML = ct;
 		mp.style.marginLeft = "0px";
+/*
 		document.getElementById("navarea_tabs").style.display = "none";
 		document.getElementById("navarea_panel").style.display = "none";
 		document.getElementById("logocanvas").style.display = "none";
+		*/
 		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
 		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
 

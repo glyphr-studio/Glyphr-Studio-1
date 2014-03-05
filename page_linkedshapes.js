@@ -2,7 +2,7 @@
 
 	function loadPage_linkedshapes(){
 		debug("LOADING PAGE >> loadPage_linkedshapes");
-		document.getElementById("mainpane").innerHTML = linkedshapes_content();
+		document.getElementById("mainwrapper").innerHTML = linkedshapes_content();
 		
 		setupEditCanvas();
 		setupGhostCanvas();
@@ -113,7 +113,7 @@
 			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline();
 		}
 
-		makeAndDraw_NavPanels_PopIn();
+		update_NavPanels();
 
 		updatetools();	
 		_UI.redrawing = false;

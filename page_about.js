@@ -12,5 +12,5 @@ function loadPage_about(){
 	"Which basically means you can use Glyphr for commercial purposes, remix and adapt Glyphr to your own needs, and re-share Glyphr with the same license applied." + 
 	"<br><br>";
 
-	document.getElementById("mainpane").innerHTML = content;
+	document.getElementById("mainwrapper").innerHTML = content;
 }

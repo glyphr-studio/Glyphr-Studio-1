@@ -3,64 +3,115 @@
 //-------------------
 
 	function navigate(nap){
-		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + where);
+		debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
-		if(_UI.popout){
-			makeLayout_PopOut();
+		if (_UI.navhere == 'firstrun'){ makeLayout_Firstrun(); } 
+		else if (_UI.popout){ makeLayout_PopOut();	}
+		else { makeLayout_PopIn(nap); }
+
+		loadPageContent();
+		document.body.focus();
+		debug(">>> NAVIGATE FINISHED - to " + _UI.navhere);
+	}
+
+
+	function update_NavPanels() {
+		debug("UPDATE_NAVPANELS");
+		if (_UI.popout){ makeAndDraw_NavPanels_PopOut(); }
+		else { makeAndDraw_NavPanels_PopIn(); }
+	}
+
+//-------------------
+// Layout - First Run
+//-------------------
+	function makeLayout_Firstrun(){
+		document.getElementById('primaryScreenLayout').innerHTML = '<div id="mainwrapper"></div>';
+	}
+
+
+//-------------------
+// Layout - pop OUT 
+//-------------------
+
+	function makeLayout_PopOut(){
+		debug("MAKELAYOUT_POPOUT - start");
+		
+		var pol = '<table class="popout_table"><tr>';
+		pol += '<td id="popout_pagenav" class="popout_column" width="10%"></td>';
+		pol += '<td id="popout_charchooser" class="popout_column" width="50%"></td>';
+		pol += '<td id="popout_layerchooser" class="popout_column" width="20%"></td>';
+		//pol += '<td id="popout_actions" class="popout_column" width="20%"></td>';
+		pol += '<td id="popout_attributes" class="popout_column" width="20%"></td>';
+		pol += '</tr></table>';
+
+		// but a save icon somewhere
+
+		document.getElementById('primaryScreenLayout').innerHTML = pol;
+		debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
+		makeAndDraw_NavPanels_PopOut();
+		
+		debug("MAKELAYOUT_POPOUT - end");
+	}
+
+	function makeAndDraw_NavPanels_PopOut(){
+		debug("MAKEANDDRAW_NAVPANELS_POPOUT");
+		debug("\t\t primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
+
+		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
+		
+		if(_UI.navhere == "character edit") {
+			document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
+			drawPanel_CharChooser();
+		}
+		if(_UI.navhere == "linked shapes") {
+			document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
+			drawPanel_LinkedShapeChooser();
+		}
+	
+		document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
+		drawPanel_LayerChooser();
+		
+		if(_UI.navhere == "test drive"){
+			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveOptions();
 		} else {
-			makeLayout_PopIn(nap);
+			document.getElementById('popout_attributes').innerHTML = makePanel_Attributes();
+			drawPanel_Attributes();
 		}
 	}
 
-	
-	function makeLayout_PopOut(){
 
-	}
 
+//-------------------
+// Layout - pop IN 
+//-------------------
 
 	function makeLayout_PopIn(nap){
-		document.getElementById('primaryScreenLayout').innerHTML = '<div id="mainwrapper"><div id="mainpane"></div></div>' + 
-			'<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>' + 
-			'<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
+		debug("MAKELAYOUT_POPIN");
+
+		var pil = '<div id="mainwrapper"></div>';
+		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>'; 
+		pil += '<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
+		document.getElementById('primaryScreenLayout').innerHTML = pil;
 				
 		mouseoutcec();
-		document.getElementById("mainwrapper").style.overflowY = "scroll";
-		document.getElementById("mainpane").style.marginLeft = "470px";
-		document.getElementById("navarea_tabs").style.display = "block";
-		document.getElementById("navarea_panel").style.display = "block";
-		document.getElementById("logocanvas").style.display = "block";
 		
+		var nh = _UI.navhere;
+
 		_UI.navprimaryhere = nap || "npChar";
-		if(_UI.navhere=="test drive") _UI.navprimaryhere = "npAttributes";
+		if(nh=="test drive") _UI.navprimaryhere = "npAttributes";
 		
-		// pages with redraw() call genNavPanels
-		if(!(_UI.navhere=="character edit" || _UI.navhere=="linked shapes")){
+		// pages with redraw() call makeAndDraw_NavPanels_PopIn
+		if(!(nh=="character edit" || nh=="linked shapes" || nh=="test drive")){
 			makeAndDraw_NavPanels_PopIn();
+			document.getElementById("mainwrapper").style.overflowY = "scroll";	
 		} else {
 			document.getElementById("mainwrapper").style.overflowY = "hidden";	
 		}
-
-		switch(_UI.navhere){
-			case "firstrun":			loadPage_firstrun();		break;	
-			case "font settings":		loadPage_fontsettings();	break;
-			case "project settings":	loadPage_projectsettings();	break;				
-			case "open project":		loadPage_openproject();		break;
-			case "export font":			loadPage_exportfont();		break;
-			case "help":				loadPage_help();			break;
-			case "about":				loadPage_about();			break;
-			case "test drive":			loadPage_testdrive();		break;	
-			case "linked shapes":		loadPage_linkedshapes();	break;
-			case "character edit":		loadPage_charedit();		break;
-			
-		}
-		
-		drawPanel_NavTabs();
-		document.body.focus();
-		//debug(">>> NAVIGATE FINISHED - to " + _UI.navhere);
 	}
-	
+
 
 	function makeAndDraw_NavPanels_PopIn(){
+		debug("MAKEANDDRAW_NAVPANELS_POPIN");
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		drawPanel_NavTabs();
@@ -74,7 +125,6 @@
 				return;
 		}
 				
-		
 		switch(_UI.navprimaryhere){
 			case "npNav":
 				nt.innerHTML = makePanel_PageNav();
@@ -111,6 +161,50 @@
 		}			
 	}
 	
+
+
+
+//-------------------
+// Shared stuff
+//-------------------
+
+	function loadPageContent(){
+		switch(_UI.navhere){
+			case "firstrun":			loadPage_firstrun();		break;	
+			case "font settings":		loadPage_fontsettings();	break;
+			case "project settings":	loadPage_projectsettings();	break;				
+			case "open project":		loadPage_openproject();		break;
+			case "export font":			loadPage_exportfont();		break;
+			case "help":				loadPage_help();			break;
+			case "about":				loadPage_about();			break;
+			case "test drive":			loadPage_testdrive();		break;	
+			case "linked shapes":		loadPage_linkedshapes();	break;
+			case "character edit":		loadPage_charedit();		break;
+		}
+	}
+
+	function popOut(){
+		_UI.popout = window.open('', 'glyphr_popout');
+		debug("POPOUT - opened window, _UI.popout is " + _UI.popout);
+
+		var td = _UI.popout.document;
+
+		// Init window properties
+		td.title = 'glyphr - canvas';
+		_UI.popout.onBeforeUnload = popIn;
+		td.body.innerHTML = '<h1>hello, world</h1>';
+
+		// Adjust current properties
+		document.title = 'glyphr - controls';
+
+		debug("POPOUT - finished and _UI.popout is " + _UI.popout);
+		navigate();
+	}
+	
+	function popIn(){
+		_UI.popout = false;
+		navigate();
+	}
 
 	function drawPanel_NavTabs(){
 		var ngray = _UI.colors.g9;

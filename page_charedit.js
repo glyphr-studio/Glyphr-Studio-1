@@ -7,7 +7,7 @@
 		//stack(arguments);
 
 		debug("LOADING PAGE >> loadPage_charedit");
-		document.getElementById("mainpane").innerHTML = charedit_content();
+		document.getElementById("mainwrapper").innerHTML = charedit_content();
 			
 		setupEditCanvas();
 		setupGhostCanvas();
@@ -157,7 +157,7 @@
 			}
 		}
 		
-		makeAndDraw_NavPanels_PopIn();
+		update_NavPanels();
 		
 		updatetools();
 
@@ -208,7 +208,7 @@
 		content += "<div title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
 		content += "<div title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'><canvas id='zoomembuttoncanvas'></canvas></div>";
 		content += "<div title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</div>";
-		content += "<div title='two screen mode' class='button tool' onclick='popout();'>^^</div>";
+		content += "<div title='two screen mode' class='button tool' onclick='popOut();'>^^</div>";
 
 		try {
 			document.getElementById("toolsarea").innerHTML = content;	
@@ -341,27 +341,6 @@
 		}
 		
 		redraw("clicktool");
-	}
-
-	function popout(){
-		_UI.popout = window.open('', 'glyphr_tearout');
-
-		var td = _UI.tearoutwindow.document;
-
-		// Init window properties
-		td.title = 'glyphr - canvas';
-		_UI.tearoutwindow.onBeforeUnload = popin();
-		td.body.innerHTML = '<h1>hellow, world</h1>';
-
-		// Adjust current properties
-		document.title = 'glyphr - controls';
-	}
-	
-	function tearin(){
-
-
-
-		_UI.popout = false;
 	}
 
 //-------------------
