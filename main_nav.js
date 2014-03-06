@@ -172,9 +172,9 @@
 		switch(_UI.navhere){
 			case "firstrun":			LoadPage.loadPage_firstrun(); break;
 			case "open project":		LoadPage.loadPage_openproject(); break;
+			case "export font":			LoadPage.loadPage_exportfont(); break;
 			case "font settings":		loadPage_fontsettings();	break;
 			case "project settings":	loadPage_projectsettings();	break;
-			case "export font":			loadPage_exportfont();		break;
 			case "help":				loadPage_help();			break;
 			case "about":				loadPage_about();			break;
 			case "test drive":			loadPage_testdrive();		break;
