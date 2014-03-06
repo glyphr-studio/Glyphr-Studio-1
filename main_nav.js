@@ -170,14 +170,14 @@
 
 	function loadPageContent(){
 		switch(_UI.navhere){
-			case "firstrun":			loadPage_firstrun();		break;	
+			case "firstrun":			LoadPage.loadPage_firstrun(); break;
+			case "open project":		LoadPage.loadPage_openproject(); break;
+			case "export font":			LoadPage.loadPage_exportfont(); break;
+			case "help":				LoadPage.loadPage_help();	break;
 			case "font settings":		loadPage_fontsettings();	break;
-			case "project settings":	loadPage_projectsettings();	break;				
-			case "open project":		loadPage_openproject();		break;
-			case "export font":			loadPage_exportfont();		break;
-			case "help":				loadPage_help();			break;
+			case "project settings":	loadPage_projectsettings();	break;
 			case "about":				loadPage_about();			break;
-			case "test drive":			loadPage_testdrive();		break;	
+			case "test drive":			loadPage_testdrive();		break;
 			case "linked shapes":		loadPage_linkedshapes();	break;
 			case "character edit":		loadPage_charedit();		break;
 		}

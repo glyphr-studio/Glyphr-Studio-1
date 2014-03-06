@@ -6,9 +6,10 @@
 	function setup() {
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
 		//debug("MAIN SETUP() - START");
+		LoadPage = new LoadPage();
 		_GP = clone(_UI.default_GP);
 		insertGlobalDOMElements();
-		drawLogo();	
+		drawLogo();
 		navigate();
 		//debug("MAIN SETUP() - END");
 	}
