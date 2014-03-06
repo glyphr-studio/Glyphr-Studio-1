@@ -13,12 +13,12 @@
 		text-align:left;
 		color:rgb(51,56,61);
 	}
-	
+
 	body {
 		background-color:rgb(250,252,255);
 		overflow:hidden;
 	}
-	
+
 	input	{
 		border:none;
 		padding:4px;
@@ -32,7 +32,7 @@
 		color:rgb(25,30,35);
 		border:1px solid rgb(229,234,239);
 	}
-	
+
 	input[type=text][disabled='disabled']{
 		background-color:rgb(229,234,239);
 		border:1px solid rgb(229,234,239);
@@ -47,23 +47,23 @@
 		color:rgb(0,170,225);
 		text-decoration:none;
 	}
-	
+
 	a:hover {
 		text-decoration:underline;
 	}
-	
+
 	p {
 		display:block;
 	}
-	
-	h1 { 
+
+	h1 {
 		margin-left:0px;
 		color:rgb(204,209,214);
 		font-size:2em;
 		clear:right;
 		text-transform:uppercase;
 	}
-	
+
 	h2 {
 		color:rgb(102,107,112);
 		display:inline;
@@ -72,23 +72,23 @@
 		margin:0 0 .2em 0;
 		text-transform:lowercase;
 	}
-	
+
 	h3 {
 		color:rgb(102,107,112);
 		font-size:1.3em;
 		padding:0 1em .4em 0;
 		text-transform:lowercase;
 	}
-	
+
 	td {
 		vertical-align:top;
 	}
-	
+
 	ul {
 		margin-left:20px;
 		margin-bottom:8px;
 	}
-	
+
 	li {
 		margin-top:8px;
 	}
@@ -119,25 +119,25 @@
 		margin:1px;
 		cursor:pointer;
 	}
-	
+
 	.button,
 	.button:link,
 	.button:active {
-		background-color:rgb(76,81,86);	
-		color:rgb(204,209,214);	
+		background-color:rgb(76,81,86);
+		color:rgb(204,209,214);
 	}
-	
+
 	.button:hover {
 		color:rgb(229,234,239);
 	}
-		
-	
+
+
 	.buttonsel,
 	.buttonsel:hover {
 		background-color:rgb(0,170,225);
 		color:rgb(165,222,240);
 	}
-	
+
 	.buttonsel:hover {
 		color:rgb(250,252,255);
 	}
@@ -170,6 +170,8 @@
 /* -----------------*/
 	#primaryScreenLayout {
 		overflow: hidden;
+		width: 100%;
+		height: 100%;
 	}
 
 	#navarea_tabs {
@@ -182,7 +184,7 @@
 		background-color:rgb(204,209,214);
 		padding:0px;
 	}
-	
+
 	#navarea_panel {
 		display:block;
 		position:absolute;
@@ -195,11 +197,11 @@
 		overflow-y:scroll;
 		overflow-x:hidden;
 	}
-	
+
 	#navarea_panel a {
-		color:rgb(51, 56, 61);	
+		color:rgb(51, 56, 61);
 	}
-	
+
 	.popout_table {
 		height: 100%;
 	}
@@ -219,14 +221,14 @@
 		width:100%;
 		height:100%;
 		overflow-x:hidden;
-		overflow-y:hidden;
+		overflow-y:scroll;
 		position:absolute;
 		top:0px;
 		left:0px;
 		background-color:rgb(250,252,255);
 		margin-left:470px;
 	}
-	
+
 	.primarynavbutton {
 		height:50px;
 		width:50px;
@@ -235,7 +237,7 @@
 		margin-top:10px;
 		cursor:pointer;
 	}
-		
+
 	#navarea_panel h1 {
 		color:rgb(204,209,214);
 		font-weight:normal;
@@ -248,7 +250,7 @@
 		overflow-y:scroll;
 		height:400px;
 	}
-	
+
 	#logocanvas {
 		background-color:transparent;
 		margin:2px 0px 0px 2px;
@@ -258,20 +260,20 @@
 		bottom:40px;
 		z-index:999;
 	}
-	
+
 	#npSaveout {
 		height:800px;
 		width:100%;
 	}
-	
+
 	.pagecontent {
 		margin:10px 20px 100px 40px;
 	}
-	
+
 	.textpage {
 		width:700px;
 	}
-	
+
 	.pagecontent h1,
 	.pagecontent h2,
 	.pagecontent h3 {
@@ -284,42 +286,42 @@
 		margin-top:30px;
 		margin-bottom:10px;
 	}
-	
+
 	.pagecontent > h1:first-child {
 		margin-top:0px;
 	}
-	
+
 	.pagecontent h2 {
 		margin-top:20px;
 	}
-	
+
 	.pagecontent h3 {
 		margin-top:16px;
 	}
-	
+
 	.btt {
 		font-style:normal;
 		margin-left:20px;
 	}
-	
+
 	.pagecontent br {
 		height:15px;
 		display:block;
 	}
-	
+
 	.pagecontent input[type=text]{
 		margin:6px 3px 2px 0px;
 		padding-left:10px;
 	}
-	
+
 	.pagecontent p {
 		margin-top:8px;
 	}
-	
+
 	.charselectarea {
 		width:100%;
 	}
-	
+
 	.charselectbuttonwrapper {
 		display:inline;
 		float:left;
@@ -329,16 +331,16 @@
 		background-color:rgb(250,252,255);
 		margin:0px 5px 5px 0px;
 	}
-	
+
 	.charselectcanvas{
 		height:50px;
 		width:50px;
 	}
-	
+
 	.charselectcanvassel {
 		background-color:rgb(0,170,225);
 	}
-	
+
 	.charselectbuttonsel,
 	.charselectbutton {
 		width:100%;
@@ -353,13 +355,13 @@
 	.charselectbuttonsel {
 		background-color:rgb(0,170,225);
 	}
-	
+
 	.unit {
 		font-size: 10px;
 		color: rgb(127,134,137);
 		padding-left: 4px;
 	}
-	
+
 /* -----------*/
 /* Nav Stuff */
 /* ---------*/
@@ -378,17 +380,17 @@
 	.navtargetbutton:hover{
 		padding:4px 0px 4px 2px;
 	}
-	
+
 	.navtargetbuttonsel {
 		color:rgb(0,170,225);
 	}
-	
+
 
 
 /* ------- */
 /* Dialog */
 /* ----- */
-	
+
 	#dialog_bg{
 		display:none;
 		position:absolute;
@@ -403,7 +405,7 @@
 		opacity:.80;
 		filter: alpha(opacity=80);
 	}
-	
+
 	#dialog_box {
 		display:none;
 		position:absolute;
@@ -417,58 +419,58 @@
 	}
 
 	.dialogCloseButton {
-		width:20px; 
+		width:20px;
 		height:25px;
-		color:rgb(229,234,239);			
+		color:rgb(229,234,239);
 		background-color:rgb(0,170,225);/* dynamic */
 		font-size:24px;
 		font-weight:bold;
-		text-align:center; 
+		text-align:center;
 		padding:0px;
 		cursor:pointer;
 		border-radius:0px;
 	}
-	
+
 	#dialogLeftBar {
-		width:20px; 
+		width:20px;
 		vertical-align:top;
 		background-color:rgb(0,170,225);/* dynamic */
 	}
-	
+
 	#dialogRightContent {
 		padding:10px 20px 20px 20px;
-		color:rgb(25,30,35);			
+		color:rgb(25,30,35);
 	}
-	
+
 	#dialogRightContent h1{
 		margin-bottom:10px;
 	}
-	
+
 	#dialogRightContent td {
-		color:rgb(25,30,35);			
+		color:rgb(25,30,35);
 	}
 
 	#dialogRightContent input {
 		background-color:rgb(25,30,35);
-		color:rgb(204,209,214);			
+		color:rgb(204,209,214);
 		margin:1px;
 		cursor:pointer;
 		padding:4px 12px;
 	}
-	
+
 	#dialogRightContent .subnavunit {
 		margin:10px 0px 0px 0px;
 		width:400px;
 		padding:0px;
 	}
-	
+
 	#dialogRightContent h1,
 	#dialogRightContent h2,
 	#dialogRightContent h3 {
-		color:rgb(76,81,86);		
+		color:rgb(76,81,86);
 	}
-	
-		
+
+
 
 
 
@@ -485,13 +487,13 @@
 /* ------------------ */
 /* Page - Open / New */
 /* -----------------*/
-	
+
 	.splashscreen{
 		text-align:center;
 		width:800px;
 		margin:0px auto;
 	}
-	
+
 	.splashver {
 		position:relative;
 		top:-200px;
@@ -501,19 +503,19 @@
 		font-size:.8em;
 		color:white;
 	}
-	
+
 	.splashver a {
 		font-size:.9em;
 		color:white;
 		text-decoration:underline;
 	}
-	
+
 	#splashscreencanvas {
 		position:relative;
 		top:0px;
 		left:0px;
 	}
-	
+
 	#newprojectname	{
 		width:98%;
 		height:25px;
@@ -531,8 +533,8 @@
 		color: rgb(0,170,225);
 		padding: 20px;
 	}
-	
-	
+
+
 /* ----------------- */
 /* Page - Char edit */
 /* --------------- */
@@ -546,19 +548,19 @@
 		background-color:transparent;
 		z-index:10;
 	}
-		
+
 	#chareditcanvas {
 	}
-	
-	#ishereghostcanvas { 
+
+	#ishereghostcanvas {
 		display: none;
-	}	
+	}
 
 	.ssthumb {
 		border:3px solid rgb(204,209,214);
 		cursor:pointer;
 	}
-	
+
 	.ssthumb:hover {
 		border:3px solid rgb(0,170,225);/* dynamic */
 	}
@@ -570,7 +572,7 @@
 		top:10px;
 		z-index:10;
 	}
-	
+
 	#toolsarea div {
 		margin-right:0px;
 	}
@@ -584,7 +586,7 @@
 		display:inline;
 		float:left;
 	}
-	
+
 	.out {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
@@ -592,13 +594,13 @@
 		margin:1px 0px 0px 1px;
 		width:70px;
 	}
-	
+
 	.tool canvas {
 		margin:0px 4px 0px 4px;
 	}
 
 /*	LAYERS		*/
-	
+
 	.layertable {
 		width:100%;
 	}
@@ -618,7 +620,7 @@
 	}
 
 	.layersel .layername {
-		background-color: rgb(0,170,225);  
+		background-color: rgb(0,170,225);
 		color: rgb(165,222,240);
 	}
 
@@ -647,19 +649,19 @@
 		height: 50px;
 		width: 50px;
 	}
-	
+
 /*	DETAILS		*/
-	
+
 	.detail	{
 		width:380px;
 	}
-	
+
 	.detail td {
 		margin:10px 10px 0px 10px;
 		padding:5px 10px 0px 0px;
 		vertical-align:top;
 	}
-	
+
 	.detail h3 {
 		padding:0;
 	}
@@ -675,8 +677,8 @@
 		color:rgb(51,56,61);
 		background-color: rgb(204,209,214);
 		*/
-	}	
-	
+	}
+
 	.detail input[type=text][disabled='disabled']{
 		background-color:rgb(204,209,214);
 		border:1px solid rgb(204,209,214);
@@ -686,53 +688,53 @@
 	.detail .rightcol {
 		width:200px;
 	}
-	
+
 	.detail .leftcol	{
 		width:11px;
 		padding:10px 0px 0px 0px;
 		margin:0px;
 		overflow:hidden;
 	}
-	
+
 	.detail .leftcol canvas {
 		position:relative;
 		top:-3px;
 	}
-		
+
 	.canvasbutton{
 		padding-right:6px;
 		cursor:pointer;
 	}
-	
-/*	ACTIONS		*/	 
-	
+
+/*	ACTIONS		*/
+
 	.actionsgrid {
 		padding:0px 10px 30px 5px;
 		width:380px;
 	}
-	
+
 	.actionsgrid td{
 		width:33%;
 	}
-	
+
 	.actionsgrid h3 {
 		margin-top:10px;
 	}
-	
+
 	.actionsgrid input {
 		width:123px;
 		text-transform: lowercase;
 	}
-		
-	
+
+
 /* ----------------------- */
 /* Page - Font Properties */
-/* --------------------- */	
+/* --------------------- */
 
 	.metadata h3 {
 		margin-top:30px;
 	}
-	
+
 	.opentypepropertiestable {
 		width:100%;
 	}
@@ -746,41 +748,41 @@
 		width:100%;
 		margin:0px 0px 10px 20px;
 	}
-	
-	
+
+
 /* --------------------- */
 /* Page - Font Settings */
-/* ------------------- */	
+/* ------------------- */
 
 	.fontmetricstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
 	}
-	
+
 	.fontmetricstable .spinnerbutton {
 		height:28px;
 		position: relative;
 		top:4px;
 		left:-4px;
 	}
-	
+
 /* -------------------- */
 /* Page - Save Project */
 /* ------------------ */
-	
+
 	#genoutput {
 		font-family:monospace;
 	}
-	
-	
+
+
 /* ----------------- */
 /* Page - Testdrive */
 /* --------------- */
-	
+
 	#tdcanvas {
 		background-color:white;
 	}
-	
+
 	#tdtextarea	{
 		width:795px;
 		height:150px;
@@ -791,38 +793,38 @@
 		margin:1px 0px 10px 0px;
 		font-size:2em;
 	}
-	
+
 	#roughptsize {
 		padding-left: 6px;
 	}
 
 /* ------------------ */
 /* Page - LinkedShapes */
-/* ---------------- */	
+/* ---------------- */
 
 	.ssthumbcontainer {
 		width:100%;
 		overflow-y:auto;
 		overflow-x:hidden;
 	}
-	
+
 	.ssthumbcontainer table {
 		margin:0px 10px 30px 0px;
 		display:inline;
 		float:left;
 		text-transform:none;
 	}
-	
+
 	.ssthumbcontainer canvas {
 		background-color:white;
 	}
-	
+
 	.ssusedinthumb {
 		border-bottom:3px solid transparent;
 	}
-	
+
 	.ssusedinthumb:hover {
 		cursor:pointer;
-		border-bottom:3px solid rgb(0,170,225);			
+		border-bottom:3px solid rgb(0,170,225);
 	}
 
