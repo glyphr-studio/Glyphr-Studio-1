@@ -41,8 +41,6 @@
 		document.onkeypress = keypress;
 		document.onkeydown = keydown;
 		document.onkeyup = keyup;
-		document.onmousewheel = mousewheel;
-		window.addEventListener('DOMMouseScroll', mousewheel, false);		//Firefox
 		// The general-purpose event handler.
 		function ev_canvas (ev) {
 
