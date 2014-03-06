@@ -1,5 +1,6 @@
+var LoadPage = function() {};
 
-	function loadPage_openproject(){
+	LoadPage.prototype.loadPage_openproject = function() {
 		debug("LOADING PAGE >> loadPage_openproject");
 		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
 		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
@@ -7,15 +8,15 @@
 		"<input type='button' class='button'style='padding:10px;' value='Save current project' onclick='triggerProjectFileDownload();'/><br><br>" +
 		"<h2>Okay, now...</h2>";
 		
-		ct += importOrCreateNew();
+		ct += this.importOrCreateNew();
 		ct += "</div>";
 		
 		document.getElementById("mainwrapper").innerHTML = ct;
-		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
-		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
-	}
+		document.getElementById("droptarget").addEventListener('dragover', this.handleDragOver, false);
+		document.getElementById("droptarget").addEventListener('drop', this.handleDrop, false);
+	};
 	
-	function loadPage_firstrun(){
+	LoadPage.prototype.loadPage_firstrun = function() {
 		debug("LOADING PAGE >> loadPage_firstrun");
 		var ct = "<div class='splashscreen textpage'><canvas id='splashscreencanvas' height=494 width=800></canvas>";
 		ct += "<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>";
@@ -23,7 +24,7 @@
 		ct += "Glyphr Studio is licensed under a <a href='http://creativecommons.org/licenses/by-sa/3.0/' target=_new>Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br>";
 		ct += "Which basically means you can use Glyphr Studio for commercial purposes, remix and adapt Glyphr Studio to your own needs, and re-share Glyphr Studio with the same license applied.";
 		ct += "</div>";
-		ct += importOrCreateNew();
+		ct += this.importOrCreateNew();
 		ct += "</div>";
 		
 		var mp = document.getElementById("mainwrapper");
@@ -34,41 +35,13 @@
 		document.getElementById("navarea_panel").style.display = "none";
 		document.getElementById("logocanvas").style.display = "none";
 		*/
-		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
-		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
+		document.getElementById("droptarget").addEventListener('dragover', this.handleDragOver, false);
+		document.getElementById("droptarget").addEventListener('drop', this.handleDrop, false);
 
 		drawSplashScreen();
-	}
+	};
 
-	function handleDrop(evt) {
-		evt.stopPropagation();
-		evt.preventDefault();
-
-		var f = evt.dataTransfer.files[0]; // FileList object only first file
-		var reader = new FileReader();
-		var fcontent = "";
-
-		document.getElementById("droptarget").innerHTML = "Loading File...";
-		// Closure to capture the file information.
-		reader.onload = (function(theFile) {
-			return function(e) {
-				//console.log(reader.result);
-				fcontent = JSON.parse(reader.result);
-				if(fcontent.projectsettings.version){
-					hydrateGlyphrProject(fcontent);
-					//debug("Loading project; " + _GP.projectsettings.name);
-				} else {
-					document.getElementById("droptarget").innerHTML = "drop file here...";
-					alert("File does not appear to be a Glyphr Project, try again...");
-				}
-			};
-		})(f);
-
-		reader.readAsText(f);
-		
-	}
-
-	function hydrateGlyphrProject(data) {
+	LoadPage.prototype.hydrateGlyphrProject = function(data) {
 		_GP = clone(_UI.default_GP);
 		
 		// Project Settings
@@ -94,17 +67,10 @@
 		//debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n" + JSON.stringify(data));
 		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n" + JSON.stringify(_GP));
 
-		finalizeGlyphrProject();
-	}
+		this.finalizeGlyphrProject();
+	};
 
-	function handleDragOver(evt) {
-		evt.stopPropagation();
-		evt.preventDefault();
-		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-	}
-
-
-	function importOrCreateNew(){
+	LoadPage.prototype.importOrCreateNew = function(){
 		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:45%;'>"+
 						"<h3>Load an existing Glyphr Project</h3>"+
 						"<div id='droptarget'>drop file here...</div>"+
@@ -112,13 +78,13 @@
 					"</td><td style='width:45%;'>"+
 						"<h3>Start a new Glyphr Project</h3>"+
 						"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
-						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
+						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='LoadPage.newGlyphrProject()'><br><br>"+
 					"</td></tr></table>";
 		
 		return con;
-	}
+	};
 		
-	function newGlyphrProject(){
+	LoadPage.prototype.newGlyphrProject = function(){
 		var fn = document.getElementById("newprojectname").value;
 		fn = (fn? fn : "My Font");
 		
@@ -140,13 +106,11 @@
 		_GP.linkedshapes = {};
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
 
-		finalizeGlyphrProject();
-	}
+		this.finalizeGlyphrProject();
+	};
 	
 
-
-
-	function finalizeGlyphrProject(){
+	LoadPage.prototype.finalizeGlyphrProject = function(){
 		//debug("FINALIZEGLYPHRPROJECT - start of function");
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
@@ -162,4 +126,40 @@
 
 		_UI.navhere = "character edit";
 		navigate();
-	}
+	};
+
+	// Event Handlers
+
+	LoadPage.prototype.handleDrop = function(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		var f = evt.dataTransfer.files[0]; // FileList object only first file
+		var reader = new FileReader();
+		var fcontent = "";
+
+		document.getElementById("droptarget").innerHTML = "Loading File...";
+		// Closure to capture the file information.
+		reader.onload = (function(theFile) {
+			return function(e) {
+				//console.log(reader.result);
+				fcontent = JSON.parse(reader.result);
+				if(fcontent.projectsettings.version){
+					LoadPage.hydrateGlyphrProject(fcontent);
+					//debug("Loading project; " + _GP.projectsettings.name);
+				} else {
+					document.getElementById("droptarget").innerHTML = "drop file here...";
+					alert("File does not appear to be a Glyphr Project, try again...");
+				}
+			};
+		})(f);
+
+		reader.readAsText(f);
+		
+	};
+
+	LoadPage.prototype.handleDragOver = function(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	};
