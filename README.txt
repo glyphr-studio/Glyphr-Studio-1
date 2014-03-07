@@ -1,7 +1,7 @@
 
-	Welcome to GLYPHR
+	Welcome to GLYPHR STUDIO
 	
-	Public facing stuff can be found at glyphrstudio.com
+	Public facing stuff can be found at www.glyphrstudio.com
 	
 	The point of this project is to create a web-based font editor.
 	The one main problem?  I'm not a developer, just an interaction
@@ -19,3 +19,8 @@
 	Any feedback, questions, or ideas can be directed to:
 	mail@glyphrstudio.com
 	matt@mattlag.com
+	@glyphrstudio
+	
+	Glyphr Studio is licensed under a GNU General Public License 3.0
+	More info can be found in LICENSE-gpl-3.0.txt or at 
+	https://www.gnu.org/licenses/gpl.html 
