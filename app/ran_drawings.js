@@ -1,11 +1,11 @@
-	
+
 //-------------------
 // Logos
 //-------------------
 	function drawLogo() {
 		logoctx = document.getElementById("logocanvas").getContext("2d");
 		logoctx.clearRect(0,0,3000,3000);
-		
+
 		// Main Logo
 		logoctx.strokeStyle = _UI.colors.accent;
 
@@ -256,7 +256,7 @@
 	function drawSplashScreen(){
 		ssctx = document.getElementById("splashscreencanvas").getContext("2d");
 		ssctx.clearRect(0,0,3000,3000);
-				
+
 		// splashScreen/BG
 		ssctx.fillStyle = _UI.colors.accent;
 		ssctx.save();
@@ -271,7 +271,7 @@
 
 		// splashScreen/LOGO
 		ssctx.strokeStyle = _UI.colors.offwhite;
-		
+
 		// splashScreen/LOGO/Path
 		ssctx.save();
 		ssctx.beginPath();
@@ -359,7 +359,7 @@
 		ssctx.stroke();
 
 		// splashScreen/STUDIO
-		
+
 		ssctx.restore();
 
 		// splashScreen/STUDIO/Compound Path
@@ -551,18 +551,18 @@
 		ssctx.restore();
 
 	}
-	
+
 
 
 //	---------------------
 //	NAVIGATION
 //	---------------------
-	
+
 	function draw_primaryNav_navigate(lctx, fill){
-	
+
 		lctx.fillStyle = fill;
 		lctx.strokeStyle = fill;
-		
+
 		// navigate/Path
 		lctx.save();
 		lctx.beginPath();
@@ -710,9 +710,9 @@
 		lctx.stroke();
 		lctx.restore();
 	}
-	
+
 	function draw_primaryNav_character(lctx, fill){
-	
+
 		lctx.fillStyle = fill;
 		lctx.beginPath();
 
@@ -900,11 +900,11 @@
 		lctx.closePath();
 		lctx.fill();
 	}
-	
+
 	function draw_primaryNav_layers(lctx, fill){
-	
+
 		lctx.fillStyle = fill;
-		
+
 		// shapes/Path
 		lctx.save();
 		lctx.beginPath();
@@ -953,9 +953,9 @@
 		lctx.fill();
 		lctx.restore();
 	}
-	
+
 	function draw_primaryNav_attributes(lctx, fill){
-	
+
 		lctx.fillStyle = fill;
 
 		// newAttributes/Check
@@ -1123,9 +1123,9 @@
 	}
 
 	function draw_primaryNav_save(lctx, fill){
-	
+
 		lctx.fillStyle = fill;
-		
+
 		// save/Path
 		lctx.save();
 		lctx.beginPath();
@@ -1237,7 +1237,7 @@
 		lctx.restore();
 	}
 
-	
+
 //	---------------------
 //	TOOLS
 //	---------------------
@@ -1779,10 +1779,10 @@ function drawNewRectButton(lctx, bgcolor, outlinecolor){
 
 
 function drawShapeResizeButton(lctx, bgcolor, outlinecolor){
-	
+
 	// FILLS
 	lctx.fillStyle = bgcolor;
-	
+
 	// shapeMove/Path
 	lctx.save();
 	lctx.beginPath();
@@ -1834,10 +1834,10 @@ function drawShapeResizeButton(lctx, bgcolor, outlinecolor){
 	lctx.closePath();
 	lctx.fill();
 
-	
+
 	// OUTLINES
 	lctx.fillStyle = outlinecolor;
-	
+
 	// shapeMove/Path
 	lctx.beginPath();
 	lctx.moveTo(12.0, 11.0);
@@ -2081,7 +2081,7 @@ function drawShapeResizeButton(lctx, bgcolor, outlinecolor){
 }
 
 function drawPathEditButton(lctx, bgcolor, outlinecolor){
-	
+
 	// shapeSelect/BG
 	lctx.fillStyle = bgcolor;
 
@@ -2493,7 +2493,7 @@ function drawPathEditButton(lctx, bgcolor, outlinecolor){
 function drawPanButton(lctx, bgcolor, outlinecolor){
 
 	lctx.fillStyle = bgcolor;
-	
+
 	lctx.beginPath();
 	lctx.moveTo(9.0, 7.0);
 	lctx.lineTo(7.0, 7.0);
@@ -2658,7 +2658,7 @@ function drawPanButton(lctx, bgcolor, outlinecolor){
 function drawZoomInButton(lctx, bgcolor, outlinecolor){
 
 	lctx.fillStyle = bgcolor;
-	
+
 	lctx.beginPath();
 	lctx.moveTo(9.0, 3.0);
 	lctx.lineTo(7.0, 3.0);
@@ -2713,7 +2713,7 @@ function drawZoom1to1Button(lctx, bgcolor, outlinecolor){
 	lctx.lineTo(14.0, 3.0);
 	lctx.closePath();
 	lctx.fill();
-	
+
 	lctx.beginPath();
 	lctx.moveTo(12.0, 3.0);
 	lctx.lineTo(11.0, 3.0);
@@ -2755,7 +2755,7 @@ function drawZoom1to1Button(lctx, bgcolor, outlinecolor){
 function drawZoomEmButton(lctx, bgcolor, outlinecolor){
 
 	lctx.fillStyle = bgcolor;
-	
+
 	lctx.save();
 	lctx.beginPath();
 	lctx.moveTo(1.0, 0.0);
@@ -3239,10 +3239,10 @@ function drawPointSymmetricButton(lctx, c){
 
 function drawLockButton(obj, c) {
 	//debug("DRAWLOCKBUTTON obj/c: " + obj + "," + c);
-		
+
 	var lctx = obj.getContext('2d');
 	lctx.fillStyle = c;
-	
+
 	// lock/Path
 	lctx.beginPath();
 	lctx.moveTo(7.0, 4.0);
@@ -3282,13 +3282,13 @@ function drawLockButton(obj, c) {
 	lctx.lineTo(5.0, 1.0);
 	lctx.closePath();
 	lctx.fill();
-	
+
 	//debug("END OF DRAWLOCKBUTTON");
 }
 
 function drawCheckbox(obj, ischecked) {
 	var lctx = obj.getContext('2d');
-	
+
 	//Box
 	lctx.fillStyle = _UI.colors.text_light;
 	lctx.beginPath();
@@ -3299,7 +3299,7 @@ function drawCheckbox(obj, ischecked) {
 	lctx.lineTo(12.0, 15.0);
 	lctx.closePath();
 	lctx.fill();
-	
+
 	if(ischecked){
 		//Check
 		lctx.fillStyle = _UI.colors.accent;

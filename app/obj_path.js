@@ -1,4 +1,4 @@
-		
+
 //  -----------------------------------
 //  PATH OBJECT
 //  -----------------------------------
@@ -19,20 +19,20 @@
 		}
 		this.clockwise = isval(oa.clockwise)? oa.clockwise : findClockwise(this.pathpoints);
 		// internal
-		this.topy = isval(oa.topy)? oa.topy : -1;	
+		this.topy = isval(oa.topy)? oa.topy : -1;
 		this.bottomy = isval(oa.bottomy)? oa.bottomy : -1;
 		this.leftx = isval(oa.leftx)? oa.leftx : -1;
 		this.rightx = isval(oa.rightx)? oa.rightx : -1;
-		
+
 		// Setup the object
 		this.selectPathPoint(false);
 		if(this.pathpoints) this.calcMaxes();
-		
+
 		//debug("Path() - created new path: " + this.pathpoints);
 	}
 
 
-	
+
 
 //  -----------------------------------
 //  PATH METHODS
@@ -42,12 +42,12 @@
 	// Selected Point - returns the selected point object
 	Path.prototype.sp = function(wantindex, calledby){
 		//debug("SP - Called By : " + calledby);
-		
+
 		if(!this.pathpoints) {
 			//debug("SP - returning false, this.pathpoints = " + JSON.stringify(this.pathpoints));
 			return false;
 		}
-		
+
 		for(var p=0; p<this.pathpoints.length; p++){
 			var thisp = this.pathpoints[p];
 			if(thisp.selected){
@@ -58,13 +58,13 @@
 				}
 			}
 		}
-		
+
 		return false;
 	};
-	
+
 	Path.prototype.drawPath = function(lctx) {
 		//if(lctx == _UI.chareditctx)	debug("DRAWPATH");
-		
+
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
@@ -73,7 +73,7 @@
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
-			
+
 			/*
 			if(lctx == _UI.chareditctx)	{
 				debug("  point " + cp);
@@ -84,19 +84,19 @@
 
 			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
 			else if (pp.type == "flat") { pp.makeFlat("H1"); }
-			
+
 			pph2x = (pp.useh2? sx_cx(pp.H2.x) : sx_cx(pp.P.x));
 			pph2y = (pp.useh2? sy_cy(pp.H2.y) : sy_cy(pp.P.y));
 			nxh1x = (np.useh1? sx_cx(np.H1.x) : sx_cx(np.P.x));
 			nxh1y = (np.useh1? sy_cy(np.H1.y) : sy_cy(np.P.y));
 			nxppx = sx_cx(np.P.x);
 			nxppy = sy_cy(np.P.y);
-			
-			//if(lctx == _UI.chareditctx)	debug("  curve " + pph2x +" "+ pph2y +" "+ nxh1x +" "+ nxh1y +" "+ nxppx +" "+ nxppy); 
-			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy); 
+
+			//if(lctx == _UI.chareditctx)	debug("  curve " + pph2x +" "+ pph2y +" "+ nxh1x +" "+ nxh1y +" "+ nxppx +" "+ nxppy);
+			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
 		}
 	};
-	
+
 	Path.prototype.drawPathToArea = function(lctx, view){
 		var tempv = clone(getView("Path.drawPathToArea"));
 		setView(view);
@@ -112,7 +112,7 @@
 		var trr = "";
 
 		var re = "" + (this.pathpoints[0].P.x - lastx) + " " + (this.pathpoints[0].P.y - lasty) + " rmoveto ";
-		
+
 		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
@@ -139,47 +139,47 @@
 			"lasty" : p2.P.y
 			};
 	};
-	
+
 	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints;
 		var hp = _GP.projectsettings.pointsize/getView("Path.isOverControlPoint").dz;
-		
+
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){
 				this.selectPathPoint(k);
 				//debug("ISOVERCONTROLPOINT() - Returning P1, selectedpoint: " + k);
 				return 'P';
 			}
-			
+
 			if( ((a[k].H1.x+hp) > x) && ((a[k].H1.x-hp) < x) && ((a[k].H1.y+hp) > y) && ((a[k].H1.y-hp) < y) ){
 				this.selectPathPoint(k);
 				//debug("ISOVERCONTROLPOINT() - Returning H1, selectedpoint: " + k);
 				return 'H1';
 			}
-			
+
 			if( ((a[k].H2.x+hp) > x) && ((a[k].H2.x-hp) < x) && ((a[k].H2.y+hp) > y) && ((a[k].H2.y-hp) < y) ){
 				this.selectPathPoint(k);
 				//debug("ISOVERCONTROLPOINT() - Returning H2, selectedpoint: " + k);
 				return 'H2';
 			}
 		}
-		
+
 		this.selectPathPoint(0);
 		//debug("ISOVERCONTROLPOINT() - Returning FALSE");
 		return false;
 	};
-	
+
 	Path.prototype.updatePathSize = function(dw, dh){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
 
 		var ps = _GP.projectsettings;
-		
+
 		var s = ss("updatePathPosition");
 		dw = s.wlock? 0 : false;
 		dh = s.hlock? 0 : false;
-		
+
 		if(s.wlock && s.hlock) return;
-		
+
 		var oldw = this.rightx - this.leftx;
 		var oldh = this.topy - this.bottomy;
 		var neww = Math.max((oldw + dw), 1);
@@ -196,10 +196,10 @@
 			pp.H1.y =  round( ((pp.H1.y - this.bottomy) * ratiodh) + this.bottomy  );
 			pp.H2.y =  round( ((pp.H2.y - this.bottomy) * ratiodh) + this.bottomy  );
 		}
-		
+
 		this.calcMaxes();
 	};
-	
+
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
 		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
@@ -209,10 +209,10 @@
 			//debug("-------------------- pathPoint #" + d);
 			pp.updatePointPosition("P",dx,dy,force);
 		}
-		
+
 		this.calcMaxes();
 	};
-	
+
 	function findClockwise(parr){
 		var j,k,z;
 		var count = 0;
@@ -224,14 +224,14 @@
 			k = (i + 2) % parr.length;
 			z  = (parr[j].P.x - parr[i].P.x) * (parr[k].P.y - parr[j].P.y);
 			z -= (parr[j].P.y - parr[i].P.y) * (parr[k].P.x - parr[j].P.x);
-			
+
 			if (z < 0) count--;
 			else if (z > 0) count++;
 		}
 
 		// negative = clockwise
 		// positive = counterclockwise
-		
+
 		//debug("FINDCLOCKWISE returning " + count);
 		return count;
 	}
@@ -259,45 +259,45 @@
 
 		var mid = ((this.topy - this.bottomy)/2)+this.bottomy;
 		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
-		
+
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
 			pp.P.y += ((mid-pp.P.y)*2);
 			pp.H1.y += ((mid-pp.H1.y)*2);
 			pp.H2.y += ((mid-pp.H2.y)*2);
 		}
-		
+
 		this.setTopY(ly);
 		this.setLeftX(lx);
 
 		this.reversePath();
 	};
-	
+
 	Path.prototype.flipEW = function(){
 		var ly = this.topy;
 		var lx = this.leftx;
 
 		var mid = ((this.rightx - this.leftx)/2)+this.leftx;
 		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + this.rightx +","+ this.leftx +","+ mid);
-		
+
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
 			pp.P.x += ((mid-pp.P.x)*2);
 			pp.H1.x += ((mid-pp.H1.x)*2);
 			pp.H2.x += ((mid-pp.H2.x)*2);
 		}
-		
+
 		this.setTopY(ly);
 		this.setLeftX(lx);
 
 		this.reversePath();
 	};
-	
+
 	Path.prototype.setTopY = function(newvalue){
 		var delta = ((newvalue*1) - ss("setTopY").path.topy);
 		this.updatePathPosition(0,delta,true);
 	};
-	
+
 	Path.prototype.setLeftX = function(newvalue){
 		var delta = ((newvalue*1) - ss("SetLeftX").path.leftx);
 		this.updatePathPosition(delta,0,true);
@@ -305,31 +305,31 @@
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
 		//debug("ADDPATHPOINT - new point? " + newpp);
-		
-		if(!newpp) { 
+
+		if(!newpp) {
 			// No pathpoint passed to function - make a new one
-			newpp = new PathPoint({}); 
-			
+			newpp = new PathPoint({});
+
 			if(addtostart){
 				//Adds new pathpoint to start of path
 				if(this.pathpoints.length > 0){
 					var firstpp = this.pathpoints[0];
-					
+
 					newpp.P.x = firstpp.P.x-200;
 					newpp.P.y = firstpp.P.y-200;
 					newpp.H1.x = newpp.P.x;
 					newpp.H1.y = newpp.P.y-100;
 					newpp.H2.x = newpp.P.x+100;
 					newpp.H2.y = newpp.P.y;
-				}	
-				
+				}
+
 				this.pathpoints.unshift(newpp);
 				this.selectPathPoint(0);
 			} else {
 				// Adds new pathpoint to end of path
 				if(this.pathpoints.length > 0){
 					var lastpp = this.pathpoints[this.pathpoints.length-1];
-					
+
 					newpp.P.x = lastpp.P.x+200;
 					newpp.P.y = lastpp.P.y+200;
 					newpp.H1.x = newpp.P.x;
@@ -337,7 +337,7 @@
 					newpp.H2.x = newpp.P.x+100;
 					newpp.H2.y = newpp.P.y;
 				}
-				
+
 				this.pathpoints.push(newpp);
 				this.selectPathPoint(this.pathpoints.length-1);
 			}
@@ -347,9 +347,9 @@
 			this.selectPathPoint(this.pathpoints.length-1);
 		}
 
-		this.calcMaxes();	
+		this.calcMaxes();
 	};
-	
+
 	Path.prototype.insertPathPoint = function() {
 
 		var p1i = this.sp(true, "insert path point");
@@ -388,7 +388,7 @@
 
 	Path.prototype.deletePathPoint = function(){
 		var pp = this.pathpoints;
-		
+
 		if(pp.length > 1){
 			for(var j=0; j<pp.length; j++){
 				if(pp[j].selected){
@@ -406,21 +406,21 @@
 			deleteShape();
 		}
 	};
-	
+
 	Path.prototype.selectPathPoint = function(index){
 		// FOR NOW, ONLY ONE POINT SELECTED
 		//debug("SELECTPATHPOINT - passed " + index + " length " + this.pathpoints.length + " mod " +(index%this.pathpoints.length));
 		for(var j=0; j<this.pathpoints.length; j++){
 			this.pathpoints[j].selected = false;
 		}
-		
+
 		if(index === false){
 			return;
 		} else {
 			index = (index == -1)? (this.pathpoints.length-1) : Math.abs(index);
 			this.pathpoints[index%this.pathpoints.length].selected = true;
 			//debug("SELECTPATHPOINT - selecting point " + index%this.pathpoints.length));
-		} 
+		}
 	};
 
 //	----------------------------------
@@ -429,7 +429,7 @@
 
 	Path.prototype.calcMaxes = function(){
 		//console.time("CalcMaxes_NEW");
-		
+
 		this.topy = (_UI.chareditcanvassize*-1);
 		this.bottomy = _UI.chareditcanvassize;
 		this.leftx = _UI.chareditcanvassize;
@@ -474,7 +474,7 @@
 
 		var numerator, denominator, quadroot, root, t1, t2;
 
-		if(cx1<bounds["minx"] || cx1>bounds["maxx"] || cx2<bounds["minx"] || cx2>bounds["maxx"]) {   
+		if(cx1<bounds["minx"] || cx1>bounds["maxx"] || cx2<bounds["minx"] || cx2>bounds["maxx"]) {
 			// X bounds
 			if(dcx0+dcx2 != 2*dcx1) { dcx1+=0.01; }
 			numerator = 2*(dcx0 - dcx1);
@@ -515,5 +515,5 @@
 
 	function getBezierValue(t, p0, p1, p2, p3) {
 		var mt = (1-t);
-		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3); 
+		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3);
 	}

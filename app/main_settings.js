@@ -1,4 +1,4 @@
-		
+
 //------------------------------
 // GLOBAL UI VARIABLES
 //------------------------------
@@ -11,7 +11,7 @@
 		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
 		"projectsaved": true,
 		"colors" : {
-			"accent" :		"rgb(0,170,225)",	//os accent base color  
+			"accent" :		"rgb(0,170,225)",	//os accent base color
 			"accent_light": "rgb(165,222,240)",	//os light accent base color
 			"offwhite" :	"rgb(250,252,255)",	// Off White
 			"g9" :			"rgb(229,234,239)",	// 90% gray
@@ -27,7 +27,7 @@
 
 		// Shared edit pages
 		"popout" : false,
-		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath	
+		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath
 		"redrawing" : false,
 		"thumbsize" : 50,
 		"thumbgutter" : 5,
@@ -37,7 +37,7 @@
 		"chareditcanvas" : false,
 		"chareditcanvassize" : 2000,			// How big the viewport canvas is
 		"chareditctx" : false,
-		"ishereghostcanvas" : false, 
+		"ishereghostcanvas" : false,
 		"ishereghostctx" : false,
 		"defaultview" : {
 			"dx" : 200,		// X offset for the canvas origin
@@ -51,7 +51,7 @@
 		"shownlinkedshape" : "id0",
 		"linkedshapecurrstate" : {},
 		"linkedshapeundoq" : [],
-		
+
 		// page: charedit
 		"selectedchar" : 97,
 		"selectedshape" : -1,
@@ -64,7 +64,7 @@
 		"locarr": [],
 		"checkid": 0,
 		"checkarr": [],
-	
+
 		// page: test drive
 		"testdrivectx" : false,
 		"testdrivecanvas" : false,
@@ -77,7 +77,7 @@
 		"fontmetrics" : {
 			"xmax" : 0,
 			"xmin" : 0,
-			"ymax" : 0, 
+			"ymax" : 0,
 			"ymin" : 0,
 			"hhea_ascent" : 0,
 			"hhea_descent" : 0
@@ -92,9 +92,9 @@
 				"debug": true,				// global debug console switch
 				"version": 0,				// console version
 				"linkedshapecounter": 0,	// private counter for ss id
-				
+
 				// Grid stuff
-				"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are		
+				"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are
 				"ascent": 700,			// ascender
 				"linegap": 250,
 				"griddivisions": 10,	// how many squares of grid per emsize
@@ -103,7 +103,7 @@
 				"defaultlsb": 10,		// default left space
 
 				// UI stuff
-				"pointsize" : 5,						// square points size - SHOULD BE ODD	
+				"pointsize" : 5,						// square points size - SHOULD BE ODD
 				"spinnervaluechange" : 1,				// how much spinner controls change a value
 				"stoppagenavigation" : false,			// asks to save on window close or refresh
 				"quickpathupdating" : false,			// does not redraw path while drag resizing
@@ -166,21 +166,21 @@
 	_UI.colors.button_resting = _UI.colors.g8;
 	_UI.colors.button_selected = _UI.colors.accent;
 
-		
+
 //------------------------------
 // GLOBAL PROJECT VARIABLES
 //------------------------------
 // These ARE saved with the project
 
 	var _GP = {};
-	
+
 	function setOTprop(tname, tkey, tval){
 		if(_GP.opentypeproperties[tname]){
 			var ot = _GP.opentypeproperties[tname];
 			for(var i=0; i<ot.length; i++){
 				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
 				if(ot[i].key == tkey) {
-					ot[i].val = tval; 
+					ot[i].val = tval;
 					return;
 				}
 			}

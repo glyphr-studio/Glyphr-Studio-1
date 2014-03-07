@@ -6,27 +6,27 @@
 		"project file if you want to save your current project.<br><br>" +
 		"<input type='button' class='button'style='padding:10px;' value='Save current project' onclick='triggerProjectFileDownload();'/><br><br>" +
 		"<h2>Okay, now...</h2>";
-		
+
 		ct += importOrCreateNew();
 		ct += "</div>";
-		
+
 		document.getElementById("mainwrapper").innerHTML = ct;
 		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
 		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
 	}
-	
+
 	function loadPage_firstrun(){
 		debug("LOADING PAGE >> loadPage_firstrun");
 		var ct = "<div class='splashscreen textpage'><canvas id='splashscreencanvas' height=494 width=800></canvas>";
 		ct += "<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>";
 		ct += "For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>";
-		ct += "Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" + 
+		ct += "Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
 			"Which is a free / open source 'copyleft' license. You are free to use, distribute, and modify Glyphr Studio as long as " +
 			"this license and it's freeness stays intact.";
 		ct += "</div>";
 		ct += importOrCreateNew();
 		ct += "</div>";
-		
+
 		var mp = document.getElementById("mainwrapper");
 		mp.innerHTML = ct;
 		mp.style.marginLeft = "0px";
@@ -66,15 +66,15 @@
 		})(f);
 
 		reader.readAsText(f);
-		
+
 	}
 
 	function hydrateGlyphrProject(data) {
 		_GP = clone(_UI.default_GP);
-		
+
 		// Project Settings
 		if(data.projectsettings) _GP.projectsettings = clone(data.projectsettings);
-		
+
 		// Open Type Properties
 		if(data.opentypeproperties) _GP.opentypeproperties = clone(data.opentypeproperties);
 
@@ -84,7 +84,7 @@
 				_GP.linkedshapes[ssid] = new LinkedShape(data.linkedshapes[ssid]);
 			}
 		}
-		
+
 		// Characters
 		for (var i = 0; i < data.fontchars.length; i++) {
 			if(data.fontchars[i]){
@@ -115,16 +115,16 @@
 						"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
 					"</td></tr></table>";
-		
+
 		return con;
 	}
-		
+
 	function newGlyphrProject(){
 		var fn = document.getElementById("newprojectname").value;
 		fn = (fn? fn : "My Font");
-		
+
 		_GP = clone(_UI.default_GP);
-		
+
 		_GP.projectsettings.name = fn;
 		_GP.opentypeproperties.name[1].val = fn;
 		_GP.opentypeproperties.name[3].val = (fn + " 1.0");
@@ -137,13 +137,13 @@
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 
 		_GP.fontchars = createNewFontcharsArray();
-	
+
 		_GP.linkedshapes = {};
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
 
 		finalizeGlyphrProject();
 	}
-	
+
 
 
 
@@ -151,14 +151,14 @@
 		//debug("FINALIZEGLYPHRPROJECT - start of function");
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
-		
+
 		if(!isval(_GP.projectsettings.linkedshapecounter)){
 			_GP.projectsettings.linkedshapecounter = 0;
 		}
 
 		_UI.selectedchar = 97;
 		_UI.shownlinkedshape = getFirstLinkedShape();
-		
+
 		resetThumbView();
 
 		_UI.navhere = "character edit";

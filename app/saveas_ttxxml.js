@@ -3,7 +3,7 @@
 //	Save as a TTX XML
 //	------------------------
 
-	function triggerTTXFileDownload(){		
+	function triggerTTXFileDownload(){
 		var ttxstring = generateTTXXML();
 		ttxstring = ttxstring.replace(/\n/g, '\r\n');
 		var blob = new Blob([ttxstring], { type: "text/plain;charset=utf-8" });
@@ -92,8 +92,8 @@
 		con += '\t<lowestRecPPEM value="3"/>\n';
 		con += '\t<fontDirectionHint value="2"/>\n';
 		con += '\t<indexToLocFormat value="0"/>\n';
-		con += '\t<glyphDataFormat value="0"/>\n';	
-		
+		con += '\t<glyphDataFormat value="0"/>\n';
+
 		con += '</head>\n\n';
 		return con;
 	}
@@ -131,8 +131,8 @@
 		con += '\t<metricDataFormat value="0"/>\n';
 
 		// # entries in the hmtx table: GLYPH COUNT!!!
-		con += '\t<numberOfHMetrics value="95"/>\n';		
-		
+		con += '\t<numberOfHMetrics value="95"/>\n';
+
 		con += '</hhea>\n\n';
 		return con;
 	}
@@ -213,14 +213,14 @@
 		con += '\t<usDefaultChar value="0"/>\n';
 		con += '\t<usBreakChar value="32"/>\n';
 		con += '\t<usMaxContex value="4"/>\n';
-		
+
 		con += '</OS_2>\n\n';
 		return con;
 	}
 
 	function genTable_name(oa){
 		var otsn = _GP.opentypeproperties.name;
-		
+
 		var con = '<name>\n';
 		con += '\t<namerecord nameID="0" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[0].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="1" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[1].val +'\n\t</namerecord>\n';
@@ -229,12 +229,12 @@
 		con += '\t<namerecord nameID="4" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[4].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="5" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[5].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="6" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[6].val +'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="8" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[8].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="8" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[8].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="9" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[9].val +'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="10" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[10].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="10" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[10].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="11" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[11].val +'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="12" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[12].val +'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="13" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[13].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="12" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[12].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="13" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[13].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="14" platformID="1" platEncID="0" langID="0x0">\n\t\t'+ otsn[14].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[0].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[1].val +'\n\t</namerecord>\n';
@@ -245,10 +245,10 @@
 		con += '\t<namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[6].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="8" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[8].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="9" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[9].val +'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[10].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="10" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[10].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="11" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[11].val +'\n\t</namerecord>\n';
-		con += '\t<namerecord nameID="12" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[12].val +'\n\t</namerecord>\n'; 
-		con += '\t<namerecord nameID="13" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[13].val +'\n\t</namerecord>\n'; 
+		con += '\t<namerecord nameID="12" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[12].val +'\n\t</namerecord>\n';
+		con += '\t<namerecord nameID="13" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[13].val +'\n\t</namerecord>\n';
 		con += '\t<namerecord nameID="14" platformID="3" platEncID="1" langID="0x409">\n\t\t'+ otsn[14].val +'\n\t</namerecord>\n';
 		con += '</name>\n\n';
 
@@ -264,15 +264,15 @@
 
 		var con = '<cmap>\n';
 		con += '<tableVersion version="0"/>\n';
-		
-		con += '\t<cmap_format_4 platformID="0" platEncID="3" language="0">\n';	
+
+		con += '\t<cmap_format_4 platformID="0" platEncID="3" language="0">\n';
 		con += cmapbody;
 		con += '\t</cmap_format_4>\n';
 
 		con += '\t<cmap_format_6 platformID="1" platEncID="0" language="0">\n';
 		con += cmapbody;
 		con += '\t</cmap_format_6>\n';
-	
+
 		con += '\t<cmap_format_4 platformID="3" platEncID="1" language="0">\n';
 		con += cmapbody;
 		con += '\t</cmap_format_4>\n';
@@ -291,8 +291,8 @@
 		con += '\t<minMemType42 value="0"/>\n';
 		con += '\t<maxMemType42 value="0"/>\n';
 		con += '\t<minMemType1 value="0"/>\n';
-		con += '\t<maxMemType1 value="0"/>\n';		
-		
+		con += '\t<maxMemType1 value="0"/>\n';
+
 		con += '</post>\n\n';
 		return con;
 	}
@@ -301,7 +301,7 @@
 		var md = _GP.opentypeproperties;
 		var con = '<CFF>\n';
 		con += '\t<CFFFont name="'+md.name[1].val+'">\n';							//VAR
-		con += '\t\t<version value="002.000"/>\n';		
+		con += '\t\t<version value="002.000"/>\n';
 		con += '\t\t<Notice value="'+getOTprop("cff","Notice")+'"/>\n';				//VAR
 		con += '\t\t<FullName value="'+getOTprop("cff","FullName")+'"/>\n';			//VAR
 		con += '\t\t<FamilyName value="'+getOTprop("cff","FamilyName")+'"/>\n';		//VAR
@@ -347,7 +347,7 @@
 				lastx = rvar.lastx;
 				lasty = rvar.lasty;
 			}
-			
+
 			con += '\t\t\t\tendchar\n';
 			con += '\t\t\t</CharString>\n';
 		}

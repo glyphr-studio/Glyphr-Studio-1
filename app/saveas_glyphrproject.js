@@ -3,12 +3,12 @@
 //	-------------------------
 
 	function triggerProjectFileDownload(){
-		
+
 		var jsonString = JSON.stringify(_GP, undefined, '\t');
 		jsonString = jsonString.replace(/\n/g, '\r\n');
 		var fblob = new Blob([jsonString], {"type":"text/plain;charset=utf-8", "endings":"native"});
 		var fname =  _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
-		
+
 		try {
 			// IE
 			window.navigator.msSaveBlob(fblob, fname);
@@ -22,7 +22,7 @@
 
 			var event = document.createEvent("MouseEvents");
 			event.initEvent("click", true, false);
-			link.dispatchEvent(event); 
+			link.dispatchEvent(event);
 		}
 
 		setProjectAsSaved();

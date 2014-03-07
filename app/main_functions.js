@@ -2,17 +2,17 @@
 	MAIN FILE OF CONTROLORIZATION
 **/
 
-	
+
 	function setup() {
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
 		//debug("MAIN SETUP() - START");
 		_GP = clone(_UI.default_GP);
 		insertGlobalDOMElements();
-		drawLogo();	
+		drawLogo();
 		navigate();
 		//debug("MAIN SETUP() - END");
 	}
-		
+
 
 
 	function insertGlobalDOMElements(){
@@ -39,7 +39,7 @@
 //-------------------
 // Debug
 //-------------------
-		
+
 	function debug(message, force){
 		if(_GP.projectsettings.debug | force){ console.log(message); }
 	}
@@ -51,9 +51,9 @@
 		}
 	}
 	*/
-	
 
-	
+
+
 //-------------------
 // Dialog Box
 //-------------------
@@ -63,7 +63,7 @@
 		document.getElementById('dialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
 		document.body.focus();
 	}
-	
+
 	function openDialog(content){
 		document.body.focus();
 		document.getElementById('dialogRightContent').innerHTML = content;
@@ -71,7 +71,7 @@
 		document.getElementById('dialog_bg').style.display='block';
 	}
 
-		
+
 //-------------------
 // Project Saved Sate
 //-------------------
@@ -83,7 +83,7 @@
 	}
 
 	function setProjectAsUnsaved(){
-		
+
 		_UI.projectsaved = false;
 
 		if(_GP.projectsettings.stoppagenavigation){
@@ -99,12 +99,12 @@
 
 //-------------------
 // Undo Queue
-//-------------------	
+//-------------------
 	function putundoq(calledfrom){
 		var uqo = {};
 		uqo.name = calledfrom;
 		uqo.date = new Date().getTime();
-		
+
 		if(_UI.navhere == "character edit"){
 			uqo.state = clone(_UI.charcurrstate);
 			_UI.charundoq.push(uqo);
@@ -114,7 +114,7 @@
 			_UI.linkedshapeundoq.push(uqo);
 			_UI.linkcurrstate = clone(_GP.linkedshapes);
 		}
-		
+
 		setProjectAsUnsaved();
 
 		/*
@@ -127,7 +127,7 @@
 		//debug(uqdebug);
 		*/
 	}
-	
+
 	function pullundoq(){
 		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
 		var uqo;
@@ -153,7 +153,7 @@
 		}
 	}
 
-	
+
 //-------------------
 // JavaScript Prototypes
 //-------------------
@@ -164,9 +164,9 @@
 			if (cobj[i] && typeof cobj[i] == "object") {
 				newObj[i] = clone(cobj[i]);
 			} else newObj[i] = cobj[i];
-		} return newObj;	
+		} return newObj;
 	}
-	
+
 	// rounds a number to include a .5 so it draws nicely on canvas
 	// true = +0.5, false = -0.5
 	Number.prototype.makeCrisp = function(dir){
@@ -196,18 +196,18 @@
 		for(var key in aa){	len++; }
 		return len;
 	}
-	
+
 	function strSan(val){
 		return val.replace(/[<>'"\\]/g,"");
 	}
-	
+
 	function isval(val){
 		return ((typeof val !== "undefined") && (val !== null));
 	}
 
 
 
-	
+
 
 //-------------------
 // BUG EMAIL
@@ -221,7 +221,7 @@
 		openDialog(dcon);
 	}
 
-	function genEmailContent(){		
+	function genEmailContent(){
 		var con = "Sorry about the issue – so we can fix it, please explain step by step how to re-create the issue you ran into. If there was a JavaScript Error message or line number, include that too.%0A%0A%0A%0A";
 		con += "Thank you!%0A%09The Glyphr Team%0A%0A";
 		con += "___________________________________________%0A%0A";
@@ -232,14 +232,14 @@
 		con += "language %09%09" + navigator.language + "%0A";
 		con += "platform %09%09" + navigator.platform + "%0A";
 		con += "systemLanguage %09%09" + navigator.systemLanguage + "%0A";
-		con += "userLanguage %09%09" + navigator.userLanguage + "%0A";		
+		con += "userLanguage %09%09" + navigator.userLanguage + "%0A";
 		con += "userAgent %09%09" + encodeURIComponent(navigator.userAgent) + "%0A";
-		
+
 		//debug(con);
-		
+
 		return con;
 	}
-	
+
 
 
 
@@ -250,7 +250,7 @@
 	function shiftColor(c, percent, lighter){
 		percent = Math.max(0,Math.min(percent,1));
 		var val = {};
-		
+
 		if(c.charAt(0)=="#"){
 			c = c.substring(1,7);
 			val.r = parseInt(c.substring(0,2),16);
@@ -266,11 +266,11 @@
 			val.g = 0;
 			val.b = 0;
 		}
-		
+
 		val.r = Math.max(0,Math.min(val.r,255));
 		val.g = Math.max(0,Math.min(val.g,255));
 		val.b = Math.max(0,Math.min(val.b,255));
-		
+
 		if(lighter){
 			val.r = round(((255-(val.r*1))*percent)+(val.r*1));
 			val.g = round(((255-(val.g*1))*percent)+(val.g*1));
@@ -282,4 +282,4 @@
 		}
 
 		return "rgb("+val.r+","+val.g+","+val.b+")";
-	}	
+	}

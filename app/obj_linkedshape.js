@@ -18,13 +18,13 @@
 
 	function LinkedShapeInstance(oa){
 		this.objtype = "linkedshapeinstance";
-		
+
 		this.link = oa.link || getFirstLinkedShape();
-		this.uselinkedshapexy = (isval(oa.uselinkedshapexy)? oa.uselinkedshapexy : true);	
-		
+		this.uselinkedshapexy = (isval(oa.uselinkedshapexy)? oa.uselinkedshapexy : true);
+
 		this.name = oa.name || "new linkedshape instance";
 		this.xpos = oa.xpos || 0;
-		this.ypos = oa.ypos || 0; 
+		this.ypos = oa.ypos || 0;
 		this.xlock = isval(oa.xlock)? oa.xlock : false;
 		this.ylock = isval(oa.ylock)? oa.ylock : false;
 		this.visible = isval(oa.visible)? oa.visible : true;
@@ -33,7 +33,7 @@
 		this.path = false;
 		this.hlock = false;
 		this.wlock = false;
-		
+
 		//debug("LINKEDSHAPEINSTANCE - end");
 	}
 
@@ -43,7 +43,7 @@
 // LINKED SHAPE INSTANCE METHODS
 //-------------------------------------------------------
 
-	
+
 //	Insert Linked Shape
 	function insertLinkedShapeDialog(){
 		if(aalength(_GP.linkedshapes)>0){
@@ -56,24 +56,24 @@
 			openDialog("<div class='dialoglargetext'>No Linked Shapes exist.  First, create some Linked Shapes, then you can insert them into characters.</div>");
 		}
 	}
-	
+
 	function insertLinkedShape(ssid){
 		//debug("INSERTLINKEDSHAPE - adding linked shape (id) " + ssid + " to char (id) " + _UI.selectedchar);
 		var ns = new LinkedShapeInstance({"link":ssid, "xpos":100, "ypos":100});
 
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
-		
+
 		_GP.fontchars[_UI.selectedchar].calcCharWidth();
-		
+
 		addToUsedIn(ssid, _UI.selectedchar);
-		
+
 		closeDialog();
 		putundoq("insert linked shape from charedit");
 		redraw("insertLinkedShape");
 	}
-	
-	function generateSSThumbs(){		
+
+	function generateSSThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
 		for(var ssid in _GP.linkedshapes){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
@@ -86,7 +86,7 @@
 		re += "</div>";
 		return re;
 	}
-	
+
 	function drawSSThumbs(){
 		var tctx = {};
 		for(var ssid in _GP.linkedshapes){
@@ -97,7 +97,7 @@
 		}
 	}
 
-	
+
 //	UsedIn Array Stuff
 	function addToUsedIn(ssid, charid){
 		//debug("ADDTOUSEDIN - ssid/charid " + ssid + "/" + charid);
@@ -106,7 +106,7 @@
 		// sort numerically as opposed to alpha
 		uia.sort(function(a,b){return a-b;});
 	}
-	
+
 	function removeFromUsedIn(ssid, charid){
 		//debug("REMOVEFROMUSEDIN - ssid/charid " + ssid + "/" + charid);
 		var uia = _GP.linkedshapes[ssid].usedin;
@@ -117,11 +117,11 @@
 
 	}
 
-	
+
 //	Detials
 	function linkedShapeInstanceDetails(s){
 		//debug("LINKEDSHAPEINSTANCEDETAILS - start of function");
-		content = "<tr><td colspan=3><h3>linked shape</h3></td></tr>";	
+		content = "<tr><td colspan=3><h3>linked shape</h3></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().name = this.value; putundoq(\"shape name\"); redraw(\"linkedShapeInstanceDetails\");'></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> use linked shape position</td><td>"+checkUI("ss().uselinkedshapexy="+!s.uselinkedshapexy+"; putundoq(\"use linked shape position\"); redraw(\"linkedShapeInstanceDetails\");", s.uselinkedshapexy)+"</td></tr>";
 		if(!s.uselinkedshapexy){
@@ -133,16 +133,16 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><input type='button' class='button' value='edit this linked shape' onclick='goToEditLinkedShape(\""+s.link+"\");'/></td></tr>";
 		return content;
 	}
-	
+
 	function goToEditLinkedShape(ssid){
 		_UI.shownlinkedshape = ssid;
 		_UI.navhere = "linked shapes";
 		navigate();
 	}
-	
+
 	function clickSelectLinkedShape(x,y){
 		//debug("CLICKSELECTLinkedShape() - checking x:" + x + " y:" + y);
-		
+
 		if(_GP.linkedshapes[_UI.shownlinkedshape].shape.isHere(x,y)){
 			_UI.selectedshape = _UI.shownlinkedshape;
 			//debug("CLICKSELECTLinkedShape() - selecting shape " + _UI.shownlinkedshape);
@@ -150,14 +150,14 @@
 			_UI.navprimaryhere = 'npAttributes';
 			return true;
 		}
-		
+
 		_UI.selectedshape = -1;
 		//debug("CLICKSELECTLinkedShape() - deselecting, setting to -1");
-		
+
 		return false;
 	}
 
-	
+
 //	---------------------------
 //	Linked Shape Paridy Functions
 //	---------------------------
@@ -188,7 +188,7 @@
 			ns.drawShape_Single(lctx);
 		}
 	};
-	
+
 	LinkedShapeInstance.prototype.genPostScript = function(lastx, lasty){
 		//debug("GENLINKEDPOSTSCRIPT");
 		if(this.uselinkedshapexy){
@@ -201,7 +201,7 @@
 			return ns.path.genPathPostScript(lastx, lasty);
 		}
 	};
-	
+
 	LinkedShapeInstance.prototype.drawShapeToArea = function(lctx, view){
 		//debug("DRAWLINKEDSHAPETOAREA - size/offsetx/offsety: " + size +"/"+ offsetX +"/"+ offsetY);
 		if(this.uselinkedshapexy){
@@ -218,7 +218,7 @@
 
 	LinkedShapeInstance.prototype.drawSelectOutline = function(onlycenter){
 		//_GP.linkedshapes[this.link].shape.drawSelectOutline();
-		
+
 		if(this.uselinkedshapexy){
 			_GP.linkedshapes[this.link].shape.drawSelectOutline(onlycenter);
 		} else {
@@ -227,11 +227,11 @@
 			ns.drawSelectOutline(onlycenter);
 		}
 	};
-	
+
 	LinkedShapeInstance.prototype.draw8points = function(onlycenter){
 		//_GP.linkedshapes[this.link].shape.draw8points(onlycenter);
 	};
-	
+
 	LinkedShapeInstance.prototype.isHere = function(x,y){
 		//debug("ISLINKEDSHAPEHERE - checking " + x + "," + y);
 		if(this.uselinkedshapexy){
@@ -242,11 +242,11 @@
 			return ns.isHere(x,y);
 		}
 	};
-	
+
 	LinkedShapeInstance.prototype.isOverHandle = function(){ return false; };
 
 
-	
+
 //	------------------------------
 //	Generic Linked Shape Functions
 //	------------------------------
@@ -255,10 +255,10 @@
 		for(var ssid in _GP.linkedshapes){
 			return ssid;
 		}
-		
+
 		return "[ERROR] - LINKEDSHAPES array has zero keys";
 	}
-	
+
 	function generateNewSSID(){
 		_GP.projectsettings.linkedshapecounter++;
 		return ("id"+_GP.projectsettings.linkedshapecounter);

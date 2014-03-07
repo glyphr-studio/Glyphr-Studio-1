@@ -1,10 +1,10 @@
-	
+
 //-------------------
 // Layers Panel
 //-------------------
 	function makePanel_LayerChooser(){
 		//stack(arguments);
-		
+
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
 
@@ -17,9 +17,9 @@
 					content += "<tr class='layer'";
 				}
 				content += " onclick='_UI.selectedshape = " + i + "; redraw(\"updatelayers\");'>";
-				
+
 				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+_UI.thumbsize+"' width='"+_UI.thumbsize+"'></canvas></td>";
-				
+
 				content += "<td class='layername'>" + _UI.shapelayers[i].name ;
 				if(_UI.shapelayers[i].link) { content += "<span class='layernote'>[linked to "+_GP.linkedshapes[_UI.shapelayers[i].link].shape.name+"]</span>"; }
 				content += "</td></tr>";
@@ -28,18 +28,18 @@
 		} else {
 			content += "<div style='margin-left:10px; font-style:oblique;'>No shapes exist yet.<br><br></div>";
 		}
-		
+
 		if(_UI.clipboardshape){
 			content += "<br>Clipboard: " + _UI.clipboardshape.s.name;
 		}
-		
+
 		content += updateLayerActions();
-		
+
 		return content;
 	}
-	
-	function drawPanel_LayerChooser() {		
-		// Update the thumbs		
+
+	function drawPanel_LayerChooser() {
+		// Update the thumbs
 		if(_UI.shapelayers.length > 0){
 			var tctx = {};
 			var tele = false;
