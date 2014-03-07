@@ -1,23 +1,21 @@
 # Welcome to GLYPHR
 
-A free, [web based font editor](http://glyphrstudio.com) geared toward font design hobbyists.
-*Under heavy development.*  
+A free, web based font editor geared toward font design hobbyists.  More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - and/or follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
 
-## Download
+## History
 
-Files hosted at [http://glyphrstudio.com](http://glyphrstudio.com).  Works best in the Chrome Browser, but any modern browser should do.
+Beta 4 is under development now.  Please check the [Beta 4 Milestone Issue List](https://github.com/mattlag/GLYPHR/issues?milestone=3&state=open) to see what features are being developed, and what issues are being addressed.
+
+Beta 3  is tagged as a GitHub realase, and public-facing files hosted at [http://glyphrstudio.com](http://glyphrstudio.com).  
 
 
 ## Contributing
 
-Since this is the [author's](https://github.com/mattlag/GLYPHR/edit/master/README.md#Author) first major HTML5/JS app, there are many oppertunties for groath & improvement.  If you’d like to contribute a feature or bug fix, please make sure to search the issue tracker first; your issue may have already been discussed or fixed in master.  After researching, please feel free to fork and send a pull request.
+Hi, everyone!
+I'm an interaction designer by trade, and have decided to use Glyphr Studio as a giant crash course in JavaScript and HTML5.  Since this is the my first major HTML5/JS app, there are many oppertunties for groath & improvement.  Not only am I learning about JS, but i'm also learning about collaborative development.
 
+If you’d like to contribute a feature or bug fix, please make sure to search the issue tracker first; your issue may have already been discussed or fixed in master.  After researching, please feel free to fork and send a pull request.
 
-In addition to the following guidelines, please follow the conventions already established in the code.
-
-* Spacing: TABs.  No space indentation. No spaces around parenthis, eg: `if((_UI.navhere!="character edit")&&...`
-* Naming: Function names use `verbSubject_SubObject` syntax, eg: `function makeAndDraw_NavPanels_PopOut(){`
-* Quotes: Double-quoted strings are preferred.
 
 
 ## Licence
