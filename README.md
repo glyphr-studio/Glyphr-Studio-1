@@ -7,7 +7,7 @@ More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - a
 
 Beta 4 is under development now.  Please check the [Beta 4 Milestone Issue List](https://github.com/mattlag/GLYPHR/issues?milestone=3&state=open) to see what features are being developed, and what issues are being addressed.
 
-Beta 3  is tagged as a GitHub realase, and public-facing files hosted at [http://glyphrstudio.com](http://glyphrstudio.com).  
+[Beta 3.1 is the current stable realase](https://github.com/mattlag/GLYPHR/releases/tag/v0.3.1.dev), and is the build that is currently hosted at [http://glyphrstudio.com](http://glyphrstudio.com).  
 
 
 ## Contributing & Feedback
