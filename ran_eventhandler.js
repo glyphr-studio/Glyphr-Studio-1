@@ -52,7 +52,7 @@
 
 			if (ev.layerX || ev.layerX) {
 				// Firefox
-				_UI.eventhandlers.mousex = ev.layerX - 470;	// Wierd Hack
+				_UI.eventhandlers.mousex = ev.layerX;
 				_UI.eventhandlers.mousey = ev.layerY;
 			}
 
