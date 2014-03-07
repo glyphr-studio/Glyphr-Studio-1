@@ -36,14 +36,11 @@
 	function makeLayout_PopOut(){
 		debug("MAKELAYOUT_POPOUT - start");
 
-		var pol = '<table class="popout_table"><tr>';
-		pol += '<td id="popout_pagenav" class="popout_column" width="10%"></td>';
-		pol += '<td id="popout_charchooser" class="popout_column" width="50%"></td>';
-		pol += '<td id="popout_layerchooser" class="popout_column" width="20%"></td>';
-		//pol += '<td id="popout_actions" class="popout_column" width="20%"></td>';
-		pol += '<td id="popout_attributes" class="popout_column" width="20%"></td>';
-		pol += '</tr></table>';
-
+		var pol = '<div id="popout_pagenav"></div>';
+		pol += '<div id="popout_charchooser"></div>';
+		pol += '<div id="popout_layerchooser"></div>';
+		pol += '<div id="popout_actions"><h1>ACTIONS</h1></div>';
+		pol += '<div id="popout_attributes"></div></td>';
 		// but a save icon somewhere
 
 		document.getElementById('primaryScreenLayout').innerHTML = pol;

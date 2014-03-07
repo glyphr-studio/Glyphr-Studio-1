@@ -202,17 +202,46 @@
 		color:rgb(51, 56, 61);
 	}
 
-	.popout_table {
-		height: 100%;
-	}
-
-	.popout_column {
+	#popout_pagenav,
+	#popout_charchooser,
+	#popout_layerchooser,
+	#popout_actions,
+	#popout_attributes {
+		display:block;
+		position:absolute;
+		top:0px;
+		height:100%;
+		padding:0px 10px 0px 10px;
 		background-color:rgb(229,234,239);
-		border-right:1px solid rgb(204,209,214);
-		padding:10px 20px 10px 10px;
-		overflow-y:auto;
+		overflow-y:scroll;
 		overflow-x:hidden;
 	}
+
+	#popout_pagenav {
+		left:0px;
+		width:200px;
+	}
+
+	#popout_charchooser {
+		left:220px;
+		width:400px;
+	}
+
+	#popout_layerchooser {
+		left:640px;
+		width:400px;
+	}
+
+	#popout_actions {
+		left:1060px;
+		width:200px;
+	}
+
+	#popout_attributes {
+		left:1280px;
+		width:400px;
+	}
+
 
 	#mainwrapper {
 		position:absolute;
