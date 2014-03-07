@@ -32,7 +32,7 @@ Copyright (C) 2014 Matthew LaGrandeur, released under [GPL 3.0](https://github.c
 
 ## Author
 
-| [(https://1.gravatar.com/avatar/f6f7b963adc54db7e713d7bd5f4903ec?s=70)] |
+| ![Matthew LaGrandeur's picture](https://1.gravatar.com/avatar/f6f7b963adc54db7e713d7bd5f4903ec?s=70) |
 |---|
 | [Matthew LaGrandeur](http://mattlag.com/) |
 | matt[at]mattlag[dot]com |
