@@ -15,15 +15,9 @@ Since this is the [author's](https://github.com/mattlag/GLYPHR/edit/master/READM
 
 In addition to the following guidelines, please follow the conventions already established in the code.
 
-    Spacing:
-    TABs.  No space indentation.
-    No spaces around parenthis, eg: `if((_UI.navhere!="character edit")&&...`
-
-    Naming:
-    Function names use `verbSubject_SubObject` syntax, eg: `function makeAndDraw_NavPanels_PopOut(){`
-
-    Quotes:
-    Double-quoted strings are preferred.
+* Spacing: TABs.  No space indentation. No spaces around parenthis, eg: `if((_UI.navhere!="character edit")&&...`
+* Naming: Function names use `verbSubject_SubObject` syntax, eg: `function makeAndDraw_NavPanels_PopOut(){`
+* Quotes: Double-quoted strings are preferred.
 
 
 ## Licence
