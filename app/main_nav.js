@@ -33,6 +33,29 @@
 // Layout - pop OUT
 //-------------------
 
+
+	function popOut(){
+		_UI.popout = window.open('', 'glyphr_popout');
+		//debug("POPOUT - opened window, _UI.popout is " + _UI.popout);
+
+		var popdoc = _UI.popout.document;
+
+		// Init window properties
+		_UI.popout.onBeforeUnload = popIn;
+		popdoc.head.innerHTML = '<title>Glyphr Studio - Edit Canvas</title>'+
+			'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
+			'<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEBSURBVDhPY/RbdPM/AwWACUqTDbC6IEpdkEFTkotBT5YbzL/0+CvD9effGJbdfA/mIwMMA5odpOEa67c9BtONXrJgGmRQ7YGnYDYMoBgAsjncTBSs8cLb71BRCDAQ5gQbtPLUaxSXoIQBSDNIAbpmEACJgeRAapABxYGIYgDMBpBz0QFIDN12EEAxAOQ3UECB/LoxVg2sCYRBbJj/0QELlIaDtZffgaMMFI3IoQ8Su/bmB5iPDFAMANkEA/6Lb0FZCACKJXSA4gWQTSBnYtMMCxeQGmSA4gKY0zdCoxPmZC0RDnAAwryCDDBSIsimYF0hMBs5KYMAKHzQ08hA50YGBgDfrn7dJSRJxAAAAABJRU5ErkJggg==">'+
+			'<link rel="stylesheet" type="text/css" href="glyphr.css" />';
+		popdoc.body.innerHTML = '<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>';
+		popdoc.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
+
+		// Adjust current properties
+		document.title = 'Glyphr Studio - Controls';
+
+		//debug("POPOUT - finished and _UI.popout is " + _UI.popout);
+		navigate();
+	}
+
 	function makeLayout_PopOut(){
 		debug("MAKELAYOUT_POPOUT - start");
 
@@ -44,7 +67,7 @@
 		// but a save icon somewhere
 
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
-		debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
+		//debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
 		makeAndDraw_NavPanels_PopOut();
 
 		debug("MAKELAYOUT_POPOUT - end");
@@ -52,7 +75,7 @@
 
 	function makeAndDraw_NavPanels_PopOut(){
 		debug("MAKEANDDRAW_NAVPANELS_POPOUT");
-		debug("\t\t primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
+		//debug("\t\t primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
@@ -82,6 +105,11 @@
 // Layout - pop IN
 //-------------------
 
+	function popIn(){
+		_UI.popout = false;
+		navigate();
+	}
+
 	function makeLayout_PopIn(nap){
 		debug("MAKELAYOUT_POPIN");
 
@@ -105,7 +133,6 @@
 			document.getElementById("mainwrapper").style.overflowY = "hidden";
 		}
 	}
-
 
 	function makeAndDraw_NavPanels_PopIn(){
 		debug("MAKEANDDRAW_NAVPANELS_POPIN");
@@ -165,6 +192,14 @@
 // Shared stuff
 //-------------------
 
+	function getEditDocument(){
+		if(_UI.popout){
+			return _UI.popout.document;
+		} else {
+			return document;
+		}
+	}
+
 	function loadPageContent(){
 		switch(_UI.navhere){
 			case "firstrun":			loadPage_firstrun();		break;
@@ -180,28 +215,6 @@
 		}
 	}
 
-	function popOut(){
-		_UI.popout = window.open('', 'glyphr_popout');
-		debug("POPOUT - opened window, _UI.popout is " + _UI.popout);
-
-		var td = _UI.popout.document;
-
-		// Init window properties
-		td.title = 'glyphr - canvas';
-		_UI.popout.onBeforeUnload = popIn;
-		td.body.innerHTML = '<h1>hello, world</h1>';
-
-		// Adjust current properties
-		document.title = 'glyphr - controls';
-
-		debug("POPOUT - finished and _UI.popout is " + _UI.popout);
-		navigate();
-	}
-
-	function popIn(){
-		_UI.popout = false;
-		navigate();
-	}
 
 	function drawPanel_NavTabs(){
 		var ngray = _UI.colors.g9;

@@ -13,5 +13,5 @@ function loadPage_about(){
 	"this license and it's freeness stays intact." +
 	"<br><br>";
 
-	document.getElementById("mainwrapper").innerHTML = content;
+	getEditDocument().getElementById("mainwrapper").innerHTML = content;
 }

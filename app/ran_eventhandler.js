@@ -38,9 +38,9 @@
 
 
 		// Document Key Listeners
-		document.onkeypress = keypress;
-		document.onkeydown = keydown;
-		document.onkeyup = keyup;
+		getEditDocument().onkeypress = keypress;
+		getEditDocument().onkeydown = keydown;
+		getEditDocument().onkeyup = keyup;
 		// The general-purpose event handler.
 		function ev_canvas (ev) {
 

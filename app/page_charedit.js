@@ -7,7 +7,7 @@
 		//stack(arguments);
 
 		debug("LOADING PAGE >> loadPage_charedit");
-		document.getElementById("mainwrapper").innerHTML = charedit_content();
+		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
 
 		setupEditCanvas();
 		setupGhostCanvas();
@@ -32,7 +32,7 @@
 		//stack(arguments);
 
 		//Is Here Ghost Canvas - same size as CEC
-		_UI.ishereghostcanvas = document.getElementById('ishereghostcanvas');
+		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
 		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
 		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
 		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
@@ -44,7 +44,7 @@
 	function setupEditCanvas(){
 		//stack(arguments);
 
-		_UI.chareditcanvas = document.getElementById("chareditcanvas");
+		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
 		_UI.chareditcanvas.height = _UI.chareditcanvassize;
 		_UI.chareditcanvas.width = _UI.chareditcanvassize;
 		_UI.chareditctx = _UI.chareditcanvas.getContext("2d");
@@ -53,7 +53,7 @@
 		_UI.chareditcanvas.onmouseover = mouseovercec;
 	}
 
-	function resetCursor() { document.body.style.cursor = 'default'; }
+	function resetCursor() { getEditDocument().body.style.cursor = 'default'; }
 
 
 //-------------------
@@ -211,7 +211,7 @@
 		content += "<div title='two screen mode' class='button tool' onclick='popOut();'>^^</div>";
 
 		try {
-			document.getElementById("toolsarea").innerHTML = content;
+			getEditDocument().getElementById("toolsarea").innerHTML = content;
 		} catch(err) {
 			console.error("UPDATETOOLS - innerHTML update error caught");
 		}
@@ -223,7 +223,7 @@
 		var bw = 16;
 
 		// Path Edit
-		tempcanvas = document.getElementById("patheditbuttoncanvas");
+		tempcanvas = getEditDocument().getElementById("patheditbuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.backgroundColor = "transparent";
@@ -233,7 +233,7 @@
 		else { drawPathEditButton(tempctx, "transparent", _UI.colors.accent); }
 
 		// Shape Resize
-		tempcanvas = document.getElementById("shaperesizebuttoncanvas");
+		tempcanvas = getEditDocument().getElementById("shaperesizebuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.margin = "3px 3px 0px 3px";
@@ -243,7 +243,7 @@
 		else { drawShapeResizeButton(tempctx, "transparent", _UI.colors.accent); }
 
 		// Pan
-		tempcanvas = document.getElementById("panbuttoncanvas");
+		tempcanvas = getEditDocument().getElementById("panbuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.margin = "3px 4px 0px 2px";
@@ -253,7 +253,7 @@
 		else { drawPanButton(tempctx, _UI.colors.accent, "transparent"); }
 
 		// Zoom In
-		tempcanvas = document.getElementById("zoominbuttoncanvas");
+		tempcanvas = getEditDocument().getElementById("zoominbuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.margin = "2px 4px 0px 2px";
@@ -262,7 +262,7 @@
 		drawZoomInButton(tempctx, _UI.colors.accent, "transparent");
 
 		// Zoom Out
-		tempcanvas = document.getElementById("zoomoutbuttoncanvas");
+		tempcanvas = getEditDocument().getElementById("zoomoutbuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.margin = "2px 4px 0px 2px";
@@ -271,7 +271,7 @@
 		drawZoomOutButton(tempctx, _UI.colors.accent, "transparent");
 
 		// Zoom 1:1
-		tempcanvas = document.getElementById("zoom1to1buttoncanvas");
+		tempcanvas = getEditDocument().getElementById("zoom1to1buttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.margin = "2px 4px 0px 2px";
@@ -280,7 +280,7 @@
 		drawZoom1to1Button(tempctx, _UI.colors.accent, "transparent");
 
 		// Zoom Em
-		tempcanvas = document.getElementById("zoomembuttoncanvas");
+		tempcanvas = getEditDocument().getElementById("zoomembuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
 		tempcanvas.style.margin = "4px 4px 0px 3px";
@@ -290,7 +290,7 @@
 
 		if(_UI.navhere == "character edit"){
 			// New Rectangle
-			tempcanvas = document.getElementById("newrectbuttoncanvas");
+			tempcanvas = getEditDocument().getElementById("newrectbuttoncanvas");
 			tempcanvas.height = bh;
 			tempcanvas.width = bw;
 			tempcanvas.style.margin = "2px 4px 0px 4px";
@@ -300,7 +300,7 @@
 			else { drawNewRectButton(tempctx, "transparent", _UI.colors.accent); }
 
 			// New Oval
-			tempcanvas = document.getElementById("newovalbuttoncanvas");
+			tempcanvas = getEditDocument().getElementById("newovalbuttoncanvas");
 			tempcanvas.height = bh;
 			tempcanvas.width = bw;
 			tempcanvas.style.margin = "2px 4px 0px 4px";
@@ -310,7 +310,7 @@
 			else { drawNewOvalButton(tempctx, "transparent", _UI.colors.accent); }
 
 			// New Path
-			tempcanvas = document.getElementById("newpathbuttoncanvas");
+			tempcanvas = getEditDocument().getElementById("newpathbuttoncanvas");
 			tempcanvas.height = bh;
 			tempcanvas.width = bw;
 			tempcanvas.style.margin = "2px 4px 0px 4px";

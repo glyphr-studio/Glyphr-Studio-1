@@ -9,7 +9,7 @@
 			"<canvas id='tdcanvas'></canvas><br>" +
 			"<div id='genimg' style='display:none;'></div></div>";
 
-		document.getElementById("mainwrapper").innerHTML = content;
+		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		document.getElementById("tdtextarea").focus();
 
 		_UI.testdrivecanvas = document.getElementById("tdcanvas");

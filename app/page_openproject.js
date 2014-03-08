@@ -10,9 +10,10 @@
 		ct += importOrCreateNew();
 		ct += "</div>";
 
-		document.getElementById("mainwrapper").innerHTML = ct;
-		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
-		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
+		
+		getEditDocument().getElementById("mainwrapper").innerHTML = ct;
+		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
+		getEditDocument().getElementById("droptarget").addEventListener('drop', handleDrop, false);
 	}
 
 	function loadPage_firstrun(){
@@ -27,16 +28,11 @@
 		ct += importOrCreateNew();
 		ct += "</div>";
 
-		var mp = document.getElementById("mainwrapper");
+		var mp = getEditDocument().getElementById("mainwrapper");
 		mp.innerHTML = ct;
 		mp.style.marginLeft = "0px";
-/*
-		document.getElementById("navarea_tabs").style.display = "none";
-		document.getElementById("navarea_panel").style.display = "none";
-		document.getElementById("logocanvas").style.display = "none";
-		*/
-		document.getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
-		document.getElementById("droptarget").addEventListener('drop', handleDrop, false);
+		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
+		getEditDocument().getElementById("droptarget").addEventListener('drop', handleDrop, false);
 
 		drawSplashScreen();
 	}
