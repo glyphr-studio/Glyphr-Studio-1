@@ -8,7 +8,7 @@
 		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npChar",
-		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
+		"thisGlyphrStudioVersion" : "Beta 3.2 - 0.3.2.min",
 		"projectsaved": true,
 		"colors" : {
 			"accent" :		"rgb(0,170,225)",	//os accent base color
