@@ -613,6 +613,10 @@
 		z-index:10;
 	}
 
+    #secondaryScreenLayout #toolsarea {
+        left: 10px;
+    }
+
 	#toolsarea div {
 		margin-right:0px;
 	}
