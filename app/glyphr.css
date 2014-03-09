@@ -175,6 +175,11 @@
 		height: 100%;
 	}
 
+    .poppedOut #primaryScreenLayout {
+        overflow: auto;
+        position: absolute;
+    }
+
 
 	#navarea_tabs {
 		display:block;
@@ -259,6 +264,10 @@
 		background-color:rgb(250,252,255);
 		margin-left:470px;
 	}
+
+    #secondaryScreenLayout #mainwrapper {
+        margin-left: 0;
+    }
 
 	.primarynavbutton {
 		height:50px;
