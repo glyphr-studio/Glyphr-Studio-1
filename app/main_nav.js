@@ -42,15 +42,22 @@
 
 		// Init window properties
 		_UI.popout.onBeforeUnload = popIn;
-		popdoc.head.innerHTML = '<title>Glyphr Studio - Edit Canvas</title>'+
-			'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
-			'<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEBSURBVDhPY/RbdPM/AwWACUqTDbC6IEpdkEFTkotBT5YbzL/0+CvD9effGJbdfA/mIwMMA5odpOEa67c9BtONXrJgGmRQ7YGnYDYMoBgAsjncTBSs8cLb71BRCDAQ5gQbtPLUaxSXoIQBSDNIAbpmEACJgeRAapABxYGIYgDMBpBz0QFIDN12EEAxAOQ3UECB/LoxVg2sCYRBbJj/0QELlIaDtZffgaMMFI3IoQ8Su/bmB5iPDFAMANkEA/6Lb0FZCACKJXSA4gWQTSBnYtMMCxeQGmSA4gKY0zdCoxPmZC0RDnAAwryCDDBSIsimYF0hMBs5KYMAKHzQ08hA50YGBgDfrn7dJSRJxAAAAABJRU5ErkJggg==">'+
-			'<link rel="stylesheet" type="text/css" href="glyphr.css" />';
-		popdoc.body.innerHTML = '<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>';
-		popdoc.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
+        popdoc.write('<!doctype html>'+
+            '<html>'+
+                '<head>'+
+                    '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
+                    '<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEBSURBVDhPY/RbdPM/AwWACUqTDbC6IEpdkEFTkotBT5YbzL/0+CvD9effGJbdfA/mIwMMA5odpOEa67c9BtONXrJgGmRQ7YGnYDYMoBgAsjncTBSs8cLb71BRCDAQ5gQbtPLUaxSXoIQBSDNIAbpmEACJgeRAapABxYGIYgDMBpBz0QFIDN12EEAxAOQ3UECB/LoxVg2sCYRBbJj/0QELlIaDtZffgaMMFI3IoQ8Su/bmB5iPDFAMANkEA/6Lb0FZCACKJXSA4gWQTSBnYtMMCxeQGmSA4gKY0zdCoxPmZC0RDnAAwryCDDBSIsimYF0hMBs5KYMAKHzQ08hA50YGBgDfrn7dJSRJxAAAAABJRU5ErkJggg==">'+
+                    '<link rel="stylesheet" type="text/css" href="glyphr.css" />'+
+                '</head>'+
+                '<body>'+
+                    '<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
+                    '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>'+
+                '</body>'+
+            '</html>')
 
 		// Adjust current properties
 		document.title = 'Glyphr Studio - Controls';
+        document.body.classList.add('poppedOut');
 
 		//debug("POPOUT - finished and _UI.popout is " + _UI.popout);
 		navigate();
@@ -107,6 +114,7 @@
 
 	function popIn(){
 		_UI.popout = false;
+        document.body.classList.remove("poppedOut");
 		navigate();
 	}
 

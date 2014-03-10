@@ -34,7 +34,9 @@
 		_UI.chareditcanvas.onmouseover = mouseovercec;
 		_UI.chareditcanvas.onmouseout = mouseoutcec;
 		_UI.chareditcanvas.addEventListener('wheel', mousewheel, false);
-		document.getElementById("navarea_panel").addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
+		if (document.getElementById("navarea_panel")) {
+            document.getElementById("navarea_panel").addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
+        }
 
 
 		// Document Key Listeners
