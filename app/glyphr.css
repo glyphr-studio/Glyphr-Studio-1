@@ -602,6 +602,10 @@
 		left:500px;
 		top:10px;
 		z-index:10;
+		-moz-user-select:none;
+		-webkit-user-select:none;
+		-ms-user-select:none;
+		user-select:none;
 	}
 
 	#toolsarea div {
