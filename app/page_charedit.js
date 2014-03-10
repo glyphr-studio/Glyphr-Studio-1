@@ -99,7 +99,15 @@
 	function viewZoom(zfactor){
 		//stack(arguments);
 
-		setView({"dz" : (getView("viewZoom").dz*=zfactor)});
+		var v = getView(),
+			deltax = (_UI.eventhandlers.mousex-v.dx),
+			deltay = (_UI.eventhandlers.mousey-v.dy);
+
+		setView({
+			"dz" : (getView("viewZoom").dz*=zfactor),
+			"dx" : (_UI.eventhandlers.mousex-(deltax*zfactor)),
+			"dy" : (_UI.eventhandlers.mousey-(deltay*zfactor))
+		});
 		redraw("viewZoom");
 	}
 
