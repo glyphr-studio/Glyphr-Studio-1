@@ -216,7 +216,12 @@
 		content += "<div title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
 		content += "<div title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'><canvas id='zoomembuttoncanvas'></canvas></div>";
 		content += "<div title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</div>";
-		content += "<div title='two screen mode' class='button tool' onclick='popOut();'>^^</div>";
+		
+		if(_UI.popout){
+			content += "<div title='one screen mode' class='button tool' onclick='popIn();'>vv</div>";
+		} else {
+			content += "<div title='two screen mode' class='button tool' onclick='popOut();'>^^</div>";
+		}
 
 		try {
 			getEditDocument().getElementById("toolsarea").innerHTML = content;

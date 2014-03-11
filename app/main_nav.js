@@ -59,7 +59,8 @@
 		// Adjust current properties
 		document.title = 'Glyphr Studio - Controls';
         document.body.classList.add('poppedOut');
-
+        popdoc.body.onBeforeUnload = 'popIn();';
+		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
 		//debug("POPOUT - finished and _UI.popout is " + _UI.popout);
 		navigate();
 	}
@@ -118,6 +119,7 @@
 //-------------------
 
 	function popIn(){
+		_UI.popout.close();
 		_UI.popout = false;
         document.body.classList.remove("poppedOut");
 		navigate();
@@ -375,6 +377,7 @@
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
 			newsub += "<canvas class='primarynavbutton' id='npSave' onclick='triggerProjectFileDownload();'></canvas>";
+			newsub += "<input type='button' class='button tool	' value='VV' onclick='popIn();'>";
 			newsub += "</div>";
 		}
 
