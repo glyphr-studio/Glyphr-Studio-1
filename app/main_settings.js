@@ -9,6 +9,7 @@
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npChar",
 		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
+		"thisGlyphrStudioVersionNum" : "0.4.0",
 		"projectsaved": true,
 		"colors" : {
 			"accent" :		"rgb(0,170,225)",	//os accent base color

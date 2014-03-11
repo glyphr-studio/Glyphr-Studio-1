@@ -76,9 +76,17 @@
 // Project Saved Sate
 //-------------------
 	function setProjectAsSaved(){
+
 		_UI.projectsaved = true;
 		window.onbeforeunload = null;
-		document.title = 'glyphr';
+		
+		if(_UI.popout) {
+			document.title = "Glyphr Studio - Tools";
+			_UI.popout.document.title = "Glyphr Studio - Canvas";
+		} else {
+			document.title = 'Glyphr Studio';
+		}
+		
 		updateSaveIcon();
 	}
 
@@ -92,7 +100,13 @@
 			};
 		}
 
-		document.title = 'glyphr ❖';
+		if(_UI.popout) {
+			document.title = " ❖ Glyphr Studio - Tools";
+			_UI.popout.document.title = " ❖ Glyphr Studio - Canvas";
+		} else {
+			document.title = ' ❖ Glyphr Studio';
+		}
+
 		updateSaveIcon();
 	}
 
