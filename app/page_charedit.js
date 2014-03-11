@@ -191,24 +191,24 @@
 		}
 
 		var content = "";
-		content += "<div title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clicktool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></div>";
-		content += "<div title='move & resize shape' class='" + (_UI.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></div>";
+		content += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clicktool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></button>";
+		content += "<button title='move & resize shape' class='" + (_UI.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></button>";
 
 		if(_UI.navhere == "character edit"){
-			content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
-			content += "<div title='new rectangle shape' class='" + (_UI.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></div>";
-			content += "<div title='new oval shape' class='" + (_UI.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></div>";
-			content += "<div title='new path shape' class='" + (_UI.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></div>";
+			content += " ";
+			content += "<button title='new rectangle shape' class='" + (_UI.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></button>";
+			content += "<button title='new oval shape' class='" + (_UI.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></button>";
+			content += "<button title='new path shape' class='" + (_UI.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></button>";
 		}
 
-		content += "<div class='tool' style='width:10px;'>&nbsp;</div>";
-		content += "<div title='scroll and pan' class='" + (_UI.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: in' class='button tool' onclick='viewZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: out' class='button tool' onclick='viewZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></div>";
-		content += "<div title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'><canvas id='zoom1to1buttoncanvas'></canvas></div>";
-		content += "<div title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'><canvas id='zoomembuttoncanvas'></canvas></div>";
+		content += " ";
+		content += "<button title='scroll and pan' class='" + (_UI.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></button>";
+		content += "<button title='zoom: in' class='button tool' onclick='viewZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></button>";
+		content += "<button title='zoom: out' class='button tool' onclick='viewZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></button>";
+		content += "<button title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'><canvas id='zoom1to1buttoncanvas'></canvas></button>";
+		content += "<button title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'><canvas id='zoomembuttoncanvas'></canvas></button>";
 		content += "<div title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</div>";
-		content += "<div title='two screen mode' class='button tool' onclick='popOut();'>^^</div>";
+		content += "<button title='two screen mode' class='button tool' onclick='popOut();'>^^</button>";
 
 		try {
 			getEditDocument().getElementById("toolsarea").innerHTML = content;
@@ -224,8 +224,8 @@
 
 		// Path Edit
 		tempcanvas = getEditDocument().getElementById("patheditbuttoncanvas");
-		tempcanvas.height = bh;
-		tempcanvas.width = bw;
+		tempcanvas.height = 22;
+		tempcanvas.width = 13;
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		if(_UI.selectedtool == "pathedit"){ drawPathEditButton(tempctx, "white", "black"); }
@@ -234,9 +234,8 @@
 
 		// Shape Resize
 		tempcanvas = getEditDocument().getElementById("shaperesizebuttoncanvas");
-		tempcanvas.height = bh;
-		tempcanvas.width = bw;
-		tempcanvas.style.margin = "3px 3px 0px 3px";
+		tempcanvas.height = 16;
+		tempcanvas.width = 15;
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		if(_UI.selectedtool == "shaperesize"){ drawShapeResizeButton(tempctx, "white", "black"); }
@@ -244,9 +243,8 @@
 
 		// Pan
 		tempcanvas = getEditDocument().getElementById("panbuttoncanvas");
-		tempcanvas.height = bh;
+		tempcanvas.height = 16;
 		tempcanvas.width = bw;
-		tempcanvas.style.margin = "3px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		if(_UI.selectedtool == "pan"){ drawPanButton(tempctx, "white", "black"); }
@@ -256,7 +254,6 @@
 		tempcanvas = getEditDocument().getElementById("zoominbuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
-		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		drawZoomInButton(tempctx, _UI.colors.accent, "transparent");
@@ -265,7 +262,6 @@
 		tempcanvas = getEditDocument().getElementById("zoomoutbuttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
-		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		drawZoomOutButton(tempctx, _UI.colors.accent, "transparent");
@@ -274,16 +270,14 @@
 		tempcanvas = getEditDocument().getElementById("zoom1to1buttoncanvas");
 		tempcanvas.height = bh;
 		tempcanvas.width = bw;
-		tempcanvas.style.margin = "2px 4px 0px 2px";
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		drawZoom1to1Button(tempctx, _UI.colors.accent, "transparent");
 
 		// Zoom Em
 		tempcanvas = getEditDocument().getElementById("zoomembuttoncanvas");
-		tempcanvas.height = bh;
-		tempcanvas.width = bw;
-		tempcanvas.style.margin = "4px 4px 0px 3px";
+		tempcanvas.height = 14;
+		tempcanvas.width = 14;
 		tempcanvas.style.backgroundColor = "transparent";
 		tempctx = tempcanvas.getContext("2d");
 		drawZoomEmButton(tempctx, _UI.colors.accent, "transparent");
@@ -292,8 +286,7 @@
 			// New Rectangle
 			tempcanvas = getEditDocument().getElementById("newrectbuttoncanvas");
 			tempcanvas.height = bh;
-			tempcanvas.width = bw;
-			tempcanvas.style.margin = "2px 4px 0px 4px";
+			tempcanvas.width = 13;
 			tempcanvas.style.backgroundColor = "transparent";
 			tempctx = tempcanvas.getContext("2d");
 			if(_UI.selectedtool == "newrect") { drawNewRectButton(tempctx, "white", "black"); }
@@ -302,8 +295,7 @@
 			// New Oval
 			tempcanvas = getEditDocument().getElementById("newovalbuttoncanvas");
 			tempcanvas.height = bh;
-			tempcanvas.width = bw;
-			tempcanvas.style.margin = "2px 4px 0px 4px";
+			tempcanvas.width = 12;
 			tempcanvas.style.backgroundColor = "transparent";
 			tempctx = tempcanvas.getContext("2d");
 			if(_UI.selectedtool == "newoval"){ drawNewOvalButton(tempctx, "white", "black"); }
@@ -312,8 +304,7 @@
 			// New Path
 			tempcanvas = getEditDocument().getElementById("newpathbuttoncanvas");
 			tempcanvas.height = bh;
-			tempcanvas.width = bw;
-			tempcanvas.style.margin = "2px 4px 0px 4px";
+			tempcanvas.width = 12;
 			tempcanvas.style.backgroundColor = "transparent";
 			tempctx = tempcanvas.getContext("2d");
 			if(_UI.selectedtool == "newpath"){ drawNewPathButton(tempctx, "white", "black"); }
