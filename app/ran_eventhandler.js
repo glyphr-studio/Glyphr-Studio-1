@@ -266,7 +266,7 @@
 			putundoq("New Basic Shape tool");
 			_UI.eventhandlers.uqhaschanged = false;
 
-			clicktool("pathedit");
+			clickTool("pathedit");
 		};
 
 		this.mousemove = function (ev) {

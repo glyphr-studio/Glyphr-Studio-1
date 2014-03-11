@@ -199,18 +199,18 @@
 		}
 
 		var content = "";
-		content += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clicktool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></button>";
-		content += "<button title='move & resize shape' class='" + (_UI.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></button>";
+		content += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/><canvas id='patheditbuttoncanvas'></canvas></button>";
+		content += "<button title='move & resize shape' class='" + (_UI.selectedtool=='shaperesize'? "buttonsel " : "button ") + "tool' onclick='clickTool(\"shaperesize\");'/><canvas id='shaperesizebuttoncanvas'></canvas></button>";
 
 		if(_UI.navhere == "character edit"){
 			content += " ";
-			content += "<button title='new rectangle shape' class='" + (_UI.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></button>";
-			content += "<button title='new oval shape' class='" + (_UI.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></button>";
-			content += "<button title='new path shape' class='" + (_UI.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></button>";
+			content += "<button title='new rectangle shape' class='" + (_UI.selectedtool=='newrect'? "buttonsel " : "button ") + "tool' onclick='clickTool(\"newrect\");'/><canvas id='newrectbuttoncanvas'></canvas></button>";
+			content += "<button title='new oval shape' class='" + (_UI.selectedtool=='newoval'? "buttonsel " : "button ") + "tool' onclick='clickTool(\"newoval\");'/><canvas id='newovalbuttoncanvas'></canvas></button>";
+			content += "<button title='new path shape' class='" + (_UI.selectedtool=='newpath'? "buttonsel " : "button ") + "tool' onclick='clickTool(\"newpath\");'/><canvas id='newpathbuttoncanvas'></canvas></button>";
 		}
 
 		content += " ";
-		content += "<button title='scroll and pan' class='" + (_UI.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clicktool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></button>";
+		content += "<button title='scroll and pan' class='" + (_UI.selectedtool=='pan'? "buttonsel " : "button ") + "tool' onclick='clickTool(\"pan\");'/><canvas id='panbuttoncanvas'></canvas></button>";
 		content += "<button title='zoom: in' class='button tool' onclick='viewZoom(1.1);'><canvas id='zoominbuttoncanvas'></canvas></button>";
 		content += "<button title='zoom: out' class='button tool' onclick='viewZoom(.9);'><canvas id='zoomoutbuttoncanvas'></canvas></button>";
 		content += "<button title='zoom: one to one' class='button tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'><canvas id='zoom1to1buttoncanvas'></canvas></button>";
@@ -218,7 +218,7 @@
 		content += "<div title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</div>";
 
 		if(_UI.popout){
-			content += "<div title='one screen mode' class='button tool' onclick='popIn();'>vv</div>";
+			content += "<button title='one screen mode' class='button tool' onclick='popIn();'>vv</button>";
 		} else {
 			content += "<button title='two screen mode' class='button tool' onclick='popOut();'>^^</button>";
 		}
@@ -325,7 +325,7 @@
 		}
 	}
 
-	function clicktool(ctool){
+	function clickTool(ctool){
 		//stack(arguments);
 
 		_UI.selectedtool = ctool;
@@ -339,7 +339,7 @@
 			_UI.selectedshape = -1;
 		} else if(ctool=="pathedit"){
 			if(s) {s.path.selectPathPoint(0);}
-			//debug("CLICKTOOL() - setting selectPathPoint = 0");
+			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool == "shapemove"){
 			if(s){s.path.calcMaxes();}
 		}

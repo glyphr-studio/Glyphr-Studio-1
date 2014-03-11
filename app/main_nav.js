@@ -37,31 +37,36 @@
 	function popOut(){
 		_UI.popout = window.open('', 'glyphr_popout');
 		//debug("POPOUT - opened window, _UI.popout is " + _UI.popout);
-
+		var pop = _UI.popout;
 		var popdoc = _UI.popout.document;
 
-		// Init window properties
-		_UI.popout.onBeforeUnload = popIn;
-        popdoc.write('<!doctype html>'+
-            '<html>'+
-                '<head>'+
-                    '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
-                    '<title>Glyphr Studio - Canvas</title>'+
-                    '<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEBSURBVDhPY/RbdPM/AwWACUqTDbC6IEpdkEFTkotBT5YbzL/0+CvD9effGJbdfA/mIwMMA5odpOEa67c9BtONXrJgGmRQ7YGnYDYMoBgAsjncTBSs8cLb71BRCDAQ5gQbtPLUaxSXoIQBSDNIAbpmEACJgeRAapABxYGIYgDMBpBz0QFIDN12EEAxAOQ3UECB/LoxVg2sCYRBbJj/0QELlIaDtZffgaMMFI3IoQ8Su/bmB5iPDFAMANkEA/6Lb0FZCACKJXSA4gWQTSBnYtMMCxeQGmSA4gKY0zdCoxPmZC0RDnAAwryCDDBSIsimYF0hMBs5KYMAKHzQ08hA50YGBgDfrn7dJSRJxAAAAABJRU5ErkJggg==">'+
-                    '<link rel="stylesheet" type="text/css" href="glyphr.css" />'+
-                '</head>'+
-                '<body>'+
-                    '<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
-                    '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>'+
-                '</body>'+
-            '</html>');
+		debug("POPOUT - getting css:\n" + document.styleSheets[0]);
 
-		// Adjust current properties
-		document.title = 'Glyphr Studio - Controls';
+		// Init window properties
+        popdoc.write('<!doctype html>'+
+			'<html>'+
+			'<head>'+
+				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
+				'<title>Glyphr Studio - Canvas</title>'+
+			'</head>'+
+			'<body>'+
+				'<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
+				'<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>'+
+			'</body>'+
+			'</html>');
+
+		// Main Screen
+		document.title = 'Glyphr Studio - Tools';
         document.body.classList.add('poppedOut');
-        popdoc.body.onBeforeUnload = 'popIn();';
+        
+        // Second Screen
+        popdoc.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
+		pop.onBeforeUnload = popIn;
+        pop.clickTool = clickTool;
+        pop.viewZoom = viewZoom;
+        pop.setView = setView;
 		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
-		//debug("POPOUT - finished and _UI.popout is " + _UI.popout);
+
 		navigate();
 	}
 
