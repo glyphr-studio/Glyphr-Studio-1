@@ -97,7 +97,10 @@
 		border-collapse: collapse;
 	}
 
-
+	button {
+		border: none;
+		text-align: center;
+	}
 
 
 
@@ -644,28 +647,34 @@
 
 	#toolsarea div {
 		margin-right:0px;
+		word-spacing: 10px;
 	}
 
 	.tool {
-		height:24px;
-		width:24px;
 		overflow:visible;
-		padding:4px 0px 0px 4px;
+		padding:0;
 		margin-right:0px;
-		display:inline;
-		float:left;
+		vertical-align:bottom;
+		margin: 1px 0 1px 1px;
 	}
 
 	.out {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
-		padding:4px 0px 0px 6px;
-		margin:1px 0px 0px 1px;
+		display: inline-block;
+		line-height: 28px;
 		width:70px;
+		text-align: center;
 	}
 
 	.tool canvas {
-		margin:0px 4px 0px 4px;
+		vertical-align: middle;
+	}
+
+	button.tool {
+		text-align: center;
+		width: 28px;
+		line-height: 28px;
 	}
 
 /*	LAYERS		*/
@@ -822,11 +831,11 @@
 /* --------------------- */
 /* Page - Font Settings */
 /* ------------------- */
-	
+
 	.fontmetricstable {
 		margin:12px 0px;
 	}
-	
+
 	.fontmetricstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
