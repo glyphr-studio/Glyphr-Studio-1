@@ -244,7 +244,7 @@
 		}
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> direction </td>"+
+					"<td> overlap mode <span class='help' title='shapes with the same winding will combine, opposite windings will cut-out'>?</span> </td>"+
 					"<td class='rightcol'><input type='text' disabled='disabled'"+
 					" value='"+(s.path.clockwise===0?"unknown":(s.path.clockwise>0?"counterclockwise":"clockwise"))+"'/>"+
 					"<input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' value='"+(s.path.clockwise>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td>"+

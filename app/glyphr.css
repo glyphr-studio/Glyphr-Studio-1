@@ -402,6 +402,19 @@
 		padding-left: 4px;
 	}
 
+	.help {
+		font-size:10px;
+		padding:0px 3px 1px 2px;
+		color:white;
+		background-color: rgb(204,209,214);
+		border: 3px solid rgb(229,234,239);
+	}
+
+	.help:hover {
+		background-color: rgb(178,183,188);
+		border:3px solid rgb(178,183,188);
+	}
+
 /* -----------*/
 /* Nav Stuff */
 /* ---------*/
