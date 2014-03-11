@@ -40,7 +40,11 @@
 //-------------------------------------------------------
 // CHAR METHODS
 //-------------------------------------------------------
-
+/*
+	getCmapCode
+	getHTMLCode
+*/
+	
 	Char.prototype.calcCharMaxes = function(){
 
 		var maxes = {
