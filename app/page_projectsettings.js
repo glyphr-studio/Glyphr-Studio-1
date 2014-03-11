@@ -36,6 +36,14 @@
 					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value);'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
+		content += "<h2>UI Behavior</h2>"+
+					"<table class='fontmetricstable'>"+
+					"<tr><td style='text-align:right;'><input type='checkbox' "+(_GP.stoppagenavigation?"checked ":" ")+" onchange='_GP.stoppagenavigation=this.checked;'/></td>"+
+					"<td>Show a confirmation message if you attempt to close an unsaved project.</td></tr>"+
+					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.spinnervaluechange)+"' onchange='var r=Math.round(parseInt(this.value)); r=r|1; _GP.projectsettings.spinnervaluechange=r; this.value=r;' style='width:25px;'/></td>"+
+					"<td>Spinner Button increment or decrement value.</td></tr>"+
+					"</table><br>";
+
 		content += "</div>";
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;

@@ -69,14 +69,14 @@
 		display:inline;
 		font-size:1.6em;
 		padding:0 1em 0 0;
-		margin:0 0 .2em 0;
+		margin:0 0 .4em 0;
 		text-transform:lowercase;
 	}
 
 	h3 {
 		color:rgb(102,107,112);
 		font-size:1.3em;
-		padding:0 1em .4em 0;
+		padding:0 1em .3em 0;
 		text-transform:lowercase;
 	}
 
@@ -822,7 +822,11 @@
 /* --------------------- */
 /* Page - Font Settings */
 /* ------------------- */
-
+	
+	.fontmetricstable {
+		margin:12px 0px;
+	}
+	
 	.fontmetricstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
