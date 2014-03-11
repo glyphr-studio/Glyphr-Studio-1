@@ -217,10 +217,11 @@
 		content += "<button title='zoom: full em' class='button tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'><canvas id='zoomembuttoncanvas'></canvas></button>";
 		content += "<div title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</div>";
 
+		content += " ";
 		if(_UI.popout){
-			content += "<button title='one screen mode' class='button tool' onclick='popIn();'>vv</button>";
+			content += "<button title='one screen mode' class='button tool' onclick='popIn();'>"+drawPopInButton()+"</button>";
 		} else {
-			content += "<button title='two screen mode' class='button tool' onclick='popOut();'>^^</button>";
+			content += "<button title='two screen mode' class='button tool' onclick='popOut();'>"+drawPopOutButton()+"</button>";
 		}
 
 		try {

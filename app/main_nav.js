@@ -65,6 +65,7 @@
         pop.clickTool = clickTool;
         pop.viewZoom = viewZoom;
         pop.setView = setView;
+        pop.popIn = popIn;
 		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
 
 		navigate();
@@ -382,7 +383,7 @@
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
 			newsub += "<canvas class='primarynavbutton' id='npSave' onclick='triggerProjectFileDownload();'></canvas>";
-			newsub += "<input type='button' class='button tool	' value='VV' onclick='popIn();'>";
+			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+drawPopInButton()+"</button>";
 			newsub += "</div>";
 		}
 

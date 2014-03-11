@@ -1777,7 +1777,6 @@ function drawNewRectButton(lctx, bgcolor, outlinecolor){
 	lctx.fill();
 }
 
-
 function drawShapeResizeButton(lctx, bgcolor, outlinecolor){
 
 	// FILLS
@@ -2489,7 +2488,6 @@ function drawPathEditButton(lctx, bgcolor, outlinecolor){
 	lctx.fill();
 }
 
-
 function drawPanButton(lctx, bgcolor, outlinecolor){
 
 	lctx.fillStyle = bgcolor;
@@ -2652,7 +2650,6 @@ function drawPanButton(lctx, bgcolor, outlinecolor){
 	lctx.lineTo(2.0, 6.0);
 	lctx.closePath();
 	lctx.fill();
-
 }
 
 function drawZoomInButton(lctx, bgcolor, outlinecolor){
@@ -2749,7 +2746,6 @@ function drawZoom1to1Button(lctx, bgcolor, outlinecolor){
 	lctx.lineTo(9.0, 5.0);
 	lctx.closePath();
 	lctx.fill();
-
 }
 
 function drawZoomEmButton(lctx, bgcolor, outlinecolor){
@@ -2866,7 +2862,32 @@ function drawZoomEmButton(lctx, bgcolor, outlinecolor){
 	lctx.fill();
 }
 
+function drawPopOutButton(){
+	var b = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="12px" viewBox="0 0 14 12" enable-background="new 0 0 14 12" xml:space="preserve">'+
+		'<rect y="3" fill="rgb(0,170,225)" width="1" height="9"/>'+
+		'<rect x="10" y="8" fill="rgb(0,170,225)" width="1" height="4"/>'+
+		'<rect y="11" fill="rgb(0,170,225)" width="11" height="1"/>'+
+		'<rect y="3" fill="rgb(0,170,225)" width="4" height="1"/>'+
+		'<rect x="3" fill="rgb(0,170,225)" width="1" height="9"/>'+
+		'<rect x="13" fill="rgb(0,170,225)" width="1" height="9"/>'+
+		'<rect x="3" y="8" fill="rgb(0,170,225)" width="11" height="1"/>'+
+		'<rect x="3" fill="rgb(0,170,225)" width="11" height="1"/>'+
+		'</svg>';
 
+	return b;
+}
+
+function drawPopInButton(){
+	var b = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="12px" viewBox="0 0 14 12" enable-background="new 0 0 14 12" xml:space="preserve">'+
+		'<rect fill="rgb(0,170,225)" width="1" height="12"/>'+
+		'<rect x="5" fill="rgb(0,170,225)" width="1" height="12"/>'+
+		'<rect x="13" fill="rgb(0,170,225)" width="1" height="12"/>'+
+		'<rect y="11" fill="rgb(0,170,225)" width="14" height="1"/>'+
+		'<rect fill="rgb(0,170,225)" width="14" height="1"/>'+
+		'</svg>';
+		
+	return b;
+}
 
 //	----------------------
 //	POINT TYPES
