@@ -44,7 +44,6 @@
 			}
 
 			content += "</table><br>";
-			content += makePanel_Actions();
 
 		} else if (_UI.navhere == "linked shapes"){
 			//debug("UPDATEDETAILS - detected navhere = linked shapes");

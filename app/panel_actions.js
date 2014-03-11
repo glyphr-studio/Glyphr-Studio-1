@@ -2,67 +2,67 @@
 //-------------------
 // Actions Panel
 //-------------------
-	function makePanel_Actions(){
-		//stack(arguments);
-
-		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
-
+	function makePanel_Actions(stack){
 		var s = ss("Update Actions");
 
-		var allactions = "<td><h3>universal</h3>";
-			allactions += "<input  class='"+(_UI.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
-			allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'><br>";
-			allactions += "<input class='button' type='button' value='add linked shape' onclick='insertLinkedShapeDialog();'><br>";
-			allactions += "<input class='"+(_UI.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'><br>";
+		var allactions = "<h3>universal</h3>";
+		allactions += "<input  class='"+(_UI.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
+		allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'><br>";
+		allactions += "<input class='button' type='button' value='add linked shape' onclick='insertLinkedShapeDialog();'><br>";
+		allactions += "<input class='"+(_UI.clipboardshape? "button": "buttondis")+"' type='button' value='Paste' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'><br>";
 
-			allactions += "</td>";
+		var shapeactions = "<h3>shape</h3>";
+		shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
+		shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updateactions\");'><br>";
+		shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updateactions\");'><br>";
+		shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'><br>";
 
-		var shapeactions = "<td><h3>shape</h3>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Copy' onclick='copyShape()'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Horizontal' onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updateactions\");'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Flip Vertical' onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updateactions\");'><br>";
-			shapeactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'><br>";
+		var layeractions = "<h3>layer</h3>";
+		layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'><br>";
+		layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'><br>";
 
-			shapeactions += "</td>";
+		var canvasactions = "<h3>editor view</h3>";
+		canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updateactions\");'><br>";
+		canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw(\"updateactions\");'><br>";
 
-		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Up' onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'><br>";
-			layeractions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Move Down' onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'><br>";
-			layeractions += "</td>";
-
-		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<input class='button' type='button' value='Toggle Grid' onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updateactions\");'><br>";
-			canvasactions += "<input class='button' type='button' value='Toggle Guides' onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw(\"updateactions\");'><br>";
-			canvasactions += "</td>";
-
-		var pointactions = "<td><h3>path point</h3>";
-			pointactions += "<input class='button' type='button' value='Insert' onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updateactions\");'><br>";
-			pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw(\"updateactions\");'><br>";
-			pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updateactions\");'><br>";
-			pointactions += "</td>";
+		var pointactions = "<h3>path point</h3>";
+		pointactions += "<input class='button' type='button' value='Insert' onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updateactions\");'><br>";
+		pointactions += "<input class='"+(s? "button": "buttondis")+"' type='button' value='Delete' onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw(\"updateactions\");'><br>";
+		pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updateactions\");'><br>";
 
 		// Put it all together
+		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 
+		content += "<td>";
 		content += allactions;
+		if(!stack) content += "</td>";
 
+		if(!stack) content += "<td>";
 		if(_UI.shapelayers.length > 0){ content += shapeactions; }
-		else { content += "<td> &nbsp; </td>";}
+		else if (!stack){ content += "&nbsp;";}
+		if(!stack) content += "</td>";
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(_UI.selectedtool != "pathedit") ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
+		if(!stack) content += "<td>";
 		if(ispointsel){ content += pointactions; }
-		else { content += "<td> &nbsp; </td>";}
+		else if (!stack){ content += "&nbsp;";}
+		if(!stack) content += "</td>";
 
-		content += "</tr><tr>";
+		if (!stack) content += "</tr><tr>";
 
+		if(!stack) content += "<td>";
 		content += canvasactions;
+		if(!stack) content += "</td>";
 
-		if(_UI.shapelayers.length > 1){ content += layeractions; }
+		if(!stack) content += "<td>";
+		if(_UI.shapelayers.length > 1 && !stack){ content += layeractions; }
+		content += "</td>";
 
-		content += "</td></tr></table><br><br>";
+		content += "</tr></table><br><br>";
 
 		return content;
 	}

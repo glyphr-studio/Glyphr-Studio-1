@@ -16,7 +16,7 @@
 
 
 	function update_NavPanels() {
-		debug("UPDATE_NAVPANELS");
+		//debug("UPDATE_NAVPANELS");
 		if (_UI.popout){ makeAndDraw_NavPanels_PopOut(); }
 		else { makeAndDraw_NavPanels_PopIn(); }
 	}
@@ -46,6 +46,7 @@
             '<html>'+
                 '<head>'+
                     '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
+                    '<title>Glyphr Studio - Canvas</title>'+
                     '<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEBSURBVDhPY/RbdPM/AwWACUqTDbC6IEpdkEFTkotBT5YbzL/0+CvD9effGJbdfA/mIwMMA5odpOEa67c9BtONXrJgGmRQ7YGnYDYMoBgAsjncTBSs8cLb71BRCDAQ5gQbtPLUaxSXoIQBSDNIAbpmEACJgeRAapABxYGIYgDMBpBz0QFIDN12EEAxAOQ3UECB/LoxVg2sCYRBbJj/0QELlIaDtZffgaMMFI3IoQ8Su/bmB5iPDFAMANkEA/6Lb0FZCACKJXSA4gWQTSBnYtMMCxeQGmSA4gKY0zdCoxPmZC0RDnAAwryCDDBSIsimYF0hMBs5KYMAKHzQ08hA50YGBgDfrn7dJSRJxAAAAABJRU5ErkJggg==">'+
                     '<link rel="stylesheet" type="text/css" href="glyphr.css" />'+
                 '</head>'+
@@ -53,7 +54,7 @@
                     '<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
                     '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>'+
                 '</body>'+
-            '</html>')
+            '</html>');
 
 		// Adjust current properties
 		document.title = 'Glyphr Studio - Controls';
@@ -69,7 +70,7 @@
 		var pol = '<div id="popout_pagenav"></div>';
 		pol += '<div id="popout_charchooser"></div>';
 		pol += '<div id="popout_layerchooser"></div>';
-		pol += '<div id="popout_actions"><h1>ACTIONS</h1></div>';
+		pol += '<div id="popout_actions"></div>';
 		pol += '<div id="popout_attributes"></div></td>';
 		// but a save icon somewhere
 
@@ -81,7 +82,7 @@
 	}
 
 	function makeAndDraw_NavPanels_PopOut(){
-		debug("MAKEANDDRAW_NAVPANELS_POPOUT");
+		//debug("MAKEANDDRAW_NAVPANELS_POPOUT");
 		//debug("\t\t primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
@@ -98,12 +99,16 @@
 		document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 		drawPanel_LayerChooser();
 
+		document.getElementById('popout_actions').innerHTML = makePanel_Actions(true);
+
 		if(_UI.navhere == "test drive"){
 			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveOptions();
 		} else {
 			document.getElementById('popout_attributes').innerHTML = makePanel_Attributes();
 			drawPanel_Attributes();
 		}
+
+		updateSaveIcon();
 	}
 
 
@@ -183,6 +188,7 @@
 					nt.innerHTML = makePanel_TestDriveOptions();
 				} else {
 					nt.innerHTML = makePanel_Attributes();
+					nt.innerHTML += makePanel_Actions();
 					drawPanel_Attributes();
 				}
 				break;
@@ -364,6 +370,12 @@
 			} else {
 				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>");
 			}
+		}
+
+		if(_UI.popout) {
+			newsub += "<div class='popoutsave'>";
+			newsub += "<canvas class='primarynavbutton' id='npSave' onclick='triggerProjectFileDownload();'></canvas>";
+			newsub += "</div>";
 		}
 
 		return newsub;

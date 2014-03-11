@@ -25,7 +25,7 @@
 		ccon += "<div style='display:block; clear:all;'></div>";
 
 		// Numbers
-		for(var k=48; k<58; k++){ccon += buildbutton(k, fname);}
+		for(var h=48; h<58; h++){ccon += buildbutton(h, fname);}
 		
 		// Symbols
 		for(var k=33; k<48; k++){ccon += buildbutton(k, fname);}
