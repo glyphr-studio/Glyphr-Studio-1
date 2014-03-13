@@ -351,7 +351,9 @@
 	};
 
 	Path.prototype.insertPathPoint = function() {
-
+		// Revise to conform with de Casteljau Bezier curve dividing
+		// http://antigrain.com/research/adaptive_bezier/index.html
+		
 		var p1i = this.sp(true, "insert path point");
 		var p1 = (p1i === false ? this.pathpoints[0] : this.pathpoints[p1i]);
 
