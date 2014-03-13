@@ -156,7 +156,7 @@
 	}
 
 	function makeAndDraw_NavPanels_PopIn(){
-		debug("MAKEANDDRAW_NAVPANELS_POPIN");
+		//debug("MAKEANDDRAW_NAVPANELS_POPIN");
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		drawPanel_NavTabs();

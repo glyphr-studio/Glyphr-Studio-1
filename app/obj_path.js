@@ -351,39 +351,56 @@
 	};
 
 	Path.prototype.insertPathPoint = function() {
-		// Revise to conform with de Casteljau Bezier curve dividing
 		// http://antigrain.com/research/adaptive_bezier/index.html
 		
-		var p1i = this.sp(true, "insert path point");
-		var p1 = (p1i === false ? this.pathpoints[0] : this.pathpoints[p1i]);
+		var pp1i = this.sp(true, "insert path point");
+		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
+		var pp2i = (pp1i+1)%this.pathpoints.length;
+		var pp2 = this.pathpoints[pp2i];
+		var nP, nH1, nH2, ppn;
 
 		if(this.pathpoints.length > 1){
-			var p2 = this.pathpoints[(p1i+1)%this.pathpoints.length];
+			// Do some math
+			var x12 = (pp1.P.x + pp1.getH2x()) / 2;
+			var y12 = (pp1.P.y + pp1.getH2y()) / 2;
+			var x23 = (pp1.getH2x() + pp2.getH1x()) / 2;
+			var y23 = (pp1.getH2y() + pp2.getH1y()) / 2;
+			var x34 = (pp2.getH1x() + pp2.P.x) / 2;
+			var y34 = (pp2.getH1y() + pp2.P.y) / 2;
+			var x123 = (x12 + x23) / 2;
+			var y123 = (y12 + y23) / 2;
+			var x234 = (x23 + x34) / 2;
+			var y234 = (y23 + y34) / 2;
+			var x1234 = (x123 + x234) / 2;
+			var y1234 = (y123 + y234) / 2;
 
-			var newPx = (p1.P.x*0.125) + (p1.H2.x*0.375) + (p2.H1.x*0.375) + (p2.P.x*0.125);
-			var newPy = (p1.P.y*0.125) + (p1.H2.y*0.375) + (p2.H1.y*0.375) + (p2.P.y*0.125);
+			// New Point
+			nP = new Coord({"x":x1234, "y":y1234});
+			nH1 = new Coord({"x":x123, "y":y123});
+			nH2 = new Coord({"x":x234, "y":y234});
+			ppn = new PathPoint({"P":nP, "H1":nH1, "H2":nH2, "type":"flat"});
 
-			var newpp = new PathPoint({"P":new Coord({"x":newPx, "y":newPy}), "type":"flat"});
-			// Handles (tangents)
+			// Update P1
+			if(pp1.type === "symmetric") pp1.type = "flat";
+			pp1.H2.x = x12;
+			pp1.H2.y = y12;
 
-			var newH2x = ((p2.H1.x - p2.P.x) / 2) + p2.P.x;
-			var newH2y = ((p2.P.y - p2.H1.y) / 2) + p2.H1.y;
-
-			//debug("INSERTPATHPOINT - before makepointedto " + JSON.stringify(newpp));
-
-			newpp.makePointedTo(newH2x, newH2y, 100);
-			var tempH2 = newpp.H2;
-			newpp.H2 = newpp.H1;
-			newpp.H1 = tempH2;
-			newpp.makeSymmetric("H2");
-
-			//debug("INSERTPATHPOINT - afters makepointedto " + JSON.stringify(newpp));
-
-
-			this.pathpoints.splice((p1i+1)%this.pathpoints.length, 0, newpp);
-			this.selectPathPoint((p1i+1)%this.pathpoints.length);
-
+			// Update P2
+			if(pp2.type === "symmetric") pp2.type = "flat";
+			pp2.H1.x = x34;
+			pp2.H1.y = y34;
+		} else {
+			//just make a random point
+			var d = 100;
+			nP = new Coord({"x":pp1.P.x+d, "y":pp1.P.y+d});
+			nH1 = new Coord({"x":pp1.getH2x()+d, "y":pp1.getH2y()+d});
+			nH2 = new Coord({"x":pp1.getH1x()+d, "y":pp1.getH1y()+d});
+			ppn = new PathPoint({"P":nP, "H1":nH1, "H2":nH2, "type":pp1.type});
 		}
+
+		// Insert
+		this.pathpoints.splice(pp2i, 0, ppn);
+		this.selectPathPoint(pp2i);
 
 		this.calcMaxes();
 	};
