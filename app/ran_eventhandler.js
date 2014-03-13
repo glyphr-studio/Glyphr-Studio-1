@@ -141,7 +141,6 @@
 						this.firstmove = false;
 						_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 						_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-						currpath.clockwise = findClockwise(currpath.pathpoints);
 						redraw("Event Handler newPath mousedown");
 						return;
 					}
@@ -162,6 +161,8 @@
 
 		this.mouseup = function () {
 			//debug("NEWPATH MOUSEUP");
+			var currpath = ss("Event Handler New Path").path;
+			currpath.winding = currpath.findWinding();
 			this.dragging = false;
 			this.firstmove = false;
 			_UI.eventhandlers.lastx = -100;

@@ -17,7 +17,7 @@
 				this.pathpoints[i] = new PathPoint(oa.pathpoints[i]);
 			}
 		}
-		this.clockwise = isval(oa.clockwise)? oa.clockwise : findClockwise(this.pathpoints);
+		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 		// internal
 		this.topy = isval(oa.topy)? oa.topy : -1;
 		this.bottomy = isval(oa.bottomy)? oa.bottomy : -1;
@@ -213,9 +213,11 @@
 		this.calcMaxes();
 	};
 
-	function findClockwise(parr){
+	Path.prototype.findWinding = function(){
+		//debug("findWinding");
 		var j,k,z;
 		var count = 0;
+		var parr = this.pathpoints;
 
 		if (parr.length < 3) return 0;
 
@@ -232,9 +234,9 @@
 		// negative = clockwise
 		// positive = counterclockwise
 
-		//debug("FINDCLOCKWISE returning " + count);
+		//debug("findWinding returning " + count);
 		return count;
-	}
+	};
 
 	Path.prototype.reversePath = function(){
 		var HT = {};
@@ -249,7 +251,7 @@
 				}
 			}
 			this.pathpoints.reverse();
-			this.clockwise *= -1;
+			this.winding *= -1;
 		}
 	};
 
