@@ -77,16 +77,16 @@
 					tool = _UI.eventhandlers.eh_shaperesize;
 					break;
 				case "pan" :
-					document.body.style.cursor = "move";
+					getEditDocument().body.style.cursor = "move";
 					tool = _UI.eventhandlers.eh_pantool;
 					break;
 				case "newpath" :
-					document.body.style.cursor = "crosshair";
+					getEditDocument().body.style.cursor = "crosshair";
 					tool = _UI.eventhandlers.eh_addpath;
 					break;
 				case "newrect" :
 				case "newoval" :
-					document.body.style.cursor = "crosshair";
+					getEditDocument().body.style.cursor = "crosshair";
 					tool = _UI.eventhandlers.eh_addrectoval;
 					break;
 			}
@@ -708,7 +708,7 @@
 				_UI.eventhandlers.lastTool = _UI.selectedtool;
 				_UI.selectedtool = "pan";
 				_UI.eventhandlers.iskeydown = true;
-				document.body.style.cursor = "move";
+				getEditDocument().body.style.cursor = "move";
 				redraw("Event Handler - Keydown Spacebar for pan toggle");
 			}
 		}

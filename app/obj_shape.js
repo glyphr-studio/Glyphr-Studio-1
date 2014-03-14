@@ -282,10 +282,10 @@
 		var ps = _GP.projectsettings.pointsize+1;
 		var hp = ps/2;
 
-		var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx) 		: sx_cx(this.path.leftx);
-		var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx) 	: sx_cx(this.path.rightx);
-		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy) 		: sy_cy(this.path.topy);
-		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy) 	: sy_cy(this.path.bottomy);
+		var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx)		: sx_cx(this.path.leftx);
+		var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx)		: sx_cx(this.path.rightx);
+		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy)		: sy_cy(this.path.topy);
+		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy)	: sy_cy(this.path.bottomy);
 
 		var bleftx = (lx-hp).makeCrisp(true);
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
@@ -294,7 +294,7 @@
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
 		var bbottomy = (by-hp).makeCrisp(true);
 
-		onlycenter? _UI.chareditctx.fillStyle = _UI.colors.accent : _UI.chareditctx.fillStyle = "white";
+		_UI.chareditctx.fillStyle = onlycenter?  _UI.colors.accent : "white";
 
 		if(!onlycenter){
 			//upper left
@@ -350,11 +350,11 @@
 		//Center Dot
 		_UI.chareditctx.fillRect(bmidx, bmidy, ps, ps);
 		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);
-	}
+	};
 
 	Shape.prototype.genPostScript = function(lastx, lasty){
 		return this.path? this.path.genPathPostScript(lastx, lasty) : {"re":"", "lastx":lastx, "lasty":lasty};
-	}
+	};
 
 
 //	-----------------
@@ -393,19 +393,20 @@
 		var newshape = new Shape({});
 		var parr = false;
 		var shapetype = "layer ";
+		var p1,p2,p3,p4;
 
 		if(type == "oval"){
-			var p1 = new PathPoint({"P":new Coord({"x":0,"y":(th/2)}), "H1":new Coord({"x":0,"y":hd}), "H2":new Coord({"x":0,"y":(th-hd)}), "type":"symmetric"});
-			var p2 = new PathPoint({"P":new Coord({"x":(tw/2),"y":th}), "H1":new Coord({"x":hd,"y":th}), "H2":new Coord({"x":(tw-hd),"y":th}), "type":"symmetric"});
-			var p3 = new PathPoint({"P":new Coord({"x":tw,"y":(th/2)}), "H1":new Coord({"x":tw,"y":(th-hd)}), "H2":new Coord({"x":tw,"y":hd}), "type":"symmetric"});
-			var p4 = new PathPoint({"P":new Coord({"x":(tw/2),"y":0}), "H1":new Coord({"x":(tw-hd),"y":0}), "H2":new Coord({"x":hd,"y":0}), "type":"symmetric"});
+			p1 = new PathPoint({"P":new Coord({"x":0,"y":(th/2)}), "H1":new Coord({"x":0,"y":hd}), "H2":new Coord({"x":0,"y":(th-hd)}), "type":"symmetric"});
+			p2 = new PathPoint({"P":new Coord({"x":(tw/2),"y":th}), "H1":new Coord({"x":hd,"y":th}), "H2":new Coord({"x":(tw-hd),"y":th}), "type":"symmetric"});
+			p3 = new PathPoint({"P":new Coord({"x":tw,"y":(th/2)}), "H1":new Coord({"x":tw,"y":(th-hd)}), "H2":new Coord({"x":tw,"y":hd}), "type":"symmetric"});
+			p4 = new PathPoint({"P":new Coord({"x":(tw/2),"y":0}), "H1":new Coord({"x":(tw-hd),"y":0}), "H2":new Coord({"x":hd,"y":0}), "type":"symmetric"});
 			parr = [p1,p2,p3,p4];
 			shapetype = "oval ";
 		} else {
-			var p1 = new PathPoint({"P":new Coord({"x":0,"y":0}), "H1":new Coord({"x":hd,"y":0}), "H2":new Coord({"x":0,"y":hd})});
-			var p2 = new PathPoint({"P":new Coord({"x":0,"y":th}), "H1":new Coord({"x":0,"y":(th-hd)}), "H2":new Coord({"x":hd,"y":th})});
-			var p3 = new PathPoint({"P":new Coord({"x":tw,"y":th}), "H1":new Coord({"x":(tw-hd),"y":th}), "H2":new Coord({"x":tw,"y":(th-hd)})});
-			var p4 = new PathPoint({"P":new Coord({"x":tw,"y":0}), "H1":new Coord({"x":tw,"y":hd}), "H2":new Coord({"x":(tw-hd),"y":0})});
+			p1 = new PathPoint({"P":new Coord({"x":0,"y":0}), "H1":new Coord({"x":hd,"y":0}), "H2":new Coord({"x":0,"y":hd})});
+			p2 = new PathPoint({"P":new Coord({"x":0,"y":th}), "H1":new Coord({"x":0,"y":(th-hd)}), "H2":new Coord({"x":hd,"y":th})});
+			p3 = new PathPoint({"P":new Coord({"x":tw,"y":th}), "H1":new Coord({"x":(tw-hd),"y":th}), "H2":new Coord({"x":tw,"y":(th-hd)})});
+			p4 = new PathPoint({"P":new Coord({"x":tw,"y":0}), "H1":new Coord({"x":tw,"y":hd}), "H2":new Coord({"x":(tw-hd),"y":0})});
 			parr = [p1,p2,p3,p4];
 			shapetype = "rect ";
 		}
@@ -478,7 +479,7 @@
 		imageData = _UI.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug("ISHERE? alpha = " + imageData.data[3] + "  returning: " + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);
-	}
+	};
 
 	Shape.prototype.isOverHandle = function(px,py){
 		//debug("ISOVERHANDLE() - checking x:" + px + " y:" + py);
@@ -486,17 +487,17 @@
 		// Translation Fidelity - converting passed canvas values to saved value system
 		var hp = _GP.projectsettings.pointsize/2;
 		var leftxb = sx_cx(this.path.leftx) -hp;
-		var midxb = Math.floor(sx_cx(this.path.leftx)+((sx_cx(this.path.rightx)-sx_cx(this.path.leftx))/2)-hp)+.5;
+		var midxb = Math.floor(sx_cx(this.path.leftx)+((sx_cx(this.path.rightx)-sx_cx(this.path.leftx))/2)-hp)+0.5;
 		var rightxb = sx_cx(this.path.rightx) -hp;
 
 		var topyb = sy_cy(this.path.topy)-hp;
-		var midyb = Math.floor(sy_cy(this.path.topy)+((sy_cy(this.path.bottomy)-sy_cy(this.path.topy))/2)-hp)+.5;
+		var midyb = Math.floor(sy_cy(this.path.topy)+((sy_cy(this.path.bottomy)-sy_cy(this.path.topy))/2)-hp)+0.5;
 		var bottomyb = sy_cy(this.path.bottomy) -hp;
 
 		// upper left
 		if(canResize("nw")){
 			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "nw-resize";
+				getEditDocument().body.style.cursor = "nw-resize";
 				//debug("ISOVERHANDLE() -  upper left");
 				return "nw";
 			}
@@ -505,7 +506,7 @@
 		// top
 		if(canResize("n")){
 			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "n-resize";
+				getEditDocument().body.style.cursor = "n-resize";
 				//debug("ISOVERHANDLE() -  top");
 				return "n";
 			}
@@ -514,7 +515,7 @@
 		// upper right
 		if(canResize("ne")){
 			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "ne-resize";
+				getEditDocument().body.style.cursor = "ne-resize";
 				//debug("ISOVERHANDLE() - upper right");
 				return "ne";
 			}
@@ -523,7 +524,7 @@
 		// right
 		if(canResize("e")){
 			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "e-resize";
+				getEditDocument().body.style.cursor = "e-resize";
 				//debug("ISOVERHANDLE() - right");
 				return "e";
 			}
@@ -532,7 +533,7 @@
 		// lower right
 		if(canResize("se")){
 				if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "se-resize";
+				getEditDocument().body.style.cursor = "se-resize";
 				//debug("ISOVERHANDLE() - lower right");
 				return "se";
 			}
@@ -541,7 +542,7 @@
 		// bottom
 		if(canResize("s")){
 			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "s-resize";
+				getEditDocument().body.style.cursor = "s-resize";
 				//debug("ISOVERHANDLE() - bottom");
 				return "s";
 			}
@@ -550,7 +551,7 @@
 		// lower left
 		if(canResize("sw")){
 			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "sw-resize";
+				getEditDocument().body.style.cursor = "sw-resize";
 				//debug("ISOVERHANDLE() - lower left");
 				return "sw";
 			}
@@ -559,16 +560,16 @@
 		// left
 		if(canResize("w")){
 			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
-				document.body.style.cursor = "w-resize";
+				getEditDocument().body.style.cursor = "w-resize";
 					//debug("ISOVERHANDLE() - left");
 				return "w";
 			}
 		}
 
 		//debug("ISOVERHANDLE() - Returning FALSE");
-		document.body.style.cursor = "default";
+		getEditDocument().body.style.cursor = "default";
 		return false;
-	}
+	};
 
 
 //	-------------------------
@@ -604,7 +605,7 @@
 	Shape.prototype.changeShapeName = function(sn){
 		sn = strSan(sn);
 		//debug("CHANGESHAPENAME - sanitized name: " + sn);
-		if(sn != ""){
+		if(sn !== ""){
 			this.name = sn;
 			putundoq("shape name");
 		} else {
@@ -612,4 +613,4 @@
 		}
 
 		redraw("Shape Name");
-	}
+	};
