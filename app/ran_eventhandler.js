@@ -167,11 +167,15 @@
 			this.firstmove = false;
 			_UI.eventhandlers.lastx = -100;
 			_UI.eventhandlers.lasty = -100;
-			updateCurrentCharWidth();
-			// For new shape tools, mouse up always adds to the undo-queue
-			putundoq("New Path tool");
 
-			redraw("Event Handler newPath mouseup");
+			if(_UI.eventhandlers.uqhaschanged){
+				currpath.calcMaxes();
+				updateCurrentCharWidth();
+				// For new shape tools, mouse up always adds to the undo-queue
+				putundoq("New Path tool");
+				_UI.eventhandlers.uqhaschanged = false;
+				redraw("Event Handler newPath mouseup");
+			}
 		};
 
 		this.mousemove = function (ev) {
@@ -191,6 +195,7 @@
 				}
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
 
 				redraw("Event Handler newPath mousemove");
 			}
