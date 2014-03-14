@@ -371,7 +371,7 @@
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
-			//debug("SHAPERESIZE TOOL: mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
+			//debug("\nSHAPERESIZE TOOL - mouse down: " + _UI.eventhandlers.mousex + ":" + _UI.eventhandlers.mousey);
 			var s = ss("eventHandler - mousedown");
 			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -431,11 +431,11 @@
 
 		this.mousemove = function (ev) {
 			var s = ss("eventHandler - shaperesize mousemove");
-			//debug("<b><i>SHAPERESIZE TOOL</i></b> - ss returned s.link: " + s.link);
+			//debug("\nSHAPERESIZE TOOL - ss returned s.link: " + s.link);
 			var didstuff = false;
 			var dz = getView("Event Handler shaperesize mousemove").dz;
 			if(s.link){
-				//debug("SHAPERESIZE dragging linked shape");
+				//debug("\tSHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
 					s.xpos += round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
@@ -444,9 +444,10 @@
 					resetCursor();
 				}
 			} else {
-				//debug("SHAPERESIZE dragging normal shape");
+				//debug("\tSHAPERESIZE dragging normal shape");
 				if (this.dragging) {
 					// Moving shapes if mousedown
+					//debug("\tSHAPERESIZE - Moving Shape on Drag");
 					var dx = s.xlock? 0 : dx = round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					var dy = s.ylock? 0 : dy = round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
@@ -455,6 +456,7 @@
 					didstuff = true;
 				} else if (this.resizing){
 					// Resizing shapes if mousedown over handle
+					//debug("\tSHAPERESIZE - Resizing Shape over handle");
 					evHanShapeResize(s, _UI.eventhandlers.corner);
 					didstuff = true;
 				}
@@ -529,7 +531,7 @@
 	}
 
 	function evHanShapeResize(s, pcorner){
-
+		//debug("EVHANSHAPERESIZE - " + s.name + " handle " + pcorner);
 		var mx = cx_sx(_UI.eventhandlers.mousex);
 		var my = cy_sy(_UI.eventhandlers.mousey);
 		var lx = cx_sx(_UI.eventhandlers.lastx);

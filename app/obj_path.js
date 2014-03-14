@@ -170,13 +170,13 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh){
-		//debug("UPDATEPATHSIZE - Change Size: dw/dh "+dw+" , "+dh);
+		debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
 		var ps = _GP.projectsettings;
 
 		var s = ss("updatePathPosition");
-		dw = s.wlock? 0 : false;
-		dh = s.hlock? 0 : false;
+		dw = s.wlock? 0 : dw;
+		dh = s.hlock? 0 : dh;
 
 		if(s.wlock && s.hlock) return;
 
@@ -186,6 +186,7 @@
 		var newh = Math.max((oldh + dh), 1);
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
+
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -202,7 +203,7 @@
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
-		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
+		debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
 
 		for(var d=0; d<this.pathpoints.length; d++){
 			var pp = this.pathpoints[d];
@@ -354,7 +355,7 @@
 
 	Path.prototype.insertPathPoint = function() {
 		// http://antigrain.com/research/adaptive_bezier/index.html
-		
+
 		var pp1i = this.sp(true, "insert path point");
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
