@@ -219,9 +219,9 @@
 
 		content += " ";
 		if(_UI.popout){
-			content += "<button title='one screen mode' class='button tool' onclick='popIn();'>"+drawPopInButton()+"</button>";
+			content += "<button title='one screen mode' class='button tool' onclick='popIn(); navigate();'>"+drawPopInButton()+"</button>";
 		} else {
-			content += "<button title='two screen mode' class='button tool' onclick='popOut();'>"+drawPopOutButton()+"</button>";
+			content += "<button title='two screen mode' class='button tool' onclick='popOut(); navigate();'>"+drawPopOutButton()+"</button>";
 		}
 
 		try {

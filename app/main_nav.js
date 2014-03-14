@@ -5,9 +5,18 @@
 	function navigate(nap){
 		debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
-		if (_UI.navhere == 'firstrun'){ makeLayout_Firstrun(); }
-		else if (_UI.popout){ makeLayout_PopOut();	}
-		else { makeLayout_PopIn(nap); }
+		if (_UI.navhere == 'firstrun'){ 
+			makeLayout_Firstrun(); 
+		} else if (_UI.popout){ 
+			if(_UI.navhere === 'character edit' || _UI.navhere === 'linked shapes'){
+				makeLayout_PopOut(); 
+			} else {
+				popIn();
+				makeLayout_PopIn(nap);
+			}
+		} else { 
+			makeLayout_PopIn(nap); 
+		}
 
 		loadPageContent();
 		document.body.focus();
@@ -32,7 +41,6 @@
 //-------------------
 // Layout - pop OUT
 //-------------------
-
 
 	function popOut(){
 		_UI.popout = window.open('', 'glyphr_popout');
@@ -67,8 +75,6 @@
         pop.setView = setView;
         pop.popIn = popIn;
 		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
-
-		navigate();
 	}
 
 	function makeLayout_PopOut(){
@@ -128,7 +134,6 @@
 		_UI.popout.close();
 		_UI.popout = false;
         document.body.classList.remove("poppedOut");
-		navigate();
 	}
 
 	function makeLayout_PopIn(nap){
@@ -383,7 +388,7 @@
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
 			newsub += "<canvas class='primarynavbutton' id='npSave' onclick='triggerProjectFileDownload();'></canvas>";
-			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+drawPopInButton()+"</button>";
+			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn(); navigate();'>"+drawPopInButton()+"</button>";
 			newsub += "</div>";
 		}
 
