@@ -28,7 +28,7 @@
 	PathPoint.prototype.getH1x = function() { return this.useh1? this.H1.x : this.P.x; };
 	PathPoint.prototype.getH1y = function() { return this.useh1? this.H1.y : this.P.y; };
 	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
-	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };	
+	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };
 
 	PathPoint.prototype.makeFlat = function(move){
 		//debug("MAKEFLAT - move " + move + " starts as " + JSON.stringify(this));

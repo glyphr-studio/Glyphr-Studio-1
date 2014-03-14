@@ -10,7 +10,7 @@
 		ct += importOrCreateNew();
 		ct += "</div>";
 
-		
+
 		getEditDocument().getElementById("mainwrapper").innerHTML = ct;
 		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
 		getEditDocument().getElementById("droptarget").addEventListener('drop', handleDrop, false);

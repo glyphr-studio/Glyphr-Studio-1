@@ -58,7 +58,7 @@
 		// Main Screen
 		document.title = 'Glyphr Studio - Tools';
         document.body.classList.add('poppedOut');
-        
+
         // Second Screen
         popdoc.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
 		pop.onBeforeUnload = popIn;

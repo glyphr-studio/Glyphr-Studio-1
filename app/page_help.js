@@ -5,4 +5,3 @@ function loadPage_help(){
 	content += "</div>";
 	getEditDocument().getElementById("mainwrapper").innerHTML = content;
 }
-

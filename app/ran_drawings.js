@@ -2885,7 +2885,7 @@ function drawPopInButton(){
 		'<rect y="11" fill="rgb(0,170,225)" width="14" height="1"/>'+
 		'<rect fill="rgb(0,170,225)" width="14" height="1"/>'+
 		'</svg>';
-		
+
 	return b;
 }
 

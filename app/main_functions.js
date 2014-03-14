@@ -79,14 +79,14 @@
 
 		_UI.projectsaved = true;
 		window.onbeforeunload = null;
-		
+
 		if(_UI.popout) {
 			document.title = "Glyphr Studio - Tools";
 			_UI.popout.document.title = "Glyphr Studio - Canvas";
 		} else {
 			document.title = 'Glyphr Studio';
 		}
-		
+
 		updateSaveIcon();
 	}
 

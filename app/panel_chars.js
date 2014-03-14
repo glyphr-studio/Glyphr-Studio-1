@@ -26,7 +26,7 @@
 
 		// Numbers
 		for(var h=48; h<58; h++){ccon += buildbutton(h, fname);}
-		
+
 		// Symbols
 		for(var k=33; k<48; k++){ccon += buildbutton(k, fname);}
 		for(var m=58; m<65; m++){ccon += buildbutton(m, fname);}
