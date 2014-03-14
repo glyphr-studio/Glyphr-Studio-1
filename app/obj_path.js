@@ -85,10 +85,10 @@
 			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
 			else if (pp.type == "flat") { pp.makeFlat("H1"); }
 
-			pph2x = (pp.useh2? sx_cx(pp.H2.x) : sx_cx(pp.P.x));
-			pph2y = (pp.useh2? sy_cy(pp.H2.y) : sy_cy(pp.P.y));
-			nxh1x = (np.useh1? sx_cx(np.H1.x) : sx_cx(np.P.x));
-			nxh1y = (np.useh1? sy_cy(np.H1.y) : sy_cy(np.P.y));
+			pph2x = sx_cx(pp.getH2x());
+			pph2y = sy_cy(pp.getH2y());
+			nxh1x = sx_cx(np.getH1x());
+			nxh1y = sy_cy(np.getH1y());
 			nxppx = sx_cx(np.P.x);
 			nxppy = sy_cy(np.P.y);
 
@@ -119,12 +119,12 @@
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-			p1h2x = p1.useh2? (p1.H2.x - p1.P.x) : 0;
-			p1h2y = p1.useh2? (p1.H2.y - p1.P.y) : 0;
-			p2h1x = p2.useh1? (p2.H1.x - (p1.useh2? p1.H2.x : p1.P.x)) : (p2.P.x - (p1.useh2? p1.H2.x : p1.P.x));
-			p2h1y = p2.useh1? (p2.H1.y - (p1.useh2? p1.H2.y : p1.P.y)) : (p2.P.y - (p1.useh2? p1.H2.y : p1.P.y));
-			p2ppx = (p2.P.x - (p2.useh1? p2.H1.x : p2.P.x));
-			p2ppy = (p2.P.y - (p2.useh1? p2.H1.y : p2.P.y));
+			p1h2x = p1.getH2x() - p1.P.x;
+			p1h2y = p1.getH2y() - p1.P.y;
+			p2h1x = p2.getH1x() - p1.getH2x();
+			p2h1y = p2.getH1y() - p1.getH2y();
+			p2ppx = p2.P.x - p2.getH1x();
+			p2ppy = p2.P.y - p2.getH1y();
 
 			trr = "\t\t\t\t" + p1h2x + " " + p1h2y + " " + p2h1x + " " + p2h1y + " " + p2ppx + " " + p2ppy + " rrcurveto \n";
 
@@ -151,16 +151,20 @@
 				return 'P';
 			}
 
-			if( ((a[k].H1.x+hp) > x) && ((a[k].H1.x-hp) < x) && ((a[k].H1.y+hp) > y) && ((a[k].H1.y-hp) < y) ){
-				this.selectPathPoint(k);
-				//debug("ISOVERCONTROLPOINT() - Returning H1, selectedpoint: " + k);
-				return 'H1';
+			if(a[k].useh1){
+				if( ((a[k].H1.x+hp) > x) && ((a[k].H1.x-hp) < x) && ((a[k].H1.y+hp) > y) && ((a[k].H1.y-hp) < y) ){
+					this.selectPathPoint(k);
+					//debug("ISOVERCONTROLPOINT() - Returning H1, selectedpoint: " + k);
+					return 'H1';
+				}
 			}
 
-			if( ((a[k].H2.x+hp) > x) && ((a[k].H2.x-hp) < x) && ((a[k].H2.y+hp) > y) && ((a[k].H2.y-hp) < y) ){
-				this.selectPathPoint(k);
-				//debug("ISOVERCONTROLPOINT() - Returning H2, selectedpoint: " + k);
-				return 'H2';
+			if(a[k].useh2){
+				if( ((a[k].H2.x+hp) > x) && ((a[k].H2.x-hp) < x) && ((a[k].H2.y+hp) > y) && ((a[k].H2.y-hp) < y) ){
+					this.selectPathPoint(k);
+					//debug("ISOVERCONTROLPOINT() - Returning H2, selectedpoint: " + k);
+					return 'H2';
+				}
 			}
 		}
 
@@ -170,7 +174,7 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh){
-		debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
+		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
 		var ps = _GP.projectsettings;
 
@@ -203,7 +207,7 @@
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
-		debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
+		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
 
 		for(var d=0; d<this.pathpoints.length; d++){
 			var pp = this.pathpoints[d];
@@ -457,17 +461,13 @@
 		this.leftx = _UI.chareditcanvassize;
 		this.rightx = (_UI.chareditcanvassize*-1);
 
-		var pp1, pp2, pp1h2x, pp1h2y, pp2h1x, pp2h1y, tbounds;
+		var pp1, pp2, tbounds;
 
 		for(var s=0; s<this.pathpoints.length; s++){
 			pp1 = this.pathpoints[s];
 			pp2 = this.pathpoints[(s+1)%this.pathpoints.length];
-			pp1h2x = (pp1.useh2? pp1.H2.x : pp1.P.x);
-			pp1h2y = (pp1.useh2? pp1.H2.y : pp1.P.y);
-			pp2h1x = (pp2.useh1? pp2.H1.x : pp2.P.x);
-			pp2h1y = (pp2.useh1? pp2.H1.y : pp2.P.y);
 
-			tbounds = getBounds(pp1.P.x, pp1.P.y, pp1h2x, pp1h2y, pp2h1x, pp2h1y, pp2.P.x, pp2.P.y);
+			tbounds = getBounds(pp1.P.x, pp1.P.y, pp1.getH2x(), pp1.getH2y(), pp2.getH1x(), pp2.getH1y(), pp2.P.x, pp2.P.y);
 
 			this.rightx = Math.max(this.rightx, tbounds.maxx);
 			this.topy = Math.max(this.topy, tbounds.maxy);
