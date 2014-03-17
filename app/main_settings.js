@@ -93,6 +93,14 @@
 				"debug": true,				// global debug console switch
 				"version": 0,				// console version
 				"linkedshapecounter": 0,	// private counter for ss id
+				"charrange": {
+					"basiclatin": true,
+					"latinextendeda": false,
+					"latinextendedb": false,
+					"custom": [
+						{"begin":"0x1234", "end":"0x2234"}
+					]
+				},
 
 				// Grid stuff
 				"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are

@@ -1,5 +1,41 @@
 function decToHex(d) { return Number(d).toString(16); }
 function hexToDec(h) { return parseInt(h,16); }
+//function uniToStr(u) { return String.fromCharCode(parseInt(u,16)); }
+//function uniToStr(u) { return String.fromCodePoint(u); }
+function uniToStr(u) { return String.fromCharCode(u); }
+function strToUni(s) { var sr = String(s).charCodeAt(0); while(sr.length < 4) { sr = "0"+sr; } return sr; }
+
+function addCustomCharacterRange(){
+	var newrange = {"begin":0, "end":0};
+	newrange.begin = document.getElementById('customrangebegin').value;
+	newrange.end = document.getElementById('customrangeend').value;
+	document.getElementById('customrangebegin').value = '';
+	document.getElementById('customrangeend').value = '';
+	_GP.projectsettings.charrange.custom.push(newrange);
+	updateCustomRangeTable();
+}
+
+function updateCustomRangeTable(){
+	var ps = _GP.projectsettings.charrange.custom;
+	if(ps.length){
+		var content = "Existing custom character ranges:<br><table style='width:400px; margin-top:8px;'>";
+		for(var c=0; c<ps.length; c++){
+			content += "<tr><td class='customrangeline'>";
+			content += ps[c].begin + "&nbsp;&nbsp;through&nbsp;&nbsp;" + ps[c].end + "&nbsp;&nbsp;";
+			content += "</td><td>";
+			content += "<input type='button' value='remove' onclick='removeCustomCharacterRange("+c+");'>";
+			content += "</td></tr>";
+		}
+		content += "</table><br>";
+		content += "Note, removing a custom range will not delete character data from your Glyphr Project.  ";
+		content += "Custom ranges only determine what is shown in the UI, and what is exported to fonts.";
+		document.getElementById('customrangetable').innerHTML = content;
+	}
+}
+
+function removeCustomCharacterRange(i){
+
+}
 
 var unicodenames = {
 // Basic Latin

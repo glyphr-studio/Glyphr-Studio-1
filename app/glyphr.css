@@ -832,20 +832,38 @@
 /* Page - Font Settings */
 /* ------------------- */
 
-	.fontmetricstable {
+	.settingstable {
 		margin:12px 0px;
 	}
 
-	.fontmetricstable td {
+	.settingstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
 	}
 
-	.fontmetricstable .spinnerbutton {
+	.settingstable .spinnerbutton {
 		height:28px;
 		position: relative;
 		top:4px;
 		left:-4px;
+	}
+
+	.charrangepreview {
+		background-color: white;
+		border: 1px solid rgb(229,234,239);
+		color:rgb(102,107,112);
+		font-family: serif;
+		letter-spacing: .2em;
+		line-height: 1.4em;
+		margin-top:8px;
+		padding:8px;
+	}
+
+	.customrangeline {
+		border: 1px solid rgb(229,234,239);
+		color:rgb(102,107,112);
+		background-color: white;
+		padding:4px;
 	}
 
 /* -------------------- */

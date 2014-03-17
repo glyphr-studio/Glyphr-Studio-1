@@ -12,7 +12,7 @@
 		content += "Glyphr projects export OpenType fonts with PostScript outlines.  Characters in this kind of font have a total height of 1000 Em units. "+
 					"The baseline is the one main dividing line for each character, with the ascent and descent above it and below it. " +
 					"Some characters, like p and y, fall below the baseline into the descent.<br>" +
-					"<table class='fontmetricstable'>"+
+					"<table class='settingstable'>"+
 					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td>Descent height: </td><td><input type='text' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td>Total Units per Em: </td><td><input type='text' disabled='disabled' value='"+ps.upm+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" +
@@ -20,15 +20,56 @@
 
 		content += "<h3>Default Left Side Bearing</h3>" +
 					"This is the amount of blank space that is added to the left of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
-					"<table class='fontmetricstable'>"+
+					"<table class='settingstable'>"+
 					"<tr><td>Left Side Bearing: </td><td><input type='text' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 		content += "<h3>Line Gap</h3>" +
 					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
-					"<table class='fontmetricstable'>"+
+					"<table class='settingstable'>"+
 					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
+
+		// CHARACTERS
+		content += "<h1>Characters</h1>"+
+					"Character ranges are based on the Unicode standard, which assigns a hexadecimal number to all possible characters in a font. "+
+					"You may encounter Unicode numbers as U+1234, in Glyphr Studio this is equivalent to 0x1234, it's just a different way of representing hex numbers.";
+
+		content += "<h3>Standard Characters</h3>"+
+					"The most common character sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
+
+		content += "<table class='settingstable'><tr>"+
+					"<td><input type='checkbox' " + (ps.charrange.basiclatin? "checked " : "") + " onchange='_GP.projectsettings.charrange.basiclatin = this.checked;'/></td>"+
+					"<td><b>Basic Latin</b> - Unicode characters 0x0020 through 0x007E</td></tr>"+
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
+					for(var t=0x0020; t<0x007E; t++){ content += (uniToStr(t) + " "); }
+		content += "</div></td></tr></table>";
+
+		content += "<table class='settingstable'><tr>"+
+					"<td><input type='checkbox' " + (ps.charrange.latinextendeda? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinextendeda = this.checked;'/></td>"+
+					"<td><b>Latin Extended-A</b> - Unicode characters 0x00A1 through 0x017F</td></tr>"+
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
+					for(var a=0x00A1; a<0x017F; a++){ content += (uniToStr(a) + " "); }
+		content += "</div></td></tr></table>";
+
+
+		content += "<table class='settingstable'><tr>"+
+					"<td><input type='checkbox' " + (ps.charrange.latinextendedb? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinextendedb = this.checked;'/></td>"+
+					"<td><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</td></tr>"+
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
+					for(var b=0x0180; b<0x024F; b++){ content += (uniToStr(b) + " "); }
+		content += "</div></td></tr></table>";
+
+		content += "<h3>Custom Characters</h3>"+
+					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix '0x' "+
+					" For example, '0x0CCF' or '0x1234'<br>"+
+					"<table class='settingstable' style='width:400px;'><tr>"+
+					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
+					"<td>end:<br><input type='text' id='customrangeend'></td>"+
+					"<td><br><input type='button' value='Add Range' onclick='addCustomCharacterRange();'></td>"+
+					"</tr></table>"+
+					"<div id='customrangetable'></div>";
+
 
 		// METADATA
 		content += "<br><h1>OpenType Properties</h1>" +
@@ -97,6 +138,7 @@
 
 		content += "</div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
+		updateCustomRangeTable();
 	}
 
 	function updateAscender(val){
