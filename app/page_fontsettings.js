@@ -31,25 +31,34 @@
 					"</table><br>";
 
 		// CHARACTERS
-		content += "<h1>Characters</h1>"+
-					"Character ranges are based on the Unicode standard, which assigns a hexadecimal number to all possible characters in a font. "+
+		content += "<h1>Character Ranges</h1>"+
+					"Character ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible characters in a font. "+
 					"You may encounter Unicode numbers as U+1234, in Glyphr Studio this is equivalent to 0x1234, it's just a different way of representing hex numbers.";
 
-		content += "<h3>Standard Characters</h3>"+
+		content += "<h3>Standard Character Ranges</h3>"+
 					"The most common character sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
 
 		content += "<table class='settingstable'><tr>"+
 					"<td><input type='checkbox' " + (ps.charrange.basiclatin? "checked " : "") + " onchange='_GP.projectsettings.charrange.basiclatin = this.checked;'/></td>"+
 					"<td><b>Basic Latin</b> - Unicode characters 0x0020 through 0x007E</td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var t=0x0020; t<0x007E; t++){ content += (uniToStr(t) + " "); }
+					for(var t=0x0020; t<=0x007E; t++){ content += (hexToChar(t) + " "); }
+		content += "</div></td></tr></table>";
+
+		content += "<table class='settingstable'><tr>"+
+					"<td><input type='checkbox' " + (ps.charrange.latinsuppliment? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinsuppliment = this.checked;'/></td>"+
+					"<td><b>Latin Suppliment</b> - Unicode characters 0x00A1 through 0x00FF</td></tr>"+
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
+					//for(var s=0x00A1; s<=0x00FF; s++){ content += (hexToChar(s) + " "); }
+					for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
 					"<td><input type='checkbox' " + (ps.charrange.latinextendeda? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinextendeda = this.checked;'/></td>"+
-					"<td><b>Latin Extended-A</b> - Unicode characters 0x00A1 through 0x017F</td></tr>"+
+					"<td><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var a=0x00A1; a<0x017F; a++){ content += (uniToStr(a) + " "); }
+					//for(var a=0x0100; a<=0x017F; a++){ content += (hexToChar(a) + " "); }
+					for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
 		content += "</div></td></tr></table>";
 
 
@@ -57,16 +66,19 @@
 					"<td><input type='checkbox' " + (ps.charrange.latinextendedb? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinextendedb = this.checked;'/></td>"+
 					"<td><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var b=0x0180; b<0x024F; b++){ content += (uniToStr(b) + " "); }
+					//for(var b=0x0180; b<=0x024F; b++){ content += (hexToChar(b) + " "); }
+					for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
 		content += "</div></td></tr></table>";
 
-		content += "<h3>Custom Characters</h3>"+
-					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix '0x' "+
-					" For example, '0x0CCF' or '0x1234'<br>"+
-					"<table class='settingstable' style='width:400px;'><tr>"+
+		content += "<h3>Custom Character Ranges</h3>"+
+					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix '0x'.<br>"+
+					"For example, Unicode sets aside the range 0xE000 through 0xF8FF to be specifically not used for characters.  This range can be handy for Icon Fonts.<br>" +
+					"Custom character ranges must be unique (non-overlapping), be greater than 0x024F and less than 0xFFFF."+
+					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+
 					"<td><br><input type='button' value='Add Range' onclick='addCustomCharacterRange();'></td>"+
+					"<td><br><div id='customrangeerror'>bad range input</div></td>"+
 					"</tr></table>"+
 					"<div id='customrangetable'></div>";
 

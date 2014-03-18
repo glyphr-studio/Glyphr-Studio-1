@@ -866,6 +866,14 @@
 		padding:4px;
 	}
 
+	#customrangeerror {
+		color:red;
+		background-color: pink;
+		display: none;
+		padding:8px;
+		border:1px dotted red;
+	}
+
 /* -------------------- */
 /* Page - Save Project */
 /* ------------------ */

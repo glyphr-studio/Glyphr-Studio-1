@@ -95,11 +95,10 @@
 				"linkedshapecounter": 0,	// private counter for ss id
 				"charrange": {
 					"basiclatin": true,
+					"latinsuppliment": false,
 					"latinextendeda": false,
 					"latinextendedb": false,
-					"custom": [
-						{"begin":"0x1234", "end":"0x2234"}
-					]
+					"custom": []
 				},
 
 				// Grid stuff
