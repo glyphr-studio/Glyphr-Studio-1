@@ -161,12 +161,16 @@
 //-------------------------------------------------------
 
 	function getChar(ch, create) {
-		var rechar = _GP.fontchars[ch];
-		if(rechar){
-			return rechar;
-		} else if(create){
-			_GP.fontchars[ch] = new Char();
-			return _GP.fontchars[ch];
+		if(_UI.navhere === "linked shapes"){
+			return _GP.linkedshapes[ch];
+		} else {
+			var rechar = _GP.fontchars[ch];
+			if(rechar){
+				return rechar;
+			} else if(create){
+				_GP.fontchars[ch] = new Char();
+				return _GP.fontchars[ch];
+			}
 		}
 		return false;
 	}
@@ -175,14 +179,18 @@
 		return getChar(_UI.selectedchar);
 	}
 
+	function getSelectedCharShapes(){
+		var rechar = getSelectedChar();
+		return rechar? rechar.charshapes : [];
+	}
+
 	function selectChar(c, dontnavigate){
 		debug("SELECTCHAR - selecting " + getChar(c, true).charname + " from value " + c);
 
 		_UI.selectedchar = c;
-		_UI.shapelayers = _GP.fontchars[c].charshapes;
 		_UI.selectedshape = -1;
 
-		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(_UI.shapelayers));
+		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(getSelectedCharShapes()));
 		if(!dontnavigate){
 			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
 			navigate('npAttributes');

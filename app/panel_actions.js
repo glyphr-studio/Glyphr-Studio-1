@@ -38,7 +38,7 @@
 		if(!stack) content += "</td>";
 
 		if(!stack) content += "<td>";
-		if(_UI.shapelayers.length > 0){ content += shapeactions; }
+		if(getSelectedCharShapes().length > 0){ content += shapeactions; }
 		else if (!stack){ content += "&nbsp;";}
 		if(!stack) content += "</td>";
 
@@ -59,7 +59,7 @@
 		if(!stack) content += "</td>";
 
 		if(!stack) content += "<td>";
-		if(_UI.shapelayers.length > 1 && !stack){ content += layeractions; }
+		if(getSelectedCharShapes().length > 1 && !stack){ content += layeractions; }
 		content += "</td>";
 
 		content += "</tr></table><br><br>";
@@ -86,10 +86,10 @@
 
 		content += allactions;
 
-		if(_UI.shapelayers.length > 0){ content += shapeactions; }
+		if(getSelectedCharShapes().length > 0){ content += shapeactions; }
 		content += "</td>";
 
-		if(_UI.shapelayers.length > 1){ content += layeractions; }
+		if(getSelectedCharShapes().length > 1){ content += layeractions; }
 
 		content += "<td> &nbsp; </td></tr></table>";
 
@@ -167,10 +167,10 @@
 
 		var s = ss("Move Up Shape");
 
-		if(s && (_UI.selectedshape < (_UI.shapelayers.length-1))){
-			var tempshape = _UI.shapelayers[_UI.selectedshape+1];
-			_UI.shapelayers[_UI.selectedshape+1] = _UI.shapelayers[_UI.selectedshape];
-			_UI.shapelayers[_UI.selectedshape] = tempshape;
+		if(s && (_UI.selectedshape < (getSelectedCharShapes().length-1))){
+			var tempshape = getSelectedCharShapes()[_UI.selectedshape+1];
+			getSelectedCharShapes()[_UI.selectedshape+1] = getSelectedCharShapes()[_UI.selectedshape];
+			getSelectedCharShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape++;
 			redraw("moveupShape");
 		}
@@ -182,9 +182,9 @@
 		var s = ss("Move Down Shape");
 
 		if(s && (_UI.selectedshape > 0)){
-			var tempshape = _UI.shapelayers[_UI.selectedshape-1];
-			_UI.shapelayers[_UI.selectedshape-1] = _UI.shapelayers[_UI.selectedshape];
-			_UI.shapelayers[_UI.selectedshape] = tempshape;
+			var tempshape = getSelectedCharShapes()[_UI.selectedshape-1];
+			getSelectedCharShapes()[_UI.selectedshape-1] = getSelectedCharShapes()[_UI.selectedshape];
+			getSelectedCharShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape--;
 			redraw("movedownShape");
 		}

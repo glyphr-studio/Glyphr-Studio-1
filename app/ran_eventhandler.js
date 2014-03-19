@@ -118,7 +118,7 @@
 				//debug("NEWPATH MOUSEDOWN - after new path is made.");
 
 				// make a new shape with the new path
-				var newshape = addShape(new Shape({"name": ("path "+(_UI.shapelayers.length+1)), "path": newpath}));
+				var newshape = addShape(new Shape({"name": ("path "+(getSelectedCharShapes().length+1)), "path": newpath}));
 				newshape.path.selectPathPoint(0);
 				//debug("NEWPATH MOUSEDOWN - end of firstpoint, new shape added with new path with single point.");
 
@@ -211,7 +211,7 @@
 		this.mousedown = function (ev) {
 
 			var newshape = new Shape({"visible":false});
-			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (_UI.shapelayers.length+1)) : ("oval " + (_UI.shapelayers.length+1));
+			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (getSelectedCharShapes().length+1)) : ("oval " + (getSelectedCharShapes().length+1));
 			newshape = addShape(newshape);
 			//debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
 			// these rely on ss();

@@ -83,7 +83,6 @@
 		//debug("MAKELINKEDSHAPESELECTED - ssid: " + ssid);
 		_UI.shownlinkedshape = ssid;
 		_UI.selectedshape = ssid;
-		_UI.shapelayers = [_GP.linkedshapes[ssid].shape];
 		navigate('npAttributes');
 	}
 
@@ -278,7 +277,7 @@
 			//debug("----------------- starting to go through uia: " + uia);
 			for(var cui=0; cui<uia.length; cui++){
 				var tc = _GP.fontchars[uia[cui]].charshapes;
-				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #_UI.shapelayers " + tc.length);
+				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #getSelectedCharShapes() " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.shownlinkedshape);
 					if(tc[sl].link == _UI.shownlinkedshape){

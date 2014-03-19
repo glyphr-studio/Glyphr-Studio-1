@@ -154,7 +154,6 @@
 
 		// load char info
 		if(sc){
-			_UI.shapelayers = sc.charshapes;
 			sc.drawCharToArea(_UI.chareditctx, getView("Redraw"));
 		}
 		

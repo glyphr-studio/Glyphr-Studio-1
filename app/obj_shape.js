@@ -372,14 +372,14 @@
 		} else {
 			//debug("ADDSHAPE - passed null, creating new shape.");
 			newshape = new Shape({});
-			newshape.name = ("layer " + _UI.shapelayers.length);
+			newshape.name = ("layer " + getSelectedCharShapes().length);
 		}
 
 		if(_UI.navhere == "character edit") {
-			_UI.selectedshape = _UI.shapelayers.length;
+			_UI.selectedshape = getSelectedCharShapes().length;
 			_UI.navprimaryhere = 'npAttributes';
 		}
-		_UI.shapelayers.push(newshape);
+		getSelectedCharShapes().push(newshape);
 		updateCurrentCharWidth();
 
 		//debug("ADDSHAPE - returns:\n" + JSON.stringify(newshape));
@@ -412,28 +412,28 @@
 		}
 
 		newshape.path = new Path({"pathpoints":parr});
-		newshape.name = (shapetype + _UI.shapelayers.length);
+		newshape.name = (shapetype + getSelectedCharShapes().length);
 
-		if(_UI.navhere == "character edit") { _UI.selectedshape = _UI.shapelayers.length; }
-		_UI.shapelayers.push(newshape);
+		if(_UI.navhere == "character edit") { _UI.selectedshape = getSelectedCharShapes().length; }
+		getSelectedCharShapes().push(newshape);
 		updateCurrentCharWidth();
 	}
 
 	function deleteShape(){
-		if(_UI.shapelayers[_UI.selectedshape].link){
-			removeFromUsedIn(_UI.shapelayers[_UI.selectedshape].link, _UI.selectedchar);
+		if(getSelectedCharShapes()[_UI.selectedshape].link){
+			removeFromUsedIn(getSelectedCharShapes()[_UI.selectedshape].link, _UI.selectedchar);
 		}
 
-		if((_UI.shapelayers.length > 0) && (_UI.selectedshape >= 0)){
-			_UI.shapelayers.splice(_UI.selectedshape, 1);
-			if(_UI.shapelayers.length == _UI.selectedshape) {
+		if((getSelectedCharShapes().length > 0) && (_UI.selectedshape >= 0)){
+			getSelectedCharShapes().splice(_UI.selectedshape, 1);
+			if(getSelectedCharShapes().length == _UI.selectedshape) {
 				_UI.selectedshape = _UI.selectedshape-1;
 			}
 		} else {
 			//debug("DELETESHAPES - no shapes left");
 		}
 
-		if((_UI.selectedshape >= 0) && (_UI.shapelayers[_UI.selectedshape].link)){
+		if((_UI.selectedshape >= 0) && (getSelectedCharShapes()[_UI.selectedshape].link)){
 			//debug("DELETESHAPE - newly selected shape is linkedshape, changing tool");
 			_UI.selectedtool = "shaperesize";
 		}
@@ -447,8 +447,8 @@
 			return clickSelectLinkedShape(x,y);
 		}
 		var ts;
-		for(var j=(_UI.shapelayers.length-1); j>=0; j--){
-			ts = _UI.shapelayers[j];
+		for(var j=(getSelectedCharShapes().length-1); j>=0; j--){
+			ts = getSelectedCharShapes()[j];
 			//debug("CLICKSELECTShape() - Checking shape " + j);
 
 			if(ts.isHere(x,y)){
@@ -585,10 +585,10 @@
 		}
 
 		if(_UI.selectedshape != -1){
-			if((_UI.selectedshape >= 0)&&(_UI.selectedshape < _UI.shapelayers.length)) {
+			if((_UI.selectedshape >= 0)&&(_UI.selectedshape < getSelectedCharShapes().length)) {
 				// Charedit Selected Shape
 				//debug("SS() - CHAREDIT - returning shape object for position " + _UI.selectedshape);
-				return _UI.shapelayers[_UI.selectedshape];
+				return getSelectedCharShapes()[_UI.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
 				//debug("SS() - Selected Shape outside of expected boundary. _UI.selectedshape: " + _UI.selectedshape);

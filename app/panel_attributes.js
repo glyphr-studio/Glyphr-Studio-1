@@ -165,7 +165,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> number of shapes </td>"+
 					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-					_UI.shapelayers.length + "'/></td>"+
+					getSelectedCharShapes().length + "'/></td>"+
 					"</tr>";
 
 		return content;
