@@ -75,8 +75,8 @@
 
 	function buildbutton(index, fname){
 
-		var onc = (fname + "(" + index + ");");
-		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_UI.unicodenames[index]+"'>";
+		var onc = (fname + "(\"" + index + "\");");
+		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+getCharName(index)+"'>";
 		var issel = index === _UI.selectedchar;
 		issel = issel & (_UI.navhere != "linked shapes");
 

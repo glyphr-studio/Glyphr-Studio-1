@@ -5,10 +5,10 @@
 	function Char(oa){
 		this.objtype = 'char';
 
-		this.isautowide = isval(oa.isautowide)? oa.isautowide:true;
-		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing:false;
-		this.charwidth = isval(oa.charwidth)? oa.charwidth:0;
 		this.charname = oa.charname || "ERROR_CHARNAME";
+		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
+		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
+		this.charwidth = isval(oa.charwidth)? oa.charwidth : 0;
 
 		//this.hints = oa.hints || {};
 		//this.counters = oa.counters || {};
@@ -101,9 +101,8 @@
 	Char.prototype.drawCharToArea = function(lctx, view){
 		var ps = _GP.projectsettings;
 		var sl = this.charshapes;
-		var cc = this.getCharNumber();
 
-		//debug("DRAWCHARTOAREA - starting " + cc);
+		//debug("DRAWCHARTOAREA - starting " + this.charname);
 
 		var width = (this.charwidth*view.dz);
 		if(this.isautowide){
@@ -143,24 +142,12 @@
 		return width;
 	};
 
-	Char.prototype.getCharNumber = function(){ return parseInt(this.cmapcode.slice(2), 16); };
-
-	function getCharFromText(c){
-		if(c === " ") return _GP.fontchars[32];
-		var tc;
-		for(var num=0; num<_GP.fontchars.length; num++){
-			tc = _GP.fontchars[num];
-			if(tc && tc.charvalue === c) return tc;
-		}
-		console.error("GETCHARFROMTEXT - could not find " + c);
-		return false;
-	}
-
 //-------------------------------------------------------
 // CHAR FUNCTIONS
 //-------------------------------------------------------
 
 	function getChar(ch, create) {
+		debug("GETCHAR - passed ch " + ch + " create " + create);
 		if(_UI.navhere === "linked shapes"){
 			return _GP.linkedshapes[ch];
 		} else {
@@ -168,18 +155,26 @@
 			if(rechar){
 				return rechar;
 			} else if(create){
-				_GP.fontchars[ch] = new Char();
+				debug("GETCHAR - create was true, returning a new char.");
+				_GP.fontchars[ch] = new Char({"charname":getCharName(ch)});
 				return _GP.fontchars[ch];
 			}
 		}
 		return false;
 	}
 
+	function getCharName(ch) {
+		var re = _UI.unicodenames[ch];
+		return re || ch;
+	}
+
 	function getSelectedChar(){
+		debug("GETSELECTEDCHAR");
 		return getChar(_UI.selectedchar);
 	}
 
 	function getSelectedCharShapes(){
+		debug("GETSELECTEDCHARSHAPES");
 		var rechar = getSelectedChar();
 		return rechar? rechar.charshapes : [];
 	}

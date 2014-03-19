@@ -56,7 +56,7 @@
 				// draw baseline
 				if(_UI.testdrive_showhorizontals) drawLine(curry);
 			} else {
-				cc = getCharFromText(contentArray[k]);
+				cc = getChar(charToHex(contentArray[k]));
 				if(cc){
 					if(_UI.testdrive_showcharbox){
 						tctx.fillStyle = "transparent";
