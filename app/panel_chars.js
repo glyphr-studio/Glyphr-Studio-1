@@ -13,9 +13,13 @@
 		//stack(arguments);
 
 		var ccon = "<div class='charselectarea'>";
-		fname = fname? fname : "selectchar";
+		fname = fname? fname : "selectChar";
 		_UI.selectchardrawarr = [];
-
+		var bl = _UI.basiclatin;
+		for(var i=0; i<bl.length; i++){
+			ccon += buildbutton(bl[i], fname);
+		}
+/*
 		//Capitol Letters
 		for(var i=65; i<91; i++){ccon += buildbutton(i, fname);}
 		ccon += "<div style='display:block; clear:all;'></div>";
@@ -36,6 +40,7 @@
 
 		// Space
 		ccon += buildbutton(32, fname);
+*/
 		ccon += "</div>";
 
 		//debug("makePanel_CharChooser - _UI.selectchardrawarr.length = " + _UI.selectchardrawarr.length);
@@ -69,14 +74,13 @@
 
 
 	function buildbutton(index, fname){
-		//stack(arguments);
 
 		var onc = (fname + "(" + index + ");");
-		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_GP.fontchars[index].charname+"'>";
-		var issel = _GP.fontchars[index].charvalue == _GP.fontchars[_UI.selectedchar].charvalue;
+		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+_UI.unicodenames[index]+"'>";
+		var issel = index === _UI.selectedchar;
 		issel = issel & (_UI.navhere != "linked shapes");
 
-		if(_GP.fontchars[index].charshapes[0]){
+		if(_GP.fontchars[index] && _GP.fontchars[index].charshapes[0]){
 			var extra = "";
 			if(issel) {extra = " charselectcanvassel";}
 			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
@@ -85,32 +89,18 @@
 			if(issel) {rv += "<div class='charselectbuttonsel'";}
 			else {rv += "<div class='charselectbutton'";}
 
-			if(index == 32) rv += " style='font-size:13px; padding-top:15px;'";	// SPACE needs to be smaller font size
+			var bv = hexToHTML(index);
+			
+			if(parseInt(index, 16) === 32){
+				rv += " style='font-size:13px; padding-top:15px;'";	// SPACE needs to be smaller font size
+				bv = "space";
+			}
 
 			rv += ">";
-
-			var bv = _GP.fontchars[index].charvalue;
-			if(bv == "'") bv = "&#39";
-
 			rv += (bv+"</div>");
 		}
 
 		rv += "</div>";
 
 		return rv;
-	}
-
-	function selectchar(c, dontnavigate){
-		//stack(arguments);
-
-		//debug("SELECTCHAR - Selecting " + _GP.fontchars[c].charvalue + " from value " + c);
-		_UI.selectedchar = c;
-		_UI.shapelayers = _GP.fontchars[c].charshapes;
-		_UI.selectedshape = -1;
-
-		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(_UI.shapelayers));
-		if(!dontnavigate){
-			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
-			navigate('npAttributes');
-		}
 	}

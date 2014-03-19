@@ -132,7 +132,7 @@
 		setOTprop("head", "created", ttxDateString());
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 
-		_GP.fontchars = createNewFontcharsArray();
+		_GP.fontchars = {};
 
 		_GP.linkedshapes = {};
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});

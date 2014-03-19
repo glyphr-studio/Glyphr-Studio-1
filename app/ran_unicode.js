@@ -6,7 +6,7 @@
 function decToHex(d) { var dr = Number(d).toString(16); while(dr.length < 4) { dr = "0"+dr; } return "0x"+dr.toUpperCase(); }
 function hexToChar(u) { return String.fromCharCode(u); }
 function charToHex(s) { var sr = String(s).charCodeAt(0); while(sr.length < 4) { sr = "0"+sr; } return "0x"+sr.toUpperCase(); }
-
+function hexToHTML(h) { return ("&#"+parseInt(h,16)+";"); }
 
 //	--------------------
 //	Range functions

@@ -148,14 +148,16 @@
 		_UI.redrawing = true;
 
 
-		var sc = _GP.fontchars[_UI.selectedchar];
+		var sc = getSelectedChar();
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 		grid();
 
 		// load char info
-		_UI.shapelayers = sc.charshapes;
-		sc.drawCharToArea(_UI.chareditctx, getView("Redraw"));
-
+		if(sc){
+			_UI.shapelayers = sc.charshapes;
+			sc.drawCharToArea(_UI.chareditctx, getView("Redraw"));
+		}
+		
 		// Finish up
 		var s = ss("Redraw");
 		if(s) {
@@ -420,7 +422,7 @@
 
 				// Char Width
 				if(_UI.navhere == 'character edit'){
-					var sc = _GP.fontchars[_UI.selectedchar];
+					var sc = getSelectedChar();
 					vertical(v.dx - (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)), xs.xmin, xs.xmax);
 					vertical(v.dx + (v.dz*sc.charwidth), xs.xmin, xs.xmax);
 				}

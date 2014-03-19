@@ -322,7 +322,7 @@
 
 	function insertLinkedShapeToChar(chid){
 		var temschar = _UI.selectedchar;
-		selectchar(chid, true);
+		selectChar(chid, true);
 		insertLinkedShape(_UI.shownlinkedshape);
 		_UI.selectedchar = temschar;
 		putundoq("Insert Linked Shape to Character");

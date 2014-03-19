@@ -108,21 +108,21 @@
 	function charDetails(s){
 		//stack(arguments);
 
-		var sc = _GP.fontchars[_UI.selectedchar];
+		var sc = getSelectedChar();
 		var content = "";
 
 		content += "<tr><td colspan=3><h3>character "+sc.charvalue+"</h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td style='margin-top:0px; padding-top:0px;'> auto width </td>"+
-					"<td class='rightcol'>"+checkUI("_GP.fontchars[_UI.selectedchar].isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td>"+
+					"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td>"+
 					"</tr>";
 
 		if(!sc.isautowide){
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> width <span class='unit'>(em units)</span> </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					rounddec(sc.charwidth) + "' onchange='_GP.fontchars[_UI.selectedchar].charwidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+					rounddec(sc.charwidth) + "' onchange='getSelectedChar().charwidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
 					"</tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
@@ -142,7 +142,7 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td>"+
-					"<td class='rightcol'>"+checkUI("_GP.fontchars[_UI.selectedchar].leftsidebearing="+!sc.leftsidebearing+"; redraw(\"charDetails\");", !sc.leftsidebearing)+"</td>"+
+					"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing="+!sc.leftsidebearing+"; redraw(\"charDetails\");", !sc.leftsidebearing)+"</td>"+
 					"</tr>";
 
 		if(sc.leftsidebearing){
@@ -150,7 +150,7 @@
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					sc.leftsidebearing + "' onchange='_GP.fontchars[_UI.selectedchar].leftsidebearing = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+					sc.leftsidebearing + "' onchange='getSelectedChar().leftsidebearing = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
 					"</tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
