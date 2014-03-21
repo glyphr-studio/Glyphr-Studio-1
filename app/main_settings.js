@@ -54,7 +54,7 @@
 		"linkedshapeundoq" : [],
 
 		// page: charedit
-		"selectedchar" : 97,
+		"selectedchar" : "0x0061",
 		"selectedshape" : -1,
 		"charundoq" : [],
 		"charcurrstate" : {},
@@ -73,6 +73,13 @@
 		"testdrive_showcharbox" : false,
 		"testdrive_showhorizontals" : false,
 		"testdrive_padsize" : 10,
+
+		// page: import svg
+		"importsvg": {
+			"scale" : true,
+			"ascender" : false,
+			"descender" : false,
+		},
 
 		// Saveas TTX
 		"fontmetrics" : {

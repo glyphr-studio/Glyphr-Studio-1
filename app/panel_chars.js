@@ -10,8 +10,6 @@
 	}
 
 	function makeGenericCharChooserContent(fname) {
-		//stack(arguments);
-
 		var ccon = "<div class='charselectarea'>";
 		fname = fname? fname : "selectChar";
 		_UI.selectchardrawarr = [];
@@ -19,28 +17,6 @@
 		for(var i=0; i<bl.length; i++){
 			ccon += buildbutton(bl[i], fname);
 		}
-/*
-		//Capitol Letters
-		for(var i=65; i<91; i++){ccon += buildbutton(i, fname);}
-		ccon += "<div style='display:block; clear:all;'></div>";
-
-		//Lowercase Letters
-		for(var j=97; j<123; j++){ccon += buildbutton(j, fname);}
-		ccon += "<div style='display:block; clear:all;'></div>";
-
-		// Numbers
-		for(var h=48; h<58; h++){ccon += buildbutton(h, fname);}
-
-		// Symbols
-		for(var k=33; k<48; k++){ccon += buildbutton(k, fname);}
-		for(var m=58; m<65; m++){ccon += buildbutton(m, fname);}
-		for(var n=91; n<97; n++){ccon += buildbutton(n, fname);}
-		for(var p=123; p<127; p++){ccon += buildbutton(p, fname);}
-		ccon += "<div style='display:block; clear:all;'></div>";
-
-		// Space
-		ccon += buildbutton(32, fname);
-*/
 		ccon += "</div>";
 
 		//debug("makePanel_CharChooser - _UI.selectchardrawarr.length = " + _UI.selectchardrawarr.length);
@@ -48,7 +24,6 @@
 	}
 
 	function drawGenericCharChooserContent(){
-		//stack(arguments);
 		//debug("\n+++++++++++++++++++++\nONE\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
 
 		var ps = _GP.projectsettings;

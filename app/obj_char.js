@@ -152,6 +152,7 @@
 			return _GP.linkedshapes[ch];
 		} else {
 			var rechar = _GP.fontchars[ch];
+			debug("GETCHAR - retrieved " + rechar + " from fontchars.");
 			if(rechar){
 				return rechar;
 			} else if(create){

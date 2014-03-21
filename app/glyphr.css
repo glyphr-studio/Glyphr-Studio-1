@@ -883,6 +883,28 @@
 	}
 
 
+/* -------------------- */
+/* Page - Save Project */
+/* ------------------ */
+	#svgcode {
+		width:400px;
+		height:600px;
+		overflow: auto;
+		vertical-align: top;
+		font-family: monospace;
+		font-size:12px;
+		padding: 12px;
+	}
+
+	#importsvgcharchooser {
+		width:420px;
+		display:block;
+		height:100%;
+		padding:0px 10px 0px 10px;
+		overflow-y:auto;
+		overflow-x:hidden;
+	}
+
 /* ----------------- */
 /* Page - Testdrive */
 /* --------------- */

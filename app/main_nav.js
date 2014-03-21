@@ -234,6 +234,7 @@
 			case "project settings":	loadPage_projectsettings();	break;
 			case "open project":		loadPage_openproject();		break;
 			case "export font":			loadPage_exportfont();		break;
+			case "import svg":			loadPage_importsvg();		break;
 			case "help":				loadPage_help();			break;
 			case "about":				loadPage_about();			break;
 			case "test drive":			loadPage_testdrive();		break;
@@ -360,6 +361,7 @@
 		navarr.push("project settings");
 		navarr.push("_");
 		navarr.push("open project");
+		navarr.push("import svg");
 		navarr.push("export font");
 		navarr.push("_");
 		navarr.push("help");
