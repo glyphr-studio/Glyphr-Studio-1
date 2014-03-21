@@ -171,7 +171,7 @@
 
 	function getSelectedChar(){
 		debug("GETSELECTEDCHAR");
-		return getChar(_UI.selectedchar);
+		return getChar(_UI.selectedchar, true);
 	}
 
 	function getSelectedCharShapes(){

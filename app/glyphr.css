@@ -43,6 +43,10 @@
 		margin-bottom:6px;
 	}
 
+	input[type='checkbox'] {
+		margin:4px 6px 6px 0px;
+	}
+
 	a {
 		color:rgb(0,170,225);
 		text-decoration:none;
@@ -888,7 +892,8 @@
 /* ------------------ */
 	#svgcode {
 		width:400px;
-		height:600px;
+		height:500px;
+		margin:12px 0px;
 		overflow: auto;
 		vertical-align: top;
 		font-family: monospace;
@@ -900,9 +905,13 @@
 		width:420px;
 		display:block;
 		height:100%;
-		padding:0px 10px 0px 10px;
+		padding:10px 10px 0px 0px;
 		overflow-y:auto;
 		overflow-x:hidden;
+	}
+
+	#importsvgcharchooser .charselectbutton {
+		background-color: white;
 	}
 
 /* ----------------- */
