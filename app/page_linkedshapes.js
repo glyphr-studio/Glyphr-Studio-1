@@ -144,10 +144,10 @@
 		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) == pos;});
 
 		for(var k=0; k<unique.length; k++){
-			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
-			re += "<canvas id='thumb"+unique[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar("+(unique[k]*1)+");'></canvas>";
+			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td title='"+getCharName(unique[k])+"'>";
+			re += "<canvas id='thumb"+unique[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar(\""+(unique[k])+"\");'></canvas>";
 			re += "</td></tr><tr><td>";
-			re += _GP.fontchars[(unique[k]*1)].charvalue;
+			re += getChar(unique[k]).charhtml;
 			re += "</td></tr></table>";
 			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+unique[k]+"'");
 		}
@@ -156,6 +156,7 @@
 	}
 
 	function goToEditChar(chid){
+		debug("GOTOEDITCHAR - " + chid);
 		_UI.selectedshape = -1;
 		_UI.selectedchar = chid;
 		_UI.navhere = "character edit";

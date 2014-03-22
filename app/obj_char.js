@@ -6,6 +6,7 @@
 		this.objtype = 'char';
 
 		this.charname = oa.charname || "ERROR_CHARNAME";
+		this.charhtml = oa.charhtml || "ERROR_CHARHTML";
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.charwidth = isval(oa.charwidth)? oa.charwidth : 0;
@@ -147,8 +148,8 @@
 //-------------------------------------------------------
 
 	function getChar(ch, create) {
-		debug("GETCHAR - passed ch " + ch + " create " + create);
-		if(_UI.navhere === "linked shapes"){
+		debug("GETCHAR - passed " + ch + " - force create? " + create);
+		if((''+ch).indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
 		} else {
 			var rechar = _GP.fontchars[ch];
@@ -157,7 +158,7 @@
 				return rechar;
 			} else if(create){
 				debug("GETCHAR - create was true, returning a new char.");
-				_GP.fontchars[ch] = new Char({"charname":getCharName(ch)});
+				_GP.fontchars[ch] = new Char({"charname":getCharName(ch), "charhtml":hexToHTML(ch)});
 				return _GP.fontchars[ch];
 			}
 		}
@@ -170,25 +171,25 @@
 	}
 
 	function getSelectedChar(){
-		debug("GETSELECTEDCHAR");
+		//debug("GETSELECTEDCHAR");
 		return getChar(_UI.selectedchar, true);
 	}
 
 	function getSelectedCharShapes(){
-		debug("GETSELECTEDCHARSHAPES");
+		//debug("GETSELECTEDCHARSHAPES");
 		var rechar = getSelectedChar();
 		return rechar? rechar.charshapes : [];
 	}
 
 	function selectChar(c, dontnavigate){
-		debug("SELECTCHAR - selecting " + getChar(c, true).charname + " from value " + c);
+		//debug("SELECTCHAR - selecting " + getChar(c, true).charname + " from value " + c);
 
 		_UI.selectedchar = c;
 		_UI.selectedshape = -1;
 
 		//debug("SELECTCHAR: shapelayers is now " + JSON.stringify(getSelectedCharShapes()));
 		if(!dontnavigate){
-			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charvalue + " and navigating.");
+			//debug("SELECTCHAR: selecting " + _GP.fontchars[c].charhtml + " and navigating.");
 			navigate('npAttributes');
 		}
 	}

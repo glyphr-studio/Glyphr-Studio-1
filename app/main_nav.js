@@ -78,7 +78,7 @@
 	}
 
 	function makeLayout_PopOut(){
-		debug("MAKELAYOUT_POPOUT - start");
+		//debug("MAKELAYOUT_POPOUT - start");
 
 		var pol = '<div id="popout_pagenav"></div>';
 		pol += '<div id="popout_charchooser"></div>';
@@ -91,7 +91,7 @@
 		//debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
 		makeAndDraw_NavPanels_PopOut();
 
-		debug("MAKELAYOUT_POPOUT - end");
+		//debug("MAKELAYOUT_POPOUT - end");
 	}
 
 	function makeAndDraw_NavPanels_PopOut(){
@@ -137,7 +137,7 @@
 	}
 
 	function makeLayout_PopIn(nap){
-		debug("MAKELAYOUT_POPIN");
+		//debug("MAKELAYOUT_POPIN");
 
 		var pil = '<div id="mainwrapper"></div>';
 		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
