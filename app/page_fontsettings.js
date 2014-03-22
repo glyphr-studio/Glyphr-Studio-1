@@ -42,7 +42,8 @@
 					"<td><input type='checkbox' " + (ps.charrange.basiclatin? "checked " : "") + " onchange='_GP.projectsettings.charrange.basiclatin = this.checked;'/></td>"+
 					"<td><b>Basic Latin</b> - Unicode characters 0x0020 through 0x007E</td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var t=0x0020; t<=0x007E; t++){ content += (hexToChar(t) + " "); }
+					var bl = _UI.basiclatinorder;
+					for(var t=0; t<bl.length; t++){ content += (hexToChar(bl[t]) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+

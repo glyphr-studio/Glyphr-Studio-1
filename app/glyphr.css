@@ -373,23 +373,33 @@
 		margin-top:8px;
 	}
 
-	.charselectarea {
+	.charchooserwrapper {
 		width:100%;
 	}
 
-	.charselectbuttonwrapper {
+	.charchooserwrapper h3 {
+		display: block;
+		clear: both;
+		width: 100%;
+	}
+
+	.charselectbuttontable {
 		display:inline;
 		float:left;
-		height:49px;
-		width:49px;
 		cursor:pointer;
-		background-color:rgb(250,252,255);
-		margin:0px 5px 5px 0px;
+		margin:0px 5px 10px 0px;
+	}
+
+	.charselectbuttontable td {
+		color:rgb(178,183,188);
 	}
 
 	.charselectcanvas{
 		height:50px;
 		width:50px;
+		background-color:rgb(250,252,255);
+		display: block;
+		clear:both;
 	}
 
 	.charselectcanvassel {
@@ -398,13 +408,16 @@
 
 	.charselectbuttonsel,
 	.charselectbutton {
-		width:100%;
-		height:100%;
+		width:50px;
+		height:50px;
 		text-align:center;
+		line-height: 2em;
 		color:rgb(204,209,214);
+		background-color:rgb(250,252,255);
 		font-size:25px;
 		overflow:hidden;
-		padding-top:10px;
+		display: block;
+		clear:both;
 	}
 
 	.charselectbuttonsel {

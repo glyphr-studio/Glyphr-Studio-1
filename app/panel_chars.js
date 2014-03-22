@@ -10,15 +10,38 @@
 	}
 
 	function makeGenericCharChooserContent(fname) {
-		var ccon = "<div class='charselectarea'>";
+		var ccon = "<div class='charchooserwrapper'>";
 		fname = fname? fname : "selectChar";
 		_UI.selectchardrawarr = [];
-		var bl = _UI.basiclatin;
-		for(var i=0; i<bl.length; i++){
-			ccon += buildbutton(bl[i], fname);
-		}
-		ccon += "</div>";
+		var cr = _GP.projectsettings.charrange;
+		var showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 
+		if(cr.basiclatin){
+			var bl = _UI.basiclatinorder;
+			if(showtitles) ccon += "<h3>basic latin</h3>";
+			for(var i=0; i<bl.length; i++){ ccon += makeCharChooserButton(bl[i], fname); }
+		}
+
+		if(cr.latinsuppliment){
+			if(showtitles) ccon += "<h3>latin suppliment</h3>";
+			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
+		}
+
+		if(cr.latinextendeda){
+			if(showtitles) ccon += "<h3>latin extended-a</h3>";
+			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
+		}
+
+		if(cr.latinextendedb){
+			if(showtitles) ccon += "<h3>latin extended-b</h3>";
+			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
+		}
+
+		if(cr.custom.length){
+
+		}
+
+		ccon += "</div>";
 		//debug("makePanel_CharChooser - _UI.selectchardrawarr.length = " + _UI.selectchardrawarr.length);
 		return ccon;
 	}
@@ -48,12 +71,14 @@
 	function drawPanel_CharChooser(){drawGenericCharChooserContent();}
 
 
-	function buildbutton(index, fname){
+	function makeCharChooserButton(index, fname){
 
 		var onc = (fname + "(\"" + index + "\");");
-		var rv = "<div class='charselectbuttonwrapper' onclick='"+onc+"' title='"+getCharName(index)+"'>";
+		var rv = "<table class='charselectbuttontable' onclick='"+onc+"' title='"+getCharName(index)+"'><tr><td>";
 		var issel = index === _UI.selectedchar;
 		issel = issel & (_UI.navhere != "linked shapes");
+		var chtml = hexToHTML(index);
+		if(index === "0x0020") chtml = "space";
 
 		if(_GP.fontchars[index] && _GP.fontchars[index].charshapes[0]){
 			var extra = "";
@@ -64,18 +89,15 @@
 			if(issel) {rv += "<div class='charselectbuttonsel'";}
 			else {rv += "<div class='charselectbutton'";}
 
-			var bv = hexToHTML(index);
-			
-			if(parseInt(index, 16) === 32){
-				rv += " style='font-size:13px; padding-top:15px;'";	// SPACE needs to be smaller font size
-				bv = "space";
+			if(index === "0x0020"){
+				rv += " style='font-size:13px; padding:15px 0px 0px 0px;'";	// SPACE needs to be smaller font size
 			}
 
-			rv += ">";
-			rv += (bv+"</div>");
+			rv += (">"+chtml+"</div>");
 		}
 
-		rv += "</div>";
+		rv += "&nbsp;"+chtml;
+		rv += "</td></tr></table>";
 
 		return rv;
 	}
