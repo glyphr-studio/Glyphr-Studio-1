@@ -26,5 +26,22 @@
 	}
 
 	function importSVG_importCode() {
-		
+		var svgin = document.getElementById('svgcode').value;
+		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
+		if(svgin.indexOf('<svg ') > -1){
+			var patharr = [];
+			var curr = 0;
+			var startpos = 0;
+			var endpos = svgin.indexOf('<path ');
+			debug("IMPORTSVG_IMPORTCODE - indexOf <path is " + svgin.indexOf('<path '));
+			while(svgin.indexOf(' d=', (endpos+1))>-1){
+				startpos = svgin.indexOf('d=', (endpos+1)) + 3;
+				endpos = svgin.indexOf('/>') - 1;
+				patharr[curr] = svgin.substring(startpos, endpos);
+				curr++;
+			}
+			debug("IMPORTSVG_IMPORTCODE - patharr is " + JSON.stringify(patharr));
+		} else {
+			// fail import
+		}
 	}
