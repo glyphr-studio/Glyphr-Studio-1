@@ -109,7 +109,7 @@
 		var sc = getSelectedChar();
 		var content = "";
 
-		content += "<tr><td colspan=3><h3>character "+sc.charhtml+"</h3></td></tr>";
+		content += "<tr><td colspan=3><h3>"+sc.charname+"</h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td style='margin-top:0px; padding-top:0px;'> auto width </td>"+

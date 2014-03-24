@@ -38,7 +38,12 @@
 		}
 
 		if(cr.custom.length){
-
+			for(var c=0; c<cr.custom.length; c++){
+				ccon += "<h3>custom range " + (c+1) + "</h3>";
+				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
+					ccon += makeCharChooserButton(decToHex(range), fname);
+				}
+			}
 		}
 
 		ccon += "</div>";
@@ -90,7 +95,7 @@
 			else {rv += "<div class='charselectbutton'";}
 
 			if(index === "0x0020"){
-				rv += " style='font-size:13px; padding:15px 0px 0px 0px;'";	// SPACE needs to be smaller font size
+				rv += " style='font-size:13px; line-height:3.8em;'";	// SPACE needs to be smaller font size
 			}
 
 			rv += (">"+chtml+"</div>");
