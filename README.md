@@ -13,7 +13,7 @@ I'm an interaction designer by trade, and have decided to use Glyphr Studio as a
 If you’d like to contribute a feature or bug fix, please make sure to search the issue tracker first, your issue may have already been discussed or fixed in master.  After researching, please feel free to fork and send a pull request.
 
 ## License
-Copyright (C) 2014 Matthew LaGrandeur, released under [GPL 3.0](https://github.com/mattlag/GLYPHR/blob/master/_LICENSE-gpl-3.0.txt)
+Copyright (C) 2014 Matthew LaGrandeur, released under [GPL 3.0](https://github.com/mattlag/Glyphr-Studio/blob/master/LICENSE-gpl-3.0.txt)
 
 ## Author
 | ![Matthew LaGrandeur's picture](https://1.gravatar.com/avatar/f6f7b963adc54db7e713d7bd5f4903ec?s=70) |
