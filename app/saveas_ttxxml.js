@@ -6,12 +6,10 @@
 	function triggerTTXFileDownload(){
 		var ttxstring = generateTTXXML();
 		ttxstring = ttxstring.replace(/\n/g, '\r\n');
-		var blob = new Blob([ttxstring], { type: "text/plain;charset=utf-8" });
+		var fblob = new Blob([ttxstring], { type: "text/plain;charset=utf-8" });
+		var fname = "TTX Data - " + _GP.projectsettings.name + " - " + genDateStampSuffix() + ".ttx";
 
-		var link = document.createElement('a');
-		link.href = window.URL.createObjectURL(blob);
-		link.download = "TTX Data - " + _GP.projectsettings.name + " - " + genDateStampSuffix() + ".ttx";
-		link.click();
+		saveTextFile(fname, fblob);
 	}
 
 	function generateTTXXML(){
@@ -52,7 +50,7 @@
 		fm.hhea_ascent = round(total*proportion);
 		fm.hhea_descent = (fm.hhea_ascent - total);
 
-		debug("CALCFONTMAXES - returns " + JSON.stringify(fm));
+		//debug("CALCFONTMAXES - returns " + JSON.stringify(fm));
 	}
 
 

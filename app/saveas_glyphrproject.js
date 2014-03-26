@@ -9,21 +9,7 @@
 		var fblob = new Blob([jsonString], {"type":"text/plain;charset=utf-8", "endings":"native"});
 		var fname =  _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
 
-		try {
-			// IE
-			window.navigator.msSaveBlob(fblob, fname);
-		} catch (err) {
-			// Others
-			var link = document.createElement('a');
-			//window.URL = window.URL || window.webkitURL;
-			link.href = window.URL.createObjectURL(fblob);
-			//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
-			link.download = fname;
-
-			var event = document.createEvent("MouseEvents");
-			event.initEvent("click", true, false);
-			link.dispatchEvent(event);
-		}
+		saveTextFile(fname, fblob);
 
 		setProjectAsSaved();
 	}

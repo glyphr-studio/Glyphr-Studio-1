@@ -112,6 +112,35 @@
 
 
 //-------------------
+// File Savr
+//-------------------
+
+function saveTextFile(fname, fblob) {
+
+	try {
+		// IE
+		window.navigator.msSaveBlob(fblob, fname);
+		return;
+	} catch (err) {
+		// Others
+		var link = document.createElement('a');
+		//window.URL = window.URL || window.webkitURL;
+		link.href = window.URL.createObjectURL(fblob);
+		//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
+		link.download = fname;
+
+		var event = document.createEvent("MouseEvents");
+		event.initEvent("click", true, false);
+		link.dispatchEvent(event);
+		return;
+	}
+
+	console.error("File could not be saved: " + fname);
+}
+
+
+
+//-------------------
 // Undo Queue
 //-------------------
 	function putundoq(calledfrom){
