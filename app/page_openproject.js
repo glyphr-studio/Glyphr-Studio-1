@@ -137,7 +137,9 @@
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 
 		_GP.fontchars = {};
-
+		getChar("0x0020", true).isautowide = false;
+		getChar("0x0020", true).charwidth = _GP.projectsettings.upm/2;
+		
 		_GP.linkedshapes = {};
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
 
