@@ -41,7 +41,7 @@
 //-------------------
 
 	function debug(message, force){
-		if(_GP.projectsettings.debug | force){ console.log(message); }
+		if(_UI.debug | force){ console.log(message); }
 	}
 
 	/*

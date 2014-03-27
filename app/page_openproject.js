@@ -116,8 +116,12 @@
 	}
 
 	function newGlyphrProject(){
-		var fn = document.getElementById("newprojectname").value;
-		fn = (fn? fn : "My Font");
+		var fn;
+		if(document.getElementById("newprojectname") && document.getElementById("newprojectname").value){
+			fn = document.getElementById("newprojectname").value;
+		} else {
+			fn = "My Font";
+		}
 
 		_GP = clone(_UI.default_GP);
 

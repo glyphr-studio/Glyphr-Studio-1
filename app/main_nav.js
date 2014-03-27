@@ -5,7 +5,13 @@
 	function navigate(nap){
 		debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
-		if (_UI.navhere == 'firstrun'){ 
+		if(_UI.navhere === 'firstrun' && _UI.devnav){
+			debug(">>> DEV NAV - to " + _UI.devnav);
+			newGlyphrProject();
+			_UI.navhere = _UI.devnav;
+		}
+
+		if(_UI.navhere === 'firstrun'){ 
 			makeLayout_Firstrun(); 
 		} else if (_UI.popout){ 
 			if(_UI.navhere === 'character edit' || _UI.navhere === 'linked shapes'){

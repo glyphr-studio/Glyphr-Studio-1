@@ -26,6 +26,11 @@
 			"g1" :			"rgb(25,30,35)"		// 10% gray  DARKER
 		},
 
+		// Internal Dev Stuff
+		"devnav" : "import svg",		// navigate straight to a page
+		"debug": true,					// global debug console switch
+		"debugpoints" : [false,false],
+
 		// Shared edit pages
 		"popout" : false,
 		"selectedtool" : "pathedit",	// pathedit, shapemove, pantool, newrect, newoval, newpath
@@ -60,7 +65,6 @@
 		"charcurrstate" : {},
 		"selectchardrawarr" : [],
 		"shapelayers" : [],
-		"debugpoints" : [false,false],
 		"locid": 0,
 		"locarr": [],
 		"checkid": 0,
@@ -97,7 +101,6 @@
 		"default_GP" : {
 			"projectsettings": {
 				"name": "My Font",
-				"debug": true,				// global debug console switch
 				"version": 0,				// console version
 				"linkedshapecounter": 0,	// private counter for ss id
 				"charrange": {
