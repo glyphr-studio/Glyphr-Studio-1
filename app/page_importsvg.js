@@ -51,8 +51,12 @@
 			for(var p=0; p<patharr.length; p++){ importSVG_parsePathTag(patharr[p]); }
 
 		} else {
-			// fail import
+			console.error("Import SVG - could find no <path> tags to import.");
 		}
+
+		// Redraw
+		document.getElementById('importsvgcharchooser').innerHTML = makeGenericCharChooserContent('importSVG_selectChar');
+		drawGenericCharChooserContent();
 	}
 
 
@@ -83,11 +87,20 @@
 		// chunk commands and data
 		var chunkarr = [];
 		var commandpos = 0;
+		var dataarr = [];
 		curr = 0;
 		while(curr < data.length){
 			if(importSVG_isPathCommand(data[curr])){
 				if(commandpos !== curr){
-					chunkarr.push({"command":data[commandpos], "data":data.slice(commandpos+2, curr-1).join('').split(' ')});
+					dataarr = data.slice(commandpos+2, curr-1).join('').split(' ');
+					for(var i=0; i<dataarr.length; i++){
+						if(dataarr[i] === ''){
+							dataarr.splice(i,1);
+						} else {
+							dataarr[i] = Number(dataarr[i]);
+						}
+					}
+					chunkarr.push({"command":data[commandpos], "data":dataarr});
 					commandpos = curr;
 				}
 			}
@@ -96,36 +109,53 @@
 		debug("IMPORTSVG_PARSEPATHTAG - chunkarr data is \n" + JSON.stringify(chunkarr));
 
 		// Turn the commands and data into Glyphr objects
-		var returnobj = {"patharr":[], "pos":{"x":0, "y":0}};
+		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			returnobj = importSVG_handlePathChunk(chunkarr[c], returnobj);
+			debug("\nHandling Path Chunk " + c);
+			patharr = importSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 		}
+
+		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
+		newshape.flipNS();
+
+		
+		debug("IMPORTSVG_PARSEPATHTAG - adding new shape \n" + JSON.stringify(newshape));
+		addShape(newshape);
 	}
 
 	function importSVG_isPathCommand(c){
-		if('MmLlCcZzHhVv'.indexOf(c) > -1) return c;
+		if('MmLlCcSsZzHhVv'.indexOf(c) > -1) return c;
 		return false;
 	}
 
-	function importSVG_handlePathChunk(chunk, pobj){
+	function importSVG_handlePathChunk(chunk, patharr, islastpoint){
 		/* 
 			Path Instructions: Capital is absolute, lowercase is relative
 			M m		MoveTo
 			L l		LineTo
-			C c		Bezier (can be chained)
-			Z z		Close Path
 			H h		Horizontal Line
 			V v		Vertical Line
+			C c		Bezier (can be chained)
+			S s		Smooth Bezier
+			Z z		Close Path
 
-			A		ArcTo (don't support)
-			Q q		Quadratic Bezier (don't support)			
+			Possibly fail gracefully for these by moving to the final point
+			A a		ArcTo (don't support)
+			Q q		Quadratic Bezier (don't support)
+			T t		Smooth Quadratic (don't support)
 		*/
 
-		var xx,yy;
-		var p,h1,h2;
 		var cmd = chunk.command;
+		var p,h1,h2;
+		var lastpoint = patharr[patharr.length-1] || new PathPoint({"P":new Coord({"x":0,"y":0})});
+		var prevx = round(lastpoint.P.x, 3);
+		var prevy = round(lastpoint.P.y, 3);
+
+		debug("IMPORTSVG_HANDLEPATHCHUNK - cmd:"+cmd+" data:"+chunk.data+" previous point x:"+prevx+" y:"+prevy);
 
 		if(cmd === 'M' || cmd === 'm' || cmd === 'L' || cmd === 'l' || cmd === 'H' || cmd === 'h' || cmd === 'V' || cmd === 'v'){
+
+			var xx,yy;
 
 			switch(cmd){
 				case 'L':
@@ -137,45 +167,81 @@
 					break;
 				case 'l':
 				case 'm':
-					// RELATIVE line to
-					// RELATIVE move to
-					xx = chunk.data[0] + pobj.pos.x;
-					yy = chunk.data[1] + pobj.pos.y;
+					// relative line to
+					// relative move to
+					xx = chunk.data[0] + prevx;
+					yy = chunk.data[1] + prevy;
 					break;
 				case 'H':
 					// ABSOLUTE horizontal line to
 					xx = chunk.data[0];
-					yy = pobj.pos.y;
+					yy = prevy;
 					break;
 				case 'h': 
-					// RELATIVE horizontal line to
-					xx = chunk.data[0] + pobj.pos.x;
-					yy = pobj.pos.y;
+					// relative horizontal line to
+					xx = chunk.data[0] + prevx;
+					yy = prevy;
 					break;
-				case 'L':
+				case 'V':
 					// ABSOLUTE vertical line to
-					xx = pobj.pos.x;
+					xx = prevx;
 					yy = chunk.data[0];
 					break;
-				case 'l':
-					// RELATIVE vertical line to
-					xx = pobj.pos.x;
-					yy = chunk.data[0] + pobj.pos.y;
+				case 'v':
+					// relative vertical line to
+					xx = prevx;
+					yy = chunk.data[0] + prevy;
 					break;
 			}
 			
-			p = new Coord({"x":xx, "y":yy});
+			debug("IMPORTSVG_HANDLEPATHCHUNK - linear point result xx yy " + xx + " " + yy);
 			h1 = new Coord({"x":xx-100, "y":yy-100});
+			p = new Coord({"x":xx, "y":yy});
 			h2 = new Coord({"x":xx+100, "y":yy+100});
 
-			if(pobj.patharr.length) pobj.patharr[pobj.patharr.length].useh2 = false;
-			pobj.patharr.push(new PathPoint({"P":p, "H1":h1, "H2":h2, "useh1":false}));
+			lastpoint.useh2 = false;
+			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":h2, "useh1":false, "useh2":!islastpoint}));
 
-			pobj.pos = p;
-
-		} else if(cmd === 'C' || cmd === 'c'){
+		} else if(cmd === 'C' || cmd === 'c' || cmd === 'S' || cmd === 's'){
 			// ABSOLUTE bezier curve to
-			// RELATIVE bezier curve to 
+			// relative bezier curve to 
+				// The three subsiquent x/y points are relative to the last command's x/y point
+				// relative x/y point (n) is NOT relative to (n-1)
+
+			if(cmd === 'C' || cmd === 'c'){
+				var currdata = [];
+				// Loop through (potentially) PolyBeziers
+				while(chunk.data.length){
+					// Grab the next chunk of data and make sure it's length=6
+					currdata = chunk.data.splice(0,6);
+					if(chunk.data.length % 6 !== 0) { 
+						console.error('Import SVG - Bezier path command (C or c) was expecting 6 (or multiples of 6) arguments, was passed ' + chunk.data.length + '\n'+JSON.stringify(chunk.data)+'\nFailing gracefully by filling in default data.');
+						while(currdata.length<6) { currdata.push(currdata[currdata.length-1]+100); }
+					}
+					
+					// default absolute for C
+					//debug("IMPORTSVG_HANDLEPATHCHUNK - Cc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
+
+					lastpoint.H2 = new Coord({"x":currdata[0], "y":currdata[1]});
+					lastpoint.useh2 = true;
+					h1 = new Coord({"x":currdata[2], "y":currdata[3]});
+					p = new Coord({"x":currdata[4], "y":currdata[5]});
+
+					if (cmd === 'c'){
+						// Relative offset for c
+						lastpoint.H2.x += prevx;
+						lastpoint.H2.y += prevy;
+						h1.x += prevx;
+						h1.y += prevy;
+						p.x += prevx;
+						p.y += prevy;						
+					}
+					
+					debug("IMPORTSVG_HANDLEPATHCHUNK - bezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
+
+					patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p}));
+				}
+			}
 
 		} else if(cmd === 'Z' || cmd === 'z'){
 			// End Path 
@@ -184,5 +250,5 @@
 			debug("IMPORTSVG_HANDLEPATHCHUNK - unrecognized chunk command " + chunk.command);
 		}
 
-		return pobj;
+		return patharr;
 	}

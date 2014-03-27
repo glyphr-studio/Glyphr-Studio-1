@@ -148,16 +148,16 @@
 //-------------------------------------------------------
 
 	function getChar(ch, create) {
-		debug("GETCHAR - passed " + ch + " - force create? " + create);
+		//debug("GETCHAR - passed " + ch + " - force create? " + create);
 		if((''+ch).indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
 		} else {
 			var rechar = _GP.fontchars[ch];
-			debug("GETCHAR - retrieved " + rechar + " from fontchars.");
+			//debug("GETCHAR - retrieved " + rechar + " from fontchars.");
 			if(rechar){
 				return rechar;
 			} else if(create){
-				debug("GETCHAR - create was true, returning a new char.");
+				//debug("GETCHAR - create was true, returning a new char.");
 				_GP.fontchars[ch] = new Char({"charname":getCharName(ch), "charhtml":hexToHTML(ch)});
 				return _GP.fontchars[ch];
 			}
