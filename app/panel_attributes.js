@@ -202,7 +202,7 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
 					"<td> width </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");}'")+
+					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0,ss().ratiolock); putundoq(\"Shape Width\"); redraw(\"shapeDetails - Width\");}'")+
 					" value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -210,7 +210,7 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
 					"<td> height </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+")); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1),true); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'")+
+					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+"),ss().ratiolock); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1),true); putundoq(\"Shape Height\"); redraw(\"shapeDetails - Height\");}'")+
 					" value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -246,6 +246,10 @@
 					" value='"+(s.path.winding===0?"unknown":(s.path.winding>0?"counterclockwise":"clockwise"))+"'/>"+
 					"<input type='button' onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' value='"+(s.path.winding>0?"&#8635":"&#8634")+";' class='button spinnerbutton' style='width:40px;'/></td>"+
 					"</tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> lock aspect ratio </td>"+
+					"<td class='rightcol'>"+checkUI("ss().ratiolock="+!s.ratiolock+";redraw(\"lock aspect ratio\");",s.ratiolock)+"</tr>";
 
 		//debug("<b>SHAPE DETAILS OUTPUT:<b><br><textarea rows=9 cols=3000>" + content + "</textarea>");
 		return content;

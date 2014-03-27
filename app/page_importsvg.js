@@ -210,6 +210,9 @@
 					break;
 			}
 			
+			xx = round(xx, 3);
+			yy = round(yy, 3);
+
 			debug("IMPORTSVG_HANDLEPATHCHUNK - linear point result xx yy " + xx + " " + yy);
 			h1 = new Coord({"x":xx-100, "y":yy-100});
 			p = new Coord({"x":xx, "y":yy});
@@ -238,10 +241,10 @@
 					// default absolute for C
 					//debug("IMPORTSVG_HANDLEPATHCHUNK - Cc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
 
-					lastpoint.H2 = new Coord({"x":currdata[0], "y":currdata[1]});
+					lastpoint.H2 = new Coord({"x":round(currdata[0], 3), "y":round(currdata[1], 3)});
 					lastpoint.useh2 = true;
-					h1 = new Coord({"x":currdata[2], "y":currdata[3]});
-					p = new Coord({"x":currdata[4], "y":currdata[5]});
+					h1 = new Coord({"x":round(currdata[2], 3), "y":round(currdata[3], 3)});
+					p = new Coord({"x":round(currdata[4], 3), "y":round(currdata[5], 3)});
 
 					if (cmd === 'c'){
 						// Relative offset for c

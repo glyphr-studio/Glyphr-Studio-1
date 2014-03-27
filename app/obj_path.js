@@ -173,7 +173,7 @@
 		return false;
 	};
 
-	Path.prototype.updatePathSize = function(dw, dh, lockaspectratio){
+	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
 		var ps = _GP.projectsettings;
@@ -184,9 +184,9 @@
 
 		if(s.wlock && s.hlock) return;
 
-		if(!s.wlock && !s.hlock && lockaspectratio){
-			dw = Math.max(dw,dh);
-			dh = Math.max(dw,dh);
+		if(!s.wlock && !s.hlock && ratiolock){
+			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
+			else dh = dw;
 		}
 
 		var oldw = this.rightx - this.leftx;

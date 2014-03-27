@@ -16,6 +16,7 @@
 		this.ylock = oa.ylock || false;
 		this.wlock = oa.wlock || false;
 		this.hlock = oa.hlock || false;
+		this.ratiolock = oa.ratiolock || false;
 
 		// not settable defaults
 		this.link = false;

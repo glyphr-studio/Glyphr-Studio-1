@@ -551,7 +551,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,dh,(dw*-1),(dh*-1));
 					} else {
-						s.path.updatePathSize((dw*-1),dh);
+						s.path.updatePathSize((dw*-1),dh, s.ratiolock);
 						s.path.updatePathPosition(dw,0);
 					}
 				}
@@ -563,7 +563,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,0,(dh*-1));
 					} else {
-						s.path.updatePathSize(0, dh);
+						s.path.updatePathSize(0, dh, s.ratiolock);
 						//s.path.updatePathPosition(0, 0);
 					}
 				}
@@ -576,7 +576,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,dw,(dh*-1));
 					} else {
-						s.path.updatePathSize(dw,dh);
+						s.path.updatePathSize(dw,dh, s.ratiolock);
 						//s.path.updatePathPosition(0,0);
 					}
 				}
@@ -588,7 +588,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,0);
 					} else {
-						s.path.updatePathSize(dw, 0);
+						s.path.updatePathSize(dw, 0, s.ratiolock);
 						//s.path.updatePathPosition(0, 0);
 					}
 				}
@@ -601,7 +601,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,dh);
 					} else {
-						s.path.updatePathSize(dw, (dh*-1));
+						s.path.updatePathSize(dw, (dh*-1), s.ratiolock);
 						s.path.updatePathPosition(0, dh);
 					}
 				}
@@ -613,7 +613,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,0,dh);
 					} else {
-						s.path.updatePathSize(0, (dh*-1));
+						s.path.updatePathSize(0, (dh*-1), s.ratiolock);
 						s.path.updatePathPosition(0, dh);
 					}
 				}
@@ -626,7 +626,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),dh);
 					} else {
-						s.path.updatePathSize((dw*-1),(dh*-1));
+						s.path.updatePathSize((dw*-1),(dh*-1), s.ratiolock);
 						s.path.updatePathPosition(dw,dh);
 					}
 				}
@@ -638,7 +638,7 @@
 					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),0);
 					} else {
-						s.path.updatePathSize((dw*-1), 0);
+						s.path.updatePathSize((dw*-1), 0, s.ratiolock);
 						s.path.updatePathPosition(dw, 0);
 					}
 				}
