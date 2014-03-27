@@ -114,9 +114,9 @@
 				// Grid stuff
 				"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are
 				"ascent": 700,			// ascender
+				"xheight": 400,			// lowercase letter height
 				"linegap": 250,
 				"griddivisions": 10,	// how many squares of grid per emsize
-				"xheight": 400,			// lowercase letter height
 				"overshoot": 10,		// overshoot for round glyphs
 				"defaultlsb": 10,		// default left space
 

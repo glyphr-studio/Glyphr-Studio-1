@@ -173,7 +173,7 @@
 		return false;
 	};
 
-	Path.prototype.updatePathSize = function(dw, dh){
+	Path.prototype.updatePathSize = function(dw, dh, lockaspectratio){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
 		var ps = _GP.projectsettings;
@@ -183,6 +183,11 @@
 		dh = s.hlock? 0 : dh;
 
 		if(s.wlock && s.hlock) return;
+
+		if(!s.wlock && !s.hlock && lockaspectratio){
+			dw = Math.max(dw,dh);
+			dh = Math.max(dw,dh);
+		}
 
 		var oldw = this.rightx - this.leftx;
 		var oldh = this.topy - this.bottomy;
@@ -262,10 +267,9 @@
 
 	Path.prototype.flipNS = function(){
 		var ly = this.topy;
-		var lx = this.leftx;
 
 		var mid = ((this.topy - this.bottomy)/2)+this.bottomy;
-		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
+		debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -275,13 +279,10 @@
 		}
 
 		this.setTopY(ly);
-		this.setLeftX(lx);
-
 		this.reversePath();
 	};
 
 	Path.prototype.flipEW = function(){
-		var ly = this.topy;
 		var lx = this.leftx;
 
 		var mid = ((this.rightx - this.leftx)/2)+this.leftx;
@@ -294,19 +295,17 @@
 			pp.H2.x += ((mid-pp.H2.x)*2);
 		}
 
-		this.setTopY(ly);
 		this.setLeftX(lx);
-
 		this.reversePath();
 	};
 
 	Path.prototype.setTopY = function(newvalue){
-		var delta = ((newvalue*1) - ss("setTopY").path.topy);
+		var delta = ((newvalue*1) - this.topy);
 		this.updatePathPosition(0,delta,true);
 	};
 
 	Path.prototype.setLeftX = function(newvalue){
-		var delta = ((newvalue*1) - ss("SetLeftX").path.leftx);
+		var delta = ((newvalue*1) - this.leftx);
 		this.updatePathPosition(delta,0,true);
 	};
 

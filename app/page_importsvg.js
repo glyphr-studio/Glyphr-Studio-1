@@ -8,9 +8,9 @@
 		"<input type='checkbox' onchange='_UI.importsvg.ascender=this.checked;'>Has ascender<br>"+
 		"<input type='checkbox' onchange='_UI.importsvg.descender=this.checked;'>Has descender<br>"+
 		"</div><br>"+
-		"<h2>Paste SVG code</h2>"+
-		"<textarea id='svgcode'></textarea><br>"+
-		"<input type='button' class='button buttonsel' value='Import SVG' onclick='importSVG_importCode();'>"+
+		"<h2 style='display:inline;'>Paste SVG code</h2>"+
+		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline;' onclick='importSVG_importCode();'>"+
+		"<br><textarea id='svgcode'><path d='M6,29.1H0V17C0,10.6,2.8,5.4,8,2.4c5.5-3.2,12.6-3.2,18,0c5.2,3,8,8.2,8,14.7H30c0-5-2.1-8.9-6-11.2c-4.2-2.4-9.8-2.4-14,0c-3.9,2.2-6,6.2-6,11.2v8h2V29.1z'/></textarea><br>"+
 		"</td></tr></table>"+
 		"<br><br></div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
@@ -116,10 +116,26 @@
 		}
 
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
-		newshape.flipNS();
+		newshape.path.calcMaxes();
+		newshape.path.flipNS();
 
+		// Scale
+		if(_UI.importsvg.scale){
+			var height = _GP.projectsettings.xheight;
+			var top = _GP.projectsettings.xheight;
+			if(_UI.importsvg.ascender){
+				height = _GP.projectsettings.ascent;
+				top = _GP.projectsettings.ascent;
+			}
+			if(_UI.importsvg.descender){
+				height += (_GP.projectsettings.upm - _GP.projectsettings.ascent);
+			}
+
+			newshape.path.updatePathSize((height - (newshape.path.topy - newshape.path.bottomy)), 0, true);
+			newshape.path.setTopY(top);
+		}
 		
-		debug("IMPORTSVG_PARSEPATHTAG - adding new shape \n" + JSON.stringify(newshape));
+		//debug("IMPORTSVG_PARSEPATHTAG - adding new shape \n" + JSON.stringify(newshape));
 		addShape(newshape);
 	}
 
