@@ -565,6 +565,17 @@
 /* Page - Import SVG */
 /* -----------------*/
 
+	#svgcode {
+		width:100%;
+		height:400px;
+		margin:12px 0px;
+		overflow: auto;
+		vertical-align: top;
+		font-family: monospace;
+		font-size:12px;
+		padding: 12px;
+	}
+
 	#svgerrormessagebox {
 		display:none;
 		height:auto;
@@ -931,33 +942,6 @@
 		font-family:monospace;
 	}
 
-
-/* -------------------- */
-/* Page - Save Project */
-/* ------------------ */
-	#svgcode {
-		width:400px;
-		height:500px;
-		margin:12px 0px;
-		overflow: auto;
-		vertical-align: top;
-		font-family: monospace;
-		font-size:12px;
-		padding: 12px;
-	}
-
-	#importsvgcharchooser {
-		width:420px;
-		display:block;
-		height:100%;
-		padding:10px 10px 0px 0px;
-		overflow-y:auto;
-		overflow-x:hidden;
-	}
-
-	#importsvgcharchooser .charselectbutton {
-		background-color: white;
-	}
 
 /* ----------------- */
 /* Page - Testdrive */

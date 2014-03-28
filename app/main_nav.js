@@ -167,7 +167,7 @@
 	}
 
 	function makeAndDraw_NavPanels_PopIn(){
-		//debug("MAKEANDDRAW_NAVPANELS_POPIN");
+		debug("MAKEANDDRAW_NAVPANELS_POPIN - navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		drawPanel_NavTabs();
@@ -175,7 +175,7 @@
 		var nt = document.getElementById("navarea_panel");
 		nt.innerHTML = "";
 
-		if((_UI.navhere!="character edit")&&(_UI.navhere!="linked shapes")&&(_UI.navhere!="test drive")) {
+		if((_UI.navhere!=="character edit")&&(_UI.navhere!=="linked shapes")&&(_UI.navhere!=="test drive")&&(_UI.navhere!=="import svg")) {
 				_UI.navprimaryhere = "npNav";
 				nt.innerHTML = makePanel_PageNav();
 				return;
@@ -187,11 +187,15 @@
 				break;
 
 			case "npChar":
-				if(_UI.navhere == "character edit") {
-					nt.innerHTML = makePanel_CharChooser();
+				if(_UI.navhere === "character edit") {
+					nt.innerHTML = makePanel_CharChooser('selectChar');
 					drawPanel_CharChooser();
 				}
-				if(_UI.navhere == "linked shapes") {
+				if(_UI.navhere === "import svg"){
+					nt.innerHTML = makePanel_CharChooser('importSVG_selectChar');
+					drawPanel_CharChooser();
+				}
+				if(_UI.navhere === "linked shapes") {
 					nt.innerHTML = makePanel_LinkedShapeChooser();
 					drawPanel_LinkedShapeChooser();
 				}
@@ -203,7 +207,7 @@
 				break;
 
 			case "npAttributes":
-				if(_UI.navhere == "test drive"){
+				if(_UI.navhere === "test drive"){
 					nt.innerHTML = makePanel_TestDriveOptions();
 				} else {
 					nt.innerHTML = makePanel_Attributes();
@@ -262,7 +266,7 @@
 		pncanvas.height = 50;
 		draw_primaryNav_navigate(pnctx, fill);
 
-		if(_UI.navhere=="character edit"){
+		if(_UI.navhere==="character edit"){
 			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
@@ -285,7 +289,7 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 
-		if(_UI.navhere=="linked shapes"){
+		if(_UI.navhere==="linked shapes"){
 			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
 			pncanvas = document.getElementById("npChar");
 			pnctx = pncanvas.getContext("2d");
@@ -301,13 +305,22 @@
 			draw_primaryNav_attributes(pnctx, fill);
 		}
 
-		if(_UI.navhere=="test drive"){
+		if(_UI.navhere==="test drive"){
 			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
 			pncanvas = document.getElementById("npAttributes");
 			pnctx = pncanvas.getContext("2d");
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_attributes(pnctx, fill);
+		}
+
+		if(_UI.navhere==="import svg"){
+			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
+			pncanvas = document.getElementById("npChar");
+			pnctx = pncanvas.getContext("2d");
+			pncanvas.width = 50;
+			pncanvas.height = 50;
+			draw_primaryNav_character(pnctx, fill);
 		}
 
 		updateSaveIcon();
@@ -329,19 +342,23 @@
 		var navarr = [];
 		navarr.push("npNav");
 
-		if(_UI.navhere=="character edit"){
+		if(_UI.navhere==="character edit"){
 			navarr.push("npAttributes");
 			navarr.push("npLayers");
 			navarr.push("npChar");
 		}
 
-		if(_UI.navhere=="linked shapes"){
+		if(_UI.navhere==="linked shapes"){
 			navarr.push("npAttributes");
 			navarr.push("npChar");
 		}
 
-		if(_UI.navhere=="test drive"){
+		if(_UI.navhere==="test drive"){
 			navarr.push("npAttributes");
+		}
+
+		if(_UI.navhere==="import svg"){
+			navarr.push("npChar");
 		}
 
 		var newsub = "";

@@ -1,8 +1,8 @@
 	function loadPage_importsvg(){
 		debug("LOADING PAGE >> loadpage_importsvg");
-		var content = "<div class='pagecontent'><h1>Import SVG</h1>" +
-		"<table><tr><td><h2>Select a character</h2><div id='importsvgcharchooser'></div></td>"+
-		"<td><h2 style='margin-bottom:10px;'>Scale options</h2>"+
+		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
+		"<h2 id='importsvgselecttitle'>Target character: "+getSelectedCharName()+"</h2>"+
+		"<h2 style='margin-bottom:10px;'>Scale options</h2>"+
 		"<input type='checkbox' checked onchange='_UI.importsvg.scale=this.checked;'>Scale imported SVG path<br>"+
 		"<div style='padding-left:20px;' disabled='"+_UI.importsvg.scale+"'>"+
 		"<input type='checkbox' onchange='_UI.importsvg.ascender=this.checked;'>Has ascender<br>"+
@@ -15,19 +15,17 @@
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
 		'<td class="svgerrormessageleftbar"><input type="button" class="svgerrormessageclosebutton" value="&times;" onclick="document.getElementById(\'svgerrormessagebox\').style.display=\'none\';"></td>' +
 		'<td id="svgerrormessagecontent"></td>' +
-		'</tr></table></div>' +
-		"</td></tr></table>"+
+		'</tr></table></div>'+
 		"<br><br></div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
-		
 		importSVG_selectChar("0x0061");
 	}
 
 	function importSVG_selectChar(cid){
 		debug("IMPORTSVG_SELECTCHAR - selecting " + cid);
 		selectChar(cid, true);
-		document.getElementById('importsvgcharchooser').innerHTML = makeGenericCharChooserContent('importSVG_selectChar');
-		drawGenericCharChooserContent();
+		document.getElementById('importsvgselecttitle').innerHTML = "Target character: "+getSelectedCharName();
+		update_NavPanels();
 	}
 
 	function importSVG_importCode() {
@@ -60,8 +58,7 @@
 		}
 
 		// Redraw
-		document.getElementById('importsvgcharchooser').innerHTML = makeGenericCharChooserContent('importSVG_selectChar');
-		drawGenericCharChooserContent();
+		update_NavPanels();
 	}
 
 

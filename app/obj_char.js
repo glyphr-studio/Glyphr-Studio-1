@@ -175,6 +175,10 @@
 		return getChar(_UI.selectedchar, true);
 	}
 
+	function getSelectedCharName() {
+		return getCharName(_UI.selectedchar, true);
+	}
+
 	function getSelectedCharShapes(){
 		//debug("GETSELECTEDCHARSHAPES");
 		var rechar = getSelectedChar();
