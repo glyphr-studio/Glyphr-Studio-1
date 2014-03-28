@@ -561,9 +561,41 @@
 /*	============================= */
 
 
+/* ------------------ */
+/* Page - Import SVG */
+/* -----------------*/
 
+	#svgerrormessagebox {
+		display:none;
+		height:auto;
+		width:100%;
+		background-color:rgb(240,210,215);
+		border:1px solid rgb(240,15,54);
+	}
 
+	.svgerrormessageclosebutton {
+		width:20px;
+		height:25px;
+		color:rgb(229,234,239);
+		background-color:rgb(240,15,54);
+		font-size:24px;
+		font-weight:bold;
+		text-align:center;
+		padding:0px;
+		cursor:pointer;
+		border-radius:0px;
+	}
 
+	.svgerrormessageleftbar {
+		width:20px;
+		vertical-align:top;
+		background-color:rgb(240,15,54);
+	}
+
+	#svgerrormessagecontent {
+		padding:10px 20px 20px 20px;
+		color:rgb(105,45,55);
+	}
 
 /* ------------------ */
 /* Page - Open / New */

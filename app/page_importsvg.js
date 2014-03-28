@@ -11,6 +11,11 @@
 		"<h2 style='display:inline;'>Paste SVG code</h2>"+
 		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline;' onclick='importSVG_importCode();'>"+
 		"<br><textarea id='svgcode'><path d='M6,29.1H0V17C0,10.6,2.8,5.4,8,2.4c5.5-3.2,12.6-3.2,18,0c5.2,3,8,8.2,8,14.7H30c0-5-2.1-8.9-6-11.2c-4.2-2.4-9.8-2.4-14,0c-3.9,2.2-6,6.2-6,11.2v8h2V29.1z'/></textarea><br>"+
+		'<div id="svgerrormessagebox">' +
+		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
+		'<td class="svgerrormessageleftbar"><input type="button" class="svgerrormessageclosebutton" value="&times;" onclick="document.getElementById(\'svgerrormessagebox\').style.display=\'none\';"></td>' +
+		'<td id="svgerrormessagecontent"></td>' +
+		'</tr></table></div>' +
 		"</td></tr></table>"+
 		"<br><br></div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
@@ -51,7 +56,7 @@
 			for(var p=0; p<patharr.length; p++){ importSVG_parsePathTag(patharr[p]); }
 
 		} else {
-			console.error("Import SVG - could find no <path> tags to import.");
+			importSVG_errorMessage("Could find no &lt;path&gt; tags to import");
 		}
 
 		// Redraw
@@ -233,8 +238,8 @@
 				while(chunk.data.length){
 					// Grab the next chunk of data and make sure it's length=6
 					currdata = chunk.data.splice(0,6);
-					if(chunk.data.length % 6 !== 0) { 
-						console.error('Import SVG - Bezier path command (C or c) was expecting 6 (or multiples of 6) arguments, was passed ' + chunk.data.length + '\n'+JSON.stringify(chunk.data)+'\nFailing gracefully by filling in default data.');
+					if(currdata.length % 6 !== 0) { 
+						importSVG_errorMessage('Bezier path command (C or c) was expecting 6 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 						while(currdata.length<6) { currdata.push(currdata[currdata.length-1]+100); }
 					}
 					
@@ -266,8 +271,16 @@
 			// End Path 
 
 		} else {
-			debug("IMPORTSVG_HANDLEPATHCHUNK - unrecognized chunk command " + chunk.command);
+			importSVG_errorMessage("Unrecognized path command " + cmd);
 		}
 
 		return patharr;
+	}
+
+	function importSVG_errorMessage(msg) {
+		console.error("Import SVG Error - " + msg);
+		var msgcon = document.getElementById('svgerrormessagecontent');
+		var msgbox = document.getElementById('svgerrormessagebox');
+		msgcon.innerHTML = msg;
+		msgbox.style.display = 'block';
 	}

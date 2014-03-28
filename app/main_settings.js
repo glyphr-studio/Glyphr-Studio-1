@@ -12,8 +12,11 @@
 		"thisGlyphrStudioVersionNum" : "0.4.0",
 		"projectsaved": true,
 		"colors" : {
-			"accent" :		"rgb(0,170,225)",	//os accent base color
-			"accent_light": "rgb(165,222,240)",	//os light accent base color
+			"accent" :		"rgb(0,170,225)",	// os accent base color
+			"accent_light": "rgb(165,222,240)",	// os accent base color light
+			"error":		"rgb(240,15,54)",	// os red warning color
+			"error_light":	"rgb(240,210,215)",	// os red warning color light
+			"error_dark":	"rgb(105,45,55)",	// os red warning color dark
 			"offwhite" :	"rgb(250,252,255)",	// Off White
 			"g9" :			"rgb(229,234,239)",	// 90% gray  LIGHTER
 			"g8" :			"rgb(204,209,214)",	// 80% gray
