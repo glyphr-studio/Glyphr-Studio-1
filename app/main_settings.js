@@ -11,6 +11,7 @@
 		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
 		"thisGlyphrStudioVersionNum" : "0.4.0",
 		"projectsaved": true,
+		"icons": {},
 		"colors" : {
 			"accent" :		"rgb(0,170,225)",	// os accent base color
 			"accent_light": "rgb(165,222,240)",	// os accent base color light
@@ -30,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : "import svg",		// navigate straight to a page
+		"devnav" : "character edit",		// navigate straight to a page
 		"debug": true,					// global debug console switch
 		"debugpoints" : [false,false],
 
@@ -126,6 +127,7 @@
 				// UI stuff
 				"pointsize" : 5,						// square points size - SHOULD BE ODD
 				"spinnervaluechange" : 1,				// how much spinner controls change a value
+				"showkeyboardtipsicon" : true,
 				"stoppagenavigation" : false,			// asks to save on window close or refresh
 				"quickpathupdating" : false,			// does not redraw path while drag resizing
 				"showoutline" : false,					// outline shapes when drawing

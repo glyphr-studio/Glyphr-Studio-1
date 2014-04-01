@@ -701,13 +701,46 @@
 		user-select:none;
 	}
 
-    #secondaryScreenLayout #toolsarea {
+    #secondaryScreenLayout #toolsarea,
+    #secondaryScreenLayout #keyboardtips {
         left: 10px;
     }
 
 	#toolsarea div {
 		margin-right:0px;
 		word-spacing: 10px;
+	}
+
+	#keyboardtips {
+		position:fixed;
+		bottom:10px;
+		left:500px;
+		top: auto;
+		height:50px;
+		width:50px;
+		margin-left:10px;
+		z-index:10;
+		background-color: transparent;
+		cursor: pointer;
+		border:0;
+	}
+
+	#keyboardtips:hover {
+		background-color: rgb(229,234,239);
+		width:70px;
+		margin-left:0px;
+	}
+
+	.keycallout {
+		padding:2px 8px 4px 8px;
+		background-color: rgb(250,252,255);
+		border-radius: 2px;
+	}
+
+	.keycol {
+		text-align: right;
+		padding-right:8px;
+		padding-bottom: 16px;
 	}
 
 	.tool {
@@ -899,6 +932,11 @@
 	.settingstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
+	}
+
+	.settingstable input[type='checkbox']{
+		margin-top: 8px;
+		margin-bottom:0px;
 	}
 
 	.settingstable .spinnerbutton {

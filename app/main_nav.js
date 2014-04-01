@@ -80,7 +80,9 @@
         pop.viewZoom = viewZoom;
         pop.setView = setView;
         pop.popIn = popIn;
+        pop.clickKeyboardTips = clickKeyboardTips;
 		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
+		navigate();
 	}
 
 	function makeLayout_PopOut(){
@@ -96,7 +98,6 @@
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
 		//debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
 		makeAndDraw_NavPanels_PopOut();
-
 		//debug("MAKELAYOUT_POPOUT - end");
 	}
 
@@ -137,9 +138,10 @@
 //-------------------
 
 	function popIn(){
-		_UI.popout.close();
-		_UI.popout = false;
+		try { _UI.popout.close(); } catch (e) {}
         document.body.classList.remove("poppedOut");
+		_UI.popout = false;
+		navigate();
 	}
 
 	function makeLayout_PopIn(nap){
@@ -413,7 +415,7 @@
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
 			newsub += "<canvas class='primarynavbutton' id='npSave' onclick='triggerProjectFileDownload();'></canvas>";
-			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn(); navigate();'>"+drawPopInButton()+"</button>";
+			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+drawPopInButton()+"</button>";
 			newsub += "</div>";
 		}
 

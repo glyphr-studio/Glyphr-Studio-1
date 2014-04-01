@@ -1,3 +1,33 @@
+//-------------------
+// Icons
+//-------------------
+
+function makeIcon(oa) {
+	var size = oa.size || 50;
+	var color = oa.color || 'rgb(76,81,86)';
+	var hovercolor = oa.hovercolor || 'rgb(0,170,225)';
+
+	var re = '<svg version="1.1" ';
+	re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
+	re += 'x="0px" y="0px" width="'+size+'px" height="'+size+'px" viewBox="0 0 50 50"> ';
+	re += '<defs></defs> ';
+	re += '<rect fill="transparent" width="'+size+'" height="'+size+'" ';
+	re += 'onmouseover="var gs=this.parentNode.getElementsByTagName(\'g\'); for(var i=0; i<gs.length; i++){gs[i].style.fill=\''+hovercolor+'\';}" ';
+	re += 'onmouseout="var gs=this.parentNode.getElementsByTagName(\'g\'); for(var i=0; i<gs.length; i++){gs[i].style.fill=\''+color+'\';}" ';
+	re += '"/> ';
+	re += '<g pointer-events="none" fill="'+color+'">';
+	re += _UI.icons[oa.name];
+	re += '</g>';
+	re += '</svg>';
+
+	return re;
+}
+
+_UI.icons.keyboard = '<rect x="12" y="29" width="26" height="7"/><rect y="29" width="10" height="7"/><rect y="21" width="8" height="6"/><rect x="10" y="21" width="6" height="6"/><rect x="18" y="21" width="6" height="6"/><rect x="26" y="21" width="6" height="6"/><rect x="34" y="21" width="6" height="6"/><rect x="42" y="21" width="8" height="6"/><rect x="6" y="13" width="6" height="6"/><rect x="14" y="13" width="6" height="6"/><rect x="22" y="13" width="6" height="6"/><rect x="38" y="13" width="6" height="6"/><rect x="30" y="13" width="6" height="6"/><rect x="46" y="13" width="4" height="6"/><rect y="13" width="4" height="6"/><rect x="40" y="29" width="10" height="7"/>';
+
+
+
+
 
 //-------------------
 // Logos
