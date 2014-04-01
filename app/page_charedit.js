@@ -225,7 +225,7 @@
 			content += "<button title='two screen mode' class='button tool' onclick='popOut();'>"+drawPopOutButton()+"</button>";
 		}
 
-		if(_GP.projectsettings.showkeyboardtipsicon) content += '<button title="keyboard and mouse tips" onclick="clickKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
+		if(_GP.projectsettings.showkeyboardtipsicon) content += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
 
 		try {
 			getEditDocument().getElementById("toolsarea").innerHTML = content;
@@ -351,18 +351,25 @@
 		redraw("clicktool");
 	}
 
-	function clickKeyboardTips() {
-		var con = "<h2>Keyboard and Mouse Shortcuts</h2>";
+	function toggleKeyboardTips() {
 
-		con += "<table style='margin-top:20px;'>"+
-		"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>shows this keyboard and mouse dialog</td></tr>"+
-		"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
-		"<tr><td class='keycol'><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
-		"</table><br><br>";
+		if(document.getElementById('dialog_box').style.display==='block'){ 
+			closeDialog();
+		} else {
+			var con = "<h2>Keyboard and Mouse Shortcuts</h2>";
 
-		con += "<input type='checkbox' style='position:relative; top:-5px;' "+(_GP.projectsettings.showkeyboardtipsicon?'checked':'')+" onclick='_GP.projectsettings.showkeyboardtipsicon=this.checked;'>&nbsp; show the &nbsp;<span>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button";
-		openDialog(con);
+			con += "<table style='margin:20px 40px 40px 0px;'>"+
+			"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this keyboard and mouse dialog</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
+			"</table>";
+
+			con += "<input type='checkbox' style='position:relative; top:-5px;' "+(_GP.projectsettings.showkeyboardtipsicon?'checked':'')+" onclick='_GP.projectsettings.showkeyboardtipsicon=this.checked;'>&nbsp; show the &nbsp;<span>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button";
+			openDialog(con);
+		}
 	}
+
 //-------------------
 // Drawing Grid
 //-------------------

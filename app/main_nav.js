@@ -80,7 +80,7 @@
         pop.viewZoom = viewZoom;
         pop.setView = setView;
         pop.popIn = popIn;
-        pop.clickKeyboardTips = clickKeyboardTips;
+        pop.toggleKeyboardTips = toggleKeyboardTips;
 		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
 		navigate();
 	}

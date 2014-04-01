@@ -38,11 +38,11 @@
             document.getElementById("navarea_panel").addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
         }
 
-
 		// Document Key Listeners
-		getEditDocument().onkeypress = keypress;
-		getEditDocument().onkeydown = keydown;
-		getEditDocument().onkeyup = keyup;
+		getEditDocument().addEventListener('keypress', keypress, false);
+		getEditDocument().addEventListener('keydown', keydown, false);
+		getEditDocument().addEventListener('keyup', keyup, false);
+
 		// The general-purpose event handler.
 		function ev_canvas (ev) {
 
@@ -727,11 +727,26 @@
 
 	function keypress(event){
 		//debug("Key Pressed: " + event.keyCode);
-		/*
-		//debug("Key Pressed: " + event.keyCode);
+		
+		/*		
+		event.shiftKey
+		event.altKey
+		event.ctrlKey
+		event.metaKey
+		*/
+
+		//debug("Key Pressed: which:" + event.which + " keyCode:" + event.keyCode);
 		var s = ss("keypress event");
 		var changed = false;
-		if(s){
+		var kc = event.keyCode;
+
+		if(!(_UI.navhere==='character edit' || _UI.navhere==='linked shapes')) return;
+
+		if(kc===63 && event.shiftKey) { debug("toggle tips"); toggleKeyboardTips(); }
+
+		if(kc===26 && event.ctrlKey) pullundoq();
+
+/*		if(s){
 			if(_UI.selectedtool == "pathedit"){
 				switch(event.keyCode){
 					case 54:	//NumPad 6 Right
@@ -774,13 +789,12 @@
 					}
 				}
 			}
-
-			if(changed){
-				putundoq("Keypress : " + changed);
-				redraw("Keypress");
-			}
 		}
-		*/
+*/
+		if(changed){
+			putundoq("Keypress : " + changed);
+			redraw("Keypress");
+		}
 	}
 
 
