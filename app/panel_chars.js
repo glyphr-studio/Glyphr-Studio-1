@@ -15,7 +15,7 @@
 		_UI.selectchardrawarr = [];
 		var cr = _GP.projectsettings.charrange;
 		var showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
-
+		
 		if(cr.basiclatin){
 			var bl = _UI.basiclatinorder;
 			if(showtitles) ccon += "<h3>basic latin</h3>";
@@ -37,11 +37,17 @@
 			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
 		}
 
+		var cn;
 		if(cr.custom.length){
 			for(var c=0; c<cr.custom.length; c++){
 				ccon += "<h3>custom range " + (c+1) + "</h3>";
 				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
-					ccon += makeCharChooserButton(decToHex(range), fname);
+					cn = decToHex(range);
+					if(_GP.projectsettings.charrange.filternoncharpoints){
+						if(getCharName(cn).indexOf('<')<0) ccon += makeCharChooserButton(cn, fname);
+					} else {
+						ccon += makeCharChooserButton(cn, fname);
+					}
 				}
 			}
 		}
@@ -80,8 +86,8 @@
 
 		var onc = (fname + "(\"" + index + "\");");
 		var rv = "<table class='charselectbuttontable' onclick='"+onc+"' title='"+getCharName(index)+"'><tr><td>";
-		var issel = index === _UI.selectedchar;
-		issel = issel & (_UI.navhere != "linked shapes");
+		var issel = (index === _UI.selectedchar);
+		issel = (issel & (_UI.navhere != "linked shapes"));
 		var chtml = hexToHTML(index);
 		if(index === "0x0020") chtml = "space";
 

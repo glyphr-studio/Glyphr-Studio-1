@@ -31,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : "character edit",		// navigate straight to a page
+		"devnav" : "font settings",		// navigate straight to a page
 		"debug": true,					// global debug console switch
 		"debugpoints" : [false,false],
 
@@ -112,7 +112,8 @@
 					"latinsuppliment": false,
 					"latinextendeda": false,
 					"latinextendedb": false,
-					"custom": []
+					"custom": [],
+					"filternoncharpoints": true
 				},
 
 				// Grid stuff

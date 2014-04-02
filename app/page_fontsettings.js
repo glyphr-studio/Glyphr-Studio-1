@@ -74,7 +74,8 @@
 		content += "<h3>Custom Character Ranges</h3>"+
 					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix '0x'.<br>"+
 					"For example, Unicode sets aside the range 0xE000 through 0xF8FF to be specifically not used for characters.  This range can be handy for Icon Fonts.<br>" +
-					"Custom character ranges must be unique (non-overlapping), be greater than 0x024F and less than 0xFFFF."+
+					"Custom character ranges must be unique (non-overlapping), be greater than 0x024F and less than 0xFFFF.<br><br>"+
+					"<input type='checkbox' "+(ps.charrange.filternoncharpoints?"checked ":"")+"onchange='_GP.projectsettings.charrange.filternoncharpoints=this.checked;'> Filter out reserved and non-character Unicode code points.<br>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+

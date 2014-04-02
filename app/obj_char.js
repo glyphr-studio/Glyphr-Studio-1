@@ -167,7 +167,7 @@
 
 	function getCharName(ch) {
 		var re = _UI.unicodenames[ch];
-		return re || ("Unicode U+" + ch.substr(2));
+		return re || "<not a character>";
 	}
 
 	function getSelectedChar(){
