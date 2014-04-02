@@ -15,7 +15,9 @@
 		"eh_pantool" : false,
 		"eh_addpath" : false,
 		"lastTool" : "pathedit",
-		"iskeydown" : false
+		"keyDown" : false,
+		"isCtrlDown" : false,
+		"isSpaceDown" : false
 	};
 
 	function initEventHandlers() {
@@ -40,7 +42,7 @@
 
 		// Document Key Listeners
 		getEditDocument().addEventListener('keypress', keypress, false);
-		getEditDocument().addEventListener('keydown', keydown, false);
+		getEditDocument().addEventListener('keydown', keypress, false);
 		getEditDocument().addEventListener('keyup', keyup, false);
 
 		// The general-purpose event handler.
@@ -700,101 +702,94 @@
 		resetCursor();
 	}
 
-	function keydown(event){
-		//debug("Key Down: " + event.keyCode);
-		if(event.keyCode == 32 && _UI.eventhandlers.ismouseovercec){
-			if(!_UI.eventhandlers.iskeydown){
-				//debug("KEYDOWN - pressed 32 spacebar");
-				_UI.eventhandlers.lastTool = _UI.selectedtool;
-				_UI.selectedtool = "pan";
-				_UI.eventhandlers.iskeydown = true;
-				getEditDocument().body.style.cursor = "move";
-				redraw("Event Handler - Keydown Spacebar for pan toggle");
-			}
-		}
-	}
-
 	function keyup(event){
-		//debug("Key Up: " + event.keyCode);
-		if(event.keyCode == 32 && _UI.eventhandlers.ismouseovercec){
-			//debug("KEYUP - releaseing 32 spacebar");
-			_UI.selectedtool = _UI.eventhandlers.lastTool;
-			_UI.eventhandlers.iskeydown = false;
+		if(!isOnEditPage()) return;
+		
+		var kc = getKeyFromEvent(event);
+		//debug("Key Up:\t\t" + kc + " from " + event.which);
+		var eh = _UI.eventhandlers;
+
+		// Space
+		if(kc=== 'space' && eh.ismouseovercec){
+			_UI.selectedtool = eh.lastTool;
+			eh.isSpaceDown = false;
 			resetCursor();
 			redraw("Event Handler - Keyup Spacebar for pan toggle");
 		}
 	}
 
 	function keypress(event){
-		//debug("Key Pressed: " + event.keyCode);
-		
-		/*		
-		event.shiftKey
-		event.altKey
-		event.ctrlKey
-		event.metaKey
-		*/
+		if(!isOnEditPage()) return;
 
-		//debug("Key Pressed: which:" + event.which + " keyCode:" + event.keyCode);
 		var s = ss("keypress event");
-		var changed = false;
-		var kc = event.keyCode;
+		var eh = _UI.eventhandlers;
 
-		if(!(_UI.navhere==='character edit' || _UI.navhere==='linked shapes')) return;
+		var kc = getKeyFromEvent(event);
+		debug("Key Press:\t" + kc + " from " + event.which);
+		
 
-		if(kc===63 && event.shiftKey) { debug("toggle tips"); toggleKeyboardTips(); }
-
-		if(kc===26 && event.ctrlKey) pullundoq();
-
-/*		if(s){
-			if(_UI.selectedtool == "pathedit"){
-				switch(event.keyCode){
-					case 54:	//NumPad 6 Right
-						s.path.updatePathPosition(1,0);
-						changed = "NumPad 6 Right";
-						break;
-					case 52:	//NumPad 4 Left
-						s.path.updatePathPosition(-1,0);
-						changed = "NumPad 4 Left";
-						break;
-					case 50:	//NumPad 2 Down
-						s.path.updatePathPosition(0,1);
-						changed = "NumPad 2 Down";
-						break;
-					case 56:	//NumPad 8 Up
-						s.path.updatePathPosition(0,-1);
-						changed = "NumPad 8 Up";
-						break;
-				}
-			} else if (_UI.selectedtool == "pointselect"){
-				var p = s.path.sp(false, "KEYPRESS");
-				if(p){
-					switch(event.keyCode){
-						case 54:	//NumPad 6 Right
-							p.updatePointPosition("P",1,0);
-							changed = "NumPad 6 Right";
-							break;
-						case 52:	//NumPad 4 Left
-							p.updatePointPosition("P",-1,0);
-							changed = "NumPad 4 Left";
-							break;
-						case 50:	//NumPad 2 Down
-							p.updatePointPosition("P",0,1);
-							changed = "NumPad 2 Down";
-							break;
-						case 56:	//NumPad 8 Up
-							p.updatePointPosition("P",0,-1);
-							changed = "NumPad 8 Up";
-							break;
-					}
-				}
+		// Space
+		if(kc === 'space' && eh.ismouseovercec){
+			if(!eh.isSpaceDown){
+				eh.lastTool = _UI.selectedtool;
+				_UI.selectedtool = "pan";
+				eh.isSpaceDown = true;
+				getEditDocument().body.style.cursor = "move";
+				redraw("Event Handler - Keydown Spacebar for pan toggle");
 			}
 		}
-*/
-		if(changed){
-			putundoq("Keypress : " + changed);
-			redraw("Keypress");
+
+		// ?
+		if(event.shiftKey && kc==='?'){
+			event.preventDefault();
+			toggleKeyboardTips();
 		}
+
+		// z
+		if(kc==='undo' || (event.ctrlKey && kc==='z')){
+			event.preventDefault();
+			pullundoq();
+		}
+
+		// del
+		if(kc==='del'){
+			event.preventDefault();
+			deleteShape();
+			putundoq("Delete Shape");
+			redraw("Keypress DEL");
+		}
+
+		// c
+		if(event.ctrlKey && kc==='c'){
+			event.preventDefault();
+			copyShape();
+		}
+
+		// v
+		if(event.ctrlKey && kc==='v'){
+			event.preventDefault();
+			pasteShape();
+			putundoq("Paste Shape");
+			redraw("Paste Shape");
+		}
+
+		// s
+		if(event.ctrlKey && kc==='s'){
+			event.preventDefault();
+			saveGlyphrProjectFile();
+		}
+	}
+
+	function getKeyFromEvent (event) {
+		//debug("GETKEYFROMEVENT - keyCode:" + event.keyCode + "\twhich:" + event.which);
+		var specialChars = {
+			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 224:'meta'
+		};
+		return specialChars[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();	
+	}
+
+	function isOnEditPage() {
+		return (_UI.navhere==='character edit' || _UI.navhere==='linked shapes');
 	}
 
 

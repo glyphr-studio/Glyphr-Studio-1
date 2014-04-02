@@ -2,7 +2,7 @@
 //	Save GLYPHR JSON
 //	-------------------------
 
-	function triggerProjectFileDownload(){
+	function saveGlyphrProjectFile(){
 
 		var jsonString = JSON.stringify(_GP, undefined, '\t');
 		jsonString = jsonString.replace(/\n/g, '\r\n');

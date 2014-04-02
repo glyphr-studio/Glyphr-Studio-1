@@ -4,7 +4,7 @@
 		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
 		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
 		"project file if you want to save your current project.<br><br>" +
-		"<input type='button' class='button'style='padding:10px;' value='Save current project' onclick='triggerProjectFileDownload();'/><br><br>" +
+		"<input type='button' class='button'style='padding:10px;' value='Save current project' onclick='saveGlyphrProjectFile();'/><br><br>" +
 		"<h2>Okay, now...</h2>";
 
 		ct += importOrCreateNew();

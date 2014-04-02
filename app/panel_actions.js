@@ -68,7 +68,7 @@
 	}
 
 	function updateLayerActions(){
-		//stack(arguments);
+
 
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 
@@ -100,7 +100,6 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
-		//stack(arguments);
 
 		if(_UI.navhere == "linked shapes"){
 			_UI.clipboardshape = {
@@ -113,7 +112,9 @@
 			if(s){
 				_UI.clipboardshape = {
 					"s":s,
-					"c":_UI.selectedchar
+					"c":_UI.selectedchar,
+					"dx": 0,
+					"dy": 0
 				};
 				//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name);
 			}
@@ -122,11 +123,19 @@
 	}
 
 	function pasteShape(){
-		//stack(arguments);
-
-		if(_UI.clipboardshape){
-			var newshape = clone(_UI.clipboardshape.s);
-			if(_UI.clipboardshape.c != _UI.selectedchar) newshape.path.updatePathPosition(20,20,true);
+		var cbs = _UI.clipboardshape;
+		if(cbs){
+			var newshape = clone(cbs.s);
+			debug("PASTESHAPE checking if we've moved chars: " + cbs.c + " to " + _UI.selectedchar);
+			if(cbs.c === _UI.selectedchar) {
+				cbs.dx += 20;
+				cbs.dy -= 20;
+				newshape.path.updatePathPosition(cbs.dx,cbs.dy,true);
+			} else {
+				cbs.c = _UI.selectedchar;
+				cbs.dx = 0;
+				cbs.dy = 0;
+			}
 
 			var newname = newshape.name;
 			var newsuffix = " (copy)";
@@ -163,7 +172,7 @@
 // Move up / down
 //-------------------
 	function moveupShape(){
-		//stack(arguments);
+
 
 		var s = ss("Move Up Shape");
 
@@ -177,7 +186,7 @@
 	}
 
 	function movedownShape(){
-		//stack(arguments);
+
 
 		var s = ss("Move Down Shape");
 
@@ -195,7 +204,7 @@
 // Generic Spinner Control
 //-------------------
 	function spinner(){
-		//stack(arguments);
+
 
 		var content ="";
 		content += "<input type='button' value='&#9652;' class='button spinnerbutton' onclick='inc(this);'>";  //&and;
@@ -204,7 +213,7 @@
 	}
 
 	function inc(obj){
-		//stack(arguments);
+
 
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
@@ -215,7 +224,7 @@
 	}
 
 	function dec(obj){
-		//stack(arguments);
+
 
 		if(obj.parentNode.childNodes[0]){
 			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;

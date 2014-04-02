@@ -4,7 +4,7 @@
 //-------------------
 
 	function loadPage_charedit(){
-		//stack(arguments);
+
 
 		debug("LOADING PAGE >> loadPage_charedit");
 		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
@@ -21,7 +21,7 @@
 	}
 
 	function charedit_content(){
-		//stack(arguments);
+
 
 		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';
 		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
@@ -29,7 +29,7 @@
 	}
 
 	function setupGhostCanvas(){
-		//stack(arguments);
+
 
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
@@ -42,7 +42,7 @@
 	}
 
 	function setupEditCanvas(){
-		//stack(arguments);
+
 
 		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
 		_UI.chareditcanvas.height = _UI.chareditcanvassize;
@@ -61,7 +61,7 @@
 //-------------------
 
 	function setView(oa){
-		//stack(arguments);
+
 
 		var sc = _UI.selectedchar;
 		var v = _UI.views;
@@ -97,7 +97,7 @@
 	}
 
 	function viewZoom(zfactor){
-		//stack(arguments);
+
 
 		var v = getView(),
 			deltax = (_UI.eventhandlers.mousex-v.dx),
@@ -112,7 +112,7 @@
 	}
 
 	function resetThumbView(){
-		//stack(arguments);
+
 
 		var zoom = ((_UI.thumbsize-(2*_UI.thumbgutter))/(_GP.projectsettings.upm));
 
@@ -131,7 +131,7 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		//stack(arguments);
+
 		//debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);
 		if(_UI.navhere == "linked shapes") {
 			_UI.redrawing = false;
@@ -181,7 +181,7 @@
 // Update Canvas Tools
 //-------------------
 	function updatetools(){
-		//stack(arguments);
+
 
 		var pointselectclass = "";
 		var pointselectclickable = true;
@@ -330,7 +330,7 @@
 	}
 
 	function clickTool(ctool){
-		//stack(arguments);
+
 
 		_UI.selectedtool = ctool;
 		var s = ss("clicktool");
@@ -360,9 +360,13 @@
 
 			con += "<table style='margin:20px 40px 40px 0px;'>"+
 			"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this keyboard and mouse dialog</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>c</span></td><td>copy selected shape</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>delete</span></td><td>delete selected shape</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Project file</td></tr>"+
 			"</table>";
 
 			con += "<input type='checkbox' style='position:relative; top:-5px;' "+(_GP.projectsettings.showkeyboardtipsicon?'checked':'')+" onclick='_GP.projectsettings.showkeyboardtipsicon=this.checked;'>&nbsp; show the &nbsp;<span>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button";
@@ -376,7 +380,7 @@
 
 
 	function grid(){
-		//stack(arguments);
+
 
 		var ps = _GP.projectsettings;
 		var v = getView("grid");

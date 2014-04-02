@@ -104,7 +104,7 @@
 	}
 
 	function charDetails(s){
-		//stack(arguments);
+
 
 		var sc = getSelectedChar();
 		var content = "";
@@ -171,7 +171,7 @@
 	}
 
 	function shapeDetails(s){
-		//stack(arguments);
+
 
 		//debug("SHAPEDETAILS - Drawing Shape Details");
 		var content = "";
@@ -256,7 +256,7 @@
 	}
 
 	function pointDetails(s){
-		//stack(arguments);
+
 
 		var tp = s.path.sp();
 		var content = "";
@@ -331,7 +331,7 @@
 	}
 
 	function drawPointButtons(s){
-		//stack(arguments);
+
 
 		//debug("DRAWPOINTBUTTONS");
 		var tp = s.path.sp();
@@ -367,7 +367,7 @@
 	// Helper Functions
 
 	function lockUI(varname, islocked){
-		//stack(arguments);
+
 
 		//debug("LOCKUI - making html for varname " + varname + " was passed " + islocked + ", and locarr is now: [" + _UI.locarr + "]");
 		var re = "<canvas id='locid"+_UI.locid+"' ";
@@ -380,7 +380,7 @@
 	}
 
 	function checkUI(onclick, ischecked){
-		//stack(arguments);
+
 
 		//debug("CHECKUI - making html for checkarr[" + _UI.checkid + "] = " + ischecked + ", and checkarr is now: [" + _UI.checkarr + "]");
 		var re = "<canvas id='checkid"+_UI.checkid+"' ";
@@ -391,7 +391,7 @@
 	}
 
 	function rounddec(num){
-		//stack(arguments);
+
 
 		num = (num? num : 0);
 		var numsplit = num.toString().split(".");

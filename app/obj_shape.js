@@ -382,7 +382,7 @@
 		}
 		getSelectedCharShapes().push(newshape);
 		updateCurrentCharWidth();
-
+		
 		//debug("ADDSHAPE - returns:\n" + JSON.stringify(newshape));
 		return newshape;
 	}
