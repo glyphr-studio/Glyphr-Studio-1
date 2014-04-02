@@ -331,7 +331,6 @@
 
 	function clickTool(ctool){
 
-
 		_UI.selectedtool = ctool;
 		var s = ss("clicktool");
 
@@ -344,8 +343,8 @@
 		} else if(ctool=="pathedit"){
 			if(s) {s.path.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
-		} else if (ctool == "shapemove"){
-			if(s){s.path.calcMaxes();}
+		} else if (ctool == "shaperesize"){
+			if(s){ s.path.calcMaxes(); }
 		}
 
 		redraw("clicktool");
@@ -373,6 +372,12 @@
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>delete</span></td><td>delete selected shape</td></tr>"+
+			"<tr><td class='keycol'>"+
+			"<span class='arrow' style='margin-right:24px;'>&#x21E7;</span><br>"+
+			"<span class='arrow'>&#x21E6;</span>"+
+			"<span class='arrow'>&#x21E9;</span>"+
+			"<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>"+
+			"</td><td>nudges the selected shape<br>or point "+_GP.projectsettings.spinnervaluechange+" em units</td></tr>"+
 			"</table>"+
 			
 			"</td><td style='padding-left:40px;'>"+

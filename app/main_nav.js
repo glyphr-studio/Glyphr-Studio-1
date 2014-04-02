@@ -3,7 +3,7 @@
 //-------------------
 
 	function navigate(nap){
-		debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
+		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
 		if(_UI.navhere === 'firstrun' && _UI.devnav){
 			debug(">>> DEV NAV - to " + _UI.devnav);
@@ -26,7 +26,7 @@
 
 		loadPageContent();
 		document.body.focus();
-		debug(">>> NAVIGATE FINISHED - to " + _UI.navhere);
+		debug(">>> NAVIGATED - to " + _UI.navhere);
 	}
 
 
@@ -169,7 +169,7 @@
 	}
 
 	function makeAndDraw_NavPanels_PopIn(){
-		debug("MAKEANDDRAW_NAVPANELS_POPIN - navprimaryhere:" + _UI.navprimaryhere);
+		//debug("MAKEANDDRAW_NAVPANELS_POPIN - navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		drawPanel_NavTabs();

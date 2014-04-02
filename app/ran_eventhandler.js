@@ -15,8 +15,6 @@
 		"eh_pantool" : false,
 		"eh_addpath" : false,
 		"lastTool" : "pathedit",
-		"keyDown" : false,
-		"isCtrlDown" : false,
 		"isSpaceDown" : false
 	};
 
@@ -704,7 +702,7 @@
 
 	function keyup(event){
 		if(!isOnEditPage()) return;
-		
+
 		var kc = getKeyFromEvent(event);
 		//debug("Key Up:\t\t" + kc + " from " + event.which);
 		var eh = _UI.eventhandlers;
@@ -725,8 +723,8 @@
 		var eh = _UI.eventhandlers;
 
 		var kc = getKeyFromEvent(event);
-		debug("Key Press:\t" + kc + " from " + event.which);
-		
+		//debug("Key Press:\t" + kc + " from " + event.which);
+
 
 		// Space
 		if(kc === 'space' && eh.ismouseovercec){
@@ -799,7 +797,30 @@
 			setView(clone(_UI.defaultview));
 			redraw("Zoom Keyboard Shortcut");
 		}
-			
+
+		// up
+		if(kc==='up'){
+			event.preventDefault();
+			nudge(0,1);
+		}
+
+		// down
+		if(kc==='down'){
+			event.preventDefault();
+			nudge(0,-1);
+		}
+
+		// left
+		if(kc==='left'){
+			event.preventDefault();
+			nudge(-1,0);
+		}
+
+		// right
+		if(kc==='right'){
+			event.preventDefault();
+			nudge(1,0);
+		}
 	}
 
 	function getKeyFromEvent (event) {
@@ -807,11 +828,27 @@
 		var specialChars = {
 			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 187:'plus', 189:'minus', 224:'meta'
 		};
-		return specialChars[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();	
+		return specialChars[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();
 	}
 
 	function isOnEditPage() {
 		return (_UI.navhere==='character edit' || _UI.navhere==='linked shapes');
+	}
+
+	function nudge(dx, dy) {
+		var s = ss("Nudge");
+		var sp, mx, my;
+		if(s){
+			mx = (dx * _GP.projectsettings.spinnervaluechange);
+			my = (dy * _GP.projectsettings.spinnervaluechange);
+			sp = s.path.sp();
+			if(sp){
+				sp.updatePointPosition('P', mx, my);
+			} else {
+				s.path.updatePathPosition(mx, my);
+			}
+			redraw("Nudge");
+		}
 	}
 
 

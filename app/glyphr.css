@@ -738,6 +738,14 @@
 		margin-right: 4px;
 	}
 
+	.arrow {
+		padding:2px 4px;
+		background-color: rgb(250,252,255);
+		border-radius: 2px;
+		width:18px;
+		height:18px;
+	}
+
 	.keycol {
 		text-align: right;
 		padding-right:8px;
