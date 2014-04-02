@@ -778,12 +778,34 @@
 			event.preventDefault();
 			saveGlyphrProjectFile();
 		}
+
+		// plus
+		if(event.ctrlKey && kc==='plus'){
+			event.preventDefault();
+			viewZoom(1.1);
+			redraw("Zoom Keyboard Shortcut");
+		}
+
+		// minus
+		if(event.ctrlKey && kc==='minus'){
+			event.preventDefault();
+			viewZoom(0.9);
+			redraw("Zoom Keyboard Shortcut");
+		}
+
+		// 0
+		if(event.ctrlKey && kc==='0'){
+			event.preventDefault();
+			setView(clone(_UI.defaultview));
+			redraw("Zoom Keyboard Shortcut");
+		}
+			
 	}
 
 	function getKeyFromEvent (event) {
 		//debug("GETKEYFROMEVENT - keyCode:" + event.keyCode + "\twhich:" + event.which);
 		var specialChars = {
-			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 224:'meta'
+			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 187:'plus', 189:'minus', 224:'meta'
 		};
 		return specialChars[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();	
 	}

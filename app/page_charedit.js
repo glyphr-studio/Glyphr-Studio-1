@@ -358,16 +358,37 @@
 		} else {
 			var con = "<h2>Keyboard and Mouse Shortcuts</h2>";
 
-			con += "<table style='margin:20px 40px 40px 0px;'>"+
-			"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this keyboard and mouse dialog</td></tr>"+
+			con += "<table style='margin:20px 40px 40px 0px;'><tr><td colspan=2>"+
+
+			"<table>"+
+			"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Project file</td></tr>"+
+			"</table>"+
+
+			"</td></tr><tr><td>"+
+
+			"<br><table>"+
+			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>shapes and paths:</h3></td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>c</span></td><td>copy selected shape</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>delete</span></td><td>delete selected shape</td></tr>"+
+			"</table>"+
+			
+			"</td><td style='padding-left:40px;'>"+
+			
+			"<br><table>"+
+			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Project file</td></tr>"+
-			"</table>";
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>-</span></td><td>zoom out the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>"+
+			"</table>"+
+
+
+
+			"</td></tr></table>";
 
 			con += "<input type='checkbox' style='position:relative; top:-5px;' "+(_GP.projectsettings.showkeyboardtipsicon?'checked':'')+" onclick='_GP.projectsettings.showkeyboardtipsicon=this.checked;'>&nbsp; show the &nbsp;<span>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button";
 			openDialog(con);
