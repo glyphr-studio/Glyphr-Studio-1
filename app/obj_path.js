@@ -249,19 +249,20 @@
 	};
 
 	Path.prototype.reversePath = function(){
-		var HT = {};
+		var HT,pp;
 		if(this.pathpoints){
 			for (var i = 0; i < this.pathpoints.length; i++) {
-				HT = this.pathpoints[i].H1;
-				this.pathpoints[i].H1 = this.pathpoints[i].H2;
-				this.pathpoints[i].H2 = HT;
-				if(this.pathpoints[i].useh1 !== this.pathpoints[i].useh2){
-					this.pathpoints[i].useh1 = !this.pathpoints[i].useh1;
-					this.pathpoints[i].useh2 = !this.pathpoints[i].useh2;
+				pp = this.pathpoints[i];
+				HT = pp.H1;
+				pp.H1 = pp.H2;
+				pp.H2 = HT;
+				if(pp.useh1 !== pp.useh2){
+					pp.useh1 = !pp.useh1;
+					pp.useh2 = !pp.useh2;
 				}
 			}
 			this.pathpoints.reverse();
-			this.winding *= -1;
+			this.findWinding();
 		}
 	};
 
@@ -269,7 +270,7 @@
 		var ly = this.topy;
 
 		var mid = ((this.topy - this.bottomy)/2)+this.bottomy;
-		debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
+		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];

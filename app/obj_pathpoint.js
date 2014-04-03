@@ -30,8 +30,8 @@
 	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
 	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };
 
-	PathPoint.prototype.makeFlat = function(move){
-		//debug("MAKEFLAT - move " + move + " starts as " + JSON.stringify(this));
+	PathPoint.prototype.makeFlat = function(hold){
+		//debug("MAKEFLAT - hold " + hold + " starts as " + JSON.stringify(this));
 
 		//figure out length (hypotenuse) of H1
 		var adj1 = this.P.x-this.H1.x;
@@ -60,7 +60,7 @@
 		//new values
 		var newHx, newHy, mod, newadj1, newadj2;
 
-		switch(move){
+		switch(hold){
 			case "H1" :
 				//modifier
 				mod = (this.H1.y > this.P.y)? -1 : 1;
@@ -72,7 +72,7 @@
 				//Set values
 				newHx =  (this.P.x + (newadj2));
 				newHy = (this.P.y + (newopp2*mod));
-				//debug("MAKEFLAT move H1 - compute x/y " + newHx + " / " + newHy);
+				//debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
 				this.H2.x = newHx;
 				this.H2.y = newHy;
 				break;
@@ -88,7 +88,7 @@
 				//Set values
 				newHx =  (this.P.x + (newadj1));
 				newHy = (this.P.y + (newopp1*mod));
-				//debug("MAKEFLAT move H2 - compute x/y " + newHx + " / " + newHy);
+				//debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
 				this.H1.x = newHx;
 				this.H1.y = newHy;
 				break;
@@ -143,6 +143,7 @@
 	PathPoint.prototype.setPointPosition = function(controlpoint, nx, ny){
 		var dx = 0;
 		var dy = 0;
+		var changed = false;
 
 		switch(controlpoint){
 			case "P":
@@ -163,24 +164,29 @@
 			case "H1":
 				if(!this.H1.xlock && !isNaN(nx)){
 					this.H1.x = nx;
+					changed = 'H1';
 				}
 				if(!this.H1.ylock && !isNaN(ny)){
 					this.H1.y = ny;
+					changed = 'H1';
 				}
 				break;
 
 			case "H2":
 				if(!this.H2.xlock && !isNaN(nx)){
 					this.H2.x = nx;
-					if(this.type == "symmetric"){ this.makeSymmetric("H2"); }
-					else if (this.type == "flat") { this.makeFlat("H2"); }
+					changed = 'H2';
 				}
 				if(!this.H2.ylock && !isNaN(ny)){
 					this.H2.y = ny;
-					if(this.type == "symmetric"){ this.makeSymmetric("H1"); }
-					else if (this.type == "flat") { this.makeFlat("H1"); }
+					changed = 'H2';
 				}
 				break;
+		}
+
+		if(changed){
+			if(this.type == "symmetric"){ this.makeSymmetric(changed); }
+			else if (this.type == "flat") { this.makeFlat(changed); }
 		}
 
 		this.roundAll();

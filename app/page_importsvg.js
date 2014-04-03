@@ -9,8 +9,14 @@
 		"<input type='checkbox' onchange='_UI.importsvg.descender=this.checked;'>Has descender<br>"+
 		"</div><br>"+
 		"<h2 style='display:inline;'>Paste SVG code</h2>"+
-		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline;' onclick='importSVG_importCode();'>"+
-		"<br><textarea id='svgcode'><path d='M6,29.1H0V17C0,10.6,2.8,5.4,8,2.4c5.5-3.2,12.6-3.2,18,0c5.2,3,8,8.2,8,14.7H30c0-5-2.1-8.9-6-11.2c-4.2-2.4-9.8-2.4-14,0c-3.9,2.2-6,6.2-6,11.2v8h2V29.1z'/></textarea><br>"+
+		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline; padding-left:20px; padding-right:20px;' onclick='importSVG_importCode();'>"+
+		"<input type='button' class='button' value='clear' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>"+
+		"<br><textarea id='svgcode'>"+
+
+		//'<path fill="h" d="M17,11c-4.8,0-9.7,1.9-13,5.6V4.1h2V0H0v40.1h6V36H4v-8c0-8.9,6.7-13,13-13s13,4.1,13,13v12h4.1V28C34.1,16.8,25.5,11,17,11z"/>'+
+		'<path fill="r" d="M6,29.1H0V17C0,10.6,2.8,5.4,8,2.4c5.5-3.2,12.6-3.2,18,0c5.2,3,8,8.2,8,14.7h-4c0-5-2.1-8.9-6-11.2c-4.2-2.4-9.8-2.4-14,0c-3.9,2.2-6,6.2-6,11.2v8h2V29.1z"/>'+
+
+		"</textarea><br>"+
 		'<div id="svgerrormessagebox">' +
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
 		'<td class="svgerrormessageleftbar"><input type="button" class="svgerrormessageclosebutton" value="&times;" onclick="document.getElementById(\'svgerrormessagebox\').style.display=\'none\';"></td>' +
@@ -19,6 +25,12 @@
 		"<br><br></div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		importSVG_selectChar("0x0061");
+	}
+
+	function importSVG_clearCode() {
+		var t = document.getElementById('svgcode');
+		t.innerHTML = '';
+		t.focus();
 	}
 
 	function importSVG_selectChar(cid){
@@ -31,6 +43,7 @@
 	function importSVG_importCode() {
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
+		var newshapes = [];
 		
 		if(svgin.indexOf('<path') > -1){
 			var patharr = [];
@@ -51,24 +64,26 @@
 			//debug("IMPORTSVG_IMPORTCODE - patharr is " + JSON.stringify(patharr));
 
 			// Convert Tags to Glyphr Shapes
-			for(var p=0; p<patharr.length; p++){ importSVG_parsePathTag(patharr[p]); }
+			for(var p=0; p<patharr.length; p++){ newshapes.push(importSVG_convertPathTag(patharr[p])); }
 
 		} else {
 			importSVG_errorMessage("Could find no &lt;path&gt; tags to import");
 		}
 
 		// Redraw
+		//update_NavPanels();
+		for(var i=0; i<newshapes.length; i++) newshapes[i].path.flipNS();
 		update_NavPanels();
 	}
 
 
-	function importSVG_parsePathTag(data) {
+	function importSVG_convertPathTag(data) {
 		// just path data
 
 		data = data.substring(data.indexOf(' d=')+4);
 		var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 		data = data.substring(0, close);
-		debug("IMPORTSVG_PARSEPATHTAG - data is \n" + data);
+		debug("IMPORTSVG_CONVERTPATHTAG - data is \n" + data);
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s)/g, ',');
@@ -84,26 +99,28 @@
 		if(data.charAt(0) === ',') data = data.slice(1);
 		while(data.indexOf(',,') > -1) data = data.replace(',,',',');
 
-		debug("IMPORTSVG_PARSEPATHTAG - parsed path data as \n" + data);
+		debug("IMPORTSVG_CONVERTPATHTAG - parsed path data as \n" + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
 		var chunkarr = [];
 		var commandpos = 0;
+		var command;
 		var dataarr = [];
 		curr = 0;
 		while(curr < data.length){
 			if(importSVG_isPathCommand(data[curr])){
 				if(commandpos !== curr){
 					dataarr = data.slice(commandpos+1, curr);
+					command = data[commandpos];
 					for(var i=0; i<dataarr.length; i++) dataarr[i] = Number(dataarr[i]);
-					chunkarr.push({"command":data[commandpos], "data":dataarr});
+					chunkarr.push({"command":command, "data":dataarr});
 					commandpos = curr;
 				}
 			}
 			curr++;
 		}
-		debug("IMPORTSVG_PARSEPATHTAG - chunkarr data is \n" + json(chunkarr, true));
+		debug("IMPORTSVG_CONVERTPATHTAG - chunkarr data is \n" + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
@@ -111,9 +128,18 @@
 			debug("\nHandling Path Chunk " + c);
 			patharr = importSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 		}
-
+	
+		// Combine 1st and last point
+		var fp = patharr[0];
+		var lp = patharr[patharr.length-1];
+		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
+			fp.H1.x = lp.H1.x;
+			fp.H1.y = lp.H1.y;
+			fp.useh1 = lp.useh1;
+			patharr.pop();
+		}
+	
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
-		newshape.path.flipNS();
 		newshape.path.calcMaxes();
 
 		//debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
@@ -134,8 +160,7 @@
 			newshape.path.setTopY(top);
 		}
 		
-		//debug("IMPORTSVG_PARSEPATHTAG - adding new shape \n" + JSON.stringify(newshape));
-		addShape(newshape);
+		return addShape(newshape);
 	}
 
 	function importSVG_isPathCommand(c){
@@ -166,11 +191,15 @@
 		var prevx = round(lastpoint.P.x, 3);
 		var prevy = round(lastpoint.P.y, 3);
 
-		debug("IMPORTSVG_HANDLEPATHCHUNK - cmd:"+cmd+" data:"+chunk.data+" previous point x:"+prevx+" y:"+prevy);
+		debug("\tprevious point x y\t"+prevx+" "+prevy);
+		debug("\t"+cmd+" ["+chunk.data+"]");
 
+		
+		// handle command types
 		if(cmd === 'M' || cmd === 'm' || cmd === 'L' || cmd === 'l' || cmd === 'H' || cmd === 'h' || cmd === 'V' || cmd === 'v'){
 
-			var xx,yy;
+			var xx = prevx;
+			var yy = prevy;
 
 			switch(cmd){
 				case 'L':
@@ -190,21 +219,17 @@
 				case 'H':
 					// ABSOLUTE horizontal line to
 					xx = chunk.data[0];
-					yy = prevy;
 					break;
 				case 'h': 
 					// relative horizontal line to
 					xx = chunk.data[0] + prevx;
-					yy = prevy;
 					break;
 				case 'V':
 					// ABSOLUTE vertical line to
-					xx = prevx;
 					yy = chunk.data[0];
 					break;
 				case 'v':
 					// relative vertical line to
-					xx = prevx;
 					yy = chunk.data[0] + prevy;
 					break;
 			}
@@ -212,13 +237,11 @@
 			xx = round(xx, 3);
 			yy = round(yy, 3);
 
-			debug("IMPORTSVG_HANDLEPATHCHUNK - linear point result xx yy " + xx + " " + yy);
-			h1 = new Coord({"x":xx-100, "y":yy-100});
+			debug("\tlinear end xx yy\t" + xx + " " + yy);
 			p = new Coord({"x":xx, "y":yy});
-			h2 = new Coord({"x":xx+100, "y":yy+100});
 
 			lastpoint.useh2 = false;
-			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":h2, "useh1":false, "useh2":!islastpoint}));
+			patharr.push(new PathPoint({"P":p, "H1":p, "H2":p, "useh1":false, "useh2":!islastpoint}));
 
 		} else if(cmd === 'C' || cmd === 'c'){
 			// ABSOLUTE bezier curve to
@@ -238,7 +261,7 @@
 				}
 				
 				// default absolute for C
-				//debug("IMPORTSVG_HANDLEPATHCHUNK - Cc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
+				//debug("\tCc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
 
 				lastpoint.H2 = new Coord({"x":round(currdata[0], 3), "y":round(currdata[1], 3)});
 				lastpoint.useh2 = true;
@@ -255,7 +278,7 @@
 					p.y += prevy;						
 				}
 				
-				debug("IMPORTSVG_HANDLEPATHCHUNK - bezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
+				debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
 
 				patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p}));
 			}
@@ -275,9 +298,9 @@
 				p.y += prevy;						
 			}
 			
-			debug("IMPORTSVG_HANDLEPATHCHUNK - bezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
+			debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
 
-			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p}));
+			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "type":"symmetric"}));
 		} else if(cmd === 'Z' || cmd === 'z'){
 			// End Path 
 
