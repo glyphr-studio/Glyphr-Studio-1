@@ -33,19 +33,10 @@
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug("MAKEFLAT - hold " + hold + " starts as " + JSON.stringify(this));
 
-		//figure out length (hypotenuse) of H1
-		var adj1 = this.P.x-this.H1.x;
-		var opp1 = this.P.y-this.H1.y;
-		var hyp1 = Math.sqrt( (adj1*adj1) + (opp1*opp1) );
-		var angle1 = Math.acos(adj1 / hyp1);
-		//debug("MAKEFLAT adj1 opp1 hyp1 angle1 " + adj1 + " / " + opp1 + " / " + hyp1 + " / " + angle1);
-
-		//figure out length (hypotenuse) of H2
-		var adj2 = this.P.x-this.H2.x;
-		var opp2 = this.P.y-this.H2.y;
-		var hyp2 = Math.sqrt( (adj2*adj2) + (opp2*opp2) );
-		var angle2 = Math.acos(adj2 / hyp2);
-		//debug("MAKEFLAT adj2 opp2 hyp2 angle2 " + adj2 + " / " + opp2 + " / " + hyp2 + " / " + angle2);
+		var angle1 = this.getHandleAngle(this.H1);
+		var angle2 = this.getHandleAngle(this.H2);
+		var hyp1 = this.getHandleLength(this.H1);
+		var hyp2 = this.getHandleLength(this.H2);
 
 		if(angle1==angle2){
 			//debug("MAKEFLAT - Equal Angles, returning");
@@ -98,6 +89,19 @@
 		//debug("MAKEFLAT - returns " + JSON.stringify(this));
 	};
 
+	PathPoint.prototype.getHandleAngle = function(hn){
+		var adj = this.P.x-hn.x;
+		var opp = this.P.y-hn.y;
+		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
+		return Math.acos(adj / hyp);
+	};
+
+	PathPoint.prototype.getHandleLength = function(hn){
+		var adj = this.P.x-hn.x;
+		var opp = this.P.y-hn.y;
+		return Math.sqrt( (adj*adj) + (opp*opp) );
+	};
+
 	PathPoint.prototype.makeSymmetric = function(hold){
 		//debug("MAKESYMETRIC - hold " + hold + " starts as " + JSON.stringify(this));
 		switch(hold){
@@ -113,6 +117,19 @@
 
 		this.roundAll();
 		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));
+	};
+
+	PathPoint.prototype.resolveType = function(){
+		// corner, flat, symmetric
+		if(this.getHandleAngle(this.H1) === this.getHandleAngle(this.H2)){
+			if(this.getHandleLength(this.H1) === this.getHandleLength(this.H2)){
+				this.type = 'symmetric';
+			} else {
+				this.type = 'flat';
+			}
+		} else {
+			this.type = 'corner';
+		}
 	};
 
 	PathPoint.prototype.makePointedTo = function(px, py, length){
