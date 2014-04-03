@@ -495,7 +495,7 @@
 
 		var numerator, denominator, quadroot, root, t1, t2;
 
-		if(cx1<bounds["minx"] || cx1>bounds["maxx"] || cx2<bounds["minx"] || cx2>bounds["maxx"]) {
+		if(cx1<bounds.minx || cx1>bounds.maxx || cx2<bounds.minx || cx2>bounds.maxx) {
 			// X bounds
 			if(dcx0+dcx2 != 2*dcx1) { dcx1+=0.01; }
 			numerator = 2*(dcx0 - dcx1);
@@ -509,7 +509,7 @@
 		}
 
 		// Y bounds
-		if(cy1<bounds["miny"] || cy1>bounds["maxy"] || cy2<bounds["miny"] || cy2>bounds["maxy"]) {
+		if(cy1<bounds.miny || cy1>bounds.maxy || cy2<bounds.miny || cy2>bounds.maxy) {
 			if(dcy0+dcy2 != 2*dcy1) { dcy1+=0.01; }
 			numerator = 2*(dcy0 - dcy1);
 			denominator = 2*(dcy0 - 2*dcy1 + dcy2);
@@ -525,13 +525,13 @@
 	}
 
 	function checkXbounds(bounds, value) {
-		if(bounds["minx"] > value) { bounds["minx"] = value; }
-		else if(bounds["maxx"] < value) { bounds["maxx"] = value; }
+		if(bounds.minx > value) { bounds.minx = value; }
+		else if(bounds.maxx < value) { bounds.maxx = value; }
 	}
 
 	function checkYbounds(bounds, value) {
-		if(bounds["miny"] > value) { bounds["miny"] = value; }
-		else if(bounds["maxy"] < value) { bounds["maxy"] = value; }
+		if(bounds.miny > value) { bounds.miny = value; }
+		else if(bounds.maxy < value) { bounds.maxy = value; }
 	}
 
 	function getBezierValue(t, p0, p1, p2, p3) {

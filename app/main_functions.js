@@ -52,6 +52,10 @@
 	}
 	*/
 
+	function json(obj, raw) {
+		if(raw) return JSON.stringify(obj);
+		else return JSON.stringify(obj, undefined, '\t').replace(/\n/g, '\r\n');
+	}
 
 
 //-------------------

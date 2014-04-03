@@ -64,6 +64,8 @@
 
 	function importSVG_parsePathTag(data) {
 		// just path data
+		debug("IMPORTSVG_PARSEPATHTAG - data is \n" + data);
+
 		data = data.substring(data.indexOf(' d=')+4);
 		var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 		data = data.substring(0, close);
@@ -118,8 +120,10 @@
 		}
 
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
-		newshape.path.calcMaxes();
 		newshape.path.flipNS();
+		newshape.path.calcMaxes();
+
+		debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
 
 		// Scale
 		if(_UI.importsvg.scale){
