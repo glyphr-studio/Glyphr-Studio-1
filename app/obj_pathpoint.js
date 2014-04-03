@@ -98,9 +98,9 @@
 		//debug("MAKEFLAT - returns " + JSON.stringify(this));
 	};
 
-	PathPoint.prototype.makeSymmetric = function(move){
-		//debug("MAKESYMETRIC - move " + move + " starts as " + JSON.stringify(this));
-		switch(move){
+	PathPoint.prototype.makeSymmetric = function(hold){
+		//debug("MAKESYMETRIC - hold " + hold + " starts as " + JSON.stringify(this));
+		switch(hold){
 			case "H1" :
 				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
 				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
