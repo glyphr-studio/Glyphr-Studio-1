@@ -13,9 +13,9 @@
 
 		var content = "";
 		if(_UI.navhere == "linked shapes"){
-			content = "<h1>" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "</h1>";
+			content = "<h1 class='paneltitle'>" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "</h1>";
 		} else {
-			content = "<h1>attributes</h1>";
+			content = "<h1 class='paneltitle'>attributes</h1>";
 		}
 
 		_UI.locarr = [];
@@ -108,10 +108,10 @@
 		var sc = getSelectedChar();
 		var content = "";
 
-		content += "<tr><td colspan=3><h3>"+sc.charname+"</h3></td></tr>";
+		content += "<tr><td colspan=3><h3 style='margin:0px;'>"+sc.charname+"</h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td style='margin-top:0px; padding-top:0px;'> auto width </td>"+
+					"<td> auto width </td>"+
 					"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td>"+
 					"</tr>";
 
@@ -138,7 +138,7 @@
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td style='margin-top:0px; padding-top:0px;'> use default left side bearing </td>"+
+					"<td> use default left side bearing </td>"+
 					"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing="+!sc.leftsidebearing+"; redraw(\"charDetails\");", !sc.leftsidebearing)+"</td>"+
 					"</tr>";
 
@@ -171,14 +171,13 @@
 
 	function shapeDetails(s){
 
-
 		//debug("SHAPEDETAILS - Drawing Shape Details");
 		var content = "";
-		content += "<tr><td colspan=2><h3>shape</h3></td><td style='width:200px'>&nbsp;</td></tr>";
+		content += "<tr><td colspan=2><h3 style='margin:0px;'>shape</h3></td><td style='width:200px'>&nbsp;</td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td style='margin-top:0px; padding-top:0px;'> name </td>"+
-					"<td class='rightcol' style='margin-top:0px; padding-top:0px; padding-right:10px;'>"+
+					"<td> name </td>"+
+					"<td class='rightcol'>"+
 					"<input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td>"+
 					"</tr>";
 
@@ -255,8 +254,6 @@
 	}
 
 	function pointDetails(s){
-
-
 		var tp = s.path.sp();
 		var content = "";
 		content += "<tr><td colspan=3><h3>path point</h3></td></tr>";
@@ -341,7 +338,6 @@
 
 	function drawPointButtons(s){
 
-
 		//debug("DRAWPOINTBUTTONS");
 		var tp = s.path.sp();
 		var tempctx;
@@ -376,8 +372,6 @@
 	// Helper Functions
 
 	function lockUI(varname, islocked){
-
-
 		//debug("LOCKUI - making html for varname " + varname + " was passed " + islocked + ", and locarr is now: [" + _UI.locarr + "]");
 		var re = "<canvas id='locid"+_UI.locid+"' ";
 		_UI.locarr[_UI.locid] = islocked;
@@ -389,8 +383,6 @@
 	}
 
 	function checkUI(onclick, ischecked){
-
-
 		//debug("CHECKUI - making html for checkarr[" + _UI.checkid + "] = " + ischecked + ", and checkarr is now: [" + _UI.checkarr + "]");
 		var re = "<canvas id='checkid"+_UI.checkid+"' ";
 		_UI.checkarr[_UI.checkid] = ischecked;
@@ -400,8 +392,6 @@
 	}
 
 	function rounddec(num){
-
-
 		num = (num? num : 0);
 		var numsplit = num.toString().split(".");
 		if(numsplit.length == 1){

@@ -215,6 +215,12 @@
 		color:rgb(51, 56, 61);
 	}
 
+	.paneltitle {
+		color:rgb(204,209,214);
+		font-weight:normal;
+		margin:10px 0px 16px 0px;
+	}
+
 	#popout_pagenav,
 	#popout_charchooser,
 	#popout_layerchooser,
@@ -242,18 +248,23 @@
 		width:400px;
 	}
 
-	#popout_layerchooser {
+	#popout_history {
 		left:640px;
 		width:400px;
 	}
 
-	#popout_actions {
+	#popout_layerchooser {
 		left:1060px;
+		width:400px;
+	}
+
+	#popout_actions {
+		left:1480px;
 		width:140px;
 	}
 
 	#popout_attributes {
-		left:1220px;
+		left:1640px;
 		width:400px;
 	}
 
@@ -292,12 +303,6 @@
 		position:absolute;
 		bottom:0px;
 		left:-10px;
-	}
-
-	#navarea_panel h1 {
-		color:rgb(204,209,214);
-		font-weight:normal;
-		margin:10px 0px 10px 0px;
 	}
 
 	#pnsaveout {
@@ -454,13 +459,14 @@
 		display:block;
 		text-transform:lowercase;
 		font-weight:lighter;
-		padding:4px 2px 4px 0px;
+		padding:0px 2px 8px 0px;
 		background-color:transparent;
 		cursor:pointer;
+		margin-top:-8px;
 	}
 
 	.navtargetbutton:hover{
-		padding:4px 0px 4px 2px;
+		padding:0px 0px 8px 2px;
 	}
 
 	.navtargetbuttonsel {
@@ -838,13 +844,10 @@
 	}
 
 	.detail td {
-		margin:10px 10px 0px 10px;
-		padding:5px 10px 0px 0px;
+		margin:0px 10px 10px 10px;
+		padding:0px 10px 5px 0px;
 		vertical-align:top;
-	}
-
-	.detail h3 {
-		padding:0;
+		height:25px;
 	}
 
 	.detail input[type='text'] {
@@ -871,8 +874,8 @@
 	}
 
 	.detail .leftcol	{
-		width:11px;
-		padding:10px 0px 0px 0px;
+		width:12px;
+		padding:5px 2px 0px 0px;
 		margin:0px;
 		overflow:hidden;
 	}
@@ -894,12 +897,13 @@
 		width:380px;
 	}
 
-	.actionsgrid td{
+	.actionsgrid td {
 		width:33%;
 	}
 
-	.actionsgrid h3 {
-		margin-top:10px;
+	.actionsgrid h3,
+	.detail h3 {
+		margin:12px 0px 0px 0px;
 	}
 
 	.actionsgrid input {

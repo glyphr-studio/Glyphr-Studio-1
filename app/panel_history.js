@@ -4,16 +4,16 @@
 //-------------------
 	function makePanel_History(){
 
-		var content = "<h1>character edit history</h1>";
+		var content = "<h1 class='paneltitle'>character edit history</h1>";
 		var q = _UI.charundoq;
 
 		if(_UI.navhere === 'linked shapes'){
-			content = "<h1>linked shapes history</h1>";
+			content = "<h1 class='paneltitle'>linked shapes history</h1>";
 			q = _UI.linkedshapeundoq;
 		}
 
 		debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
-		
+
 		content += "<input type='button' class='button buttonsel' style='padding-left:20px; padding-right:20px;' onclick='pullundoq();' value='undo'><br>";
 		content += "<table class='detail'>";
 

@@ -4,8 +4,7 @@
 //-------------------
 	function makePanel_LayerChooser(){
 
-		var content = "<h1>shapes</h1>";
-		content += "<div style='height:7px; display:block;'></div>";
+		var content = "<h1 class='paneltitle'>shapes</h1>";
 
 		if(getSelectedCharShapes().length > 0){
 			content += "<table class='layertable'>";

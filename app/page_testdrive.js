@@ -23,7 +23,7 @@
 	function makePanel_TestDriveOptions(){
 		if(_UI.navprimaryhere != "npAttributes") return;
 
-		var content = "<h1>settings</h1><h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";
+		var content = "<h1 class='paneltitle'>settings</h1><h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";
 			content += "<br><h2>options</h2><div>" + drawTDOptions() + "</div>";
 			content += "</td></tr></table></div>";
 

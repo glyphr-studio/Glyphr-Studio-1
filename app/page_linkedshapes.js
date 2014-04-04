@@ -27,7 +27,7 @@
 	}
 
 	function makePanel_LinkedShapeChooser(){
-		var re = "<h1>linked shapes</h1>";
+		var re = "<h1 class='paneltitle'>linked shapes</h1>";
 		re += "<div class='subnavunit'>";
 		re += "<table class='layertable'>";
 		for(var ssid in _GP.linkedshapes){
@@ -36,7 +36,7 @@
 		}
 		re += "</table>";
 
-		re += "<h1>actions</h1>";
+		re += "<h1 class='paneltitle'>actions</h1>";
 		re += "<table class='actionsgrid'><tr><td><h3>linked shape</h3>";
 		re += "<input class='button' type='button' value='create new' onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'><br>";
 		re += "<input class='"+(aalength(_GP.linkedshapes)>1? "button": "buttondis")+"' type='button' value='delete' onclick='deleteLinkedShapeConfirm();'><br>";

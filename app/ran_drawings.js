@@ -988,29 +988,52 @@ _UI.icons.keyboard = '<rect x="12" y="29" width="26" height="7"/><rect y="29" wi
 
 		lctx.fillStyle = fill;
 
-		// shapes/Path
-		lctx.save();
+		// history/Path
 		lctx.beginPath();
-		lctx.moveTo(24.0, 21.0);
-		lctx.lineTo(0.0, 10.5);
-		lctx.lineTo(24.0, 0.0);
-		lctx.lineTo(48.0, 10.5);
-		lctx.lineTo(24.0, 21.0);
+		lctx.moveTo(42.3, 9.5);
+		lctx.lineTo(41.5, 10.2);
+		lctx.bezierCurveTo(44.6, 13.8, 46.5, 18.4, 46.5, 23.5);
+		lctx.bezierCurveTo(46.5, 34.8, 37.3, 44.0, 26.0, 44.0);
+		lctx.bezierCurveTo(16.9, 44.0, 9.1, 38.0, 6.5, 29.7);
+		lctx.lineTo(5.5, 30.1);
+		lctx.bezierCurveTo(8.3, 38.7, 16.4, 45.0, 26.0, 45.0);
+		lctx.bezierCurveTo(37.9, 45.0, 47.5, 35.4, 47.5, 23.5);
+		lctx.bezierCurveTo(47.5, 18.2, 45.5, 13.3, 42.3, 9.5);
 		lctx.closePath();
 		lctx.fill();
 
-		// shapes/Path
+		// history/Path
 		lctx.beginPath();
-		lctx.moveTo(24.0, 48.0);
-		lctx.lineTo(0.0, 37.5);
-		lctx.lineTo(8.0, 34.0);
-		lctx.lineTo(24.0, 41.0);
-		lctx.lineTo(40.0, 34.0);
-		lctx.lineTo(48.0, 37.5);
-		lctx.lineTo(24.0, 48.0);
+		lctx.moveTo(26.0, 0.0);
+		lctx.bezierCurveTo(14.1, 0.0, 4.2, 9.0, 2.7, 20.5);
+		lctx.lineTo(0.0, 20.5);
+		lctx.lineTo(5.0, 28.5);
+		lctx.lineTo(10.0, 20.5);
+		lctx.lineTo(7.8, 20.5);
+		lctx.bezierCurveTo(9.2, 11.7, 16.8, 5.0, 26.0, 5.0);
+		lctx.bezierCurveTo(31.1, 5.0, 35.7, 7.1, 39.1, 10.4);
+		lctx.lineTo(42.6, 6.9);
+		lctx.bezierCurveTo(38.4, 2.6, 32.5, 0.0, 26.0, 0.0);
 		lctx.closePath();
 		lctx.fill();
-		lctx.restore();
+
+		// history/Path
+		lctx.beginPath();
+		lctx.moveTo(34.5, 16.0);
+		lctx.lineTo(33.4, 15.0);
+		lctx.lineTo(26.2, 22.2);
+		lctx.lineTo(24.1, 18.2);
+		lctx.lineTo(22.8, 18.8);
+		lctx.lineTo(25.1, 23.4);
+		lctx.lineTo(21.5, 27.0);
+		lctx.lineTo(22.5, 28.0);
+		lctx.lineTo(25.8, 24.8);
+		lctx.lineTo(32.8, 38.8);
+		lctx.lineTo(34.1, 38.2);
+		lctx.lineTo(26.9, 23.7);
+		lctx.lineTo(34.5, 16.0);
+		lctx.closePath();
+		lctx.fill();
 	}
 
 

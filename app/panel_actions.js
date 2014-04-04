@@ -5,7 +5,7 @@
 	function makePanel_Actions(stack){
 		var s = ss("Update Actions");
 
-		var allactions = "<h3>universal</h3>";
+		var allactions = "<h3"+(stack?" style='margin-top:0px;'":"")+">universal</h3>";
 		allactions += "<input  class='"+(_UI.charundoq.length>0? "button": "buttondis")+"' type='button' value='Undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "' onclick='pullundoq()'><br>";
 		allactions += "<input class='button' type='button' value='add new shape' onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'><br>";
 		allactions += "<input class='button' type='button' value='add linked shape' onclick='insertLinkedShapeDialog();'><br>";
@@ -31,7 +31,7 @@
 		pointactions += "<input class='button' type='button' value='Reset Handles' onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updateactions\");'><br>";
 
 		// Put it all together
-		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
+		var content = "<h1"+(stack?" class='paneltitle'":"")+">actions</h1><table class='actionsgrid'><tr>";
 
 		content += "<td>";
 		content += allactions;

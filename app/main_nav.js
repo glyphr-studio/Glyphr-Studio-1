@@ -90,9 +90,9 @@
 
 		var pol = '<div id="popout_pagenav"></div>';
 		pol += '<div id="popout_charchooser"></div>';
+		pol += '<div id="popout_history"></div>';
 		pol += '<div id="popout_layerchooser"></div>';
 		pol += '<div id="popout_actions"></div>';
-		pol += '<div id="popout_history"></div>';
 		pol += '<div id="popout_attributes"></div></td>';
 		// but a save icon somewhere
 
@@ -116,6 +116,7 @@
 			document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
 			drawPanel_LinkedShapeChooser();
 		}
+		document.getElementById('popout_history').innerHTML = makePanel_History();
 
 		document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 		drawPanel_LayerChooser();
@@ -416,7 +417,7 @@
 		navarr.push("bug");
 		navarr.push("feat");
 
-		var newsub = "<h1>navigate</h1>";
+		var newsub = "<h1 class='paneltitle'>navigate</h1>";
 
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
