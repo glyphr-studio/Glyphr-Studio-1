@@ -304,6 +304,11 @@
 					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", \"null\", round(this.value)); putundoq(\"H1 Y Position\"); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H1.y) + "' >" + (tp.H1.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
+
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> angle <span class='unit'>(degrees)</span></td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+round(tp.getHandleAngle(tp.H1)*180/Math.PI,3)+"'></td>"+
+					"</tr>";
 		}
 
 		content += "<tr><td colspan=3><h3>handle 2 <span class='unit'>(after the point)</span></h3></td></tr>";
@@ -324,6 +329,11 @@
 					"<td> handle 2 y </td>"+
 					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", \"null\", round(this.value)); putundoq(\"H2 Y Position y\"); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H2.y) + "' >" + (tp.H2.ylock? "" : spinner()) + "</td>"+
+					"</tr>";
+
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> angle <span class='unit'>(degrees)</span></td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+round(tp.getHandleAngle(tp.H2)*180/Math.PI,3)+"'></td>"+
 					"</tr>";
 		}
 

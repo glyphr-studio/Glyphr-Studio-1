@@ -119,9 +119,9 @@
 		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));
 	};
 
-	PathPoint.prototype.resolveType = function(){
+	PathPoint.prototype.resolvePointType = function(){
 		// corner, flat, symmetric
-		if(this.getHandleAngle(this.H1) === this.getHandleAngle(this.H2)){
+		if(round(this.getHandleAngle(this.H1),2) === round((this.getHandleAngle(this.H2)+Math.PI)%(Math.PI*2),2)){
 			if(this.getHandleLength(this.H1) === this.getHandleLength(this.H2)){
 				this.type = 'symmetric';
 			} else {
@@ -151,9 +151,9 @@
 
 	PathPoint.prototype.resetHandles = function(){
 		this.type = "flat";
-		this.H2.x = this.P.x - 100;
+		this.H2.x = this.P.x - 200;
 		this.H2.y = this.P.y;
-		this.H1.x = this.P.x + 100;
+		this.H1.x = this.P.x + 200;
 		this.H1.y = this.P.y;
 	};
 
