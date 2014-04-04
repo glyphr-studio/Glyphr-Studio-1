@@ -219,6 +219,7 @@
 	#popout_charchooser,
 	#popout_layerchooser,
 	#popout_actions,
+	#popout_history,
 	#popout_attributes {
 		display:block;
 		position:absolute;
@@ -905,6 +906,23 @@
 		width:123px;
 		text-transform: lowercase;
 	}
+
+/*	HISTORY		*/
+	.history_char {
+		color:rgb(127,134,137);
+		margin-top:20px;
+	}
+
+	.history_action {
+
+	}
+
+	.history_date {
+		text-align: right;
+		font-size: .8em;
+		color:rgb(178,183,188);
+	}
+
 
 
 /* ----------------------- */

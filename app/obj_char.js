@@ -147,8 +147,10 @@
 // CHAR FUNCTIONS
 //-------------------------------------------------------
 
+
+	// GET
 	function getChar(ch, create) {
-		//debug("GETCHAR - passed " + ch + " - force create? " + create);
+		debug("GETCHAR - passed " + ch + " - force create? " + create);
 		if((''+ch).indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
 		} else {
@@ -166,22 +168,38 @@
 	}
 
 	function getCharName(ch) {
-		var re = _UI.unicodenames[ch];
-		return re || "<not a character>";
+		//debug("GETCHARNAME - for " + ch);
+		if((''+ch).indexOf('id') >= 0){
+			return _GP.linkedshapes[ch].shape.name;
+		} else {
+			var re = _UI.unicodenames[ch];
+			return re || "[not a character]";
+		}
 	}
 
+	// GET SELECTED
 	function getSelectedChar(){
 		//debug("GETSELECTEDCHAR");
-		return getChar(_UI.selectedchar, true);
+		if(_UI.navhere === 'linked shapes') return getChar(_UI.shownlinkedshape);
+		else return getChar(_UI.selectedchar, true);
+	}
+
+	function getSelectedCharID(){
+		//debug("GETSELECTEDCHARID");
+		if(_UI.navhere === 'linked shapes') return _UI.shownlinkedshape;
+		else return _UI.selectedchar;
 	}
 
 	function getSelectedCharName() {
-		return getCharName(_UI.selectedchar, true);
+		//debug("GETSELECTEDCHARNAME - _UI.selectedchar: " + _UI.selectedchar);
+		if(_UI.navhere === 'linked shapes') return getCharName(_UI.shownlinkedshape);
+		else return getCharName(_UI.selectedchar);
 	}
 
 	function getSelectedCharShapes(){
 		//debug("GETSELECTEDCHARSHAPES");
 		var rechar = getSelectedChar();
+		if(rechar.objtype === 'linkedshape') return [rechar];
 		return rechar? rechar.charshapes : [];
 	}
 

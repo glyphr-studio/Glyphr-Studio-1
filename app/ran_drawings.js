@@ -984,6 +984,36 @@ _UI.icons.keyboard = '<rect x="12" y="29" width="26" height="7"/><rect y="29" wi
 		lctx.restore();
 	}
 
+	function draw_primaryNav_history(lctx, fill){
+
+		lctx.fillStyle = fill;
+
+		// shapes/Path
+		lctx.save();
+		lctx.beginPath();
+		lctx.moveTo(24.0, 21.0);
+		lctx.lineTo(0.0, 10.5);
+		lctx.lineTo(24.0, 0.0);
+		lctx.lineTo(48.0, 10.5);
+		lctx.lineTo(24.0, 21.0);
+		lctx.closePath();
+		lctx.fill();
+
+		// shapes/Path
+		lctx.beginPath();
+		lctx.moveTo(24.0, 48.0);
+		lctx.lineTo(0.0, 37.5);
+		lctx.lineTo(8.0, 34.0);
+		lctx.lineTo(24.0, 41.0);
+		lctx.lineTo(40.0, 34.0);
+		lctx.lineTo(48.0, 37.5);
+		lctx.lineTo(24.0, 48.0);
+		lctx.closePath();
+		lctx.fill();
+		lctx.restore();
+	}
+
+
 	function draw_primaryNav_attributes(lctx, fill){
 
 		lctx.fillStyle = fill;

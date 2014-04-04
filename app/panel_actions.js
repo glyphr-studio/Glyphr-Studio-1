@@ -69,7 +69,6 @@
 
 	function updateLayerActions(){
 
-
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 
 		var s = ss("Update Actions");

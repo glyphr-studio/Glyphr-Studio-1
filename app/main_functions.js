@@ -149,9 +149,11 @@ function saveTextFile(fname, fblob) {
 // Undo Queue
 //-------------------
 	function putundoq(calledfrom){
-		var uqo = {};
-		uqo.name = calledfrom;
-		uqo.date = new Date().getTime();
+		var uqo = {
+			"char": getSelectedCharID(),
+			"name": calledfrom,
+			"date": new Date().getTime()
+		};
 
 		if(_UI.navhere == "character edit"){
 			uqo.state = clone(_UI.charcurrstate);
@@ -164,16 +166,6 @@ function saveTextFile(fname, fblob) {
 		}
 
 		setProjectAsUnsaved();
-
-		/*
-		var uqdebug = "<b>Put Undo Queue</b><br>";
-		for(var i=0; i<_UI.charundoq.length; i++){
-			uqdebug += i + ". ";
-			uqdebug += undoq[i].nav + " - ";
-			uqdebug += undoq[i].name + "<br>";
-		}
-		//debug(uqdebug);
-		*/
 	}
 
 	function pullundoq(){

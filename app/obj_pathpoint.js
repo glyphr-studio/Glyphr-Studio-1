@@ -82,12 +82,12 @@
 				//Set values
 				newHx =  (this.P.x + (newadj2));
 				newHy = (this.P.y + (newopp2*mod));
-				debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
+				//debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
 					this.H2.x = newHx;
 					this.H2.y = newHy;
 				} else {
-					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
 				}
 				break;
 
@@ -102,12 +102,12 @@
 				//Set values
 				newHx =  (this.P.x + (newadj1));
 				newHy = (this.P.y + (newopp1*mod));
-				debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
+				//debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
 					this.H1.x = newHx;
 					this.H1.y = newHy;
 				} else {
-					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
 				}
 				break;
 		}
@@ -159,7 +159,7 @@
 				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
 				break;
 		}
-		
+
 		this.type = 'symmetric';
 		this.useh1 = true;
 		this.useh2 = true;

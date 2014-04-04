@@ -44,7 +44,7 @@
 				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
 					cn = decToHex(range);
 					if(_GP.projectsettings.charrange.filternoncharpoints){
-						if(getCharName(cn).indexOf('<')<0) ccon += makeCharChooserButton(cn, fname);
+						if(getCharName(cn).indexOf('[')<0) ccon += makeCharChooserButton(cn, fname);
 					} else {
 						ccon += makeCharChooserButton(cn, fname);
 					}

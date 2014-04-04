@@ -125,19 +125,23 @@
 		var commandpos = 0;
 		var command;
 		var dataarr = [];
-		curr = 0;
-		while(curr < data.length){
+		curr = 1;
+		while(curr <= data.length){
 			if(importSVG_isPathCommand(data[curr])){
-				if(commandpos !== curr){
-					dataarr = data.slice(commandpos+1, curr);
-					command = data[commandpos];
-					for(var i=0; i<dataarr.length; i++) dataarr[i] = Number(dataarr[i]);
-					chunkarr.push({"command":command, "data":dataarr});
-					commandpos = curr;
-				}
+				dataarr = data.slice(commandpos+1, curr);
+				command = data[commandpos];
+				for(var i=0; i<dataarr.length; i++) dataarr[i] = Number(dataarr[i]);
+				chunkarr.push({"command":command, "data":dataarr});
+				commandpos = curr;
 			}
 			curr++;
 		}
+		// Fencepost
+		dataarr = data.slice(commandpos+1, curr);
+		command = data[commandpos];
+		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
+		chunkarr.push({"command":command, "data":dataarr});
+
 		debug("IMPORTSVG_CONVERTPATHTAG - chunkarr data is \n" + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects

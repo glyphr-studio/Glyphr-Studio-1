@@ -92,6 +92,7 @@
 		pol += '<div id="popout_charchooser"></div>';
 		pol += '<div id="popout_layerchooser"></div>';
 		pol += '<div id="popout_actions"></div>';
+		pol += '<div id="popout_history"></div>';
 		pol += '<div id="popout_attributes"></div></td>';
 		// but a save icon somewhere
 
@@ -218,7 +219,11 @@
 				}
 				break;
 
+			case "npHistory":
+				nt.innerHTML = makePanel_History();
+				break;
 			case "npSave":
+
 				saveGlyphrProjectFile();
 				break;
 		}
@@ -289,6 +294,13 @@
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_attributes(pnctx, fill);
+
+			fill = (_UI.navprimaryhere == "npHistory") ? nselect : ngray;
+			pncanvas = document.getElementById("npHistory");
+			pnctx = pncanvas.getContext("2d");
+			pncanvas.width = 50;
+			pncanvas.height = 50;
+			draw_primaryNav_history(pnctx, fill);
 		}
 
 		if(_UI.navhere==="linked shapes"){
@@ -305,6 +317,13 @@
 			pncanvas.width = 50;
 			pncanvas.height = 50;
 			draw_primaryNav_attributes(pnctx, fill);
+
+			fill = (_UI.navprimaryhere == "npHistory") ? nselect : ngray;
+			pncanvas = document.getElementById("npHistory");
+			pnctx = pncanvas.getContext("2d");
+			pncanvas.width = 50;
+			pncanvas.height = 50;
+			draw_primaryNav_history(pnctx, fill);
 		}
 
 		if(_UI.navhere==="test drive"){
@@ -348,11 +367,13 @@
 			navarr.push("npAttributes");
 			navarr.push("npLayers");
 			navarr.push("npChar");
+			navarr.push("npHistory");
 		}
 
 		if(_UI.navhere==="linked shapes"){
 			navarr.push("npAttributes");
 			navarr.push("npChar");
+			navarr.push("npHistory");
 		}
 
 		if(_UI.navhere==="test drive"){

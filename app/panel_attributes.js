@@ -105,7 +105,6 @@
 
 	function charDetails(s){
 
-
 		var sc = getSelectedChar();
 		var content = "";
 

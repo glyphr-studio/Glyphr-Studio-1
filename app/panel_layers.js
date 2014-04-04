@@ -4,7 +4,6 @@
 //-------------------
 	function makePanel_LayerChooser(){
 
-
 		var content = "<h1>shapes</h1>";
 		content += "<div style='height:7px; display:block;'></div>";
 
