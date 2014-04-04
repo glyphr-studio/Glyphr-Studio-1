@@ -33,6 +33,25 @@
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug("MAKEFLAT - hold " + hold + " starts as " + JSON.stringify(this));
 
+		if(!hold){
+			hold = this.useh1? 'H1' : 'H2';
+			if(!(this.useh1 || this.useh2)){
+				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
+					// Handles and points are all in the same place
+					this.H2.x-=300;
+					this.H1.x+=100;
+					this.type = 'flat';
+					this.useh1 = true;
+					this.useh2 = true;
+					return;
+				}
+			}
+		}
+
+		this.type = 'flat';
+		this.useh1 = true;
+		this.useh2 = true;
+
 		var angle1 = this.getHandleAngle(this.H1);
 		var angle2 = this.getHandleAngle(this.H2);
 		var hyp1 = this.getHandleLength(this.H1);
@@ -63,9 +82,13 @@
 				//Set values
 				newHx =  (this.P.x + (newadj2));
 				newHy = (this.P.y + (newopp2*mod));
-				//debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
-				this.H2.x = newHx;
-				this.H2.y = newHy;
+				debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
+				if(!isNaN(newHx) && !isNaN(newHy)){
+					this.H2.x = newHx;
+					this.H2.y = newHy;
+				} else {
+					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+				}
 				break;
 
 			case "H2" :
@@ -79,9 +102,13 @@
 				//Set values
 				newHx =  (this.P.x + (newadj1));
 				newHy = (this.P.y + (newopp1*mod));
-				//debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
-				this.H1.x = newHx;
-				this.H1.y = newHy;
+				debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
+				if(!isNaN(newHx) && !isNaN(newHy)){
+					this.H1.x = newHx;
+					this.H1.y = newHy;
+				} else {
+					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+				}
 				break;
 		}
 
@@ -93,17 +120,35 @@
 		var adj = this.P.x-hn.x;
 		var opp = this.P.y-hn.y;
 		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
-		return Math.acos(adj / hyp);
+		var result = Math.acos(adj / hyp);
+		return isNaN(result)? '--' : result;
 	};
 
 	PathPoint.prototype.getHandleLength = function(hn){
 		var adj = this.P.x-hn.x;
 		var opp = this.P.y-hn.y;
-		return Math.sqrt( (adj*adj) + (opp*opp) );
+		var result = Math.sqrt( (adj*adj) + (opp*opp) );
+		return isNaN(result)? '--' : result;
 	};
 
 	PathPoint.prototype.makeSymmetric = function(hold){
 		//debug("MAKESYMETRIC - hold " + hold + " starts as " + JSON.stringify(this));
+
+		if(!hold){
+			hold = this.useh1? 'H1' : 'H2';
+			if(!(this.useh1 || this.useh2)){
+				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
+					// Handles and points are all in the same place
+					this.H2.x-=200;
+					this.H1.x+=200;
+					this.type = 'symmetric';
+					this.useh1 = true;
+					this.useh2 = true;
+					return;
+				}
+			}
+		}
+
 		switch(hold){
 			case "H1" :
 				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
@@ -114,6 +159,10 @@
 				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
 				break;
 		}
+		
+		this.type = 'symmetric';
+		this.useh1 = true;
+		this.useh2 = true;
 
 		this.roundAll();
 		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));

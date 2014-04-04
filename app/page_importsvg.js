@@ -11,6 +11,7 @@
 		"<h2 style='display:inline;'>Paste SVG code</h2>"+
 		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline; padding-left:20px; padding-right:20px;' onclick='importSVG_importCode();'>"+
 		"<input type='button' class='button' value='clear' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>"+
+		"<input type='button' class='button' value='go to character edit' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>"+
 		"<br><textarea id='svgcode'>"+
 
 		'<path fill="h" d="M17,11c-4.8,0-9.7,1.9-13,5.6V4.1h2V0H0v40.1h6V36H4v-8c0-8.9,6.7-13,13-13s13,4.1,13,13v12h4.1V28C34.1,16.8,25.5,11,17,11z"/>'+

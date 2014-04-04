@@ -269,8 +269,8 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> point type </td><td class='rightcol'>  ";
 		content += "<canvas class='canvasbutton' title='point type: corner' onclick='ss().path.sp().type = \"corner\"; putundoq(\"Point Type: Corner\"); redraw(\"pointDetails\");' id='pointcornercanvas'></canvas>";
-		content += "<canvas class='canvasbutton' title='point type: flat' onclick='ss().path.sp().type = \"flat\"; putundoq(\"Point Type: Flat\"); redraw(\"pointDetails\");' id='pointflatcanvas'></canvas>";
-		content += "<canvas class='canvasbutton' title='point type: symmetric' onclick='ss().path.sp().type = \"symmetric\"; putundoq(\"Point Type: Symmetric\"); redraw(\"pointDetails\");' id='pointsymmetriccanvas'></canvas>";
+		content += "<canvas class='canvasbutton' title='point type: flat' onclick='ss().path.sp().makeFlat(); putundoq(\"Point Type: Flat\"); redraw(\"pointDetails\");' id='pointflatcanvas'></canvas>";
+		content += "<canvas class='canvasbutton' title='point type: symmetric' onclick='ss().path.sp().makeSymmetric(); putundoq(\"Point Type: Symmetric\"); redraw(\"pointDetails\");' id='pointsymmetriccanvas'></canvas>";
 		content += "</td></tr>";
 
 		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.xlock",tp.P.xlock)+"</td>"+
