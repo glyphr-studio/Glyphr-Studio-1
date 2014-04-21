@@ -590,160 +590,79 @@ _UI.icons.keyboard = '<rect x="12" y="29" width="26" height="7"/><rect y="29" wi
 
 	function draw_primaryNav_navigate(lctx, fill){
 
-		lctx.fillStyle = fill;
-		lctx.strokeStyle = fill;
+		if(fill === _UI.colors.accent) {
+			lctx.fillStyle = fill;
+		} else {
+			lctx.fillStyle = _UI.colors.offwhite;
+		}
 
-		// navigate/Path
+		//lctx.fillStyle = fill;
+
+		// layer1/Group
+		lctx.save();
+
+		// layer1/Group/Path
 		lctx.save();
 		lctx.beginPath();
-		lctx.moveTo(24.0, 0.0);
-		lctx.lineTo(29.0, 19.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.lineTo(24.0, 0.0);
+		lctx.moveTo(25.0, 9.2);
+		lctx.bezierCurveTo(19.3, 9.2, 13.2, 12.5, 13.2, 19.8);
+		lctx.bezierCurveTo(13.2, 24.5, 19.2, 27.0, 25.0, 27.0);
+		lctx.bezierCurveTo(30.8, 27.0, 36.8, 24.5, 36.8, 19.8);
+		lctx.bezierCurveTo(36.8, 12.5, 30.7, 9.2, 25.0, 9.2);
 		lctx.closePath();
 		lctx.fill();
 
-		// navigate/Path
+		// layer1/Group/Compound Path
 		lctx.beginPath();
-		lctx.moveTo(24.0, 0.0);
-		lctx.lineTo(19.0, 19.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.lineTo(24.0, 0.0);
-		lctx.closePath();
-		lctx.lineWidth = 0.3;
-		lctx.stroke();
 
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(10.0, 10.0);
-		lctx.lineTo(19.0, 19.0);
-		lctx.lineTo(15.0, 20.0);
-		lctx.lineTo(10.0, 10.0);
+		// layer1/Group/Compound Path/Path
+		lctx.moveTo(46.0, 4.0);
+		lctx.bezierCurveTo(42.0, 0.0, 36.0, 0.0, 25.0, 0.0);
+		lctx.bezierCurveTo(14.0, 0.0, 8.0, 0.0, 4.0, 4.0);
+		lctx.bezierCurveTo(0.0, 8.0, 0.0, 14.0, 0.0, 25.0);
+		lctx.bezierCurveTo(0.0, 36.0, 0.0, 42.0, 4.0, 46.0);
+		lctx.bezierCurveTo(8.0, 50.0, 14.0, 50.0, 25.0, 50.0);
+		lctx.bezierCurveTo(36.0, 50.0, 42.0, 50.0, 46.0, 46.0);
+		lctx.bezierCurveTo(50.0, 42.0, 50.0, 36.0, 50.0, 25.0);
+		lctx.bezierCurveTo(50.0, 14.0, 50.0, 8.0, 46.0, 4.0);
 		lctx.closePath();
-		lctx.stroke();
 
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(10.0, 38.0);
-		lctx.lineTo(19.0, 29.0);
-		lctx.lineTo(20.0, 33.0);
-		lctx.lineTo(10.0, 38.0);
-		lctx.closePath();
-		lctx.stroke();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(24.0, 48.0);
-		lctx.lineTo(29.0, 29.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.lineTo(24.0, 48.0);
-		lctx.closePath();
-		lctx.stroke();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(48.0, 24.0);
-		lctx.lineTo(29.0, 19.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.lineTo(48.0, 24.0);
-		lctx.closePath();
-		lctx.stroke();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(0.0, 24.0);
-		lctx.lineTo(19.0, 29.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.lineTo(0.0, 24.0);
-		lctx.closePath();
-		lctx.stroke();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(24.0, 24.0);
-		lctx.lineTo(48.0, 24.0);
-		lctx.lineTo(29.0, 29.0);
-		lctx.lineTo(24.0, 24.0);
+		// layer1/Group/Compound Path/Path
+		lctx.moveTo(39.6, 33.8);
+		lctx.lineTo(39.6, 33.8);
+		lctx.bezierCurveTo(39.6, 36.9, 37.9, 39.6, 34.8, 41.4);
+		lctx.bezierCurveTo(32.2, 42.9, 28.7, 43.7, 25.0, 43.7);
+		lctx.bezierCurveTo(21.3, 43.7, 17.8, 42.9, 15.2, 41.4);
+		lctx.bezierCurveTo(12.1, 39.6, 10.4, 36.9, 10.4, 33.8);
+		lctx.lineTo(10.4, 33.8);
+		lctx.lineTo(10.4, 30.9);
+		lctx.lineTo(16.1, 30.9);
+		lctx.lineTo(16.1, 33.8);
+		lctx.lineTo(13.2, 33.8);
+		lctx.bezierCurveTo(13.4, 38.4, 19.2, 40.8, 25.0, 40.8);
+		lctx.bezierCurveTo(30.8, 40.8, 36.8, 38.4, 36.8, 33.7);
+		lctx.lineTo(36.8, 26.1);
+		lctx.bezierCurveTo(36.2, 26.6, 35.5, 27.1, 34.8, 27.5);
+		lctx.bezierCurveTo(32.2, 29.1, 28.7, 29.9, 25.0, 29.9);
+		lctx.bezierCurveTo(21.3, 29.9, 17.8, 29.1, 15.2, 27.5);
+		lctx.bezierCurveTo(12.1, 25.7, 10.4, 23.0, 10.4, 19.8);
+		lctx.bezierCurveTo(10.4, 15.6, 12.0, 12.1, 15.0, 9.6);
+		lctx.bezierCurveTo(17.7, 7.5, 21.2, 6.3, 25.0, 6.3);
+		lctx.bezierCurveTo(28.8, 6.3, 32.3, 7.5, 35.0, 9.6);
+		lctx.bezierCurveTo(38.0, 12.1, 39.6, 15.6, 39.6, 19.8);
+		lctx.bezierCurveTo(39.6, 19.9, 39.6, 19.9, 39.6, 19.9);
+		lctx.lineTo(39.6, 19.9);
+		lctx.lineTo(39.6, 33.8);
 		lctx.closePath();
 		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(24.0, 24.0);
-		lctx.lineTo(24.0, 48.0);
-		lctx.lineTo(19.0, 29.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(24.0, 24.0);
-		lctx.lineTo(0.0, 24.0);
-		lctx.lineTo(19.0, 19.0);
-		lctx.lineTo(24.0, 24.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(20.0, 15.0);
-		lctx.lineTo(10.0, 10.0);
-		lctx.lineTo(19.0, 19.0);
-		lctx.lineTo(20.0, 15.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(15.0, 28.0);
-		lctx.lineTo(10.0, 38.0);
-		lctx.lineTo(19.0, 29.0);
-		lctx.lineTo(15.0, 28.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(28.0, 33.0);
-		lctx.lineTo(38.0, 38.0);
-		lctx.lineTo(29.0, 29.0);
-		lctx.lineTo(28.0, 33.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(33.0, 20.0);
-		lctx.lineTo(38.0, 10.0);
-		lctx.lineTo(29.0, 19.0);
-		lctx.lineTo(33.0, 20.0);
-		lctx.closePath();
-		lctx.fill();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(29.0, 19.0);
-		lctx.lineTo(38.0, 10.0);
-		lctx.lineTo(28.0, 15.0);
-		lctx.lineTo(29.0, 19.0);
-		lctx.closePath();
-		lctx.stroke();
-
-		// navigate/Path
-		lctx.beginPath();
-		lctx.moveTo(38.0, 38.0);
-		lctx.lineTo(29.0, 29.0);
-		lctx.lineTo(33.0, 28.0);
-		lctx.lineTo(38.0, 38.0);
-		lctx.closePath();
-		lctx.stroke();
+		lctx.restore();
 		lctx.restore();
 	}
 
 	function draw_primaryNav_character(lctx, fill){
 
 		lctx.fillStyle = fill;
+
 		lctx.beginPath();
 
 		// character/Compound Path/Path

@@ -417,7 +417,7 @@
 		navarr.push("bug");
 		navarr.push("feat");
 
-		var newsub = "<h1 class='paneltitle'>navigate</h1>";
+		var newsub = "<h1 class='paneltitle'>Glyphr Studio</h1>";
 
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
