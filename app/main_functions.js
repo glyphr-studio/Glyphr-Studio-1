@@ -129,7 +129,7 @@ function saveTextFile(fname, fblob) {
 	} catch (err) {
 		// Others
 		var link = document.createElement('a');
-		//window.URL = window.URL || window.webkitURL;
+		window.URL = window.URL || window.webkitURL;
 		link.href = window.URL.createObjectURL(fblob);
 		//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
 		link.download = fname;

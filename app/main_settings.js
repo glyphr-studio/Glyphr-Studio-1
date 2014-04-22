@@ -31,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : "import svg",		// navigate straight to a page
+		"devnav" : false,		// navigate straight to a page
 		"debug": true,					// global debug console switch
 		"debugpoints" : [false,false],
 
@@ -45,7 +45,7 @@
 		"showguides" : true,		// display guides
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
-		"chareditcanvassize" : 2000,			// How big the viewport canvas is
+		"chareditcanvassize" : 2000,		// How big the viewport canvas is
 		"chareditctx" : false,
 		"ishereghostcanvas" : false,
 		"ishereghostctx" : false,

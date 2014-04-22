@@ -51,7 +51,12 @@
 			return function(e) {
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
-				if(fcontent.projectsettings.version){
+				var v = fcontent.projectsettings.version;
+				if(v){
+					if(v.split(".")[1] !== 4){
+						fcontent = migrateFromBetaThreeToFour(fcontent);
+						debug(fcontent);
+					}
 					hydrateGlyphrProject(fcontent);
 					//debug("Loading project; " + _GP.projectsettings.name);
 				} else {
@@ -63,6 +68,34 @@
 
 		reader.readAsText(f);
 
+	}
+
+	function migrateFromBetaThreeToFour(fc){
+
+		newfc = {
+			"linkedshapes" : fc.linkedshapes,
+			"opentypeproperties" : fc.opentypeproperties,
+			"projectsettings" : _UI.default_GP.projectsettings,
+			"fontchars" : []
+		};
+
+		for(var e in fc.projectsettings){
+			if(newfc.projectsettings.hasOwnProperty(e)){
+				newfc.projectsettings[e] = fc.projectsettings[e];
+			}
+		}
+
+		var tc, hex;
+		for(var i=0; i<fc.fontchars.length; i++){
+			tc = fc.fontchars[i];
+			if(tc){
+				hex = "0x00"+tc.cmapcode.substr(2);
+				newfc.fontchars[hex] = tc;
+				newfc.fontchars[hex].charhtml = hexToHTML(hex);
+			}
+		}
+
+		return newfc;
 	}
 
 	function hydrateGlyphrProject(data) {
@@ -82,9 +115,9 @@
 		}
 
 		// Characters
-		for (var i = 0; i < data.fontchars.length; i++) {
-			if(data.fontchars[i]){
-				_GP.fontchars[i*1] = new Char(data.fontchars[i]);
+		for (var ch in data.fontchars) {
+			if(data.fontchars.hasOwnProperty(ch)){
+				_GP.fontchars[ch] = new Char(data.fontchars[ch]);
 			}
 		}
 
