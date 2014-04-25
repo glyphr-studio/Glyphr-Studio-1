@@ -76,12 +76,7 @@
 
 	function migrateFromBetaThreeToFour(fc){
 
-		newfc = {
-			"linkedshapes" : {},
-			"opentypeproperties" : fc.opentypeproperties,
-			"projectsettings" : _UI.default_GP.projectsettings,
-			"fontchars" : {}
-		};
+		newfc = new GlyphrProject();
 
 		var tls;
 		for(var l in fc.linkedshapes){
@@ -120,7 +115,7 @@
 	}
 
 	function hydrateGlyphrProject(data) {
-		_GP = clone(_UI.default_GP);
+		_GP = new GlyphrProject();
 
 		// Project Settings
 		if(data.projectsettings) _GP.projectsettings = clone(data.projectsettings);
@@ -177,7 +172,7 @@
 			fn = "My Font";
 		}
 
-		_GP = clone(_UI.default_GP);
+		_GP = new GlyphrProject();
 
 		_GP.projectsettings.name = fn;
 		_GP.opentypeproperties.name[1].val = fn;
