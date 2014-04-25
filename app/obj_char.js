@@ -150,7 +150,7 @@
 
 	// GET
 	function getChar(ch, create) {
-		debug("GETCHAR - passed " + ch + " - force create? " + create);
+		//debug("GETCHAR - passed " + ch + " - force create? " + create);
 		if((''+ch).indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
 		} else {

@@ -139,7 +139,7 @@
 				"color_guideline" : "rgb(204,79,34)"	//guide base color
 			},
 
-			"fontchars" : [],
+			"fontchars" : {},
 
 			"linkedshapes" : {},
 

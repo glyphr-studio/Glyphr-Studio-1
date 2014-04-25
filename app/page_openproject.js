@@ -55,10 +55,14 @@
 				if(v){
 					if(v.split(".")[1] !== 4){
 						fcontent = migrateFromBetaThreeToFour(fcontent);
+						debug("HANDLEDROP - fcontent after migrate:");
 						debug(fcontent);
 					}
 					hydrateGlyphrProject(fcontent);
-					//debug("Loading project; " + _GP.projectsettings.name);
+					debug("HANDLEDROP - fcontent after hydrate:");
+					debug(fcontent);
+					debug("HANDLEDROP - _GP after hydrate:");
+					debug(_GP);
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
 					alert("File does not appear to be a Glyphr Project, try again...");
@@ -73,22 +77,22 @@
 	function migrateFromBetaThreeToFour(fc){
 
 		newfc = {
-			"linkedshapes" : [],
+			"linkedshapes" : {},
 			"opentypeproperties" : fc.opentypeproperties,
 			"projectsettings" : _UI.default_GP.projectsettings,
-			"fontchars" : []
+			"fontchars" : {}
 		};
 
 		var tls;
 		for(var l in fc.linkedshapes){
 			if(fc.linkedshapes.hasOwnProperty(l)){
 				tls = fc.linkedshapes[l];
-				debug("migrateFromBetaThreeToFour - usedin before " + tls.usedin);
+				//debug("migrateFromBetaThreeToFour - usedin before " + tls.usedin);
 				if(tls.usedin){
 					for(var u=0; u<tls.usedin.length; u++){
 						tls.usedin[u] = decToHex(tls.usedin[u]);
 					}
-					debug("migrateFromBetaThreeToFour - usedin after " + tls.usedin);
+					//debug("migrateFromBetaThreeToFour - usedin after " + tls.usedin);
 				}
 			}
 		}
@@ -103,12 +107,12 @@
 		var tc, hex;
 		for(var i=0; i<fc.fontchars.length; i++){
 			tc = fc.fontchars[i];
-			debug("migrateFromBetaThreeToFour - fontchars " + i + " is " + tc);
+			//debug("migrateFromBetaThreeToFour - fontchars " + i + " is " + tc);
 			if(tc){
 				hex = "0x00"+tc.cmapcode.substr(2).toUpperCase();
 				newfc.fontchars[hex] = tc;
 				newfc.fontchars[hex].charhtml = hexToHTML(hex);
-				debug("migrateFromBetaThreeToFour - newfc.fontchars[" + hex + "] is " + json(newfc.fontchars[hex]));
+				//debug("migrateFromBetaThreeToFour - newfc.fontchars[" + hex + "] is " + json(newfc.fontchars[hex]));
 			}
 		}
 
@@ -125,9 +129,9 @@
 		if(data.opentypeproperties) _GP.opentypeproperties = clone(data.opentypeproperties);
 
 		// Linked Shapes
-		for (var ssid in data.linkedshapes) {
-			if(data.linkedshapes.hasOwnProperty(ssid)){
-				_GP.linkedshapes[ssid] = new LinkedShape(data.linkedshapes[ssid]);
+		for (var lsid in data.linkedshapes) {
+			if(data.linkedshapes.hasOwnProperty(lsid)){
+				_GP.linkedshapes[lsid] = new LinkedShape(data.linkedshapes[lsid]);
 			}
 		}
 
@@ -139,7 +143,7 @@
 		}
 
 		//debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n" + JSON.stringify(data));
-		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n" + JSON.stringify(_GP));
+		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n" + json(_GP));
 
 		finalizeGlyphrProject();
 	}

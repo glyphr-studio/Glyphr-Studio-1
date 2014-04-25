@@ -12,9 +12,13 @@
 
 		this.type = oa.type || "corner";		// corner, flat, symmetric
 		this.selected = oa.selected || false;
+		/*
 		this.useh1 = (isval(oa.useh1)? oa.useh1 : true);
 		this.useh2 = (isval(oa.useh2)? oa.useh2 : true);
-
+*/		
+		this.useh1 = oa.useh1;
+		this.useh2 = oa.useh2;
+		
 		//debug("PATHPOINT was passed " + JSON.stringify(oa));
 	}
 
