@@ -73,11 +73,26 @@
 	function migrateFromBetaThreeToFour(fc){
 
 		newfc = {
-			"linkedshapes" : fc.linkedshapes,
+			"linkedshapes" : [],
 			"opentypeproperties" : fc.opentypeproperties,
 			"projectsettings" : _UI.default_GP.projectsettings,
 			"fontchars" : []
 		};
+
+		var tls;
+		for(var l in fc.linkedshapes){
+			if(fc.linkedshapes.hasOwnProperty(l)){
+				tls = fc.linkedshapes[l];
+				debug("migrateFromBetaThreeToFour - usedin before " + tls.usedin);
+				if(tls.usedin){
+					for(var u=0; u<tls.usedin.length; u++){
+						tls.usedin[u] = decToHex(tls.usedin[u]);
+					}
+					debug("migrateFromBetaThreeToFour - usedin after " + tls.usedin);
+				}
+			}
+		}
+		newfc.linkedshapes = fc.linkedshapes;
 
 		for(var e in fc.projectsettings){
 			if(newfc.projectsettings.hasOwnProperty(e)){
@@ -88,10 +103,12 @@
 		var tc, hex;
 		for(var i=0; i<fc.fontchars.length; i++){
 			tc = fc.fontchars[i];
+			debug("migrateFromBetaThreeToFour - fontchars " + i + " is " + tc);
 			if(tc){
-				hex = "0x00"+tc.cmapcode.substr(2);
+				hex = "0x00"+tc.cmapcode.substr(2).toUpperCase();
 				newfc.fontchars[hex] = tc;
 				newfc.fontchars[hex].charhtml = hexToHTML(hex);
+				debug("migrateFromBetaThreeToFour - newfc.fontchars[" + hex + "] is " + json(newfc.fontchars[hex]));
 			}
 		}
 
