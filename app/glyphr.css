@@ -136,17 +136,18 @@
 
 	.button:hover {
 		color:rgb(229,234,239);
+		border-radius: 3px;
 	}
 
 
 	.buttonsel,
 	.buttonsel:hover {
 		background-color:rgb(0,170,225);
-		color:rgb(165,222,240);
+		color:rgb(250,252,255);
 	}
 
 	.buttonsel:hover {
-		color:rgb(250,252,255);
+		color:white;
 	}
 	.buttondis{
 		background-color:rgb(76,81,86);

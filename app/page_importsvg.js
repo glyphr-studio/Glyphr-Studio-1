@@ -1,34 +1,30 @@
 	function loadPage_importsvg(){
 		debug("LOADING PAGE >> loadpage_importsvg");
 		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
-		"<h2 id='importsvgselecttitle' style='display:inline;'>Target character: "+getSelectedCharName()+"</h2>"+
-		"<input type='button' class='button' value='go to character edit' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>"+
-
-		/*
-		"<h2 style='margin-bottom:10px;'>Scale options</h2>"+
-		"<input type='checkbox' checked onchange='_UI.importsvg.scale=this.checked;'>Scale imported SVG path<br>"+
-		"<div style='padding-left:20px;' disabled='"+_UI.importsvg.scale+"'>"+
-		"<input type='checkbox' onchange='_UI.importsvg.ascender=this.checked;'>Has ascender<br>"+
-		"<input type='checkbox' onchange='_UI.importsvg.descender=this.checked;'>Has descender<br>"+
-		"</div><br>"+
-		*/
+		"<h2 id='importsvgselecttitle'>Target character: "+getSelectedCharName()+"</h2>"+
 
 		"<h2 style='margin-bottom:10px;'>Scaling</h2>"+
 		"For best results, scale your SVG outlines before you import them to Glyphr Studio.  "+
 		"Characters should be "+_GP.projectsettings.upm+" units tall, with an ascender/descender "+
 		"split of "+_GP.projectsettings.ascent+"/"+(_GP.projectsettings.upm-_GP.projectsettings.ascent)+".  "+
-		"Check the help page for more info.<br><br><br>"+
+		"Check the help page for more info.<br><br>"+
 
-		"<h2 style='display:inline;'>Paste SVG code</h2>"+
-		"<input type='button' class='button' value='clear' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>"+
-		"<br><textarea id='svgcode'><br><br>"+
-		'<path fill="h" d="M17,11c-4.8,0-9.7,1.9-13,5.6V4.1h2V0H0v40.1h6V36H4v-8c0-8.9,6.7-13,13-13s13,4.1,13,13v12h4.1V28C34.1,16.8,25.5,11,17,11z"/>'+
-		// '<path fill="r" d="M6,29.1H0V17C0,10.6,2.8,5.4,8,2.4c5.5-3.2,12.6-3.2,18,0c5.2,3,8,8.2,8,14.7h-4c0-5-2.1-8.9-6-11.2c-4.2-2.4-9.8-2.4-14,0c-3.9,2.2-6,6.2-6,11.2v8h2V29.1z"/>'+
-		"</textarea><br>"+
+		"Enter the height metrics for this character:<br>"+
+		"<input type='checkbox' onchange='_UI.importsvg.ascender=this.checked;'>Ascender<br>"+
+		"<input type='checkbox' checked disabled>X Height<br>"+
+		"<input type='checkbox' onchange='_UI.importsvg.descender=this.checked;'>Descender<br>"+
 
-		"<h2 style='margin-bottom:10px;'>Import</h2>"+
-		"Top of the character is at: X Height or Capital Height.<br><br>"+
+		"<h2 style='margin-bottom:10px;'>SVG Code</h2>"+
+		"<div id='droptarget' style='width:100%; height:auto; margin-bottom:0px; padding:8px;'>drop a .svg file here, or paste code below</div>"+
+		"<textarea id='svgcode' onchange='document.getElementById(\"droptarget\").innerHTML = \"drop a .svg file here, or paste code below\";'>"+
+
+		/* EXAMPLE */ "<path d='M296.8,192c-83.8,0-169.3,33.2-226.9,97.8V71.6h34.9V0H0v700h104.7v-71.6H69.8V488.8c0-155.4,117-226.9,226.9-226.9s226.9,71.6,226.9,226.9v209.5h71.6V488.8C595.3,293.3,445.1,192,296.8,192z'/>"+
+
+		"</textarea><br><br>"+
+
 		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline; padding-left:60px; padding-right:60px;' onclick='importSVG_importCode();'>"+
+		"<input type='button' class='button' value='go to character edit' style='display:inline; margin-left:60px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>"+
+		"<input type='button' class='button' value='clear code' style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>"+
 
 		'<div id="svgerrormessagebox">' +
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
@@ -38,9 +34,37 @@
 		"<br><br></div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		importSVG_selectChar("0x0061");
+
+		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
+		getEditDocument().getElementById("droptarget").addEventListener('drop', importSVG_handleDrop, false);
 	}
 
+	function importSVG_handleDrop(evt){
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		var f = evt.dataTransfer.files[0]; // FileList object only first file
+		var reader = new FileReader();
+		var fcontent = "";
+		var dt = document.getElementById("droptarget");
+
+		dt.innerHTML = "Loading File...";
+
+		// Closure to capture the file information.
+		reader.onload = (function(theFile) {
+			return function(e) {
+				//console.log(reader.result);
+				document.getElementById('svgcode').innerHTML = reader.result;
+				dt.innerHTML = "Loaded " + theFile.name;
+			};
+		})(f);
+
+		reader.readAsText(f);
+	}
+
+
 	function importSVG_clearCode() {
+		document.getElementById('droptarget').innerHTML = 'drop a .svg file here, or paste code below';
 		var t = document.getElementById('svgcode');
 		t.innerHTML = '';
 		t.focus();
@@ -103,7 +127,13 @@
 
 		// Flip
 		for(var i=0; i<newshapes.length; i++) {
-			newshapes[i].path.flipNS();
+			
+
+
+			// UNCOMMENT THIS
+
+
+			//newshapes[i].path.flipNS();
 			addShape(newshapes[i]);
 		}
 
@@ -173,11 +203,13 @@
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
 		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
+			//debug("IMPORTSVG_CONVERTPATHTAG - fp/lp same:\nFirst Point: "+json(fp)+"\nLast Point:  "+json(lp));
 			fp.H1.x = lp.H1.x;
 			fp.H1.y = lp.H1.y;
 			fp.useh1 = lp.useh1;
 			patharr.pop();
 			fp.resolvePointType();
+			//debug("IMPORTSVG_CONVERTPATHTAG - AFTER:\nFirst Point: "+json(fp));
 		}
 
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
@@ -188,18 +220,20 @@
 		// Scale
 		if(_UI.importsvg.scale){
 			var height = _GP.projectsettings.xheight;
-			var top = _GP.projectsettings.xheight;
 			if(_UI.importsvg.ascender){
 				height = _GP.projectsettings.ascent;
-				top = _GP.projectsettings.ascent;
 			}
 			if(_UI.importsvg.descender){
 				height += (_GP.projectsettings.upm - _GP.projectsettings.ascent);
 			}
 
 			newshape.path.updatePathSize((height - (newshape.path.topy - newshape.path.bottomy)), 0, true);
-			newshape.path.setTopY(top);
 		}
+		
+		// Move
+		var top = _GP.projectsettings.xheight;
+		if(_UI.importsvg.ascender) top = _GP.projectsettings.ascent;
+		newshape.path.setTopY(top);
 
 		return newshape;
 	}
@@ -282,7 +316,7 @@
 			p = new Coord({"x":xx, "y":yy});
 
 			lastpoint.useh2 = false;
-			patharr.push(new PathPoint({"P":p, "H1":clone(p), "H2":clone(p), "type":"corner", "useh1":false, "useh2":!islastpoint}));
+			patharr.push(new PathPoint({"P":p, "H1":clone(p), "H2":clone(p), "type":"corner", "useh1":false, "useh2":true}));
 
 		} else if(cmd === 'C' || cmd === 'c'){
 			// ABSOLUTE bezier curve to
@@ -322,10 +356,12 @@
 
 				debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
 
-				patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p}));
+				patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "useh1":true, "useh2":true}));
 			}
 
 		} else if (cmd === 'S' || cmd === 's'){
+			// ABSOLUTE symmetric shorthand bezier curve to
+			// relative symmetric shorthand bezier curve to
 			lastpoint.makeSymmetric('H1');
 			lastpoint.useh2 = true;
 
@@ -342,7 +378,7 @@
 
 			debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
 
-			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "type":"symmetric"}));
+			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "type":"symmetric", "useh1":true, "useh2":true}));
 
 		} else if(cmd === 'Z' || cmd === 'z'){
 			// End Path
