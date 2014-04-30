@@ -3,6 +3,13 @@
 // CHAR OBJECT
 //-------------------------------------------------------
 	function Char(oa){
+
+		if(oa.charname === "LATIN SMALL LETTER X") {
+			_UI.pathdebugging = true;
+			debug("IMPORTING CHAR X: oa ");
+			debug(oa.charshapes);
+		}
+
 		this.objtype = 'char';
 
 		this.charname = oa.charname || "ERROR_CHARNAME";
@@ -32,6 +39,12 @@
 
 		if(this.isautowide) this.calcCharWidth();
 		//debug("CHAR - finished " + this.charname + "\tlinks:" + lc + "\tshapes:" + cs);
+
+		if(oa.charname === "LATIN SMALL LETTER X") {
+			_UI.pathdebugging = false;
+			debug("IMPORTING CHAR X: result");
+			debug(this.charshapes);
+		}
 	}
 
 

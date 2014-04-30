@@ -54,15 +54,17 @@
 				var v = fcontent.projectsettings.version;
 				if(v){
 					if(v.split(".")[1] !== 4){
+						debug("HANDLEDROP - fcontent before migrate:");
+						debug(fcontent);
 						fcontent = migrateFromBetaThreeToFour(fcontent);
 						debug("HANDLEDROP - fcontent after migrate:");
 						debug(fcontent);
 					}
 					hydrateGlyphrProject(fcontent);
-					debug("HANDLEDROP - fcontent after hydrate:");
-					debug(fcontent);
-					debug("HANDLEDROP - _GP after hydrate:");
-					debug(_GP);
+					// debug("HANDLEDROP - fcontent after hydrate:");
+					// debug(fcontent);
+					// debug("HANDLEDROP - _GP after hydrate:");
+					// debug(_GP);
 				} else {
 					document.getElementById("droptarget").innerHTML = "drop file here...";
 					alert("File does not appear to be a Glyphr Project, try again...");

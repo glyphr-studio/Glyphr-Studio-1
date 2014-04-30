@@ -12,14 +12,24 @@
 
 		this.type = oa.type || "corner";		// corner, flat, symmetric
 		this.selected = oa.selected || false;
-		/*
-		this.useh1 = (isval(oa.useh1)? oa.useh1 : true);
-		this.useh2 = (isval(oa.useh2)? oa.useh2 : true);
-*/		
-		this.useh1 = oa.useh1;
-		this.useh2 = oa.useh2;
-		
+
+		if(isval(oa.useh1) && oa.useh1) this.useh1 = true;
+		else this.useh1 = false;
+
+		if(isval(oa.useh2) && oa.useh2) this.useh2 = true;
+		else this.useh2 = false;
+
+		// this.useh1 = (isval(oa.useh1)? oa.useh1 : true);
+		// this.useh2 = (isval(oa.useh2)? oa.useh2 : true);
+
 		//debug("PATHPOINT was passed " + JSON.stringify(oa));
+
+		if(_UI.pathdebugging){
+			debug("\nX PATHPOINT RESULT");
+			debug(JSON.stringify(this));
+			debug(json(this));
+			debug("typeof this.useh1: " + typeof this.useh1);
+		}
 	}
 
 

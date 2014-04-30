@@ -28,7 +28,13 @@
 		this.selectPathPoint(false);
 		if(this.pathpoints) this.calcMaxes();
 
-		//debug("Path() - created new path: " + this.pathpoints);
+		//debug("Path() - created new path: " + this.pathpoints);		
+
+		if(_UI.pathdebugging){
+			debug("\nX PATH RESULT");
+			debug(this);
+			debug(json(this));
+		}
 	}
 
 
