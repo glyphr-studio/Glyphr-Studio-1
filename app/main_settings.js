@@ -31,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : false,		// navigate straight to a page
+		"devnav" : "import svg",		// navigate straight to a page
 		"debug": true,					// global debug console switch
 		"debugpoints" : [false,false],
 
@@ -54,7 +54,7 @@
 			"dy" : 500,		// Y offset for the canvas origin
 			"dz" : 0.5,		// Zoom or scale of the canvas
 		},
-		"views" : {},	// Holds the unique views per char & linkedshape
+		"views" : {},		// Holds the unique views per char & linkedshape
 		"thumbview" : {},
 
 		// page: linked shapes
@@ -75,12 +75,14 @@
 		"checkarr": [],
 
 		// page: test drive
-		"testdrivectx" : false,
-		"testdrivecanvas" : false,
-		"testdrive_fontscale" : 0,
-		"testdrive_showcharbox" : false,
-		"testdrive_showhorizontals" : false,
-		"testdrive_padsize" : 10,
+		"testdrive" : {
+			"ctx" : false,
+			"canvas" : false,
+			"fontscale" : 0,
+			"showcharbox" : false,
+			"showhorizontals" : false,
+			"padsize" : 10
+		},
 
 		// page: import svg
 		"importsvg": {

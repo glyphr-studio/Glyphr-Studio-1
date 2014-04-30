@@ -12,10 +12,10 @@
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		document.getElementById("tdtextarea").focus();
 
-		_UI.testdrivecanvas = document.getElementById("tdcanvas");
-		_UI.testdrivecanvas.width = 800;
-		_UI.testdrivecanvas.height = 700;
-		_UI.testdrivectx = _UI.testdrivecanvas.getContext("2d");
+		_UI.testdrive.canvas = document.getElementById("tdcanvas");
+		_UI.testdrive.canvas.width = 800;
+		_UI.testdrive.canvas.height = 700;
+		_UI.testdrive.ctx = _UI.testdrive.canvas.getContext("2d");
 
 		if(_UI.navprimaryhere == "npAttributes") changefontscale(100);
 	}
@@ -32,33 +32,33 @@
 
 	function updateTestdriveCanvas(){
 		var text = document.getElementById("tdtextarea").value;
-		var tctx = _UI.testdrivectx;
+		var tctx = _UI.testdrive.ctx;
 		var ps = _GP.projectsettings;
-		var scale = _UI.testdrive_fontscale;
+		var scale = _UI.testdrive.fontscale;
 		var contentArray = text.split("");
 		var textEm = (_GP.projectsettings.upm*scale);
-		var currx = _UI.testdrive_padsize;
-		var curry = _UI.testdrive_padsize + (ps.ascent*scale);
+		var currx = _UI.testdrive.padsize;
+		var curry = _UI.testdrive.padsize + (ps.ascent*scale);
 		var cc;
 
 		tctx.clearRect(0,0,5000,5000);
-		if(_UI.testdrive_showhorizontals) drawLine(curry);
+		if(_UI.testdrive.showhorizontals) drawLine(curry);
 
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
 				// reset X val
-				currx = _UI.testdrive_padsize;
+				currx = _UI.testdrive.padsize;
 
 				// calc Y val
 				curry += (textEm);
 				curry += ((document.getElementById("linegap").value*1)*scale);
 
 				// draw baseline
-				if(_UI.testdrive_showhorizontals) drawLine(curry);
+				if(_UI.testdrive.showhorizontals) drawLine(curry);
 			} else {
 				cc = getChar(charToHex(contentArray[k]));
 				if(cc){
-					if(_UI.testdrive_showcharbox){
+					if(_UI.testdrive.showcharbox){
 						tctx.fillStyle = "transparent";
 						tctx.strokeStyle = _UI.colors.accent;
 						tctx.lineWidth = 1;
@@ -71,7 +71,7 @@
 						);
 					}
 
-					currx += cc.drawCharToArea(tctx, {"dz" : _UI.testdrive_fontscale, "dx" : currx, "dy" : curry});
+					currx += cc.drawCharToArea(tctx, {"dz" : _UI.testdrive.fontscale, "dx" : currx, "dy" : curry});
 					currx += (document.getElementById("charspacing").value*1*scale);
 				}
 			}
@@ -81,13 +81,13 @@
 	function drawLine(y){
 		//debug("TESTDRIVE - Drawing h line at " + y);
 		y = y.makeCrisp();
-		_UI.testdrivectx.strokeStyle = _UI.colors.accent;
-		_UI.testdrivectx.beginPath();
-		_UI.testdrivectx.lineWidth = 1;
-		_UI.testdrivectx.moveTo(0,y);
-		_UI.testdrivectx.lineTo(_UI.testdrivecanvas.width,y);
-		_UI.testdrivectx.stroke();
-		_UI.testdrivectx.closePath();
+		_UI.testdrive.ctx.strokeStyle = _UI.colors.accent;
+		_UI.testdrive.ctx.beginPath();
+		_UI.testdrive.ctx.lineWidth = 1;
+		_UI.testdrive.ctx.moveTo(0,y);
+		_UI.testdrive.ctx.lineTo(_UI.testdrive.canvas.width,y);
+		_UI.testdrive.ctx.stroke();
+		_UI.testdrive.ctx.closePath();
 	}
 
 	function drawSampletextButtons(){
@@ -121,8 +121,8 @@
 		content += "<tr><td> 96dpi font size <span class='unit'>(pt)</span> </td><td id='roughptsize'>75</td></tr>";
 		content += "<tr><td> line gap <span class='unit'>(em units)</span> </td><td><input class='input' id='linegap' type='text' value='"+_GP.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> character spacing <span class='unit'>(em units)</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> show character boxes </td><td><input type='checkbox'" + (_UI.testdrive_showcharbox? " checked " : "") + " onchange='_UI.testdrive_showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
-		content += "<tr><td> show baseline </td><td><input type='checkbox'" + (_UI.testdrive_showhorizontals? " checked " : "") + " onchange='_UI.testdrive_showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show character boxes </td><td><input type='checkbox'" + (_UI.testdrive.showcharbox? " checked " : "") + " onchange='_UI.testdrive.showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> show baseline </td><td><input type='checkbox'" + (_UI.testdrive.showhorizontals? " checked " : "") + " onchange='_UI.testdrive.showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
 
 		content += "<tr><td colspan=2><input type='button' class='button' value='generate png file' onclick='createimg();'></td></tr>";
 		content += "</table>";
@@ -130,7 +130,7 @@
 	}
 
 	function changefontscale(newval){
-		_UI.testdrive_fontscale = (newval/_GP.projectsettings.upm);
+		_UI.testdrive.fontscale = (newval/_GP.projectsettings.upm);
 		document.getElementById("roughptsize").innerHTML = (newval*0.75);
 	}
 
