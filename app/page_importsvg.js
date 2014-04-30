@@ -1,23 +1,35 @@
 	function loadPage_importsvg(){
 		debug("LOADING PAGE >> loadpage_importsvg");
 		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
-		"<h2 id='importsvgselecttitle'>Target character: "+getSelectedCharName()+"</h2>"+
+		"<h2 id='importsvgselecttitle' style='display:inline;'>Target character: "+getSelectedCharName()+"</h2>"+
+		"<input type='button' class='button' value='go to character edit' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>"+
+
+		/*
 		"<h2 style='margin-bottom:10px;'>Scale options</h2>"+
 		"<input type='checkbox' checked onchange='_UI.importsvg.scale=this.checked;'>Scale imported SVG path<br>"+
 		"<div style='padding-left:20px;' disabled='"+_UI.importsvg.scale+"'>"+
 		"<input type='checkbox' onchange='_UI.importsvg.ascender=this.checked;'>Has ascender<br>"+
 		"<input type='checkbox' onchange='_UI.importsvg.descender=this.checked;'>Has descender<br>"+
 		"</div><br>"+
-		"<h2 style='display:inline;'>Paste SVG code</h2>"+
-		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline; padding-left:20px; padding-right:20px;' onclick='importSVG_importCode();'>"+
-		"<input type='button' class='button' value='clear' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>"+
-		"<input type='button' class='button' value='go to character edit' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>"+
-		"<br><textarea id='svgcode'>"+
+		*/
 
+		"<h2 style='margin-bottom:10px;'>Scaling</h2>"+
+		"For best results, scale your SVG outlines before you import them to Glyphr Studio.  "+
+		"Characters should be "+_GP.projectsettings.upm+" units tall, with an ascender/descender "+
+		"split of "+_GP.projectsettings.ascent+"/"+(_GP.projectsettings.upm-_GP.projectsettings.ascent)+".  "+
+		"Check the help page for more info.<br><br><br>"+
+
+		"<h2 style='display:inline;'>Paste SVG code</h2>"+
+		"<input type='button' class='button' value='clear' style='display:inline; margin-left:20px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>"+
+		"<br><textarea id='svgcode'><br><br>"+
 		'<path fill="h" d="M17,11c-4.8,0-9.7,1.9-13,5.6V4.1h2V0H0v40.1h6V36H4v-8c0-8.9,6.7-13,13-13s13,4.1,13,13v12h4.1V28C34.1,16.8,25.5,11,17,11z"/>'+
 		// '<path fill="r" d="M6,29.1H0V17C0,10.6,2.8,5.4,8,2.4c5.5-3.2,12.6-3.2,18,0c5.2,3,8,8.2,8,14.7h-4c0-5-2.1-8.9-6-11.2c-4.2-2.4-9.8-2.4-14,0c-3.9,2.2-6,6.2-6,11.2v8h2V29.1z"/>'+
-
 		"</textarea><br>"+
+
+		"<h2 style='margin-bottom:10px;'>Import</h2>"+
+		"Top of the character is at: X Height or Capital Height.<br><br>"+
+		"<input type='button' class='button buttonsel' value='Import SVG' style='display:inline; padding-left:60px; padding-right:60px;' onclick='importSVG_importCode();'>"+
+
 		'<div id="svgerrormessagebox">' +
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
 		'<td class="svgerrormessageleftbar"><input type="button" class="svgerrormessageclosebutton" value="&times;" onclick="document.getElementById(\'svgerrormessagebox\').style.display=\'none\';"></td>' +
@@ -76,8 +88,8 @@
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
-						importSVG_convertPathTag(data[d]); 
-						putundoq("Imported Path from SVG");
+						newshapes.push(importSVG_convertPathTag(data[d]));
+						putundoq("Imported Path from SVG to character "+getSelectedCharName());
 					}
 				}
 			}
@@ -88,7 +100,13 @@
 
 		// Redraw
 		update_NavPanels();
-		//for(var i=0; i<newshapes.length; i++) newshapes[i].path.flipNS();
+
+		// Flip
+		for(var i=0; i<newshapes.length; i++) {
+			newshapes[i].path.flipNS();
+			addShape(newshapes[i]);
+		}
+
 		update_NavPanels();
 	}
 
@@ -107,8 +125,8 @@
 				curr++;
 			}
 			if(curr > 99999) {
-				importSVG_errorMessage("Data longer than 100,000 characters is not allowed."); 
-				return; 
+				importSVG_errorMessage("Data longer than 100,000 characters is not allowed.");
+				return;
 			} else {
 				curr++;
 			}
@@ -183,7 +201,7 @@
 			newshape.path.setTopY(top);
 		}
 
-		return addShape(newshape);
+		return newshape;
 	}
 
 	function importSVG_isPathCommand(c){

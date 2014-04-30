@@ -86,7 +86,7 @@
 
 		// page: import svg
 		"importsvg": {
-			"scale" : true,
+			"scale" : false,
 			"ascender" : false,
 			"descender" : false,
 		},

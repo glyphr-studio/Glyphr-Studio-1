@@ -573,13 +573,13 @@
 
 	#svgcode {
 		width:100%;
-		height:400px;
+		height:200px;
 		margin:12px 0px;
 		overflow: auto;
 		vertical-align: top;
 		font-family: monospace;
-		font-size:12px;
-		padding: 12px;
+		font-size:8px;
+		padding: 8px;
 	}
 
 	#svgerrormessagebox {
