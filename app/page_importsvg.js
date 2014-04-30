@@ -127,13 +127,7 @@
 
 		// Flip
 		for(var i=0; i<newshapes.length; i++) {
-			
-
-
-			// UNCOMMENT THIS
-
-
-			//newshapes[i].path.flipNS();
+			newshapes[i].path.flipNS();
 			addShape(newshapes[i]);
 		}
 
@@ -383,7 +377,7 @@
 		} else if(cmd === 'Z' || cmd === 'z'){
 			// End Path
 		} else {
-			importSVG_errorMessage("Unrecognized path command '"+cmd+"'");
+			importSVG_errorMessage("Unrecognized path command "+cmd+", ignoring and moving on...<br>Chunk was<br>"+json(chunk));
 		}
 
 		if(islastpoint) patharr[patharr.length-1].resolvePointType();
