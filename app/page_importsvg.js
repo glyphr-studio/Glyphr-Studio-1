@@ -81,6 +81,12 @@
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
 		var newshapes = [];
+		var maxes = {
+			"xmax" : 0,
+			"xmin" : 999999999,
+			"ymax" : 0,
+			"ymin" : 999999999
+		};
 
 		if(svgin.indexOf('<path') > -1){
 			var pathtag_arr = [];
@@ -99,6 +105,7 @@
 				if(pathtag_count > 100) break; else pathtag_count++;
 			}
 			//debug("IMPORTSVG_IMPORTCODE - pathtag_arr is " + JSON.stringify(pathtag_arr));
+			debug("IMPORTSVG_IMPORTCODE - pathtag_arr length is " + pathtag_arr.length);
 
 			// Convert Tags to Glyphr Shapes
 			var data;
@@ -107,10 +114,13 @@
 				data = data.substring(data.indexOf(' d=')+4);
 				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 				data = data.substring(0, close);
+				
+				// Compound Paths are treated as different Glyphr Shapes
 				data.replace('Z','z');
 				data = data.split('z');
 
 				for(var d=0; d<data.length; d++){
+				//for(var d=0; d<5; d++){
 					if(data[d].length){
 						newshapes.push(importSVG_convertPathTag(data[d]));
 						putundoq("Imported Path from SVG to character "+getSelectedCharName());
@@ -122,13 +132,26 @@
 			importSVG_errorMessage("Could find no &lt;path&gt; tags to import");
 		}
 
-		// Redraw
-		update_NavPanels();
 
-		// Flip
+		// Add and find maxes
+		var s;
 		for(var i=0; i<newshapes.length; i++) {
-			newshapes[i].path.flipNS();
-			addShape(newshapes[i]);
+			s = addShape(newshapes[i]);
+			maxes.xmin = Math.min(s.path.leftx, maxes.xmin);
+			maxes.xmax = Math.min(s.path.leftx, maxes.xmax);
+			maxes.ymax = Math.max(s.path.topy, maxes.ymax);
+			maxes.ymin = Math.min(s.path.bottomy, maxes.ymin);
+		}
+		
+		// Flip and Scale
+		var mid = ((maxes.ymax - maxes.ymin)/2) + maxes.ymin;
+		var dy = ((_UI.importsvg.ascender? _GP.projectsettings.ascent : _GP.projectsettings.xheight) - maxes.ymax) + maxes.ymin;
+		var tsp;
+		for(var j=0; j<newshapes.length; j++) {
+			tsp = newshapes[j].path;
+			tsp.flipNS(mid);
+			tsp.updatePathPosition(0,dy,true);
+			// Scale
 		}
 
 		update_NavPanels();
@@ -137,11 +160,13 @@
 
 	function importSVG_convertPathTag(data) {
 		// just path data
-		debug("IMPORTSVG_CONVERTPATHTAG - data is \n" + data);
+		//debug("IMPORTSVG_CONVERTPATHTAG - data is \n" + data);
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s)/g, ',');
 		data = data.replace(/-/g, ',-');
+		if(data.charAt(0) === ' ') data = data.slice(1);
+
 		var curr = 0;
 		while(curr < data.length){
 			if(importSVG_isPathCommand(data.charAt(curr))){
@@ -156,10 +181,10 @@
 			}
 		}
 
-		if(data.charAt(0) === ',') data = data.slice(1);
 		while(data.indexOf(',,') > -1) data = data.replace(',,',',');
+		if(data.charAt(0) === ',') data = data.slice(1);
 
-		debug("IMPORTSVG_CONVERTPATHTAG - parsed path data as \n" + data);
+		//debug("IMPORTSVG_CONVERTPATHTAG - parsed path data as \n" + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
@@ -190,7 +215,9 @@
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
 			debug("\nHandling Path Chunk " + c);
-			patharr = importSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
+			if(chunkarr[c].command){
+				patharr = importSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
+			}
 		}
 
 		// Combine 1st and last point
@@ -224,11 +251,6 @@
 			newshape.path.updatePathSize((height - (newshape.path.topy - newshape.path.bottomy)), 0, true);
 		}
 		
-		// Move
-		var top = _GP.projectsettings.xheight;
-		if(_UI.importsvg.ascender) top = _GP.projectsettings.ascent;
-		newshape.path.setTopY(top);
-
 		return newshape;
 	}
 
@@ -377,7 +399,7 @@
 		} else if(cmd === 'Z' || cmd === 'z'){
 			// End Path
 		} else {
-			importSVG_errorMessage("Unrecognized path command "+cmd+", ignoring and moving on...<br>Chunk was<br>"+json(chunk));
+			importSVG_errorMessage("Unrecognized path command "+cmd+", ignoring and moving on...");
 		}
 
 		if(islastpoint) patharr[patharr.length-1].resolvePointType();

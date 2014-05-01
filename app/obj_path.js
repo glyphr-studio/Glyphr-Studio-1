@@ -272,10 +272,10 @@
 		}
 	};
 
-	Path.prototype.flipNS = function(){
+	Path.prototype.flipNS = function(mid){
 		var ly = this.topy;
 
-		var mid = ((this.topy - this.bottomy)/2)+this.bottomy;
+		if(!mid) mid = ((this.topy - this.bottomy)/2)+this.bottomy;
 		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
