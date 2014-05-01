@@ -44,6 +44,33 @@
 	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
 	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };
 
+	PathPoint.prototype.validate = function(){
+		if(!this.P.x && this.P.x !== 0){
+			debug("VALIDATE PATHPOINT - resetting P.x from " + this.P.x);
+			this.P.x = 0;
+		}
+		if(!this.P.y && this.P.y !== 0){
+			debug("VALIDATE PATHPOINT - resetting P.y from " + this.P.y);
+			this.P.y = 0;
+		}
+		if(!this.H1.x && this.H1.x !== 0){
+			debug("VALIDATE PATHPOINT - resetting H1.x from " + this.H1.x);
+			this.H1.x = 0;
+		}
+		if(!this.H1.y && this.H1.y !== 0){
+			debug("VALIDATE PATHPOINT - resetting H1.y from " + this.H1.y);
+			this.H1.y = 0;
+		}
+		if(!this.H2.x && this.H2.x !== 0){
+			debug("VALIDATE PATHPOINT - resetting H2.x from " + this.H2.x);
+			this.H2.x = 0;
+		}
+		if(!this.H2.y && this.H2.y !== 0){
+			debug("VALIDATE PATHPOINT - resetting H2.y from " + this.H2.y);
+			this.H2.y = 0;
+		}
+	};
+
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug("MAKEFLAT - hold " + hold + " starts as " + JSON.stringify(this));
 
@@ -72,14 +99,17 @@
 		var hyp2 = this.getHandleLength(this.H2);
 
 		if(angle1==angle2){
-			//debug("MAKEFLAT - Equal Angles, returning");
+			debug("MAKEFLAT - Equal Angles, returning");
 			return;
 		}
 
 		if(isNaN(angle1) || isNaN(angle2)) {
-			//debug("MAKEFLAT - NaN found, returning");
+			debug("MAKEFLAT - NaN found, returning");
 			return;
 		}
+
+
+		debug("MAKEFLAT - angle1 "+angle1+" angle2 "+angle2+" hyp1 "+hyp1+" hyp2 "+hyp2);
 
 		//new values
 		var newHx, newHy, mod, newadj1, newadj2;
@@ -101,7 +131,8 @@
 					this.H2.x = newHx;
 					this.H2.y = newHy;
 				} else {
-					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					return;
 				}
 				break;
 
@@ -121,7 +152,8 @@
 					this.H1.x = newHx;
 					this.H1.y = newHy;
 				} else {
-					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					return;
 				}
 				break;
 		}
@@ -135,19 +167,15 @@
 		var opp = this.P.y-hn.y;
 		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
 		var result = Math.acos(adj / hyp);
-
-		if((result === 0) || (!isNaN(result))){
-			return result;
-		} else {
-			return 0;
-		}
+		return result;
 	};
 
 	PathPoint.prototype.getHandleLength = function(hn){
+		debug("GETHANDLELENGTH - hn= " + json(hn));
 		var adj = this.P.x-hn.x;
 		var opp = this.P.y-hn.y;
 		var result = Math.sqrt( (adj*adj) + (opp*opp) );
-		return isNaN(result)? '--' : result;
+		return result;
 	};
 
 	PathPoint.prototype.makeSymmetric = function(hold){
@@ -396,7 +424,7 @@
 		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 
 
-
+/*
 		if(ss().path.sp(true) === 0){
 			debug("DRAWING POINT FOR PATHPOINT 0");
 			debug("\t P x y\t\t" + this.P.x + " / " + this.P.y);
@@ -408,7 +436,7 @@
 			// _UI.chareditctx.fillRect((sx_cx(this.P.x)-5), (sy_cy(this.P.y)-5), 10, 10);
 		}
 
-
+*/
 
 	};
 

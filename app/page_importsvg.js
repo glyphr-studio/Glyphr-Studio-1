@@ -404,7 +404,11 @@
 			importSVG_errorMessage("Unrecognized path command "+cmd+", ignoring and moving on...");
 		}
 
-		if(islastpoint) patharr[patharr.length-1].resolvePointType();
+		var added = patharr[patharr.length-1];
+		//added.validate();
+		debug("CREATED PATH POINT \n"+json(added));
+		if(islastpoint) added.resolvePointType();
+
 		return patharr;
 	}
 

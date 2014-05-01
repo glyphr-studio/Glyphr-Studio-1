@@ -170,7 +170,7 @@
 
 			// Draw points
 			for(var s=0; s<pp.length; s++){
-				debug("DRAWSELECTOUTLINE() - Drawing Point " + s + " - selected: " + pp[s].selected);
+				//debug("DRAWSELECTOUTLINE() - Drawing Point " + s + " - selected: " + pp[s].selected);
 				var c = _UI.colors.accent;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
 				if(s == pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]);

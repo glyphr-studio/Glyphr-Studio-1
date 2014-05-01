@@ -303,7 +303,7 @@
 
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> angle <span class='unit'>(degrees)</span></td>"+
-					"<td class='rightcol'><input type='text' disabled='disabled' value='"+round(tp.getHandleAngle(tp.H1)*180/Math.PI,3)+"'></td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+(round(tp.getHandleAngle(tp.H1)*180/Math.PI,3) || "--")+"'></td>"+
 					"</tr>";
 		}
 
@@ -329,7 +329,7 @@
 
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> angle <span class='unit'>(degrees)</span></td>"+
-					"<td class='rightcol'><input type='text' disabled='disabled' value='"+round(tp.getHandleAngle(tp.H2)*180/Math.PI,3)+"'></td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+(round(tp.getHandleAngle(tp.H2)*180/Math.PI,3) || "--")+"'></td>"+
 					"</tr>";
 		}
 
