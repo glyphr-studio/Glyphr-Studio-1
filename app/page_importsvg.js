@@ -18,7 +18,9 @@
 		"<div id='droptarget' style='width:100%; height:auto; margin-bottom:0px; padding:8px;'>drop a .svg file here, or paste code below</div>"+
 		"<textarea id='svgcode' onchange='document.getElementById(\"droptarget\").innerHTML = \"drop a .svg file here, or paste code below\";'>"+
 
-		/* EXAMPLE */ "<path d='M296.8,192c-83.8,0-169.3,33.2-226.9,97.8V71.6h34.9V0H0v700h104.7v-71.6H69.8V488.8c0-155.4,117-226.9,226.9-226.9s226.9,71.6,226.9,226.9v209.5h71.6V488.8C595.3,293.3,445.1,192,296.8,192z'/>"+
+		// /* EXAMPLE h */ "<path d='M296.8,192c-83.8,0-169.3,33.2-226.9,97.8V71.6h34.9V0H0v700h104.7v-71.6H69.8V488.8c0-155.4,117-226.9,226.9-226.9s226.9,71.6,226.9,226.9v209.5h71.6V488.8C595.3,293.3,445.1,192,296.8,192z'/>"+
+
+		/* EXAMPLE g */ "<path d='M195.4,0C98.9,0,0,66.7,0,195.4c0,98.9,101.1,143.7,195.4,143.7c54,0,110.3-14.9,149.4-47.1v64.4c0,66.7-77,97.7-149.4,97.7c-63.2,0-129.9-23-146-73.6H69v-47.1H0v23C0,455.2,101.1,500,195.4,500s195.4-44.8,195.4-143.7V195.4C392,66.7,293.1,0,195.4,0z M195.4,293.1c-71.3,0-149.4-31-149.4-97.7C46,93.1,123,46,195.4,46s149.4,47.1,149.4,149.4C344.8,262.1,267.8,293.1,195.4,293.1z'/>"+
 
 		"</textarea><br><br>"+
 
@@ -142,7 +144,7 @@
 			maxes.ymax = Math.max(s.path.topy, maxes.ymax);
 			maxes.ymin = Math.min(s.path.bottomy, maxes.ymin);
 		}
-		
+/*		
 		// Flip and Scale
 		var mid = ((maxes.ymax - maxes.ymin)/2) + maxes.ymin;
 		var dy = ((_UI.importsvg.ascender? _GP.projectsettings.ascent : _GP.projectsettings.xheight) - maxes.ymax) + maxes.ymin;
@@ -153,7 +155,7 @@
 			tsp.updatePathPosition(0,dy,true);
 			// Scale
 		}
-
+*/
 		update_NavPanels();
 	}
 

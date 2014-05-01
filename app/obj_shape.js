@@ -107,14 +107,14 @@
 		var v = getView("sx_cx");
 		var canvasx = v.dx;
 		canvasx += (sx*v.dz);
-		return canvasx;
+		return canvasx || v.dx;
 	}
 
 	function sy_cy(sy){
 		var v = getView("sy_cy");
 		var canvasy = v.dy;
 		canvasy -= (sy*v.dz);
-		return canvasy;
+		return canvasy || v.dy;
 	}
 
 	Shape.prototype.drawSelectOutline = function(onlycenter){
@@ -170,12 +170,12 @@
 
 			// Draw points
 			for(var s=0; s<pp.length; s++){
+				debug("DRAWSELECTOUTLINE() - Drawing Point " + s + " - selected: " + pp[s].selected);
 				var c = _UI.colors.accent;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
 				if(s == pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]);
 				else pp[s].drawDirectionalityPoint(c, pp[s+1]);
 
-				//debug("DRAWSELECTOUTLINE() - drew point " + s + " - selected: " + pp[s].selected);
 			}
 
 		} else if ((_UI.selectedtool=="newoval")){

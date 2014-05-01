@@ -135,7 +135,12 @@
 		var opp = this.P.y-hn.y;
 		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
 		var result = Math.acos(adj / hyp);
-		return isNaN(result)? '--' : result;
+
+		if((result === 0) || (!isNaN(result))){
+			return result;
+		} else {
+			return 0;
+		}
 	};
 
 	PathPoint.prototype.getHandleLength = function(hn){
@@ -323,12 +328,12 @@
 	};
 
 	PathPoint.prototype.drawPoint = function(c) {
-		var ps = _GP.projectsettings.pointsize +1;
+		var ps = _GP.projectsettings.pointsize+2;
 		var hp = ps/2;
 		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;
 
-		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp).makeCrisp(), (sy_cy(this.P.y)-hp).makeCrisp(), ps, ps);
-		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp).makeCrisp(), (sy_cy(this.P.y)-hp).makeCrisp(), ps, ps);
+		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
@@ -351,7 +356,16 @@
 			[ps, -ps]
 		];
 		var rotatedarrow = [];
-		var ang = Math.atan2((end.y-begin.y),(end.x-begin.x))*-1;
+		var ang = (Math.atan2((end.y-begin.y),(end.x-begin.x))*-1);
+
+		// FAILURE CASE FALLBACK
+		if(!ang && ang !== 0){
+			this.drawPoint(c);
+			// Exact Middle Point
+			_UI.chareditctx.fillStyle = _UI.colors.accent;
+			_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
+			return;
+		}
 
 		for(var a in arrow){
 			rotatedarrow.push([
@@ -380,6 +394,21 @@
 		// Exact Middle Point
 		_UI.chareditctx.fillStyle = _UI.colors.accent;
 		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
+
+
+
+		if(ss().path.sp(true) === 0){
+			debug("DRAWING POINT FOR PATHPOINT 0");
+			debug("\t P x y\t\t" + this.P.x + " / " + this.P.y);
+			debug("\t P s_c\t" + sx_cx(this.P.x) + " / " + sy_cy(this.P.y));
+			debug("\t Fill Style: " + c);
+			debug("\t Computed Angle: " + ang);
+			//debug("\t arrow = \n" + json(arrow) + "\t rotatedarrow = \n" + json(rotatedarrow));
+			// _UI.chareditctx.fillStyle = "lime";
+			// _UI.chareditctx.fillRect((sx_cx(this.P.x)-5), (sy_cy(this.P.y)-5), 10, 10);
+		}
+
+
 
 	};
 
