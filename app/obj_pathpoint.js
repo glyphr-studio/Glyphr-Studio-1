@@ -19,8 +19,8 @@
 		if(isval(oa.useh2) && oa.useh2) this.useh2 = true;
 		else this.useh2 = false;
 
-		// this.useh1 = (isval(oa.useh1)? oa.useh1 : true);
-		// this.useh2 = (isval(oa.useh2)? oa.useh2 : true);
+		if(this.type == "symmetric") { this.makeSymmetric("H1"); }
+		else if (this.type == "flat") { this.makeFlat("H1"); }
 
 		//debug("PATHPOINT was passed " + JSON.stringify(oa));
 
@@ -177,7 +177,7 @@
 		}
 		ss().path.calcMaxes();
 		redraw("pointDetails");
-		
+
 		debug("TOGGLEUSEHANDLE - after:\n"+json(this));
 	};
 
