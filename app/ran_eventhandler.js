@@ -219,10 +219,10 @@
 
 
 			_UI.eventhandlers.temppathdragshape = {
-				"leftx": cx_sx(_UI.eventhandlers.mousex),
-				"rightx": cx_sx(_UI.eventhandlers.mousex),
-				"topy": cy_sy(_UI.eventhandlers.mousey),
-				"bottomy": cy_sy(_UI.eventhandlers.mousey)
+				"xmax": cx_sx(_UI.eventhandlers.mousex),
+				"xmin": cx_sx(_UI.eventhandlers.mousex),
+				"ymax": cy_sy(_UI.eventhandlers.mousey),
+				"ymin": cy_sy(_UI.eventhandlers.mousey)
 			};
 
 			this.dragging = true;
@@ -243,12 +243,7 @@
 			if ( (Math.abs(_UI.eventhandlers.lastx - _UI.eventhandlers.firstx) < _GP.projectsettings.pointsize) &&
 				(Math.abs(_UI.eventhandlers.lasty - _UI.eventhandlers.firsty) < _GP.projectsettings.pointsize) ){
 
-				_UI.eventhandlers.temppathdragshape = {
-					"leftx": s.path.leftx,
-					"rightx": s.path.rightx,
-					"topy": s.path.topy,
-					"bottomy": s.path.bottomy
-				};
+				_UI.eventhandlers.temppathdragshape = clone(s.path.maxes);
 			}
 
 			if(_UI.selectedtool=="newrect"){
@@ -388,13 +383,7 @@
 				this.resizing = true;
 				this.dragging = false;
 				if(_GP.projectsettings.quickpathupdating){
-					_UI.eventhandlers.temppathdragshape = {
-						"leftx": s.path.leftx,
-						"rightx": s.path.rightx,
-						"topy": s.path.topy,
-						"bottomy": s.path.bottomy
-					};
-
+					_UI.eventhandlers.temppathdragshape = clone(s.path.maxes);
 					s.hidden = true;
 				}
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
@@ -646,15 +635,15 @@
 
 		//if(!_UI.eventhandlers.temppathdragshape) s.path.calcMaxes();
 
-		//debug("EVHANSHAPERESIZE - Done lx/rx/ty/by: " + s.path.leftx + "," + s.path.rightx + "," + s.path.topy + "," + s.path.bottomy);
+		//debug("EVHANSHAPERESIZE - Done lx/rx/ty/by: " + s.path.maxes.xmin + "," + s.path.maxes.xmax + "," + s.path.maxes.ymax + "," + s.path.maxes.ymin);
 	}
 
 	function updateTPDS(dx,dy,dw,dh){
 		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
-		_UI.eventhandlers.temppathdragshape.leftx += round(dx);
-		_UI.eventhandlers.temppathdragshape.topy += round(dy);
-		_UI.eventhandlers.temppathdragshape.rightx += round(dw+dx);
-		_UI.eventhandlers.temppathdragshape.bottomy += round(dh+dy);
+		_UI.eventhandlers.temppathdragshape.xmin += round(dx);
+		_UI.eventhandlers.temppathdragshape.ymax += round(dy);
+		_UI.eventhandlers.temppathdragshape.xmax += round(dw+dx);
+		_UI.eventhandlers.temppathdragshape.ymin += round(dh+dy);
 	}
 
 	function canResize(pc){

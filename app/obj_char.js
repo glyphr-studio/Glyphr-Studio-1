@@ -18,7 +18,7 @@
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.advancewidth = isval(oa.advancewidth)? oa.advancewidth : 0;
 		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
-		this.maxes = {
+		this.maxes = oa.maxes || {
 			'xmax': 0,
 			'xmin': 999999,
 			'ymax': 0,
@@ -79,23 +79,23 @@
 		for(var jj=0; jj<this.charshapes.length; jj++) {
 			sh = this.charshapes[jj];
 
-			txmax = sh.path.rightx;
-			txmin = sh.path.leftx;
-			tymax = sh.path.topy;
-			tymin = sh.path.bottomy;	
+			txmax = sh.path.maxes.xmax;
+			txmin = sh.path.maxes.xmin;
+			tymax = sh.path.maxes.ymax;
+			tymin = sh.path.maxes.ymin;	
 
 			if(sh.link){
 				tss = _GP.linkedshapes[sh.link].shape;
 				if(sh.uselinkedshapexy) {
-					txmax = tss.path.rightx;
-					txmin = tss.path.leftx;
-					tymax = tss.path.topy;
-					tymin = tss.path.bottomy;
+					txmax = tss.path.maxes.xmax;
+					txmin = tss.path.maxes.xmin;
+					tymax = tss.path.maxes.ymax;
+					tymin = tss.path.maxes.ymin;
 				} else {
-					txmax = (tss.path.rightx + sh.xpos);
-					txmin = (tss.path.leftx + sh.xpos);
-					tymax = (tss.path.topy + sh.ypos);
-					tymin = (tss.path.bottomy + sh.ypos);
+					txmax = (tss.path.maxes.xmax + sh.xpos);
+					txmin = (tss.path.maxes.xmin + sh.xpos);
+					tymax = (tss.path.maxes.ymax + sh.ypos);
+					tymin = (tss.path.maxes.ymin + sh.ypos);
 				}
 			}
 
@@ -201,13 +201,13 @@
 			tp = cs[i].path;
 
 			// scale
-			pnw = ((tp.rightx - tp.leftx)*ratiodw);
-			pnh = ((tp.topy - tp.bottomy)*ratiodh);
+			pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
+			pnh = ((tp.maxes.ymax - tp.maxes.ymin)*ratiodh);
 			tp.setPathSize(pnw, pnh, ratiolock);
 
 			// move
-			pnx = ((tp.leftx - this.maxes.xmin)*ratiodw) + this.maxes.xmin;
-			pny = ((tp.topy - this.maxes.ymin)*ratiodh) + this.maxes.ymin;
+			pnx = ((tp.maxes.xmin - this.maxes.xmin)*ratiodw) + this.maxes.xmin;
+			pny = ((tp.maxes.ymax - this.maxes.ymin)*ratiodh) + this.maxes.ymin;
 			tp.setPathPosition(pnx, pny, true);
 		}
 

@@ -68,7 +68,7 @@
 				return;
 			}
 
-			if((this.path.rightx == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != "newpath")) this.path.calcMaxes();
+			if((this.path.maxes.xmax == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != "newpath")) this.path.calcMaxes();
 
 			this.path.drawPath(lctx);
 		}
@@ -128,10 +128,10 @@
 			_UI.chareditctx.fillStyle = "transparent";
 
 			//draw bounding box and 8points
-			var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx)		: sx_cx(this.path.leftx);
-			var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx)		: sx_cx(this.path.rightx);
-			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy)		: sy_cy(this.path.topy);
-			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy)	: sy_cy(this.path.bottomy);
+			var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.xmin) : sx_cx(this.path.maxes.xmin);
+			var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.xmax) : sx_cx(this.path.maxes.xmax);
+			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.ymax) : sy_cy(this.path.maxes.ymax);
+			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.ymin) : sy_cy(this.path.maxes.ymin);
 
 			var x = (lx).makeCrisp(true);
 			var y = (ty).makeCrisp(true);
@@ -192,18 +192,18 @@
 		}
 	};
 
-	function rectPathFromCorners(cdata){
+	function rectPathFromCorners(maxes){
 		//Default Shape size
 		var lx = 0;
 		var ty = _GP.projectsettings.ascent;
 		var rx = (_GP.projectsettings.upm / _GP.projectsettings.griddivisions);
 		var by = 0;
 
-		if(cdata){
-			lx = cdata.leftx;
-			ty = cdata.topy;
-			rx = cdata.rightx;
-			by = cdata.bottomy;
+		if(maxes){
+			lx = maxes.xmin;
+			ty = maxes.ymax;
+			rx = maxes.xmax;
+			by = maxes.ymin;
 		}
 
 		var qw = round((rx-lx)/4);
@@ -241,11 +241,19 @@
 		return rp;
 	}
 
-	function ovalPathFromCorners(cdata){
-		var lx = cdata.leftx;
-		var ty = cdata.topy;
-		var rx = cdata.rightx;
-		var by = cdata.bottomy;
+	function ovalPathFromCorners(maxes){
+		//Default Circle size
+		var lx = 0;
+		var ty = _GP.projectsettings.xheight;
+		var rx = _GP.projectsettings.xheight;
+		var by = 0;
+
+		if(maxes){
+			lx = maxes.xmin;
+			ty = maxes.ymax;
+			rx = maxes.xmax;
+			by = maxes.ymin;
+		}
 
 		var hw = round((rx-lx)/2);
 		var hh = round((ty-by)/2);
@@ -288,10 +296,10 @@
 		var ps = _GP.projectsettings.pointsize+1;
 		var hp = ps/2;
 
-		var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.leftx)		: sx_cx(this.path.leftx);
-		var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.rightx)		: sx_cx(this.path.rightx);
-		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.topy)		: sy_cy(this.path.topy);
-		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.bottomy)	: sy_cy(this.path.bottomy);
+		var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.maxes.xmin)		: sx_cx(this.path.maxes.xmin);
+		var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.maxes.xmax)		: sx_cx(this.path.maxes.xmax);
+		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.maxes.ymax)		: sy_cy(this.path.maxes.ymax);
+		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.maxes.ymin)	: sy_cy(this.path.maxes.ymin);
 
 		var bleftx = (lx-hp).makeCrisp(true);
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
@@ -492,13 +500,13 @@
 
 		// Translation Fidelity - converting passed canvas values to saved value system
 		var hp = _GP.projectsettings.pointsize/2;
-		var leftxb = sx_cx(this.path.leftx) -hp;
-		var midxb = Math.floor(sx_cx(this.path.leftx)+((sx_cx(this.path.rightx)-sx_cx(this.path.leftx))/2)-hp)+0.5;
-		var rightxb = sx_cx(this.path.rightx) -hp;
+		var leftxb = sx_cx(this.path.maxes.xmin) -hp;
+		var midxb = Math.floor(sx_cx(this.path.maxes.xmin)+((sx_cx(this.path.maxes.xmax)-sx_cx(this.path.maxes.xmin))/2)-hp)+0.5;
+		var rightxb = sx_cx(this.path.maxes.xmax) -hp;
 
-		var topyb = sy_cy(this.path.topy)-hp;
-		var midyb = Math.floor(sy_cy(this.path.topy)+((sy_cy(this.path.bottomy)-sy_cy(this.path.topy))/2)-hp)+0.5;
-		var bottomyb = sy_cy(this.path.bottomy) -hp;
+		var topyb = sy_cy(this.path.maxes.ymax)-hp;
+		var midyb = Math.floor(sy_cy(this.path.maxes.ymax)+((sy_cy(this.path.maxes.ymin)-sy_cy(this.path.maxes.ymax))/2)-hp)+0.5;
+		var bottomyb = sy_cy(this.path.maxes.ymin) -hp;
 
 		// upper left
 		if(canResize("nw")){

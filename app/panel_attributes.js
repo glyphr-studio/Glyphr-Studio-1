@@ -218,53 +218,53 @@
 					"<td> shape x </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathPosition(this.value, false); putundoq(\"Shape X Position : \"+this.value); redraw(\"shapeDetails - X Position\");}'")+
-					" value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td>"+
+					" value='" + rounddec(s.path.maxes.xmin) + "' >" + (s.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
 					"<td> shape y </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathPosition(false, this.value); putundoq(\"Shape Y Position : \"+this.value); redraw(\"shapeDetails - Y Position\");}'")+
-					" value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
+					" value='" + rounddec(s.path.maxes.ymax) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
 					"<td> width </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathSize(this.value,false,ss().ratiolock); putundoq(\"Shape Width : \"+this.value); redraw(\"shapeDetails - Width\");}'")+
-					" value='" + rounddec(s.path.rightx-s.path.leftx) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
+					" value='" + rounddec(s.path.maxes.xmax-s.path.maxes.xmin) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
 					"<td> height </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathSize(false,this.value,ss().ratiolock); putundoq(\"Shape Height : \"+this.value); redraw(\"shapeDetails - Height\");}'")+
-					" value='" + rounddec(s.path.topy-s.path.bottomy) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
+					" value='" + rounddec(s.path.maxes.ymax-s.path.maxes.ymin) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 		} else {
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
 					"<td> x </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					rounddec(_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td>"+
+					rounddec(_UI.eventhandlers.temppathdragshape.xmin) + "'>&nbsp;</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
 					"<td> y </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					rounddec(_UI.eventhandlers.temppathdragshape.topy) + "'>&nbsp;</td>"+
+					rounddec(_UI.eventhandlers.temppathdragshape.ymax) + "'>&nbsp;</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
 					"<td> width </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					rounddec(_UI.eventhandlers.temppathdragshape.rightx-_UI.eventhandlers.temppathdragshape.leftx) + "'>&nbsp;</td>"+
+					rounddec(_UI.eventhandlers.temppathdragshape.xmax-_UI.eventhandlers.temppathdragshape.xmin) + "'>&nbsp;</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
 					"<td> height </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					rounddec(_UI.eventhandlers.temppathdragshape.topy-_UI.eventhandlers.temppathdragshape.bottomy) + "'>&nbsp;</td>"+
+					rounddec(_UI.eventhandlers.temppathdragshape.ymax-_UI.eventhandlers.temppathdragshape.ymin) + "'>&nbsp;</td>"+
 					"</tr>";
 		}
 

@@ -19,10 +19,12 @@
 		}
 		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 		// internal
-		this.topy = isval(oa.topy)? oa.topy : -1;
-		this.bottomy = isval(oa.bottomy)? oa.bottomy : -1;
-		this.leftx = isval(oa.leftx)? oa.leftx : -1;
-		this.rightx = isval(oa.rightx)? oa.rightx : -1;
+		this.maxes = oa.maxes || {
+			'xmax': 0,
+			'xmin': 999999,
+			'ymax': 0,
+			'ymin': 999999
+		};
 
 		// Setup the object
 		this.selectPathPoint(false);
@@ -46,8 +48,8 @@
 
 	// SIZE
 	Path.prototype.setPathSize = function(nw, nh, ratiolock){
-		var dw = nw? (nw - (this.rightx - this.leftx)) : 0;
-		var dh = nh? (nh - (this.topy - this.bottomy)) : 0;
+		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
+		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
 		this.updatePathSize(dw, dh, ratiolock);
 	};
 
@@ -65,8 +67,8 @@
 			else dh = dw;
 		}
 
-		var oldw = this.rightx - this.leftx;
-		var oldh = this.topy - this.bottomy;
+		var oldw = this.maxes.xmax - this.maxes.xmin;
+		var oldh = this.maxes.ymax - this.maxes.ymin;
 		var neww = Math.max((oldw + dw), 1);
 		var newh = Math.max((oldh + dh), 1);
 		var ratiodh = (newh/oldh);
@@ -75,12 +77,12 @@
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
-			pp.P.x =   round( ((pp.P.x  - this.leftx) * ratiodw) + this.leftx  );
-			pp.H1.x =  round( ((pp.H1.x - this.leftx) * ratiodw) + this.leftx  );
-			pp.H2.x =  round( ((pp.H2.x - this.leftx) * ratiodw) + this.leftx  );
-			pp.P.y =   round( ((pp.P.y  - this.bottomy) * ratiodh) + this.bottomy  );
-			pp.H1.y =  round( ((pp.H1.y - this.bottomy) * ratiodh) + this.bottomy  );
-			pp.H2.y =  round( ((pp.H2.y - this.bottomy) * ratiodh) + this.bottomy  );
+			pp.P.x =   round( ((pp.P.x  - this.maxes.xmin) * ratiodw) + this.maxes.xmin  );
+			pp.H1.x =  round( ((pp.H1.x - this.maxes.xmin) * ratiodw) + this.maxes.xmin  );
+			pp.H2.x =  round( ((pp.H2.x - this.maxes.xmin) * ratiodw) + this.maxes.xmin  );
+			pp.P.y =   round( ((pp.P.y  - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
+			pp.H1.y =  round( ((pp.H1.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
+			pp.H2.y =  round( ((pp.H2.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
 		}
 
 		this.updatePathPosition(false, (oldh-newh), true);
@@ -89,9 +91,9 @@
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
 		debug("SETPATHPOSITION - nx/ny/force: " + nx + " " + ny + " " + force);
-		debug("SETPATHPOSITION - this.topy: " + this.topy);
-		var dx = nx? ((nx*1) - this.leftx) : 0;
-		var dy = ny? ((ny*1) - this.topy) : 0;
+		debug("SETPATHPOSITION - this.maxes.ymax: " + this.maxes.ymax);
+		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
+		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;
 		debug("SETPATHPOSITION - dx/dy: " + dx + " " + dy);
 		this.updatePathPosition(dx,dy,force);
 	};
@@ -288,10 +290,10 @@
 	};
 
 	Path.prototype.flipNS = function(mid){
-		var ly = this.topy;
+		var ly = this.maxes.ymax;
 
-		if(!mid) mid = ((this.topy - this.bottomy)/2)+this.bottomy;
-		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.bottomy +","+ this.topy + ","+ mid);
+		if(!mid) mid = ((this.maxes.ymax - this.maxes.ymin)/2)+this.maxes.ymin;
+		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.maxes.ymin +","+ this.maxes.ymax + ","+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -305,10 +307,10 @@
 	};
 
 	Path.prototype.flipEW = function(){
-		var lx = this.leftx;
+		var lx = this.maxes.xmin;
 
-		var mid = ((this.rightx - this.leftx)/2)+this.leftx;
-		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + this.rightx +","+ this.leftx +","+ mid);
+		var mid = ((this.maxes.xmax - this.maxes.xmin)/2)+this.maxes.xmin;
+		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + this.maxes.xmax +","+ this.maxes.xmin +","+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -467,10 +469,10 @@
 	Path.prototype.calcMaxes = function(){
 		//console.time("CalcMaxes_NEW");
 
-		this.topy = (_UI.chareditcanvassize*-1);
-		this.bottomy = _UI.chareditcanvassize;
-		this.leftx = _UI.chareditcanvassize;
-		this.rightx = (_UI.chareditcanvassize*-1);
+		this.maxes.ymax = (_UI.chareditcanvassize*-1);
+		this.maxes.ymin = _UI.chareditcanvassize;
+		this.maxes.xmin = _UI.chareditcanvassize;
+		this.maxes.xmax = (_UI.chareditcanvassize*-1);
 
 		var pp1, pp2, tbounds;
 
@@ -480,10 +482,10 @@
 
 			tbounds = getBounds(pp1.P.x, pp1.P.y, pp1.getH2x(), pp1.getH2y(), pp2.getH1x(), pp2.getH1y(), pp2.P.x, pp2.P.y);
 
-			this.rightx = Math.max(this.rightx, tbounds.maxx);
-			this.topy = Math.max(this.topy, tbounds.maxy);
-			this.leftx = Math.min(this.leftx, tbounds.minx);
-			this.bottomy = Math.min(this.bottomy, tbounds.miny);
+			this.maxes.xmax = Math.max(this.maxes.xmax, tbounds.maxx);
+			this.maxes.ymax = Math.max(this.maxes.ymax, tbounds.maxy);
+			this.maxes.xmin = Math.min(this.maxes.xmin, tbounds.minx);
+			this.maxes.ymin = Math.min(this.maxes.ymin, tbounds.miny);
 		}
 
 		updateCurrentCharWidth();

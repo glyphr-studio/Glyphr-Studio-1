@@ -139,10 +139,10 @@
 		var s;
 		for(var i=0; i<newshapes.length; i++) {
 			s = addShape(newshapes[i]);
-			maxes.xmin = Math.min(s.path.leftx, maxes.xmin);
-			maxes.xmax = Math.min(s.path.leftx, maxes.xmax);
-			maxes.ymax = Math.max(s.path.topy, maxes.ymax);
-			maxes.ymin = Math.min(s.path.bottomy, maxes.ymin);
+			maxes.xmin = Math.min(s.path.maxes.xmin, maxes.xmin);
+			maxes.xmax = Math.min(s.path.maxes.xmin, maxes.xmax);
+			maxes.ymax = Math.max(s.path.maxes.ymax, maxes.ymax);
+			maxes.ymin = Math.min(s.path.maxes.ymin, maxes.ymin);
 		}
 /*		
 		// Flip and Scale
@@ -250,7 +250,7 @@
 				height += (_GP.projectsettings.upm - _GP.projectsettings.ascent);
 			}
 
-			newshape.path.updatePathSize((height - (newshape.path.topy - newshape.path.bottomy)), 0, true);
+			newshape.path.updatePathSize((height - (newshape.path.maxes.ymax - newshape.path.maxes.ymin)), 0, true);
 		}
 		
 		return newshape;
