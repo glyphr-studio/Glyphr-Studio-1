@@ -44,29 +44,29 @@
 	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
 	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };
 
-	PathPoint.prototype.validate = function(){
+	PathPoint.prototype.validate = function(calledby){
 		if(!this.P.x && this.P.x !== 0){
-			debug("VALIDATE PATHPOINT - resetting P.x from " + this.P.x);
+			debug("VALIDATE PATHPOINT "+calledby+" - resetting P.x from " + this.P.x);
 			this.P.x = 0;
 		}
 		if(!this.P.y && this.P.y !== 0){
-			debug("VALIDATE PATHPOINT - resetting P.y from " + this.P.y);
+			debug("VALIDATE PATHPOINT "+calledby+" - resetting P.y from " + this.P.y);
 			this.P.y = 0;
 		}
 		if(!this.H1.x && this.H1.x !== 0){
-			debug("VALIDATE PATHPOINT - resetting H1.x from " + this.H1.x);
+			debug("VALIDATE PATHPOINT "+calledby+" - resetting H1.x from " + this.H1.x);
 			this.H1.x = 0;
 		}
 		if(!this.H1.y && this.H1.y !== 0){
-			debug("VALIDATE PATHPOINT - resetting H1.y from " + this.H1.y);
+			debug("VALIDATE PATHPOINT "+calledby+" - resetting H1.y from " + this.H1.y);
 			this.H1.y = 0;
 		}
 		if(!this.H2.x && this.H2.x !== 0){
-			debug("VALIDATE PATHPOINT - resetting H2.x from " + this.H2.x);
+			debug("VALIDATE PATHPOINT "+calledby+" - resetting H2.x from " + this.H2.x);
 			this.H2.x = 0;
 		}
 		if(!this.H2.y && this.H2.y !== 0){
-			debug("VALIDATE PATHPOINT - resetting H2.y from " + this.H2.y);
+			debug("VALIDATE PATHPOINT "+calledby+" - resetting H2.y from " + this.H2.y);
 			this.H2.y = 0;
 		}
 	};
@@ -93,6 +93,7 @@
 		this.useh1 = true;
 		this.useh2 = true;
 
+		this.validate('MAKEFLAT');
 		var angle1 = this.getHandleAngle(this.H1);
 		var angle2 = this.getHandleAngle(this.H2);
 		var hyp1 = this.getHandleLength(this.H1);
@@ -163,10 +164,11 @@
 	};
 
 	PathPoint.prototype.getHandleAngle = function(hn){
-		var adj = this.P.x-hn.x;
-		var opp = this.P.y-hn.y;
+		var adj = (this.P.x-hn.x) || 0;
+		var opp = (this.P.y-hn.y) || 0;
 		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
 		var result = Math.acos(adj / hyp);
+		debug("GETHANDLEANGLE - adj / opp / hyp / re: " + adj + " " + opp + " " + hyp + ' ' + result);
 		return result;
 	};
 
@@ -388,11 +390,7 @@
 
 		// FAILURE CASE FALLBACK
 		if(!ang && ang !== 0){
-			this.drawPoint(c);
-			// Exact Middle Point
-			_UI.chareditctx.fillStyle = _UI.colors.accent;
-			_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
-			return;
+			ang = (this.P.x > this.H2.x)? Math.PI : 0;
 		}
 
 		for(var a in arrow){

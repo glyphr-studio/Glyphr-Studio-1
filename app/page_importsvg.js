@@ -405,7 +405,7 @@
 		}
 
 		var added = patharr[patharr.length-1];
-		//added.validate();
+		added.validate('IMPORTSVG');
 		debug("CREATED PATH POINT \n"+json(added));
 		if(islastpoint) added.resolvePointType();
 
