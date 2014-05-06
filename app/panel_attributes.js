@@ -111,29 +111,67 @@
 		content += "<tr><td colspan=3><h3 style='margin:0px;'>"+sc.charname+"</h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> auto width </td>"+
+					"<td> number of shapes </td>"+
+					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
+					getSelectedCharShapes().length + "'/></td>"+
+					"</tr>";
+
+
+		content += "<tr><td colspan=3><h3> bulk-transform character shapes </h3></td></tr>";
+			
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td> x position </td>"+
+				"<td class='rightcol'><input class='input' type='text' "+
+				"onchange='if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); putundoq(\"Character X Position : \"+this.value); redraw(\"Character Details - X Position\");}'"+
+				" value='" + rounddec(sc.maxes.xmin) + "' >" + spinner() + "</td>"+
+				"</tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td> y position </td>"+
+				"<td class='rightcol'><input class='input' type='text' "+
+				"onchange='if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); putundoq(\"Character Y Position : \"+this.value); redraw(\"Character Details - Y Position\");}'"+
+				" value='" + rounddec(sc.maxes.ymax) + "' >" + spinner() + "</td>"+
+				"</tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td> width </td>"+
+				"<td class='rightcol'><input class='input' type='text' "+
+				"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,"+sc.ratiolock+"); putundoq(\"Character Width : \"+this.value); redraw(\"Character Details - Width\");}'"+
+				" value='" + rounddec(sc.maxes.xmax-sc.maxes.xmin) + "' >" + spinner() + "</td>"+
+				"</tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td> height </td>"+
+				"<td class='rightcol'><input class='input' type='text' "+
+				"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,"+sc.ratiolock+"); putundoq(\"Character Height : \"+this.value); redraw(\"Character Details - Height\");}'"+
+				" value='" + rounddec(sc.maxes.ymax-sc.maxes.ymin) + "' >" + spinner() + "</td>"+
+				"</tr>";
+		
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> lock aspect ratio </td>"+
+					"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"Character: lock aspect ratio\");",sc.ratiolock)+"</tr>";
+
+
+		content += "<tr><td colspan=3><h3> width metrics for kerning </h3></td></tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> auto advance width </td>"+
 					"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td>"+
 					"</tr>";
 
 		if(!sc.isautowide){
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> width <span class='unit'>(em units)</span> </td>"+
+					"<td> advance width <span class='unit'>(em units)</span> </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					rounddec(sc.charwidth) + "' onchange='getSelectedChar().charwidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+					rounddec(sc.advancewidth) + "' onchange='getSelectedChar().advancewidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
 					"</tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> width <span class='unit'>(em units)</span> </td>"+
+					"<td> advance width <span class='unit'>(em units)</span> </td>"+
 					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-					rounddec(sc.charwidth) + "'/></td>"+
+					rounddec(sc.advancewidth) + "'/></td>"+
 					"</tr>";
 		}
-
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> width <span class='unit'>(em %)</span> </td>"+
-					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-					rounddec(sc.charwidth/_GP.projectsettings.upm) + "'/></td>"+
-					"</tr>";
 
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
 
@@ -158,12 +196,6 @@
 		}
 
 		content += "<tr><td colspan=3>&nbsp;</td></tr>";
-
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> number of shapes </td>"+
-					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-					getSelectedCharShapes().length + "'/></td>"+
-					"</tr>";
 
 		return content;
 
@@ -196,20 +228,18 @@
 					" value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 
-			var cw = (s.path.rightx-s.path.leftx);
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
 					"<td> width </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathSize(this.value,false,ss().ratiolock); putundoq(\"Shape Width : \"+this.value); redraw(\"shapeDetails - Width\");}'")+
-					" value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
+					" value='" + rounddec(s.path.rightx-s.path.leftx) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
-			var ch = (s.path.topy-s.path.bottomy);
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
 					"<td> height </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
 					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathSize(false,this.value,ss().ratiolock); putundoq(\"Shape Height : \"+this.value); redraw(\"shapeDetails - Height\");}'")+
-					" value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
+					" value='" + rounddec(s.path.topy-s.path.bottomy) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 		} else {

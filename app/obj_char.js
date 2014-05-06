@@ -16,7 +16,14 @@
 		this.charhtml = oa.charhtml || "ERROR_CHARHTML";
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
-		this.charwidth = isval(oa.charwidth)? oa.charwidth : 0;
+		this.advancewidth = isval(oa.advancewidth)? oa.advancewidth : 0;
+		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
+		this.maxes = {
+			'xmax': 0,
+			'xmin': 999999,
+			'ymax': 0,
+			'ymin': 999999
+		};
 
 		//this.hints = oa.hints || {};
 		//this.counters = oa.counters || {};
@@ -37,14 +44,16 @@
 			}
 		}
 
-		if(this.isautowide) this.calcCharWidth();
+		this.calcCharMaxes();
+		
 		//debug("CHAR - finished " + this.charname + "\tlinks:" + lc + "\tshapes:" + cs);
-
+		/*
 		if(oa.charname === "LATIN SMALL LETTER X") {
 			_UI.pathdebugging = false;
 			debug("IMPORTING CHAR X: result");
 			debug(this.charshapes);
 		}
+		*/
 	}
 
 
@@ -59,57 +68,49 @@
 
 	Char.prototype.calcCharMaxes = function(){
 
-		var maxes = {
-			"xmax" : this.charwidth,
-			"xmin" : 0,
-			"ymax" : 0,
-			"ymin" : 0
+		var sh, tss, txmax, txmin, tymax, tymin;
+		this.maxes = {
+			"xmax": -999999,
+			"xmin": 999999,
+			"ymax": -999999,
+			"ymin": 999999
 		};
-		var sh, tss;
 
 		for(var jj=0; jj<this.charshapes.length; jj++) {
 			sh = this.charshapes[jj];
+
+			txmax = sh.path.rightx;
+			txmin = sh.path.leftx;
+			tymax = sh.path.topy;
+			tymin = sh.path.bottomy;	
+
 			if(sh.link){
 				tss = _GP.linkedshapes[sh.link].shape;
 				if(sh.uselinkedshapexy) {
-					maxes.xmin = Math.min(tss.path.leftx, maxes.xmin);
-					maxes.ymax = Math.max(tss.path.topy, maxes.ymax);
-					maxes.ymin = Math.min(tss.path.bottomy, maxes.ymin);
+					txmax = tss.path.rightx;
+					txmin = tss.path.leftx;
+					tymax = tss.path.topy;
+					tymin = tss.path.bottomy;
 				} else {
-					maxes.xmin = Math.min((tss.path.leftx + sh.xpos), maxes.xmin);
-					maxes.ymax = Math.max((tss.path.topy + sh.ypos), maxes.ymax);
-					maxes.ymin = Math.min((tss.path.bottomy + sh.ypos), maxes.ymin);
+					txmax = (tss.path.rightx + sh.xpos);
+					txmin = (tss.path.leftx + sh.xpos);
+					tymax = (tss.path.topy + sh.ypos);
+					tymin = (tss.path.bottomy + sh.ypos);
 				}
-			} else {
-				maxes.xmin = Math.min(sh.path.leftx, maxes.xmin);
-				maxes.ymax = Math.max(sh.path.topy, maxes.ymax);
-				maxes.ymin = Math.min(sh.path.bottomy, maxes.ymin);
 			}
+
+			this.maxes.xmax = Math.max(txmax, this.maxes.xmax);
+			this.maxes.xmin = Math.min(txmin, this.maxes.xmin);
+			this.maxes.ymax = Math.max(tymax, this.maxes.ymax);
+			this.maxes.ymin = Math.min(tymin, this.maxes.ymin);
 		}
 
-		return maxes;
+		this.calcCharAdvanceWidth();
 	};
 
-	Char.prototype.calcCharWidth = function(){
+	Char.prototype.calcCharAdvanceWidth = function(){
 		if(!this.isautowide) return;
-		//debug("CALCCHARWIDTH");
-		this.charwidth = 0;
-		var sh, tss;
-		if(this.charshapes){
-			for(var jj=0; jj<this.charshapes.length; jj++) {
-				sh = this.charshapes[jj];
-				if(sh.link){
-					tss = _GP.linkedshapes[sh.link].shape;
-					if(sh.uselinkedshapexy) {
-						this.charwidth = Math.max(this.charwidth, tss.path.rightx);
-					} else {
-						this.charwidth = Math.max(this.charwidth, (tss.path.rightx + sh.xpos));
-					}
-				} else {
-					this.charwidth = Math.max(this.charwidth, sh.path.rightx);
-				}
-			}
-		}
+		this.advancewidth = Math.max(this.maxes.xmax, 0);
 	};
 
 	Char.prototype.drawCharToArea = function(lctx, view){
@@ -118,7 +119,7 @@
 
 		//debug("DRAWCHARTOAREA - starting " + this.charname);
 
-		var width = (this.charwidth*view.dz);
+		var width = (this.advancewidth*view.dz);
 		if(this.isautowide){
 			//debug("---------------- for " + this.charname + " isautowide=false, adding left side bearing width " + (ps.defaultlsb*view.dz) + " to width " + width);
 			if(this.leftsidebearing === false){
@@ -156,20 +157,61 @@
 		return width;
 	};
 
-	Char.prototype.setCharPosition = function(nx, ny){
-
+	Char.prototype.setCharPosition = function(nx, ny, force){
+		var dx = nx? (nx - this.maxes.xmin) : 0;
+		var dy = ny? (ny - this.maxes.ymax) : 0;
+		this.updateCharPosition(dx, dy, force);
 	};
 
-	Char.prototype.updateCharPosition = function(dx, dy){
-
+	Char.prototype.updateCharPosition = function(dx, dy, force){
+		var cs = this.charshapes;
+		for(var i=0; i<cs.length; i++){
+			cs[i].path.updatePathPosition(dx, dy, force);
+		}
+		this.calcCharMaxes();
 	};
 
-	Char.prototype.setCharSize = function(nw, nh){
-
+	Char.prototype.setCharSize = function(nw, nh, ratiolock){
+		debug("UPDATECHARSIZE - nw/nh/ra: " + nw + " " + nh + " " + ratiolock);
+		debug("\t maxes: " + json(this.maxes));
+		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
+		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
+		this.updateCharSize(dw, dh, ratiolock);
 	};
 
-	Char.prototype.updateCharSize = function(dw, dh){
+	Char.prototype.updateCharSize = function(dw, dh, ratiolock){
+		debug("UPDATECHARSIZE - dw/dh/ra: " + dw + " " + dh + " " + ratiolock);
 
+		if(ratiolock){
+			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
+			else dh = dw;
+		}
+
+		var oldtop = this.maxes.ymax;
+		var oldw = this.maxes.xmax - this.maxes.xmin;
+		var oldh = this.maxes.ymax - this.maxes.ymin;
+		var neww = Math.max((oldw + dw), 1);
+		var newh = Math.max((oldh + dh), 1);
+		var ratiodh = (newh/oldh);
+		var ratiodw = (neww/oldw);
+
+		var cs = this.charshapes;
+		var tp, pnw, pnh, pnx, pny;
+		for(var i=0; i<cs.length; i++){
+			tp = cs[i].path;
+
+			// scale
+			pnw = ((tp.rightx - tp.leftx)*ratiodw);
+			pnh = ((tp.topy - tp.bottomy)*ratiodh);
+			tp.setPathSize(pnw, pnh, ratiolock);
+
+			// move
+			pnx = ((tp.leftx - this.maxes.xmin)*ratiodw) + this.maxes.xmin;
+			pny = ((tp.topy - this.maxes.ymin)*ratiodh) + this.maxes.ymin;
+			tp.setPathPosition(pnx, pny, true);
+		}
+
+		this.setCharPosition(false, oldtop, true);
 	};
 
 
@@ -248,9 +290,9 @@
 
 	function updateCurrentCharWidth() {
 		if(_UI.navhere == 'character edit'){
-			getSelectedChar().calcCharWidth();
+			getSelectedChar().calcCharMaxes();
 		} else if (_UI.navhere == 'linked shapes' && _GP.linkedshapes[_UI.shownlinkedshape]) {
 			var lsarr = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
-			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharWidth();
+			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharMaxes();
 		}
 	}

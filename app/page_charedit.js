@@ -474,7 +474,7 @@
 				if(_UI.navhere == 'character edit'){
 					var sc = getSelectedChar();
 					vertical(v.dx - (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)), xs.xmin, xs.xmax);
-					vertical(v.dx + (v.dz*sc.charwidth), xs.xmin, xs.xmax);
+					vertical(v.dx + (v.dz*sc.advancewidth), xs.xmin, xs.xmax);
 				}
 
 				// major guidelines - xheight, top (emzize)

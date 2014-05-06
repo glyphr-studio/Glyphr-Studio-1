@@ -37,7 +37,7 @@
 
 		for(var c=0; c<_GP.fontchars.length; c++){
 			if(_GP.fontchars[c] && _GP.fontchars[c].charshapes){
-				cm = _GP.fontchars[c].calcCharMaxes();
+				cm = _GP.fontchars[c].maxes;
 				fm.xmax = Math.max(cm.xmax, fm.xmax);
 				fm.xmin = Math.min(cm.xmin, fm.xmin);
 				fm.ymax = Math.max(cm.ymax, fm.ymax);
@@ -361,7 +361,7 @@
 		for(var tc=32; tc<_GP.fontchars.length; tc++){
 			curr = _GP.fontchars[tc];
 			lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
-			con += '\t<mtx name="' + curr.charname + '" width="'+(lsb+curr.charwidth)+'" lsb="'+lsb+'"/>\n';
+			con += '\t<mtx name="' + curr.charname + '" width="'+(lsb+curr.advancewidth)+'" lsb="'+lsb+'"/>\n';
 		}
 
 		con += '</hmtx>\n\n';

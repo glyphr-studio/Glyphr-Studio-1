@@ -64,7 +64,7 @@
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));
 		addShape(ns);
 
-		//getSelectedChar().calcCharWidth();
+		//getSelectedChar().calcCharAdvanceWidth();
 
 		addToUsedIn(ssid, _UI.selectedchar);
 

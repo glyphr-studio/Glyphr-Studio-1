@@ -52,9 +52,7 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
-		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
-
-		var ps = _GP.projectsettings;
+		debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
 		var s = ss("updatePathPosition");
 		dw = s.wlock? 0 : dw;
@@ -85,12 +83,13 @@
 			pp.H2.y =  round( ((pp.H2.y - this.bottomy) * ratiodh) + this.bottomy  );
 		}
 
-		this.calcMaxes();
+		this.updatePathPosition(false, (oldh-newh), true);
 	};
 	
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
 		debug("SETPATHPOSITION - nx/ny/force: " + nx + " " + ny + " " + force);
+		debug("SETPATHPOSITION - this.topy: " + this.topy);
 		var dx = nx? ((nx*1) - this.leftx) : 0;
 		var dy = ny? ((ny*1) - this.topy) : 0;
 		debug("SETPATHPOSITION - dx/dy: " + dx + " " + dy);
