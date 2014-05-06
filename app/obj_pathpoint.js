@@ -165,6 +165,22 @@
 		}
 	};
 
+	PathPoint.prototype.toggleUseHandle = function(h){
+		debug("TOGGLEUSEHANDLE - before:\n"+json(this));
+
+		if(h==='H1'){
+			this.useh1 = !this.useh1;
+			putundoq("Use Handle 1 : " + this.useh1);
+		} else {
+			this.useh2 = !this.useh2;			
+			putundoq("Use Handle 2 : " + this.useh2);
+		}
+		ss().path.calcMaxes();
+		redraw("pointDetails");
+		
+		debug("TOGGLEUSEHANDLE - after:\n"+json(this));
+	};
+
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug("MAKEFLAT - hold " + hold + " starts as " + JSON.stringify(this));
 
@@ -184,8 +200,8 @@
 		}
 
 		this.type = 'flat';
-		this.useh1 = true;
-		this.useh2 = true;
+		// this.useh1 = true;
+		// this.useh2 = true;
 
 		this.validate('MAKEFLAT');
 		var angle1 = this.getHandleAngle(this.H1);

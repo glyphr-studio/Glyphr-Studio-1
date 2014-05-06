@@ -283,10 +283,12 @@
 
 		content += "<tr><td colspan=3><h3>handle 1 <span class='unit'>(before the point)</span></h3></td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> use handle 1 </td>"+
-					"<td class='rightcol'>"+checkUI("ss().path.sp().useh1="+!tp.useh1+"; putundoq(\"Use H1 : "+!tp.useh1+"\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh1)+"</td>"+
-					"</tr>";
+		if(tp.type !== 'symmetric'){
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+						"<td> use handle 1 </td>"+
+						"<td class='rightcol'>"+checkUI("ss().path.sp().toggleUseHandle(\"H1\");", tp.useh1)+"</td>"+
+						"</tr>";
+		}
 
 		if(tp.useh1){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.xlock",tp.H1.xlock)+"</td>"+
@@ -309,10 +311,12 @@
 
 		content += "<tr><td colspan=3><h3>handle 2 <span class='unit'>(after the point)</span></h3></td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> use handle 2 </td>"+
-					"<td class='rightcol'>"+checkUI("ss().path.sp().useh2="+!tp.useh2+"; putundoq(\"Use H2 : "+!tp.useh2+"\"); ss().path.calcMaxes(); redraw(\"pointDetails\");", tp.useh2)+"</td>"+
-					"</tr>";
+		if(tp.type !== 'symmetric'){
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+						"<td> use handle 2 </td>"+
+						"<td class='rightcol'>"+checkUI("ss().path.sp().toggleUseHandle(\"H2\");", tp.useh2)+"</td>"+
+						"</tr>";
+		}
 
 		if(tp.useh2){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.xlock",tp.H2.xlock)+"</td>"+
