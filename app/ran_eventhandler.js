@@ -215,8 +215,7 @@
 			newshape = addShape(newshape);
 			//debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
 			// these rely on ss();
-			newshape.path.setLeftX(cx_sx(_UI.eventhandlers.mousex));
-			newshape.path.setTopY(cy_sy(_UI.eventhandlers.mousey));
+			newshape.path.setPathPosition(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
 
 
 			_UI.eventhandlers.temppathdragshape = {
@@ -356,7 +355,7 @@
 						if(!sp.H2.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
 						break;
 				}
-				sp.updatePointPosition(this.controlpoint, dx, dy);
+				sp.updatePathPointPosition(this.controlpoint, dx, dy);
 
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -843,7 +842,7 @@
 			my = (dy * _GP.projectsettings.spinnervaluechange);
 			sp = s.path.sp();
 			if(sp){
-				sp.updatePointPosition('P', mx, my);
+				sp.updatePathPointPosition('P', mx, my);
 			} else {
 				s.path.updatePathPosition(mx, my);
 			}

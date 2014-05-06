@@ -39,6 +39,100 @@
 // PATH POINT METHODS
 //-------------------------------------------------------
 
+
+	PathPoint.prototype.setPathPointPosition = function(controlpoint, nx, ny){
+		var dx = 0;
+		var dy = 0;
+		var changed = false;
+
+		switch(controlpoint){
+			case "P":
+				if(!this.P.xlock && !isNaN(nx)){
+					dx = (this.P.x - nx);
+					this.P.x = nx;
+					this.H1.x -= dx;
+					this.H2.x -= dx;
+				}
+				if(!this.P.ylock && !isNaN(ny)){
+					dy = (this.P.y - ny);
+					this.P.y = ny;
+					this.H1.y -= dy;
+					this.H2.y -= dy;
+				}
+				break;
+
+			case "H1":
+				if(!this.H1.xlock && !isNaN(nx)){
+					this.H1.x = nx;
+					changed = 'H1';
+				}
+				if(!this.H1.ylock && !isNaN(ny)){
+					this.H1.y = ny;
+					changed = 'H1';
+				}
+				break;
+
+			case "H2":
+				if(!this.H2.xlock && !isNaN(nx)){
+					this.H2.x = nx;
+					changed = 'H2';
+				}
+				if(!this.H2.ylock && !isNaN(ny)){
+					this.H2.y = ny;
+					changed = 'H2';
+				}
+				break;
+		}
+
+		if(changed){
+			if(this.type == "symmetric"){ this.makeSymmetric(changed); }
+			else if (this.type == "flat") { this.makeFlat(changed); }
+		}
+
+		this.roundAll();
+
+	};
+
+	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
+		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
+		var lockx = (_UI.selectedtool=='pathedit'? this.P.xlock : false);
+		var locky = (_UI.selectedtool=='pathedit'? this.P.ylock : false);
+
+		if(isval(force)){
+			if(force){
+				lockx = false;
+				locky = false;
+			}
+		}
+
+		switch(controlpoint){
+			case "P":
+				if(!lockx) this.P.x += dx;
+				if(!locky) this.P.y += dy;
+				if(!lockx) this.H1.x += dx;
+				if(!locky) this.H1.y += dy;
+				if(!lockx) this.H2.x += dx;
+				if(!locky) this.H2.y += dy;
+				break;
+
+			case "H1" :
+				this.H1.x += dx;
+				this.H1.y += dy;
+				if(this.type == "symmetric"){ this.makeSymmetric("H1"); }
+				else if (this.type == "flat") { this.makeFlat("H1"); }
+				break;
+
+			case "H2" :
+				this.H2.x += dx;
+				this.H2.y += dy;
+				if(this.type == "symmetric"){ this.makeSymmetric("H2"); }
+				else if (this.type == "flat") { this.makeFlat("H2"); }
+				break;
+		}
+
+		this.roundAll();
+	};
+
 	PathPoint.prototype.getH1x = function() { return this.useh1? this.H1.x : this.P.x; };
 	PathPoint.prototype.getH1y = function() { return this.useh1? this.H1.y : this.P.y; };
 	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
@@ -100,17 +194,17 @@
 		var hyp2 = this.getHandleLength(this.H2);
 
 		if(angle1==angle2){
-			debug("MAKEFLAT - Equal Angles, returning");
+			//debug("MAKEFLAT - Equal Angles, returning");
 			return;
 		}
 
 		if(isNaN(angle1) || isNaN(angle2)) {
-			debug("MAKEFLAT - NaN found, returning");
+			//debug("MAKEFLAT - NaN found, returning");
 			return;
 		}
 
 
-		debug("MAKEFLAT - angle1 "+angle1+" angle2 "+angle2+" hyp1 "+hyp1+" hyp2 "+hyp2);
+		//debug("MAKEFLAT - angle1 "+angle1+" angle2 "+angle2+" hyp1 "+hyp1+" hyp2 "+hyp2);
 
 		//new values
 		var newHx, newHy, mod, newadj1, newadj2;
@@ -168,12 +262,12 @@
 		var opp = (this.P.y-hn.y) || 0;
 		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
 		var result = Math.acos(adj / hyp);
-		debug("GETHANDLEANGLE - adj / opp / hyp / re: " + adj + " " + opp + " " + hyp + ' ' + result);
+		//debug("GETHANDLEANGLE - adj / opp / hyp / re: " + adj + " " + opp + " " + hyp + ' ' + result);
 		return result;
 	};
 
 	PathPoint.prototype.getHandleLength = function(hn){
-		debug("GETHANDLELENGTH - hn= " + json(hn));
+		//debug("GETHANDLELENGTH - hn= " + json(hn));
 		var adj = this.P.x-hn.x;
 		var opp = this.P.y-hn.y;
 		var result = Math.sqrt( (adj*adj) + (opp*opp) );
@@ -253,99 +347,6 @@
 		this.H2.y = this.P.y;
 		this.H1.x = this.P.x + 200;
 		this.H1.y = this.P.y;
-	};
-
-	PathPoint.prototype.setPointPosition = function(controlpoint, nx, ny){
-		var dx = 0;
-		var dy = 0;
-		var changed = false;
-
-		switch(controlpoint){
-			case "P":
-				if(!this.P.xlock && !isNaN(nx)){
-					dx = (this.P.x - nx);
-					this.P.x = nx;
-					this.H1.x -= dx;
-					this.H2.x -= dx;
-				}
-				if(!this.P.ylock && !isNaN(ny)){
-					dy = (this.P.y - ny);
-					this.P.y = ny;
-					this.H1.y -= dy;
-					this.H2.y -= dy;
-				}
-				break;
-
-			case "H1":
-				if(!this.H1.xlock && !isNaN(nx)){
-					this.H1.x = nx;
-					changed = 'H1';
-				}
-				if(!this.H1.ylock && !isNaN(ny)){
-					this.H1.y = ny;
-					changed = 'H1';
-				}
-				break;
-
-			case "H2":
-				if(!this.H2.xlock && !isNaN(nx)){
-					this.H2.x = nx;
-					changed = 'H2';
-				}
-				if(!this.H2.ylock && !isNaN(ny)){
-					this.H2.y = ny;
-					changed = 'H2';
-				}
-				break;
-		}
-
-		if(changed){
-			if(this.type == "symmetric"){ this.makeSymmetric(changed); }
-			else if (this.type == "flat") { this.makeFlat(changed); }
-		}
-
-		this.roundAll();
-
-	};
-
-	PathPoint.prototype.updatePointPosition = function(controlpoint, dx,dy, force){
-		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
-		var lockx = (_UI.selectedtool=='pathedit'? this.P.xlock : false);
-		var locky = (_UI.selectedtool=='pathedit'? this.P.ylock : false);
-
-		if(isval(force)){
-			if(force){
-				lockx = false;
-				locky = false;
-			}
-		}
-
-		switch(controlpoint){
-			case "P":
-				if(!lockx) this.P.x += dx;
-				if(!locky) this.P.y += dy;
-				if(!lockx) this.H1.x += dx;
-				if(!locky) this.H1.y += dy;
-				if(!lockx) this.H2.x += dx;
-				if(!locky) this.H2.y += dy;
-				break;
-
-			case "H1" :
-				this.H1.x += dx;
-				this.H1.y += dy;
-				if(this.type == "symmetric"){ this.makeSymmetric("H1"); }
-				else if (this.type == "flat") { this.makeFlat("H1"); }
-				break;
-
-			case "H2" :
-				this.H2.x += dx;
-				this.H2.y += dy;
-				if(this.type == "symmetric"){ this.makeSymmetric("H2"); }
-				else if (this.type == "flat") { this.makeFlat("H2"); }
-				break;
-		}
-
-		this.roundAll();
 	};
 
 	PathPoint.prototype.roundAll = function(){

@@ -156,6 +156,23 @@
 		return width;
 	};
 
+	Char.prototype.setCharPosition = function(nx, ny){
+
+	};
+
+	Char.prototype.updateCharPosition = function(dx, dy){
+
+	};
+
+	Char.prototype.setCharSize = function(nw, nh){
+
+	};
+
+	Char.prototype.updateCharSize = function(dw, dh){
+
+	};
+
+
 //-------------------------------------------------------
 // CHAR FUNCTIONS
 //-------------------------------------------------------

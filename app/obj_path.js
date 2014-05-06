@@ -44,6 +44,72 @@
 //  PATH METHODS
 //  -----------------------------------
 
+	// SIZE
+	Path.prototype.setPathSize = function(nw, nh, ratiolock){
+		var dw = nw? (nw - (this.rightx - this.leftx)) : 0;
+		var dh = nh? (nh - (this.topy - this.bottomy)) : 0;
+		this.updatePathSize(dw, dh, ratiolock);
+	};
+
+	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
+		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
+
+		var ps = _GP.projectsettings;
+
+		var s = ss("updatePathPosition");
+		dw = s.wlock? 0 : dw;
+		dh = s.hlock? 0 : dh;
+
+		if(s.wlock && s.hlock) return;
+
+		if(!s.wlock && !s.hlock && ratiolock){
+			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
+			else dh = dw;
+		}
+
+		var oldw = this.rightx - this.leftx;
+		var oldh = this.topy - this.bottomy;
+		var neww = Math.max((oldw + dw), 1);
+		var newh = Math.max((oldh + dh), 1);
+		var ratiodh = (newh/oldh);
+		var ratiodw = (neww/oldw);
+
+
+		for(var e=0; e<this.pathpoints.length; e++){
+			var pp = this.pathpoints[e];
+			pp.P.x =   round( ((pp.P.x  - this.leftx) * ratiodw) + this.leftx  );
+			pp.H1.x =  round( ((pp.H1.x - this.leftx) * ratiodw) + this.leftx  );
+			pp.H2.x =  round( ((pp.H2.x - this.leftx) * ratiodw) + this.leftx  );
+			pp.P.y =   round( ((pp.P.y  - this.bottomy) * ratiodh) + this.bottomy  );
+			pp.H1.y =  round( ((pp.H1.y - this.bottomy) * ratiodh) + this.bottomy  );
+			pp.H2.y =  round( ((pp.H2.y - this.bottomy) * ratiodh) + this.bottomy  );
+		}
+
+		this.calcMaxes();
+	};
+	
+	// POSITION
+	Path.prototype.setPathPosition = function(nx, ny, force){
+		debug("SETPATHPOSITION - nx/ny/force: " + nx + " " + ny + " " + force);
+		var dx = nx? ((nx*1) - this.leftx) : 0;
+		var dy = ny? ((ny*1) - this.topy) : 0;
+		debug("SETPATHPOSITION - dx/dy: " + dx + " " + dy);
+		this.updatePathPosition(dx,dy,force);
+	};
+
+	Path.prototype.updatePathPosition = function(dx, dy, force){
+		force = isval(force)? force : false;
+		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
+
+		for(var d=0; d<this.pathpoints.length; d++){
+			var pp = this.pathpoints[d];
+			//debug("-------------------- pathPoint #" + d);
+			pp.updatePathPointPosition("P",dx,dy,force);
+		}
+
+		this.calcMaxes();
+	};
+
 
 	// Selected Point - returns the selected point object
 	Path.prototype.sp = function(wantindex, calledby){
@@ -179,56 +245,6 @@
 		return false;
 	};
 
-	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
-		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
-
-		var ps = _GP.projectsettings;
-
-		var s = ss("updatePathPosition");
-		dw = s.wlock? 0 : dw;
-		dh = s.hlock? 0 : dh;
-
-		if(s.wlock && s.hlock) return;
-
-		if(!s.wlock && !s.hlock && ratiolock){
-			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
-			else dh = dw;
-		}
-
-		var oldw = this.rightx - this.leftx;
-		var oldh = this.topy - this.bottomy;
-		var neww = Math.max((oldw + dw), 1);
-		var newh = Math.max((oldh + dh), 1);
-		var ratiodh = (newh/oldh);
-		var ratiodw = (neww/oldw);
-
-
-		for(var e=0; e<this.pathpoints.length; e++){
-			var pp = this.pathpoints[e];
-			pp.P.x =   round( ((pp.P.x  - this.leftx) * ratiodw) + this.leftx  );
-			pp.H1.x =  round( ((pp.H1.x - this.leftx) * ratiodw) + this.leftx  );
-			pp.H2.x =  round( ((pp.H2.x - this.leftx) * ratiodw) + this.leftx  );
-			pp.P.y =   round( ((pp.P.y  - this.bottomy) * ratiodh) + this.bottomy  );
-			pp.H1.y =  round( ((pp.H1.y - this.bottomy) * ratiodh) + this.bottomy  );
-			pp.H2.y =  round( ((pp.H2.y - this.bottomy) * ratiodh) + this.bottomy  );
-		}
-
-		this.calcMaxes();
-	};
-
-	Path.prototype.updatePathPosition = function(dx, dy, force){
-		force = isval(force)? force : false;
-		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
-
-		for(var d=0; d<this.pathpoints.length; d++){
-			var pp = this.pathpoints[d];
-			//debug("-------------------- pathPoint #" + d);
-			pp.updatePointPosition("P",dx,dy,force);
-		}
-
-		this.calcMaxes();
-	};
-
 	Path.prototype.findWinding = function(){
 		//debug("findWinding");
 		var j,k,z;
@@ -285,7 +301,7 @@
 			pp.H2.y += ((mid-pp.H2.y)*2);
 		}
 
-		this.setTopY(ly);
+		this.setPathPosition(false, ly);
 		this.reversePath();
 	};
 
@@ -302,18 +318,8 @@
 			pp.H2.x += ((mid-pp.H2.x)*2);
 		}
 
-		this.setLeftX(lx);
+		this.setPathPosition(lx, false);
 		this.reversePath();
-	};
-
-	Path.prototype.setTopY = function(newvalue){
-		var delta = ((newvalue*1) - this.topy);
-		this.updatePathPosition(0,delta,true);
-	};
-
-	Path.prototype.setLeftX = function(newvalue){
-		var delta = ((newvalue*1) - this.leftx);
-		this.updatePathPosition(delta,0,true);
 	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){

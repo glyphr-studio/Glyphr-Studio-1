@@ -185,14 +185,14 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
 					"<td> shape x </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setLeftX(this.value); putundoq(\"Shape X Position : \"+this.value); redraw(\"shapeDetails - X Position\");}'")+
+					(s.xlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathPosition(this.value, false); putundoq(\"Shape X Position : \"+this.value); redraw(\"shapeDetails - X Position\");}'")+
 					" value='" + rounddec(s.path.leftx) + "' >" + (s.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
 					"<td> shape y </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setTopY(this.value); putundoq(\"Shape Y Position : \"+this.value); redraw(\"shapeDetails - Y Position\");}'")+
+					(s.ylock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathPosition(false, this.value); putundoq(\"Shape Y Position : \"+this.value); redraw(\"shapeDetails - Y Position\");}'")+
 					" value='" + rounddec(s.path.topy) + "' >" + (s.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -200,7 +200,7 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
 					"<td> width </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize((this.value-"+cw+"),0,ss().ratiolock); putundoq(\"Shape Width : \"+this.value); redraw(\"shapeDetails - Width\");}'")+
+					(s.wlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathSize(this.value,false,ss().ratiolock); putundoq(\"Shape Width : \"+this.value); redraw(\"shapeDetails - Width\");}'")+
 					" value='" + rounddec(cw) + "' >" + (s.wlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -208,7 +208,7 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
 					"<td> height </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
-					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.updatePathSize(0,(this.value-"+ch+"),ss().ratiolock); ss().path.updatePathPosition(0,((this.value-"+ch+")*-1),true); putundoq(\"Shape Height : \"+this.value); redraw(\"shapeDetails - Height\");}'")+
+					(s.hlock? "disabled='disabled'" : "onchange='if(!_UI.redrawing){ss().path.setPathSize(false,this.value,ss().ratiolock); putundoq(\"Shape Height : \"+this.value); redraw(\"shapeDetails - Height\");}'")+
 					" value='" + rounddec(ch) + "' >" + (s.hlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -271,13 +271,13 @@
 
 		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.xlock",tp.P.xlock)+"</td>"+
 					"<td> point x </td>"+
-					"<td class='rightcol'><input class='input' type='text' " + (tp.P.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", round(this.value), \"null\"); putundoq(\"Point X Position : \"+this.value); redraw(\"pointDetails\");'")+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.P.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPosition(\"P\", round(this.value), \"null\"); putundoq(\"Point X Position : \"+this.value); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.P.x) + "' >" + (tp.P.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 		content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().P.ylock",tp.P.ylock)+"</td>"+
 					"<td> point y </td>"+
-					"<td class='rightcol'><input class='input' type='text' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"P\", \"null\", round(this.value)); putundoq(\"Point Y Position : \"+this.value); redraw(\"pointDetails\");'")+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPosition(\"P\", \"null\", round(this.value)); putundoq(\"Point Y Position : \"+this.value); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.P.y) + "' >" + (tp.P.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -291,13 +291,13 @@
 		if(tp.useh1){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.xlock",tp.H1.xlock)+"</td>"+
 					"<td> handle 1 x </td>"+
-					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", round(this.value), \"null\"); putundoq(\"H1 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPosition(\"H1\", round(this.value), \"null\"); putundoq(\"H1 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H1.x) + "' >" + (tp.H1.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H1.ylock",tp.H1.ylock)+"</td>"+
 					"<td> handle 1 y </td>"+
-					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H1\", \"null\", round(this.value)); putundoq(\"H1 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPosition(\"H1\", \"null\", round(this.value)); putundoq(\"H1 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H1.y) + "' >" + (tp.H1.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 
@@ -317,13 +317,13 @@
 		if(tp.useh2){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.xlock",tp.H2.xlock)+"</td>"+
 					"<td> handle 2 x </td>"+
-					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", round(this.value), \"null\"); putundoq(\"H2 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPosition(\"H2\", round(this.value), \"null\"); putundoq(\"H2 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H2.x) + "' >" + (tp.H2.xlock? "" : spinner()) + "</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().path.sp().H2.ylock",tp.H2.ylock)+"</td>"+
 					"<td> handle 2 y </td>"+
-					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPointPosition(\"H2\", \"null\", round(this.value)); putundoq(\"H2 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					"<td class='rightcol'><input class='input' type='text' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPosition(\"H2\", \"null\", round(this.value)); putundoq(\"H2 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + rounddec(tp.H2.y) + "' >" + (tp.H2.ylock? "" : spinner()) + "</td>"+
 					"</tr>";
 
