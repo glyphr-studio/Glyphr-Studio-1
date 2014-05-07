@@ -45,7 +45,7 @@
 		}
 
 		this.calcCharMaxes();
-		
+
 		//debug("CHAR - finished " + this.charname + "\tlinks:" + lc + "\tshapes:" + cs);
 		/*
 		if(oa.charname === "LATIN SMALL LETTER X") {
@@ -82,7 +82,7 @@
 			txmax = sh.path.maxes.xmax;
 			txmin = sh.path.maxes.xmin;
 			tymax = sh.path.maxes.ymax;
-			tymin = sh.path.maxes.ymin;	
+			tymin = sh.path.maxes.ymin;
 
 			if(sh.link){
 				tss = _GP.linkedshapes[sh.link].shape;
@@ -210,7 +210,6 @@
 			tp.setPathSize(pnw, pnh, ratiolock);
 		}
 
-		this.setCharPosition(this.maxes.xmin, false);
 		this.calcCharMaxes();
 	};
 

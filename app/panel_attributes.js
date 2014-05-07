@@ -118,7 +118,7 @@
 
 
 		content += "<tr><td colspan=3><h3> bulk-transform character shapes </h3></td></tr>";
-			
+
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 				"<td> x position </td>"+
 				"<td class='rightcol'><input class='input' type='text' "+
@@ -146,7 +146,7 @@
 				"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,"+sc.ratiolock+"); putundoq(\"Character Height : \"+this.value); redraw(\"Character Details - Height\");}'"+
 				" value='" + rounddec(sc.maxes.ymax-sc.maxes.ymin) + "' >" + spinner() + "</td>"+
 				"</tr>";
-		
+
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> lock aspect ratio </td>"+
 					"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"Character: lock aspect ratio\");",sc.ratiolock)+"</tr>";
