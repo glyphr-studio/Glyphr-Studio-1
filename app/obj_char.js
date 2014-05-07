@@ -187,7 +187,6 @@
 			else dh = dw;
 		}
 
-		var oldtop = this.maxes.ymax;
 		var oldw = this.maxes.xmax - this.maxes.xmin;
 		var oldh = this.maxes.ymax - this.maxes.ymin;
 		var neww = Math.max((oldw + dw), 1);
@@ -200,18 +199,19 @@
 		for(var i=0; i<cs.length; i++){
 			tp = cs[i].path;
 
+			// move
+			pnx = (ratiodw * (tp.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
+			pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin;
+			tp.setPathPosition(pnx, pny, true);
+
 			// scale
 			pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
 			pnh = ((tp.maxes.ymax - tp.maxes.ymin)*ratiodh);
 			tp.setPathSize(pnw, pnh, ratiolock);
-
-			// move
-			pnx = ((tp.maxes.xmin - this.maxes.xmin)*ratiodw) + this.maxes.xmin;
-			pny = ((tp.maxes.ymax - this.maxes.ymin)*ratiodh) + this.maxes.ymin;
-			tp.setPathPosition(pnx, pny, true);
 		}
 
-		this.setCharPosition(false, oldtop, true);
+		this.setCharPosition(this.maxes.xmin, false);
+		this.calcCharMaxes();
 	};
 
 

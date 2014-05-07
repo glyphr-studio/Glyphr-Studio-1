@@ -85,7 +85,7 @@
 			pp.H2.y =  round( ((pp.H2.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
 		}
 
-		this.updatePathPosition(false, (oldh-newh), true);
+		this.calcMaxes();
 	};
 	
 	// POSITION
