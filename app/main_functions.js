@@ -9,7 +9,8 @@
 		//debug("MAIN SETUP() - START");
 		_GP = new GlyphrProject();
 		insertGlobalDOMElements();
-		drawLogo();
+		//drawLogo();
+		document.getElementById('floatlogo').innerHTML = makeGlyphrStudioLogo({});
 		navigate();
 		//debug("MAIN SETUP() - END");
 	}
@@ -25,13 +26,13 @@
 		'</tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
 
-		var logocanvas = '<canvas id="logocanvas" height="60" width="190"><h3>Hey there!</h3>You\'ll need a modern browser that supports HTML5 in order for this to work.</canvas>';
+		var floatlogo = '<div id="floatlogo">errrr</div>';
 
 		var ihgc = '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += dialogbox;
-		document.body.innerHTML += logocanvas;
+		document.body.innerHTML += floatlogo;
 		document.body.innerHTML += ihgc;
 	}
 
