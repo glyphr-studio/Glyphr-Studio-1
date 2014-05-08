@@ -133,10 +133,14 @@
 			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.ymax) : sy_cy(this.path.maxes.ymax);
 			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.ymin) : sy_cy(this.path.maxes.ymin);
 
-			var x = (lx).makeCrisp(true);
-			var y = (ty).makeCrisp(true);
-			var w = Math.ceil(rx-lx);
-			var h = Math.ceil(by-ty);
+			// var x = (lx).makeCrisp(true);
+			// var y = (ty).makeCrisp(true);
+			// var w = Math.ceil(rx-lx);
+			// var h = Math.ceil(by-ty);
+			var x = (lx);
+			var y = (ty);
+			var w = (rx-lx);
+			var h = (by-ty);
 
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
 			_UI.chareditctx.strokeRect(x,y,w,h);
