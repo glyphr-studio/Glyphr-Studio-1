@@ -174,7 +174,7 @@
 		//debug("MAKEANDDRAW_NAVPANELS_POPIN - navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
-		drawPanel_NavTabs();
+		updateSaveIcon();
 
 		var nt = document.getElementById("navarea_panel");
 		nt.innerHTML = "";
@@ -260,102 +260,58 @@
 			case "character edit":		loadPage_charedit();		break;
 		}
 	}
-
+/*
 	function drawPanel_NavTabs(){
 		var ngray = _UI.colors.g9;
 		var nselect = _UI.colors.accent;
 		var fill = ngray;
 
 		fill = (_UI.navprimaryhere == "npNav") ? nselect : ngray;
-		var pncanvas = document.getElementById("npNav");
-		var pnctx = pncanvas.getContext("2d");
-		pncanvas.width = 50;
-		pncanvas.height = 50;
-		draw_primaryNav_navigate(pnctx, fill);
+		document.getElementById('npNav').innerHTML = ({'name': 'primaryNav_navigate', 'color': fill});
 
 		if(_UI.navhere==="character edit"){
 			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
-			pncanvas = document.getElementById("npChar");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_character(pnctx, fill);
+			document.getElementById('npChar').innerHTML = ({'name': 'primaryNav_character', 'color': fill});
 
 			fill = (_UI.navprimaryhere == "npLayers") ? nselect : ngray;
-			pncanvas = document.getElementById("npLayers");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_layers(pnctx, fill);
+			document.getElementById('npLayers').innerHTML = ({'name': 'primaryNav_layers', 'color': fill});
 
 			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
-			pncanvas = document.getElementById("npAttributes");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_attributes(pnctx, fill);
+			document.getElementById('npAttributes').innerHTML = ({'name': 'primaryNav_attributes', 'color': fill});
 
 			fill = (_UI.navprimaryhere == "npHistory") ? nselect : ngray;
-			pncanvas = document.getElementById("npHistory");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_history(pnctx, fill);
+			document.getElementById('npHistory').innerHTML = ({'name': 'primaryNav_history', 'color': fill});
 		}
 
 		if(_UI.navhere==="linked shapes"){
 			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
-			pncanvas = document.getElementById("npChar");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_character(pnctx, fill);
+			document.getElementById('npChar').innerHTML = ({'name': 'primaryNav_character', 'color': fill});
 
 			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
-			pncanvas = document.getElementById("npAttributes");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_attributes(pnctx, fill);
+			document.getElementById('npAttributes').innerHTML = ({'name': 'primaryNav_attributes', 'color': fill});
 
 			fill = (_UI.navprimaryhere == "npHistory") ? nselect : ngray;
-			pncanvas = document.getElementById("npHistory");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_history(pnctx, fill);
+			document.getElementById('npHistory').innerHTML = ({'name': 'primaryNav_history', 'color': fill});
 		}
 
 		if(_UI.navhere==="test drive"){
 			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
-			pncanvas = document.getElementById("npAttributes");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_attributes(pnctx, fill);
+			document.getElementById('npAttributes').innerHTML = ({'name': 'primaryNav_attributes', 'color': fill});
 		}
 
 		if(_UI.navhere==="import svg"){
 			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
-			pncanvas = document.getElementById("npChar");
-			pnctx = pncanvas.getContext("2d");
-			pncanvas.width = 50;
-			pncanvas.height = 50;
-			draw_primaryNav_character(pnctx, fill);
+			document.getElementById('npChar').innerHTML = ({'name': 'primaryNav_character', 'color': fill});
 		}
 
 		updateSaveIcon();
 	}
 
-
+*/
 	function updateSaveIcon(){
 		var fill = _UI.colors.g9;
 		if(!_UI.projectsaved) fill = "white";
-		pncanvas = document.getElementById("npSave");
-		pnctx = pncanvas.getContext("2d");
-		pncanvas.width = 50;
-		pncanvas.height = 50;
-		draw_primaryNav_save(pnctx, fill);
+		document.getElementById('npSave').innerHTML = makeIcon({'name': 'button_npSave', 'color': fill, 'hovercolor':'white'});
 	}
 
 
@@ -385,13 +341,25 @@
 		}
 
 		var newsub = "";
-		var bc = "primarynavbutton";
+		var nfill = _UI.colors.g9;
+		var nhover = 'white';
 
 		for(var i=0; i<navarr.length; i++){
-			newsub += ("<canvas class='"+bc+"' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\";makeAndDraw_NavPanels_PopIn();'></canvas>");
+			if(_UI.navprimaryhere == navarr[i]){
+				nfill = _UI.colors.accent;
+				nhover = _UI.colors.accent;
+			} else {
+				nfill = _UI.colors.g9;
+				nhover = 'white';
+			}
+			newsub += "<button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\";makeAndDraw_NavPanels_PopIn();'>";
+			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
+			newsub += "</button>";
 		}
 
-		newsub += ("<canvas class='"+bc+"' id='npSave' onclick='saveGlyphrProjectFile();'></canvas>");
+		newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'>";
+		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.g9, 'hovercolor':'white'});
+		newsub += "</button>";
 
 		return newsub;
 	}
