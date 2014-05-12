@@ -315,11 +315,9 @@
 
 	#floatlogo {
 		background-color:transparent;
-		margin:2px 0px 0px 2px;
-		border:0px;
 		position:fixed;
-		right:15px;
-		bottom:40px;
+		right:20px;
+		bottom:20px;
 		z-index:999;
 	}
 
@@ -635,8 +633,8 @@
 		background-color: rgb(0,170,225);
 		width:465px;
 	}
-	
-	
+
+
 	.firstruntableright {
 
 	}

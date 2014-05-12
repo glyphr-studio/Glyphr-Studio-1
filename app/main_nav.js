@@ -341,10 +341,14 @@
 		}
 
 		var newsub = "";
-		var nfill = _UI.colors.g9;
+		var nfill = 'white';
 		var nhover = 'white';
 
-		for(var i=0; i<navarr.length; i++){
+		newsub += "<button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; makeAndDraw_NavPanels_PopIn();'>";
+		newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
+		newsub += "</button>";
+
+		for(var i=1; i<navarr.length; i++){
 			if(_UI.navprimaryhere == navarr[i]){
 				nfill = _UI.colors.accent;
 				nhover = _UI.colors.accent;
@@ -352,7 +356,7 @@
 				nfill = _UI.colors.g9;
 				nhover = 'white';
 			}
-			newsub += "<button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\";makeAndDraw_NavPanels_PopIn();'>";
+			newsub += "<button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\"; makeAndDraw_NavPanels_PopIn();'>";
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
 			newsub += "</button>";
 		}
@@ -403,7 +407,7 @@
 
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
-			newsub += "<canvas class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'></canvas>";
+			newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'></button>";
 			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+drawPopInButton()+"</button>";
 			newsub += "</div>";
 		}
