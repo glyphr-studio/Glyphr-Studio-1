@@ -18,15 +18,16 @@
 
 	function loadPage_firstrun(){
 		debug("LOADING PAGE >> loadPage_firstrun");
-		var ct = "<div class='splashscreen textpage'><canvas id='splashscreencanvas' height=494 width=800></canvas>";
-		ct += "<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>";
-		ct += "For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>";
-		ct += "Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
+
+		var ct = "<table class='firstruntable'><tr>"+
+		"<td class='firstruntableleft' vertical-align='middle'><div id='splashscreenlogo'></div>"+
+			"<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>"+
+			"For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>"+
+			"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
 			"Which is a free / open source 'copyleft' license. You are free to use, distribute, and modify Glyphr Studio as long as " +
-			"this license and it's freeness stays intact.";
-		ct += "</div>";
-		ct += importOrCreateNew();
-		ct += "</div>";
+			"this license and it's freeness stays intact.</td>"+
+		"<td class='firstruntableright' vertical-align='middle'>" + importOrCreateNew() + "</td>"+
+		"</tr></table>";
 
 		var mp = getEditDocument().getElementById("mainwrapper");
 		mp.innerHTML = ct;
@@ -34,7 +35,7 @@
 		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
 		getEditDocument().getElementById("droptarget").addEventListener('drop', handleDrop, false);
 
-		drawSplashScreen();
+		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
 	}
 
 	function handleDrop(evt) {
@@ -153,6 +154,18 @@
 
 
 	function importOrCreateNew(){
+
+		var con = "<div class='newtile'>"+
+					"<h3>Load an existing Glyphr Project</h3>"+
+					"<div id='droptarget'>drop file here...</div>"+
+				"</div>"+
+				"<div class='newtilebreak'>&nbsp;</div>"+
+				"<div class='newtile'>"+
+					"<h3>Start a new Glyphr Project</h3>"+
+					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
+					"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'>"+
+				"</div>";
+/*
 		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:45%;'>"+
 						"<h3>Load an existing Glyphr Project</h3>"+
 						"<div id='droptarget'>drop file here...</div>"+
@@ -162,6 +175,7 @@
 						"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
 					"</td></tr></table>";
+*/
 
 		return con;
 	}

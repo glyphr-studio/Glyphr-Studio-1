@@ -11,17 +11,17 @@
 			_UI.navhere = _UI.devnav;
 		}
 
-		if(_UI.navhere === 'firstrun'){ 
-			makeLayout_Firstrun(); 
-		} else if (_UI.popout){ 
+		if(_UI.navhere === 'firstrun'){
+			makeLayout_Firstrun();
+		} else if (_UI.popout){
 			if(_UI.navhere === 'character edit' || _UI.navhere === 'linked shapes'){
-				makeLayout_PopOut(); 
+				makeLayout_PopOut();
 			} else {
 				popIn();
 				makeLayout_PopIn(nap);
 			}
-		} else { 
-			makeLayout_PopIn(nap); 
+		} else {
+			makeLayout_PopIn(nap);
 		}
 
 		loadPageContent();
@@ -162,7 +162,7 @@
 		if(nh=="test drive") _UI.navprimaryhere = "npAttributes";
 
 		// pages with redraw() call makeAndDraw_NavPanels_PopIn
-		if(!(nh=="character edit" || nh=="linked shapes" || nh=="test drive")){
+		if(!(nh==="character edit" || nh==="linked shapes" || nh==="test drive")){
 			makeAndDraw_NavPanels_PopIn();
 			document.getElementById("mainwrapper").style.overflowY = "scroll";
 		} else {
@@ -260,7 +260,6 @@
 			case "character edit":		loadPage_charedit();		break;
 		}
 	}
-
 
 	function drawPanel_NavTabs(){
 		var ngray = _UI.colors.g9;

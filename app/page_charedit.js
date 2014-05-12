@@ -5,7 +5,6 @@
 
 	function loadPage_charedit(){
 
-
 		debug("LOADING PAGE >> loadPage_charedit");
 		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
 
@@ -22,14 +21,14 @@
 
 	function charedit_content(){
 
-
-		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';
-		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
+		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>'+
+			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>'+
+			makeFloatLogo();
+			
 		return re;
 	}
 
 	function setupGhostCanvas(){
-
 
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
@@ -42,7 +41,6 @@
 	}
 
 	function setupEditCanvas(){
-
 
 		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
 		_UI.chareditcanvas.height = _UI.chareditcanvassize;
@@ -61,7 +59,6 @@
 //-------------------
 
 	function setView(oa){
-
 
 		var sc = _UI.selectedchar;
 		var v = _UI.views;
@@ -98,7 +95,6 @@
 
 	function viewZoom(zfactor){
 
-
 		var v = getView(),
 			deltax = (_UI.eventhandlers.mousex-v.dx),
 			deltay = (_UI.eventhandlers.mousey-v.dy);
@@ -112,7 +108,6 @@
 	}
 
 	function resetThumbView(){
-
 
 		var zoom = ((_UI.thumbsize-(2*_UI.thumbgutter))/(_GP.projectsettings.upm));
 
@@ -156,7 +151,7 @@
 		if(sc){
 			sc.drawCharToArea(_UI.chareditctx, getView("Redraw"));
 		}
-		
+
 		// Finish up
 		var s = ss("Redraw");
 		if(s) {
@@ -181,7 +176,6 @@
 // Update Canvas Tools
 //-------------------
 	function updatetools(){
-
 
 		var pointselectclass = "";
 		var pointselectclickable = true;
@@ -352,7 +346,7 @@
 
 	function toggleKeyboardTips() {
 
-		if(document.getElementById('dialog_box').style.display==='block'){ 
+		if(document.getElementById('dialog_box').style.display==='block'){
 			closeDialog();
 		} else {
 			var con = "<h2>Keyboard and Mouse Shortcuts</h2>";
@@ -379,9 +373,9 @@
 			"<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>"+
 			"</td><td>nudges the selected shape<br>or point "+_GP.projectsettings.spinnervaluechange+" em units</td></tr>"+
 			"</table>"+
-			
+
 			"</td><td style='padding-left:40px;'>"+
-			
+
 			"<br><table>"+
 			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+

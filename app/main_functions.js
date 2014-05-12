@@ -9,8 +9,6 @@
 		//debug("MAIN SETUP() - START");
 		_GP = new GlyphrProject();
 		insertGlobalDOMElements();
-		//drawLogo();
-		document.getElementById('floatlogo').innerHTML = makeGlyphrStudioLogo({});
 		navigate();
 		//debug("MAIN SETUP() - END");
 	}
@@ -26,13 +24,11 @@
 		'</tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
 
-		var floatlogo = '<div id="floatlogo">errrr</div>';
 
 		var ihgc = '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += dialogbox;
-		document.body.innerHTML += floatlogo;
 		document.body.innerHTML += ihgc;
 	}
 

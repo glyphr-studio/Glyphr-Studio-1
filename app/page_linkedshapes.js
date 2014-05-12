@@ -16,12 +16,13 @@
 	}
 
 	function linkedshapes_content(){
-		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>';
-		re += '<div id="toolsarea"> [ERROR: Uninitialized content] </div>';
-		re += '<table class="charedittable" cellspacing=0 cellpadding=0 border=0><tr>';
-		re += '<td id="detailsarea"> [ERROR: Uninitialized content] </td></tr>';
-		re += '<tr><td id="actionsarea"> [ERROR: Uninitialized content] </td>';
-		re += '</tr></table>';
+		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>'+
+			makeFloatLogo() +
+			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>'+
+			'<table class="charedittable" cellspacing=0 cellpadding=0 border=0><tr>'+
+			'<td id="detailsarea"> [ERROR: Uninitialized content] </td></tr>'+
+			'<tr><td id="actionsarea"> [ERROR: Uninitialized content] </td>'+
+			'</tr></table>';
 
 		return re;
 	}
