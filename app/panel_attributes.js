@@ -107,50 +107,56 @@
 
 		var sc = getSelectedChar();
 		var content = "";
+		var numshapes = getSelectedCharShapes().length;
 
 		content += "<tr><td colspan=3><h3 style='margin:0px;'>"+sc.charname+"</h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> number of shapes </td>"+
 					"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-					getSelectedCharShapes().length + "'/></td>"+
+					numshapes + "'/></td>"+
 					"</tr>";
 
 
 		content += "<tr><td colspan=3><h3> bulk-transform character shapes </h3></td></tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> x position </td>"+
-				"<td class='rightcol'><input class='input' type='text' "+
-				"onchange='if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); putundoq(\"Character X Position : \"+this.value); redraw(\"Character Details - X Position\");}'"+
-				" value='" + rounddec(sc.maxes.xmin) + "' >" + spinner() + "</td>"+
-				"</tr>";
+		if(numshapes > 1){
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> x position </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					"onchange='if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); putundoq(\"Character X Position : \"+this.value); redraw(\"Character Details - X Position\");}'"+
+					" value='" + rounddec(sc.maxes.xmin) + "' >" + spinner() + "</td>"+
+					"</tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> y position </td>"+
-				"<td class='rightcol'><input class='input' type='text' "+
-				"onchange='if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); putundoq(\"Character Y Position : \"+this.value); redraw(\"Character Details - Y Position\");}'"+
-				" value='" + rounddec(sc.maxes.ymax) + "' >" + spinner() + "</td>"+
-				"</tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> y position </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					"onchange='if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); putundoq(\"Character Y Position : \"+this.value); redraw(\"Character Details - Y Position\");}'"+
+					" value='" + rounddec(sc.maxes.ymax) + "' >" + spinner() + "</td>"+
+					"</tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> width </td>"+
-				"<td class='rightcol'><input class='input' type='text' "+
-				"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,"+sc.ratiolock+"); putundoq(\"Character Width : \"+this.value); redraw(\"Character Details - Width\");}'"+
-				" value='" + rounddec(sc.maxes.xmax-sc.maxes.xmin) + "' >" + spinner() + "</td>"+
-				"</tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> width </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,"+sc.ratiolock+"); putundoq(\"Character Width : \"+this.value); redraw(\"Character Details - Width\");}'"+
+					" value='" + rounddec(sc.maxes.xmax-sc.maxes.xmin) + "' >" + spinner() + "</td>"+
+					"</tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> height </td>"+
-				"<td class='rightcol'><input class='input' type='text' "+
-				"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,"+sc.ratiolock+"); putundoq(\"Character Height : \"+this.value); redraw(\"Character Details - Height\");}'"+
-				" value='" + rounddec(sc.maxes.ymax-sc.maxes.ymin) + "' >" + spinner() + "</td>"+
-				"</tr>";
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+					"<td> height </td>"+
+					"<td class='rightcol'><input class='input' type='text' "+
+					"onchange='if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,"+sc.ratiolock+"); putundoq(\"Character Height : \"+this.value); redraw(\"Character Details - Height\");}'"+
+					" value='" + rounddec(sc.maxes.ymax-sc.maxes.ymin) + "' >" + spinner() + "</td>"+
+					"</tr>";
 
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> lock aspect ratio </td>"+
-					"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"Character: lock aspect ratio\");",sc.ratiolock)+"</tr>";
-
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+						"<td> lock aspect ratio </td>"+
+						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"Character: lock aspect ratio\");",sc.ratiolock)+"</tr>";
+		} else {
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+			"<td colspan=2><i>This character needs to have at least two shapes in order to bulk-transform.</i></td>"+
+			"</tr>";
+		}
 
 		content += "<tr><td colspan=3><h3> width metrics for kerning </h3></td></tr>";
 
