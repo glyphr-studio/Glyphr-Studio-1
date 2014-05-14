@@ -104,7 +104,7 @@ _UI.icons.button_npSave = '<rect x="19" y="28" width="1" height="5"/><rect x="33
 //	TOOLS
 //	---------------------
 function makeToolButton(oa) {
-	debug("MAKETOOLBUTTON - oa: " + json(oa));
+	//debug("MAKETOOLBUTTON - oa: " + json(oa));
 
 	var color_outline = _UI.colors.accent;
 	var color_fill = 'transparent';

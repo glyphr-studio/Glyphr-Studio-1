@@ -67,6 +67,7 @@
 */
 
 	Char.prototype.calcCharMaxes = function(){
+		//debug("CALCCHARMAXES - this char\n"+json(this));
 
 		var sh, tss, txmax, txmin, tymax, tymin;
 		this.maxes = {
@@ -79,12 +80,8 @@
 		for(var jj=0; jj<this.charshapes.length; jj++) {
 			sh = this.charshapes[jj];
 
-			txmax = sh.path.maxes.xmax;
-			txmin = sh.path.maxes.xmin;
-			tymax = sh.path.maxes.ymax;
-			tymin = sh.path.maxes.ymin;
-
 			if(sh.link){
+				// Linked Shape
 				tss = _GP.linkedshapes[sh.link].shape;
 				if(sh.uselinkedshapexy) {
 					txmax = tss.path.maxes.xmax;
@@ -97,6 +94,12 @@
 					tymax = (tss.path.maxes.ymax + sh.ypos);
 					tymin = (tss.path.maxes.ymin + sh.ypos);
 				}
+			} else {
+				// Regular Shape
+				txmax = sh.path.maxes.xmax;
+				txmin = sh.path.maxes.xmin;
+				tymax = sh.path.maxes.ymax;
+				tymin = sh.path.maxes.ymin;
 			}
 
 			this.maxes.xmax = Math.max(txmax, this.maxes.xmax);

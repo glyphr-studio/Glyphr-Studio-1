@@ -57,14 +57,14 @@
 		}
 	}
 
-	function insertLinkedShape(ssid){
-		//debug("INSERTLINKEDSHAPE - adding linked shape (id) " + ssid + " to char (id) " + _UI.selectedchar);
+	function insertLinkedShape(ssid, tochar){
+		debug("INSERTLINKEDSHAPE - adding linked shape: " + ssid + " to char: " + _UI.selectedchar);
 		var ns = new LinkedShapeInstance({"link":ssid, "xpos":100, "ypos":100});
 
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));
-		addShape(ns);
-
-		//getSelectedChar().calcCharAdvanceWidth();
+		var ch = getChar(tochar, true);
+		ch.charshapes.push(ns);
+		ch.calcCharMaxes();
 
 		addToUsedIn(ssid, _UI.selectedchar);
 

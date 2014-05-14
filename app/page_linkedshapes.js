@@ -312,7 +312,7 @@
 	function showAddSSToCharDialog(msg){
 		var content = "<table style='width:756px'><tr><td>";
 		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.shownlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' being used.<br><br>";
-		content += "Select the character into which you would like to insert this linked shape:<br><br></td></tr>";
+		content += "Select the character you would like to link to this linked shape:<br><br></td></tr>";
 		content += "<tr><td>";
 		content += makeGenericCharChooserContent("insertLinkedShapeToChar");
 		content += "</td></tr>";
@@ -322,10 +322,7 @@
 	}
 
 	function insertLinkedShapeToChar(chid){
-		var temschar = _UI.selectedchar;
-		selectChar(chid, true);
-		insertLinkedShape(_UI.shownlinkedshape);
-		_UI.selectedchar = temschar;
+		insertLinkedShape(_UI.shownlinkedshape, chid);
 		putundoq("Insert Linked Shape to Character");
 		closeDialog();
 		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + _GP.fontchars[chid].charname + ".<br><br>");
