@@ -750,8 +750,8 @@
 		left:500px;
 		top: auto;
 		height:50px;
-		width:50px;
-		margin-left:10px;
+		width:60px;
+		padding:0px 5px;
 		z-index:10;
 		background-color: transparent;
 		cursor: pointer;
@@ -760,8 +760,6 @@
 
 	#keyboardtips:hover {
 		background-color: rgb(229,234,239);
-		width:70px;
-		margin-left:0px;
 	}
 
 	.keycallout {
