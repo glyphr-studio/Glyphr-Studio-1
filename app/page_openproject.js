@@ -4,7 +4,7 @@
 		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
 		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
 		"project file if you want to save your current project.<br><br>" +
-		"<input type='button' class='button'style='padding:10px;' value='Save current project' onclick='saveGlyphrProjectFile();'/><br><br>" +
+		"<button style='padding:10px;' onclick='saveGlyphrProjectFile();'>Save current project</button><br><br>" +
 		"<h2>Okay, now...</h2>";
 
 		ct += importOrCreateNew();
@@ -163,20 +163,8 @@
 				"<div class='newtile'>"+
 					"<h3>Start a new Glyphr Project</h3>"+
 					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
-					"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'>"+
+					"<button onclick='newGlyphrProject()' class='buttonsel'>Start a new font from scratch</button>"+
 				"</div>";
-/*
-		var con = "<table style='width:100%;'><tr><td style='padding-right:50px; width:45%;'>"+
-						"<h3>Load an existing Glyphr Project</h3>"+
-						"<div id='droptarget'>drop file here...</div>"+
-					"</td><td style='width:9%'>&nbsp;</td>"+
-					"</td><td style='width:45%;'>"+
-						"<h3>Start a new Glyphr Project</h3>"+
-						"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
-						"<input type='button' class='buttonsel' value=' Start a new font from scratch ' onclick='newGlyphrProject()'><br><br>"+
-					"</td></tr></table>";
-*/
-
 		return con;
 	}
 

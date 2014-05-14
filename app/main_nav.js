@@ -344,6 +344,11 @@
 		var nfill = 'white';
 		var nhover = 'white';
 
+		if(_UI.navprimaryhere === 'npNav'){
+			nfill = _UI.colors.accent;
+			nhover = _UI.colors.accent;
+		}
+		
 		newsub += "<button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; makeAndDraw_NavPanels_PopIn();'>";
 		newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
 		newsub += "</button>";
@@ -388,7 +393,7 @@
 		navarr.push("bug");
 		navarr.push("feat");
 
-		var newsub = "<h1 class='paneltitle'>Glyphr Studio</h1>";
+		var newsub = "<h1 class='paneltitle' style='margin-bottom:4px;'>Glyphr Studio</h1>";
 
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
@@ -401,14 +406,14 @@
 			} else if (navarr[i] == "feat"){
 				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
 			} else {
-				newsub += ("<input type='button' class='"+bc+"' value='"+navarr[i]+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>");
+				newsub += ("<button class='"+bc+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>"+navarr[i]+"</button>");
 			}
 		}
 
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
 			newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'></button>";
-			newsub += "<button title='one screen mode' class='button tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+drawPopInButton()+"</button>";
+			newsub += "<button title='one screen mode' class='tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
 			newsub += "</div>";
 		}
 

@@ -57,7 +57,7 @@ function updateCustomRangeTable(){
 			content += "<tr><td class='customrangeline'>";
 			content += cr[c].begin + "&nbsp;&nbsp;through&nbsp;&nbsp;" + cr[c].end + "&nbsp;&nbsp;";
 			content += "</td><td>";
-			content += "<input type='button' value='remove' onclick='removeCustomCharacterRange("+c+");'>";
+			content += "<button onclick='removeCustomCharacterRange("+c+");'>remove</button>";
 			content += "</td></tr>";
 		}
 		content += "</table><br>";

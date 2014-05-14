@@ -1,6 +1,6 @@
 
 //-------------------
-// Layers Panel
+// History Panel
 //-------------------
 	function makePanel_History(){
 
@@ -14,7 +14,7 @@
 
 		debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
 
-		content += "<input type='button' class='button buttonsel' style='padding-left:20px; padding-right:20px;' onclick='pullundoq();' value='undo'><br>";
+		content += "<button class='"+(q.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((q.length > 0) ? (" " + q.length) : "") + "</button><br>";
 		content += "<table class='detail'>";
 
 		var te, currchar;

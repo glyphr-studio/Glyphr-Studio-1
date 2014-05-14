@@ -49,7 +49,7 @@
 		if(aalength(_GP.linkedshapes)>0){
 			var content = "Choose a Linked Shape to insert as a layer in this character:";
 			content += generateSSThumbs();
-			content += "<div style='display:block;'><input type='button' class='button' value='cancel' onclick='closeDialog();'></div>";
+			content += "<div style='display:block;'><button onclick='closeDialog();'>cancel</button></div>";
 			openDialog(content);
 			drawSSThumbs();
 		} else {
@@ -130,7 +130,7 @@
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; y </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.ypos + "' onchange='ss().ypos = (this.value*1); putundoq(\"linkedshape ypos\"); redraw(\"linkedShapeInstanceDetails\");'>"+spinner()+"</td></tr>";
 		}
 		content += "<tr><td class='leftcol'>&nbsp;</td><td> linked shape name </td><td>" + _GP.linkedshapes[s.link].shape.name + "</td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><input type='button' class='button' value='edit this linked shape' onclick='goToEditLinkedShape(\""+s.link+"\");'/></td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><button onclick='goToEditLinkedShape(\""+s.link+"\");'>edit this linked shape</button></td></tr>";
 		return content;
 	}
 

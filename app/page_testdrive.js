@@ -107,12 +107,11 @@
 	}
 
 	function makeTDButton(text){
-		return "<input type='button' class='button' onclick='document.getElementById(\"tdtextarea\").value=\""+text+"\";updateTestdriveCanvas();' value='"+text+"'><br>";
+		return "<button onclick='document.getElementById(\"tdtextarea\").value=\""+text+"\";updateTestdriveCanvas();'>"+text+"</button><br>";
 	}
 
 	function makeTDSymbolButton(){
-		//return "<input type='button' class='button' onclick='document.getElementById(\"tdtextarea\").value=\"!&quot;#$%&&#39;()*+,-./:;&lt;=&gt;?@[\]^_`{|}~\";updateTestdriveCanvas();' value='!&quot;#$%&&#39;()*+,-./:;&lt;=&gt;?@[\]^_`{|}~'><br>";
-		return "<input type='button' class='button' onclick='document.getElementById(\"tdtextarea\").value=\"!\\\"#$%&&#39;()*+,-./:;\\\<=\\\>?@[\\\\]^_`{|}~\";updateTestdriveCanvas();' value='!\"#$%&&#39;()*+,-./:;\<=\>?@[\\]^_`{|}~'><br>";
+		return "<button onclick='document.getElementById(\"tdtextarea\").value=\"!\\\"#$%&&#39;()*+,-./:;\\\<=\\\>?@[\\\\]^_`{|}~\";updateTestdriveCanvas();'>!\"#$%&&#39;()*+,-./:;\<=\>?@[\\]^_`{|}~</button><br>";
 	}
 
 	function drawTDOptions(){
@@ -124,7 +123,7 @@
 		content += "<tr><td> show character boxes </td><td><input type='checkbox'" + (_UI.testdrive.showcharbox? " checked " : "") + " onchange='_UI.testdrive.showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
 		content += "<tr><td> show baseline </td><td><input type='checkbox'" + (_UI.testdrive.showhorizontals? " checked " : "") + " onchange='_UI.testdrive.showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
 
-		content += "<tr><td colspan=2><input type='button' class='button' value='generate png file' onclick='createimg();'></td></tr>";
+		content += "<tr><td colspan=2><button onclick='createimg();'>generate png file</button></td></tr>";
 		content += "</table>";
 		return content;
 	}

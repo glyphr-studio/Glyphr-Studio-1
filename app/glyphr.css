@@ -101,40 +101,35 @@
 		border-collapse: collapse;
 	}
 
-	button {
-		border: none;
-		text-align: center;
-	}
-
-
 
 /*	============================= */
 /*				COMMON
 /*	============================= */
 
 
-
-
-
 /* ------- */
 /* Button */
 /* ----- */
-	.button,
+	button,
 	.buttondis,
 	.buttonsel {
+		border: none;
+		text-align: center;
 		padding:10px 8px;
 		margin:1px;
 		cursor:pointer;
 	}
 
-	.button,
-	.button:link,
-	.button:active {
+	button,
+	button:link,
+	button:active {
+		border: none;
 		background-color:rgb(76,81,86);
 		color:rgb(204,209,214);
 	}
 
-	.button:hover {
+	button:hover {
+		border: none;
 		color:rgb(229,234,239);
 		border-radius: 3px;
 	}
@@ -289,12 +284,14 @@
         margin-left: 0;
     }
 
-	.primarynavbutton {
+	.primarynavbutton,
+	.primarynavbutton:hover {
 		height:50px;
 		width:50px;
 		background-color: transparent;
 		margin-top:15px;
 		cursor: pointer;
+		padding:0px;
 	}
 
 	.popoutsave {
@@ -457,18 +454,27 @@
 		font-size:1.5em;
 		display:block;
 		text-transform:lowercase;
-		font-weight:lighter;
-		padding:0px 2px 8px 0px;
+		padding:8px 2px 8px 11px;
 		background-color:transparent;
+		color: rgb(51, 56, 61);
 		cursor:pointer;
+		position:relative;
+		left:-10px;
+		width:430px;
+		text-align: left;
+		margin:0px;
 	}
 
 	.navtargetbutton:hover{
-		padding:0px 0px 8px 2px;
+		color: rgb(76,81,86);
+		background-color: rgb(250,252,255);
+		border-radius: 0px;
 	}
 
-	.navtargetbuttonsel {
+	.navtargetbuttonsel,
+	.navtargetbuttonsel:hover {
 		color:rgb(0,170,225);
+		cursor:default;
 	}
 
 
@@ -785,10 +791,12 @@
 		padding:5px;
 	}
 
-	.out {
+	.out,
+	.out:hover {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
 		height: 30px;
+		cursor:default;
 		width:70px;
 		text-align: center;
 		vertical-align: top;
@@ -917,9 +925,10 @@
 		margin:12px 0px 0px 0px;
 	}
 
-	.actionsgrid input {
+	.actionsgrid button {
 		width:123px;
 		text-transform: lowercase;
+		text-align: left;
 	}
 
 /*	HISTORY		*/

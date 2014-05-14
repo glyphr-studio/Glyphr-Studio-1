@@ -19,7 +19,7 @@
 
 		var dialogbox = '<div id="dialog_box">' +
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
-		'<td id="dialogLeftBar"><input type="button" class="dialogCloseButton" value="&times;" onclick="closeDialog();"></td>' +
+		'<td id="dialogLeftBar"><button class="dialogCloseButton" onclick="closeDialog();">&times;</button></td>' +
 		'<td id="dialogRightContent"></td>' +
 		'</tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
@@ -253,7 +253,7 @@ function saveTextFile(fname, fblob) {
 		var dcon = "<h1>Report an issue</h1>";
 		dcon += "Hey, sorry you ran into some wonky stuff!<br>Letting us know about your problem will help us fix it for everybody.<br>";
 		dcon += "To send us an email, click the link below.<br><br>Thanks!<br><br><br>";
-		dcon += "<a href='mailto:mail@glyphrstudio.com&subject=Issue%20Report&body="+genEmailContent()+"' class='button' style='padding:10px;' onclick='closeDialog();'>Send an issue email to the Glyphr team</a><br>";
+		dcon += "<a href='mailto:mail@glyphrstudio.com&subject=Issue%20Report&body="+genEmailContent()+"' style='padding:10px;' onclick='closeDialog();'>Send an issue email to the Glyphr team</a><br>";
 		dcon += "<br>";
 		openDialog(dcon);
 	}

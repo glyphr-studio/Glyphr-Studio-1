@@ -79,7 +79,7 @@
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+
-					"<td><br><input type='button' value='Add Range' onclick='addCustomCharacterRange();'></td>"+
+					"<td><br><button onclick='addCustomCharacterRange();'>Add Range</button></td>"+
 					"<td><br><div id='customrangeerror'>bad range input</div></td>"+
 					"</tr></table>"+
 					"<div id='customrangetable'></div>";
