@@ -66,7 +66,7 @@
 		ch.charshapes.push(ns);
 		ch.calcCharMaxes();
 
-		addToUsedIn(ssid, _UI.selectedchar);
+		addToUsedIn(ssid, tochar);
 
 		closeDialog();
 		putundoq("insert linked shape from charedit");

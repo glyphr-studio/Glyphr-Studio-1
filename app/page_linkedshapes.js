@@ -143,12 +143,14 @@
 		var re = "<div class='ssthumbcontainer'>";
 		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
 		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) == pos;});
+		var cname;
 
 		for(var k=0; k<unique.length; k++){
-			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td title='"+getCharName(unique[k])+"'>";
+			cname = getCharName(unique[k]);
+			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td title='"+cname+"'>";
 			re += "<canvas id='thumb"+unique[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar(\""+(unique[k])+"\");'></canvas>";
 			re += "</td></tr><tr><td>";
-			re += getChar(unique[k]).charhtml;
+			re += (cname === 'Space')? cname : getChar(unique[k]).charhtml;
 			re += "</td></tr></table>";
 			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+unique[k]+"'");
 		}
