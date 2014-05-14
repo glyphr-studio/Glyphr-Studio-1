@@ -780,31 +780,22 @@
 	}
 
 	.tool {
-		overflow:visible;
-		padding:0;
-		margin-right:0px;
-		vertical-align:bottom;
-		margin: 1px 0 1px 1px;
+		height:30px;
+		width:30px;
+		padding:5px;
 	}
 
 	.out {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
-		display: inline-block;
-		line-height: 28px;
+		height: 30px;
 		width:70px;
 		text-align: center;
+		vertical-align: top;
+		margin:1px 0px 0px 1px;
 	}
 
-	.tool canvas {
-		vertical-align: middle;
-	}
 
-	button.tool {
-		text-align: center;
-		width: 28px;
-		line-height: 28px;
-	}
 
 /*	LAYERS		*/
 
