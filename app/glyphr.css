@@ -12,6 +12,10 @@
 		z-index:0;
 		text-align:left;
 		color:rgb(51,56,61);
+		-moz-user-select:none;
+		-webkit-user-select:none;
+		-ms-user-select:none;
+		user-select:none;
 	}
 
 	body {
@@ -728,10 +732,6 @@
 		left:500px;
 		top:10px;
 		z-index:10;
-		-moz-user-select:none;
-		-webkit-user-select:none;
-		-ms-user-select:none;
-		user-select:none;
 	}
 
     #secondaryScreenLayout #toolsarea,

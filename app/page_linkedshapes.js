@@ -312,12 +312,12 @@
 	}
 
 	function showAddSSToCharDialog(msg){
-		var content = "<table style='width:756px'><tr><td>";
+		var content = "<table style='width:900px'><tr><td>";
 		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.shownlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' being used.<br><br>";
 		content += "Select the character you would like to link to this linked shape:<br><br></td></tr>";
-		content += "<tr><td>";
+		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
 		content += makeGenericCharChooserContent("insertLinkedShapeToChar");
-		content += "</td></tr>";
+		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
 		openDialog(content);
 		drawGenericCharChooserContent();

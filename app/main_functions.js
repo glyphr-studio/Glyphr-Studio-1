@@ -68,7 +68,9 @@
 
 	function openDialog(content){
 		document.body.focus();
-		document.getElementById('dialogRightContent').innerHTML = content;
+		var dc = document.getElementById('dialogRightContent');
+		dc.innerHTML = content;
+		if(dc.style.height > 800) dc.style.height = 800;
 		document.getElementById('dialog_box').style.display='block';
 		document.getElementById('dialog_bg').style.display='block';
 	}
