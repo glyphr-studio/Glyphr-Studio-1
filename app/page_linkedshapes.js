@@ -35,14 +35,14 @@
 			//debug("LINKEDSHAPES_SUBNAV - making button for " + ssid);
 			re += makeLinkedShapeSubNavButton(ssid);
 		}
-		re += "</table>";
+		re += "</table><br><br>";
 
-		re += "<h1 class='paneltitle'>actions</h1>";
-		re += "<table class='actionsgrid'><tr><td><h3>linked shape</h3>";
+		re += "<h1>actions</h1>";
+		re += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
+		re += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
 		re += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
-		re += "<button class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"' onclick='deleteLinkedShapeConfirm();'>delete</button><br>";
-		re += "<button onclick='showAddSSToCharDialog();'>insert to character</button><br>";
-		re += "</td> &nbsp; </td></td> &nbsp; </td></tr></table>";
+		re += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
+		re += "</td></tr></table>";
 
 		return re;
 	}
@@ -190,33 +190,23 @@
 //-------------------
 // Update Actions
 //-------------------
-	function updatelinkedshapeactions(){
+	function linkedShapeActions(){
 		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
 
 		var s = ss("Update Actions");
 
-		var allactions = "<td><h3>*</h3>";
-			allactions += "<button onclick='pullundoq()' class='"+(_UI.linkedshapeundoq.length>0? "": "buttondis")+"'>undo" + ((_UI.linkedshapeundoq.length > 0) ? (" " + _UI.linkedshapeundoq.length) : "") + "</button><br>";
-			allactions += "<button onclick='copyShape()'>copy</button><br>";
-			allactions += "</td>";
+		var ls1actions = "<td><h3>linked shape</h3>";
+			ls1actions += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
+			ls1actions += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
+			ls1actions += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
+			ls1actions += "</td>";
 
-		var linkedshapeactions = "<td><h3>linked shape</h3>";
-			linkedshapeactions += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
-			linkedshapeactions += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
-			linkedshapeactions += "<button onclick='showAddSSToCharDialog();'>insert to character</button><br>";
-
-		var shapeactions = "";
-			if(_UI.eventhandlers.temppathdragshape && _UI.selectedtool=="pathedit"){
-			shapeactions += "<td><h3>shape</h3>";
-			shapeactions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
-			shapeactions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
-			shapeactions += "</td>";
-			}
-
-		var canvasactions = "<td><h3>editor view</h3>";
-			canvasactions += "<button onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updatelinkedshapeactions\");'>toggle grid</button><br>";
-			canvasactions += "<button onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw(\"updatelinkedshapeactions\");'>toggle guides</button><br>";
-			canvasactions += "</td>";
+		var	ls2actions = "<td><h3>&nbsp;</h3>";
+			ls2actions += "<button onclick='pullundoq()' class='"+(_UI.linkedshapeundoq.length>0? "": "buttondis")+"'>undo" + ((_UI.linkedshapeundoq.length > 0) ? (" " + _UI.linkedshapeundoq.length) : "") + "</button><br>";
+			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
+			ls2actions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
+			ls2actions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
+			ls2actions += "</td>";
 
 		var pointactions = "<td><h3>path point</h3>";
 			pointactions += "<button onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'>insert</button><br>";
@@ -224,10 +214,15 @@
 			pointactions += "<button onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'>reset handles</button><br>";
 			pointactions += "</td>";
 
+		var canvasactions = "<td><h3>editor view</h3>";
+			canvasactions += "<button onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updatelinkedshapeactions\");'>toggle grid</button><br>";
+			canvasactions += "<button onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw(\"updatelinkedshapeactions\");'>toggle guides</button><br>";
+			canvasactions += "</td>";
+
+
 		// Put it all together
-		content += allactions;
-		content += linkedshapeactions;
-		content += shapeactions;
+		content += ls1actions;
+		if(s) content += ls2actions;
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);

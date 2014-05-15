@@ -31,7 +31,7 @@
 			content += "<br>Clipboard: " + _UI.clipboardshape.s.name;
 		}
 
-		content += updateLayerActions();
+		content +=  "<br><br>" + updateLayerActions();
 
 		return content;
 	}

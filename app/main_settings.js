@@ -31,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : "character edit",		// navigate straight to a page
+		"devnav" : "linked shapes",		// navigate straight to a page
 		"debug": true,					// global debug console switch
 		"debugpoints" : [false,false],
 

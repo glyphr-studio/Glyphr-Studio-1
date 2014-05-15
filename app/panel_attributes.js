@@ -53,7 +53,6 @@
 			}
 			content += linkedShapeCharDetails();
 			content += "</table><br>";
-			content += updatelinkedshapeactions();
 		}
 
 		return content;
