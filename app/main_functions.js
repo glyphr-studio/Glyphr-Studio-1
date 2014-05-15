@@ -213,20 +213,10 @@ function saveTextFile(fname, fblob) {
 		return round(this) + (0.5 * mul);
 	};
 
-
+	// better rounding than Math.round
 	function round(num, dec){
 		dec = isval(dec)? dec : 0;
-
 		return Number(Math.round(num+'e'+dec)+'e-'+dec);
-
-		/*var na = num.toString().split(".");
-		if(na.length == 2) {
-			var right = na[1].substring(0,dec) + "." + na[1].substring(dec+1);
-			right = round(right);
-			num = ((na[0] + "." + right) * 1);
-		}
-		return (num*1);
-		*/
 	}
 
 	// returns the length of an associative array
@@ -236,12 +226,18 @@ function saveTextFile(fname, fblob) {
 		return len;
 	}
 
+	// removes illegal file name chars
 	function strSan(val){
 		return val.replace(/[<>'"\\]/g,"");
 	}
 
+	// returns true for 0 and false
 	function isval(val){
-		return ((typeof val !== "undefined") && (val !== null));
+		if(val === 0) return true;
+		else if (val === false) return true;
+		else return !!val;
+
+		//return ((typeof val !== "undefined") && (val !== null));
 	}
 
 
