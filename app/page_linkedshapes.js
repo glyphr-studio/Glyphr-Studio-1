@@ -202,7 +202,7 @@
 			ls1actions += "</td>";
 
 		var	ls2actions = "<td><h3>&nbsp;</h3>";
-			ls2actions += "<button onclick='pullundoq()' class='"+(_UI.linkedshapeundoq.length>0? "": "buttondis")+"'>undo" + ((_UI.linkedshapeundoq.length > 0) ? (" " + _UI.linkedshapeundoq.length) : "") + "</button><br>";
+			ls2actions += "<button onclick='pullundoq()' class='"+(_UI.linkedshapeundoq.length>0? "": "buttondis")+"'>undo" + ((_UI.linkedshapeundoq.length > 0) ? (" (" + _UI.linkedshapeundoq.length) + ")": "") + "</button><br>";
 			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
 			ls2actions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
 			ls2actions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";

@@ -14,7 +14,7 @@
 
 		debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
 
-		content += "<button class='"+(q.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((q.length > 0) ? (" " + q.length) : "") + "</button><br>";
+		content += "<button style='width:100px;' class='"+(q.length>0? "buttonsel": "buttondis")+"' onclick='pullundoq();clickTool(\"pathedit\");'>undo" + ((q.length > 0) ? (" (" + q.length + ")") : "") + "</button><br>";
 		content += "<table class='detail'>";
 
 		var te, currchar;

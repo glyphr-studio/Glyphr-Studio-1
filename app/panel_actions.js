@@ -8,7 +8,7 @@
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
 
 		var allactions = "<h3"+(stack?" style='margin-top:0px;'":"")+">universal</h3>";
-		allactions += "<button class='"+(_UI.charundoq.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((_UI.charundoq.length > 0) ? (" " + _UI.charundoq.length) : "") + "</button><br>";
+		allactions += "<button class='"+(_UI.charundoq.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((_UI.charundoq.length > 0) ? (" (" + _UI.charundoq.length) + ")" : "") + "</button><br>";
 		allactions += "<button onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
 		allactions += "<button onclick='insertLinkedShapeDialog();'>add linked shape</button><br>";
 		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
