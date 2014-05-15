@@ -127,7 +127,7 @@
 			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveOptions();
 		} else {
 			document.getElementById('popout_attributes').innerHTML = makePanel_Attributes();
-			drawPanel_Attributes();
+			if(_UI.navhere == "linked shapes") drawUsedinThumbs();
 		}
 
 		updateSaveIcon();
@@ -216,7 +216,7 @@
 				} else {
 					nt.innerHTML = makePanel_Attributes();
 					nt.innerHTML += makePanel_Actions();
-					drawPanel_Attributes();
+					if(_UI.navhere == "linked shapes") drawUsedinThumbs();
 				}
 				break;
 
@@ -412,8 +412,8 @@
 
 		if(_UI.popout) {
 			newsub += "<div class='popoutsave'>";
-			newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'></button>";
-			newsub += "<button title='one screen mode' class='tool' style='background-color:rgb(178,183,188); margin-bottom:14px;' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
+			newsub += "<button class='primarynavbutton' id='npSave' style='margin-left:12px;' onclick='saveGlyphrProjectFile();'></button>";
+			newsub += "<button title='one screen mode' class='tool' style='background-color:transparent; position:relative; top:-15px;' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
 			newsub += "</div>";
 		}
 

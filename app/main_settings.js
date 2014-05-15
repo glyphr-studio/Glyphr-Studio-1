@@ -69,10 +69,6 @@
 		"charcurrstate" : {},
 		"selectchardrawarr" : [],
 		"shapelayers" : [],
-		"locid": 0,
-		"locarr": [],
-		"checkid": 0,
-		"checkarr": [],
 
 		// page: test drive
 		"testdrive" : {
