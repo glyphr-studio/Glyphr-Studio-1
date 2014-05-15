@@ -163,7 +163,7 @@
 
 		update_NavPanels();
 
-		updatetools();
+		update_ToolsArea();
 
 		_UI.redrawing = false;
 		//debug(Date.now()+"\t:: REDRAW DONE - Called By: " + calledby);
@@ -173,9 +173,9 @@
 
 
 //-------------------
-// Update Canvas Tools
+// Update Tools
 //-------------------
-	function updatetools(){
+	function update_ToolsArea(){
 
 		var pointselectclass = "";
 		var pointselectclickable = true;
@@ -194,31 +194,46 @@
 		}
 
 		var st = _UI.selectedtool;
-
 		var content = "";
-		content += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pathEdit', 'selected':(st==='pathedit')})+"</button>";
-		content += "<button title='move & resize shape' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_shapeResize', 'selected':(st==='shaperesize')})+"</button>";
 
-		if(_UI.navhere == "character edit"){
-			content += " ";
-			content += "<button title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
-			content += "<button title='new oval shape' class='" + (st==='newoval'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newoval\");'/>"+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+"</button>";
-			content += "<button title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";
-		}
 
-		content += " ";
-		content += "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
-		content += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
-		content += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
-		content += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
-		content += "<button title='zoom: full em' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
-		content += "<button title='zoom level' class='tool out'>" + round(getView("updatetools").dz*100, 2) + "%</button>";
-
-		content += " ";
+		// Pop In/Out
 		if(_UI.popout){
 			content += "<button title='one screen mode' class='tool' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
 		} else {
 			content += "<button title='two screen mode' class='tool' onclick='popOut();'>"+makeToolButton({'name':'tool_popOut'})+"</button>";
+		}
+		content += "<div style='height:5px;'>&nbsp;</div>";
+
+
+		// Zoom Pan
+		content += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
+		content += "<button title='zoom: full em' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
+		content += "<br>";
+		content += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
+		content += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
+		content += "<br>";
+		content += "<button title='zoom level' class='tool zoomreadout'>" + round(getView("updatetools").dz*100, 2) + "%</button>";
+		content += "<div style='height:5px;'>&nbsp;</div>";
+
+
+		// New Shape
+		if(_UI.navhere == "character edit"){
+			content += "<button title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
+			content += "<button title='new oval shape' class='" + (st==='newoval'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newoval\");'/>"+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+"</button>";
+			content += "<button title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";
+			content += "<br>";
+		}
+
+
+		// Path and Shape Edit
+		content += "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
+		content += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pathEdit', 'selected':(st==='pathedit')})+"</button>";
+		content += "<button title='move & resize shape' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_shapeResize', 'selected':(st==='shaperesize')})+"</button>";
+
+		if(_UI.selectedtool === 'newpath'){
+			content += "<div style='height:5px;'>&nbsp;</div>";
+			content += "<button class='buttonsel' style='height:30px; width:94px; font-size:.8em; padding:2px;' title='done editing path' onclick='clickTool(\"pathedit\");'>done editing path</button>";
 		}
 
 		if(_GP.projectsettings.showkeyboardtipsicon) content += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';

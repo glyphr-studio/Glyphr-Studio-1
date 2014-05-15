@@ -115,7 +115,7 @@
 
 		update_NavPanels();
 
-		updatetools();
+		update_ToolsArea();
 		_UI.redrawing = false;
 		//debug(Date.now()+"\t:: LINKEDSHAPESREDRAW DONE - Called By: " + calledby);
 	}

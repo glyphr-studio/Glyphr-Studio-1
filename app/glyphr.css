@@ -148,7 +148,9 @@
 	.buttonsel:hover {
 		color:white;
 	}
-	.buttondis{
+
+	.buttondis,
+	.buttondis:hover {
 		background-color:rgb(76,81,86);
 		color:rgb(51,56,61);
 		cursor:default;
@@ -729,14 +731,14 @@
 /*	TOOLS		*/
 	#toolsarea {
 		position:fixed;
-		left:500px;
-		top:10px;
+		left:510px;
+		top:15px;
 		z-index:10;
 	}
 
     #secondaryScreenLayout #toolsarea,
     #secondaryScreenLayout #keyboardtips {
-        left: 10px;
+        left: 15px;
     }
 
 	#toolsarea div {
@@ -789,16 +791,17 @@
 		padding:5px;
 	}
 
-	.out,
-	.out:hover {
+	.zoomreadout,
+	.zoomreadout:hover {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
 		height: 30px;
 		cursor:default;
-		width:70px;
+		width:62px;
 		text-align: center;
 		vertical-align: top;
-		margin:1px 0px 0px 1px;
+		margin:1px;
+		border-radius: 0px;
 	}
 
 
