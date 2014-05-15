@@ -114,26 +114,23 @@
 /* ------- */
 /* Button */
 /* ----- */
+
 	button,
-	.buttondis,
-	.buttonsel {
-		border: none;
+	button:active,
+	button:hover,
+	button:visited,
+	button:focus {
 		text-align: center;
 		padding:10px 8px;
 		margin:1px;
 		cursor:pointer;
-	}
-
-	button,
-	button:link,
-	button:active {
 		border: none;
+		outline: none;
 		background-color:rgb(76,81,86);
 		color:rgb(204,209,214);
 	}
 
 	button:hover {
-		border: none;
 		color:rgb(229,234,239);
 		border-radius: 3px;
 	}
@@ -151,13 +148,14 @@
 
 	.buttondis,
 	.buttondis:hover {
-		background-color:rgb(76,81,86);
-		color:rgb(51,56,61);
+		color:rgb(102,107,112);
+		background-color:rgb(127,134,137);
 		cursor:default;
+		border-radius: 0px;
 	}
 
 	.spinnerbutton,
-	.spinnerbutton:active {
+	.spinnerbutton:hover {
 		height:22px;
 		width:20px;
 		font-size:15px;
@@ -167,6 +165,7 @@
 		font-weight:bold;
 		margin:0px 0px 0px 0px;
 		background-color: rgb(153,158,163);
+		border-radius: 0px;
 	}
 
 	.spinnerbutton:hover {
@@ -456,7 +455,9 @@
 /* ---------*/
 
 	.navtargetbutton,
-	.navtargetbuttonsel {
+	.navtargetbutton:hover,
+	.navtargetbuttonsel,
+	.navtargetbuttonsel:hover {
 		font-size:1.5em;
 		display:block;
 		text-transform:lowercase;
@@ -516,7 +517,8 @@
 		overflow:auto;
 	}
 
-	.dialogCloseButton {
+	.dialogCloseButton,
+	.dialogCloseButton:hover {
 		width:20px;
 		height:25px;
 		color:rgb(229,234,239);
@@ -538,6 +540,7 @@
 	#dialogRightContent {
 		padding:10px 20px 20px 20px;
 		color:rgb(25,30,35);
+		max-width: 910px;
 	}
 
 	#dialogRightContent h1{
@@ -785,7 +788,8 @@
 		padding-bottom: 16px;
 	}
 
-	.tool {
+	.tool,
+	.tool:hover {
 		height:30px;
 		width:30px;
 		padding:5px;
@@ -877,10 +881,6 @@
 		height:20px;
 		vertical-align:top;
 		border:1px solid white;
-		/*
-		color:rgb(51,56,61);
-		background-color: rgb(204,209,214);
-		*/
 	}
 
 	.detail input[type=text][disabled='disabled']{
@@ -895,20 +895,33 @@
 
 	.detail .leftcol	{
 		width:12px;
-		padding:5px 2px 0px 0px;
+		padding:0px 2px 0px 0px;
 		margin:0px;
 		overflow:hidden;
 	}
 
-	.detail .leftcol canvas {
-		position:relative;
-		top:-3px;
-	}
-
-	.canvasbutton{
-		padding-right:6px;
+	.pointtypebutton,
+	.pointtypebutton:hover {
+		margin:auto 6px auto 0px;
+		padding:2px;
+		width:24px;
+		height:24px;
 		cursor:pointer;
 	}
+
+	/* Checkbox, Lock, & Help icons */
+	.customui,
+	.customui:hover,
+	.customui:active,
+	.customui:focus {
+		width:20px;
+		height:20px;
+		background-color: transparent;
+		padding: 0px;
+		margin:0px;
+		vertical-align: middle;
+	}
+
 
 /*	ACTIONS		*/
 
@@ -991,7 +1004,8 @@
 		margin-bottom:0px;
 	}
 
-	.settingstable .spinnerbutton {
+	.settingstable .spinnerbutton,
+	.settingstable .spinnerbutton:hover {
 		height:28px;
 		position: relative;
 		top:4px;
