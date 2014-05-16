@@ -128,10 +128,10 @@
 			_UI.chareditctx.fillStyle = "transparent";
 
 			//draw bounding box and 8points
-			var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.xmin) : sx_cx(this.path.maxes.xmin);
-			var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.xmax) : sx_cx(this.path.maxes.xmax);
-			var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.ymax) : sy_cy(this.path.maxes.ymax);
-			var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.ymin) : sy_cy(this.path.maxes.ymin);
+			var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmin) : sx_cx(this.path.maxes.xmin);
+			var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(this.path.maxes.xmax);
+			var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(this.path.maxes.ymax);
+			var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(this.path.maxes.ymin);
 
 			// var x = (lx).makeCrisp(true);
 			// var y = (ty).makeCrisp(true);
