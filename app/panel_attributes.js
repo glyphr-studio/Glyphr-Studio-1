@@ -171,7 +171,7 @@
 					"<td class='rightcol'>"+
 					"<input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td>"+
 					"</tr>";
-
+/*
 		if(!_UI.eventhandlers.temppathdragshape){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
 					"<td> shape x </td>"+
@@ -226,6 +226,31 @@
 					round(_UI.eventhandlers.temppathdragshape.ymax-_UI.eventhandlers.temppathdragshape.ymin) + "'>&nbsp;</td>"+
 					"</tr>";
 		}
+*/
+
+		content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
+				"<td> x </td>"+
+				"<td class='rightcol'><input class='input' type='text' value='"+
+				round(s.path.maxes.xmin) + "'>&nbsp;</td>"+
+				"</tr>";
+
+		content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
+				"<td> y </td>"+
+				"<td class='rightcol'><input class='input' type='text' value='"+
+				round(s.path.maxes.ymax) + "'>&nbsp;</td>"+
+				"</tr>";
+
+		content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
+				"<td> width </td>"+
+				"<td class='rightcol'><input class='input' type='text' value='"+
+				round(s.path.maxes.xmax-s.path.maxes.xmin) + "'>&nbsp;</td>"+
+				"</tr>";
+
+		content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
+				"<td> height </td>"+
+				"<td class='rightcol'><input class='input' type='text' value='"+
+				round(s.path.maxes.ymax-s.path.maxes.ymin) + "'>&nbsp;</td>"+
+				"</tr>";
 
 		var overlaphelptext = "<h2>Overlap Mode</h2><br><br><div style=\\&apos;width:500px;\\&apos;>"+
 			"The Path Points that make up a shape outline have either a clockwise or counter-clockwise direction. "+
