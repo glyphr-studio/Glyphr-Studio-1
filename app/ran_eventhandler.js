@@ -1,5 +1,5 @@
 	_UI.eventhandlers = {
-		//"temppathdragshape" : false,
+		"temppathdragshape" : false,
 		"mousex" : 0,
 		"mousey" : 0,
 		"ismouseovercec" : false,
@@ -204,7 +204,7 @@
 
 
 	// ---------------------------------------------------------
-	// new basic shape - adds a new oval or rectangle
+	// new basic shape - adds many points to a new path
 	// ---------------------------------------------------------
 	function newbasicShape(){
 
@@ -212,46 +212,27 @@
 
 			var newshape = new Shape({"visible":false});
 			newshape.name = (_UI.selectedtool=="newrect")? ("rect " + (getSelectedCharShapes().length+1)) : ("oval " + (getSelectedCharShapes().length+1));
-
-			if(_UI.selectedtool=="newrect"){
-				newshape.path = rectPathFromCorners(_UI.eventhandlers.temppathdragshape);
-			} else {
-				newshape.path = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
-			}
-			
 			newshape = addShape(newshape);
 			//debug("NEWBASICSHAPE MOUSEDOWN - just added the new shape");
 			// these rely on ss();
 			newshape.path.setPathPosition(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
 
-/*
+
 			_UI.eventhandlers.temppathdragshape = {
 				"xmax": cx_sx(_UI.eventhandlers.mousex),
 				"xmin": cx_sx(_UI.eventhandlers.mousex),
 				"ymax": cy_sy(_UI.eventhandlers.mousey),
 				"ymin": cy_sy(_UI.eventhandlers.mousey)
 			};
-			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
-*/
-			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 
 			this.dragging = true;
+			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
+
 			redraw("Event Handler newbasicshape mousedown");
 			//debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
-		};
-
-		this.mousemove = function (ev) {
-			if(this.dragging){
-				var s = ss("eventHandler - newbasicshape mousemove");
-				evHanShapeResize(s, "se");
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				_UI.eventhandlers.uqhaschanged = true;
-				redraw("Event Handler newbasicshape mousemove");
-				//debug("NEWBASICSHAPE MOUSEMOVE past redraw");
-			}
 		};
 
 		this.mouseup = function () {
@@ -265,6 +246,14 @@
 				_UI.eventhandlers.temppathdragshape = clone(s.path.maxes);
 			}
 
+			if(_UI.selectedtool=="newrect"){
+				//debug("NEWBASICSHAPE MOUSEUP - reading TPDS lx-ty-rx-by: " + lx + " : " + ty + " : " + rx + " : " + by);
+				s.path = rectPathFromCorners(_UI.eventhandlers.temppathdragshape);
+				//debug("NEWBASICSHAPE MOUSEUP - resulting path P1x/y P3x/y: " + s.path.pathpoints[0].P.x + " : " + s.path.pathpoints[0].P.y + " : " + s.path.pathpoints[2].P.x + " : " + s.path.pathpoints[2].P.y);
+			} else {
+				s.path = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
+			}
+
 			s.visible = true;
 
 			this.dragging = false;
@@ -272,12 +261,24 @@
 			_UI.eventhandlers.lasty = -100;
 			_UI.eventhandlers.firstx = -100;
 			_UI.eventhandlers.firsty = -100;
-//			_UI.eventhandlers.temppathdragshape = false;
+			_UI.eventhandlers.temppathdragshape = false;
 			updateCurrentCharWidth();
 			putundoq("New Basic Shape tool");
 			_UI.eventhandlers.uqhaschanged = false;
 
 			clickTool("pathedit");
+		};
+
+		this.mousemove = function (ev) {
+			if(this.dragging){
+				var s = ss("eventHandler - newbasicshape mousemove");
+				evHanShapeResize(s, "se");
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
+				redraw("Event Handler newbasicshape mousemove");
+				//debug("NEWBASICSHAPE MOUSEMOVE past redraw");
+			}
 		};
 	}
 
@@ -398,14 +399,14 @@
 			//debug("Mouse Up");
 			resetCursor();
 			var s = ss("eventHandler - mouseup");
-/*			if(_UI.eventhandlers.temppathdragshape){
+			if(_UI.eventhandlers.temppathdragshape){
 				_UI.eventhandlers.temppathdragshape = false;
 				s.hidden = false;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
 				evHanShapeResize(s, _UI.eventhandlers.corner);
 			}
-*/
+
 			if(this.resizing) s.path.calcMaxes();
 			updateCurrentCharWidth();
 
@@ -535,7 +536,7 @@
 				if(canResize("nw")){
 					dh = (my-ly);
 					dw = (mx-lx);
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,dh,(dw*-1),(dh*-1));
 					} else {
 						s.path.updatePathSize((dw*-1),dh, s.ratiolock);
@@ -547,7 +548,7 @@
 			case "n":
 				if(canResize("n")){
 					dh = (my-ly);
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,0,(dh*-1));
 					} else {
 						s.path.updatePathSize(0, dh, s.ratiolock);
@@ -560,7 +561,7 @@
 				if(canResize("ne")){
 					dh = (my-ly);
 					dw = (mx-lx);
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,dh,dw,(dh*-1));
 					} else {
 						s.path.updatePathSize(dw,dh, s.ratiolock);
@@ -572,7 +573,7 @@
 			case "e":
 				if(canResize("e")){
 					dw = (mx-lx);
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,0);
 					} else {
 						s.path.updatePathSize(dw, 0, s.ratiolock);
@@ -585,7 +586,7 @@
 				if(canResize("se")){
 					dh = (ly-my)*-1;
 					dw = (mx-lx);
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,dw,dh);
 					} else {
 						s.path.updatePathSize(dw, (dh*-1), s.ratiolock);
@@ -597,7 +598,7 @@
 			case "s":
 				if(canResize("s")){
 					dh = (ly-my)*-1;
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(0,0,0,dh);
 					} else {
 						s.path.updatePathSize(0, (dh*-1), s.ratiolock);
@@ -610,7 +611,7 @@
 				if(canResize("sw")){
 					dw = (mx-lx);
 					dh = (ly-my)*-1;
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),dh);
 					} else {
 						s.path.updatePathSize((dw*-1),(dh*-1), s.ratiolock);
@@ -622,7 +623,7 @@
 			case "w":
 				if(canResize("w")){
 					dw = (mx-lx);
-					if(false /*_UI.eventhandlers.temppathdragshape*/){
+					if(_UI.eventhandlers.temppathdragshape){
 						updateTPDS(dw,0,(dw*-1),0);
 					} else {
 						s.path.updatePathSize((dw*-1), 0, s.ratiolock);
@@ -636,7 +637,7 @@
 
 		//debug("EVHANSHAPERESIZE - Done lx/rx/ty/by: " + s.path.maxes.xmin + "," + s.path.maxes.xmax + "," + s.path.maxes.ymax + "," + s.path.maxes.ymin);
 	}
-/*
+
 	function updateTPDS(dx,dy,dw,dh){
 		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
 		_UI.eventhandlers.temppathdragshape.xmin += round(dx);
@@ -644,7 +645,7 @@
 		_UI.eventhandlers.temppathdragshape.xmax += round(dw+dx);
 		_UI.eventhandlers.temppathdragshape.ymin += round(dh+dy);
 	}
-*/
+
 	function canResize(pc){
 		var s = ss("canResize");
 		switch(pc){

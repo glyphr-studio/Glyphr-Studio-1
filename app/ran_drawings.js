@@ -187,7 +187,7 @@ function makePointButton(type, selected) {
 		bgcolor = _UI.colors.offwhite;
 	}
 
-	//debug("MAKEPOINTBUTTON - " + type + " selected: " + selected + " color: " + color);
+	debug("MAKEPOINTBUTTON - " + type + " selected: " + selected + " color: " + color);
 	var re = ""; 
 	
 	re += '<button class="pointtypebutton" style="background-color:'+bgcolor+';" ';
@@ -262,7 +262,7 @@ function lockUI(varname, islocked){
 }
 
 function checkUI(onclick, ischecked){
-	//debug("CHECKUI - ischecked: " + ischecked + " onclick: " + onclick);
+	debug("CHECKUI - ischecked: " + ischecked + " onclick: " + onclick);
 
 	var re = "<button class='customui' style='position:relative; top:-2px;' "+
 	"onclick='"+onclick+"'> "+
@@ -305,6 +305,6 @@ function helpUI(message){
 	'<rect x="11" y="8" width="1" height="2"/>'+
 	'</g></svg></button>';
 
-	//debug("HELPUI - output:\n"+re);
+	debug("HELPUI - output:\n"+re);
 	return re;
 }
