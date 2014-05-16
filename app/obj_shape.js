@@ -128,10 +128,10 @@
 			_UI.chareditctx.fillStyle = "transparent";
 
 			//draw bounding box and 8points
-			var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.xmin) : sx_cx(this.path.maxes.xmin);
-			var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.xmax) : sx_cx(this.path.maxes.xmax);
-			var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.ymax) : sy_cy(this.path.maxes.ymax);
-			var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.ymin) : sy_cy(this.path.maxes.ymin);
+			var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.xmin) : sx_cx(this.path.maxes.xmin);
+			var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.xmax) : sx_cx(this.path.maxes.xmax);
+			var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.ymax) : sy_cy(this.path.maxes.ymax);
+			var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.ymin) : sy_cy(this.path.maxes.ymin);
 
 			// var x = (lx).makeCrisp(true);
 			// var y = (ty).makeCrisp(true);
@@ -184,7 +184,7 @@
 
 		} else if ((_UI.selectedtool=="newoval")){
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
-			var tpdso = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
+			var tpdso = ovalPathFromCorners(_UI.eventhandlers.tempnewbasicshape);
 
 			_UI.chareditctx.lineWidth = 1;
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
@@ -300,10 +300,10 @@
 		var ps = _GP.projectsettings.pointsize+1;
 		var hp = ps/2;
 
-		var lx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.maxes.xmin)		: sx_cx(this.path.maxes.xmin);
-		var rx = _UI.eventhandlers.temppathdragshape? sx_cx(_UI.eventhandlers.temppathdragshape.maxes.xmax)		: sx_cx(this.path.maxes.xmax);
-		var ty = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.maxes.ymax)		: sy_cy(this.path.maxes.ymax);
-		var by = _UI.eventhandlers.temppathdragshape? sy_cy(_UI.eventhandlers.temppathdragshape.maxes.ymin)	: sy_cy(this.path.maxes.ymin);
+		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmin)		: sx_cx(this.path.maxes.xmin);
+		var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmax)		: sx_cx(this.path.maxes.xmax);
+		var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymax)		: sy_cy(this.path.maxes.ymax);
+		var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymin)	: sy_cy(this.path.maxes.ymin);
 
 		var bleftx = (lx-hp).makeCrisp(true);
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);

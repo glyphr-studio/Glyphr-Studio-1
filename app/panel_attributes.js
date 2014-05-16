@@ -172,7 +172,7 @@
 					"<input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'></td>"+
 					"</tr>";
 
-		if(!_UI.eventhandlers.temppathdragshape){
+		if(!_UI.eventhandlers.tempnewbasicshape){
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
 					"<td> shape x </td>"+
 					"<td class='rightcol'><input class='input' type='text' "+
@@ -205,25 +205,25 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().xlock",s.xlock)+"</td>"+
 					"<td> x </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					round(_UI.eventhandlers.temppathdragshape.xmin) + "'>&nbsp;</td>"+
+					round(_UI.eventhandlers.tempnewbasicshape.xmin) + "'>&nbsp;</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().ylock",s.ylock)+"</td>"+
 					"<td> y </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					round(_UI.eventhandlers.temppathdragshape.ymax) + "'>&nbsp;</td>"+
+					round(_UI.eventhandlers.tempnewbasicshape.ymax) + "'>&nbsp;</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",s.wlock)+"</td>"+
 					"<td> width </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					round(_UI.eventhandlers.temppathdragshape.xmax-_UI.eventhandlers.temppathdragshape.xmin) + "'>&nbsp;</td>"+
+					round(_UI.eventhandlers.tempnewbasicshape.xmax-_UI.eventhandlers.tempnewbasicshape.xmin) + "'>&nbsp;</td>"+
 					"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",s.hlock)+"</td>"+
 					"<td> height </td>"+
 					"<td class='rightcol'><input class='input' type='text' value='"+
-					round(_UI.eventhandlers.temppathdragshape.ymax-_UI.eventhandlers.temppathdragshape.ymin) + "'>&nbsp;</td>"+
+					round(_UI.eventhandlers.tempnewbasicshape.ymax-_UI.eventhandlers.tempnewbasicshape.ymin) + "'>&nbsp;</td>"+
 					"</tr>";
 		}
 

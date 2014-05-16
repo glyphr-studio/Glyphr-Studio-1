@@ -1,5 +1,5 @@
 	_UI.eventhandlers = {
-		"temppathdragshape" : false,
+		"tempnewbasicshape" : false,
 		"mousex" : 0,
 		"mousey" : 0,
 		"ismouseovercec" : false,
@@ -218,7 +218,7 @@
 			newshape.path.setPathPosition(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
 
 
-			_UI.eventhandlers.temppathdragshape = {
+			_UI.eventhandlers.tempnewbasicshape = {
 				"xmax": cx_sx(_UI.eventhandlers.mousex),
 				"xmin": cx_sx(_UI.eventhandlers.mousex),
 				"ymax": cy_sy(_UI.eventhandlers.mousey),
@@ -243,15 +243,15 @@
 			if ( (Math.abs(_UI.eventhandlers.lastx - _UI.eventhandlers.firstx) < _GP.projectsettings.pointsize) &&
 				(Math.abs(_UI.eventhandlers.lasty - _UI.eventhandlers.firsty) < _GP.projectsettings.pointsize) ){
 
-				_UI.eventhandlers.temppathdragshape = clone(s.path.maxes);
+				_UI.eventhandlers.tempnewbasicshape = clone(s.path.maxes);
 			}
 
 			if(_UI.selectedtool=="newrect"){
 				//debug("NEWBASICSHAPE MOUSEUP - reading TPDS lx-ty-rx-by: " + lx + " : " + ty + " : " + rx + " : " + by);
-				s.path = rectPathFromCorners(_UI.eventhandlers.temppathdragshape);
+				s.path = rectPathFromCorners(_UI.eventhandlers.tempnewbasicshape);
 				//debug("NEWBASICSHAPE MOUSEUP - resulting path P1x/y P3x/y: " + s.path.pathpoints[0].P.x + " : " + s.path.pathpoints[0].P.y + " : " + s.path.pathpoints[2].P.x + " : " + s.path.pathpoints[2].P.y);
 			} else {
-				s.path = ovalPathFromCorners(_UI.eventhandlers.temppathdragshape);
+				s.path = ovalPathFromCorners(_UI.eventhandlers.tempnewbasicshape);
 			}
 
 			s.visible = true;
@@ -261,7 +261,7 @@
 			_UI.eventhandlers.lasty = -100;
 			_UI.eventhandlers.firstx = -100;
 			_UI.eventhandlers.firsty = -100;
-			_UI.eventhandlers.temppathdragshape = false;
+			_UI.eventhandlers.tempnewbasicshape = false;
 			updateCurrentCharWidth();
 			putundoq("New Basic Shape tool");
 			_UI.eventhandlers.uqhaschanged = false;
@@ -383,7 +383,7 @@
 				this.resizing = true;
 				this.dragging = false;
 				if(_GP.projectsettings.quickpathupdating){
-					_UI.eventhandlers.temppathdragshape = clone(s.path.maxes);
+					_UI.eventhandlers.tempnewbasicshape = clone(s.path.maxes);
 					s.hidden = true;
 				}
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
@@ -399,8 +399,8 @@
 			//debug("Mouse Up");
 			resetCursor();
 			var s = ss("eventHandler - mouseup");
-			if(_UI.eventhandlers.temppathdragshape){
-				_UI.eventhandlers.temppathdragshape = false;
+			if(_UI.eventhandlers.tempnewbasicshape){
+				_UI.eventhandlers.tempnewbasicshape = false;
 				s.hidden = false;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
@@ -536,7 +536,7 @@
 				if(canResize("nw")){
 					dh = (my-ly);
 					dw = (mx-lx);
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(dw,dh,(dw*-1),(dh*-1));
 					} else {
 						s.path.updatePathSize((dw*-1),dh, s.ratiolock);
@@ -548,7 +548,7 @@
 			case "n":
 				if(canResize("n")){
 					dh = (my-ly);
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(0,dh,0,(dh*-1));
 					} else {
 						s.path.updatePathSize(0, dh, s.ratiolock);
@@ -561,7 +561,7 @@
 				if(canResize("ne")){
 					dh = (my-ly);
 					dw = (mx-lx);
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(0,dh,dw,(dh*-1));
 					} else {
 						s.path.updatePathSize(dw,dh, s.ratiolock);
@@ -573,7 +573,7 @@
 			case "e":
 				if(canResize("e")){
 					dw = (mx-lx);
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(0,0,dw,0);
 					} else {
 						s.path.updatePathSize(dw, 0, s.ratiolock);
@@ -586,7 +586,7 @@
 				if(canResize("se")){
 					dh = (ly-my)*-1;
 					dw = (mx-lx);
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(0,0,dw,dh);
 					} else {
 						s.path.updatePathSize(dw, (dh*-1), s.ratiolock);
@@ -598,7 +598,7 @@
 			case "s":
 				if(canResize("s")){
 					dh = (ly-my)*-1;
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(0,0,0,dh);
 					} else {
 						s.path.updatePathSize(0, (dh*-1), s.ratiolock);
@@ -611,7 +611,7 @@
 				if(canResize("sw")){
 					dw = (mx-lx);
 					dh = (ly-my)*-1;
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(dw,0,(dw*-1),dh);
 					} else {
 						s.path.updatePathSize((dw*-1),(dh*-1), s.ratiolock);
@@ -623,7 +623,7 @@
 			case "w":
 				if(canResize("w")){
 					dw = (mx-lx);
-					if(_UI.eventhandlers.temppathdragshape){
+					if(_UI.eventhandlers.tempnewbasicshape){
 						updateTPDS(dw,0,(dw*-1),0);
 					} else {
 						s.path.updatePathSize((dw*-1), 0, s.ratiolock);
@@ -633,17 +633,17 @@
 				break;
 		}
 
-		//if(!_UI.eventhandlers.temppathdragshape) s.path.calcMaxes();
+		//if(!_UI.eventhandlers.tempnewbasicshape) s.path.calcMaxes();
 
 		//debug("EVHANSHAPERESIZE - Done lx/rx/ty/by: " + s.path.maxes.xmin + "," + s.path.maxes.xmax + "," + s.path.maxes.ymax + "," + s.path.maxes.ymin);
 	}
 
 	function updateTPDS(dx,dy,dw,dh){
 		//debug("UPDATETPDS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
-		_UI.eventhandlers.temppathdragshape.xmin += round(dx);
-		_UI.eventhandlers.temppathdragshape.ymax += round(dy);
-		_UI.eventhandlers.temppathdragshape.xmax += round(dw+dx);
-		_UI.eventhandlers.temppathdragshape.ymin += round(dh+dy);
+		_UI.eventhandlers.tempnewbasicshape.xmin += round(dx);
+		_UI.eventhandlers.tempnewbasicshape.ymax += round(dy);
+		_UI.eventhandlers.tempnewbasicshape.xmax += round(dw+dx);
+		_UI.eventhandlers.tempnewbasicshape.ymin += round(dh+dy);
 	}
 
 	function canResize(pc){
