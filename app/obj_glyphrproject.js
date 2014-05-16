@@ -29,7 +29,6 @@ function GlyphrProject(){
 		"spinnervaluechange" : 1,				// how much spinner controls change a value
 		"showkeyboardtipsicon" : true,
 		"stoppagenavigation" : false,			// asks to save on window close or refresh
-		"quickpathupdating" : false,			// does not redraw path while drag resizing
 		"showoutline" : false,					// outline shapes when drawing
 		"showfill" : true,						// fill shapes when drawing
 		"color_glyphfill" : "rgb(0,0,0)",		//shape base color

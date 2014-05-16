@@ -382,10 +382,6 @@
 				//debug("SHAPERESIZE TOOL: clicked on _UI.eventhandlers.corner: " + _UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
-				if(_GP.projectsettings.quickpathupdating){
-					_UI.eventhandlers.tempnewbasicshape = clone(s.path.maxes);
-					s.hidden = true;
-				}
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				this.dragging = true;
 				this.resizing = false;
