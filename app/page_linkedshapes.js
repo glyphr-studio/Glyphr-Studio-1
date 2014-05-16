@@ -8,7 +8,7 @@
 		setupGhostCanvas();
 
 		initEventHandlers();
-		grid();
+		drawGrid();
 		document.onkeypress = keypress;
 
 		_UI.selectedshape = -1;
@@ -104,7 +104,7 @@
 		_UI.redrawing = true;
 
 		_UI.chareditctx.clearRect(0,0,5000,5000);
-		grid();
+		drawGrid();
 		vertical(_UI.chareditcanvassize.makeCrisp());
 
 		_GP.linkedshapes[_UI.shownlinkedshape].shape.drawShape_Single(_UI.chareditctx);

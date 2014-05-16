@@ -145,7 +145,7 @@
 
 		var sc = getSelectedChar();
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
-		grid();
+		drawGrid();
 
 		// load char info
 		if(sc){
@@ -321,8 +321,7 @@
 //-------------------
 
 
-	function grid(){
-
+	function drawGrid(){
 
 		var ps = _GP.projectsettings;
 		var v = getView("grid");
@@ -335,8 +334,8 @@
 		var zupm = (ps.upm * v.dz);
 		var gutter = ((_UI.chareditcanvassize*v.dz) - zupm)/2;
 		var zasc = (ps.ascent * v.dz);
-		// background white square
 
+		// background white square
 		var xs = {};
 		xs.xmax = _UI.chareditcanvassize;
 		xs.xmin = 0;
@@ -390,7 +389,10 @@
 				if(_UI.navhere == 'character edit'){
 					var sc = getSelectedChar();
 					vertical(v.dx - (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)), xs.xmin, xs.xmax);
-					vertical(v.dx + (v.dz*sc.advancewidth), xs.xmin, xs.xmax);
+
+					var rhl = sc.advancewidth;
+					if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
+					vertical(v.dx + (v.dz*rhl), xs.xmin, xs.xmax);
 				}
 
 				// major guidelines - xheight, top (emzize)

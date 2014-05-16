@@ -309,20 +309,6 @@
 			redraw("Event Handler pathedit mousedown");
 		};
 
-		this.mouseup = function () {
-			this.moving = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
-
-			if(_UI.eventhandlers.uqhaschanged) {
-				ss("Path Edit - Mouse Up").path.calcMaxes();
-				updateCurrentCharWidth();
-				putundoq("Path Edit tool");
-				_UI.eventhandlers.uqhaschanged = false;
-				redraw("Event Handler pathedit mouseup");
-			}
-		};
-
 		this.mousemove = function (ev) {
 			if (this.moving) {
 				var s = ss("Path Edit - Mouse Move");
@@ -351,13 +337,29 @@
 						break;
 				}
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
-
+				s.path.calcMaxes();
+				
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw("Event Handler pathedit mousemove");
 			}
 		};
+
+		this.mouseup = function () {
+			this.moving = false;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
+
+			if(_UI.eventhandlers.uqhaschanged) {
+				ss("Path Edit - Mouse Up").path.calcMaxes();
+				updateCurrentCharWidth();
+				putundoq("Path Edit tool");
+				_UI.eventhandlers.uqhaschanged = false;
+				redraw("Event Handler pathedit mouseup");
+			}
+		};
+
 	}
 
 
@@ -658,13 +660,13 @@
 	}
 
 	function mousewheel(event){
-		event.preventDefault();
 		var delta = event.detail? event.detail*(-120) : event.wheelDelta;	//cross browser
 		var canzoom = ((_UI.navhere == "character edit") || (_UI.navhere == "linked shapes"));
 		canzoom = canzoom && (document.getElementById('dialog_box').style.display != 'block');
 
 		if(canzoom){
 			if(event.altKey || event.ctrlKey){
+				event.preventDefault();
 				//debug("MOUSEWHEEL: canzoom=true and delta=" + delta );
 				if(delta > 0){ viewZoom(1.1); }
 				else { viewZoom(0.9); }
@@ -706,7 +708,6 @@
 	function keypress(event){
 		
 		if(!isOnEditPage()) return;
-		event.preventDefault();
 
 		var s = ss("keypress event");
 		var eh = _UI.eventhandlers;
@@ -714,9 +715,9 @@
 		var kc = getKeyFromEvent(event);
 		//debug("Key Press:\t" + kc + " from " + event.which);
 
-
-		// Space
+		// Space 
 		if(kc === 'space' && eh.ismouseovercec){
+			event.preventDefault();
 			if(!eh.isSpaceDown){
 				eh.lastTool = _UI.selectedtool;
 				_UI.selectedtool = "pan";
