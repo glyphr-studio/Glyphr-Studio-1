@@ -301,9 +301,9 @@
 			"<br><table>"+
 			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>alt</span><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>-</span></td><td>zoom out the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>&ndash;</span></td><td>zoom out the edit canvas</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>"+
 			"</table>"+
 

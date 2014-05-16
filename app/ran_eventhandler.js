@@ -658,14 +658,17 @@
 	}
 
 	function mousewheel(event){
+		event.preventDefault();
 		var delta = event.detail? event.detail*(-120) : event.wheelDelta;	//cross browser
-		var canscroll = ((_UI.navhere == "character edit") || (_UI.navhere == "linked shapes"));
-		canscroll = canscroll && (document.getElementById('dialog_box').style.display != 'block');
+		var canzoom = ((_UI.navhere == "character edit") || (_UI.navhere == "linked shapes"));
+		canzoom = canzoom && (document.getElementById('dialog_box').style.display != 'block');
 
-		if(canscroll){
-		//debug("MOUSEWHEEL: canscroll=true and delta=" + delta );
-			if(delta > 0){ viewZoom(1.1); }
-			else { viewZoom(0.9); }
+		if(canzoom){
+			if(event.altKey || event.ctrlKey){
+				//debug("MOUSEWHEEL: canzoom=true and delta=" + delta );
+				if(delta > 0){ viewZoom(1.1); }
+				else { viewZoom(0.9); }
+			}
 		}
 	}
 
@@ -701,7 +704,9 @@
 	}
 
 	function keypress(event){
+		
 		if(!isOnEditPage()) return;
+		event.preventDefault();
 
 		var s = ss("keypress event");
 		var eh = _UI.eventhandlers;
@@ -721,8 +726,12 @@
 			}
 		}
 
+		if(kc==='esc'){
+			closeDialog();
+		}
+
 		// ?
-		if(event.shiftKey && kc==='?'){
+		if(kc==='?' || kc==='¿'){
 			event.preventDefault();
 			toggleKeyboardTips();
 		}
