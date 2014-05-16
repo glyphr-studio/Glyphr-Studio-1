@@ -75,9 +75,10 @@
 
 	function generateSSThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
+		var tochar = getSelectedCharID();
 		for(var ssid in _GP.linkedshapes){
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td>";
-			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\");' height="+_UI.thumbsize+"' width="+_UI.thumbsize+"></canvas>";
+			re += "<canvas class='ssthumb' id='thumb"+ssid+"' onclick='insertLinkedShape(\""+ssid+"\",\""+tochar+"\");' height="+_UI.thumbsize+"' width="+_UI.thumbsize+"></canvas>";
 			re += "</td></tr><tr><td>";
 			re += _GP.linkedshapes[ssid].shape.name;
 			re += "</td></tr></table>";
