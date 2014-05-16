@@ -927,11 +927,11 @@
 
 	.actionsgrid {
 		padding:0px 10px 30px 5px;
-		width:380px;
+		width:378px;
 	}
 
 	.actionsgrid td {
-		width:33%;
+		width:126px;
 	}
 
 	.actionsgrid h3,
@@ -943,6 +943,7 @@
 		width:123px;
 		text-transform: lowercase;
 		text-align: left;
+		margin-bottom:2px;
 	}
 
 /*	HISTORY		*/

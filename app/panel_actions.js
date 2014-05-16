@@ -14,14 +14,14 @@
 		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
-		shapeactions += "<button class='"+(s? "": "buttondis")+"' onclick='copyShape()'>copy</button><br>";
-		shapeactions += "<button class='"+(s? "": "buttondis")+"' onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
-		shapeactions += "<button class='"+(s? "": "buttondis")+"' onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
-		shapeactions += "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
+		shapeactions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
+		shapeactions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
+		shapeactions += "<button onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
 		var layeractions = "<h3>layer</h3>";
-		layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'>move up</button><br>";
-		layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'>move down</button><br>";
+		layeractions += "<button onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'>move up</button><br>";
+		layeractions += "<button onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'>move down</button><br>";
 
 		var canvasactions = "<h3>editor view</h3>";
 		canvasactions += "<button onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updateactions\");'>toggle grid</button><br>";
@@ -40,7 +40,7 @@
 		if(!stack) content += "</td>";
 
 		if(!stack) content += "<td>";
-		if(getSelectedCharShapes().length > 0){ content += shapeactions; }
+		if(s){ content += shapeactions; }
 		else if (!stack){ content += "&nbsp;";}
 		if(!stack) content += "</td>";
 
@@ -61,7 +61,7 @@
 		if(!stack) content += "</td>";
 
 		if(!stack) content += "<td>";
-		if(getSelectedCharShapes().length > 1 && !stack){ content += layeractions; }
+		if(s && !stack){ content += layeractions; }
 		content += "</td>";
 
 		content += "</tr></table><br><br>";
