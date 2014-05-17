@@ -38,13 +38,13 @@
 
 		content += "<h2>UI Behavior</h2>"+
 					"<table class='settingstable'>"+
-					"<tr><td style='text-align:right;'><input type='checkbox' "+(_GP.stoppagenavigation?"checked ":" ")+" onchange='_GP.stoppagenavigation=this.checked;'/></td>"+
+					"<tr><td style='text-align:right;'>"+checkUI(("_GP.projectsettings.stoppagenavigation="+!ps.stoppagenavigation+";navigate();"), ps.stoppagenavigation)+"</td>"+
 					"<td>Show a confirmation message if you attempt to close an unsaved project.</td></tr>"+
-					
+
 					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.spinnervaluechange)+"' onchange='var r=Math.round(parseInt(this.value)); r=r|1; _GP.projectsettings.spinnervaluechange=r; this.value=r;' style='width:25px;'/></td>"+
 					"<td>Spinner Button increment or decrement value.</td></tr>"+
-					
-					"<tr><td style='text-align:right;'><input type='checkbox' "+(ps.showkeyboardtipsicon?'checked':'')+" onclick='_GP.projectsettings.showkeyboardtipsicon=this.checked;'></td>"+
+
+					"<tr><td style='text-align:right;'>"+checkUI(("_GP.projectsettings.showkeyboardtipsicon="+!ps.showkeyboardtipsicon+";navigate();"), ps.showkeyboardtipsicon)+"</td>"+
 					"<td>Show the &nbsp;<span>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button on the edit canvas.</td></tr>"+
 					"</table><br>";
 

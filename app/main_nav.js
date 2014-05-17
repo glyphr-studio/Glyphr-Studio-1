@@ -4,6 +4,7 @@
 
 	function navigate(nap){
 		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
+		debug("\tSTART\tSPN = " + _GP.projectsettings.stoppagenavigation);
 
 		if(_UI.navhere === 'firstrun' && _UI.devnav){
 			debug(">>> DEV NAV - to " + _UI.devnav);
@@ -26,6 +27,7 @@
 
 		loadPageContent();
 		document.body.focus();
+		debug("\tEND\tSPN = " + _GP.projectsettings.stoppagenavigation);
 		debug(">>> NAVIGATED - to " + _UI.navhere);
 	}
 
@@ -158,8 +160,14 @@
 
 		var nh = _UI.navhere;
 
-		_UI.navprimaryhere = nap || "npChar";
-		if(nh=="test drive") _UI.navprimaryhere = "npAttributes";
+		if(nap){
+			_UI.navprimaryhere = nap;
+		} else {
+
+			_UI.navprimaryhere = "npNav";
+			if(nh==="character edit" || nh==="linked shapes") _UI.navprimaryhere = "npChar";
+			else if(nh==="test drive") _UI.navprimaryhere = "npAttributes";
+		}
 
 		// pages with redraw() call makeAndDraw_NavPanels_PopIn
 		if(!(nh==="character edit" || nh==="linked shapes" || nh==="test drive")){
@@ -260,54 +268,7 @@
 			case "character edit":		loadPage_charedit();		break;
 		}
 	}
-/*
-	function drawPanel_NavTabs(){
-		var ngray = _UI.colors.g9;
-		var nselect = _UI.colors.accent;
-		var fill = ngray;
 
-		fill = (_UI.navprimaryhere == "npNav") ? nselect : ngray;
-		document.getElementById('npNav').innerHTML = ({'name': 'primaryNav_navigate', 'color': fill});
-
-		if(_UI.navhere==="character edit"){
-			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
-			document.getElementById('npChar').innerHTML = ({'name': 'primaryNav_character', 'color': fill});
-
-			fill = (_UI.navprimaryhere == "npLayers") ? nselect : ngray;
-			document.getElementById('npLayers').innerHTML = ({'name': 'primaryNav_layers', 'color': fill});
-
-			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
-			document.getElementById('npAttributes').innerHTML = ({'name': 'primaryNav_attributes', 'color': fill});
-
-			fill = (_UI.navprimaryhere == "npHistory") ? nselect : ngray;
-			document.getElementById('npHistory').innerHTML = ({'name': 'primaryNav_history', 'color': fill});
-		}
-
-		if(_UI.navhere==="linked shapes"){
-			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
-			document.getElementById('npChar').innerHTML = ({'name': 'primaryNav_character', 'color': fill});
-
-			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
-			document.getElementById('npAttributes').innerHTML = ({'name': 'primaryNav_attributes', 'color': fill});
-
-			fill = (_UI.navprimaryhere == "npHistory") ? nselect : ngray;
-			document.getElementById('npHistory').innerHTML = ({'name': 'primaryNav_history', 'color': fill});
-		}
-
-		if(_UI.navhere==="test drive"){
-			fill = (_UI.navprimaryhere == "npAttributes") ? nselect : ngray;
-			document.getElementById('npAttributes').innerHTML = ({'name': 'primaryNav_attributes', 'color': fill});
-		}
-
-		if(_UI.navhere==="import svg"){
-			fill = (_UI.navprimaryhere == "npChar") ? nselect : ngray;
-			document.getElementById('npChar').innerHTML = ({'name': 'primaryNav_character', 'color': fill});
-		}
-
-		updateSaveIcon();
-	}
-
-*/
 	function updateSaveIcon(){
 		var fill = _UI.colors.g9;
 		if(!_UI.projectsaved) fill = "white";
@@ -369,6 +330,16 @@
 		newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'>";
 		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.g9, 'hovercolor':'white'});
 		newsub += "</button>";
+
+		// Debug Dumps
+		if(_UI.debug){
+			newsub += "<br><br><br>Dump<br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_UI));'>UI</button><br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.projectsettings));'>PS</button><br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.opentypeproperties));'>OTP</button><br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.fontchars));'>FC</button><br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.linkedshapes));'>LS</button><br>";
+		}
 
 		return newsub;
 	}

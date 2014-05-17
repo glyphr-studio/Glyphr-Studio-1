@@ -30,6 +30,16 @@
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += ihgc;
+
+
+		window.onbeforeunload = function(e) {
+			alert("OMG");
+			if(_GP.projectsettings.stoppagenavigation){
+				return "\n\nUnless you specifically saved your data, all your progress will be lost.\n\n";
+			} else {
+				return;
+			}
+		};
 	}
 
 
@@ -80,9 +90,7 @@
 // Project Saved Sate
 //-------------------
 	function setProjectAsSaved(){
-
 		_UI.projectsaved = true;
-		window.onbeforeunload = null;
 
 		if(_UI.popout) {
 			document.title = "Glyphr Studio - Tools";
@@ -95,14 +103,7 @@
 	}
 
 	function setProjectAsUnsaved(){
-
 		_UI.projectsaved = false;
-
-		if(_GP.projectsettings.stoppagenavigation){
-			window.onbeforeunload = function() {
-				return "\n\nUnless you specifically saved your data, all your progress will be lost.\n\n";
-			};
-		}
 
 		if(_UI.popout) {
 			document.title = " ❖ Glyphr Studio - Tools";
