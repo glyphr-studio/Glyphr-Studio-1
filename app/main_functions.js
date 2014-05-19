@@ -261,8 +261,7 @@ function saveTextFile(fname, fblob) {
 		if(valbox){
 			if(!valbox.value*1) valbox.value = 0;
 			valbox.value = ((valbox.value*1) + _GP.projectsettings.spinnervaluechange);
-			debug("INC: onchange = " + valbox.onchange.toString());
-			obj.parentNode.childNodes[0].onchange();
+			valbox.onchange();
 			//putundoq("Up Spinner");
 		}
 	}
@@ -273,8 +272,7 @@ function saveTextFile(fname, fblob) {
 		if(valbox){
 			if(!valbox.value*1) valbox.value = 0;
 			valbox.value = ((valbox.value*1) - _GP.projectsettings.spinnervaluechange);
-			debug("DEC: onchange = " + valbox.onchange.toString());
-			obj.parentNode.childNodes[0].onchange();
+			valbox.onchange();
 			//putundoq("Down Spinner");
 		}
 	}

@@ -54,7 +54,7 @@
 		var pop = _UI.popout;
 		var popdoc = _UI.popout.document;
 
-		debug("POPOUT - getting css:\n" + document.styleSheets[0]);
+		//debug("POPOUT - getting css:\n" + document.styleSheets[0]);
 
 		// Init window properties
         popdoc.write('<!doctype html>'+
