@@ -262,7 +262,7 @@ function lockUI(varname, islocked){
 }
 
 function checkUI(onclick, ischecked){
-	debug("CHECKUI -  onclick:" + onclick + " ischecked:" + ischecked);
+	//debug("CHECKUI -  onclick:" + onclick + " ischecked:" + ischecked);
 
 	var re = "<button class='customui' style='position:relative; top:-2px;' "+
 	"onclick='"+onclick+"'> "+

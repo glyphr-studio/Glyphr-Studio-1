@@ -177,7 +177,7 @@
 	}
 
 	function makeAndDraw_NavPanels_PopIn(){
-		debug("MAKEANDDRAW_NAVPANELS_POPIN - navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
+		//debug("MAKEANDDRAW_NAVPANELS_POPIN - navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		updateSaveIcon();

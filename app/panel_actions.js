@@ -173,8 +173,6 @@
 // Move up / down
 //-------------------
 	function moveupShape(){
-
-
 		var s = ss("Move Up Shape");
 
 		if(s && (_UI.selectedshape < (getSelectedCharShapes().length-1))){
@@ -187,8 +185,6 @@
 	}
 
 	function movedownShape(){
-
-
 		var s = ss("Move Down Shape");
 
 		if(s && (_UI.selectedshape > 0)){
@@ -197,38 +193,5 @@
 			getSelectedCharShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape--;
 			redraw("movedownShape");
-		}
-	}
-
-
-//-------------------
-// Generic Spinner Control
-//-------------------
-	function spinner(){
-		var content ="";
-		content += "<button class='spinnerbutton' onclick='inc(this);'>&#9652;</button>";  //&and;
-		content += "<button class='spinnerbutton' onclick='dec(this);'>&#9662;</button>";  //&or;
-		return content;
-	}
-
-	function inc(obj){
-
-
-		if(obj.parentNode.childNodes[0]){
-			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) + _GP.projectsettings.spinnervaluechange);
-			obj.parentNode.childNodes[0].onchange();
-			//putundoq("Up Spinner");
-		}
-	}
-
-	function dec(obj){
-
-
-		if(obj.parentNode.childNodes[0]){
-			if(isNaN(obj.parentNode.childNodes[0].value)) obj.parentNode.childNodes[0].value = 0;
-			obj.parentNode.childNodes[0].value = ((obj.parentNode.childNodes[0].value*1) - _GP.projectsettings.spinnervaluechange);
-			obj.parentNode.childNodes[0].onchange();
-			//putundoq("Down Spinner");
 		}
 	}
