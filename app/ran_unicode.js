@@ -49,7 +49,7 @@ function addCustomCharacterRange(){
 
 function updateCustomRangeTable(){
 	var cr = _GP.projectsettings.charrange.custom;
-	debug("UPDATECUSTOMRANGETABLE - \n\t custom is " + JSON.stringify(cr));
+	//debug("UPDATECUSTOMRANGETABLE - \n\t custom is " + JSON.stringify(cr));
 	var content = "";
 	if(cr.length){
 		content += "Existing custom character ranges:<br><table style='margin-top:8px;'>";
@@ -69,10 +69,10 @@ function updateCustomRangeTable(){
 
 function removeCustomCharacterRange(i){
 	var cr = _GP.projectsettings.charrange.custom;
-	debug("REMOVECUSTOMCHARACTERRANGE - called on index " + i + "\n\t custom is " + JSON.stringify(cr));
+	//debug("REMOVECUSTOMCHARACTERRANGE - called on index " + i + "\n\t custom is " + JSON.stringify(cr));
 	cr.splice(i,1);
 	updateCustomRangeTable();
-	debug("REMOVECUSTOMCHARACTERRANGE - \n\t custom is " + JSON.stringify(cr));
+	//debug("REMOVECUSTOMCHARACTERRANGE - \n\t custom is " + JSON.stringify(cr));
 }
 
 

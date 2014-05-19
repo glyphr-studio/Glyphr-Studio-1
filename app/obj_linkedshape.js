@@ -58,7 +58,7 @@
 	}
 
 	function insertLinkedShape(ssid, tochar){
-		debug("INSERTLINKEDSHAPE - adding linked shape: " + ssid + " to char: " + _UI.selectedchar);
+		//debug("INSERTLINKEDSHAPE - adding linked shape: " + ssid + " to char: " + _UI.selectedchar);
 		var ns = new LinkedShapeInstance({"link":ssid, "xpos":100, "ypos":100});
 
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));

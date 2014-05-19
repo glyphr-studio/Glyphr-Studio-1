@@ -97,7 +97,7 @@
 
 		if(_UI.redrawing){
 			// this is totally a hack
-			debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			//debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
 			return;
 		}
 
@@ -159,7 +159,7 @@
 	}
 
 	function goToEditChar(chid){
-		debug("GOTOEDITCHAR - " + chid);
+		//debug("GOTOEDITCHAR - " + chid);
 		_UI.selectedshape = -1;
 		_UI.selectedchar = chid;
 		_UI.navhere = "character edit";
@@ -178,10 +178,10 @@
 		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
 
 		for(var k=0; k<ui.length; k++){
-			debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
+			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
 			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
 			_GP.fontchars[ui[k]].drawCharToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
-			debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
+			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
 		}
 	}
 

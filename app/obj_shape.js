@@ -384,7 +384,7 @@
 			if(newshape.link){
 				_UI.selectedtool = "shaperesize";
 			} else if(newshape.path && (_UI.selectedtool == "shaperesize")) {
-				debug("ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?");
+				//debug("ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?");
 				//newshape.path.calcMaxes();
 			}
 		} else {

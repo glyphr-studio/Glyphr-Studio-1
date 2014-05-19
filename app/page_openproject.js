@@ -55,11 +55,11 @@
 				var v = fcontent.projectsettings.version;
 				if(v){
 					if(v.split(".")[1] !== 4){
-						debug("HANDLEDROP - fcontent before migrate:");
-						debug(fcontent);
+						//debug("HANDLEDROP - fcontent before migrate:");
+						//debug(fcontent);
 						fcontent = migrateFromBetaThreeToFour(fcontent);
-						debug("HANDLEDROP - fcontent after migrate:");
-						debug(fcontent);
+						//debug("HANDLEDROP - fcontent after migrate:");
+						//debug(fcontent);
 					}
 					hydrateGlyphrProject(fcontent);
 					// debug("HANDLEDROP - fcontent after hydrate:");

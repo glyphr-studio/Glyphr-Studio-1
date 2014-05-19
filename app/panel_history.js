@@ -12,7 +12,7 @@
 			q = _UI.linkedshapeundoq;
 		}
 
-		debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
+		//debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
 
 		content += "<button style='width:100px;' class='"+(q.length>0? "buttonsel": "buttondis")+"' onclick='pullundoq();clickTool(\"pathedit\");'>undo" + ((q.length > 0) ? (" (" + q.length + ")") : "") + "</button><br>";
 		content += "<table class='detail'>";

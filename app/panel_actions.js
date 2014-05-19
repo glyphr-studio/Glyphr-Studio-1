@@ -127,7 +127,7 @@
 		var cbs = _UI.clipboardshape;
 		if(cbs){
 			var newshape = clone(cbs.s);
-			debug("PASTESHAPE checking if we've moved chars: " + cbs.c + " to " + _UI.selectedchar);
+			//debug("PASTESHAPE checking if we've moved chars: " + cbs.c + " to " + _UI.selectedchar);
 			if(cbs.c === _UI.selectedchar) {
 				cbs.dx += 20;
 				cbs.dy -= 20;

@@ -54,7 +54,7 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
-		debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
+		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
 		var s = ss("updatePathPosition");
 		dw = s.wlock? 0 : dw;
@@ -90,11 +90,11 @@
 
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
-		debug("SETPATHPOSITION - nx/ny/force: " + nx + " " + ny + " " + force);
-		debug("SETPATHPOSITION - this.maxes.ymax: " + this.maxes.ymax);
+		//debug("SETPATHPOSITION - nx/ny/force: " + nx + " " + ny + " " + force);
+		//debug("SETPATHPOSITION - this.maxes.ymax: " + this.maxes.ymax);
 		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;
-		debug("SETPATHPOSITION - dx/dy: " + dx + " " + dy);
+		//debug("SETPATHPOSITION - dx/dy: " + dx + " " + dy);
 		this.updatePathPosition(dx,dy,force);
 	};
 
@@ -160,7 +160,7 @@
 			else if (pp.type == "flat") { pp.makeFlat("H1"); }
 
 			this.validate("DRAW PATH");
-			
+
 			pph2x = sx_cx(pp.getH2x());
 			pph2y = sy_cy(pp.getH2y());
 			nxh1x = sx_cx(np.getH1x());
@@ -179,27 +179,27 @@
 		for(var pp=0; pp<this.pathpoints.length; pp++){
 			tp = this.pathpoints[pp];
 			if(!tp.P.x && tp.P.x !== 0){
-				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.x from " + tp.P.x);
+				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.x from " + tp.P.x);
 				tp.P.x = 0;
 			}
 			if(!tp.P.y && tp.P.y !== 0){
-				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.y from " + tp.P.y);
+				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.y from " + tp.P.y);
 				tp.P.y = 0;
 			}
 			if(!tp.H1.x && tp.H1.x !== 0){
-				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.x from " + tp.H1.x);
+				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.x from " + tp.H1.x);
 				tp.H1.x = 0;
 			}
 			if(!tp.H1.y && tp.H1.y !== 0){
-				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.y from " + tp.H1.y);
+				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.y from " + tp.H1.y);
 				tp.H1.y = 0;
 			}
 			if(!tp.H2.x && tp.H2.x !== 0){
-				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.x from " + tp.H2.x);
+				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.x from " + tp.H2.x);
 				tp.H2.x = 0;
 			}
 			if(!tp.H2.y && tp.H2.y !== 0){
-				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.y from " + tp.H2.y);
+				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.y from " + tp.H2.y);
 				tp.H2.y = 0;
 			}
 		}

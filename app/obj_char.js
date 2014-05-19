@@ -6,8 +6,8 @@
 
 		if(oa.charname === "LATIN SMALL LETTER X") {
 			_UI.pathdebugging = true;
-			debug("IMPORTING CHAR X: oa ");
-			debug(oa.charshapes);
+			// debug("IMPORTING CHAR X: oa ");
+			// debug(oa.charshapes);
 		}
 
 		this.objtype = 'char';
@@ -175,15 +175,15 @@
 	};
 
 	Char.prototype.setCharSize = function(nw, nh, ratiolock){
-		debug("UPDATECHARSIZE - nw/nh/ra: " + nw + " " + nh + " " + ratiolock);
-		debug("\t maxes: " + json(this.maxes));
+		//debug("UPDATECHARSIZE - nw/nh/ra: " + nw + " " + nh + " " + ratiolock);
+		//debug("\t maxes: " + json(this.maxes));
 		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
 		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
 		this.updateCharSize(dw, dh, ratiolock);
 	};
 
 	Char.prototype.updateCharSize = function(dw, dh, ratiolock){
-		debug("UPDATECHARSIZE - dw/dh/ra: " + dw + " " + dh + " " + ratiolock);
+		//debug("UPDATECHARSIZE - dw/dh/ra: " + dw + " " + dh + " " + ratiolock);
 
 		if(ratiolock){
 			if(Math.abs(dh) > Math.abs(dw)) dw = dh;

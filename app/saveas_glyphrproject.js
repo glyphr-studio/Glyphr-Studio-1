@@ -6,7 +6,7 @@
 
 		var jsonString = JSON.stringify(_GP, undefined, '\t');
 		jsonString = jsonString.replace(/\n/g, '\r\n');
-		debug("saveGlyphrProjectFile - \n"+jsonString);
+		//debug("saveGlyphrProjectFile - \n"+jsonString);
 		var fblob = new Blob([jsonString], {"type":"text/plain;charset=utf-8", "endings":"native"});
 		var fname =  _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";
 

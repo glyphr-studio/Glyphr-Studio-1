@@ -73,7 +73,7 @@
 	}
 
 	function importSVG_selectChar(cid){
-		debug("IMPORTSVG_SELECTCHAR - selecting " + cid);
+		//debug("IMPORTSVG_SELECTCHAR - selecting " + cid);
 		selectChar(cid, true);
 		document.getElementById('importsvgselecttitle').innerHTML = "Target character: "+getSelectedCharName();
 		update_NavPanels();
@@ -107,7 +107,7 @@
 				if(pathtag_count > 100) break; else pathtag_count++;
 			}
 			//debug("IMPORTSVG_IMPORTCODE - pathtag_arr is " + JSON.stringify(pathtag_arr));
-			debug("IMPORTSVG_IMPORTCODE - pathtag_arr length is " + pathtag_arr.length);
+			//debug("IMPORTSVG_IMPORTCODE - pathtag_arr length is " + pathtag_arr.length);
 
 			// Convert Tags to Glyphr Shapes
 			var data;
@@ -211,12 +211,12 @@
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({"command":command, "data":dataarr});
 
-		debug("IMPORTSVG_CONVERTPATHTAG - chunkarr data is \n" + json(chunkarr, true));
+		//debug("IMPORTSVG_CONVERTPATHTAG - chunkarr data is \n" + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			debug("\nHandling Path Chunk " + c);
+			//debug("\nHandling Path Chunk " + c);
 			if(chunkarr[c].command){
 				patharr = importSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -285,8 +285,8 @@
 		var prevx = round(lastpoint.P.x, 3);
 		var prevy = round(lastpoint.P.y, 3);
 
-		debug("\tprevious point x y\t"+prevx+" "+prevy);
-		debug("\t"+cmd+" ["+chunk.data+"]");
+		//debug("\tprevious point x y\t"+prevx+" "+prevy);
+		//debug("\t"+cmd+" ["+chunk.data+"]");
 
 
 		// handle command types
@@ -331,7 +331,7 @@
 			xx = round(xx, 3);
 			yy = round(yy, 3);
 
-			debug("\tlinear end xx yy\t" + xx + " " + yy);
+			//debug("\tlinear end xx yy\t" + xx + " " + yy);
 			p = new Coord({"x":xx, "y":yy});
 
 			lastpoint.useh2 = false;
@@ -373,7 +373,7 @@
 					p.y += prevy;
 				}
 
-				debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
+				//debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
 
 				patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "useh1":true, "useh2":true}));
 			}
@@ -395,7 +395,7 @@
 				p.y += prevy;
 			}
 
-			debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
+			//debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
 
 			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "type":"symmetric", "useh1":true, "useh2":true}));
 
@@ -406,7 +406,7 @@
 		}
 
 		var added = patharr[patharr.length-1];
-		debug("CREATED PATH POINT \n"+json(added));
+		//debug("CREATED PATH POINT \n"+json(added));
 		if(islastpoint) added.resolvePointType();
 
 		return patharr;
