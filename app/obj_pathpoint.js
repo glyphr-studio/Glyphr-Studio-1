@@ -138,33 +138,6 @@
 	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
 	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };
 
-	PathPoint.prototype.validate = function(calledby){
-		if(!this.P.x && this.P.x !== 0){
-			debug("VALIDATE PATHPOINT "+calledby+" - resetting P.x from " + this.P.x);
-			this.P.x = 0;
-		}
-		if(!this.P.y && this.P.y !== 0){
-			debug("VALIDATE PATHPOINT "+calledby+" - resetting P.y from " + this.P.y);
-			this.P.y = 0;
-		}
-		if(!this.H1.x && this.H1.x !== 0){
-			debug("VALIDATE PATHPOINT "+calledby+" - resetting H1.x from " + this.H1.x);
-			this.H1.x = 0;
-		}
-		if(!this.H1.y && this.H1.y !== 0){
-			debug("VALIDATE PATHPOINT "+calledby+" - resetting H1.y from " + this.H1.y);
-			this.H1.y = 0;
-		}
-		if(!this.H2.x && this.H2.x !== 0){
-			debug("VALIDATE PATHPOINT "+calledby+" - resetting H2.x from " + this.H2.x);
-			this.H2.x = 0;
-		}
-		if(!this.H2.y && this.H2.y !== 0){
-			debug("VALIDATE PATHPOINT "+calledby+" - resetting H2.y from " + this.H2.y);
-			this.H2.y = 0;
-		}
-	};
-
 	PathPoint.prototype.toggleUseHandle = function(h){
 		debug("TOGGLEUSEHANDLE - before:\n"+json(this));
 
@@ -203,24 +176,23 @@
 		// this.useh1 = true;
 		// this.useh2 = true;
 
-		this.validate('MAKEFLAT');
 		var angle1 = this.getHandleAngle(this.H1);
 		var angle2 = this.getHandleAngle(this.H2);
 		var hyp1 = this.getHandleLength(this.H1);
 		var hyp2 = this.getHandleLength(this.H2);
 
 		if(angle1==angle2){
-			//debug("MAKEFLAT - Equal Angles, returning");
+			debug("MAKEFLAT - Equal Angles, returning");
 			return;
 		}
 
 		if(isNaN(angle1) || isNaN(angle2)) {
-			//debug("MAKEFLAT - NaN found, returning");
+			debug("MAKEFLAT - NaN found, returning");
 			return;
 		}
 
 
-		//debug("MAKEFLAT - angle1 "+angle1+" angle2 "+angle2+" hyp1 "+hyp1+" hyp2 "+hyp2);
+		debug("MAKEFLAT - angle1 "+angle1+" angle2 "+angle2+" hyp1 "+hyp1+" hyp2 "+hyp2);
 
 		//new values
 		var newHx, newHy, mod, newadj1, newadj2;
@@ -237,10 +209,10 @@
 				//Set values
 				newHx =  (this.P.x + (newadj2));
 				newHy = (this.P.y + (newopp2*mod));
-				//debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
+				debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H2.x = newHx;
-					this.H2.y = newHy;
+					this.H2.x = round(newHx, 3);
+					this.H2.y = round(newHy, 3);
 				} else {
 					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
 					return;
@@ -258,10 +230,10 @@
 				//Set values
 				newHx =  (this.P.x + (newadj1));
 				newHy = (this.P.y + (newopp1*mod));
-				//debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
+				debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H1.x = newHx;
-					this.H1.y = newHy;
+					this.H1.x = round(newHx, 3);
+					this.H1.y = round(newHy, 3);
 				} else {
 					debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
 					return;
@@ -270,7 +242,7 @@
 		}
 
 		this.roundAll();
-		//debug("MAKEFLAT - returns " + JSON.stringify(this));
+		debug("MAKEFLAT - returns " + json(this));
 	};
 
 	PathPoint.prototype.getHandleAngle = function(hn){

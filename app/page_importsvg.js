@@ -236,6 +236,7 @@
 		}
 
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
+		newshape.path.validate('IMPORTSVG');
 		newshape.path.calcMaxes();
 
 		//debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
@@ -405,7 +406,6 @@
 		}
 
 		var added = patharr[patharr.length-1];
-		added.validate('IMPORTSVG');
 		debug("CREATED PATH POINT \n"+json(added));
 		if(islastpoint) added.resolvePointType();
 

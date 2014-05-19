@@ -154,10 +154,13 @@
 				debug("  np\n" + JSON.stringify(np));
 			}
 			*/
+			this.validate("DRAW PATH");
 
 			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
 			else if (pp.type == "flat") { pp.makeFlat("H1"); }
 
+			this.validate("DRAW PATH");
+			
 			pph2x = sx_cx(pp.getH2x());
 			pph2y = sy_cy(pp.getH2y());
 			nxh1x = sx_cx(np.getH1x());
@@ -167,6 +170,38 @@
 
 			//if(lctx == _UI.chareditctx)	debug("  curve " + pph2x +" "+ pph2y +" "+ nxh1x +" "+ nxh1y +" "+ nxppx +" "+ nxppy);
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
+		}
+	};
+
+
+	Path.prototype.validate = function(calledby){
+		var tp;
+		for(var pp=0; pp<this.pathpoints.length; pp++){
+			tp = this.pathpoints[pp];
+			if(!tp.P.x && tp.P.x !== 0){
+				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.x from " + tp.P.x);
+				tp.P.x = 0;
+			}
+			if(!tp.P.y && tp.P.y !== 0){
+				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.y from " + tp.P.y);
+				tp.P.y = 0;
+			}
+			if(!tp.H1.x && tp.H1.x !== 0){
+				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.x from " + tp.H1.x);
+				tp.H1.x = 0;
+			}
+			if(!tp.H1.y && tp.H1.y !== 0){
+				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.y from " + tp.H1.y);
+				tp.H1.y = 0;
+			}
+			if(!tp.H2.x && tp.H2.x !== 0){
+				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.x from " + tp.H2.x);
+				tp.H2.x = 0;
+			}
+			if(!tp.H2.y && tp.H2.y !== 0){
+				debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.y from " + tp.H2.y);
+				tp.H2.y = 0;
+			}
 		}
 	};
 

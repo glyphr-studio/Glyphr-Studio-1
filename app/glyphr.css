@@ -118,7 +118,6 @@
 	button,
 	button:active,
 	button:hover,
-	button:visited,
 	button:focus {
 		text-align: center;
 		padding:10px 8px;
@@ -137,7 +136,9 @@
 
 
 	.buttonsel,
-	.buttonsel:hover {
+	.buttonsel:hover,
+	.buttonsel:active,
+	.buttonsel:focus{
 		background-color:rgb(0,170,225);
 		color:rgb(250,252,255);
 	}
@@ -147,7 +148,9 @@
 	}
 
 	.buttondis,
-	.buttondis:hover {
+	.buttondis:hover,
+	.buttondis:active,
+	.buttondis:focus{
 		color:rgb(102,107,112);
 		background-color:rgb(127,134,137);
 		cursor:default;
@@ -155,7 +158,9 @@
 	}
 
 	.spinnerbutton,
-	.spinnerbutton:hover {
+	.spinnerbutton:hover,
+	.spinnerbutton:active,
+	.spinnerbutton:focus {
 		height:22px;
 		width:20px;
 		font-size:15px;
