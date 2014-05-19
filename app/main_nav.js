@@ -4,7 +4,6 @@
 
 	function navigate(nap){
 		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
-		debug("\tSTART\tSPN = " + _GP.projectsettings.stoppagenavigation);
 
 		if(_UI.navhere === 'firstrun' && _UI.devnav){
 			debug(">>> DEV NAV - to " + _UI.devnav);
@@ -27,7 +26,6 @@
 
 		loadPageContent();
 		document.body.focus();
-		debug("\tEND\tSPN = " + _GP.projectsettings.stoppagenavigation);
 		debug(">>> NAVIGATED - to " + _UI.navhere);
 	}
 
@@ -165,7 +163,7 @@
 		} else {
 
 			_UI.navprimaryhere = "npNav";
-			if(nh==="character edit" || nh==="linked shapes") _UI.navprimaryhere = "npChar";
+			if(nh==="character edit" || nh==="linked shapes" || nh==="import svg") _UI.navprimaryhere = "npChar";
 			else if(nh==="test drive") _UI.navprimaryhere = "npAttributes";
 		}
 
@@ -179,7 +177,7 @@
 	}
 
 	function makeAndDraw_NavPanels_PopIn(){
-		//debug("MAKEANDDRAW_NAVPANELS_POPIN - navprimaryhere:" + _UI.navprimaryhere);
+		debug("MAKEANDDRAW_NAVPANELS_POPIN - navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		updateSaveIcon();
@@ -232,7 +230,6 @@
 				nt.innerHTML = makePanel_History();
 				break;
 			case "npSave":
-
 				saveGlyphrProjectFile();
 				break;
 		}
