@@ -155,16 +155,16 @@ function saveTextFile(fname, fblob) {
 			"date": new Date().getTime()
 		};
 
-		if(_UI.navhere == "character edit"){
-			uqo.state = clone(_UI.charcurrstate);
-			_UI.charundoq.push(uqo);
-			_UI.charcurrstate = clone(_GP.fontchars);
-		} else if (_UI.navhere == "linked shapes"){
+		if (_UI.navhere == "linked shapes"){
 			uqo.state = clone(_UI.linkcurrstate);
 			_UI.linkedshapeundoq.push(uqo);
 			_UI.linkcurrstate = clone(_GP.linkedshapes);
+		} else {
+			uqo.state = clone(_UI.charcurrstate);
+			_UI.charundoq.push(uqo);
+			_UI.charcurrstate = clone(_GP.fontchars);
 		}
-
+		
 		setProjectAsUnsaved();
 	}
 
@@ -172,24 +172,24 @@ function saveTextFile(fname, fblob) {
 		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
 		var uqo;
 
-		if(_UI.navhere == "character edit"){
-			if(_UI.charundoq.length > 0){
-				uqo = _UI.charundoq.pop();
-				_GP.fontchars = uqo.state;
-				_UI.charcurrstate = clone(_GP.fontchars);
-				redraw("pullundoq");
-			}
-		} else if (_UI.navhere == "linked shapes"){
+		if (_UI.navhere == "linked shapes"){
 			if(_UI.linkedshapeundoq.length > 0){
 				uqo = _UI.linkedshapeundoq.pop();
 				_GP.linkedshapes = uqo.state;
 				_UI.linkcurrstate = clone(_GP.linkedshapes);
 				redraw("pullundoq");
 			}
-		}
+		} else {
+			if(_UI.charundoq.length > 0){
+				uqo = _UI.charundoq.pop();
+				_GP.fontchars = uqo.state;
+				_UI.charcurrstate = clone(_GP.fontchars);
+				redraw("pullundoq");
+			}
 
-		if(_UI.charundoq.length === 0 && _UI.linkedshapeundoq.length === 0){
-			setProjectAsSaved();
+			if(_UI.charundoq.length === 0 && _UI.linkedshapeundoq.length === 0){
+				setProjectAsSaved();
+			}
 		}
 	}
 

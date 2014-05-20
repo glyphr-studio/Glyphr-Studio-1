@@ -335,7 +335,8 @@
 			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.projectsettings));'>PS</button><br>";
 			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.opentypeproperties));'>OTP</button><br>";
 			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.fontchars));'>FC</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.linkedshapes));'>LS</button><br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(json(_GP.linkedshapes));'>LS</button><br><br>";
+			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='console.clear();'>clear</button><br>";
 		}
 
 		return newsub;

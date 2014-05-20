@@ -175,7 +175,7 @@
 	};
 
 	Char.prototype.setCharSize = function(nw, nh, ratiolock){
-		//debug("UPDATECHARSIZE - nw/nh/ra: " + nw + " " + nh + " " + ratiolock);
+		debug("SET CHARSIZE - nw/nh/ra:\t" + nw + "\t " + nh + "\t " + ratiolock);
 		//debug("\t maxes: " + json(this.maxes));
 		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
 		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
@@ -183,7 +183,7 @@
 	};
 
 	Char.prototype.updateCharSize = function(dw, dh, ratiolock){
-		//debug("UPDATECHARSIZE - dw/dh/ra: " + dw + " " + dh + " " + ratiolock);
+		debug("UPDATE CHARSIZE - dw/dh/ra:\t" + dw + "\t " + dh + "\t " + ratiolock);
 
 		if(ratiolock){
 			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
@@ -197,20 +197,28 @@
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
+		debug("\t\t ratio dh/dw:\t" + ratiodh + "\t " + ratiodw);
+
 		var cs = this.charshapes;
 		var tp, pnw, pnh, pnx, pny;
 		for(var i=0; i<cs.length; i++){
 			tp = cs[i].path;
 
-			// move
-			pnx = (ratiodw * (tp.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
-			pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin;
-			tp.setPathPosition(pnx, pny, true);
-
 			// scale
-			pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
-			pnh = ((tp.maxes.ymax - tp.maxes.ymin)*ratiodh);
+			if(dw === 0) pnw = false;
+			else pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
+			if(dh === 0) pnh = false;
+			else pnh = ((tp.maxes.ymax - tp.maxes.ymin)*ratiodh);
+
 			tp.setPathSize(pnw, pnh, ratiolock);
+
+			// move
+			if(dw === 0) pnx = false;
+			else pnx = (ratiodw * (tp.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
+			if(dh === 0) pny = false;
+			else pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tp.maxes.ymax - tp.maxes.ymin);
+			
+			tp.setPathPosition(pnx, pny, true);
 		}
 
 		this.calcCharMaxes();

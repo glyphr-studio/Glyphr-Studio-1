@@ -56,7 +56,7 @@
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
 		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
 
-		var s = ss("updatePathPosition");
+		var s = ss("updatePathSize");
 		dw = s.wlock? 0 : dw;
 		dh = s.hlock? 0 : dh;
 
@@ -90,7 +90,7 @@
 
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
-		//debug("SETPATHPOSITION - nx/ny/force: " + nx + " " + ny + " " + force);
+		debug("SETPATHPOSITION - nx/ny/force:\t " + nx + "\t " + ny + "\t " + force);
 		//debug("SETPATHPOSITION - this.maxes.ymax: " + this.maxes.ymax);
 		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;

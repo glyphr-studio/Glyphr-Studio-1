@@ -125,7 +125,6 @@
 				//for(var d=0; d<5; d++){
 					if(data[d].length){
 						newshapes.push(importSVG_convertPathTag(data[d]));
-						putundoq("Imported Path from SVG to character "+getSelectedCharName());
 					}
 				}
 			}
@@ -144,6 +143,7 @@
 			maxes.ymax = Math.max(s.path.maxes.ymax, maxes.ymax);
 			maxes.ymin = Math.min(s.path.maxes.ymin, maxes.ymin);
 		}
+		putundoq("Imported Path from SVG to character "+getSelectedCharName());
 /*		
 		// Flip and Scale
 		var mid = ((maxes.ymax - maxes.ymin)/2) + maxes.ymin;
