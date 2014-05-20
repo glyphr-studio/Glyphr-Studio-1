@@ -104,7 +104,7 @@
 
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 						"<td> lock aspect ratio </td>"+
-						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";",sc.ratiolock)+"</td></tr>";
+						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"lock aspect ratio\");",sc.ratiolock)+"</td></tr>";
 		
 			content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2>"+
 					"<table class='actionsgrid'><tr><td>"+
