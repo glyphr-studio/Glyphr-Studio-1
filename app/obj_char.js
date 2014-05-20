@@ -216,6 +216,19 @@
 		this.calcCharMaxes();
 	};
 
+	Char.prototype.flipEW = function(){
+		var mid = ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
+		for(var s=0; s < this.charshapes.length; s++){
+			this.charshapes[s].path.flipEW(mid);
+		}
+	};
+
+	Char.prototype.flipNS = function(){
+		var mid = ((this.maxes.ymax - this.maxes.ymin) / 2) + this.maxes.ymin;
+		for(var s=0; s < this.charshapes.length; s++){
+			this.charshapes[s].path.flipNS(mid);
+		}
+	};
 
 //-------------------------------------------------------
 // CHAR FUNCTIONS

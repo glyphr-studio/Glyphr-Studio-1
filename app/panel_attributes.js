@@ -104,7 +104,13 @@
 
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 						"<td> lock aspect ratio </td>"+
-						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"Character: lock aspect ratio\");",sc.ratiolock)+"</tr>";
+						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";",sc.ratiolock)+"</tr>";
+		
+			content += "<tr><td colspan=3><table class='actionsgrid'><tr>"+
+					"<td><button onclick='getSelectedChar().flipEW(); putundoq(\"Flip Character : Vertical\"); redraw(\"Character Details - FlipEW\");'>Flip Vertical</button></td>"+
+					"<td><button onclick='getSelectedChar().flipNS(); putundoq(\"Flip Character : Horizontal\"); redraw(\"Character Details - FlipNS\");'>Flip Horizontal</button></td>"+
+					"<td>&nbsp;</td>"+
+					"</tr></table></td></tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 			"<td colspan=2><i>This character needs to have at least two shapes in order to bulk-transform.</i></td>"+
