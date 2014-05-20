@@ -67,6 +67,7 @@
 	h1 {
 		margin-left:0px;
 		color:rgb(204,209,214);
+		color:rgb(178,183,188);
 		font-size:2em;
 		clear:right;
 		text-transform:uppercase;
@@ -224,6 +225,7 @@
 
 	.paneltitle {
 		color:rgb(204,209,214);
+		color:rgb(178,183,188);
 		font-weight:normal;
 		margin:10px 0px 16px 0px;
 	}
@@ -891,7 +893,7 @@
 	.detail input[type=text][disabled='disabled']{
 		background-color:rgb(204,209,214);
 		border:1px solid rgb(204,209,214);
-		color:rgb(76,81,86);
+		color:rgb(127,134,137);
 	}
 
 	.detail .rightcol {

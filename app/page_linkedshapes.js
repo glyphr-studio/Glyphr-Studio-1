@@ -37,7 +37,7 @@
 		}
 		re += "</table><br><br>";
 
-		re += "<h1>actions</h1>";
+		re += "<h1 class='paneltitle'>actions</h1>";
 		re += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
 		re += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
 		re += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
@@ -191,7 +191,7 @@
 // Update Actions
 //-------------------
 	function linkedShapeActions(){
-		var content = "<h1>actions</h1><table class='actionsgrid'><tr>";
+		var content = "<h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
 
 		var s = ss("Update Actions");
 

@@ -26,7 +26,7 @@
 
 		loadPageContent();
 		document.body.focus();
-		debug(">>> NAVIGATED - to " + _UI.navhere);
+		//debug(">>> NAVIGATED - to " + _UI.navhere);
 	}
 
 
