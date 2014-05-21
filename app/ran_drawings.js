@@ -143,7 +143,7 @@ _UI.icons.tool_shapeResize = {
 	'outline': '<rect x="16" y="5" width="1" height="10"/><rect x="5" y="16" width="10" height="1"/><rect x="5" y="3" width="10" height="1"/><rect x="3" y="5" width="1" height="10"/><rect x="1" y="1" width="4" height="1"/><rect x="1" y="4" width="4" height="1"/><rect x="1" y="1" width="1" height="4"/><rect x="4" y="1" width="1" height="4"/><rect x="15" y="1" width="4" height="1"/><rect x="15" y="4" width="4" height="1"/><rect x="15" y="1" width="1" height="4"/><rect x="18" y="1" width="1" height="4"/><rect x="15" y="15" width="4" height="1"/><rect x="15" y="18" width="4" height="1"/><rect x="15" y="15" width="1" height="4"/><rect x="18" y="15" width="1" height="4"/><rect x="1" y="15" width="4" height="1"/><rect x="1" y="18" width="4" height="1"/><rect x="1" y="15" width="1" height="4"/><rect x="4" y="15" width="1" height="4"/><rect x="8" y="8" width="4" height="1"/><rect x="8" y="11" width="4" height="1"/><rect x="8" y="8" width="1" height="4"/><rect x="11" y="8" width="1" height="4"/>'};
 
 _UI.icons.tool_newRect = {
-	'fill': '<rect x="2" y="2" width="12" height="12"/>', 
+	'fill': '<rect x="2" y="2" width="12" height="12"/>',
 	'outline':'<rect x="1" y="1" width="13" height="1"/><rect x="1" y="13" width="13" height="1"/><rect x="14" y="16" width="5" height="1"/><rect x="1" y="2" width="1" height="12"/><rect x="13" y="2" width="1" height="12"/><rect x="16" y="14" width="1" height="5"/>'};
 
 _UI.icons.tool_newOval = {
@@ -188,8 +188,8 @@ function makePointButton(type, selected) {
 	}
 
 	//debug("MAKEPOINTBUTTON - " + type + " selected: " + selected + " color: " + color);
-	var re = ""; 
-	
+	var re = "";
+
 	re += '<button class="pointtypebutton" style="background-color:'+bgcolor+';" ';
 	re += 'onclick="ss().path.sp().type = \''+type+'\'; putundoq(\'Point Type: '+type+'\'); redraw(\'pointDetails\');" ';
 	re += 'title="point type: '+type+'" ';
@@ -245,7 +245,7 @@ function makePointButton(type, selected) {
 
 function lockUI(varname, islocked){
 	var re = "<button class='customui' style='padding-top:1px;' "+
-	'onclick="'+varname+'='+!islocked+'; redraw(\'Lock UI\');">'+
+	'onclick="'+varname+'=!'+varname+'; redraw(\'Lock UI\');">'+
 	'<svg version="1.1" '+
 	'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
 	'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
@@ -261,19 +261,47 @@ function lockUI(varname, islocked){
 	return re;
 }
 
-function checkUI(onclick, ischecked){
-	//debug("CHECKUI -  onclick:" + onclick + " ischecked:" + ischecked);
+function checkUI(varname, doredraw){
+	//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
+	var idname = varname.split(".");
+	idname = idname[idname.length-1];
+	var currbool = eval(varname);
 
-	var re = "<button class='customui' style='position:relative; top:-2px;' "+
-	"onclick='"+onclick+"'> "+
+	var re = ''+
+		'<label for="'+idname+'" class="checkboxfunclabel">' + 
+		'<input type="checkbox" class="checkboxfunc" ' +
+		'id="'+idname+'"' +
+		(currbool? ' checked ' : ' ') +
+		'onclick="' +
+		'debug(\'Clicked on checkbox '+varname+'\'); ' +
+		'toggle(\''+varname+'\'); ' +
+		'putundoq(\'Toggled '+idname+': '+!currbool+'\'); '+
+		(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
+		'>' +
+		'<span class="checkboxui"></span>' +
+		'</label>';
+
+
+/*	var re = '<button class="customui" style="position:relative; top:-2px;" '+
+	'onclick="'+varname+'=!'+varname+'; '+
+	(doredraw? 'redraw(\'CheckUI\'); ' : ' ') +
+	'toggleCheckUI(this.childNodes[0].childNodes[2]);"'+
+	'>'+
 	'<svg version="1.1" '+
 	'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
 	'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
 	'<rect y="4" fill="'+_UI.colors.g8+'" width="16" height="16"/>'+
-	(ischecked? ('<polygon fill="'+_UI.colors.accent+'" points="1,11.8 7.6,19 19,5.2 16.6,1 7.6,14.2 3.4,8.8"/>') : '')+
-	'</g></svg></button>';
-
+	'<polygon style="display:block;" fill="'+_UI.colors.accent+'" points="1,11.8 7.6,19 19,5.2 16.6,1 7.6,14.2 3.4,8.8"/>'+
+	'</g></svg>'+
+	'</button>';*/
+	//debug("CHECKUI returning\n"+re);
 	return re;
+}
+
+function toggleCheckUI(elem){
+	debug("TOGGLECHECKUI - elem " + elem);
+	if(elem.style.display === 'block') elem.style.display = 'none';
+	else elem.style.display = 'block';
 }
 
 function helpUI(message){

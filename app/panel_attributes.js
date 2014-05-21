@@ -104,7 +104,7 @@
 
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 						"<td> lock aspect ratio </td>"+
-						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock="+!sc.ratiolock+";redraw(\"lock aspect ratio\");",sc.ratiolock)+"</td></tr>";
+						"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock")+"</td></tr>";
 		
 			content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2>"+
 					"<table class='actionsgrid'><tr><td>"+
@@ -122,7 +122,7 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> auto advance width </td>"+
-					"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide="+!sc.isautowide+"; redraw(\"charDetails\");", sc.isautowide)+"</td>"+
+					"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide",true)+"</td>"+
 					"</tr>";
 
 		if(!sc.isautowide){
@@ -143,7 +143,7 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> use default left side bearing </td>"+
-					"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing="+!sc.leftsidebearing+"; redraw(\"charDetails\");", !sc.leftsidebearing)+"</td>"+
+					"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing",true)+"</td>"+
 					"</tr>";
 
 		if(sc.leftsidebearing){
@@ -257,7 +257,7 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 					"<td> lock aspect ratio </td>"+
-					"<td class='rightcol'>"+checkUI("ss().ratiolock="+!s.ratiolock+";redraw(\"lock aspect ratio\");",s.ratiolock)+"</tr>";
+					"<td class='rightcol'>"+checkUI("ss().ratiolock",true)+"</tr>";
 
 		//debug("<b>SHAPE DETAILS OUTPUT:<b><br><textarea rows=9 cols=3000>" + content + "</textarea>");
 		return content;
@@ -296,7 +296,8 @@
 		if(tp.type !== 'symmetric'){
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 						"<td> use handle 1 </td>"+
-						"<td class='rightcol'>"+checkUI("ss().path.sp().toggleUseHandle(\"H1\");", tp.useh1)+"</td>"+
+						"<td class='rightcol'>"+checkUI("ss().path.sp().useh1",true)+"</td>"+
+//						"<td class='rightcol'>"+checkUI("ss().path.sp().toggleUseHandle(\"H1\");", tp.useh1)+"</td>"+
 						"</tr>";
 		}
 
@@ -324,7 +325,8 @@
 		if(tp.type !== 'symmetric'){
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 						"<td> use handle 2 </td>"+
-						"<td class='rightcol'>"+checkUI("ss().path.sp().toggleUseHandle(\"H2\");", tp.useh2)+"</td>"+
+						"<td class='rightcol'>"+checkUI("ss().path.sp().useh2",true)+"</td>"+
+//						"<td class='rightcol'>"+checkUI("ss().path.sp().toggleUseHandle(\"H2\");", tp.useh2)+"</td>"+
 						"</tr>";
 		}
 

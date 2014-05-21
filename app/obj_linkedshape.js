@@ -124,7 +124,7 @@
 		//debug("LINKEDSHAPEINSTANCEDETAILS - start of function");
 		content = "<tr><td colspan=3><h3>linked shape</h3></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px;'> name </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' style='width:90%;' type='text' value='" + s.name + "' onchange='ss().name = this.value; putundoq(\"shape name\"); redraw(\"linkedShapeInstanceDetails\");'></td></tr>";
-		content += "<tr><td class='leftcol'>&nbsp;</td><td> use linked shape position</td><td>"+checkUI("ss().uselinkedshapexy="+!s.uselinkedshapexy+"; putundoq(\"use linked shape position\"); redraw(\"linkedShapeInstanceDetails\");", s.uselinkedshapexy)+"</td></tr>";
+		content += "<tr><td class='leftcol'>&nbsp;</td><td> use linked shape position</td><td>"+checkUI("ss().uselinkedshapexy", true)+"</td></tr>";
 		if(!s.uselinkedshapexy){
 		content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2><h3 style='font-size:.9em; color:rgb(153,158,163);'>x & y values are relative to the linked shape position</h3></td></tr>";
 		content += "<tr><td class='leftcol'>&nbsp;</td><td style='margin-top:0px; padding-top:0px; text-transform:none;'>&#916; x </td><td style='margin-top:0px; padding-top:0px; padding-right:10px;'><input class='input' type='text' value='" + s.xpos + "' onchange='ss().xpos = (this.value*1); putundoq(\"linkedshape xpos\"); redraw(\"linkedShapeInstanceDetails\");'>"+spinner()+"</td></tr>";

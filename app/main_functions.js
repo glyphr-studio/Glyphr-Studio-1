@@ -164,7 +164,7 @@ function saveTextFile(fname, fblob) {
 			_UI.charundoq.push(uqo);
 			_UI.charcurrstate = clone(_GP.fontchars);
 		}
-		
+
 		setProjectAsUnsaved();
 	}
 
@@ -213,6 +213,13 @@ function saveTextFile(fname, fblob) {
 		var mul = dir? 1 : -1;
 		return round(this) + (0.5 * mul);
 	};
+
+	// flip boolean var
+	function toggle(val) {
+		//debug("TOGGLE - typeof val = " + typeof(val));
+		if(typeof(val) === 'string') eval(val + " = !" + val);
+		else val = !val;
+	}
 
 	// better rounding than Math.round
 	function round(num, dec){
