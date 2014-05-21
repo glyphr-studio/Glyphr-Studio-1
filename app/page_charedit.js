@@ -128,9 +128,13 @@
 	function redraw(calledby){
 
 		//debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);
-		if(_UI.navhere == "linked shapes") {
+		if(_UI.navhere === "linked shapes") {
 			_UI.redrawing = false;
 			linkedshapesredraw("redraw");
+			return;
+		} else if (_UI.navhere === "test drive"){
+			_UI.redrawing = false;
+			updateTestdriveCanvas();
 			return;
 		}
 

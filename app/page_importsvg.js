@@ -10,9 +10,9 @@
 		"Check the help page for more info.<br><br>"+
 
 		"Enter the height metrics for this character:<br>"+
-		"<input type='checkbox' onchange='_UI.importsvg.ascender=this.checked;'>Ascender<br>"+
-		"<input type='checkbox' checked disabled>X Height<br>"+
-		"<input type='checkbox' onchange='_UI.importsvg.descender=this.checked;'>Descender<br>"+
+		checkUI("_UI.importsvg.ascender")+"<label for='ascender'>Ascender</label><br>"+
+		"<span style='color:"+_UI.colors.g8+";'>X Height</span><br>"+
+		checkUI("_UI.importsvg.descender")+"<label for='descender'>Descender</label><br>"+
 
 		"<h2 style='margin-bottom:10px;'>SVG Code</h2>"+
 		"<div id='droptarget' style='width:100%; height:auto; margin-bottom:0px; padding:8px;'>drop a .svg file here, or paste code below</div>"+

@@ -45,7 +45,7 @@
 					"<td>Spinner Button increment or decrement value.</td></tr>"+
 
 					"<tr><td style='text-align:right; vertical-align:bottom;'>"+checkUI('_GP.projectsettings.showkeyboardtipsicon')+"</td>"+
-					"<td>Show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button on the edit canvas.</td></tr>"+
+					"<td><label for='showkeyboardtipsicon'>Show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button on the edit canvas.</label></td></tr>"+
 					"</table><br>";
 
 		content += "</div>";

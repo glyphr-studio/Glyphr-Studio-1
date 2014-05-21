@@ -39,24 +39,24 @@
 					"The most common character sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td><input type='checkbox' " + (ps.charrange.basiclatin? "checked " : "") + " onchange='_GP.projectsettings.charrange.basiclatin = this.checked;'/></td>"+
-					"<td><b>Basic Latin</b> - Unicode characters 0x0020 through 0x007E</td></tr>"+
+					"<td>"+checkUI("_GP.projectsettings.charrange.basiclatin")+"</td>"+
+					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode characters 0x0020 through 0x007E</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					var bl = _UI.basiclatinorder;
 					for(var t=0; t<bl.length; t++){ content += (hexToChar(bl[t]) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td><input type='checkbox' " + (ps.charrange.latinsuppliment? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinsuppliment = this.checked;'/></td>"+
-					"<td><b>Latin Suppliment</b> - Unicode characters 0x00A1 through 0x00FF</td></tr>"+
+					"<td>"+checkUI("_GP.projectsettings.charrange.latinsuppliment")+"</td>"+
+					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode characters 0x00A1 through 0x00FF</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var s=0x00A1; s<=0x00FF; s++){ content += (hexToChar(s) + " "); }
 					for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td><input type='checkbox' " + (ps.charrange.latinextendeda? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinextendeda = this.checked;'/></td>"+
-					"<td><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</td></tr>"+
+					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendeda")+"</td>"+
+					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var a=0x0100; a<=0x017F; a++){ content += (hexToChar(a) + " "); }
 					for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
@@ -64,8 +64,8 @@
 
 
 		content += "<table class='settingstable'><tr>"+
-					"<td><input type='checkbox' " + (ps.charrange.latinextendedb? "checked " : "") + " onchange='_GP.projectsettings.charrange.latinextendedb = this.checked;'/></td>"+
-					"<td><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</td></tr>"+
+					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendedb")+"</td>"+
+					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var b=0x0180; b<=0x024F; b++){ content += (hexToChar(b) + " "); }
 					for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
@@ -75,7 +75,7 @@
 					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix '0x'.<br>"+
 					"For example, Unicode sets aside the range 0xE000 through 0xF8FF to be specifically not used for characters.  This range can be handy for Icon Fonts.<br>" +
 					"Custom character ranges must be unique (non-overlapping), be greater than 0x024F and less than 0xFFFF.<br><br>"+
-					"<input type='checkbox' "+(ps.charrange.filternoncharpoints?"checked ":"")+"onchange='_GP.projectsettings.charrange.filternoncharpoints=this.checked;'> Filter out reserved and non-character Unicode code points.<br>"+
+					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.charrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table><br>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+

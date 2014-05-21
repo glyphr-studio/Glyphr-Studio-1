@@ -97,7 +97,7 @@
 		content += makeTDButton("the quick brown fox jumps over a lazy dog");
 		content += makeTDButton("amazingly few discotheques provide jukeboxes");
 		content += makeTDButton("quick enemy movement will jeopardize six of the gunboats");
-		content += "<h3>character sets</h3>";
+		content += "<br><h3>character sets</h3>";
 		content += makeTDButton("abcdefghijklmnopqrstuvwxyz");
 		content += makeTDButton("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		content += makeTDButton("0123456789");
@@ -120,8 +120,8 @@
 		content += "<tr><td> 96dpi font size <span class='unit'>(pt)</span> </td><td id='roughptsize'>75</td></tr>";
 		content += "<tr><td> line gap <span class='unit'>(em units)</span> </td><td><input class='input' id='linegap' type='text' value='"+_GP.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> character spacing <span class='unit'>(em units)</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> show character boxes </td><td><input type='checkbox'" + (_UI.testdrive.showcharbox? " checked " : "") + " onchange='_UI.testdrive.showcharbox = this.checked; updateTestdriveCanvas();'></td></tr>";
-		content += "<tr><td> show baseline </td><td><input type='checkbox'" + (_UI.testdrive.showhorizontals? " checked " : "") + " onchange='_UI.testdrive.showhorizontals = this.checked; updateTestdriveCanvas();'></td></tr>";
+		content += "<tr><td> <label for='showcharbox'>show character boxes</label> </td><td>" + checkUI("_UI.testdrive.showcharbox",true) + "</td></tr>";
+		content += "<tr><td> <label for='showhorizontals'>show baseline</label> </td><td>" + checkUI("_UI.testdrive.showhorizontals",true) + "</td></tr>";
 
 		content += "<tr><td colspan=2><button onclick='createimg();'>generate png file</button></td></tr>";
 		content += "</table>";
