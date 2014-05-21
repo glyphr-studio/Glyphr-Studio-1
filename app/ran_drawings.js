@@ -243,20 +243,22 @@ function makePointButton(type, selected) {
 //	LOCK, SPINNER, CHECKBOX
 //	-----------------------
 
-function lockUI(varname, islocked){
-	var re = "<button class='customui' style='padding-top:1px;' "+
-	'onclick="'+varname+'=!'+varname+'; redraw(\'Lock UI\');">'+
-	'<svg version="1.1" '+
-	'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
-	'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
-	'<g fill="'+(islocked? _UI.colors.accent : _UI.colors.g8)+'">'+
-	'<rect y="6" width="10" height="8"/>'+
-	'<rect x="1" y="2" width="2" height="4"/>'+
-	'<rect x="7" y="2" width="2" height="4"/>'+
-	'<rect x="6" y="1" width="2" height="2"/>'+
-	'<rect x="2" y="1" width="2" height="2"/>'+
-	'<rect x="3" width="4" height="2"/>'+
-	'</g></svg></button>';
+function lockUI(varname, doredraw){
+	//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
+	var idname = varname.split("()");
+	idname = idname[idname.length-1];
+	var currbool = eval(varname);
+
+	var re = '<label for="'+idname+'" class="checkboxfunclabel">' + 
+		'<input type="checkbox" class="checkboxfunc" ' +
+		'id="'+idname+'"' +
+		(currbool? ' checked ' : ' ') +
+		'onclick="' +
+		//'debug(\'Clicked on checkbox '+varname+'\'); ' +
+		'toggle(\''+varname+'\'); ' +
+		//'putundoq(\'Toggled '+idname+': '+!currbool+'\'); '+
+		(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
+		'><span class="lockui"></span></label>';
 
 	return re;
 }
@@ -267,41 +269,22 @@ function checkUI(varname, doredraw){
 	idname = idname[idname.length-1];
 	var currbool = eval(varname);
 
-	var re = ''+
-		'<label for="'+idname+'" class="checkboxfunclabel">' + 
+	var re = '<label for="'+idname+'" class="checkboxfunclabel">' + 
 		'<input type="checkbox" class="checkboxfunc" ' +
 		'id="'+idname+'"' +
 		(currbool? ' checked ' : ' ') +
 		'onclick="' +
-		'debug(\'Clicked on checkbox '+varname+'\'); ' +
-		'toggle(\''+varname+'\'); ' +
-		'putundoq(\'Toggled '+idname+': '+!currbool+'\'); '+
-		(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
-		'>' +
-		'<span class="checkboxui"></span>' +
-		'</label>';
+		//'debug(\'Clicked on checkbox '+varname+'\'); ' +
+		'toggle(\''+varname+'\');';
+		
+		if(doredraw){
+			re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');'+
+			' redraw(\'checkbox '+idname+'\');';
+		}
 
+		re += '"><span class="checkboxui"></span></label>';
 
-/*	var re = '<button class="customui" style="position:relative; top:-2px;" '+
-	'onclick="'+varname+'=!'+varname+'; '+
-	(doredraw? 'redraw(\'CheckUI\'); ' : ' ') +
-	'toggleCheckUI(this.childNodes[0].childNodes[2]);"'+
-	'>'+
-	'<svg version="1.1" '+
-	'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
-	'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
-	'<rect y="4" fill="'+_UI.colors.g8+'" width="16" height="16"/>'+
-	'<polygon style="display:block;" fill="'+_UI.colors.accent+'" points="1,11.8 7.6,19 19,5.2 16.6,1 7.6,14.2 3.4,8.8"/>'+
-	'</g></svg>'+
-	'</button>';*/
-	//debug("CHECKUI returning\n"+re);
 	return re;
-}
-
-function toggleCheckUI(elem){
-	debug("TOGGLECHECKUI - elem " + elem);
-	if(elem.style.display === 'block') elem.style.display = 'none';
-	else elem.style.display = 'block';
 }
 
 function helpUI(message){

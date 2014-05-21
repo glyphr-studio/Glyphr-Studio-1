@@ -33,9 +33,8 @@
 
 
 		window.onbeforeunload = function(e) {
-			alert("OMG");
 			if(_GP.projectsettings.stoppagenavigation){
-				return "\n\nUnless you specifically saved your data, all your progress will be lost.\n\n";
+				return "\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n";
 			} else {
 				return;
 			}
