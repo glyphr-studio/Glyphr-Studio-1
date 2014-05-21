@@ -33,7 +33,7 @@
 		content += "Round letters usually extend a little above the x height line and below the baseline. " +
 					"A light guideline will show this overshoot distance.<br>" +
 					"<table class='settingstable'>"+
-					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value);'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 		content += "<h2>UI Behavior</h2>"+
@@ -42,7 +42,7 @@
 					"<td><label for='stoppagenavigation'>Show a confirmation message if you attempt to close an unsaved project.</label></td></tr>"+
 
 					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.spinnervaluechange)+"' onchange='var r=Math.round(parseInt(this.value)); r=r|1; _GP.projectsettings.spinnervaluechange=r; this.value=r;' style='width:25px;'/></td>"+
-					"<td>Spinner Button increment or decrement value.</td></tr>"+
+					"<td>Spinner Button and Keyboard Nudge increment or decrement value.</td></tr>"+
 
 					"<tr><td style='text-align:right; vertical-align:bottom;'>"+checkUI('_GP.projectsettings.showkeyboardtipsicon')+"</td>"+
 					"<td><label for='showkeyboardtipsicon'>Show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button on the edit canvas.</label></td></tr>"+
@@ -56,5 +56,5 @@
 	function updateGridDivisions(val){
 		var ps = _GP.projectsettings;
 		ps.griddivisions = Math.min(ps.upm, Math.max(1, val));
-		document.getElementById('metirc-ssize').value = (ps.upm / ps.griddivisions);
+		document.getElementById('metirc-ssize').value = round((ps.upm / ps.griddivisions), 3);
 	}

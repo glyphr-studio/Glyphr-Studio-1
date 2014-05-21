@@ -559,7 +559,7 @@
 		left:100px;
 		height:auto;
 		width:auto;
-		background-color:rgb(204,209,214);
+		background-color:rgb(229,234,239);
 		z-index:1002;
 		overflow:auto;
 	}
@@ -693,17 +693,15 @@
 
 	.firstruntableleft {
 		background-color: rgb(0,170,225);
-		width:465px;
+		width:475px;
 	}
 
 
-	.firstruntableright {
-
-	}
+	.firstruntableright {}
 
 	#splashscreenlogo {
 		width: 400px;
-		margin-bottom:16px;
+		margin:0px 20px 16px 0px;
 	}
 
 	.splashver {
@@ -718,19 +716,15 @@
 		text-decoration:underline;
 	}
 
-	.newtile,
-	.newtilebreak {
+	.newtile {
 		width:320px;
+		margin:20px 4px 20px 20px;
 		display:inline;
 		float:left;
 	}
 
-	.newtilebreak {
-		width:55px;
-	}
-
 	#newprojectname	{
-		width:98%;
+		width:94%;
 		height:25px;
 		margin:10px 0px 0px 0px;
 		color:rgb(51,56,61);
@@ -739,12 +733,12 @@
 
 	#droptarget {
 		width: 90%;
-		height: 72px;
-		margin: 7px 0px 20px 0px;
+		height: 70px;
+		margin: 5px 0px 0px 0px;
 		background-color: white;
 		border:1px dashed rgb(127,134,137);
 		color: rgb(0,170,225);
-		padding: 20px;
+		padding: 20px 0px 20px 20px;
 	}
 
 
@@ -770,7 +764,7 @@
 	}
 
 	.ssthumb {
-		border:3px solid rgb(204,209,214);
+		border:3px solid transparent;
 		cursor:pointer;
 	}
 

@@ -311,11 +311,14 @@
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>"+
 			"</table>"+
 
+			"</td></tr></table>"+
 
-
+			"<table><tr><td style='vertical-align:top; padding:20px 10px 0px 0px;'>"+
+				checkUI("_GP.projectsettings.showkeyboardtipsicon")+
+			"</td><td style='vertical-align:top; padding:20px 10px 0px 0px;'>"+
+				"<label style='position:relative; top:-5px;' for='showkeyboardtipsicon'>show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button</label>"+
 			"</td></tr></table>";
 
-			con += "<input type='checkbox' style='position:relative; top:-5px;' "+(_GP.projectsettings.showkeyboardtipsicon?'checked':'')+" onclick='_GP.projectsettings.showkeyboardtipsicon=this.checked;'>&nbsp; show the &nbsp;<span>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button";
 			openDialog(con);
 		}
 	}

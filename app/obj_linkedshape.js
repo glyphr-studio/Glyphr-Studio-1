@@ -47,7 +47,7 @@
 //	Insert Linked Shape
 	function insertLinkedShapeDialog(){
 		if(aalength(_GP.linkedshapes)>0){
-			var content = "Choose a Linked Shape to insert as a layer in this character:";
+			var content = "Choose a Linked Shape to insert as a layer in this character:<br><br>";
 			content += generateSSThumbs();
 			content += "<div style='display:block;'><button onclick='closeDialog();'>cancel</button></div>";
 			openDialog(content);

@@ -159,7 +159,6 @@
 					"<h3>Load an existing Glyphr Project</h3>"+
 					"<div id='droptarget'>drop file here...</div>"+
 				"</div>"+
-				"<div class='newtilebreak'>&nbsp;</div>"+
 				"<div class='newtile'>"+
 					"<h3>Start a new Glyphr Project</h3>"+
 					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+

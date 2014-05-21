@@ -169,7 +169,9 @@
 	Char.prototype.updateCharPosition = function(dx, dy, force){
 		var cs = this.charshapes;
 		for(var i=0; i<cs.length; i++){
-			cs[i].path.updatePathPosition(dx, dy, force);
+			if(!this.charshapes[i].link){
+				cs[i].path.updatePathPosition(dx, dy, force);
+			}
 		}
 		this.calcCharMaxes();
 	};
@@ -202,23 +204,25 @@
 		var cs = this.charshapes;
 		var tp, pnw, pnh, pnx, pny;
 		for(var i=0; i<cs.length; i++){
-			tp = cs[i].path;
+			if(!cs[i].link){
+				tp = cs[i].path;
 
-			// scale
-			if(dw === 0) pnw = false;
-			else pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
-			if(dh === 0) pnh = false;
-			else pnh = ((tp.maxes.ymax - tp.maxes.ymin)*ratiodh);
+				// scale
+				if(dw === 0) pnw = false;
+				else pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
+				if(dh === 0) pnh = false;
+				else pnh = ((tp.maxes.ymax - tp.maxes.ymin)*ratiodh);
 
-			tp.setPathSize(pnw, pnh, ratiolock);
+				tp.setPathSize(pnw, pnh, ratiolock);
 
-			// move
-			if(dw === 0) pnx = false;
-			else pnx = (ratiodw * (tp.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
-			if(dh === 0) pny = false;
-			else pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tp.maxes.ymax - tp.maxes.ymin);
-			
-			tp.setPathPosition(pnx, pny, true);
+				// move
+				if(dw === 0) pnx = false;
+				else pnx = (ratiodw * (tp.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
+				if(dh === 0) pny = false;
+				else pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tp.maxes.ymax - tp.maxes.ymin);
+				
+				tp.setPathPosition(pnx, pny, true);
+			}
 		}
 
 		this.calcCharMaxes();
@@ -227,14 +231,18 @@
 	Char.prototype.flipEW = function(){
 		var mid = ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
 		for(var s=0; s < this.charshapes.length; s++){
-			this.charshapes[s].path.flipEW(mid);
+			if(!this.charshapes[s].link){
+				this.charshapes[s].path.flipEW(mid);
+			}
 		}
 	};
 
 	Char.prototype.flipNS = function(){
 		var mid = ((this.maxes.ymax - this.maxes.ymin) / 2) + this.maxes.ymin;
 		for(var s=0; s < this.charshapes.length; s++){
-			this.charshapes[s].path.flipNS(mid);
+			if(!this.charshapes[s].link){
+				this.charshapes[s].path.flipNS(mid);
+			}
 		}
 	};
 
