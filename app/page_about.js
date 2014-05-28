@@ -1,7 +1,7 @@
 
 function loadPage_about(){
 	debug("LOADING PAGE >> loadPage_about");
-	var content = "<div class='pagecontent textpage'>" +
+	var content = "<div class='pagecontent textpage' style='margin-top:18px;'>" +
 	makeGlyphrStudioLogo({"width":376}) +
 	"<h2 style='margin-bottom:12px; margin-top:8px;'>"+_UI.thisGlyphrStudioVersion+"</h2>" +
 	"<table>"+

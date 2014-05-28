@@ -25,7 +25,7 @@ function GlyphrProject(){
 		"defaultlsb": 10,		// default left space
 
 		// UI stuff
-		"pointsize" : 5,						// path point square size - SHOULD BE ODD
+		"pointsize" : 5,						// path point square size
 		"spinnervaluechange" : 1,				// how much spinner controls change a value
 		"showkeyboardtipsicon" : true,
 		"stoppagenavigation" : false,			// asks to save on window close or refresh
