@@ -54,7 +54,7 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
-		//debug("UPDATEPATHSIZE - Change Size: dw/dh \t"+dw+" , "+dh);
+		//debug("UPDATEPATHSIZE - dw,dh,rl\t"+dw+" , "+dh+" , "+ratiolock);
 
 		var s = ss("updatePathSize");
 		dw = s.wlock? 0 : dw;
@@ -63,8 +63,7 @@
 		if(s.wlock && s.hlock) return;
 
 		if(!s.wlock && !s.hlock && ratiolock){
-			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
-			else dh = dw;
+			dw = dh = getRatioLockValue(dw, dh);
 		}
 
 		var oldw = this.maxes.xmax - this.maxes.xmin;
@@ -88,9 +87,17 @@
 		this.calcMaxes();
 	};
 
+	function getRatioLockValue(v1,v2){
+		var re = 0;
+		if (Math.abs(v1) === Math.abs(v2)) re = (v1 > v2)? v1 : v2;
+		else re = (Math.abs(v1) > Math.abs(v2))? v1 : v2;
+		//debug("GETRATIOLOCKVALUE " + v1 + " || " + v2 + " = " + re);
+		return re;
+	}
+
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
-		debug("SETPATHPOSITION - nx/ny/force:\t " + nx + "\t " + ny + "\t " + force);
+		//debug("SETPATHPOSITION - nx/ny/force:\t " + nx + "\t " + ny + "\t " + force);
 		//debug("SETPATHPOSITION - this.maxes.ymax: " + this.maxes.ymax);
 		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;
@@ -100,7 +107,7 @@
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
-		//debug("UPDATEPATHPOSITION - dx,dy,force "+dx+","+dy+","+force+" - pathpoints length: " + this.pathpoints.length);
+		//debug("UPDATEPATHPOSITION - dx,dy,f\t"+dx+" , "+dy+" , "+force);
 
 		for(var d=0; d<this.pathpoints.length; d++){
 			var pp = this.pathpoints[d];

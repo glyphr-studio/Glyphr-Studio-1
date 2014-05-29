@@ -226,13 +226,13 @@
 			content += "<tr><td class='leftcol'>"+lockUI("ss().wlock",true)+"</td>"+
 				"<td> width </td>"+
 				"<td class='rightcol'><input class='input' type='text' value='"+
-				round(_UI.eventhandlers.tempnewbasicshape.xmax-_UI.eventhandlers.tempnewbasicshape.xmin) + "'>&nbsp;</td>"+
+				Math.abs(round(_UI.eventhandlers.tempnewbasicshape.xmax-_UI.eventhandlers.tempnewbasicshape.xmin)) + "'>&nbsp;</td>"+
 				"</tr>";
 
 			content += "<tr><td class='leftcol'>"+lockUI("ss().hlock",true)+"</td>"+
 				"<td> height </td>"+
 				"<td class='rightcol'><input class='input' type='text' value='"+
-				round(_UI.eventhandlers.tempnewbasicshape.ymax-_UI.eventhandlers.tempnewbasicshape.ymin) + "'>&nbsp;</td>"+
+				Math.abs(round(_UI.eventhandlers.tempnewbasicshape.ymax-_UI.eventhandlers.tempnewbasicshape.ymin)) + "'>&nbsp;</td>"+
 				"</tr>";
 		}
 
