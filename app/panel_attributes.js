@@ -110,8 +110,8 @@
 
 			content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2>"+
 				"<table class='actionsgrid'><tr><td>"+
-				"<button onclick='getSelectedChar().flipEW(); putundoq(\"Flip Character : Vertical\"); redraw(\"Character Details - FlipEW\");'>Flip Vertical</button>"+
-				"<button onclick='getSelectedChar().flipNS(); putundoq(\"Flip Character : Horizontal\"); redraw(\"Character Details - FlipNS\");'>Flip Horizontal</button>"+
+				"<button onclick='getSelectedChar().flipNS(); putundoq(\"Flip Character : Horizontal\"); redraw(\"Character Details - FlipNS\");'>Flip Vertical</button>"+
+				"<button onclick='getSelectedChar().flipEW(); putundoq(\"Flip Character : Vertical\"); redraw(\"Character Details - FlipEW\");'>Flip Horizontal</button>"+
 				"</td></tr></table>"+
 				"</td></tr>";
 		} else {

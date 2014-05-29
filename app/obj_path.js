@@ -348,10 +348,10 @@
 		this.reversePath();
 	};
 
-	Path.prototype.flipEW = function(){
+	Path.prototype.flipEW = function(mid){
 		var lx = this.maxes.xmin;
 
-		var mid = ((this.maxes.xmax - this.maxes.xmin)/2)+this.maxes.xmin;
+		if(!mid) mid = ((this.maxes.xmax - this.maxes.xmin)/2)+this.maxes.xmin;
 		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + this.maxes.xmax +","+ this.maxes.xmin +","+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
