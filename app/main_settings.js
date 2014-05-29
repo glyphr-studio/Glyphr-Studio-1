@@ -31,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : "character edit",		// navigate straight to a page
+		"devnav" : "import svg",		// navigate straight to a page
 		"debug": true,					// global debug console switch
 		"debugpoints" : [false,false],
 
@@ -85,6 +85,8 @@
 			"scale" : false,
 			"ascender" : false,
 			"descender" : false,
+			"overshoot_top": false,
+			"overshoot_bottom": false
 		},
 
 		// Saveas TTX

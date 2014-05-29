@@ -102,6 +102,10 @@
 		border-collapse: collapse;
 	}
 
+	label {
+		display:inline;
+	}
+
 	label:hover {
 		color:black;
 	}
@@ -673,6 +677,15 @@
 	#svgerrormessagecontent {
 		padding:10px 20px 20px 20px;
 		color:rgb(105,45,55);
+	}
+
+	.svgscaleoption {
+		height:30px;
+		border-style: solid;
+		border-color: rgb(178,183,188);
+		border-width: 1px 1px 1px 0px;
+		vertical-align: middle;
+		padding:4px 10px 2px 8px;
 	}
 
 /* ------------------ */

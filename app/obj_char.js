@@ -177,20 +177,22 @@
 	};
 
 	Char.prototype.setCharSize = function(nw, nh, ratiolock){
-		debug("SET CHARSIZE - nw/nh/ra:\t" + nw + "\t " + nh + "\t " + ratiolock);
+		debug("SET CHARSIZE ---- nw/nh/ra:\t" + nw + "\t " + nh + "\t " + ratiolock);
 		//debug("\t maxes: " + json(this.maxes));
-		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
-		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
-		this.updateCharSize(dw, dh, ratiolock);
+		var ch = (this.maxes.ymax - this.maxes.ymin);
+		var cw = (this.maxes.xmax - this.maxes.xmin);
+		var dw = nw? (nw - cw) : 0;
+		var dh = nh? (nh - ch) : 0;
+
+		if(ratiolock){
+			if(Math.abs(nh) > Math.abs(nw)) dw = (cw*(nh/ch)) - cw;
+			else dh = (ch*(nw/cw)) - ch;
+		}
+		this.updateCharSize(dw, dh, false);
 	};
 
 	Char.prototype.updateCharSize = function(dw, dh, ratiolock){
 		debug("UPDATE CHARSIZE - dw/dh/ra:\t" + dw + "\t " + dh + "\t " + ratiolock);
-
-		if(ratiolock){
-			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
-			else dh = dw;
-		}
 
 		var oldw = this.maxes.xmax - this.maxes.xmin;
 		var oldh = this.maxes.ymax - this.maxes.ymin;
@@ -199,14 +201,18 @@
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
-		debug("\t\t ratio dh/dw:\t" + ratiodh + "\t " + ratiodw);
+		debug("\tadj dh/dw:\t" + dh + "\t " + dw);
+		debug("\told h/w:\t" + oldh + "\t " + oldw);
+		debug("\tnew h/w:\t" + newh + "\t " + neww);
+		debug("\tratio dh/dw:\t" + ratiodh + "\t " + ratiodw);
 
 		var cs = this.charshapes;
 		var tp, pnw, pnh, pnx, pny;
 		for(var i=0; i<cs.length; i++){
 			if(!cs[i].link){
 				tp = cs[i].path;
-
+				debug("\t\tpath " + i + " before h/w " + (tp.maxes.ymax - tp.maxes.ymin) + " " + (tp.maxes.xmax - tp.maxes.xmin));
+				
 				// scale
 				if(dw === 0) pnw = false;
 				else pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
@@ -222,6 +228,8 @@
 				else pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tp.maxes.ymax - tp.maxes.ymin);
 				
 				tp.setPathPosition(pnx, pny, true);
+
+				debug("\t\tpath " + i + " afters h/w " + (tp.maxes.ymax - tp.maxes.ymin) + " " + (tp.maxes.xmax - tp.maxes.xmin));
 			}
 		}
 
@@ -245,6 +253,13 @@
 			}
 		}
 	};
+
+	Char.prototype.sendShapesTo = function(otherchar) {
+		var destination = getChar(otherchar, true);
+		destination.charshapes = destination.charshapes.concat(this.charshapes);
+		destination.calcCharMaxes();
+	};
+
 
 //-------------------------------------------------------
 // CHAR FUNCTIONS

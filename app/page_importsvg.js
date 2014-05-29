@@ -1,18 +1,48 @@
 	function loadPage_importsvg(){
 		debug("LOADING PAGE >> loadpage_importsvg");
+		var chname = getSelectedCharName();
 		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
-		"<h2 id='importsvgselecttitle'>Target character: "+getSelectedCharName()+"</h2>"+
+		"<h2 id='importsvgselecttitle'>Target character: "+chname+"</h2>"+
 
-		"<h2 style='margin-bottom:10px;'>Scaling</h2>"+
-		"For best results, scale your SVG outlines before you import them to Glyphr Studio.  "+
-		"Characters should be "+_GP.projectsettings.upm+" units tall, with an ascender/descender "+
-		"split of "+_GP.projectsettings.ascent+"/"+(_GP.projectsettings.upm-_GP.projectsettings.ascent)+".  "+
-		"Check the help page for more info.<br><br>"+
+		"<table style='margin-top:16px;'><tr><td style='wdith:50%;'>"+
+			"<table><tr><td>"+
+				checkUI("_UI.importsvg.scale") + 
+			"</td><td style='vertical-align:middle; padding:3px 0px 2px 4px;'>"+
+				"<label for='scale'>Scale the imported SVG outlines</label>"+
+			"</td></tr></table>"+
+		"</td><td style='width:50%; padding-top:4px;'>"+
+			"Enter the height metrics for this character:<br>"+
+			
+			"<table style='margin-top:10px;'><tr><td style='width:20px;vertical-align:middle;'>"+
+				checkUI("_UI.importsvg.ascender")+
+			"</td><td class='svgscaleoption'>"+
+				"<label for='ascender'>Ascender</label>"+
+			"</td><td style='padding-left:30px;' rowspan='3'>"+
+				
+				"<table><tr><td colspan='2'>"+
+					"For rounded characters:"+
+				"</td></tr><tr><td>"+
+					checkUI("_UI.importsvg.overshoot_top")+
+				"</td><td style='vertical-align:middle; padding:4px 0px 2px 8px;'>"+
+					"<label for='overshoot_top'>top overshoot</label>"+
+				"</td></tr><tr><td>"+
+					checkUI("_UI.importsvg.overshoot_bottom")+
+				"</td><td style='vertical-align:middle; padding:4px 0px 2px 8px;'>"+
+					"<label for='overshoot_bottom'>bottom overshoot</label>"+
+				"</td></tr></table>"+
 
-		"Enter the height metrics for this character:<br>"+
-		checkUI("_UI.importsvg.ascender")+"<label for='ascender'>Ascender</label><br>"+
-		"<span style='color:"+_UI.colors.g8+";'>X Height</span><br>"+
-		checkUI("_UI.importsvg.descender")+"<label for='descender'>Descender</label><br>"+
+
+			"</tr><tr><td style='vertical-align:middle;'>"+
+				"<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUtJREFUeNpiYKAyYKRE88x5iwWA1H4gDkxPin0AEmOi0EHzgdgAiOspdiHQdQFAaj2SkCPQlQdYzly89p9Uw/7+/ctw+fJlMI0EQK48QJaXHzx4gG4YA9TrpIfhhw8fwBhdGORlkg389esX2HVYQCEw/C5gGPjt2zdyvNoINGwBjAM38O3btwy3bt3CaeirV68YPn/+jCImLCzMADSsAVmMCeYymO13797FcAXIq8+ePUMR4+LiYpCVlcWwGGwgyGX4wgndq8zMzAzKyspgGquBAgICGDH5/PlznF5VU1NjYGNjwxo0LCBCQUEBHo4wAPIiyAWPHz9G0QBSC/IuLsCETyG6YWJiYuCIwAeY0L2Cy3ZQsGCLBLwGgryIzVAQHxYsJBmILQZBtLy8PNYYJcpAEADFIMilMMPxRQLWWMYGQIYYGBiQXBIBBBgAnLmHKqNtApUAAAAASUVORK5CYII='>"+
+			"</td><td class='svgscaleoption'>"+
+				"<span style='color:"+_UI.colors.g4+";'>X Height</span>"+
+			"</td></tr><tr><td style='vertical-align:middle;'>"+				
+				checkUI("_UI.importsvg.descender")+
+			"</td><td class='svgscaleoption'>"+
+				"<label for='descender'>Descender</label><br>"+
+			"</td></tr></table>"+
+
+		"</td></tr></table>"+
 
 		"<h2 style='margin-bottom:10px;'>SVG Code</h2>"+
 		"<div id='droptarget' style='width:100%; height:auto; margin-bottom:0px; padding:8px;'>drop a .svg file here, or paste code below</div>"+
@@ -124,7 +154,8 @@
 				for(var d=0; d<data.length; d++){
 				//for(var d=0; d<5; d++){
 					if(data[d].length){
-						newshapes.push(importSVG_convertPathTag(data[d]));
+						newshapes.push(new Shape(importSVG_convertPathTag(data[d])));
+						newshapes[newshapes.length-1].name = ("SVG Path " + (d+1));
 					}
 				}
 			}
@@ -133,29 +164,33 @@
 			importSVG_errorMessage("Could find no &lt;path&gt; tags to import");
 		}
 
+		var tempchar = new Char({"charshapes":newshapes});
 
-		// Add and find maxes
-		var s;
-		for(var i=0; i<newshapes.length; i++) {
-			s = addShape(newshapes[i]);
-			maxes.xmin = Math.min(s.path.maxes.xmin, maxes.xmin);
-			maxes.xmax = Math.min(s.path.maxes.xmin, maxes.xmax);
-			maxes.ymax = Math.max(s.path.maxes.ymax, maxes.ymax);
-			maxes.ymin = Math.min(s.path.maxes.ymin, maxes.ymin);
-		}
-		putundoq("Imported Path from SVG to character "+getSelectedCharName());
-/*		
 		// Flip and Scale
-		var mid = ((maxes.ymax - maxes.ymin)/2) + maxes.ymin;
-		var dy = ((_UI.importsvg.ascender? _GP.projectsettings.ascent : _GP.projectsettings.xheight) - maxes.ymax) + maxes.ymin;
-		var tsp;
-		for(var j=0; j<newshapes.length; j++) {
-			tsp = newshapes[j].path;
-			tsp.flipNS(mid);
-			tsp.updatePathPosition(0,dy,true);
-			// Scale
+		tempchar.flipNS();
+		var so = _UI.importsvg;
+		var gp = _GP.projectsettings;
+
+		if(_UI.importsvg.scale){
+			var totalheight = so.ascender? gp.ascent : gp.xheight;
+			var finaltop = (so.ascender? gp.ascent : gp.xheight);
+			var ovs = gp.overshoot;
+
+			if(so.descender) totalheight += (gp.upm - gp.ascent);
+			if(so.overshoot_bottom) totalheight += ovs;
+			if(so.overshoot_top){
+				totalheight += ovs;
+				finaltop += ovs;
+			}
+
+			tempchar.setCharSize(false, totalheight, true);
+			tempchar.setCharPosition(0, finaltop);
 		}
-*/
+
+		// Add new Char Shapes
+		tempchar.sendShapesTo(getSelectedCharID());
+		putundoq("Imported Paths from SVG to character "+getSelectedCharName());
+
 		update_NavPanels();
 	}
 
@@ -240,19 +275,6 @@
 		newshape.path.calcMaxes();
 
 		//debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
-
-		// Scale
-		if(_UI.importsvg.scale){
-			var height = _GP.projectsettings.xheight;
-			if(_UI.importsvg.ascender){
-				height = _GP.projectsettings.ascent;
-			}
-			if(_UI.importsvg.descender){
-				height += (_GP.projectsettings.upm - _GP.projectsettings.ascent);
-			}
-
-			newshape.path.updatePathSize((height - (newshape.path.maxes.ymax - newshape.path.maxes.ymin)), 0, true);
-		}
 		
 		return newshape;
 	}
