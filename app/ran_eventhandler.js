@@ -220,8 +220,8 @@
 			newshape.path.maxes = _UI.eventhandlers.tempnewbasicshape;
 			newshape = addShape(newshape);
 
-			_UI.eventhandlers.firstx = round(cx_sx(_UI.eventhandlers.mousex));
-			_UI.eventhandlers.firsty = round(cy_sy(_UI.eventhandlers.mousey));
+			_UI.eventhandlers.firstx = cx_sx(_UI.eventhandlers.mousex);
+			_UI.eventhandlers.firsty = cy_sy(_UI.eventhandlers.mousey);
 
 			redraw("Event Handler newbasicshape mousedown");
 			//debug("NEWBASICSHAPE MOUSEDOWN - after REDRAW");
@@ -229,10 +229,10 @@
 
 		this.mousemove = function (ev) {
 			if(_UI.eventhandlers.tempnewbasicshape){
-				_UI.eventhandlers.tempnewbasicshape.xmax = Math.max(_UI.eventhandlers.firstx, round(cx_sx(_UI.eventhandlers.mousex)));
-				_UI.eventhandlers.tempnewbasicshape.xmin = Math.min(_UI.eventhandlers.firstx, round(cx_sx(_UI.eventhandlers.mousex)));
-				_UI.eventhandlers.tempnewbasicshape.ymax = Math.max(_UI.eventhandlers.firsty, round(cy_sy(_UI.eventhandlers.mousey)));
-				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, round(cy_sy(_UI.eventhandlers.mousey)));
+				_UI.eventhandlers.tempnewbasicshape.xmax = Math.max(_UI.eventhandlers.firstx, cx_sx(_UI.eventhandlers.mousex));
+				_UI.eventhandlers.tempnewbasicshape.xmin = Math.min(_UI.eventhandlers.firstx, cx_sx(_UI.eventhandlers.mousex));
+				_UI.eventhandlers.tempnewbasicshape.ymax = Math.max(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
+				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 
 				ss().path.maxes = _UI.eventhandlers.tempnewbasicshape;
 				
@@ -395,8 +395,8 @@
 				//debug("\tSHAPERESIZE dragging linked shape");
 				if(this.dragging && !s.uselinkedshapexy){
 					//debug("SHAPERESIZE, this.dragging=" + this.dragging + " && !s.uselinkedshapexy=" + !s.uselinkedshapexy);
-					s.xpos += round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					s.ypos += round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
 					resetCursor();
 				}
@@ -405,8 +405,8 @@
 				if (this.dragging) {
 					// Moving shapes if mousedown
 					//debug("\tSHAPERESIZE - Moving Shape on Drag");
-					var dx = s.xlock? 0 : dx = round((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					var dy = s.ylock? 0 : dy = round((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
 					s.path.updatePathPosition(dx, dy);
 					resetCursor();
@@ -498,12 +498,12 @@
 	//convert canvas x-y inputs to saved shape x-y
 	function cx_sx(cx){
 		var v = getView("cx_sx");
-		return round((cx-v.dx)/(v.dz));
+		return ((cx-v.dx)/(v.dz));
 	}
 
 	function cy_sy(cy){
 		var v = getView("cy_sy");
-		return round((v.dy-cy)/(v.dz));
+		return ((v.dy-cy)/(v.dz));
 	}
 
 	function clickEmptySpace(){
@@ -612,10 +612,10 @@
 
 	function updateTNBS(dx,dy,dw,dh){
 		//debug("updateTNBS dx/dy/dw/dh = "+dx+" "+dy+" "+dw+" "+dh);
-		_UI.eventhandlers.tempnewbasicshape.xmin += round(dx);
-		_UI.eventhandlers.tempnewbasicshape.ymax += round(dy);
-		_UI.eventhandlers.tempnewbasicshape.xmax += round(dw+dx);
-		_UI.eventhandlers.tempnewbasicshape.ymin += round(dh+dy);
+		_UI.eventhandlers.tempnewbasicshape.xmin += (dx);
+		_UI.eventhandlers.tempnewbasicshape.ymax += (dy);
+		_UI.eventhandlers.tempnewbasicshape.xmax += (dw+dx);
+		_UI.eventhandlers.tempnewbasicshape.ymin += (dh+dy);
 	}
 
 	function canResize(pc){

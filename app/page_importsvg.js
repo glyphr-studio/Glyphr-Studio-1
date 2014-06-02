@@ -304,8 +304,8 @@
 		var cmd = chunk.command;
 		var p,h1,h2;
 		var lastpoint = patharr[patharr.length-1] || new PathPoint({"P":new Coord({"x":0,"y":0})});
-		var prevx = round(lastpoint.P.x, 3);
-		var prevy = round(lastpoint.P.y, 3);
+		var prevx = lastpoint.P.x;
+		var prevy = lastpoint.P.y;
 
 		//debug("\tprevious point x y\t"+prevx+" "+prevy);
 		//debug("\t"+cmd+" ["+chunk.data+"]");
@@ -350,9 +350,6 @@
 					break;
 			}
 
-			xx = round(xx, 3);
-			yy = round(yy, 3);
-
 			//debug("\tlinear end xx yy\t" + xx + " " + yy);
 			p = new Coord({"x":xx, "y":yy});
 
@@ -379,11 +376,11 @@
 				// default absolute for C
 				//debug("\tCc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
 
-				lastpoint.H2 = new Coord({"x":round(currdata[0], 3), "y":round(currdata[1], 3)});
+				lastpoint.H2 = new Coord({"x": currdata[0], "y": currdata[1]});
 				lastpoint.useh2 = true;
 				lastpoint.resolvePointType();
-				h1 = new Coord({"x":round(currdata[2], 3), "y":round(currdata[3], 3)});
-				p = new Coord({"x":round(currdata[4], 3), "y":round(currdata[5], 3)});
+				h1 = new Coord({"x": currdata[2], "y": currdata[3]});
+				p = new Coord({"x": currdata[4], "y": currdata[5]});
 
 				if (cmd === 'c'){
 					// Relative offset for c
@@ -406,8 +403,8 @@
 			lastpoint.makeSymmetric('H1');
 			lastpoint.useh2 = true;
 
-			h1 = new Coord({"x":round(chunk.data[0], 3), "y":round(chunk.data[1], 3)});
-			p = new Coord({"x":round(chunk.data[2], 3), "y":round(chunk.data[3], 3)});
+			h1 = new Coord({"x": chunk.data[0], "y": chunk.data[1]});
+			p = new Coord({"x": chunk.data[2], "y": chunk.data[3]});
 
 			if (cmd === 's'){
 				// Relative offset for s

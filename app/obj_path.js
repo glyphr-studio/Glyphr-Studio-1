@@ -76,12 +76,12 @@
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
-			pp.P.x =   round( ((pp.P.x  - this.maxes.xmin) * ratiodw) + this.maxes.xmin  );
-			pp.H1.x =  round( ((pp.H1.x - this.maxes.xmin) * ratiodw) + this.maxes.xmin  );
-			pp.H2.x =  round( ((pp.H2.x - this.maxes.xmin) * ratiodw) + this.maxes.xmin  );
-			pp.P.y =   round( ((pp.P.y  - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
-			pp.H1.y =  round( ((pp.H1.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
-			pp.H2.y =  round( ((pp.H2.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin  );
+			pp.P.x =   (((pp.P.x  - this.maxes.xmin) * ratiodw) + this.maxes.xmin);
+			pp.H1.x =  (((pp.H1.x - this.maxes.xmin) * ratiodw) + this.maxes.xmin);
+			pp.H2.x =  (((pp.H2.x - this.maxes.xmin) * ratiodw) + this.maxes.xmin);
+			pp.P.y =   (((pp.P.y  - this.maxes.ymin) * ratiodh) + this.maxes.ymin);
+			pp.H1.y =  (((pp.H1.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin);
+			pp.H2.y =  (((pp.H2.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin);
 		}
 
 		this.calcMaxes();

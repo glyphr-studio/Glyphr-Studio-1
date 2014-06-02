@@ -89,7 +89,7 @@
 			else if (this.type == "flat") { this.makeFlat(changed); }
 		}
 
-		this.roundAll();
+		//this.roundAll();
 
 	};
 
@@ -130,7 +130,7 @@
 				break;
 		}
 
-		this.roundAll();
+		//this.roundAll();
 	};
 
 	PathPoint.prototype.getH1x = function() { return this.useh1? this.H1.x : this.P.x; };
@@ -211,8 +211,8 @@
 				newHy = (this.P.y + (newopp2*mod));
 				//debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H2.x = round(newHx, 3);
-					this.H2.y = round(newHy, 3);
+					this.H2.x = newHx;
+					this.H2.y = newHy;
 				} else {
 					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
 					return;
@@ -232,8 +232,8 @@
 				newHy = (this.P.y + (newopp1*mod));
 				//debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H1.x = round(newHx, 3);
-					this.H1.y = round(newHy, 3);
+					this.H1.x = newHx;
+					this.H1.y = newHy;
 				} else {
 					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
 					return;
@@ -241,7 +241,7 @@
 				break;
 		}
 
-		this.roundAll();
+		//this.roundAll();
 		//debug("MAKEFLAT - returns " + json(this));
 	};
 
@@ -295,7 +295,7 @@
 		this.useh1 = true;
 		this.useh2 = true;
 
-		this.roundAll();
+		//this.roundAll();
 		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));
 	};
 
@@ -326,7 +326,7 @@
 		this.makeFlat("H1");
 		//debug("MAKEPOINTEDTO - after makesymmetric H1x/y " + this.H1.x + " " + this.H1.y);
 
-		this.roundAll();
+		//this.roundAll();
 	};
 
 	PathPoint.prototype.resetHandles = function(){
@@ -384,8 +384,6 @@
 
 		for(var a in arrow){
 			rotatedarrow.push([
-				//round((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
-				//round((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
 				((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
 				((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
 			]);
