@@ -4,7 +4,7 @@
 		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
 		"<h2 id='importsvgselecttitle'>Target character: "+chname+"</h2>"+
 
-		"<table style='margin-top:16px;'><tr><td style='wdith:50%;'>"+
+		"<table style='margin-top:16px;'><tr><td style='width:50%;'>"+
 			"<table><tr><td>"+
 				checkUI("_UI.importsvg.scale") + 
 			"</td><td style='vertical-align:middle; padding:3px 0px 2px 4px;'>"+

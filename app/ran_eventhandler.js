@@ -634,7 +634,9 @@
 	}
 
 	function mousewheel(event){
-		var delta = event.detail? event.detail*(-120) : event.wheelDelta;	//cross browser
+		var delta = (event.deltaY*-1);
+		//debug("MOUSEWHEEL - deltaY: " + event.deltaY);
+
 		var canzoom = ((_UI.navhere == "character edit") || (_UI.navhere == "linked shapes"));
 		canzoom = canzoom && (document.getElementById('dialog_box').style.display != 'block');
 
