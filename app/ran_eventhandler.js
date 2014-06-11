@@ -641,7 +641,7 @@
 		canzoom = canzoom && (document.getElementById('dialog_box').style.display != 'block');
 
 		if(canzoom){
-			if(event.altKey || event.ctrlKey){
+			if(event.ctrlKey){
 				event.preventDefault();
 				//debug("MOUSEWHEEL: canzoom=true and delta=" + delta );
 				if(delta > 0){ viewZoom(1.1); }
