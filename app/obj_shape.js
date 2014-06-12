@@ -458,6 +458,16 @@
 		updateCurrentCharWidth();
 	}
 
+	function turnSelectedShapeIntoALinkedShape(){
+		var newls = clone(ss());
+		deleteShape();
+		newls.name = ('Linked Shape from ' + newls.name);
+		var newid = addLinkedShape(newls);
+		insertLinkedShape(newid, getSelectedCharID());
+		_UI.selectedshape = getSelectedCharShapes().length-1;
+		redraw('turnSelectedShapeIntoALinkedShape');
+	}
+
 	function clickSelectShape(x,y){
 		//debug("CLICKSELECTShape() - checking x:" + x + " y:" + y);
 

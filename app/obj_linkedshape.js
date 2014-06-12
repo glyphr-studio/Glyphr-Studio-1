@@ -57,16 +57,16 @@
 		}
 	}
 
-	function insertLinkedShape(ssid, tochar){
-		//debug("INSERTLINKEDSHAPE - adding linked shape: " + ssid + " to char: " + _UI.selectedchar);
-		var ns = new LinkedShapeInstance({"link":ssid, "xpos":100, "ypos":100});
+	function insertLinkedShape(lsid, tochar){
+		//debug("INSERTLINKEDSHAPE - adding linked shape: " + lsid + " to char: " + _UI.selectedchar);
+		var ns = new LinkedShapeInstance({"link":lsid, "xpos":100, "ypos":100});
 
 		//debug("INSERT LINKED SHAPE - JSON: \t" + JSON.stringify(ns));
 		var ch = getChar(tochar, true);
 		ch.charshapes.push(ns);
 		ch.calcCharMaxes();
 
-		addToUsedIn(ssid, tochar);
+		addToUsedIn(lsid, tochar);
 
 		closeDialog();
 		putundoq("insert linked shape from charedit");

@@ -237,16 +237,24 @@
 		return content;
 	}
 
-	function addLinkedShape(){
+	function addLinkedShape(pshape){
 		var newid = generateNewSSID();
-		var newname = ("linkedshape " + _GP.projectsettings.linkedshapecounter);
-
+		var newls;
 		_UI.shownlinkedshape = newid;
-		_UI.selectedshape = newid;
+		
 
-		_GP.linkedshapes[newid] = new LinkedShape({"name":newname});
+		if(pshape){
+			newls = new LinkedShape({"shape":pshape});
+		} else {
+			newls = new LinkedShape({"name":("linkedshape " + _GP.projectsettings.linkedshapecounter)});
+		}
+		
+		if(_UI.navhere === 'linked shapes') _UI.selectedshape = newid;
+		_GP.linkedshapes[newid] = newls;
 
-		//debug("Added New Linked Shape: " + newid + " JSON=" + JSON.stringify(_GP.linkedshapes));
+		debug("Added New Linked Shape: " + newid + " JSON=" + json(_GP.linkedshapes));
+
+		return newid;
 	}
 
 	function deleteLinkedShapeConfirm(){

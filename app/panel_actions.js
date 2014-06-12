@@ -18,6 +18,12 @@
 		shapeactions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
 		shapeactions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
 		shapeactions += "<button onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+		
+		if(s.link){
+			// make this linked shape a regular shape
+		} else {
+			shapeactions += "<button onclick='turnSelectedShapeIntoALinkedShape();redraw(\"turnSelectedShapeIntoALinkedShape\");'>turn into a linked shape</button><br>";
+		}
 
 		var layeractions = "<h3>layer</h3>";
 		layeractions += "<button onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'>move up</button><br>";
