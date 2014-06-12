@@ -209,6 +209,8 @@
 				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.y from " + tp.H2.y);
 				tp.H2.y = 0;
 			}
+
+			tp.roundAll();
 		}
 	};
 
