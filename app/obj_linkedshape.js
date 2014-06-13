@@ -6,7 +6,7 @@
 	function LinkedShape(oa){
 		this.objtype = "linkedshape";
 
-		this.shape = (oa && oa.shape)? new Shape(oa.shape) : new Shape({"name":"New Linked Shape"});
+		this.shape = (oa && oa.shape)? new Shape(oa.shape) : new Shape({"name":"Linked Shape"});
 		this.usedin = oa.usedin || [];
 	}
 
@@ -22,7 +22,7 @@
 		this.link = oa.link || getFirstLinkedShape();
 		this.uselinkedshapexy = (isval(oa.uselinkedshapexy)? oa.uselinkedshapexy : true);
 
-		this.name = oa.name || "new linkedshape instance";
+		this.name = oa.name || "Linked Shape Instance";
 		this.xpos = oa.xpos || 0;
 		this.ypos = oa.ypos || 0;
 		this.xlock = isval(oa.xlock)? oa.xlock : false;
@@ -71,6 +71,25 @@
 		closeDialog();
 		putundoq("insert linked shape from charedit");
 		redraw("insertLinkedShape");
+	}
+
+	function turnLinkedShapeIntoAShape(){
+		var selshape = ss();
+		var rastershape = clone(_GP.linkedshapes[selshape.link].shape);
+		
+		if(selshape.name === 'Linked Shape Instance'){
+			rastershape.name = rastershape.name.replace('Linked Shape from ', '');
+		} else {
+			rastershape.name = selshape.name;
+		}
+		// rastershape.name = rastershape.name.replace('Linked Shape Instance', 'Shape');
+		// rastershape.name = rastershape.name.replace('Linked Shape from ', '');
+
+		deleteShape();
+		addShape(rastershape);
+
+		//debug("TURNLINKEDSHAPEINTOASHAPE - newshape \n"+json(newshape));
+		redraw('turnLinkedShapeIntoAShape');
 	}
 
 	function generateSSThumbs(){

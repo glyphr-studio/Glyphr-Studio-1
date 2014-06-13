@@ -7,7 +7,7 @@
 		this.objtype = "shape";
 
 		// common settings
-		this.name = oa.name || "new shape";
+		this.name = oa.name || "Shape";
 		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
 		this.ypos = isval(oa.ypos)? oa.ypos : 400;
 		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromCorners(false);
@@ -390,7 +390,7 @@
 		} else {
 			//debug("ADDSHAPE - passed null, creating new shape.");
 			newshape = new Shape({});
-			newshape.name = ("layer " + getSelectedCharShapes().length);
+			newshape.name = ("Shape " + getSelectedCharShapes().length);
 		}
 
 		if(_UI.navhere == "character edit") {
@@ -410,7 +410,7 @@
 		var tw = 300;
 		var newshape = new Shape({});
 		var parr = false;
-		var shapetype = "layer ";
+		var shapetype = "Shape ";
 		var p1,p2,p3,p4;
 
 		if(type == "oval"){
@@ -419,14 +419,14 @@
 			p3 = new PathPoint({"P":new Coord({"x":tw,"y":(th/2)}), "H1":new Coord({"x":tw,"y":(th-hd)}), "H2":new Coord({"x":tw,"y":hd}), "type":"symmetric"});
 			p4 = new PathPoint({"P":new Coord({"x":(tw/2),"y":0}), "H1":new Coord({"x":(tw-hd),"y":0}), "H2":new Coord({"x":hd,"y":0}), "type":"symmetric"});
 			parr = [p1,p2,p3,p4];
-			shapetype = "oval ";
+			shapetype = "Oval ";
 		} else {
 			p1 = new PathPoint({"P":new Coord({"x":0,"y":0}), "H1":new Coord({"x":hd,"y":0}), "H2":new Coord({"x":0,"y":hd})});
 			p2 = new PathPoint({"P":new Coord({"x":0,"y":th}), "H1":new Coord({"x":0,"y":(th-hd)}), "H2":new Coord({"x":hd,"y":th})});
 			p3 = new PathPoint({"P":new Coord({"x":tw,"y":th}), "H1":new Coord({"x":(tw-hd),"y":th}), "H2":new Coord({"x":tw,"y":(th-hd)})});
 			p4 = new PathPoint({"P":new Coord({"x":tw,"y":0}), "H1":new Coord({"x":tw,"y":hd}), "H2":new Coord({"x":(tw-hd),"y":0})});
 			parr = [p1,p2,p3,p4];
-			shapetype = "rect ";
+			shapetype = "Rectangle ";
 		}
 
 		newshape.path = new Path({"pathpoints":parr});

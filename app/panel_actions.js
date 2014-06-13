@@ -20,7 +20,7 @@
 		shapeactions += "<button onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 		
 		if(s.link){
-			// make this linked shape a regular shape
+			shapeactions += "<button onclick='turnLinkedShapeIntoAShape();redraw(\"turnLinkedShapeIntoAShape\");'>unlink this linked shape</button><br>";
 		} else {
 			shapeactions += "<button onclick='turnSelectedShapeIntoALinkedShape();redraw(\"turnSelectedShapeIntoALinkedShape\");'>turn into a linked shape</button><br>";
 		}
