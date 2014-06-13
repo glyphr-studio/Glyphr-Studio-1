@@ -261,10 +261,10 @@
 		} else if (ctool=="newpath"){
 			_UI.selectedshape = -1;
 		} else if(ctool=="pathedit"){
-			if(s) {s.path.selectPathPoint(0);}
+			if(s && s.path) {s.path.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool == "shaperesize"){
-			if(s){ s.path.calcMaxes(); }
+			if(s && s.path){ s.path.calcMaxes(); }
 		}
 
 		redraw("clicktool");

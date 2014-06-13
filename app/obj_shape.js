@@ -390,7 +390,7 @@
 		} else {
 			//debug("ADDSHAPE - passed null, creating new shape.");
 			newshape = new Shape({});
-			newshape.name = ("Shape " + getSelectedCharShapes().length);
+			newshape.name = ("Rectangle " + ((getSelectedCharShapes().length*1)+1));
 		}
 
 		if(_UI.navhere == "character edit") {
@@ -430,7 +430,7 @@
 		}
 
 		newshape.path = new Path({"pathpoints":parr});
-		newshape.name = (shapetype + getSelectedCharShapes().length);
+		newshape.name = (shapetype + getSelectedCharShapes().length+1);
 
 		if(_UI.navhere == "character edit") { _UI.selectedshape = getSelectedCharShapes().length; }
 		getSelectedCharShapes().push(newshape);

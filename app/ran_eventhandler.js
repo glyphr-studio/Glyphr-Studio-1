@@ -118,7 +118,7 @@
 				//debug("NEWPATH MOUSEDOWN - after new path is made.");
 
 				// make a new shape with the new path
-				var newshape = addShape(new Shape({"name": ("path "+(getSelectedCharShapes().length+1)), "path": newpath}));
+				var newshape = addShape(new Shape({"name": ("Path "+(getSelectedCharShapes().length+1)), "path": newpath}));
 				newshape.path.selectPathPoint(0);
 				//debug("NEWPATH MOUSEDOWN - end of firstpoint, new shape added with new path with single point.");
 
@@ -252,10 +252,10 @@
 
 
 				if(_UI.selectedtool=="newrect"){
-					newshape.name = ("rect " + (getSelectedCharShapes().length+1));
+					newshape.name = ("Rectangle " + (getSelectedCharShapes().length));
 					newshape.path = rectPathFromCorners(tnbs);
 				} else {
-					newshape.name = ("oval " + (getSelectedCharShapes().length+1));
+					newshape.name = ("Oval " + (getSelectedCharShapes().length));
 					newshape.path = ovalPathFromCorners(tnbs);
 				}
 
