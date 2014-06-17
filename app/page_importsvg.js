@@ -264,14 +264,14 @@
 
 		var tempchar = new Char({"charshapes":newshapes});
 
-		debug("IMPORTSVG_IMPORTCODE - tempchar maxes " + JSON.stringify(tempchar.maxes));
+		//debug("IMPORTSVG_IMPORTCODE - tempchar maxes " + JSON.stringify(tempchar.maxes));
 
 		// Flip and Scale
 		tempchar.flipNS();
 		var so = _UI.importsvg;
 		var gp = _GP.projectsettings;
 
-		debug("IMPORTSVG_IMPORTCODE - scale / move " + so.scale + " / " + so.move);
+		//debug("IMPORTSVG_IMPORTCODE - scale / move " + so.scale + " / " + so.move);
 
 		if(so.scale || so.move){
 			var totalheight = so.ascender? gp.ascent : gp.xheight;

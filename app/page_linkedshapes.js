@@ -252,7 +252,7 @@
 		if(_UI.navhere === 'linked shapes') _UI.selectedshape = newid;
 		_GP.linkedshapes[newid] = newls;
 
-		debug("Added New Linked Shape: " + newid + " JSON=" + json(_GP.linkedshapes));
+		//debug("Added New Linked Shape: " + newid + " JSON=" + json(_GP.linkedshapes));
 
 		return newid;
 	}
