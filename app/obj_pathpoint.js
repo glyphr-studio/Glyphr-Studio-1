@@ -469,4 +469,7 @@
 		this.y = oa.y || 0;
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.yllock || false;
+
+		this.x = parseInt(this.x);
+		this.y = parseInt(this.y);
 	}

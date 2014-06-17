@@ -142,7 +142,7 @@
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
-						newshapes.push(new Shape(importSVG_convertPathTag(data[d])));
+						newshapes.push(importSVG_convertPathTag(data[d]));
 						shapecounter++;
 						newshapes[newshapes.length-1].name = ("SVG Path " + shapecounter);
 					}
@@ -178,8 +178,40 @@
 		}
 
 
+		/*
+			GET POLYLINE OR POLYGON TAGS
+		*/
+		tagsarray = importSVG_getTags(svgin, 'polygon');
+		tagsarray = tagsarray.concat(importSVG_getTags(svgin, 'polyline'));
+		if(tagsarray.length){
+			data = '';
+			for(var po=0; po<tagsarray.length; po++){
+				data = tagsarray[po];
+				data = data.substring(data.indexOf(' points=')+9);
+				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
+				data = data.substring(0, close);
+
+				if(data.length){
+					data = data.split(' ');
+					debug("IMPORTSVG_IMPORTCODE - polyline data.points: " + JSON.stringify(data));
+					var pparr = [];
+					var tpp, tcoord;
+					for(var co=0; co<data.length; co++){
+						tpp = data[co].split(',');
+						tcoord = new Coord({"x":tpp[0], "y":tpp[1]});
+						pparr[co] = new PathPoint({"P":tcoord, "H1":tcoord, "H2":tcoord, "useh1":false, "useh2":false});
+					}
+					debug(json(pparr));
+
+					shapecounter++;
+					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':("SVG Polygon " + shapecounter)}));
+				}
+			}
+		}
+
+
 		if(shapecounter === 0) {
-			importSVG_errorMessage("Could find no &lt;path&gt;, &lt;rect&gt;, or &lt;oval&gt; tags to import");
+			importSVG_errorMessage("Could not find any SVG tags to import.  Supported tagas are: &lt;path&gt;, &lt;rect&gt;, &lt;polygon&gt;, &lt;polyline&gt;, and &lt;ellipse&gt;.");
 			return;
 		}
 
@@ -232,7 +264,7 @@
 	function removeNonAlphaNum(s){
 		// debug('REMOVENONALPHANUM');
 		// debug('\t before: ' + s);
-		var re = s.replace(/[^\w\s]/gi, '');
+		var re = s.replace(/[^\w\s,#]/gi, '');
 		// debug('\t afters: ' + re);
 		return re;
 	}
@@ -242,10 +274,11 @@
 		var tag_count = 0;
 		var tag_startpos = 0;
 		var tag_endpos = 0;
-		//debug("IMPORTSVG_GETTAGS - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' '));
 
 		// Case Insensitive for just the tag name
-		data = data.replace(tagname, tagname.toLowerCase(), 'gi');
+		data = data.replace(new RegExp(tagname, 'gi'), tagname.toLowerCase());
+
+		//debug("IMPORTSVG_GETTAGS - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' '));
 
 		// Get Path Tags
 		while(data.indexOf(('<'+tagname), tag_startpos)>-1){
