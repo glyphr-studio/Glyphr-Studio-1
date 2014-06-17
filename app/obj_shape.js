@@ -10,7 +10,7 @@
 		this.name = oa.name || "Shape";
 		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
 		this.ypos = isval(oa.ypos)? oa.ypos : 400;
-		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromCorners(false);
+		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromMaxes(false);
 		this.visible = isval(oa.visible)? oa.visible : true;
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.ylock || false;
@@ -184,7 +184,7 @@
 
 		} else if ((_UI.selectedtool=="newoval")){
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
-			var tpdso = ovalPathFromCorners(_UI.eventhandlers.tempnewbasicshape);
+			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 
 			_UI.chareditctx.lineWidth = 1;
 			_UI.chareditctx.strokeStyle = _UI.colors.accent;
@@ -196,7 +196,7 @@
 		}
 	};
 
-	function rectPathFromCorners(maxes){
+	function rectPathFromMaxes(maxes){
 		//Default Shape size
 		var lx = 0;
 		var ty = _GP.projectsettings.ascent;
@@ -245,7 +245,7 @@
 		return rp;
 	}
 
-	function ovalPathFromCorners(maxes){
+	function ovalPathFromMaxes(maxes){
 		//Default Circle size
 		var lx = 0;
 		var ty = _GP.projectsettings.xheight;

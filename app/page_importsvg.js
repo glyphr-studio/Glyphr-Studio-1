@@ -113,6 +113,9 @@
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
 		var newshapes = [];
+		var tagsarray = [];
+		var data = '';
+		var shapecounter = 0;
 		var maxes = {
 			"xmax" : 0,
 			"xmin" : 999999999,
@@ -120,29 +123,15 @@
 			"ymin" : 999999999
 		};
 
-		if(svgin.indexOf('<path') > -1){
-			var pathtag_arr = [];
-			var pathtag_count = 0;
-			var pathtag_startpos = 0;
-			var pathtag_endpos = 0;
-			//debug("IMPORTSVG_IMPORTCODE - indexOf <path is " + svgin.indexOf('<path '));
+		/*
+			GET PATH TAGS
+		*/
+		tagsarray = importSVG_getTags(svgin, 'path');
 
-			// Get Path Tags
-			while(svgin.indexOf('<path', pathtag_startpos)>-1){
-				//debug("IMPORTSVG_IMPORTCODE - indexOf <path is " + svgin.indexOf('<path', pathtag_startpos));
-				pathtag_startpos = svgin.indexOf('<path', pathtag_startpos);
-				pathtag_endpos = svgin.indexOf('/>', pathtag_startpos) + 2;
-				pathtag_arr[pathtag_count] = svgin.substring(pathtag_startpos, pathtag_endpos);
-				pathtag_startpos = pathtag_endpos;
-				if(pathtag_count > 100) break; else pathtag_count++;
-			}
-			//debug("IMPORTSVG_IMPORTCODE - pathtag_arr is " + JSON.stringify(pathtag_arr));
-			//debug("IMPORTSVG_IMPORTCODE - pathtag_arr length is " + pathtag_arr.length);
-
-			// Convert Tags to Glyphr Shapes
-			var data;
-			for(var p=0; p<pathtag_arr.length; p++){
-				data = pathtag_arr[p];
+		if(tagsarray.length){
+			data = '';
+			for(var p=0; p<tagsarray.length; p++){
+				data = tagsarray[p];
 				data = data.substring(data.indexOf(' d=')+4);
 				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 				data = data.substring(0, close);
@@ -152,16 +141,46 @@
 				data = data.split('z');
 
 				for(var d=0; d<data.length; d++){
-				//for(var d=0; d<5; d++){
 					if(data[d].length){
 						newshapes.push(new Shape(importSVG_convertPathTag(data[d])));
-						newshapes[newshapes.length-1].name = ("SVG Path " + (d+1));
+						shapecounter++;
+						newshapes[newshapes.length-1].name = ("SVG Path " + shapecounter);
 					}
 				}
 			}
+		}
 
-		} else {
-			importSVG_errorMessage("Could find no &lt;path&gt; tags to import");
+		/*
+			GET RECT TAGS
+		*/
+		tagsarray = importSVG_getTags(svgin, 'rect');
+
+		if(tagsarray.length){
+			data = '';
+			var rectmaxes;
+			for(var r=0; r<tagsarray.length; r++){
+				rectmaxes = {
+					'xmax': 0,
+					'xmin': 0,
+					'ymax': 0,
+					'ymin': 0
+				};
+				data = importSVG_getAttributes(tagsarray[r]);
+
+				if(data.x) rectmaxes.xmin = data.x*1;
+				if(data.y) rectmaxes.ymin = data.y*1;
+				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
+				if(data.height) rectmaxes.ymax = rectmaxes.ymin + (data.height*1);
+
+				shapecounter++
+				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':("SVG Rectangle " + shapecounter)}));
+			}
+		}
+
+
+		if(shapecounter === 0) {
+			importSVG_errorMessage("Could find no &lt;path&gt;, &lt;rect&gt;, or &lt;oval&gt; tags to import");
+			return;
 		}
 
 		var tempchar = new Char({"charshapes":newshapes});
@@ -194,6 +213,54 @@
 		update_NavPanels();
 	}
 
+	function importSVG_getAttributes(tagdata){
+		var data = tagdata.split(" ");
+		var re = {};
+		var attr = [];
+		for(var i=0; i<data.length; i++){
+			if(data[i].indexOf('=') > -1){
+				attr = data[i].split('=');
+				re[attr[0].toLowerCase()] = removeNonAlphaNum(attr[1]);
+			}
+		}
+		// debug("IMPORTSVG_GETATTRIBUTES");
+		// debug(re);
+
+		return re;
+	}
+
+	function removeNonAlphaNum(s){
+		// debug('REMOVENONALPHANUM');
+		// debug('\t before: ' + s);
+		var re = s.replace(/[^\w\s]/gi, '');
+		// debug('\t afters: ' + re);
+		return re;
+	}
+
+	function importSVG_getTags(data, tagname){
+		var tag_arr = [];
+		var tag_count = 0;
+		var tag_startpos = 0;
+		var tag_endpos = 0;
+		//debug("IMPORTSVG_GETTAGS - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' '));
+
+		// Case Insensitive for just the tag name
+		data = data.replace(tagname, tagname.toLowerCase(), 'gi');
+
+		// Get Path Tags
+		while(data.indexOf(('<'+tagname), tag_startpos)>-1){
+			//debug("IMPORTSVG_GETTAGS - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' ', tag_startpos));
+			tag_startpos = data.indexOf('<'+tagname+' ', tag_startpos);
+			tag_endpos = data.indexOf('/>', tag_startpos) + 2;
+			tag_arr[tag_count] = data.substring(tag_startpos, tag_endpos);
+			tag_startpos = tag_endpos;
+			if(tag_count > 1000) break; else tag_count++;
+		}
+		//debug("IMPORTSVG_GETTAGS - tag_arr is " + JSON.stringify(tag_arr));
+		//debug("IMPORTSVG_GETTAGS - tag_arr length is " + tag_arr.length);
+
+		return tag_arr;
+	}
 
 	function importSVG_convertPathTag(data) {
 		// just path data

@@ -253,10 +253,10 @@
 
 				if(_UI.selectedtool=="newrect"){
 					newshape.name = ("Rectangle " + (getSelectedCharShapes().length));
-					newshape.path = rectPathFromCorners(tnbs);
+					newshape.path = rectPathFromMaxes(tnbs);
 				} else {
 					newshape.name = ("Oval " + (getSelectedCharShapes().length));
-					newshape.path = ovalPathFromCorners(tnbs);
+					newshape.path = ovalPathFromMaxes(tnbs);
 				}
 
 				newshape.visible = true;
