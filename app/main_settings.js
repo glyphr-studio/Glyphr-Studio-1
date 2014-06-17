@@ -83,6 +83,7 @@
 		// page: import svg
 		"importsvg": {
 			"scale" : false,
+			"move" : true,
 			"ascender" : false,
 			"descender" : false,
 			"overshoot_top": false,

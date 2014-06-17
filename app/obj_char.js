@@ -161,12 +161,14 @@
 	};
 
 	Char.prototype.setCharPosition = function(nx, ny, force){
-		var dx = nx? (nx - this.maxes.xmin) : 0;
-		var dy = ny? (ny - this.maxes.ymax) : 0;
+		debug("SETCHARPOSITION nx/ny/force: " + nx + " " + ny + " " + force);
+		var dx = isval(nx)? (nx - this.maxes.xmin) : 0;
+		var dy = isval(ny)? (ny - this.maxes.ymax) : 0;
 		this.updateCharPosition(dx, dy, force);
 	};
 
 	Char.prototype.updateCharPosition = function(dx, dy, force){
+		debug("UPDATECHARPOSITION dx/dy/force: " + dx + " " + dy + " " + force);
 		var cs = this.charshapes;
 		for(var i=0; i<cs.length; i++){
 			if(!this.charshapes[i].link){
@@ -181,8 +183,8 @@
 		//debug("\t maxes: " + json(this.maxes));
 		var ch = (this.maxes.ymax - this.maxes.ymin);
 		var cw = (this.maxes.xmax - this.maxes.xmin);
-		var dw = nw? (nw - cw) : 0;
-		var dh = nh? (nh - ch) : 0;
+		var dw = isval(nw)? (nw - cw) : 0;
+		var dh = isval(nh)? (nh - ch) : 0;
 
 		if(ratiolock){
 			if(Math.abs(nh) > Math.abs(nw)) dw = (cw*(nh/ch)) - cw;
