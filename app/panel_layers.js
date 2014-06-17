@@ -41,13 +41,14 @@
 		if(getSelectedCharShapes().length > 0){
 			var tctx = {};
 			var tele = false;
-			for(var j=(getSelectedCharShapes().length-1); j>=0; j--){
+			var layers = getSelectedCharShapes();
+			for(var j=(layers.length-1); j>=0; j--){
 				tele = document.getElementById(("layerthumb"+j));
 				tctx = tele.getContext("2d");
 				tele.style.backgroundColor = _UI.colors.offwhite;
 				if(j == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
 				//debug("UPDATELAYERS - drawing layer " + j);
-				getSelectedCharShapes()[j].drawShapeToArea(tctx, _UI.thumbview);
+				layers[j].drawShapeToArea(tctx, _UI.thumbview);
 			}
 		}
 	}

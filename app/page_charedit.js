@@ -202,13 +202,14 @@
 
 
 		// Pop In/Out
-		if(_UI.popout){
-			content += "<button title='one screen mode' class='tool' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
-		} else {
-			content += "<button title='two screen mode' class='tool' onclick='popOut();'>"+makeToolButton({'name':'tool_popOut'})+"</button>";
+		if(_UI.navhere === "character edit"){
+			if(_UI.popout){
+				content += "<button title='one screen mode' class='tool' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
+			} else {
+				content += "<button title='two screen mode' class='tool' onclick='popOut();'>"+makeToolButton({'name':'tool_popOut'})+"</button>";
+			}
+			content += "<div style='height:5px;'>&nbsp;</div>";
 		}
-		content += "<div style='height:5px;'>&nbsp;</div>";
-
 
 		// Zoom Pan
 		content += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";

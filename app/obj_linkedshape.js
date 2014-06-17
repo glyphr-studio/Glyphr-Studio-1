@@ -10,6 +10,9 @@
 		this.usedin = oa.usedin || [];
 	}
 
+	LinkedShape.prototype.drawShapeToArea = function(ctx, view) {
+		return this.shape.drawShapeToArea(ctx, view);
+	};
 
 
 //-------------------------------------------------------

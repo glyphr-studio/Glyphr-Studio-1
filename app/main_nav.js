@@ -14,7 +14,8 @@
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
 		} else if (_UI.popout){
-			if(_UI.navhere === 'character edit' || _UI.navhere === 'linked shapes'){
+			//if(_UI.navhere === 'character edit' || _UI.navhere === 'linked shapes'){
+			if(_UI.navhere === 'character edit'){
 				makeLayout_PopOut();
 			} else {
 				popIn();
