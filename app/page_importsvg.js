@@ -166,7 +166,8 @@
 					'ymin': 0
 				};
 				data = importSVG_getAttributes(tagsarray[r]);
-
+				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
+				
 				if(data.x) rectmaxes.xmin = data.x*1;
 				if(data.y) rectmaxes.ymin = data.y*1;
 				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
@@ -206,6 +207,38 @@
 					shapecounter++;
 					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':("SVG Polygon " + shapecounter)}));
 				}
+			}
+		}
+
+		/*
+			GET ELLIPSE OR CIRCLE TAGS
+		*/
+		tagsarray = importSVG_getTags(svgin, 'circle');
+		tagsarray = tagsarray.concat(importSVG_getTags(svgin, 'ellipse'));
+
+		if(tagsarray.length){
+			data = '';
+			var ellipsemaxes, radius;
+			for(var r=0; r<tagsarray.length; r++){
+				ellipsemaxes = {
+					'xmax': 0,
+					'xmin': 0,
+					'ymax': 0,
+					'ymin': 0
+				};
+				data = importSVG_getAttributes(tagsarray[r]);
+				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
+
+				radius = data.r || data.rx;
+				ellipsemaxes.xmin = (data.cx*1) - (radius*1);
+				ellipsemaxes.xmax = (data.cx*1) + (radius*1);
+
+				radius = data.r || data.ry;
+				ellipsemaxes.ymin = (data.cy*1) - (radius*1);
+				ellipsemaxes.ymax = (data.cy*1) + (radius*1);
+
+				shapecounter++
+				newshapes.push(new Shape({'path':ovalPathFromMaxes(ellipsemaxes), 'name':("SVG Oval " + shapecounter)}));
 			}
 		}
 
@@ -252,7 +285,7 @@
 		for(var i=0; i<data.length; i++){
 			if(data[i].indexOf('=') > -1){
 				attr = data[i].split('=');
-				re[attr[0].toLowerCase()] = removeNonAlphaNum(attr[1]);
+				re[attr[0].toLowerCase()] = importSVG_scrubAttr(attr[1]);
 			}
 		}
 		// debug("IMPORTSVG_GETATTRIBUTES");
@@ -261,10 +294,10 @@
 		return re;
 	}
 
-	function removeNonAlphaNum(s){
-		// debug('REMOVENONALPHANUM');
+	function importSVG_scrubAttr(s){
+		// debug('importSVG_scrubAttr');
 		// debug('\t before: ' + s);
-		var re = s.replace(/[^\w\s,#]/gi, '');
+		var re = s.replace(/[^\w\s,#.]/gi, '');
 		// debug('\t afters: ' + re);
 		return re;
 	}
