@@ -52,23 +52,50 @@
 			return function(e) {
 				//console.log(reader.result);
 				fcontent = JSON.parse(reader.result);
+				var vn = fcontent.projectsettings.versionnum;
 				var v = fcontent.projectsettings.version;
+				
 				if(v){
-					if(v.split(".")[1] !== 4){
-						//debug("HANDLEDROP - fcontent before migrate:");
+					/*
+						UPGRADE DROPPED FILE FROM 0.3 to 0.4
+					*/
+					if(!vn){
+						//debug("HANDLEDROP - no versionnum fcontent before migrate:");
 						//debug(fcontent);
 						fcontent = migrateFromBetaThreeToFour(fcontent);
-						//debug("HANDLEDROP - fcontent after migrate:");
-						//debug(fcontent);
+						vn = '0.4.0';
+						//debug("HANDLEDROP - no versionnum fcontent after migrate:");
 					}
-					hydrateGlyphrProject(fcontent);
-					// debug("HANDLEDROP - fcontent after hydrate:");
-					// debug(fcontent);
-					// debug("HANDLEDROP - _GP after hydrate:");
-					// debug(_GP);
+					//debug(fcontent);
+
+
+					/*
+						CHECK VERSION
+					*/
+					vn = vn.split(".");
+
+					/* Major Version 0 */
+					if(vn[0]*1 === 0){
+						if(vn[1]*1 < 5){
+							/* Minor Version 0.4 or earlier */
+							hydrateGlyphrProject(fcontent);
+							// debug("HANDLEDROP - _GP after hydrate:");
+							// debug(_GP);
+						} else {
+							/* Minor Version greater than 0.4 */
+							document.getElementById("droptarget").innerHTML = "drop file here...";
+							alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future.  Please go to glyphrstudio.com to get the latest release.");
+						}
+					} else {
+						/* Major Version greater than 0 */
+						document.getElementById("droptarget").innerHTML = "drop file here...";
+						alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future.  Please go to glyphrstudio.com to get the latest release.");
+					}
+
 				} else {
+					/* No version found */
 					document.getElementById("droptarget").innerHTML = "drop file here...";
-					alert("File does not appear to be a Glyphr Project, try again...");
+					alert("File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...");
 				}
 			};
 		})(f);
@@ -118,6 +145,9 @@
 	}
 
 	function hydrateGlyphrProject(data) {
+		debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n");
+		debug(data);
+
 		_GP = new GlyphrProject();
 
 		// Project Settings
@@ -140,8 +170,8 @@
 			}
 		}
 
-		//debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n" + JSON.stringify(data));
-		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n" + json(_GP));
+		debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n");
+		debug(_GP);
 
 		finalizeGlyphrProject();
 	}
@@ -187,6 +217,7 @@
 
 		setOTprop("head", "created", ttxDateString());
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
+		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;
 
 		_GP.fontchars = {};
 		getChar("0x0020", true).isautowide = false;

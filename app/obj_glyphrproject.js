@@ -5,6 +5,7 @@ function GlyphrProject(){
 	this.projectsettings = {
 		"name": "My Font",
 		"version": 0,				// console version
+		"versionnum": 0,
 		"linkedshapecounter": 0,	// private counter for ss id
 		"charrange": {
 			"basiclatin": true,
