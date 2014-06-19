@@ -19,12 +19,7 @@
 		}
 		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 		// internal
-		this.maxes = oa.maxes || {
-			'xmax': 0,
-			'xmin': 999999,
-			'ymax': 0,
-			'ymin': 999999
-		};
+		this.maxes = oa.maxes || clone(_UI.mins);
 
 		// Setup the object
 		this.selectPathPoint(false);

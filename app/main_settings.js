@@ -56,6 +56,12 @@
 		},
 		"views" : {},		// Holds the unique views per char & linkedshape
 		"thumbview" : {},
+		"mins" : {
+			'xmax': -999999,
+			'xmin': 999999,
+			'ymax': -999999,
+			'ymin': 999999
+		},
 
 		// page: linked shapes
 		"shownlinkedshape" : "id0",

@@ -128,12 +128,7 @@
 		var tagsarray = [];
 		var data = '';
 		var shapecounter = 0;
-		var maxes = {
-			"xmax" : 0,
-			"xmin" : 999999999,
-			"ymax" : 0,
-			"ymin" : 999999999
-		};
+		var maxes = clone(_UI.mins);
 
 		importSVG_closeErrorMessage();
 

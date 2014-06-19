@@ -18,12 +18,7 @@
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.advancewidth = isval(oa.advancewidth)? oa.advancewidth : 0;
 		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
-		this.maxes = oa.maxes || {
-			'xmax': 0,
-			'xmin': 999999,
-			'ymax': 0,
-			'ymin': 999999
-		};
+		this.maxes = oa.maxes || clone(_UI.mins);
 
 		//this.hints = oa.hints || {};
 		//this.counters = oa.counters || {};
@@ -70,42 +65,46 @@
 		//debug("CALCCHARMAXES - this char\n"+json(this));
 
 		var sh, tss, txmax, txmin, tymax, tymin;
-		this.maxes = {
-			"xmax": -999999,
-			"xmin": 999999,
-			"ymax": -999999,
-			"ymin": 999999
-		};
+		this.maxes = clone(_UI.mins);
 
-		for(var jj=0; jj<this.charshapes.length; jj++) {
-			sh = this.charshapes[jj];
+		if(this.charshapes.length > 0){
+			for(var jj=0; jj<this.charshapes.length; jj++) {
+				sh = this.charshapes[jj];
 
-			if(sh.link){
-				// Linked Shape
-				tss = _GP.linkedshapes[sh.link].shape;
-				if(sh.uselinkedshapexy) {
-					txmax = tss.path.maxes.xmax;
-					txmin = tss.path.maxes.xmin;
-					tymax = tss.path.maxes.ymax;
-					tymin = tss.path.maxes.ymin;
+				if(sh.link){
+					// Linked Shape
+					tss = _GP.linkedshapes[sh.link].shape;
+					if(sh.uselinkedshapexy) {
+						txmax = tss.path.maxes.xmax;
+						txmin = tss.path.maxes.xmin;
+						tymax = tss.path.maxes.ymax;
+						tymin = tss.path.maxes.ymin;
+					} else {
+						txmax = (tss.path.maxes.xmax + sh.xpos);
+						txmin = (tss.path.maxes.xmin + sh.xpos);
+						tymax = (tss.path.maxes.ymax + sh.ypos);
+						tymin = (tss.path.maxes.ymin + sh.ypos);
+					}
 				} else {
-					txmax = (tss.path.maxes.xmax + sh.xpos);
-					txmin = (tss.path.maxes.xmin + sh.xpos);
-					tymax = (tss.path.maxes.ymax + sh.ypos);
-					tymin = (tss.path.maxes.ymin + sh.ypos);
+					// Regular Shape
+					txmax = sh.path.maxes.xmax;
+					txmin = sh.path.maxes.xmin;
+					tymax = sh.path.maxes.ymax;
+					tymin = sh.path.maxes.ymin;
 				}
-			} else {
-				// Regular Shape
-				txmax = sh.path.maxes.xmax;
-				txmin = sh.path.maxes.xmin;
-				tymax = sh.path.maxes.ymax;
-				tymin = sh.path.maxes.ymin;
-			}
 
-			this.maxes.xmax = Math.max(txmax, this.maxes.xmax);
-			this.maxes.xmin = Math.min(txmin, this.maxes.xmin);
-			this.maxes.ymax = Math.max(tymax, this.maxes.ymax);
-			this.maxes.ymin = Math.min(tymin, this.maxes.ymin);
+				this.maxes.xmax = Math.max(txmax, this.maxes.xmax);
+				this.maxes.xmin = Math.min(txmin, this.maxes.xmin);
+				this.maxes.ymax = Math.max(tymax, this.maxes.ymax);
+				this.maxes.ymin = Math.min(tymin, this.maxes.ymin);
+			}
+		} else {
+			this.maxes = {
+				"xmax": 0,
+				"xmin": 0,
+				"ymax": 0,
+				"ymin": 0
+			};
 		}
 
 		this.calcCharAdvanceWidth();
