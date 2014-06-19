@@ -183,7 +183,8 @@ function saveTextFile(fname, fblob) {
 				uqo = _UI.charundoq.pop();
 				_GP.fontchars = uqo.state;
 				_UI.charcurrstate = clone(_GP.fontchars);
-				redraw("pullundoq");
+				if(_UI.navhere === "character edit") redraw("pullundoq");
+				else if (_UI.navhere === "import svg") update_NavPanels();
 			}
 
 			if(_UI.charundoq.length === 0 && _UI.linkedshapeundoq.length === 0){

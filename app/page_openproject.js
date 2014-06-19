@@ -145,8 +145,8 @@
 	}
 
 	function hydrateGlyphrProject(data) {
-		debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n");
-		debug(data);
+		//debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n");
+		//debug(data);
 
 		_GP = new GlyphrProject();
 
@@ -170,8 +170,8 @@
 			}
 		}
 
-		debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n");
-		debug(_GP);
+		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n");
+		//debug(_GP);
 
 		finalizeGlyphrProject();
 	}

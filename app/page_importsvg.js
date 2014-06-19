@@ -60,6 +60,7 @@
 
 		"<button class='buttonsel' style='display:inline; padding-left:60px; padding-right:60px;' onclick='importSVG_importCode();'>Import SVG</button>"+
 		"<button style='display:inline; margin-left:60px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>go to character edit</button>"+
+		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='pullundoq();'>undo</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>clear code</button>"+
 
 		'<div id="svgerrormessagebox">' +
