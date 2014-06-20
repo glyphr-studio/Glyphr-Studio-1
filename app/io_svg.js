@@ -6,6 +6,7 @@
 		var data = '';
 		var shapecounter = 0;
 		var maxes = clone(_UI.mins);
+		var error = false;
 
 
 		/*
@@ -17,6 +18,9 @@
 			data = '';
 			for(var p=0; p<tagsarray.length; p++){
 				data = tagsarray[p];
+				
+				if(ioSVG_checkForIgnored(data)) error = true;
+
 				data = data.substring(data.indexOf(' d=')+4);
 				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 				data = data.substring(0, close);
@@ -53,9 +57,11 @@
 					'ymax': 0,
 					'ymin': 0
 				};
+				
+				if(ioSVG_checkForIgnored(tagsarray[r])) error = true;
+
 				data = ioSVG_getAttributes(tagsarray[r]);
-				
-				
+								
 				if(data.x) rectmaxes.xmin = data.x*1;
 				if(data.y) rectmaxes.ymin = data.y*1;
 				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
@@ -78,6 +84,9 @@
 			data = '';
 			for(var po=0; po<tagsarray.length; po++){
 				data = tagsarray[po];
+
+				if(ioSVG_checkForIgnored(data)) error = true;
+
 				data = data.substring(data.indexOf(' points=')+9);
 				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 				data = data.substring(0, close);
@@ -120,6 +129,8 @@
 				};
 				data = ioSVG_getAttributes(tagsarray[r]);
 				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
+				
+				if(ioSVG_checkForIgnored(tagsarray[r])) error = true;
 
 				radius = data.r || data.rx;
 				ellipsemaxes.xmin = (data.cx*1) - (radius*1);
@@ -140,8 +151,19 @@
 			return;
 		}
 
+		if(error){
+			importSVG_errorMessage("A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.");
+		}
+
 		//debug("IMPORTSVG_IMPORTCODE - tempchar maxes " + JSON.stringify(tempchar.maxes));
 		return new Char({"charshapes":newshapes});
+	}
+
+	function ioSVG_checkForIgnored(ptag){
+		ptag = ptag.toLowerCase();
+
+		return 	( ptag.indexOf("transform") > -1 ) ||
+				( ptag.indexOf("matrix") > -1 );
 	}
 
 	function ioSVG_getAttributes(tagdata){

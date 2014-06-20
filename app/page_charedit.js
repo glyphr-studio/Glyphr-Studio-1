@@ -100,7 +100,7 @@
 			deltay = (_UI.eventhandlers.mousey-v.dy);
 
 		setView({
-			"dz" : (getView("viewZoom").dz*=zfactor),
+			"dz" : round(getView("viewZoom").dz*=zfactor, 2),
 			"dx" : (_UI.eventhandlers.mousex-(deltax*zfactor)),
 			"dy" : (_UI.eventhandlers.mousey-(deltay*zfactor))
 		});
