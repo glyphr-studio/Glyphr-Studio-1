@@ -160,14 +160,14 @@
 	};
 
 	Char.prototype.setCharPosition = function(nx, ny, force){
-		debug("SETCHARPOSITION nx/ny/force: " + nx + " " + ny + " " + force);
+		//debug("SETCHARPOSITION nx/ny/force: " + nx + " " + ny + " " + force);
 		var dx = isval(nx)? (nx - this.maxes.xmin) : 0;
 		var dy = isval(ny)? (ny - this.maxes.ymax) : 0;
 		this.updateCharPosition(dx, dy, force);
 	};
 
 	Char.prototype.updateCharPosition = function(dx, dy, force){
-		debug("UPDATECHARPOSITION dx/dy/force: " + dx + " " + dy + " " + force);
+		//debug("UPDATECHARPOSITION dx/dy/force: " + dx + " " + dy + " " + force);
 		var cs = this.charshapes;
 		for(var i=0; i<cs.length; i++){
 			if(!this.charshapes[i].link){
