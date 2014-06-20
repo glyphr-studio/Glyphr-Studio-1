@@ -633,6 +633,19 @@
 
 
 /* ------------------ */
+/* Page - About		 */
+/* -----------------*/
+
+.aboutpage td,
+.aboutpage p,
+.aboutpage i,
+.aboutpage a,
+.aboutpage li,
+.aboutpage span {
+	font-size: 18px;
+}
+
+/* ------------------ */
 /* Page - Import SVG */
 /* -----------------*/
 

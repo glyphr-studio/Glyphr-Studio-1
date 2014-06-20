@@ -8,7 +8,7 @@
 		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npChar",
-		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
+		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0",
 		"thisGlyphrStudioVersionNum" : "0.4.0",
 		"projectsaved": true,
 		"icons": {},
