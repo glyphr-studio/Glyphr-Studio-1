@@ -438,20 +438,22 @@
 	}
 
 	function deleteShape(){
-		if(getSelectedCharShapes()[_UI.selectedshape].link){
-			removeFromUsedIn(getSelectedCharShapes()[_UI.selectedshape].link, _UI.selectedchar);
+		var scs = getSelectedCharShapes();
+
+		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].link){
+			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedchar);
 		}
 
-		if((getSelectedCharShapes().length > 0) && (_UI.selectedshape >= 0)){
-			getSelectedCharShapes().splice(_UI.selectedshape, 1);
-			if(getSelectedCharShapes().length == _UI.selectedshape) {
+		if((scs.length > 0) && (_UI.selectedshape >= 0)){
+			scs.splice(_UI.selectedshape, 1);
+			if(scs.length == _UI.selectedshape) {
 				_UI.selectedshape = _UI.selectedshape-1;
 			}
 		} else {
 			//debug("DELETESHAPES - no shapes left");
 		}
 
-		if((_UI.selectedshape >= 0) && (getSelectedCharShapes()[_UI.selectedshape].link)){
+		if((_UI.selectedshape >= 0) && (scs[_UI.selectedshape].link)){
 			//debug("DELETESHAPE - newly selected shape is linkedshape, changing tool");
 			_UI.selectedtool = "shaperesize";
 		}

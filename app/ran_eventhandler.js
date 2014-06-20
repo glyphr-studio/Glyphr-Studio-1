@@ -684,12 +684,14 @@
 	function keypress(event){
 
 		if(!isOnEditPage()) return;
+		if(event.type !== "keydown") return;
 
 		var s = ss("keypress event");
 		var eh = _UI.eventhandlers;
 
 		var kc = getKeyFromEvent(event);
 		//debug("Key Press:\t" + kc + " from " + event.which);
+		//debug(event);
 
 		// Space
 		if(kc === 'space' && eh.ismouseovercec){
