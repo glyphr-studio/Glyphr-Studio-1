@@ -223,7 +223,7 @@
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
 		var trr = "";
 
-		var re = "" + (this.pathpoints[0].P.x - lastx) + " " + (this.pathpoints[0].P.y - lasty) + " rmoveto ";
+		var re = "\t\t\t\t" + (this.pathpoints[0].P.x - lastx) + " " + (this.pathpoints[0].P.y - lasty) + " rmoveto \n";
 
 		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
 

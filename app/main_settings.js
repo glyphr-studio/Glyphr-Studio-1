@@ -103,6 +103,7 @@
 			"xmin" : 0,
 			"ymax" : 0,
 			"ymin" : 0,
+			"numchars" : 1,
 			"hhea_ascent" : 0,
 			"hhea_descent" : 0
 		}

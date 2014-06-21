@@ -34,16 +34,16 @@
 	function calcFontMaxes(){
 		var fm = _UI.fontmetrics;
 		var cm = {};
-
-		for(var c=0; c<_GP.fontchars.length; c++){
-			if(_GP.fontchars[c] && _GP.fontchars[c].charshapes){
-				cm = _GP.fontchars[c].maxes;
-				fm.xmax = Math.max(cm.xmax, fm.xmax);
-				fm.xmin = Math.min(cm.xmin, fm.xmin);
-				fm.ymax = Math.max(cm.ymax, fm.ymax);
-				fm.ymin = Math.min(cm.ymin, fm.ymin);
-			}
-		}
+		_UI.fontmetrics.numchars = 1;
+		
+		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
+			cm = _GP.fontchars[tc].maxes;
+			fm.xmax = Math.max(cm.xmax, fm.xmax);
+			fm.xmin = Math.min(cm.xmin, fm.xmin);
+			fm.ymax = Math.max(cm.ymax, fm.ymax);
+			fm.ymin = Math.min(cm.ymin, fm.ymin);
+			_UI.fontmetrics.numchars++;
+		}}
 
 		var proportion = (fm.ymax / (fm.ymax-fm.ymin));
 		var total = fm.ymax + Math.abs(fm.ymin) + _GP.projectsettings.linegap;
@@ -58,14 +58,9 @@
 		var con = '<GlyphOrder>\n';
 		con += '\t<GlyphID name=".notdef"/>\n';
 
-		var count = 0;
-
-		for(var tc=32; tc<_GP.fontchars.length; tc++){
+		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
 			con += '\t<GlyphID name="' + _GP.fontchars[tc].charname + '"/>\n';
-			count++;
-		}
-
-		//debug("EXPORT TTX - Loop Count = " + count);
+		}}
 
 		con += '</GlyphOrder>\n\n';
 		return con;
@@ -80,12 +75,12 @@
 		con += '\t<magicNumber value="0x5f0f3cf5"/>\n';
 		con += '\t<flags value="00000000 00000011"/>\n';
 		con += '\t<unitsPerEm value="' + _GP.projectsettings.upm + '"/>\n';		// VAR UPM?
-		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';			// VAR CREATED DA\nTE
+		con += '\t<created value="' + getOTprop("head","created") + '"/>\n';	// VAR CREATED DA\nTE
 		con += '\t<modified value="' + ttxDateString() + '"/>\n';				// COMPUTED SAVE DATE
-		con += '\t<xMin value="-100"/>\n';											// COMPUTED
-		con += '\t<yMin value="-100"/>\n';											// COMPUTED
-		con += '\t<xMax value="4048"/>\n';											// COMPUTED
-		con += '\t<yMax value="4048"/>\n';											// COMPUTED
+		con += '\t<xMin value="-100"/>\n';										// COMPUTED
+		con += '\t<yMin value="-100"/>\n';										// COMPUTED
+		con += '\t<xMax value="4048"/>\n';										// COMPUTED
+		con += '\t<yMax value="4048"/>\n';										// COMPUTED
 		con += '\t<macStyle value="00000000 00000000"/>\n';
 		con += '\t<lowestRecPPEM value="3"/>\n';
 		con += '\t<fontDirectionHint value="2"/>\n';
@@ -129,7 +124,7 @@
 		con += '\t<metricDataFormat value="0"/>\n';
 
 		// # entries in the hmtx table: GLYPH COUNT!!!
-		con += '\t<numberOfHMetrics value="95"/>\n';
+		con += '\t<numberOfHMetrics value="'+_UI.fontmetrics.numchars+'"/>\n';
 
 		con += '</hhea>\n\n';
 		return con;
@@ -140,7 +135,7 @@
 		con += '\t<tableVersion value="0x5000"/>\n';
 
 		//GLYPH COUNT!!
-		con += '\t<numGlyphs value="95"/>\n';
+		con += '\t<numGlyphs value="'+_UI.fontmetrics.numchars+'"/>\n';
 
 		con += '</maxp>\n\n';
 		return con;
@@ -256,9 +251,10 @@
 
 	function genTable_cmap(oa){
 		var cmapbody = "";
-		for(var tc=32; tc<_GP.fontchars.length; tc++){
-			cmapbody += '\t\t<map code="'+_GP.fontchars[tc].cmapcode+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
-		}
+		
+		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
+			cmapbody += '\t\t<map code="'+tc+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
+		}}
 
 		var con = '<cmap>\n';
 		con += '<tableVersion version="0"/>\n';
@@ -328,18 +324,20 @@
 
 	function genCharStringsPostScript(){
 		var con = '\t\t\t<CharString name=".notdef">\n\t\t\t\tendchar\n\t\t\t</CharString>\n';
-		var lastx, lasty;
+		var lastx, lasty, tchar;
 
-		for(var tc=32; tc<_GP.fontchars.length; tc++){
-			con += '\t\t\t<CharString name="' + _GP.fontchars[tc].charname + '">\n';
+		
+		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
+			tchar = _GP.fontchars[tc];
+			con += '\t\t\t<CharString name="' + tchar.charname + '">\n';
 			lastx = 0;
 			lasty = 0;
 			rvar = {};
 
-			//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _GP.fontchars[tc].charname);
+			//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + tchar.charname);
 
-			for(var ts=0; ts<_GP.fontchars[tc].charshapes.length; ts++){
-				rvar = _GP.fontchars[tc].charshapes[ts].genPostScript(lastx, lasty);
+			for(var ts=0; ts<tchar.charshapes.length; ts++){
+				rvar = tchar.charshapes[ts].genPostScript(lastx, lasty);
 				//debug("path " + ts + " returning \t " + JSON.stringify(rvar));
 				con += rvar.re;
 				lastx = rvar.lastx;
@@ -348,7 +346,7 @@
 
 			con += '\t\t\t\tendchar\n';
 			con += '\t\t\t</CharString>\n';
-		}
+		}}
 		return con;
 	}
 
@@ -358,13 +356,45 @@
 		con += '\t<mtx name=".notdef" width="2100" lsb="0"/>\n';
 		var lsb, curr;
 
-		for(var tc=32; tc<_GP.fontchars.length; tc++){
+		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
 			curr = _GP.fontchars[tc];
 			lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
 			con += '\t<mtx name="' + curr.charname + '" width="'+(lsb+curr.advancewidth)+'" lsb="'+lsb+'"/>\n';
-		}
+		}}
 
 		con += '</hmtx>\n\n';
 		return con;
 	}
 
+	function ioTTXXML_charIterator(fname) {
+		var cr = _GP.projectsettings.charrange;
+		
+		if(cr.basiclatin){
+			var bl = _UI.basiclatinorder;
+			for(var i=0; i<bl.length; i++){ ccon += makeCharChooserButton(bl[i], fname); }
+		}
+
+		if(cr.latinsuppliment){
+			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
+		}
+
+		if(cr.latinextendeda){
+			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
+		}
+
+		if(cr.latinextendedb){
+			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
+		}
+
+		var cn;
+		if(cr.custom.length){
+			for(var c=0; c<cr.custom.length; c++){
+				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
+					cn = decToHex(range);
+					ccon += makeCharChooserButton(cn, fname);
+				}
+			}
+		}
+
+		return ccon;
+	}
