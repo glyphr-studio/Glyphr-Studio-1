@@ -33,24 +33,26 @@
 
 	function calcFontMaxes(){
 		var fm = _UI.fontmetrics;
-		var cm = {};
-		_UI.fontmetrics.numchars = 1;
+		_UI.fontmetrics.numchars = 0;
 		
-		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
-			cm = _GP.fontchars[tc].maxes;
-			fm.xmax = Math.max(cm.xmax, fm.xmax);
-			fm.xmin = Math.min(cm.xmin, fm.xmin);
-			fm.ymax = Math.max(cm.ymax, fm.ymax);
-			fm.ymin = Math.min(cm.ymin, fm.ymin);
-			_UI.fontmetrics.numchars++;
-		}}
+		ioTTXXML_charIterator(function(hex){
+			_UI.fontmetrics.numchars++;	
+			var cm = _GP.fontchars[hex];
+			if(cm){
+				cm = cm.maxes;
+				fm.xmax = Math.max(cm.xmax, fm.xmax);
+				fm.xmin = Math.min(cm.xmin, fm.xmin);
+				fm.ymax = Math.max(cm.ymax, fm.ymax);
+				fm.ymin = Math.min(cm.ymin, fm.ymin);
+			}
+		});
 
 		var proportion = (fm.ymax / (fm.ymax-fm.ymin));
 		var total = fm.ymax + Math.abs(fm.ymin) + _GP.projectsettings.linegap;
 		fm.hhea_ascent = round(total*proportion);
 		fm.hhea_descent = (fm.hhea_ascent - total);
 
-		//debug("CALCFONTMAXES - returns " + JSON.stringify(fm));
+		debug("CALCFONTMAXES - numchars " + _UI.fontmetrics.numchars);
 	}
 
 
@@ -58,9 +60,9 @@
 		var con = '<GlyphOrder>\n';
 		con += '\t<GlyphID name=".notdef"/>\n';
 
-		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
-			con += '\t<GlyphID name="' + _GP.fontchars[tc].charname + '"/>\n';
-		}}
+		con += ioTTXXML_charIterator(function(hex){
+			return '\t<GlyphID name="' + _UI.unicodenames[hex] + '"/>\n';
+		});
 
 		con += '</GlyphOrder>\n\n';
 		return con;
@@ -124,7 +126,7 @@
 		con += '\t<metricDataFormat value="0"/>\n';
 
 		// # entries in the hmtx table: GLYPH COUNT!!!
-		con += '\t<numberOfHMetrics value="'+_UI.fontmetrics.numchars+'"/>\n';
+		con += '\t<numberOfHMetrics value="'+(_UI.fontmetrics.numchars+1)+'"/>\n';
 
 		con += '</hhea>\n\n';
 		return con;
@@ -252,9 +254,13 @@
 	function genTable_cmap(oa){
 		var cmapbody = "";
 		
-		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
-			cmapbody += '\t\t<map code="'+tc+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
-		}}
+		// for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
+		// 	cmapbody += '\t\t<map code="'+tc+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
+		// }}
+
+		cmapbody += ioTTXXML_charIterator(function(hex){
+			return '\t\t<map code="'+hex+'" name="' + _UI.unicodenames[hex] + '"/>\n';
+		});
 
 		var con = '<cmap>\n';
 		con += '<tableVersion version="0"/>\n';
@@ -324,29 +330,30 @@
 
 	function genCharStringsPostScript(){
 		var con = '\t\t\t<CharString name=".notdef">\n\t\t\t\tendchar\n\t\t\t</CharString>\n';
-		var lastx, lasty, tchar;
 
-		
-		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
-			tchar = _GP.fontchars[tc];
-			con += '\t\t\t<CharString name="' + tchar.charname + '">\n';
-			lastx = 0;
-			lasty = 0;
+		con += ioTTXXML_charIterator(function(hex){
+			var re = '\t\t\t<CharString name="' + _UI.unicodenames[hex] + '">\n';
+			var lastx = 0;
+			var lasty = 0;
 			rvar = {};
 
-			//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + tchar.charname);
-
-			for(var ts=0; ts<tchar.charshapes.length; ts++){
-				rvar = tchar.charshapes[ts].genPostScript(lastx, lasty);
-				//debug("path " + ts + " returning \t " + JSON.stringify(rvar));
-				con += rvar.re;
-				lastx = rvar.lastx;
-				lasty = rvar.lasty;
+			if(_GP.fontchars[hex]){
+				//debug("GENCHARSTRINGSPOSTSCRIPT: \t starting char " + _GP.fontchars[hex].charname);
+				for(var ts=0; ts<_GP.fontchars[hex].charshapes.length; ts++){
+					rvar = _GP.fontchars[hex].charshapes[ts].genPostScript(lastx, lasty);
+					//debug("path " + ts + " returning \t " + JSON.stringify(rvar));
+					re += rvar.re;
+					lastx = rvar.lastx;
+					lasty = rvar.lasty;
+				}
 			}
 
-			con += '\t\t\t\tendchar\n';
-			con += '\t\t\t</CharString>\n';
-		}}
+			re += '\t\t\t\tendchar\n';
+			re += '\t\t\t</CharString>\n';
+
+			return re;
+		});	
+
 		return con;
 	}
 
@@ -354,13 +361,19 @@
 	function genTable_hmtx(oa){
 		var con = '<hmtx>\n';
 		con += '\t<mtx name=".notdef" width="2100" lsb="0"/>\n';
-		var lsb, curr;
 
-		for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
-			curr = _GP.fontchars[tc];
-			lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
-			con += '\t<mtx name="' + curr.charname + '" width="'+(lsb+curr.advancewidth)+'" lsb="'+lsb+'"/>\n';
-		}}
+		con += ioTTXXML_charIterator(function(hex){
+			var curr = _GP.fontchars[hex];
+			var width = 0;
+			var lsb = 0;
+			
+			if (curr){
+				lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
+				width = lsb + curr.advancewidth;
+			}
+
+			return '\t<mtx name="' + _UI.unicodenames[hex] + '" width="'+width+'" lsb="'+lsb+'"/>\n';
+		});
 
 		con += '</hmtx>\n\n';
 		return con;
@@ -368,33 +381,47 @@
 
 	function ioTTXXML_charIterator(fname) {
 		var cr = _GP.projectsettings.charrange;
-		
+		var ccon = '';
+		//var count = 0;
+
 		if(cr.basiclatin){
-			var bl = _UI.basiclatinorder;
-			for(var i=0; i<bl.length; i++){ ccon += makeCharChooserButton(bl[i], fname); }
+			for(var i=0; i<_UI.basiclatinorder.length; i++){ 
+				ccon += fname(_UI.basiclatinorder[i]); 
+				//count++;
+			}
 		}
 
 		if(cr.latinsuppliment){
-			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
+			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ 
+				ccon += fname(decToHex(s)); 
+				//count++;
+			}
 		}
 
 		if(cr.latinextendeda){
-			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
+			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ 
+				ccon += fname(decToHex(a)); 
+				//count++;
+			}
 		}
 
 		if(cr.latinextendedb){
-			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
+			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ 
+				ccon += fname(decToHex(b)); 
+				//count++;
+			}
 		}
 
-		var cn;
 		if(cr.custom.length){
 			for(var c=0; c<cr.custom.length; c++){
 				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
-					cn = decToHex(range);
-					ccon += makeCharChooserButton(cn, fname);
+					ccon += fname(decToHex(range));
+					//count++;
 				}
 			}
 		}
+
+		//debug("IOTTXXML_CHARITERATOR - count returned " + count);
 
 		return ccon;
 	}

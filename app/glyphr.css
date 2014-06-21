@@ -645,6 +645,17 @@
 	font-size: 18px;
 }
 
+
+/* --------------------*/
+/* Page - Export Font */
+/* ------------------*/
+.ttxnote {
+	background-color: rgb(165,222,240);
+	border: 1px solid rgb(0,170,225);
+	padding:16px;
+	margin-top:24px;
+}
+
 /* ------------------ */
 /* Page - Import SVG */
 /* -----------------*/
