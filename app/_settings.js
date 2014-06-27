@@ -31,8 +31,8 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : "character edit",		// navigate straight to a page
-		"debug": true,					// global debug console switch
+		"devnav" : false,		// navigate straight to a page
+		"debug": false,					// global debug console switch
 		"debugpoints" : [false,false],
 
 		// Shared edit pages

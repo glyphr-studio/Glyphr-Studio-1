@@ -383,7 +383,7 @@
 
 			if(_UI.showguides){
 				// Minor Guidelines - Overshoots
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, 0.8, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_os_guideline, 0.8, true);
 				horizontal(xline-overshootsize, xs.xmin, xs.xmax);
 				horizontal(mline-overshootsize, xs.xmin, xs.xmax);
 				horizontal(v.dy+overshootsize, xs.xmin, xs.xmax);
@@ -404,15 +404,15 @@
 				}
 
 				// major guidelines - xheight, top (emzize)
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, 0.5, true);
+				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_os_guideline, 0.5, true);
 				horizontal(xline, xs.xmin, xs.xmax);
-				//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_guideline, .2, true);
+				//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_os_guideline, .2, true);
 				horizontal(mline, xs.xmin, xs.xmax);
 				horizontal(dline, xs.xmin, xs.xmax);
 
 
 				// Out of bounds triangle
-				_UI.chareditctx.fillStyle = _GP.projectsettings.color_guideline;
+				_UI.chareditctx.fillStyle = _GP.projectsettings.color_os_guideline;
 				_UI.chareditctx.beginPath();
 				_UI.chareditctx.moveTo(v.dx, v.dy);
 				_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
@@ -421,7 +421,7 @@
 				_UI.chareditctx.fill();
 
 				// Origin Lines
-				_UI.chareditctx.strokeStyle = _GP.projectsettings.color_guideline;
+				_UI.chareditctx.strokeStyle = _GP.projectsettings.color_os_guideline;
 				horizontal(v.dy, xs.xmin, xs.xmax);
 				vertical(v.dx, xs.ymin, xs.ymax);
 			}
