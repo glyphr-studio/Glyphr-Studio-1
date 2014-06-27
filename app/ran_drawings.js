@@ -264,33 +264,16 @@ function checkUI(varname, doredraw){
 }
 
 function helpUI(message){
-	var re = "<button class='customui' "+
+	var re = "<button class='customui' style='margin-left:4px;' "+
 	'title="quick help tip" '+
-	//'onclick="openDialog(\''+message+'\');">'+
 	"onclick='openDialog(\""+message+"\");'>"+
 	'<svg version="1.1" '+
 	'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
 	'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
-	'<g fill="'+_UI.colors.g8+'">'+
-	'<rect x="5" y="2" width="9" height="15"/>'+
-	'<rect y="9" width="1" height="1"/>'+
-	'<rect x="1" y="8" width="1" height="3"/>'+
-	'<rect x="2" y="7" width="1" height="5"/>'+
-	'<rect x="3" y="6" width="1" height="7"/>'+
-	'<rect x="4" y="3" width="1" height="13"/>'+
-	'<rect x="14" y="3" width="1" height="13"/>'+
-	'</g>'+
-	'<g fill="white">'+
-	'<rect x="6" y="5" width="1" height="2"/>'+
-	'<rect x="8" y="4" width="4" height="1"/>'+
-	'<rect x="7" y="4" width="1" height="2"/>'+
-	'<rect x="9" y="10" width="1" height="3"/>'+
-	'<rect x="9" y="14" width="1" height="1"/>'+
-	'<rect x="11" y="4" width="1" height="2"/>'+
-	'<rect x="12" y="5" width="1" height="4"/>'+
-	'<rect x="9" y="9" width="2" height="1"/>'+
-	'<rect x="11" y="8" width="1" height="2"/>'+
-	'</g></svg></button>';
+		'<circle fill="'+_UI.colors.g8+'" cx="9" cy="9" r="9"/>'+
+		'<path fill="'+_UI.colors.g9+'" d="M8,12v-1c0-0.8,0.4-1.2,0.7-1.7C9,9,9.5,8.5,10.2,7.9c0.5-0.4,0.8-0.7,1-1c0.2-0.3,0.2-0.5,0.2-0.8c0-0.6-0.2-1.1-0.7-1.5C10.2,4.2,9.7,4,9.1,4C8.4,4,7.9,4.1,7.4,4.5C7,4.9,6.7,5.5,6.6,6.3L5,6.1C5.2,5,5.6,4.2,6.3,3.6S7.9,2.8,9,2.8c1.1,0,2.1,0.3,2.8,0.9S13,5,13,5.9c0,0.5-0.1,1-0.4,1.4c-0.2,0.4-0.7,0.9-1.5,1.5c-0.6,0.5-1,0.9-1.2,1.2c-0.2,0.3-0.2,0.2-0.3,0.9L8,12z"/>'+
+		'<ellipse fill="'+_UI.colors.g9+'" cx="8.8" cy="14.5" rx="1.4" ry="1.2"/>'+
+	'</svg></button>';
 
 	//debug("HELPUI - output:\n"+re);
 	return re;
