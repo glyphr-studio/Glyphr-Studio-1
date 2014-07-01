@@ -341,7 +341,9 @@
     }
 
 	.primarynavbutton,
-	.primarynavbutton:hover {
+	.primarynavbutton:hover,
+	.primarynavbutton:active,
+	.primarynavbutton:focus {
 		height:50px;
 		width:50px;
 		background-color: transparent;
@@ -1078,7 +1080,7 @@
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
 	}
-
+	
 	.settingstable .spinnerbutton,
 	.settingstable .spinnerbutton:hover {
 		height:28px;

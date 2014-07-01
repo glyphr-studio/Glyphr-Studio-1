@@ -6,8 +6,8 @@
 		// debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
 		if(_UI.navhere === 'firstrun' && _UI.devnav){
-			// debug(">>> DEV NAV - to " + _UI.devnav);
-			newGlyphrProject();
+			debug(">>> DEV NAV - to " + _UI.devnav);
+			if(!_UI.sampleproject) newGlyphrProject();
 			_UI.navhere = _UI.devnav;
 		}
 

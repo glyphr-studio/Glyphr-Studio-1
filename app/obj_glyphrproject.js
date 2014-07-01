@@ -87,13 +87,19 @@ function GlyphrProject(){
 }
 
 function saveGlyphrProjectFile(){
+	// debug("SAVEGLYPHRPROJECTVILE");
+	// debug("\t " + _GP.projectsettings.formatsavefile);
+	var jsonString;
 
-	var jsonString = JSON.stringify(_GP);
-
-	if(_GP.formatsavefile){
+	if(_GP.projectsettings.formatsavefile){
+		// debug("\t Fancy Save Formatting");
 		jsonString = JSON.stringify(_GP, undefined, '\t');
 		jsonString = jsonString.replace(/\n/g, '\r\n');
+	} else {
+		// debug("\t Regular Formatting");
+		jsonString = JSON.stringify(_GP);
 	}
+
 	//debug("saveGlyphrProjectFile - \n"+jsonString);
 	var fblob = new Blob([jsonString], {"type":"text/plain;charset=utf-8", "endings":"native"});
 	var fname =  _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";

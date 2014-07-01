@@ -31,9 +31,8 @@
 		},
 
 		// Internal Dev Stuff
-		"debug": true,				// global debug console switch
+		"debug": false,		// global debug console switch
 		"devnav" : false,	// navigate straight to a page
-		"debugpoints" : [false,false],
 
 		// Shared edit pages
 		"popout" : false,
