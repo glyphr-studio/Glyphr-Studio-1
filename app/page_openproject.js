@@ -39,70 +39,75 @@
 	}
 
 	function handleDrop(evt) {
+		document.getElementById("droptarget").innerHTML = "Loading File...";
+
 		evt.stopPropagation();
 		evt.preventDefault();
 
 		var f = evt.dataTransfer.files[0]; // FileList object only first file
 		var reader = new FileReader();
-		var fcontent = "";
 
-		document.getElementById("droptarget").innerHTML = "Loading File...";
 		// Closure to capture the file information.
 		reader.onload = (function(theFile) {
 			return function(e) {
 				//console.log(reader.result);
-				fcontent = JSON.parse(reader.result);
-				var vn = fcontent.projectsettings.versionnum;
-				var v = fcontent.projectsettings.version;
-				
-				if(v){
-					/*
-						UPGRADE DROPPED FILE FROM 0.3 to 0.4
-					*/
-					if(!vn){
-						//debug("HANDLEDROP - no versionnum fcontent before migrate:");
-						//debug(fcontent);
-						fcontent = migrateFromBetaThreeToFour(fcontent);
-						vn = '0.4.0';
-						//debug("HANDLEDROP - no versionnum fcontent after migrate:");
-					}
-					//debug(fcontent);
-
-
-					/*
-						CHECK VERSION
-					*/
-					vn = vn.split(".");
-
-					/* Major Version 0 */
-					if(vn[0]*1 === 0){
-						if(vn[1]*1 < 5){
-							/* Minor Version 0.4 or earlier */
-							hydrateGlyphrProject(fcontent);
-							// debug("HANDLEDROP - _GP after hydrate:");
-							// debug(_GP);
-						} else {
-							/* Minor Version greater than 0.4 */
-							document.getElementById("droptarget").innerHTML = "drop file here...";
-							alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future.  Please go to glyphrstudio.com to get the latest release.");
-						}
-					} else {
-						/* Major Version greater than 0 */
-						document.getElementById("droptarget").innerHTML = "drop file here...";
-						alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future.  Please go to glyphrstudio.com to get the latest release.");
-					}
-
-				} else {
-					/* No version found */
-					document.getElementById("droptarget").innerHTML = "drop file here...";
-					alert("File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...");
-				}
+				importGlyphrProjectFromText(reader.result);
 			};
 		})(f);
 
 		reader.readAsText(f);
 
 	}
+
+	function importGlyphrProjectFromText(textcontent){
+		var fcontent = JSON.parse(textcontent);
+		var vn = fcontent.projectsettings.versionnum;
+		var v = fcontent.projectsettings.version;
+		
+		if(v){
+			/*
+				UPGRADE DROPPED FILE FROM 0.3 to 0.4
+			*/
+			if(!vn){
+				//debug("HANDLEDROP - no versionnum fcontent before migrate:");
+				//debug(fcontent);
+				fcontent = migrateFromBetaThreeToFour(fcontent);
+				vn = '0.4.0';
+				//debug("HANDLEDROP - no versionnum fcontent after migrate:");
+			}
+			//debug(fcontent);
+
+
+			/*
+				CHECK VERSION
+			*/
+			vn = vn.split(".");
+
+			/* Major Version 0 */
+			if(vn[0]*1 === 0){
+				if(vn[1]*1 < 5){
+					/* Minor Version 0.4 or earlier */
+					hydrateGlyphrProject(fcontent);
+					// debug("HANDLEDROP - _GP after hydrate:");
+					// debug(_GP);
+				} else {
+					/* Minor Version greater than 0.4 */
+					document.getElementById("droptarget").innerHTML = "drop file here...";
+					alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future.  Please go to glyphrstudio.com to get the latest release.");
+				}
+			} else {
+				/* Major Version greater than 0 */
+				document.getElementById("droptarget").innerHTML = "drop file here...";
+				alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future.  Please go to glyphrstudio.com to get the latest release.");
+			}
+
+		} else {
+			/* No version found */
+			document.getElementById("droptarget").innerHTML = "drop file here...";
+			alert("File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...");
+		}
+	}
+
 
 	function migrateFromBetaThreeToFour(fc){
 

@@ -5,7 +5,7 @@
 		update_NavPanels();
 
 		var content = "<div class='pagecontent'><h1>Test Drive</h1>" +
-			"<textarea id='tdtextarea' onkeyup='updateTestdriveCanvas()'></textarea><br>" +
+			"<textarea id='tdtextarea' onkeyup='_UI.testdrive.sampletext=this.value; updateTestdriveCanvas()'>"+_UI.testdrive.sampletext+"</textarea><br>" +
 			"<canvas id='tdcanvas'></canvas><br>" +
 			"<div id='genimg' style='display:none;'></div></div>";
 
@@ -17,7 +17,7 @@
 		_UI.testdrive.canvas.height = 700;
 		_UI.testdrive.ctx = _UI.testdrive.canvas.getContext("2d");
 
-		if(_UI.navprimaryhere == "npAttributes") changefontscale(100);
+		updateTestdriveCanvas();
 	}
 
 	function makePanel_TestDriveOptions(){
@@ -31,34 +31,43 @@
 	}
 
 	function updateTestdriveCanvas(){
-		var text = document.getElementById("tdtextarea").value;
-		var tctx = _UI.testdrive.ctx;
+		debug("UPDATETESTDRIVECANVAS");
+		var td = _UI.testdrive;
 		var ps = _GP.projectsettings;
-		var scale = _UI.testdrive.fontscale;
-		var contentArray = text.split("");
-		var textEm = (_GP.projectsettings.upm*scale);
-		var currx = _UI.testdrive.padsize;
-		var curry = _UI.testdrive.padsize + (ps.ascent*scale);
+
+		if(_UI.navprimaryhere == "npAttributes") changefontscale(td.fontsize);
+		document.getElementById("tdtextarea").value = td.sampletext;
+		
+		var contentArray = td.sampletext.split("");
+		var tctx = td.ctx;
+		var scale = td.fontscale;
+		var pad = td.padsize;
+		var textEm = (ps.upm*scale);
+		var pagepadding = 10;
+		var currx = pagepadding;
+		var curry = pagepadding + (ps.ascent*scale);
 		var cc;
 
 		tctx.clearRect(0,0,5000,5000);
-		if(_UI.testdrive.showhorizontals) drawLine(curry);
+		if(td.showhorizontals) drawLine(curry);
 
+		//debug("\t contentarray.length: " + contentArray.length);
+		
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
 				// reset X val
-				currx = _UI.testdrive.padsize;
+				currx = pagepadding;
 
 				// calc Y val
 				curry += (textEm);
-				curry += ((document.getElementById("linegap").value*1)*scale);
+				curry += ((td.linegap*1)*scale);
 
 				// draw baseline
-				if(_UI.testdrive.showhorizontals) drawLine(curry);
+				if(td.showhorizontals) drawLine(curry);
 			} else {
 				cc = getChar(charToHex(contentArray[k]));
 				if(cc){
-					if(_UI.testdrive.showcharbox){
+					if(td.showcharbox){
 						tctx.fillStyle = "transparent";
 						tctx.strokeStyle = _UI.colors.accent;
 						tctx.lineWidth = 1;
@@ -71,8 +80,9 @@
 						);
 					}
 
-					currx += cc.drawCharToArea(tctx, {"dz" : _UI.testdrive.fontscale, "dx" : currx, "dy" : curry});
-					currx += (document.getElementById("charspacing").value*1*scale);
+					currx += cc.drawCharToArea(tctx, {"dz" : td.fontscale, "dx" : currx, "dy" : curry});
+					currx += (td.padsize*1*scale);
+					//debug("\t done drawing " + cc.charname);
 				}
 			}
 		}
@@ -107,7 +117,7 @@
 	}
 
 	function makeTDButton(text){
-		return "<button onclick='document.getElementById(\"tdtextarea\").value=\""+text+"\";updateTestdriveCanvas();'>"+text+"</button><br>";
+		return "<button onclick='_UI.testdrive.sampletext=\""+text+"\";updateTestdriveCanvas();'>"+text+"</button><br>";
 	}
 
 	function makeTDSymbolButton(){
@@ -115,11 +125,14 @@
 	}
 
 	function drawTDOptions(){
+		if(!_UI.testdrive.linegap) _UI.testdrive.linegap = _GP.projectsettings.linegap;
+		if(!_UI.testdrive.padsize) _UI.testdrive.padsize = _GP.projectsettings.defaultlsb;
+
 		var content = "<table class='detail'>";
-		content += "<tr><td> font size <span class='unit'>(px)</span> </td><td><input class='input' type='text' value='100' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> font size <span class='unit'>(px)</span> </td><td><input class='input' type='text' value='"+_UI.testdrive.fontsize+"' onchange='changefontscale(this.value); updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> 96dpi font size <span class='unit'>(pt)</span> </td><td id='roughptsize'>75</td></tr>";
-		content += "<tr><td> line gap <span class='unit'>(em units)</span> </td><td><input class='input' id='linegap' type='text' value='"+_GP.projectsettings.linegap+"' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
-		content += "<tr><td> character spacing <span class='unit'>(em units)</span> </td><td><input class='input' id='charspacing' type='text' value='0' onchange='updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> line gap <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='"+_UI.testdrive.linegap+"' onchange='_UI.testdrive.linegap=this.value*1; updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
+		content += "<tr><td> character spacing <span class='unit'>(em units)</span> </td><td><input class='input' type='text' value='"+_UI.testdrive.padsize+"' onchange='_UI.testdrive.padsize=this.value*1; updateTestdriveCanvas();'>"+spinner()+"</td></tr>";
 		content += "<tr><td> <label for='showcharbox'>show character boxes</label> </td><td>" + checkUI("_UI.testdrive.showcharbox",true) + "</td></tr>";
 		content += "<tr><td> <label for='showhorizontals'>show baseline</label> </td><td>" + checkUI("_UI.testdrive.showhorizontals",true) + "</td></tr>";
 
@@ -129,6 +142,7 @@
 	}
 
 	function changefontscale(newval){
+		_UI.testdrive.fontsize = newval*1;
 		_UI.testdrive.fontscale = (newval/_GP.projectsettings.upm);
 		document.getElementById("roughptsize").innerHTML = (newval*0.75);
 	}

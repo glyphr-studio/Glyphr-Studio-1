@@ -4,10 +4,16 @@
 
 
 	function setup() {
-		console.clear();
+		//console.clear();
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
 		//debug("MAIN SETUP() - START");
-		_GP = new GlyphrProject();
+		if(_UI.sampleproject){
+			debug("SETUP - using sample project");
+			_GP = importGlyphrProjectFromText(_UI.sampleproject);
+		} else {
+			_GP = new GlyphrProject();
+		}
+
 		insertGlobalDOMElements();
 		navigate();
 		//debug("MAIN SETUP() - END");
@@ -33,7 +39,7 @@
 
 
 		window.onbeforeunload = function(e) {
-			if(_GP.projectsettings.stoppagenavigation){
+			if(_GP.projectsettings.stoppagenavigation && !_UI.debug){
 				return "\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n";
 			} else {
 				return;

@@ -31,8 +31,8 @@
 		},
 
 		// Internal Dev Stuff
-		"devnav" : false,		// navigate straight to a page
-		"debug": false,					// global debug console switch
+		"debug": true,				// global debug console switch
+		"devnav" : false,	// navigate straight to a page
 		"debugpoints" : [false,false],
 
 		// Shared edit pages
@@ -80,10 +80,13 @@
 		"testdrive" : {
 			"ctx" : false,
 			"canvas" : false,
-			"fontscale" : 0,
+			"sampletext" : "",
+			"fontscale" : 100,
+			"fontsize" : 100,
+			"linegap" : false,
+			"padsize" : false,
 			"showcharbox" : false,
-			"showhorizontals" : false,
-			"padsize" : 10
+			"showhorizontals" : false
 		},
 
 		// page: import svg
