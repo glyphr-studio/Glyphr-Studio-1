@@ -1,5 +1,5 @@
 	function loadPage_importsvg(){
-		debug("LOADING PAGE >> loadpage_importsvg");
+		// debug("LOADING PAGE >> loadpage_importsvg");
 		var chname = getSelectedCharName();
 		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
 		"<h2 id='importsvgselecttitle'>Target character: "+chname+"</h2>"+

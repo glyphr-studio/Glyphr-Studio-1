@@ -1,6 +1,6 @@
 
 	function loadPage_openproject(){
-		debug("LOADING PAGE >> loadPage_openproject");
+		// debug("LOADING PAGE >> loadPage_openproject");
 		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
 		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
 		"project file if you want to save your current project.<br><br>" +
@@ -17,7 +17,7 @@
 	}
 
 	function loadPage_firstrun(){
-		debug("LOADING PAGE >> loadPage_firstrun");
+		// debug("LOADING PAGE >> loadPage_firstrun");
 
 		var ct = "<table class='firstruntable'><tr>"+
 		"<td class='firstruntableleft' vertical-align='middle'><div id='splashscreenlogo'></div>"+
@@ -60,35 +60,40 @@
 	}
 
 	function importGlyphrProjectFromText(textcontent){
+		// debug("IMPORTGLYPHRPROJECTFROMTEXT");
+
 		var fcontent = JSON.parse(textcontent);
 		var vn = fcontent.projectsettings.versionnum;
 		var v = fcontent.projectsettings.version;
+
+		// debug(fcontent);
 		
 		if(v){
 			/*
 				UPGRADE DROPPED FILE FROM 0.3 to 0.4
 			*/
 			if(!vn){
-				//debug("HANDLEDROP - no versionnum fcontent before migrate:");
-				//debug(fcontent);
+				// debug("\t no versionnum fcontent before migrate:");
+				// debug(fcontent);
 				fcontent = migrateFromBetaThreeToFour(fcontent);
 				vn = '0.4.0';
-				//debug("HANDLEDROP - no versionnum fcontent after migrate:");
+				// debug("\t no versionnum fcontent after migrate:");
 			}
-			//debug(fcontent);
-
 
 			/*
 				CHECK VERSION
 			*/
 			vn = vn.split(".");
+			// debug("\t versionnum found " + vn);
 
 			/* Major Version 0 */
 			if(vn[0]*1 === 0){
+				// debug("\t Major Version = 0");
 				if(vn[1]*1 < 5){
+					// debug("\t Minor Version < 5");
 					/* Minor Version 0.4 or earlier */
 					hydrateGlyphrProject(fcontent);
-					// debug("HANDLEDROP - _GP after hydrate:");
+					// debug("\t _GP after hydrate:");
 					// debug(_GP);
 				} else {
 					/* Minor Version greater than 0.4 */
@@ -150,8 +155,8 @@
 	}
 
 	function hydrateGlyphrProject(data) {
-		//debug("\n\nHDRYATEGLYPHRPROJECT: PASSED \n");
-		//debug(data);
+		// debug("\nHDRYATEGLYPHRPROJECT: PASSED");
+		// debug(data);
 
 		_GP = new GlyphrProject();
 
@@ -175,8 +180,8 @@
 			}
 		}
 
-		//debug("\n\nHDRYATEGLYPHRPROJECT: HYDRATED \n");
-		//debug(_GP);
+		// debug("\nHDRYATEGLYPHRPROJECT: HYDRATED");
+		// debug(_GP);
 
 		finalizeGlyphrProject();
 	}
@@ -238,7 +243,7 @@
 
 
 	function finalizeGlyphrProject(){
-		//debug("FINALIZEGLYPHRPROJECT - start of function");
+		// debug("FINALIZEGLYPHRPROJECT - start of function");
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
 

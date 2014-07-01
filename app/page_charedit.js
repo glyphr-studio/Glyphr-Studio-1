@@ -5,7 +5,7 @@
 
 	function loadPage_charedit(){
 
-		debug("LOADING PAGE >> loadPage_charedit");
+		// debug("LOADING PAGE >> loadPage_charedit");
 		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
 
 		setupEditCanvas();

@@ -1,6 +1,6 @@
 
 	function loadPage_projectsettings(){
-		debug("LOADING PAGE >> loadPage_projectsettings");
+		// debug("LOADING PAGE >> loadPage_projectsettings");
 		var ps = _GP.projectsettings;
 
 		var content = "<div class='pagecontent textpage'><h1>Project Settings</h1>";

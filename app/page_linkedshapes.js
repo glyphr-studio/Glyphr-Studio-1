@@ -1,7 +1,7 @@
 
 
 	function loadPage_linkedshapes(){
-		debug("LOADING PAGE >> loadPage_linkedshapes");
+		// debug("LOADING PAGE >> loadPage_linkedshapes");
 		getEditDocument().getElementById("mainwrapper").innerHTML = linkedshapes_content();
 
 		setupEditCanvas();

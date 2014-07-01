@@ -52,7 +52,7 @@
 		fm.hhea_ascent = round(total*proportion);
 		fm.hhea_descent = (fm.hhea_ascent - total);
 
-		debug("CALCFONTMAXES - numchars " + _UI.fontmetrics.numchars);
+		// debug("CALCFONTMAXES - numchars " + _UI.fontmetrics.numchars);
 	}
 
 

@@ -3,10 +3,10 @@
 //-------------------
 
 	function navigate(nap){
-		//debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
+		// debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
 		if(_UI.navhere === 'firstrun' && _UI.devnav){
-			debug(">>> DEV NAV - to " + _UI.devnav);
+			// debug(">>> DEV NAV - to " + _UI.devnav);
 			newGlyphrProject();
 			_UI.navhere = _UI.devnav;
 		}
@@ -27,7 +27,7 @@
 
 		loadPageContent();
 		document.body.focus();
-		//debug(">>> NAVIGATED - to " + _UI.navhere);
+		// debug(">>> NAVIGATED - to " + _UI.navhere);
 	}
 
 
@@ -148,7 +148,7 @@
 	}
 
 	function makeLayout_PopIn(nap){
-		//debug("MAKELAYOUT_POPIN");
+		// debug("MAKELAYOUT_POPIN");
 
 		var pil = '<div id="mainwrapper"></div>';
 		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';

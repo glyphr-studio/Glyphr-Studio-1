@@ -30,6 +30,7 @@ function GlyphrProject(){
 		"spinnervaluechange" : 1,				// how much spinner controls change a value
 		"showkeyboardtipsicon" : true,			// button for keyboard tips on edit canvas
 		"stoppagenavigation" : true,			// asks to save on window close or refresh
+		"formatsavefile" : false,				// makes the JSON save file readable
 		"showoutline" : false,					// outline shapes when drawing
 		"showfill" : true,						// fill shapes when drawing
 		"color_glyphfill" : "rgb(0,0,0)",		// shape base color
@@ -87,8 +88,12 @@ function GlyphrProject(){
 
 function saveGlyphrProjectFile(){
 
-	var jsonString = JSON.stringify(_GP, undefined, '\t');
-	jsonString = jsonString.replace(/\n/g, '\r\n');
+	var jsonString = JSON.stringify(_GP);
+
+	if(_GP.formatsavefile){
+		jsonString = JSON.stringify(_GP, undefined, '\t');
+		jsonString = jsonString.replace(/\n/g, '\r\n');
+	}
 	//debug("saveGlyphrProjectFile - \n"+jsonString);
 	var fblob = new Blob([jsonString], {"type":"text/plain;charset=utf-8", "endings":"native"});
 	var fname =  _GP.projectsettings.name + " - Glyphr Project - " + genDateStampSuffix() + ".txt";

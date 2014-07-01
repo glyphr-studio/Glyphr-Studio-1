@@ -1,6 +1,6 @@
 
 	function loadPage_fontsettings(){
-		debug("LOADING PAGE >> loadPage_fontsettings");
+		// debug("LOADING PAGE >> loadPage_fontsettings");
 		// SETTINGS
 		var ps = _GP.projectsettings;
 

@@ -1,6 +1,6 @@
 
 	function loadPage_testdrive(){
-		debug("LOADING PAGE >> loadPage_testdrive");
+		// debug("LOADING PAGE >> loadPage_testdrive");
 
 		update_NavPanels();
 
@@ -31,7 +31,7 @@
 	}
 
 	function updateTestdriveCanvas(){
-		debug("UPDATETESTDRIVECANVAS");
+		//debug("UPDATETESTDRIVECANVAS");
 		var td = _UI.testdrive;
 		var ps = _GP.projectsettings;
 
