@@ -5,16 +5,20 @@
 	function navigate(nap){
 		// debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
 
-		if(_UI.navhere === 'firstrun' && _UI.devnav){
+		if(_UI.loadsampleproject && _UI.sampleproject){
+			//debug("NAVIGATE - using sample project");
+			importGlyphrProjectFromText(_UI.sampleproject);
+		}
+
+		if(_UI.devnav){
 			debug(">>> DEV NAV - to " + _UI.devnav);
-			if(!_UI.sampleproject) newGlyphrProject();
+			if(!_UI.loadsampleproject) newGlyphrProject();
 			_UI.navhere = _UI.devnav;
 		}
 
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
 		} else if (_UI.popout){
-			//if(_UI.navhere === 'character edit' || _UI.navhere === 'linked shapes'){
 			if(_UI.navhere === 'character edit'){
 				makeLayout_PopOut();
 			} else {

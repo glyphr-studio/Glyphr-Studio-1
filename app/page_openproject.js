@@ -38,6 +38,29 @@
 		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
 	}
 
+	function importOrCreateNew(){
+
+		var con = "<div class='newtile'>"+
+					"<h3>Load an existing Glyphr Project</h3>"+
+					"<div id='droptarget'>drop file here...</div>"+
+				"</div>"+
+				"<div class='newtile'>"+
+					"<h3>Start a new Glyphr Project</h3>"+
+					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
+					"<button onclick='newGlyphrProject(); navigate();' class='buttonsel'>Start a new font from scratch</button>"+
+				"</div>";
+
+		if(_UI.sampleproject){
+			con += "<div class='newtile'>"+
+						"<h3>Load the Sample Glyphr Project</h3>"+
+						"We made a funky font that you can poke around with.  It's called Modegg, and people have called it \"ugly\" and \"unrefined\".<br><br>"+
+						"<button onclick='importGlyphrProjectFromText(_UI.sampleproject); navigate();' class='buttonsel'>Load the sample project</button>"+
+					"</div>";
+		}
+
+		return con;
+	}
+
 	function handleDrop(evt) {
 		document.getElementById("droptarget").innerHTML = "Loading File...";
 
@@ -184,27 +207,13 @@
 		// debug(_GP);
 
 		finalizeGlyphrProject();
+		//navigate();
 	}
 
 	function handleDragOver(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-	}
-
-
-	function importOrCreateNew(){
-
-		var con = "<div class='newtile'>"+
-					"<h3>Load an existing Glyphr Project</h3>"+
-					"<div id='droptarget'>drop file here...</div>"+
-				"</div>"+
-				"<div class='newtile'>"+
-					"<h3>Start a new Glyphr Project</h3>"+
-					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
-					"<button onclick='newGlyphrProject()' class='buttonsel'>Start a new font from scratch</button>"+
-				"</div>";
-		return con;
 	}
 
 	function newGlyphrProject(){
@@ -237,9 +246,8 @@
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
 
 		finalizeGlyphrProject();
+		//navigate();
 	}
-
-
 
 
 	function finalizeGlyphrProject(){
@@ -256,5 +264,4 @@
 		resetThumbView();
 
 		_UI.navhere = "character edit";
-		navigate();
 	}
