@@ -61,10 +61,10 @@ function GlyphrProject(){
 			{"key": "Postscript name", "val": "My Font"},
 			null,
 			{"key": "Manufacturer name", "val": ""},
-			{"key": "Designer's name", "val": ""},
+			{"key": "Designer name", "val": ""},
 			{"key": "Description", "val": ""},
 			{"key": "Vendor URL", "val": ""},
-			{"key": "Designer's URL", "val": ""},
+			{"key": "Designer URL", "val": ""},
 			{"key": "License Description", "val": "Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)"},
 			{"key": "License URL", "val": "http://creativecommons.org/licenses/by-sa/3.0/"}
 		],
