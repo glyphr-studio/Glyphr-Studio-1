@@ -10,12 +10,6 @@
 			importGlyphrProjectFromText(_UI.sampleproject);
 		}
 
-		if(_UI.devnav){
-			debug(">>> DEV NAV - to " + _UI.devnav);
-			if(!_UI.loadsampleproject) newGlyphrProject();
-			_UI.navhere = _UI.devnav;
-		}
-
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
 		} else if (_UI.popout){

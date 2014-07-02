@@ -31,8 +31,8 @@
 		},
 
 		// Internal Dev Stuff
-		"debug": true,		// global debug console switch
-		"devnav" : "help",	// navigate straight to a page
+		"debug": false,		// global debug console switch
+		"devnav" : false,	// navigate straight to a page
 		"loadsampleproject" : false,	// if sampleproject is present, load it and skip open project experience
 
 		// Shared edit pages
