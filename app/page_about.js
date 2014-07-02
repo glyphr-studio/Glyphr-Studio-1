@@ -42,7 +42,7 @@ function loadPage_about(){
 	"<p>"+
 	"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
 	"Which is a free / open source 'copyleft' license. You are free to use, distribute, and modify Glyphr Studio as long as " +
-	"this license and it's freeness stays intact." +
+	"this license and its freeness stays intact." +
 	"</p>"+
 	"<br><br>";
 
