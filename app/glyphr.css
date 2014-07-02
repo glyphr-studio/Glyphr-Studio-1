@@ -50,7 +50,7 @@
 	b {
 		font-weight: bold;
 	}
-	
+
 	a {
 		color:rgb(0,170,225);
 		text-decoration:none;
@@ -637,6 +637,16 @@
 /*				PAGES
 /*	============================= */
 
+/* ------------------ */
+/* Page - Help		 */
+/* -----------------*/
+
+.btt {
+	margin:8px 0px 0px 0px;
+}
+.btt a {
+	font-size:.8em;
+}
 
 /* ------------------ */
 /* Page - About		 */
@@ -852,19 +862,26 @@
 		background-color: rgb(229,234,239);
 	}
 
-	.keycallout {
+	.keycallout,
+	.keycallout_help {
 		padding:2px 8px 4px 8px;
 		background-color: rgb(250,252,255);
 		border-radius: 2px;
 		margin-right: 4px;
 	}
 
-	.arrow {
+	.arrow,
+	.arrow_help {
 		padding:2px 4px;
 		background-color: rgb(250,252,255);
 		border-radius: 2px;
 		width:18px;
 		height:18px;
+	}
+
+	.keycallout_help,
+	.arrow_help {
+		background-color: rgb(229,234,239);
 	}
 
 	.keycol {
