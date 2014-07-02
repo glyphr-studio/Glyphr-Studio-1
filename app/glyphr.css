@@ -47,6 +47,10 @@
 		margin-bottom:6px;
 	}
 
+	b {
+		font-weight: bold;
+	}
+	
 	a {
 		color:rgb(0,170,225);
 		text-decoration:none;
