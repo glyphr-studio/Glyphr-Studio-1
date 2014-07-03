@@ -3,9 +3,10 @@ Glyphr Studio is a free, web based font editor, focusing on font design hobbyist
 More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - and/or follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
 
 ## State of the Repo
-Beta 4 is under development now.  Please check the [Beta 4 Milestone Issue List](https://github.com/mattlag/GLYPHR/issues?milestone=3&state=open) to see what features are being developed, and what issues are being addressed.
+On the Fourth of July, Glyphr Studio Beta 4 was released!  Major new features are Importing SVG Outlines, Two Screen Edit Mode, and Full Unicode Support.  Lots of little features, too – a full breakdown of new features can be found at [the Glyphr Studio Blog](http://www.glyphrstudio.com/blog).
 
-[Beta 3.2](https://github.com/mattlag/Glyphr-Studio/releases/tag/v0.3.2) is the current stable release, and is the build that is currently hosted at [http://glyphrstudio.com](http://glyphrstudio.com).  
+Export TTX has been deprecated, but that’s only because we’re planning on enabling Export SVG font in Beta 5.  During July, we’ll be pinging the community – asking for new feature ideas, and probably having a vote on what other stuff we should ship with Beta 5.  There is kind of a running list of feature ideas over at the [Issues List]( https://github.com/mattlag/Glyphr-Studio/issues?labels=&page=1&state=open).
+
 
 ## Contributing & Feedback
 I'm an interaction designer by trade, and have decided to use Glyphr Studio as a giant crash course in JavaScript and HTML5.  Since this is my first major HTML5/JS app, there are many opportunities for growth & improvement - for both code, and collaborative development styles.
