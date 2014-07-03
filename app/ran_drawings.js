@@ -225,7 +225,7 @@ function lockUI(varname, doredraw){
 	idname = idname[idname.length-1];
 	var currbool = eval(varname);
 
-	var re = '<label for="'+idname+'" class="checkboxfunclabel">' + 
+	var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
 		'<input type="checkbox" class="checkboxfunc" ' +
 		'id="'+idname+'"' +
 		(currbool? ' checked ' : ' ') +
@@ -245,14 +245,14 @@ function checkUI(varname, doredraw){
 	idname = idname[idname.length-1];
 	var currbool = eval(varname);
 
-	var re = '<label for="'+idname+'" class="checkboxfunclabel">' + 
+	var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
 		'<input type="checkbox" class="checkboxfunc" ' +
 		'id="'+idname+'"' +
 		(currbool? ' checked ' : ' ') +
 		'onclick="' +
 		//'debug(\'Clicked on checkbox '+varname+'\'); ' +
 		'toggle(\''+varname+'\');';
-		
+
 		if(doredraw){
 			re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');'+
 			' redraw(\'checkbox '+idname+'\');';

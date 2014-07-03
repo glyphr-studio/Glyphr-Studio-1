@@ -36,13 +36,13 @@
 		this.calcCharMaxes();
 
 		//debug("CHAR - finished " + this.charname + "\tlinks:" + lc + "\tshapes:" + cs);
-		/*
-		if(oa.charname === "LATIN SMALL LETTER X") {
-			_UI.pathdebugging = false;
-			debug("IMPORTING CHAR X: result");
-			debug(this.charshapes);
-		}
-		*/
+		
+		// if(oa.charname === "LATIN SMALL LETTER X") {
+		//	_UI.pathdebugging = false;
+		//	debug("IMPORTING CHAR X: result");
+		//	debug(this.charshapes);
+		// }
+		
 	}
 
 
@@ -207,7 +207,7 @@
 			if(!cs[i].link){
 				tp = cs[i].path;
 				//debug("\t\tpath " + i + " before h/w " + (tp.maxes.ymax - tp.maxes.ymin) + " " + (tp.maxes.xmax - tp.maxes.xmin));
-				
+
 				// scale
 				if(dw === 0) pnw = false;
 				else pnw = ((tp.maxes.xmax - tp.maxes.xmin)*ratiodw);
@@ -221,7 +221,7 @@
 				else pnx = (ratiodw * (tp.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
 				if(dh === 0) pny = false;
 				else pny = (ratiodh * (tp.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tp.maxes.ymax - tp.maxes.ymin);
-				
+
 				tp.setPathPosition(pnx, pny, true);
 
 				//debug("\t\tpath " + i + " afters h/w " + (tp.maxes.ymax - tp.maxes.ymin) + " " + (tp.maxes.xmax - tp.maxes.xmin));

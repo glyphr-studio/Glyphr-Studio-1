@@ -79,7 +79,7 @@
 	function turnLinkedShapeIntoAShape(){
 		var selshape = ss();
 		var rastershape = clone(_GP.linkedshapes[selshape.link].shape);
-		
+
 		if(selshape.name === 'Linked Shape Instance'){
 			rastershape.name = rastershape.name.replace('Linked Shape from ', '');
 		} else {

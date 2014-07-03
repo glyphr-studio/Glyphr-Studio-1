@@ -6,23 +6,23 @@
 
 		"<table style='margin-top:16px;'><tr><td style='width:50%;'>"+
 			"<table><tr><td>"+
-				checkUI("_UI.importsvg.scale") + 
+				checkUI("_UI.importsvg.scale") +
 			"</td><td style='vertical-align:middle; padding:3px 0px 2px 4px;'>"+
 				"<label for='scale'>Scale the imported SVG outlines</label>"+
 			"</td></tr><tr><td>"+
-				checkUI("_UI.importsvg.move") + 
+				checkUI("_UI.importsvg.move") +
 			"</td><td style='vertical-align:middle; padding:3px 0px 2px 4px;'>"+
 				"<label for='move'>Move the imported SVG outlines</label>"+
 			"</td></tr></table>"+
 		"</td><td style='width:50%; padding-top:4px;'>"+
 			"Enter the height metrics for this character:<br>"+
-			
+
 			"<table style='margin-top:10px;'><tr><td style='width:20px;vertical-align:middle;'>"+
 				checkUI("_UI.importsvg.ascender")+
 			"</td><td class='svgscaleoption'>"+
 				"<label for='ascender'>Ascender</label>"+
 			"</td><td style='padding-left:30px;' rowspan='3'>"+
-				
+
 				"<table><tr><td colspan='2'>"+
 					"For rounded characters:"+
 				"</td></tr><tr><td>"+
@@ -40,7 +40,7 @@
 				"<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUtJREFUeNpiYKAyYKRE88x5iwWA1H4gDkxPin0AEmOi0EHzgdgAiOspdiHQdQFAaj2SkCPQlQdYzly89p9Uw/7+/ctw+fJlMI0EQK48QJaXHzx4gG4YA9TrpIfhhw8fwBhdGORlkg389esX2HVYQCEw/C5gGPjt2zdyvNoINGwBjAM38O3btwy3bt3CaeirV68YPn/+jCImLCzMADSsAVmMCeYymO13797FcAXIq8+ePUMR4+LiYpCVlcWwGGwgyGX4wgndq8zMzAzKyspgGquBAgICGDH5/PlznF5VU1NjYGNjwxo0LCBCQUEBHo4wAPIiyAWPHz9G0QBSC/IuLsCETyG6YWJiYuCIwAeY0L2Cy3ZQsGCLBLwGgryIzVAQHxYsJBmILQZBtLy8PNYYJcpAEADFIMilMMPxRQLWWMYGQIYYGBiQXBIBBBgAnLmHKqNtApUAAAAASUVORK5CYII='>"+
 			"</td><td class='svgscaleoption'>"+
 				"<span style='color:"+_UI.colors.g4+";'>X Height</span>"+
-			"</td></tr><tr><td style='vertical-align:middle;'>"+				
+			"</td></tr><tr><td style='vertical-align:middle;'>"+
 				checkUI("_UI.importsvg.descender")+
 			"</td><td class='svgscaleoption'>"+
 				"<label for='descender'>Descender</label><br>"+
@@ -53,7 +53,7 @@
 		"<textarea id='svgcode' onchange='importSVG_codeAreaChange();'>"+
 
 		(_UI.importsvg.svgcode ? _UI.importsvg.svgcode : "") +
-		
+
 		"</textarea><br><br>"+
 
 		"<button class='buttonsel' style='display:inline; padding-left:60px; padding-right:60px;' onclick='importSVG_importCode();'>Import SVG</button>"+
@@ -125,7 +125,7 @@
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
 		importSVG_closeErrorMessage();
-		
+
 		var tempchar = ioSVG_convertTagsToChar(svgin);
 
 		// Flip and Scale

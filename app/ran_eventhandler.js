@@ -235,7 +235,7 @@
 				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 
 				ss().path.maxes = _UI.eventhandlers.tempnewbasicshape;
-				
+
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw("Event Handler newbasicshape mousemove");
 				//debug("NEWBASICSHAPE MOUSEMOVE past redraw");

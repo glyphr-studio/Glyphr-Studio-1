@@ -27,11 +27,11 @@
 
 		//debug("Path() - created new path: " + this.pathpoints);
 
-		if(_UI.pathdebugging){
-			debug("\nX PATH RESULT");
-			debug(this);
-			debug(json(this));
-		}
+		// if(_UI.pathdebugging){
+		// 	debug("\nX PATH RESULT");
+		// 	debug(this);
+		// 	debug(json(this));
+		// }
 	}
 
 
@@ -149,13 +149,13 @@
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-			/*
-			if(lctx == _UI.chareditctx)	{
-				debug("  point " + cp);
-				debug("\n  pp\n" + JSON.stringify(pp));
-				debug("  np\n" + JSON.stringify(np));
-			}
-			*/
+			
+			// if(lctx == _UI.chareditctx)	{
+			//	debug("  point " + cp);
+			//	debug("\n  pp\n" + JSON.stringify(pp));
+			//	debug("  np\n" + JSON.stringify(np));
+			// }
+			
 			this.validate("DRAW PATH");
 
 			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }

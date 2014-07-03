@@ -10,11 +10,11 @@
 		insertGlobalDOMElements();
 
 		if(_UI.devnav){
-			debug(">>> DEV NAV - to " + _UI.devnav);
+			//debug(">>> DEV NAV - to " + _UI.devnav);
 			if(!_UI.loadsampleproject) newGlyphrProject();
 			_UI.navhere = _UI.devnav;
 		}
-		
+
 		navigate();
 		//debug("MAIN SETUP() - END");
 	}

@@ -24,12 +24,12 @@
 
 		//debug("PATHPOINT was passed " + JSON.stringify(oa));
 
-		if(_UI.pathdebugging){
-			debug("\nX PATHPOINT RESULT");
-			debug(JSON.stringify(this));
-			debug(json(this));
-			debug("typeof this.useh1: " + typeof this.useh1);
-		}
+		// if(_UI.pathdebugging){
+		//	debug("\nX PATHPOINT RESULT");
+		//	debug(JSON.stringify(this));
+		//	debug(json(this));
+		//	debug("typeof this.useh1: " + typeof this.useh1);
+		// }
 	}
 
 
@@ -145,7 +145,7 @@
 			this.useh1 = !this.useh1;
 			putundoq("Use Handle 1 : " + this.useh1);
 		} else {
-			this.useh2 = !this.useh2;			
+			this.useh2 = !this.useh2;
 			putundoq("Use Handle 2 : " + this.useh2);
 		}
 		ss().path.calcMaxes();
@@ -409,19 +409,19 @@
 		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 
 
-/*
-		if(ss().path.sp(true) === 0){
-			debug("DRAWING POINT FOR PATHPOINT 0");
-			debug("\t P x y\t\t" + this.P.x + " / " + this.P.y);
-			debug("\t P s_c\t" + sx_cx(this.P.x) + " / " + sy_cy(this.P.y));
-			debug("\t Fill Style: " + c);
-			debug("\t Computed Angle: " + ang);
-			//debug("\t arrow = \n" + json(arrow) + "\t rotatedarrow = \n" + json(rotatedarrow));
-			// _UI.chareditctx.fillStyle = "lime";
-			// _UI.chareditctx.fillRect((sx_cx(this.P.x)-5), (sy_cy(this.P.y)-5), 10, 10);
-		}
 
-*/
+		// if(ss().path.sp(true) === 0){
+		//	debug("DRAWING POINT FOR PATHPOINT 0");
+		//	debug("\t P x y\t\t" + this.P.x + " / " + this.P.y);
+		//	debug("\t P s_c\t" + sx_cx(this.P.x) + " / " + sy_cy(this.P.y));
+		//	debug("\t Fill Style: " + c);
+		//	debug("\t Computed Angle: " + ang);
+		//	//debug("\t arrow = \n" + json(arrow) + "\t rotatedarrow = \n" + json(rotatedarrow));
+		//	// _UI.chareditctx.fillStyle = "lime";
+		//	// _UI.chareditctx.fillRect((sx_cx(this.P.x)-5), (sy_cy(this.P.y)-5), 10, 10);
+		// }
+
+
 
 	};
 
@@ -457,7 +457,7 @@
 		}
 	};
 
-	
+
 //-------------------------------------------------------
 // COORDINATE OBJECT
 //-------------------------------------------------------

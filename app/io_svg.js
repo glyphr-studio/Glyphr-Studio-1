@@ -1,6 +1,6 @@
 
 	function ioSVG_convertTagsToChar(svgdata){
-		
+
 		var newshapes = [];
 		var tagsarray = [];
 		var data = '';
@@ -18,13 +18,13 @@
 			data = '';
 			for(var p=0; p<tagsarray.length; p++){
 				data = tagsarray[p];
-				
+
 				if(ioSVG_checkForIgnored(data)) error = true;
 
 				data = data.substring(data.indexOf(' d=')+4);
 				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
 				data = data.substring(0, close);
-				
+
 				// Compound Paths are treated as different Glyphr Shapes
 				data.replace('Z','z');
 				data = data.split('z');
@@ -46,7 +46,7 @@
 
 		// debug("IMPORTSVG_IMPORTCODE - rect data: ");
 		// console.log(tagsarray);
-		
+
 		if(tagsarray.length){
 			data = '';
 			var rectmaxes;
@@ -57,11 +57,11 @@
 					'ymax': 0,
 					'ymin': 0
 				};
-				
+
 				if(ioSVG_checkForIgnored(tagsarray[r])) error = true;
 
 				data = ioSVG_getAttributes(tagsarray[r]);
-								
+
 				if(data.x) rectmaxes.xmin = data.x*1;
 				if(data.y) rectmaxes.ymin = data.y*1;
 				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
@@ -129,7 +129,7 @@
 				};
 				data = ioSVG_getAttributes(tagsarray[r]);
 				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
-				
+
 				if(ioSVG_checkForIgnored(tagsarray[r])) error = true;
 
 				radius = data.r || data.rx;
@@ -206,7 +206,7 @@
 		while(data.indexOf(tagname, tag_startpos)>-1){
 			//debug("ioSVG_getTags - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' ', tag_startpos));
 			tag_startpos = data.indexOf(tagname, tag_startpos);
-			tag_endpos = data.indexOf('/>', tag_startpos) + 2;			
+			tag_endpos = data.indexOf('/>', tag_startpos) + 2;
 			tag_arr[tag_count] = data.substring(tag_startpos, tag_endpos);
 			tag_startpos = tag_endpos;
 			if(tag_count > 1000) break; else tag_count++;
@@ -297,7 +297,7 @@
 		newshape.path.calcMaxes();
 
 		//debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
-		
+
 		return newshape;
 	}
 

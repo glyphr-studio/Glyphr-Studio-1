@@ -96,7 +96,7 @@
 			"ascender" : false,
 			"descender" : false,
 			"overshoot_top": false,
-			"overshoot_bottom": false, 
+			"overshoot_bottom": false,
 			"svgcode": false
 		},
 

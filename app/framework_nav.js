@@ -305,7 +305,7 @@
 			nfill = _UI.colors.accent;
 			nhover = _UI.colors.accent;
 		}
-		
+
 		newsub += "<button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; makeAndDraw_NavPanels_PopIn();'>";
 		newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
 		newsub += "</button>";

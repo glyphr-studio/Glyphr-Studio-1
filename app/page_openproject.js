@@ -90,7 +90,7 @@
 		var v = fcontent.projectsettings.version;
 
 		// debug(fcontent);
-		
+
 		if(v){
 			/*
 				UPGRADE DROPPED FILE FROM 0.3 to 0.4
@@ -241,7 +241,7 @@
 		_GP.fontchars = {};
 		getChar("0x0020", true).isautowide = false;
 		getChar("0x0020", true).advancewidth = _GP.projectsettings.upm/2;
-		
+
 		_GP.linkedshapes = {};
 		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
 

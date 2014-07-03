@@ -23,11 +23,11 @@
 		this.uselinkedshapexy = false;
 
 		//debug("Just created a SHAPE: " + JSON.stringify(this));
-/*
-		if(_UI.pathdebugging){
-			debug("X SHAPE RESULT");
-			debug(this);
-		}*/
+
+		// if(_UI.pathdebugging){
+		//	debug("X SHAPE RESULT");
+		//	debug(this);
+		// }
 	}
 
 
@@ -87,7 +87,7 @@
 	};
 
 	Shape.prototype.checkPath = function() {
-		debug("CHECKPATH - checking " + this.name + "\n" + JSON.stringify(this.path));
+		// debug("CHECKPATH - checking " + this.name + "\n" + JSON.stringify(this.path));
 
 		for(var pp = 0; pp < this.path.pathpoints.length; pp++){
 			var tp = this.path.pathpoints[pp];

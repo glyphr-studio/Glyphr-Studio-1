@@ -37,7 +37,7 @@
 
 		if(_UI.navprimaryhere == "npAttributes") changefontscale(td.fontsize);
 		document.getElementById("tdtextarea").value = td.sampletext;
-		
+
 		var contentArray = td.sampletext.split("");
 		var tctx = td.ctx;
 		var scale = td.fontscale;
@@ -52,7 +52,7 @@
 		if(td.showhorizontals) drawLine(curry);
 
 		//debug("\t contentarray.length: " + contentArray.length);
-		
+
 		for(var k=0; k<contentArray.length; k++){
 			if(contentArray[k] == "\n"){
 				// reset X val

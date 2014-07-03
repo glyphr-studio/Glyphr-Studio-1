@@ -241,14 +241,14 @@
 		var newid = generateNewSSID();
 		var newls;
 		_UI.shownlinkedshape = newid;
-		
+
 
 		if(pshape){
 			newls = new LinkedShape({"shape":pshape});
 		} else {
 			newls = new LinkedShape({"name":("linkedshape " + _GP.projectsettings.linkedshapecounter)});
 		}
-		
+
 		if(_UI.navhere === 'linked shapes') _UI.selectedshape = newid;
 		_GP.linkedshapes[newid] = newls;
 

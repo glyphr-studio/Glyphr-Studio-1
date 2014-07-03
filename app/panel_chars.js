@@ -15,7 +15,7 @@
 		_UI.selectchardrawarr = [];
 		var cr = _GP.projectsettings.charrange;
 		var showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
-		
+
 		if(cr.basiclatin){
 			var bl = _UI.basiclatinorder;
 			if(showtitles) ccon += "<h3>basic latin</h3>";

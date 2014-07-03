@@ -34,9 +34,9 @@
 	function calcFontMaxes(){
 		var fm = _UI.fontmetrics;
 		_UI.fontmetrics.numchars = 0;
-		
+
 		ioTTXXML_charIterator(function(hex){
-			_UI.fontmetrics.numchars++;	
+			_UI.fontmetrics.numchars++;
 			var cm = _GP.fontchars[hex];
 			if(cm){
 				cm = cm.maxes;
@@ -253,7 +253,7 @@
 
 	function genTable_cmap(oa){
 		var cmapbody = "";
-		
+
 		// for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
 		// 	cmapbody += '\t\t<map code="'+tc+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
 		// }}
@@ -352,7 +352,7 @@
 			re += '\t\t\t</CharString>\n';
 
 			return re;
-		});	
+		});
 
 		return con;
 	}
@@ -366,7 +366,7 @@
 			var curr = _GP.fontchars[hex];
 			var width = 0;
 			var lsb = 0;
-			
+
 			if (curr){
 				lsb = (curr.leftsidebearing === false)? _GP.projectsettings.defaultlsb : curr.leftsidebearing;
 				width = lsb + curr.advancewidth;
@@ -385,29 +385,29 @@
 		//var count = 0;
 
 		if(cr.basiclatin){
-			for(var i=0; i<_UI.basiclatinorder.length; i++){ 
-				ccon += fname(_UI.basiclatinorder[i]); 
+			for(var i=0; i<_UI.basiclatinorder.length; i++){
+				ccon += fname(_UI.basiclatinorder[i]);
 				//count++;
 			}
 		}
 
 		if(cr.latinsuppliment){
-			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ 
-				ccon += fname(decToHex(s)); 
+			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){
+				ccon += fname(decToHex(s));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendeda){
-			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ 
-				ccon += fname(decToHex(a)); 
+			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){
+				ccon += fname(decToHex(a));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendedb){
-			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ 
-				ccon += fname(decToHex(b)); 
+			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){
+				ccon += fname(decToHex(b));
 				//count++;
 			}
 		}
