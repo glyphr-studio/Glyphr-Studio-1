@@ -50,14 +50,6 @@
 					"<button onclick='newGlyphrProject(); navigate();' class='buttonsel'>Start a new font from scratch</button>"+
 				"</div>";
 
-		if(_UI.sampleproject){
-			con += "<div class='newtile'>"+
-						"<h3>Load the Sample Glyphr Project</h3>"+
-						"We made a funky font that you can poke around with.  It's called Modegg, and people have called it \"ugly\" and \"unrefined\".<br><br>"+
-						"<button onclick='importGlyphrProjectFromText(_UI.sampleproject); navigate();' class='buttonsel'>Load the sample project</button>"+
-					"</div>";
-		}
-
 		return con;
 	}
 

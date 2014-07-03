@@ -14,6 +14,14 @@
 		initEventHandlers();
 
 		_UI.selectedtool = "pathedit";
+
+		// DIFF FOR SANDBOX
+		// if(_UI.sampleprojectfirstrun){
+		//	selectChar("0x0067", true);
+		//	_UI.selectedshape = 3;
+		//	getChar("0x0067").charshapes[3].path.selectPathPoint(1);
+		//	_UI.sampleprojectfirstrun = false;
+		// } else {
 		_UI.selectedshape = -1;
 
 		redraw("loadPage_charedit");
