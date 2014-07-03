@@ -71,10 +71,11 @@
 		var reader = new FileReader();
 
 		// Closure to capture the file information.
-		reader.onload = (function(theFile) {
+		reader.onload = (function() {
 			return function(e) {
 				//console.log(reader.result);
 				importGlyphrProjectFromText(reader.result);
+				navigate();
 			};
 		})(f);
 

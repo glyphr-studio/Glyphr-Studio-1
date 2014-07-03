@@ -31,7 +31,7 @@
 		},
 
 		// Internal Dev Stuff
-		"debug": false,		// global debug console switch
+		"debug": true,		// global debug console switch
 		"devnav" : false,	// navigate straight to a page
 		"loadsampleproject" : false,	// if sampleproject is present, load it and skip open project experience
 

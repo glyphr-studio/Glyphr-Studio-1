@@ -8,6 +8,8 @@
 		if(_UI.loadsampleproject && _UI.sampleproject){
 			//debug("NAVIGATE - using sample project");
 			importGlyphrProjectFromText(_UI.sampleproject);
+			_UI.loadsampleproject = false;
+			_UI.sampleproject = false;
 		}
 
 		if(_UI.navhere === 'firstrun'){
