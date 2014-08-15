@@ -39,7 +39,7 @@
 		document.body.innerHTML += ihgc;
 
 
-		window.onbeforeunload = function(e) {
+		window.onbeforeunload = function() {
 			if(_GP.projectsettings.stoppagenavigation && !_UI.debug){
 				return "\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n";
 			} else {
@@ -55,7 +55,7 @@
 //-------------------
 
 	function debug(message, force){
-		if(_UI.debug | force){ console.log(message); }
+		if(_UI.debug || force){ console.log(message); }
 	}
 
 	/*
@@ -238,7 +238,7 @@ function saveTextFile(fname, fblob) {
 	// returns the length of an associative array
 	function aalength(aa){
 		var len = 0;
-		for(var key in aa){	len++; }
+		for(var key in aa){	if( aa.hasOwnProperty(key)) len++; }
 		return len;
 	}
 
