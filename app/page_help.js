@@ -1,3 +1,4 @@
+"use strict";
 function loadPage_help(){
 	// debug("LOADING PAGE >> loadPage_help");
 	var content = "<a name='top' style='height:0px;'></a><div class='textpage pagecontent'>";

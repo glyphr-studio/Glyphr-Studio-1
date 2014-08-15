@@ -1,3 +1,4 @@
+"use strict";
 
 	function loadPage_testdrive(){
 		// debug("LOADING PAGE >> loadPage_testdrive");

@@ -1,3 +1,4 @@
+"use strict";
 /**
 	MAIN FILE OF CONTROLORIZATION
 **/

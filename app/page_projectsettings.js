@@ -1,3 +1,4 @@
+"use strict";
 
 	function loadPage_projectsettings(){
 		// debug("LOADING PAGE >> loadPage_projectsettings");

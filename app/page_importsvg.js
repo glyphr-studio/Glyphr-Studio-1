@@ -1,3 +1,4 @@
+"use strict";
 	function loadPage_importsvg(){
 		// debug("LOADING PAGE >> loadpage_importsvg");
 		var chname = getSelectedCharName();

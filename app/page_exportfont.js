@@ -1,3 +1,4 @@
+"use strict";
 
 	function loadPage_exportfont(){
 		// debug("LOADING PAGE >> loadPage_exportfont");

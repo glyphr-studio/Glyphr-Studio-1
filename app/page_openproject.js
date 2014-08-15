@@ -1,3 +1,4 @@
+"use strict";
 
 	function loadPage_openproject(){
 		// debug("LOADING PAGE >> loadPage_openproject");

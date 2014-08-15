@@ -1,3 +1,4 @@
+"use strict";
 	_UI.eventhandlers = {
 		"tempnewbasicshape" : false,
 		"mousex" : 0,

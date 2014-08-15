@@ -1,3 +1,4 @@
+"use strict";
 
 	function loadPage_fontsettings(){
 		// debug("LOADING PAGE >> loadPage_fontsettings");

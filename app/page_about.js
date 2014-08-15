@@ -1,3 +1,4 @@
+"use strict";
 
 function loadPage_about(){
 	// debug("LOADING PAGE >> loadPage_about");
