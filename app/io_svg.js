@@ -3,28 +3,31 @@
 	function ioSVG_convertTagsToChar(svgdata){
 
 		var newshapes = [];
-		var tagsarray = [];
-		var data = '';
+		var jsondata = convertXMLtoJSON(svgdata);
+		var data = {};
 		var shapecounter = 0;
 		var maxes = clone(_UI.mins);
 		var error = false;
+
+		/*
+			COLLECT ALL SHAPE TAGS
+		*/
+
+		// Check for XML Errors
+		var shapetags = ioSVG_getShapeTags(jsondata);
+
 
 
 		/*
 			GET PATH TAGS
 		*/
-		tagsarray = ioSVG_getTags(svgdata, 'path');
 
-		if(tagsarray.length){
+		if(shapetags.path.length){
 			data = '';
-			for(var p=0; p<tagsarray.length; p++){
-				data = tagsarray[p];
+			for(var p=0; p<shapetags.path.length; p++){
+				data = shapetags.path[p].attributes.d;
 
-				if(ioSVG_checkForIgnored(data)) error = true;
-
-				data = data.substring(data.indexOf(' d=')+4);
-				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
-				data = data.substring(0, close);
+				// if(ioSVG_checkForIgnored(data)) error = true;
 
 				// Compound Paths are treated as different Glyphr Shapes
 				data.replace('Z','z');
@@ -43,15 +46,15 @@
 		/*
 			GET RECT TAGS
 		*/
-		tagsarray = ioSVG_getTags(svgdata, 'rect');
 
 		// debug("IMPORTSVG_IMPORTCODE - rect data: ");
-		// console.log(tagsarray);
+		// console.log(shapetags);
 
-		if(tagsarray.length){
-			data = '';
-			var rectmaxes;
-			for(var r=0; r<tagsarray.length; r++){
+		if(shapetags.rect.length){
+			data = {};
+			var rectmaxes = {};
+
+			for(var r=0; r<shapetags.rect.length; r++){
 				rectmaxes = {
 					'xmax': 0,
 					'xmin': 0,
@@ -59,9 +62,9 @@
 					'ymin': 0
 				};
 
-				if(ioSVG_checkForIgnored(tagsarray[r])) error = true;
+				// if(ioSVG_checkForIgnored(shapetags.rect[r])) error = true;
 
-				data = ioSVG_getAttributes(tagsarray[r]);
+				data = shapetags.rect.attributes;
 
 				if(data.x) rectmaxes.xmin = data.x*1;
 				if(data.y) rectmaxes.ymin = data.y*1;
@@ -70,7 +73,7 @@
 
 				//debug("IMPORTSVG_IMPORTCODE - Rect maxes: " + JSON.stringify(rectmaxes));
 
-				shapecounter++
+				shapecounter++;
 				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':("SVG Rectangle " + shapecounter)}));
 			}
 		}
@@ -79,18 +82,15 @@
 		/*
 			GET POLYLINE OR POLYGON TAGS
 		*/
-		tagsarray = ioSVG_getTags(svgdata, 'polygon');
-		tagsarray = tagsarray.concat(ioSVG_getTags(svgdata, 'polyline'));
-		if(tagsarray.length){
-			data = '';
-			for(var po=0; po<tagsarray.length; po++){
-				data = tagsarray[po];
+		var poly = shapetags.polygon;
+		poly = poly.concat(shapetags.polyline);
 
-				if(ioSVG_checkForIgnored(data)) error = true;
+		if(poly.length){
+			data = {};
+			for(var po=0; po<poly.length; po++){
+				data = poly[po].attributes.points;
 
-				data = data.substring(data.indexOf(' points=')+9);
-				var close = Math.max(data.indexOf("'"), data.indexOf('"'));
-				data = data.substring(0, close);
+				// if(ioSVG_checkForIgnored(data)) error = true;
 
 				if(data.length){
 					data = data.split(' ');
@@ -115,23 +115,23 @@
 		/*
 			GET ELLIPSE OR CIRCLE TAGS
 		*/
-		tagsarray = ioSVG_getTags(svgdata, 'circle');
-		tagsarray = tagsarray.concat(ioSVG_getTags(svgdata, 'ellipse'));
+		var round = shapetags.circle;
+		round = round.concat(shapetags.ellipse);
 
-		if(tagsarray.length){
+		if(round.length){
 			data = '';
 			var ellipsemaxes, radius;
-			for(var r=0; r<tagsarray.length; r++){
+			for(var c=0; c<round.length; c++){
 				ellipsemaxes = {
 					'xmax': 0,
 					'xmin': 0,
 					'ymax': 0,
 					'ymin': 0
 				};
-				data = ioSVG_getAttributes(tagsarray[r]);
+				data = round[c].attributes;
 				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
 
-				if(ioSVG_checkForIgnored(tagsarray[r])) error = true;
+				// if(ioSVG_checkForIgnored(shapetags[r])) error = true;
 
 				radius = data.r || data.rx;
 				ellipsemaxes.xmin = (data.cx*1) - (radius*1);
@@ -141,7 +141,7 @@
 				ellipsemaxes.ymin = (data.cy*1) - (radius*1);
 				ellipsemaxes.ymax = (data.cy*1) + (radius*1);
 
-				shapecounter++
+				shapecounter++;
 				newshapes.push(new Shape({'path':ovalPathFromMaxes(ellipsemaxes), 'name':("SVG Oval " + shapecounter)}));
 			}
 		}
@@ -160,29 +160,26 @@
 		return new Char({"charshapes":newshapes});
 	}
 
-	function ioSVG_checkForIgnored(ptag){
-		ptag = ptag.toLowerCase();
+	function ioSVG_getShapeTags(obj) {
+		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
+		var temp, result;
 
-		return 	( ptag.indexOf("transform") > -1 ) ||
-				( ptag.indexOf("matrix") > -1 );
-	}
-
-	function ioSVG_getAttributes(tagdata){
-		var data = tagdata.split(" ");
-		var re = {};
-		var attr = [];
-		for(var i=0; i<data.length; i++){
-			if(data[i].indexOf('=') > -1){
-				attr = data[i].split('=');
-				re[attr[0].toLowerCase()] = ioSVG_scrubAttr(attr[1]);
+		if(obj.content){
+			for(var c=0; c<obj.content.length; c++){
+				temp = ioSVG_getShapeTags(obj.content[c]);
+				for(var g=0; g<grabtags.length; g++){
+					result[grabtags[g]] = result[grabtags[g]].concat(temp[grabtags[g]]);
+				}
+			}
+		} else {
+			if(grabtags.indexOf(obj.name) > -1){
+				result[obj.name] = obj;
 			}
 		}
-		// debug("ioSVG_getAttributes");
-		// debug(re);
 
-		return re;
+		return result;
 	}
-
+/*
 	function ioSVG_scrubAttr(s){
 		// debug('ioSVG_scrubAttr');
 		// debug('\t before: ' + s);
@@ -190,33 +187,7 @@
 		// debug('\t afters: ' + re);
 		return re;
 	}
-
-	function ioSVG_getTags(data, tagname){
-		var tag_arr = [];
-		var tag_count = 0;
-		var tag_startpos = 0;
-		var tag_endpos = 0;
-
-		// Case Insensitive for just the tag name
-		data = data.replace(new RegExp(tagname, 'gi'), tagname.toLowerCase());
-		tagname = '<'+tagname;
-
-		//debug("ioSVG_getTags - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' '));
-
-		// Get Tags
-		while(data.indexOf(tagname, tag_startpos)>-1){
-			//debug("ioSVG_getTags - indexOf " + tagname + " is " + data.indexOf('<'+tagname+' ', tag_startpos));
-			tag_startpos = data.indexOf(tagname, tag_startpos);
-			tag_endpos = data.indexOf('/>', tag_startpos) + 2;
-			tag_arr[tag_count] = data.substring(tag_startpos, tag_endpos);
-			tag_startpos = tag_endpos;
-			if(tag_count > 1000) break; else tag_count++;
-		}
-		//debug("ioSVG_getTags - tag_arr is " + JSON.stringify(tag_arr));
-		//debug("ioSVG_getTags - tag_arr length is " + tag_arr.length);
-
-		return tag_arr;
-	}
+*/
 
 	function ioSVG_convertPathTag(data) {
 		// just path data
@@ -325,7 +296,7 @@
 		*/
 
 		var cmd = chunk.command;
-		var p,h1,h2;
+		var p, h1;
 		var lastpoint = patharr[patharr.length-1] || new PathPoint({"P":new Coord({"x":0,"y":0})});
 		var prevx = lastpoint.P.x;
 		var prevy = lastpoint.P.y;
@@ -453,3 +424,95 @@
 
 		return patharr;
 	}
+
+
+
+//	-------------------
+//	XML to JSON
+//	-------------------
+
+function convertXMLtoJSON(inputXML){
+	var XMLdoc, XMLerror;
+	inputXML = inputXML.replace(/(\r\n|\n|\r|\t)/gm,"");
+	debug('PASSED\n' + inputXML);
+
+	if (typeof window.DOMParser !== "undefined") {
+		XMLdoc = (new window.DOMParser()).parseFromString(inputXML, "text/xml");
+	} else if (typeof window.ActiveXObject !== "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
+		XMLdoc = new window.ActiveXObject("Microsoft.XMLDOM");
+		XMLdoc.async = "false";
+		XMLdoc.loadXML(inputXML);
+	} else {
+		console.warn('No XML document parser found.');
+		XMLerror = new SyntaxError('No XML document parser found.');
+		throw XMLerror;
+	}
+
+	var parsererror = XMLdoc.getElementsByTagName("parsererror");
+	if (parsererror.length) {
+		var msgcon = XMLdoc.getElementsByTagName('div')[0].innerHTML;
+		console.warn("Invalid XML:\n" + msgcon);
+		XMLerror = new SyntaxError(JSON.stringify(msgcon));
+		throw XMLerror;
+	}
+
+	return {
+		'name' : XMLdoc.documentElement.nodeName,
+		'attributes' : tag_getAttributes(XMLdoc.documentElement.attributes),
+		'content' : tag_getContent(XMLdoc.documentElement)
+	};
+
+
+	function tag_getContent(parent) {
+		var kids = parent.childNodes;
+		debug('\nTAG: ' + parent.nodeName + '\t' + parent.childNodes.length);
+
+		if(kids.length === 0) return trim(parent.nodeValue);
+
+		var result = [];
+		var node, tagresult, tagcontent, tagattributes;
+
+		for(var k=0; k<kids.length; k++){
+			tagresult = {};
+			node = kids[k];
+			debug('\n\t>>START kid ' + k + ' ' + node.nodeName);
+			if(node.nodeName === '#comment') break;
+
+			tagcontent = tag_getContent(node);
+			tagattributes = tag_getAttributes(node.attributes);
+
+			if(node.nodeName === '#text' && JSON.stringify(tagattributes) === '{}'){
+				tagresult = tagcontent;
+			} else {
+				tagresult.name = node.nodeName;
+				tagresult.attributes = tagattributes;
+				tagresult.content = tagcontent;
+			}
+
+			if(tagresult !== '') result.push(tagresult);
+
+			debug('\t>>END kid ' + k);
+		}
+
+		return result;
+	}
+
+	function tag_getAttributes(attributes) {
+		if(!attributes || !attributes.length) return {};
+		var result = {};
+		var attr;
+
+		for(var a=0; a<attributes.length; a++){
+			attr = attributes[a];
+			debug('\t\t'+attr.name+' : '+attr.value);
+			result[attr.name] = attr.value;
+		}
+
+		return result;
+	}
+
+	function trim(text) {
+		try { return text.replace(/^\s+|\s+$/g, ''); }
+		catch(e) { return ''; }
+	}
+}

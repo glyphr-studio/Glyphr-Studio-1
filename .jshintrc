@@ -7,7 +7,7 @@
   "globalstrict": true,
   "newcap": true,
   "nonbsp": true,
-  "strict": true,
+  "strict": false,
   "latedef": "nofunc",
   "unused": "vars",
   "undef": false,
