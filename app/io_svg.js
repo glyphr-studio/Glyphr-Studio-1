@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 
 	function ioSVG_convertTagsToChar(svgdata){
 

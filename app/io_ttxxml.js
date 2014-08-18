@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 
 //	------------------------
 //	Save as a TTX XML

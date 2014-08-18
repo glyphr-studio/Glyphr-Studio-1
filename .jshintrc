@@ -1,21 +1,37 @@
 {
-  "browser": true,
+  // ENFORCING
   "bitwise": true,
-  "devel": true,
+  "curly": false,
   "eqeqeq": true,
+  "evil": false,
   "forin": true,
-  "globalstrict": true,
+  "freeze": true,
+  "latedef": false,
   "newcap": true,
   "nonbsp": true,
-  "strict": false,
-  "latedef": "nofunc",
-  "unused": "vars",
-  "undef": false,
-  "curly": false,
   "plusplus": false,
-  "evil": false,
+  "strict": false,
+  "undef": false,
+  "unused": false,
+
+  // RELAXING
+  "debug": true,
+  "globalstrict": true,
+
+  // ENVIRONMENTS
+  "browser": true,
+  "devel": true,
+
+  // GLOBALS
   "predef": [
     "_UI",
-    "_GP"
+    "_GP",
+    "Coord",
+    "Path",
+    "PathPoint",
+    "Shape",
+    "LinkedShape",
+    "Char",
+    "GlyphrProject"
   ]
 }

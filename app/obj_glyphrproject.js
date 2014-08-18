@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 function GlyphrProject(){
 
 	// Default settings for new Glyphr Projects
