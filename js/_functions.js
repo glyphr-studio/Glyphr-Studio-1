@@ -1,9 +1,8 @@
 // "use strict";
 
-/**
-	MAIN FILE OF CONTROLORIZATION
-**/
-
+//	-------------------------------
+//	MAIN FILE OF CONTROLORIZATION
+//	-------------------------------
 
 	function setup() {
 		console.clear();
