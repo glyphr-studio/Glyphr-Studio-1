@@ -1,28 +1,32 @@
 // "use strict";
 
 	function ioSVG_convertTagsToChar(svgdata){
+		debug('\n ioSVG_convertTagsToChar \t Start');
 
 		var newshapes = [];
-		var jsondata = convertXMLtoJSON(svgdata);
 		var data = {};
 		var shapecounter = 0;
-		var maxes = clone(_UI.mins);
 		var error = false;
 
-		/*
-			COLLECT ALL SHAPE TAGS
-		*/
-
+		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
+		var jsondata = convertXMLtoJSON(svgdata);
 		// Check for XML Errors
-		var shapetags = ioSVG_getShapeTags(jsondata);
+		var unsortedshapetags = ioSVG_getShapeTags(jsondata, grabtags);
+		var shapetags = {};
+		
+		// get a sorted shapetags object
+		for(var g=0; g<grabtags.length; g++) shapetags[grabtags[g]] = [];
+		for(var s=0; s<unsortedshapetags.length; s++) shapetags[unsortedshapetags[s].name].push(unsortedshapetags[s]);
 
-
+		debug('\t shapetags from imported XML: ');
+		debug(shapetags);
 
 		/*
 			GET PATH TAGS
 		*/
 
 		if(shapetags.path.length){
+			debug('\t parsing PATH');
 			data = '';
 			for(var p=0; p<shapetags.path.length; p++){
 				data = shapetags.path[p].attributes.d;
@@ -51,6 +55,7 @@
 		// console.log(shapetags);
 
 		if(shapetags.rect.length){
+			debug('\t parsing RECT');
 			data = {};
 			var rectmaxes = {};
 
@@ -86,6 +91,7 @@
 		poly = poly.concat(shapetags.polyline);
 
 		if(poly.length){
+			debug('\t parsing POLY and POLYLINE');
 			data = {};
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
@@ -119,6 +125,7 @@
 		round = round.concat(shapetags.ellipse);
 
 		if(round.length){
+			debug('\t parsing CIRCLE and ELLIPSE');
 			data = '';
 			var ellipsemaxes, radius;
 			for(var c=0; c<round.length; c++){
@@ -156,27 +163,27 @@
 			importSVG_errorMessage("A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.");
 		}
 
-		//debug("IMPORTSVG_IMPORTCODE - tempchar maxes " + JSON.stringify(tempchar.maxes));
+		debug('ioSVG_convertTagsToChar \t End \n');
 		return new Char({"charshapes":newshapes});
 	}
 
-	function ioSVG_getShapeTags(obj) {
-		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
-		var temp, result;
+	function ioSVG_getShapeTags(obj, grabtags) {
+		debug('\n ioSVG_getShapeTags \t Start');
+		debug('\t passed obj: ');
+		debug(obj);
+		var result = [];
 
 		if(obj.content){
 			for(var c=0; c<obj.content.length; c++){
-				temp = ioSVG_getShapeTags(obj.content[c]);
-				for(var g=0; g<grabtags.length; g++){
-					result[grabtags[g]] = result[grabtags[g]].concat(temp[grabtags[g]]);
-				}
+				result = result.concat(ioSVG_getShapeTags(obj.content[c], grabtags));
 			}
 		} else {
 			if(grabtags.indexOf(obj.name) > -1){
-				result[obj.name] = obj;
+				result = [obj];
 			}
 		}
 
+		debug('ioSVG_getShapeTags \t End \n');
 		return result;
 	}
 /*

@@ -55,7 +55,13 @@
 //-------------------
 
 	function debug(message, force){
-		if(_UI.debug || force){ console.log(message); }
+		if(_UI.debug || force){
+			if(typeof message === 'string'){
+				message = message.replace(/&lt;/gi, '<');
+				message = message.replace(/&gt;/gi, '>');
+			}
+			console.log(message); 
+		}
 	}
 
 	/*

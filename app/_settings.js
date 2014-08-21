@@ -32,7 +32,7 @@
 
 		// Internal Dev Stuff
 		"debug": true,		// global debug console switch
-		"devnav" : false,	// navigate straight to a page
+		"devnav" : 'import svg',	// navigate straight to a page
 		"loadsampleproject" : false,	// if sampleproject is present, load it and skip open project experience
 
 		// Shared edit pages

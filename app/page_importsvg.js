@@ -87,7 +87,6 @@
 
 		var f = evt.dataTransfer.files[0]; // FileList object only first file
 		var reader = new FileReader();
-		var fcontent = "";
 		var dt = document.getElementById("droptarget");
 
 		dt.innerHTML = "Loading File...";

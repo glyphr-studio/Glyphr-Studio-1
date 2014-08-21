@@ -12,7 +12,7 @@
   "plusplus": false,
   "strict": false,
   "undef": false,
-  "unused": false,
+  "unused": "vars",
 
   // RELAXING
   "debug": true,
