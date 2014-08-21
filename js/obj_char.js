@@ -154,6 +154,35 @@
 		return width;
 	};
 
+	Char.prototype.genSVG = function(z) {
+		var sl = this.charshapes;
+		var re = '<svg>';
+
+		for(var j=0; j<sl.length; j++) {
+			sh = sl[j];
+			if(sh.visible) {
+				if(sh.link){
+					if(sh.uselinkedshapexy){
+						sh = _GP.linkedshapes[sh.link].shape;
+						//debug("DRAWCHARTOAREA - uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
+					} else {
+						var ns = clone(_GP.linkedshapes[sh.link].shape);
+						//debug("DRAWCHARTOAREA - !uselinkedshapexy, shape before\n" + JSON.stringify(ns));
+						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
+						//debug("DRAWCHARTOAREA - !uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
+						sh = ns;
+					}
+				}
+				//debug("DRAWCHARTOAREA - drawing path of char " + this.charname);
+				re += sh.path.genSVGpathTag();
+			}
+		}
+
+		re += '</svg>';
+
+		return re;
+	};
+
 	Char.prototype.setCharPosition = function(nx, ny, force){
 		debug("SETCHARPOSITION nx/ny/force: " + nx + " " + ny + " " + force);
 		var dx = (nx)? (nx - this.maxes.xmin) : 0;

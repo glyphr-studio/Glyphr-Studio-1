@@ -250,7 +250,38 @@
 			"re" : re,
 			"lastx" : p2.P.x,
 			"lasty" : p2.P.y
-			};
+		};
+	};
+
+	Path.prototype.genSVGpathTag = function() {
+		var re = '<path d="';
+		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
+		var trr = "";
+
+		re += "M" + (this.pathpoints[0].P.x - lastx) + "," + (this.pathpoints[0].P.y - lasty);
+
+		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
+
+		for(var cp = 0; cp < this.pathpoints.length; cp++){
+			p1 = this.pathpoints[cp];
+			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+
+			p1h2x = p1.getH2x() - p1.P.x;
+			p1h2y = p1.getH2y() - p1.P.y;
+			p2h1x = p2.getH1x() - p1.getH2x();
+			p2h1y = p2.getH1y() - p1.getH2y();
+			p2ppx = p2.P.x - p2.getH1x();
+			p2ppy = p2.P.y - p2.getH1y();
+
+			trr = "C" + p1h2x + "," + p1h2y + " " + p2h1x + "," + p2h1y + " " + p2ppx + "," + p2ppy;
+
+			//debug("\t " + trr);
+
+			re += trr;
+		}
+
+		re += '"/>';
+		return re;
 	};
 
 	Path.prototype.isOverControlPoint = function(x, y){

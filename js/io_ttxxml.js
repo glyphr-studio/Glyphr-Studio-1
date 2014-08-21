@@ -256,7 +256,7 @@
 		var cmapbody = "";
 
 		// for(var tc in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(tc)){
-		// 	cmapbody += '\t\t<map code="'+tc+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
+		//  cmapbody += '\t\t<map code="'+tc+'" name="' + _GP.fontchars[tc].charname + '"/>\n';
 		// }}
 
 		cmapbody += ioTTXXML_charIterator(function(hex){
