@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------
@@ -454,3 +455,6 @@
 		_UI.chareditctx.stroke();
 		_UI.chareditctx.closePath();
 	}
+
+
+};

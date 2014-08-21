@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_projectsettings(){
@@ -73,3 +74,5 @@
 		ps.griddivisions = Math.min(ps.upm, Math.max(1, val));
 		document.getElementById('metirc-ssize').value = round((ps.upm / ps.griddivisions), 3);
 	}
+
+};

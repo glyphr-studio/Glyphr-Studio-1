@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_importsvg(){
@@ -171,3 +172,5 @@
 		document.getElementById('svgerrormessagecontent').innerHTML = "";
 		document.getElementById('svgerrormessagebox').style.display = 'none';
 	}
+
+};

@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------
@@ -279,3 +280,5 @@
 		//debug("HELPUI - output:\n"+re);
 		return re;
 	}
+
+};

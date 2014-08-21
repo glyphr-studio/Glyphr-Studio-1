@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------------------------------------------
@@ -338,3 +339,6 @@
 			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharMaxes();
 		}
 	}
+
+
+};

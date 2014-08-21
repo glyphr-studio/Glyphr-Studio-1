@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------
@@ -53,5 +54,5 @@
 			}
 		}
 	}
-
-
+	
+};

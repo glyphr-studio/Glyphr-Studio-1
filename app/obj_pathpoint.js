@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------------------------------------------
@@ -474,3 +475,5 @@
 		this.x = parseInt(this.x);
 		this.y = parseInt(this.y);
 	}
+
+};

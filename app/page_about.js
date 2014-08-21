@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_about(){
@@ -49,3 +50,5 @@
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 	}
+
+};

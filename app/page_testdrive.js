@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_testdrive(){
@@ -159,3 +160,6 @@
 		'<img src="' + imgd + '" title="Glyphr Test Drive" style="border:1px solid #f6f6f6;">'+
 		'</html>');
 	}
+
+
+};

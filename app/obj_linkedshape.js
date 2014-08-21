@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------------------------------------------
@@ -287,3 +288,5 @@
 		_GP.projectsettings.linkedshapecounter++;
 		return ("id"+_GP.projectsettings.linkedshapecounter);
 	}
+
+};

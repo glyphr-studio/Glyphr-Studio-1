@@ -1,3 +1,4 @@
+_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_openproject(){
@@ -259,3 +260,5 @@
 
 		_UI.navhere = "character edit";
 	}
+
+};
