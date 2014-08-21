@@ -1,4 +1,3 @@
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_linkedshapes(){
@@ -333,5 +332,3 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 		closeDialog();
 		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + _GP.fontchars[chid].charname + ".<br><br>");
 	}
-
-};

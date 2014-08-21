@@ -1,28 +1,9 @@
-var _GLYPHR_STUDIO = {};
-
-function merge(obj1, obj2) {
-	for (var o in obj2) {
-		if(obj2.hasOwnProperty(o)){
-			try {
-				if (obj2[o].constructor === Object) {
-					obj1[o] = merge(obj1[o], obj2[o]);
-				} else {
-					obj1[o] = obj2[o];
-				}
-			} catch(e) {
-				obj1[o] = obj2[o];
-			}
-		}
-	}
-	return obj1;
-}
-
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
-//--------------------------------
-//	MAIN FILE OF CONTROLORIZATION
-//--------------------------------
+/**
+	MAIN FILE OF CONTROLORIZATION
+**/
+
 
 	function setup() {
 		console.clear();
@@ -392,5 +373,3 @@ function saveTextFile(fname, fblob) {
 
 		return "rgb("+val.r+","+val.g+","+val.b+")";
 	}
-
-};

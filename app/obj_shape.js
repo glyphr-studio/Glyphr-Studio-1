@@ -1,4 +1,3 @@
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //-------------------------------------------------------
@@ -646,6 +645,3 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 
 		redraw("Shape Name");
 	};
-
-
-};

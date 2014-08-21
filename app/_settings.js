@@ -1,4 +1,3 @@
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //------------------------------
@@ -6,7 +5,7 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 //------------------------------
 // These are NOT SAVED with the project
 
-	_UI : {
+	var _UI = {
 		// all pages
 		"navhere" : "firstrun",
 		"navprimaryhere" : "npChar",
@@ -126,7 +125,7 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 //------------------------------
 // These ARE saved with the project
 
-	_GP : {};
+	var _GP = {};
 
 	function setOTprop(tname, tkey, tval){
 		if(_GP.opentypeproperties[tname]){
@@ -160,6 +159,3 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 
 		return "|| RETURN VALUE ERROR ||";
 	}
-
-
-};

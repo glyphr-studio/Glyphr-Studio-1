@@ -1,4 +1,3 @@
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 //	--------------------
@@ -16116,5 +16115,3 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 	"0xFFFE":"[not a character]",
 	"0xFFFF":"[not a character]"
 	};
-
-};

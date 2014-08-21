@@ -1,4 +1,3 @@
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function loadPage_fontsettings(){
@@ -162,5 +161,3 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 		ps.ascent = Math.max(0, Math.min(ps.upm, round(val)));
 		document.getElementById('metric-des').value = (ps.ascent - ps.upm);
 	}
-
-};

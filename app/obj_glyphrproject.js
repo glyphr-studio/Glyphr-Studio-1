@@ -1,4 +1,3 @@
-_GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 // "use strict";
 
 	function GlyphrProject(){
@@ -123,6 +122,3 @@ _GLYPHR_STUDIO = merge(_GLYPHR_STUDIO, {
 
 		return (""+yr+"."+mo+"."+day+"-"+hr+"."+min+"."+sec);
 	}
-
-
-};
