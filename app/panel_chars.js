@@ -3,7 +3,6 @@
 //-------------------
 // Panel Char Select
 //-------------------
-
 	function makePanel_CharChooser(fname){
 		var con = "<h1 class='paneltitle'>characters</h1>";
 		con += makeGenericCharChooserContent(fname);
