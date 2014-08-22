@@ -154,9 +154,22 @@
 		return width;
 	};
 
-	Char.prototype.genSVG = function(z) {
+	Char.prototype.makeSVG = function(size, gutter) {
+		size = size || _UI.thumbsize;
+		gutter = gutter || _UI.thumbgutter;
+		var upm = _GP.projectsettings.upm;
+		var desc = upm - _GP.projectsettings.ascent;
+		var charscale = (size-(gutter*2)) / size;
+		var gutterscale = (gutter / size) * upm;
+		var vbsize = upm - (gutter*2);
 		var sl = this.charshapes;
-		var re = '<svg>';
+		var re = '<svg version="1.1" ';
+		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
+		re += 'width="'+size+'" height="'+size+'" viewBox="0,0,'+vbsize+','+vbsize+'">';
+		re += '<g transform="translate('+(gutterscale)+','+(upm-desc-(gutterscale/2))+') scale('+charscale+',-'+charscale+')">';
+		// re += '<rect x="0" y="-'+desc+'" height="'+desc+'" width="1000" fill="lime"/>';
+		// re += '<rect x="0" y="0" height="'+(upm-desc)+'" width="1000" fill="cyan"/>';
+		re += '<path d="';
 
 		for(var j=0; j<sl.length; j++) {
 			sh = sl[j];
@@ -174,10 +187,12 @@
 					}
 				}
 				//debug("DRAWCHARTOAREA - drawing path of char " + this.charname);
-				re += sh.path.genSVGpathTag();
+				re += sh.path.makeSVGpathData();
 			}
 		}
 
+		re += '"/>';
+		re += '</g>';
 		re += '</svg>';
 
 		return re;

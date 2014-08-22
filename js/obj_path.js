@@ -253,34 +253,23 @@
 		};
 	};
 
-	Path.prototype.genSVGpathTag = function() {
-		var re = '<path d="';
-		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
+	Path.prototype.makeSVGpathData = function() {
+		re = '';
+		var p1, p2;
 		var trr = "";
 
-		re += "M" + (this.pathpoints[0].P.x - lastx) + "," + (this.pathpoints[0].P.y - lasty);
-
+		re += "M" + (this.pathpoints[0].P.x) + "," + (this.pathpoints[0].P.y);
 		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
-
-			p1h2x = p1.getH2x() - p1.P.x;
-			p1h2y = p1.getH2y() - p1.P.y;
-			p2h1x = p2.getH1x() - p1.getH2x();
-			p2h1y = p2.getH1y() - p1.getH2y();
-			p2ppx = p2.P.x - p2.getH1x();
-			p2ppy = p2.P.y - p2.getH1y();
-
-			trr = "C" + p1h2x + "," + p1h2y + " " + p2h1x + "," + p2h1y + " " + p2ppx + "," + p2ppy;
-
+			trr = "C" + p1.getH2x() + "," + p1.getH2y() + "," + p2.getH1x() + "," + p2.getH1y() + "," + p2.P.x + "," + p2.P.y;
 			//debug("\t " + trr);
-
 			re += trr;
 		}
 
-		re += '"/>';
+		re += 'Z\n';
 		return re;
 	};
 

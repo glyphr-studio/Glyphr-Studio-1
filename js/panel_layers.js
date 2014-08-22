@@ -6,10 +6,12 @@
 	function makePanel_LayerChooser(){
 
 		var content = "<h1 class='paneltitle'>shapes</h1>";
+		var scs = getSelectedCharShapes();
 
-		if(getSelectedCharShapes().length > 0){
+		if(scs.length > 0){
 			content += "<table class='layertable'>";
-			for(var i=(getSelectedCharShapes().length-1); i>=0; i--){
+			for(var i=(scs.length-1); i>=0; i--){
+
 				if(i==_UI.selectedshape){
 					content += "<tr class='layersel'";
 				} else {
@@ -17,10 +19,15 @@
 				}
 				content += " onclick='_UI.selectedshape = " + i + "; redraw(\"updatelayers\");'>";
 
-				content += "<td class='layerthumb'><canvas id='layerthumb"+i+"' height='"+_UI.thumbsize+"' width='"+_UI.thumbsize+"'></canvas></td>";
+				if(scs[i].link) {
+					content += "<td class='layerthumb'>"+_GP.linkedshapes[scs[i].link].shape.makeSVG()+"</td>";
+					content += "<td class='layername'>" +scs[i].name;
+					content += "<span class='layernote'>[linked to "+_GP.linkedshapes[scs[i].link].shape.name+"]</span>";
+				} else {
+					content += "<td class='layerthumb'>"+scs[i].makeSVG()+"</td>";
+					content += "<td class='layername'>" + scs[i].name ;
+				}
 
-				content += "<td class='layername'>" + getSelectedCharShapes()[i].name ;
-				if(getSelectedCharShapes()[i].link) { content += "<span class='layernote'>[linked to "+_GP.linkedshapes[getSelectedCharShapes()[i].link].shape.name+"]</span>"; }
 				content += "</td></tr>";
 			}
 			content += "</table>";
@@ -36,22 +43,3 @@
 
 		return content;
 	}
-
-	function drawPanel_LayerChooser() {
-		// Update the thumbs
-		if(getSelectedCharShapes().length > 0){
-			var tctx = {};
-			var tele = false;
-			var layers = getSelectedCharShapes();
-			for(var j=(layers.length-1); j>=0; j--){
-				tele = document.getElementById(("layerthumb"+j));
-				tctx = tele.getContext("2d");
-				tele.style.backgroundColor = _UI.colors.offwhite;
-				if(j == _UI.selectedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-				//debug("UPDATELAYERS - drawing layer " + j);
-				layers[j].drawShapeToArea(tctx, _UI.thumbview);
-			}
-		}
-	}
-
-

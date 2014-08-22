@@ -253,7 +253,7 @@
 			_GP.projectsettings.linkedshapecounter = 0;
 		}
 
-		_UI.shownlinkedshape = getFirstLinkedShape();
+		_UI.shownlinkedshape = getFirstLinkedShapeID();
 
 		resetThumbView();
 

@@ -31,9 +31,11 @@
 		var re = "<h1 class='paneltitle'>linked shapes</h1>";
 		re += "<div class='subnavunit'>";
 		re += "<table class='layertable'>";
-		for(var ssid in _GP.linkedshapes){
-			//debug("LINKEDSHAPES_SUBNAV - making button for " + ssid);
-			re += makeLinkedShapeSubNavButton(ssid);
+		for(var lsid in _GP.linkedshapes){
+			if(_GP.linkedshapes.hasOwnProperty(lsid)){
+				//debug("LINKEDSHAPES_SUBNAV - making button for " + lsid);
+				re += makeLinkedShapeSubNavButton(lsid);
+			}
 		}
 		re += "</table><br><br>";
 
@@ -47,43 +49,33 @@
 		return re;
 	}
 
-	function drawPanel_LinkedShapeChooser(){
-		//debug("drawPanel_LinkedShapeChooser - start");
-		var ps = _GP.projectsettings;
-		var tctx = {};
-		var tele = false;
-		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
-		for(var ssid in _GP.linkedshapes){
-			tele = document.getElementById(("layerthumb"+ssid));
-			tctx = tele.getContext("2d");
-			tele.style.backgroundColor = _UI.colors.offwhite;
-			if(ssid==_UI.shownlinkedshape) tele.style.backgroundColor = "rgb(255,255,255)";
-			_GP.linkedshapes[ssid].shape.drawShapeToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
-		}
-		//debug("drawPanel_LinkedShapeChooser - end");
-	}
+	function makeLinkedShapeSubNavButton(lsid){
+		// debug("makeLinkedShapeSubNavButton \t Start");
+		// debug("\t passed lsid:" + lsid);
 
-	function makeLinkedShapeSubNavButton(ssid){
-		//debug("makeLinkedShapeSubNavButton passed ssid:" + ssid + " and SS JASON: \n" + JSON.stringify(_GP.linkedshapes.id0));
 		var re = "";
+		var ls = getChar(lsid);
+		// debug('\t getChar for lsid: ' );
+		// debug(ls);
 
-		if(ssid==_UI.shownlinkedshape){
+		if(lsid === _UI.shownlinkedshape){
 			re += "<tr class='layersel'";
 		} else {
 			re += "<tr class='layer'";
 		}
-		re += " onclick='makeLinkedShapeSelected(\"" + ssid + "\");'>";
-		re += "<td class='layerthumb'><canvas id='layerthumb"+ssid+"' height='"+_UI.thumbsize+"' width='"+_UI.thumbsize+"'></canvas></td>";
-		re += "<td class='layername'>" + _GP.linkedshapes[ssid].shape.name + "</td></tr>";
+		re += " onclick='makeLinkedShapeSelected(\"" + lsid + "\");'>";
+		re += "<td class='layerthumb'>";
+		re += ls.shape.makeSVG();
+		re += "</td>";
+		re += "<td class='layername'>" + ls.shape.name + "</td></tr>";
 
 		return re;
 	}
 
-	function makeLinkedShapeSelected(ssid){
-		//debug("MAKELINKEDSHAPESELECTED - ssid: " + ssid);
-		_UI.shownlinkedshape = ssid;
-		_UI.selectedshape = ssid;
+	function makeLinkedShapeSelected(lsid){
+		//debug("MAKELINKEDSHAPESELECTED - lsid: " + lsid);
+		_UI.shownlinkedshape = lsid;
+		_UI.selectedshape = lsid;
 		navigate('npAttributes');
 	}
 
@@ -142,14 +134,15 @@
 	function generateUsedinThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
 		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
-		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) == pos;});
+		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) === pos;});
 		var cname;
 
 		for(var k=0; k<unique.length; k++){
 			cname = getCharName(unique[k]);
 			re += "<table cellpadding=0 cellspacing=0 border=0><tr><td title='"+cname+"'>";
-			re += "<canvas id='thumb"+unique[k]+"' class='ssusedinthumb' height="+_UI.thumbsize+"' width="+_UI.thumbsize+" onclick='goToEditChar(\""+(unique[k])+"\");'></canvas>";
-			re += "</td></tr><tr><td>";
+			re += "<div class='ssusedinthumb' onclick='goToEditChar(\""+(unique[k])+"\");'>";
+			re += getChar(unique[k]).makeSVG();
+			re += "</div></td></tr><tr><td>";
 			re += (cname === 'Space')? cname : getChar(unique[k]).charhtml;
 			re += "</td></tr></table>";
 			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+unique[k]+"'");
@@ -166,25 +159,6 @@
 		_UI.navprimaryhere = "npAttributes";
 		navigate();
 	}
-
-	function drawUsedinThumbs(){
-		var ps = _GP.projectsettings;
-		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
-		//debug("DRAWUSEDINTHUMBS - start, drawing " + ui.length);
-		var tctx = {};
-		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
-
-		//debug("DRAWUSEDINTHUMBS - used in array is " + JSON.stringify(ui));
-
-		for(var k=0; k<ui.length; k++){
-			//debug("DRAWUSEDINTHUMBS - getting thumb " + ui[k]);
-			tctx = document.getElementById(("thumb"+ui[k])).getContext("2d");
-			_GP.fontchars[ui[k]].drawCharToArea(tctx, {"dz" : factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
-			//debug(" - drawCharToArea canvas 'thumb"+ui[k]+"'");
-		}
-	}
-
 
 
 //-------------------
@@ -238,7 +212,7 @@
 	}
 
 	function addLinkedShape(pshape){
-		var newid = generateNewSSID();
+		var newid = generateNewLinkedShapeID();
 		var newls;
 		_UI.shownlinkedshape = newid;
 
@@ -298,7 +272,7 @@
 
 			// delete linkedshape and switch selection
 			delete _GP.linkedshapes[_UI.shownlinkedshape];
-			_UI.shownlinkedshape = getFirstLinkedShape();
+			_UI.shownlinkedshape = getFirstLinkedShapeID();
 			_UI.selectedshape = _UI.shownlinkedshape;
 			//debug("DELETELINKEDSHAPE - delete complete, new shownlinkedshape = " + shownlinkedshape);
 
@@ -323,7 +297,6 @@
 		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
 		openDialog(content);
-		drawGenericCharChooserContent();
 	}
 
 	function insertLinkedShapeToChar(chid){

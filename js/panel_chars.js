@@ -57,45 +57,21 @@
 		return ccon;
 	}
 
-	function drawGenericCharChooserContent(){
-		//debug("\n+++++++++++++++++++++\nONE\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
-
-		var ps = _GP.projectsettings;
-		var factor = ((_UI.thumbsize-(2*_UI.thumbgutter))/(ps.upm));
-		var yoffset = (_UI.thumbgutter+(ps.ascent*factor));
-
-		//debug("drawGenericCharChooserContent - _UI.selectchardrawarr: " + _UI.selectchardrawarr);
-
-		for(var sc=0; sc<_UI.selectchardrawarr.length; sc++){
-			var tc = _UI.selectchardrawarr[sc];
-			//debug("---------------------- i: " + sc + " id: " + tc);
-			var scan = document.getElementById("cs"+tc);
-			scan.width = _UI.thumbsize;
-			scan.height = _UI.thumbsize;
-			var sctx = scan.getContext("2d");
-
-			_GP.fontchars[tc].drawCharToArea(sctx, {"dz": factor, "dx" : _UI.thumbgutter, "dy" : yoffset});
-		}
-		//debug("\n+++++++++++++++++++++\nTWO\n+++++++++++++++++++++\n\t"+JSON.stringify(_GP.linkedshapes['id1']));
-	}
-
-	function drawPanel_CharChooser(){drawGenericCharChooserContent();}
-
-
 	function makeCharChooserButton(index, fname){
 
 		var onc = (fname + "(\"" + index + "\");");
 		var rv = "<table class='charselectbuttontable' onclick='"+onc+"' title='"+getCharName(index)+"'><tr><td>";
 		var issel = (index === _UI.selectedchar);
-		issel = (issel & (_UI.navhere != "linked shapes"));
+		issel = (issel && (_UI.navhere !== "linked shapes"));
 		var chtml = hexToHTML(index);
 		if(index === "0x0020") chtml = "space";
 
 		if(_GP.fontchars[index] && _GP.fontchars[index].charshapes[0]){
 			var extra = "";
-			if(issel) {extra = " charselectcanvassel";}
-			rv += "<canvas id='cs"+index+"' class='charselectcanvas"+extra+"'></canvas>";
-			_UI.selectchardrawarr.push(index);
+			if(issel) {extra = " charselectthumbsel";}
+			// rv += "<canvas id='cs"+index+"' class='charselectthumb"+extra+"'></canvas>";
+			rv += "<div class='charselectthumb"+extra+"'>"+getChar(index).makeSVG()+"</div>";
+			// _UI.selectchardrawarr.push(index);
 		} else {
 			if(issel) {rv += "<div class='charselectbuttonsel'";}
 			else {rv += "<div class='charselectbutton'";}
