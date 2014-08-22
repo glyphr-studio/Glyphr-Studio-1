@@ -178,10 +178,16 @@
 		_GP = new GlyphrProject();
 
 		// Project Settings
-		if(data.projectsettings) _GP.projectsettings = clone(data.projectsettings);
+		if(data.projectsettings) _GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
 
-		// Open Type Properties
-		if(data.opentypeproperties) _GP.opentypeproperties = clone(data.opentypeproperties);
+		// Metadata
+		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
+
+		// Ligatures
+		if(data.ligatures) _GP.ligatures = clone(data.ligatures);
+
+		// Kerning
+		if(data.kerning) _GP.kerning = clone(data.kerning);
 
 		// Linked Shapes
 		for (var lsid in data.linkedshapes) {
@@ -202,6 +208,16 @@
 
 		finalizeGlyphrProject();
 		//navigate();
+	}
+
+	function merge(re, im) {
+		for(var a in re){
+			if(re.hasOwnProperty(a)){
+				if(im[a]) re[a] = im[a];
+			}
+		}
+
+		return re;
 	}
 
 	function handleDragOver(evt) {
@@ -225,10 +241,8 @@
 		_GP.opentypeproperties.name[3].val = (fn + " 1.0");
 		_GP.opentypeproperties.name[4].val = fn;
 		_GP.opentypeproperties.name[6].val = fn;
-		setOTprop("cff", "FullName", fn);
-		setOTprop("cff", "FamilyName", fn);
+		_GP.metadata.font_family = fn;
 
-		setOTprop("head", "created", ttxDateString());
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;
 

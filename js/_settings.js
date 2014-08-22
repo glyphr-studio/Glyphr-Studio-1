@@ -33,7 +33,7 @@
 
 		// Internal Dev Stuff
 		"debug": true,		// global debug console switch
-		"devnav" : false,	// navigate straight to a page
+		"devnav" : "font settings",	// navigate straight to a page
 		"loadsampleproject" : true,	// if sampleproject is present, load it and skip open project experience
 
 		// Shared edit pages
@@ -99,17 +99,6 @@
 			"overshoot_top": false,
 			"overshoot_bottom": false,
 			"svgcode": false
-		},
-
-		// Saveas TTX
-		"fontmetrics" : {
-			"xmax" : 0,
-			"xmin" : 0,
-			"ymax" : 0,
-			"ymin" : 0,
-			"numchars" : 1,
-			"hhea_ascent" : 0,
-			"hhea_descent" : 0
 		}
 	};
 
@@ -126,36 +115,3 @@
 // These ARE saved with the project
 
 	var _GP = {};
-
-	function setOTprop(tname, tkey, tval){
-		if(_GP.opentypeproperties[tname]){
-			var ot = _GP.opentypeproperties[tname];
-			for(var i=0; i<ot.length; i++){
-				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
-				if(ot[i].key == tkey) {
-					ot[i].val = tval;
-					return;
-				}
-			}
-			console.log("SETOTPROP ERROR: could not find " + tkey + " in " + tname);
-		} else {
-			console.log("SETOTPROP ERROR: could not find table" + tname);
-		}
-	}
-
-	function getOTprop(tname, tkey){
-		if(_GP.opentypeproperties[tname]){
-			var ot = _GP.opentypeproperties[tname];
-			for(var i=0; i<ot.length; i++){
-				//debug("SETOTPROP: checking " + ot[i].key + " == " + tkey);
-				if(ot[i].key == tkey) {
-					return ot[i].val;
-				}
-			}
-			console.log("GETOTPROP ERROR: could not find " + tkey + " in " + tname);
-		} else {
-			console.log("GETOTPROP ERROR: could not find table" + tname);
-		}
-
-		return "|| RETURN VALUE ERROR ||";
-	}

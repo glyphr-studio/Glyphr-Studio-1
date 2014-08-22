@@ -9,14 +9,28 @@
 		content += "<p style='margin-bottom:20px;'>These properties are used by the Glyphr project while you are designing this font.  By default, these are the same as some of the OpenType settings below." +
 					"<br><i>Values will be saved as you change them</i>.</p>";
 
-		content += "<h3>Character Proportions</h3>";
-		content += "Glyphr projects export OpenType fonts with PostScript outlines.  Characters in this kind of font have a total height of 1000 Em units. "+
-					"The baseline is the one main dividing line for each character, with the ascent and descent above it and below it. " +
-					"Some characters, like p and y, fall below the baseline into the descent.<br>" +
+		content += "<h2>Character Proportions</h2>";
+		
+		content += "<h3>Key Metrics</h3>"+
 					"<table class='settingstable'>"+
-					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Descent height: </td><td><input type='text' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Total Units per Em: </td><td><input type='text' disabled='disabled' value='"+ps.upm+"'/></td><td></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Cap height: </td><td><input type='text' value='"+ps.capheight+"' onchange='_GP.projectsettings.capheight = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>x Height: </td><td><input type='text' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = this.value'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Descent height: </td><td><input type='text' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Total Units per Em: </td><td><input type='text' disabled='disabled' value='"+ps.upm+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"</table><br>";
+
+		content += "<h3>Overshoot</h3>"+
+					"Round letters usually extend a little above the x height line and below the baseline. " +
+					"A light guideline will show this overshoot distance.<br>" +
+					"<table class='settingstable'>"+
+					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"</table><br>";
+
+		content += "<h3>Line Gap</h3>" +
+					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
+					"<table class='settingstable'>"+
+					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 		content += "<h3>Default Left Side Bearing</h3>" +
@@ -25,11 +39,19 @@
 					"<tr><td>Left Side Bearing: </td><td><input type='text' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
-		content += "<h3>Line Gap</h3>" +
-					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
+
+		content += "<h2>Grids and Guides</h2>";
+		content += "<h3>Grid System</h3>";
+		content += "Defining a grid system to use while editing characters in this font makes stuff a whole " +
+					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " +
+					"divide evenly into the Units per Em.<br>" +
 					"<table class='settingstable'>"+
-					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Units per Em:</td><td><input type='text' disabled='disabled' value='" + ps.upm + "'/></td><td><span class='unit'>(total)</span></td></tr>"+
+					"<tr><td>Grid Divisions</td><td><input type='text' value='"+ps.griddivisions+"' onchange='updateGridDivisions(this.value);'/>"+spinner()+"</td><td><span class='unit'>(number)</span></td></tr>"+
+					"<tr><td>Grid Square Size:</td><td><input type='text' id='metirc-ssize' disabled='disabled' value='" + (ps.upm/ps.griddivisions) + "'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
+
+
 
 		// CHARACTERS
 		content += "<h1>Character Ranges</h1>"+
@@ -87,70 +109,25 @@
 
 
 		// METADATA
-		content += "<br><h1>OpenType Properties</h1>" +
-			"<p style='margin-bottom:20px;'>These properties will be saved directly to the various OpenType tables when the font is exported to TTX format.  More information about all of these properties can be found in the <a href='http://www.microsoft.com/typography/otspec/otff.htm#otttables' target=_new>OpenType Specification</a>." +
+		content += "<br><h1>Font Metadata</h1>" +
+			"<p style='margin-bottom:20px;'>These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>." +
 			"<br><i>Values will be saved as you change them</i>.</p>";
 
 
-
-		content += "<h2>Tables</h2>";
-
-		var otp = _GP.opentypeproperties;
-
-
-		// NAME TABLE
-		content += "<h3>name</h3>";
-		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
-
-		for(var i=0; i<otp.name.length; i++){
-			if(i!=7){
-				content += "<tr><td class='propname'>" + otp.name[i].key + "</td><td><input type='text' value='" + otp.name[i].val + "' onchange='_GP.opentypeproperties.name[" + i + "].val = this.value;' /></td></tr>";
+		var meta = _GP.metadata;
+		content += "<table class='settingstable'>";
+		for(var m in meta){
+			if(meta.hasOwnProperty(m)){
+				content += "<tr>";
+				content += "<td class='propname' style='width:200px'>" + m.replace(/_/g, '-') + "</td>";
+				content += "<td><input type='text' value='"+meta[m]+"' onchange=''/></td>";
+				content += "</tr>";
 			}
 		}
 		content += "</table>";
 
 
-		// HEAD TABLE
-		content += "<h3>head</h3>";
-		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
-
-		for(var j=0; j<otp.head.length; j++){
-			content += "<tr><td class='propname'>" + otp.head[j].key + "</td><td><input type='text' value='" + otp.head[j].val + "' onchange='setOTprop(\"head\", \"" + otp.head[j].key + "\", this.value);' /></td></tr>";
-		}
-		content += "</table>";
-
-
-		// OS/2 TABLE
-		content += "<h3>os/2</h3>";
-		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
-
-		for(var k=0; k<otp.os_2.length; k++){
-			content += "<tr><td class='propname'>" + otp.os_2[k].key + "</td><td><input type='text' value='" + otp.os_2[k].val + "' onchange='setOTprop(\"os_2\", \"" + otp.os_2[k].key + "\", this.value);' /></td></tr>";
-		}
-		content += "</table>";
-
-
-		// POST TABLE
-		content += "<h3>post</h3>";
-		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
-
-		for(var m=0; m<otp.post.length; m++){
-			content += "<tr><td class='propname'>" + otp.post[m].key + "</td><td><input type='text' value='" + otp.post[m].val + "' onchange='setOTprop(\"post\", \"" + otp.post[m].key + "\", this.value);' /></td></tr>";
-		}
-		content += "</table>";
-
-
-		// CFF TABLE
-		content += "<h3>cff</h3>";
-		content += "<table class='opentypepropertiestable' cellpadding=0 cellspacing=0 border=0>";
-
-		for(var n=0; n<otp.cff.length; n++){
-			content += "<tr><td class='propname'>" + otp.cff[n].key + "</td><td><input type='text' value='" + otp.cff[n].val + "' onchange='setOTprop(\"cff\", \"" + otp.cff[n].key + "\", this.value);' /></td></tr>";
-		}
-		content += "</table>";
-
-
-
+		// Finish and show table
 		content += "</div>";
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		updateCustomRangeTable();
