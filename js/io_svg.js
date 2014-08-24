@@ -19,8 +19,22 @@
 
 		// check for errors
 
-		var chars = ioSVG_getTags(jsondata, 'glyph');
-		var tc, data, uni;
+		var font = ioSVG_getFirstTagInstance(jsondata, 'font');
+		debug('\t font data:');
+		debug(font);
+
+		/*
+		*	Cases to consider
+		*	needs scaling
+		*	unicode included but no path or children
+		*	unicode outside of known ranges
+		*		and provides a name
+		*		provides no name
+		*	unicode spanning known ranges
+		*/
+
+		var chars = ioSVG_getTags(font, 'glyph');
+		var tc, data, uni, cname, chtml;
 		var shapecounter = 0;
 		var newshapes = [];
 		var fc = {};
@@ -28,23 +42,8 @@
 		for(var c=0; c<chars.length; c++){
 			// One Char in the font
 			tc = chars[c];
-
-			if(tc.attributes.d && tc.children  && tc.children.length === 0){
-				// a Glyph tag with just pathdata
-				data = tc.attributes.d;
-
-				// Compound Paths are treated as different Glyphr Shapes
-				data.replace('Z','z');
-				data = data.split('z');
-
-				for(var d=0; d<data.length; d++){
-					if(data[d].length){
-						newshapes.push(ioSVG_convertPathTag(data[d]));
-						shapecounter++;
-						newshapes[newshapes.length-1].name = ("SVG Path " + shapecounter);
-					}
-				}
-			}
+			newshapes = [];
+			shapecounter = 0;
 
 			// Get the appropriate unicode decimal for this char
 			uni = tc.attributes.unicode;
@@ -53,11 +52,36 @@
 			if(uni){
 				if(uni.length > 3){
 					uni = uni.split(';')[0];
+				} else if (uni.length === 1){
+					uni = charToHex(uni);
 				} else {
-
+					uni = false;
+					console.warn('Unknown Unicode Value: ' + uni + ' - could not parse.');
 				}
-				
-				fc[uni] = new Char({"charshapes":newshapes});
+			}
+
+			if(uni){
+				// a Glyph tag with just pathdata
+				cname = getCharName(uni);
+				chtml = hexToHTML(uni);
+				data = tc.attributes.d;
+				debug('\t Character ' + cname + ' has path data ' + data);
+
+				if(data){
+					// Compound Paths are treated as different Glyphr Shapes
+					data.replace(/Z/g,'z');
+					data = data.split('z');
+
+					for(var d=0; d<data.length; d++){
+						if(data[d].length){
+							newshapes.push(ioSVG_convertPathTag(data[d]));
+							shapecounter++;
+							newshapes[newshapes.length-1].name = ("SVG Path " + shapecounter);
+						}
+					}
+				}
+
+				fc[uni] = new Char({"charshapes":newshapes, "charname":cname, "charhtml":chtml});
 			}
 
 		}
@@ -105,7 +129,7 @@
 				// if(ioSVG_checkForIgnored(data)) error = true;
 
 				// Compound Paths are treated as different Glyphr Shapes
-				data.replace('Z','z');
+				data.replace(/Z/gi,'z');
 				data = data.split('z');
 
 				for(var d=0; d<data.length; d++){
@@ -240,6 +264,7 @@
 
 	function ioSVG_getTags(obj, grabtags) {
 		debug('\n ioSVG_getTags \t Start');
+		debug('\t grabtags: ' + JSON.stringify(grabtags));
 		debug('\t passed obj: ');
 		debug(obj);
 
@@ -258,6 +283,17 @@
 
 		debug('ioSVG_getTags \t End \n');
 		return result;
+	}
+
+	function ioSVG_getFirstTagInstance(obj, tagname) {
+		if(tagname === obj.name){
+			return obj;
+		} else if (obj.content){
+			for(var c=0; c<obj.content.length; c++){
+				var sub = ioSVG_getFirstTagInstance(obj.content[c], tagname);
+				if(sub) return sub;
+			}
+		} else return false;
 	}
 /*
 	function ioSVG_scrubAttr(s){
@@ -292,7 +328,7 @@
 			}
 		}
 
-		while(data.indexOf(',,') > -1) data = data.replace(',,',',');
+		data = data.replace(/,,/g,',');
 		if(data.charAt(0) === ',') data = data.slice(1);
 
 		//debug("ioSVG_convertPathTag - parsed path data as \n" + data);

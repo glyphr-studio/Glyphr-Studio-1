@@ -37,13 +37,13 @@
 		this.calcCharMaxes();
 
 		//debug("CHAR - finished " + this.charname + "\tlinks:" + lc + "\tshapes:" + cs);
-		
+
 		// if(oa.charname === "LATIN SMALL LETTER X") {
 		//	_UI.pathdebugging = false;
 		//	debug("IMPORTING CHAR X: result");
 		//	debug(this.charshapes);
 		// }
-		
+
 	}
 
 
