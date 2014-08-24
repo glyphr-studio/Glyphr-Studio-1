@@ -300,7 +300,7 @@
 		newsub += "</button>";
 
 		for(var i=1; i<navarr.length; i++){
-			if(_UI.navprimaryhere == navarr[i]){
+			if(_UI.navprimaryhere === navarr[i]){
 				nfill = _UI.colors.accent;
 				nhover = _UI.colors.accent;
 			} else {
@@ -357,13 +357,13 @@
 
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
-			if(navarr[i] == _UI.navhere) { bc = "navtargetbuttonsel"; }
+			if(navarr[i] === _UI.navhere) { bc = "navtargetbuttonsel"; }
 
-			if(navarr[i]=="_"){
+			if(navarr[i]==="_"){
 				newsub += "<div style='height:10px;'></div>";
-			} else if (navarr[i] == "bug"){
+			} else if (navarr[i] === "bug"){
 				newsub += ("<a href='javascript:sendBugEmail()' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>report an issue</a><br>");
-			} else if (navarr[i] == "feat"){
+			} else if (navarr[i] === "feat"){
 				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
 			} else {
 				newsub += ("<button class='"+bc+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>"+navarr[i]+"</button>");

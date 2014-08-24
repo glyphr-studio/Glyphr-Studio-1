@@ -1,5 +1,74 @@
 // "use strict";
 
+//	--------------------------
+//	Import SVG Font
+//	--------------------------
+	function ioSVG_importSVGfont (svgdata) {
+		debug('ioSVG_importSVGfont \t Start');
+
+		// Convert unicode characters to decimal values
+		// DOM Parser does not return unicode values as text strings
+		svgdata = svgdata.replace(/unicode="&#x/g, 'unicode="0x');
+		svgdata = svgdata.replace(/unicode='&#x/g, "unicode='0x");
+
+		// Convert to an Object
+		var jsondata = convertXMLtoJSON(svgdata);
+
+		debug('\t imported json data:');
+		debug(jsondata);
+
+		// check for errors
+
+		var chars = ioSVG_getTags(jsondata, 'glyph');
+		var tc, data, uni;
+		var shapecounter = 0;
+		var newshapes = [];
+		var fc = {};
+
+		for(var c=0; c<chars.length; c++){
+			// One Char in the font
+			tc = chars[c];
+
+			if(tc.attributes.d && tc.children  && tc.children.length === 0){
+				// a Glyph tag with just pathdata
+				data = tc.attributes.d;
+
+				// Compound Paths are treated as different Glyphr Shapes
+				data.replace('Z','z');
+				data = data.split('z');
+
+				for(var d=0; d<data.length; d++){
+					if(data[d].length){
+						newshapes.push(ioSVG_convertPathTag(data[d]));
+						shapecounter++;
+						newshapes[newshapes.length-1].name = ("SVG Path " + shapecounter);
+					}
+				}
+			}
+
+			// Get the appropriate unicode decimal for this char
+			uni = tc.attributes.unicode;
+			debug('\t Char ' + c + ' starting unicode attribute: ' + uni);
+
+			if(uni){
+				if(uni.length > 3){
+					uni = uni.split(';')[0];
+				} else {
+
+				}
+				
+				fc[uni] = new Char({"charshapes":newshapes});
+			}
+
+		}
+
+		_GP.fontchars = fc;
+	}
+
+
+//	--------------------------
+//	Import SVG Outlines
+//	--------------------------
 	function ioSVG_convertTagsToChar(svgdata){
 		debug('\n ioSVG_convertTagsToChar \t Start');
 
@@ -10,10 +79,12 @@
 
 		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
 		var jsondata = convertXMLtoJSON(svgdata);
-		// Check for XML Errors
-		var unsortedshapetags = ioSVG_getShapeTags(jsondata, grabtags);
-		var shapetags = {};
 		
+		// Check for XML Errors
+		
+		var unsortedshapetags = ioSVG_getTags(jsondata, grabtags);
+		var shapetags = {};
+
 		// get a sorted shapetags object
 		for(var g=0; g<grabtags.length; g++) shapetags[grabtags[g]] = [];
 		for(var s=0; s<unsortedshapetags.length; s++) shapetags[unsortedshapetags[s].name].push(unsortedshapetags[s]);
@@ -167,15 +238,17 @@
 		return new Char({"charshapes":newshapes});
 	}
 
-	function ioSVG_getShapeTags(obj, grabtags) {
-		debug('\n ioSVG_getShapeTags \t Start');
+	function ioSVG_getTags(obj, grabtags) {
+		debug('\n ioSVG_getTags \t Start');
 		debug('\t passed obj: ');
 		debug(obj);
+
+		if(typeof grabtags === 'string') grabtags = [grabtags];
 		var result = [];
 
 		if(obj.content){
 			for(var c=0; c<obj.content.length; c++){
-				result = result.concat(ioSVG_getShapeTags(obj.content[c], grabtags));
+				result = result.concat(ioSVG_getTags(obj.content[c], grabtags));
 			}
 		} else {
 			if(grabtags.indexOf(obj.name) > -1){
@@ -183,7 +256,7 @@
 			}
 		}
 
-		debug('ioSVG_getShapeTags \t End \n');
+		debug('ioSVG_getTags \t End \n');
 		return result;
 	}
 /*
@@ -441,7 +514,7 @@
 function convertXMLtoJSON(inputXML){
 	var XMLdoc, XMLerror;
 	inputXML = inputXML.replace(/(\r\n|\n|\r|\t)/gm,"");
-	debug('PASSED\n' + inputXML);
+	// debug('convertXMLtoJSON \t PASSED\n' + inputXML);
 
 	if (typeof window.DOMParser !== "undefined") {
 		XMLdoc = (new window.DOMParser()).parseFromString(inputXML, "text/xml");
@@ -472,7 +545,7 @@ function convertXMLtoJSON(inputXML){
 
 	function tag_getContent(parent) {
 		var kids = parent.childNodes;
-		debug('\nTAG: ' + parent.nodeName + '\t' + parent.childNodes.length);
+		// debug('\nTAG: ' + parent.nodeName + '\t' + parent.childNodes.length);
 
 		if(kids.length === 0) return trim(parent.nodeValue);
 
@@ -482,7 +555,7 @@ function convertXMLtoJSON(inputXML){
 		for(var k=0; k<kids.length; k++){
 			tagresult = {};
 			node = kids[k];
-			debug('\n\t>>START kid ' + k + ' ' + node.nodeName);
+			// debug('\n\t>>START kid ' + k + ' ' + node.nodeName);
 			if(node.nodeName === '#comment') break;
 
 			tagcontent = tag_getContent(node);
@@ -498,7 +571,7 @@ function convertXMLtoJSON(inputXML){
 
 			if(tagresult !== '') result.push(tagresult);
 
-			debug('\t>>END kid ' + k);
+			// debug('\t>>END kid ' + k);
 		}
 
 		return result;
@@ -506,12 +579,16 @@ function convertXMLtoJSON(inputXML){
 
 	function tag_getAttributes(attributes) {
 		if(!attributes || !attributes.length) return {};
+
+		// debug('\t\t tag_getAttributes:');
+		// debug(attributes);
+
 		var result = {};
 		var attr;
 
 		for(var a=0; a<attributes.length; a++){
 			attr = attributes[a];
-			debug('\t\t'+attr.name+' : '+attr.value);
+			// debug('\t\t'+attr.name+' : '+attr.value);
 			result[attr.name] = attr.value;
 		}
 

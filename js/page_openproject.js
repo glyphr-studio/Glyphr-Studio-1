@@ -44,11 +44,15 @@
 		var con = "<div class='newtile'>"+
 					"<h3>Load an existing Glyphr Project</h3>"+
 					"<div id='droptarget'>drop file here...</div>"+
-				"</div>"+
-				"<div class='newtile'>"+
+				"</div>";
+		con += "<div class='newtile'>"+
 					"<h3>Start a new Glyphr Project</h3>"+
 					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 					"<button onclick='newGlyphrProject(); navigate();' class='buttonsel'>Start a new font from scratch</button>"+
+				"</div>";
+		con += "<div class='newtile'>"+
+					"<h3>Import SVG Font</h3>"+
+					"<button onclick='ioSVG_importSVGfont(_UI.samplesvgfont);' class='buttonsel'>Import SVG Font</button>"+
 				"</div>";
 
 		return con;

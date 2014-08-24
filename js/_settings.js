@@ -33,7 +33,7 @@
 
 		// Internal Dev Stuff
 		"debug": true,		// global debug console switch
-		"devnav" : "font settings",	// navigate straight to a page
+		"devnav" : "open project",	// navigate straight to a page
 		"loadsampleproject" : true,	// if sampleproject is present, load it and skip open project experience
 
 		// Shared edit pages
