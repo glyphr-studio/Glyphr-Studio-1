@@ -86,8 +86,8 @@
 		}
 
 		if(changed){
-			if(this.type == "symmetric"){ this.makeSymmetric(changed); }
-			else if (this.type == "flat") { this.makeFlat(changed); }
+			if(this.type === "symmetric"){ this.makeSymmetric(changed); }
+			else if (this.type === "flat") { this.makeFlat(changed); }
 		}
 
 		//this.roundAll();
@@ -96,8 +96,8 @@
 
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
 		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
-		var lockx = (_UI.selectedtool=='pathedit'? this.P.xlock : false);
-		var locky = (_UI.selectedtool=='pathedit'? this.P.ylock : false);
+		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
+		var locky = (_UI.selectedtool==='pathedit'? this.P.ylock : false);
 
 		if(isval(force)){
 			if(force){
@@ -119,25 +119,57 @@
 			case "H1" :
 				this.H1.x += dx;
 				this.H1.y += dy;
-				if(this.type == "symmetric"){ this.makeSymmetric("H1"); }
-				else if (this.type == "flat") { this.makeFlat("H1"); }
+				if(this.type === "symmetric"){ this.makeSymmetric("H1"); }
+				else if (this.type === "flat") { this.makeFlat("H1"); }
 				break;
 
 			case "H2" :
 				this.H2.x += dx;
 				this.H2.y += dy;
-				if(this.type == "symmetric"){ this.makeSymmetric("H2"); }
-				else if (this.type == "flat") { this.makeFlat("H2"); }
+				if(this.type === "symmetric"){ this.makeSymmetric("H2"); }
+				else if (this.type === "flat") { this.makeFlat("H2"); }
 				break;
 		}
 
 		//this.roundAll();
 	};
 
-	PathPoint.prototype.getH1x = function() { return this.useh1? this.H1.x : this.P.x; };
-	PathPoint.prototype.getH1y = function() { return this.useh1? this.H1.y : this.P.y; };
-	PathPoint.prototype.getH2x = function() { return this.useh2? this.H2.x : this.P.x; };
-	PathPoint.prototype.getH2y = function() { return this.useh2? this.H2.y : this.P.y; };
+	PathPoint.prototype.getH1x = function() {
+		var re = this.useh1? this.H1.x : this.P.x;
+		if(isNaN(re)){
+			re = this.P.x || (this.H1.x || 0);
+			console.warn('PathPoint NaN found H1.x - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH1y = function() {
+		var re = this.useh1? this.H1.y : this.P.y;
+		if(isNaN(re)){
+			re = this.P.y || (this.H1.y || 0);
+			console.warn('PathPoint NaN found H1.y - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH2x = function() {
+		var re = this.useh2? this.H2.x : this.P.x;
+		if(isNaN(re)){
+			re = this.P.x || (this.H2.x || 0);
+			console.warn('PathPoint NaN found H2.x - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH2y = function() {
+		var re = this.useh2? this.H2.y : this.P.y;
+		if(isNaN(re)){
+			re = this.P.y || (this.H2.y || 0);
+			console.warn('PathPoint NaN found H2.y - falling back to ' + re);
+		}
+		return re;
+	};
+
 
 	PathPoint.prototype.toggleUseHandle = function(h){
 		//debug("TOGGLEUSEHANDLE - before:\n"+json(this));

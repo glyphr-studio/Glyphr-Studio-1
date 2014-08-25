@@ -187,7 +187,8 @@
 					}
 				}
 				//debug("DRAWCHARTOAREA - drawing path of char " + this.charname);
-				re += sh.path.makeSVGpathData();
+				re += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
+				if(j < sl.length-1) re += '\n';
 			}
 		}
 

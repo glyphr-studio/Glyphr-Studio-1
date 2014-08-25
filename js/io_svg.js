@@ -25,6 +25,7 @@
 
 		/*
 		*	Cases to consider
+		*	-----------------
 		*	needs scaling
 		*	unicode included but no path or children
 		*	unicode outside of known ranges
@@ -34,7 +35,7 @@
 		*/
 
 		var chars = ioSVG_getTags(font, 'glyph');
-		var tc, data, uni, cname, chtml;
+		var tc, data, uni, cname, chtml, adv;
 		var shapecounter = 0;
 		var newshapes = [];
 		var fc = {};
@@ -82,9 +83,20 @@
 				}
 
 				fc[uni] = new Char({"charshapes":newshapes, "charname":cname, "charhtml":chtml});
-			}
 
+				// specified advance width?
+				if(tc.attributes['horiz-adv-x']){
+					adv = parseInt(tc.attributes['horiz-adv-x']);
+					if(!isNaN(adv) && adv > 0){
+						fc[uni].isautowide = false;
+						fc[uni].advancewidth = adv;
+					}
+				}
+			}
 		}
+
+		// Check to make sure certain stuff is there
+		// space has horiz-adv-x
 
 		_GP.fontchars = fc;
 	}
@@ -103,9 +115,9 @@
 
 		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
 		var jsondata = convertXMLtoJSON(svgdata);
-		
+
 		// Check for XML Errors
-		
+
 		var unsortedshapetags = ioSVG_getTags(jsondata, grabtags);
 		var shapetags = {};
 

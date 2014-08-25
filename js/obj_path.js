@@ -253,7 +253,8 @@
 		};
 	};
 
-	Path.prototype.makeSVGpathData = function() {
+	Path.prototype.makeSVGpathData = function(charname) {
+		charname = charname || 'not specified';
 		re = '';
 		var p1, p2;
 		var trr = "";
@@ -266,10 +267,14 @@
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 			trr = "C" + p1.getH2x() + "," + p1.getH2y() + "," + p2.getH1x() + "," + p2.getH1y() + "," + p2.P.x + "," + p2.P.y;
 			//debug("\t " + trr);
+
+			if(trr.indexOf('NaN') > -1){
+				console.warn(charname + ' PathPoint ' + cp + ' has NaN: ' + trr);
+			}
 			re += trr;
 		}
 
-		re += 'Z\n';
+		re += 'Z';
 		return re;
 	};
 
