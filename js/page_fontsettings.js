@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_fontsettings(){
 		// debug("LOADING PAGE >> loadPage_fontsettings");
@@ -138,3 +138,5 @@
 		ps.ascent = Math.max(0, Math.min(ps.upm, round(val)));
 		document.getElementById('metric-des').value = (ps.ascent - ps.upm);
 	}
+
+// end of file

@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //	--------------------------
 //	Import SVG Font
@@ -100,3 +100,5 @@
 
 		_GP.fontchars = fc;
 	}
+
+// end of file

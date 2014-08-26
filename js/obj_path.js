@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //  -----------------------------------
 //  PATH OBJECT
@@ -617,3 +617,5 @@
 		var mt = (1-t);
 		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3);
 	}
+
+// end of file

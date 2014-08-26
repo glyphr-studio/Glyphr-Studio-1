@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_openproject(){
 		// debug("LOADING PAGE >> loadPage_openproject");
@@ -277,3 +277,5 @@
 
 		_UI.navhere = "character edit";
 	}
+
+// end of file

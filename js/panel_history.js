@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // History Panel
@@ -38,5 +38,4 @@
 		return content;
 	}
 
-
-
+// end of file

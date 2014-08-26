@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_exportfont(){
 		// debug("LOADING PAGE >> loadPage_exportfont");
@@ -20,3 +20,5 @@
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 	}
+
+// end of file

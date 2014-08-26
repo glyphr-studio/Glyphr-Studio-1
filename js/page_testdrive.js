@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_testdrive(){
 		// debug("LOADING PAGE >> loadPage_testdrive");
@@ -159,3 +159,5 @@
 		'<img src="' + imgd + '" title="Glyphr Test Drive" style="border:1px solid #f6f6f6;">'+
 		'</html>');
 	}
+
+// end of file

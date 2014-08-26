@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // 50px Icons
@@ -279,3 +279,5 @@
 		//debug("HELPUI - output:\n"+re);
 		return re;
 	}
+
+// end of file

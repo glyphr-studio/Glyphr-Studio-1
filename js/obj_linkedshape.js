@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------------------------------------------
 // LINKED SHAPE OBJECT
@@ -279,3 +279,5 @@
 		_GP.projectsettings.linkedshapecounter++;
 		return ("id"+_GP.projectsettings.linkedshapecounter);
 	}
+
+// end of file

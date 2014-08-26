@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------------------------------------------
 // PATH POINT OBJECT
@@ -506,3 +506,5 @@
 		this.x = parseInt(this.x);
 		this.y = parseInt(this.y);
 	}
+
+// end of file

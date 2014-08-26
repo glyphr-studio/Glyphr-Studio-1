@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_about(){
 		// debug("LOADING PAGE >> loadPage_about");
@@ -49,3 +49,5 @@
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 	}
+
+// end of file

@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // Actions Panel
@@ -202,3 +202,5 @@
 			redraw("movedownShape");
 		}
 	}
+
+// end of file

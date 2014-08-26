@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //------------------------------
 // GLOBAL UI VARIABLES
@@ -115,3 +115,5 @@
 // These ARE saved with the project
 
 	var _GP = {};
+
+// end of file

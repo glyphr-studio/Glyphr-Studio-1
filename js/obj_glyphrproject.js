@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function GlyphrProject(){
 
@@ -196,3 +196,5 @@
 
 		// debug("CALCFONTMAXES - numchars " + _UI.fontmetrics.numchars);
 	}
+
+// end of file

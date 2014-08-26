@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_importsvg(){
 		// debug("LOADING PAGE >> loadpage_importsvg");
@@ -171,3 +171,5 @@
 		document.getElementById('svgerrormessagecontent').innerHTML = "";
 		document.getElementById('svgerrormessagebox').style.display = 'none';
 	}
+
+// end of file

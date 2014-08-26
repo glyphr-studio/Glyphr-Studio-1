@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------------------------------------------
 // SHAPE OBJECT
@@ -669,3 +669,5 @@
 
 		redraw("Shape Name");
 	};
+
+// end of file

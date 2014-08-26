@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	_UI.eventhandlers = {
 		"tempnewbasicshape" : false,
@@ -825,5 +825,4 @@
 		}
 	}
 
-
-
+// end of file

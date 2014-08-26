@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------------------------------------------
 // CHAR OBJECT
@@ -383,3 +383,5 @@
 			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharMaxes();
 		}
 	}
+
+// end of file

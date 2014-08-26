@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //	--------------------
 //	Conversion Functions
@@ -16115,3 +16115,5 @@
 	"0xFFFE":"[not a character]",
 	"0xFFFF":"[not a character]"
 	};
+
+// end of file	

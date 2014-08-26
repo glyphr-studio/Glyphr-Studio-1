@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // Panel Char Select
@@ -88,3 +88,5 @@
 
 		return rv;
 	}
+
+// end of file

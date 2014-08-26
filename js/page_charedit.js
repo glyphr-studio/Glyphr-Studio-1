@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // UBER FUCNTIONS
@@ -454,3 +454,5 @@
 		_UI.chareditctx.stroke();
 		_UI.chareditctx.closePath();
 	}
+
+// end of file

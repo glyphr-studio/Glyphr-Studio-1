@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // Panel Attributes
@@ -355,3 +355,5 @@
 
 		return content;
 	}
+
+// end of file

@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // Layers Panel
@@ -43,3 +43,5 @@
 
 		return content;
 	}
+
+// end of file

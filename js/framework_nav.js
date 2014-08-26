@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 //-------------------
 // Navigation
@@ -379,3 +379,5 @@
 
 		return newsub;
 	}
+
+// end of file

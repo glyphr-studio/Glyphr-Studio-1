@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_linkedshapes(){
 		// debug("LOADING PAGE >> loadPage_linkedshapes");
@@ -305,3 +305,5 @@
 		closeDialog();
 		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + _GP.fontchars[chid].charname + ".<br><br>");
 	}
+
+// end of file

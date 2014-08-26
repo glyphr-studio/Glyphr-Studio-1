@@ -1,4 +1,4 @@
-// "use strict";
+// start of file
 
 	function loadPage_projectsettings(){
 		// debug("LOADING PAGE >> loadPage_projectsettings");
@@ -49,3 +49,5 @@
 		ps.griddivisions = Math.min(ps.upm, Math.max(1, val));
 		document.getElementById('metirc-ssize').value = round((ps.upm / ps.griddivisions), 3);
 	}
+
+// end of file

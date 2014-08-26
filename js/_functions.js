@@ -1,10 +1,10 @@
-// "use strict";
+// start of file
 
 //	-------------------------------
 //	MAIN FILE OF CONTROLORIZATION
 //	-------------------------------
 
-	function setup() {
+	window.onload = function() {
 		//console.clear();
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
 		//debug("MAIN SETUP() - START");
@@ -21,13 +21,13 @@
 			} else {
 				newGlyphrProject();
 			}
-			
+
 			_UI.navhere = _UI.devnav;
 		}
 
 		navigate();
 		//debug("MAIN SETUP() - END");
-	}
+	};
 
 
 
@@ -69,7 +69,7 @@
 				message = message.replace(/&lt;/gi, '<');
 				message = message.replace(/&gt;/gi, '>');
 			}
-			console.log(message); 
+			console.log(message);
 		}
 	}
 
@@ -352,7 +352,7 @@ function saveTextFile(fname, fblob) {
 			val.r = parseInt(c.substring(0,2),16);
 			val.g = parseInt(c.substring(2,4),16);
 			val.b = parseInt(c.substring(4,6),16);
-		} else if (c.substring(0,4) == "rgb("){
+		} else if (c.substring(0,4) === "rgb("){
 			c = c.split("(")[1].split(")")[0].split(",");
 			val.r = c[0];
 			val.g = c[1];
@@ -379,3 +379,5 @@ function saveTextFile(fname, fblob) {
 
 		return "rgb("+val.r+","+val.g+","+val.b+")";
 	}
+
+// end of file
