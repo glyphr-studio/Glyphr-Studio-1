@@ -309,8 +309,9 @@
 
 	// GET
 	function getChar(ch, create) {
+		ch = ''+ch;
 		//debug("GETCHAR - passed " + ch + " - force create? " + create);
-		if((''+ch).indexOf('id') >= 0){
+		if(ch.indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
 		} else {
 			var rechar = _GP.fontchars[ch];
@@ -327,8 +328,9 @@
 	}
 
 	function getCharName(ch) {
+		ch = ''+ch;
 		//debug("GETCHARNAME - for " + ch);
-		if((''+ch).indexOf('id') >= 0){
+		if(ch.indexOf('id') >= 0){
 			return _GP.linkedshapes[ch].shape.name;
 		} else {
 			var re = _UI.unicodenames[ch];

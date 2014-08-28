@@ -24,24 +24,24 @@
 
 		if(cr.latinsuppliment){
 			if(showtitles) ccon += "<h3>latin suppliment</h3>";
-			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
+			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
 		}
 
 		if(cr.latinextendeda){
 			if(showtitles) ccon += "<h3>latin extended-a</h3>";
-			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
+			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
 		}
 
 		if(cr.latinextendedb){
 			if(showtitles) ccon += "<h3>latin extended-b</h3>";
-			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
+			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
 		}
 
 		var cn;
 		if(cr.custom.length){
 			for(var c=0; c<cr.custom.length; c++){
 				ccon += "<h3>custom range " + (c+1) + "</h3>";
-				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
+				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 					cn = decToHex(range);
 					if(_GP.projectsettings.charrange.filternoncharpoints){
 						if(getCharName(cn).indexOf('[')<0) ccon += makeCharChooserButton(cn, fname);

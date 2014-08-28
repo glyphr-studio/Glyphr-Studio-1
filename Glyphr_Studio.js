@@ -927,6 +927,9 @@ function saveTextFile(fname, fblob) {
 
 		var chars = ioSVG_getTags(font, 'glyph');
 		var tc, data, uni, cname, chtml, adv;
+		var maxchar = 0;
+		var minchar = 0xffff;
+		var customcharrange = [];
 		var shapecounter = 0;
 		var newshapes = [];
 		var fc = {};
@@ -953,11 +956,20 @@ function saveTextFile(fname, fblob) {
 			}
 
 			if(uni){
-				// a Glyph tag with just pathdata
+				// Get some range data
+				minchar = Math.min(minchar, uni);
+				maxchar = Math.max(maxchar, uni);
+				if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni)
+				uni = padHexString(uni);
+				debug('\t uni is ' + uni);
+				
+				// Get the char name data
 				cname = getCharName(uni);
 				chtml = hexToHTML(uni);
+
+				// CASE ONE: a Glyph tag with just pathdata
 				data = tc.attributes.d;
-				debug('\t Character ' + cname + ' has path data ' + data);
+				// debug('\t Character ' + cname + ' has path data ' + data);
 
 				if(data){
 					// Compound Paths are treated as different Glyphr Shapes
@@ -973,6 +985,12 @@ function saveTextFile(fname, fblob) {
 					}
 				}
 
+				// CASE TWO: a Glyph tag with child shape data
+				/*
+					stuff
+				*/
+
+
 				fc[uni] = new Char({"charshapes":newshapes, "charname":cname, "charhtml":chtml});
 
 				// specified advance width?
@@ -985,6 +1003,30 @@ function saveTextFile(fname, fblob) {
 				}
 			}
 		}
+
+		// Enable applicable built-in char ranges
+		debug('\t Char range: ' + minchar + ' to ' + maxchar);
+
+		var rstart, rend;
+		for(var r in _UI.charrange){
+			if(_UI.charrange.hasOwnProperty(r)){
+				rstart = 1*_UI.charrange[r].begin;
+				rend = 1*_UI.charrange[r].end+1;
+				for(var c=rstart; c<rend; c++){
+					if(getChar(c)){
+						_GP.projectsettings.charrange[r] = true;
+						break;
+					}
+				}
+			}
+		}
+
+		// Make a custom range for the rest
+		if(customcharrange.length){
+			customcharrange = customcharrange.sort();
+			_GP.projectsettings.charrange.custom.push({"begin":customcharrange[0], "end":customcharrange[customcharrange.length-1]});
+		}
+
 
 		// Check to make sure certain stuff is there
 		// space has horiz-adv-x
@@ -999,7 +1041,7 @@ function saveTextFile(fname, fblob) {
 //	Import SVG Outlines
 //	--------------------------
 	function ioSVG_convertTagsToChar(svgdata){
-		debug('\n ioSVG_convertTagsToChar \t Start');
+		// debug('\n ioSVG_convertTagsToChar \t Start');
 
 		var newshapes = [];
 		var data = {};
@@ -1018,15 +1060,15 @@ function saveTextFile(fname, fblob) {
 		for(var g=0; g<grabtags.length; g++) shapetags[grabtags[g]] = [];
 		for(var s=0; s<unsortedshapetags.length; s++) shapetags[unsortedshapetags[s].name].push(unsortedshapetags[s]);
 
-		debug('\t shapetags from imported XML: ');
-		debug(shapetags);
+		// debug('\t shapetags from imported XML: ');
+		// debug(shapetags);
 
 		/*
 			GET PATH TAGS
 		*/
 
 		if(shapetags.path.length){
-			debug('\t parsing PATH');
+			// debug('\t parsing PATH');
 			data = '';
 			for(var p=0; p<shapetags.path.length; p++){
 				data = shapetags.path[p].attributes.d;
@@ -1055,7 +1097,7 @@ function saveTextFile(fname, fblob) {
 		// console.log(shapetags);
 
 		if(shapetags.rect.length){
-			debug('\t parsing RECT');
+			// debug('\t parsing RECT');
 			data = {};
 			var rectmaxes = {};
 
@@ -1076,7 +1118,7 @@ function saveTextFile(fname, fblob) {
 				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
 				if(data.height) rectmaxes.ymax = rectmaxes.ymin + (data.height*1);
 
-				//debug("IMPORTSVG_IMPORTCODE - Rect maxes: " + JSON.stringify(rectmaxes));
+				// debug("IMPORTSVG_IMPORTCODE - Rect maxes: " + JSON.stringify(rectmaxes));
 
 				shapecounter++;
 				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':("SVG Rectangle " + shapecounter)}));
@@ -1091,7 +1133,7 @@ function saveTextFile(fname, fblob) {
 		poly = poly.concat(shapetags.polyline);
 
 		if(poly.length){
-			debug('\t parsing POLY and POLYLINE');
+			// debug('\t parsing POLY and POLYLINE');
 			data = {};
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
@@ -1100,7 +1142,7 @@ function saveTextFile(fname, fblob) {
 
 				if(data.length){
 					data = data.split(' ');
-					//debug("IMPORTSVG_IMPORTCODE - polyline data.points: " + JSON.stringify(data));
+					// debug("IMPORTSVG_IMPORTCODE - polyline data.points: " + JSON.stringify(data));
 					var pparr = [];
 					var tpp, tcoord;
 					for(var co=0; co<data.length; co++){
@@ -1110,7 +1152,7 @@ function saveTextFile(fname, fblob) {
 							pparr[co] = new PathPoint({"P":tcoord, "H1":tcoord, "H2":tcoord, "useh1":false, "useh2":false});
 						}
 					}
-					//debug(json(pparr));
+					// debug(json(pparr));
 
 					shapecounter++;
 					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':("SVG Polygon " + shapecounter)}));
@@ -1125,7 +1167,7 @@ function saveTextFile(fname, fblob) {
 		round = round.concat(shapetags.ellipse);
 
 		if(round.length){
-			debug('\t parsing CIRCLE and ELLIPSE');
+			// debug('\t parsing CIRCLE and ELLIPSE');
 			data = '';
 			var ellipsemaxes, radius;
 			for(var c=0; c<round.length; c++){
@@ -1136,7 +1178,7 @@ function saveTextFile(fname, fblob) {
 					'ymin': 0
 				};
 				data = round[c].attributes;
-				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
+				// debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
 
 				// if(ioSVG_checkForIgnored(shapetags[r])) error = true;
 
@@ -1163,15 +1205,15 @@ function saveTextFile(fname, fblob) {
 			importSVG_errorMessage("A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.");
 		}
 
-		debug('ioSVG_convertTagsToChar \t End \n');
+		// debug('ioSVG_convertTagsToChar \t End \n');
 		return new Char({"charshapes":newshapes});
 	}
 
 	function ioSVG_getTags(obj, grabtags) {
-		debug('\n ioSVG_getTags \t Start');
-		debug('\t grabtags: ' + JSON.stringify(grabtags));
-		debug('\t passed obj: ');
-		debug(obj);
+		// debug('\n ioSVG_getTags \t Start');
+		// debug('\t grabtags: ' + JSON.stringify(grabtags));
+		// debug('\t passed obj: ');
+		// debug(obj);
 
 		if(typeof grabtags === 'string') grabtags = [grabtags];
 		var result = [];
@@ -1186,7 +1228,7 @@ function saveTextFile(fname, fblob) {
 			}
 		}
 
-		debug('ioSVG_getTags \t End \n');
+		// debug('ioSVG_getTags \t End \n');
 		return result;
 	}
 
@@ -1200,7 +1242,7 @@ function saveTextFile(fname, fblob) {
 			}
 		} else return false;
 	}
-/*
+
 	function ioSVG_scrubAttr(s){
 		// debug('ioSVG_scrubAttr');
 		// debug('\t before: ' + s);
@@ -1208,11 +1250,11 @@ function saveTextFile(fname, fblob) {
 		// debug('\t afters: ' + re);
 		return re;
 	}
-*/
+
 
 	function ioSVG_convertPathTag(data) {
 		// just path data
-		//debug("ioSVG_convertPathTag - data is \n" + data);
+		// debug("ioSVG_convertPathTag - data is \n" + data);
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s)/g, ',');
@@ -1236,7 +1278,7 @@ function saveTextFile(fname, fblob) {
 		data = data.replace(/,,/g,',');
 		if(data.charAt(0) === ',') data = data.slice(1);
 
-		//debug("ioSVG_convertPathTag - parsed path data as \n" + data);
+		// debug("ioSVG_convertPathTag - parsed path data as \n" + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
@@ -1261,12 +1303,12 @@ function saveTextFile(fname, fblob) {
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({"command":command, "data":dataarr});
 
-		//debug("ioSVG_convertPathTag - chunkarr data is \n" + json(chunkarr, true));
+		// debug("ioSVG_convertPathTag - chunkarr data is \n" + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			//debug("\nHandling Path Chunk " + c);
+			// debug("\nHandling Path Chunk " + c);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -1276,20 +1318,20 @@ function saveTextFile(fname, fblob) {
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
 		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
-			//debug("ioSVG_convertPathTag - fp/lp same:\nFirst Point: "+json(fp)+"\nLast Point:  "+json(lp));
+			// debug("ioSVG_convertPathTag - fp/lp same:\nFirst Point: "+json(fp)+"\nLast Point:  "+json(lp));
 			fp.H1.x = lp.H1.x;
 			fp.H1.y = lp.H1.y;
 			fp.useh1 = lp.useh1;
 			patharr.pop();
 			fp.resolvePointType();
-			//debug("ioSVG_convertPathTag - AFTER:\nFirst Point: "+json(fp));
+			// debug("ioSVG_convertPathTag - AFTER:\nFirst Point: "+json(fp));
 		}
 
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
 		newshape.path.validate('IMPORTSVG');
 		newshape.path.calcMaxes();
 
-		//debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
+		// debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
 
 		return newshape;
 	}
@@ -1322,8 +1364,8 @@ function saveTextFile(fname, fblob) {
 		var prevx = lastpoint.P.x;
 		var prevy = lastpoint.P.y;
 
-		//debug("\tprevious point x y\t"+prevx+" "+prevy);
-		//debug("\t"+cmd+" ["+chunk.data+"]");
+		// debug("\tprevious point x y\t"+prevx+" "+prevy);
+		// debug("\t"+cmd+" ["+chunk.data+"]");
 
 
 		// handle command types
@@ -1365,7 +1407,7 @@ function saveTextFile(fname, fblob) {
 					break;
 			}
 
-			//debug("\tlinear end xx yy\t" + xx + " " + yy);
+			// debug("\tlinear end xx yy\t" + xx + " " + yy);
 			p = new Coord({"x":xx, "y":yy});
 
 			lastpoint.useh2 = false;
@@ -1389,7 +1431,7 @@ function saveTextFile(fname, fblob) {
 				}
 
 				// default absolute for C
-				//debug("\tCc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
+				// debug("\tCc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
 
 				lastpoint.H2 = new Coord({"x": currdata[0], "y": currdata[1]});
 				lastpoint.useh2 = true;
@@ -1407,7 +1449,7 @@ function saveTextFile(fname, fblob) {
 					p.y += prevy;
 				}
 
-				//debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
+				// debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
 
 				patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "useh1":true, "useh2":true}));
 			}
@@ -1429,7 +1471,7 @@ function saveTextFile(fname, fblob) {
 				p.y += prevy;
 			}
 
-			//debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
+			// debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
 
 			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "type":"symmetric", "useh1":true, "useh2":true}));
 
@@ -1440,7 +1482,7 @@ function saveTextFile(fname, fblob) {
 		}
 
 		var added = patharr[patharr.length-1];
-		//debug("CREATED PATH POINT \n"+json(added));
+		// debug("CREATED PATH POINT \n"+json(added));
 		if(islastpoint) added.resolvePointType();
 
 		return patharr;
@@ -1854,8 +1896,9 @@ function saveTextFile(fname, fblob) {
 
 	// GET
 	function getChar(ch, create) {
+		ch = ''+ch;
 		//debug("GETCHAR - passed " + ch + " - force create? " + create);
-		if((''+ch).indexOf('id') >= 0){
+		if(ch.indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
 		} else {
 			var rechar = _GP.fontchars[ch];
@@ -1872,8 +1915,9 @@ function saveTextFile(fname, fblob) {
 	}
 
 	function getCharName(ch) {
+		ch = ''+ch;
 		//debug("GETCHARNAME - for " + ch);
-		if((''+ch).indexOf('id') >= 0){
+		if(ch.indexOf('id') >= 0){
 			return _GP.linkedshapes[ch].shape.name;
 		} else {
 			var re = _UI.unicodenames[ch];
@@ -1966,7 +2010,7 @@ function saveTextFile(fname, fblob) {
 			"spinnervaluechange" : 1,				// how much spinner controls change a value
 			"showkeyboardtipsicon" : true,			// button for keyboard tips on edit canvas
 			"stoppagenavigation" : true,			// asks to save on window close or refresh
-			"formatsavefile" : false,				// makes the JSON save file readable
+			"formatsavefile" : true,				// makes the JSON save file readable
 			"showoutline" : false,					// outline shapes when drawing
 			"showfill" : true,						// fill shapes when drawing
 			"color_glyphfill" : "rgb(0,0,0)",		// shape base color
@@ -2071,21 +2115,21 @@ function saveTextFile(fname, fblob) {
 		}
 
 		if(cr.latinsuppliment){
-			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){
+			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){
 				ccon += fname(decToHex(s));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendeda){
-			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){
+			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){
 				ccon += fname(decToHex(a));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendedb){
-			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){
+			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){
 				ccon += fname(decToHex(b));
 				//count++;
 			}
@@ -4828,7 +4872,7 @@ function saveTextFile(fname, fblob) {
 					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode characters 0x00A1 through 0x00FF</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var s=0x00A1; s<=0x00FF; s++){ content += (hexToChar(s) + " "); }
-					for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
+					for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
@@ -4836,7 +4880,7 @@ function saveTextFile(fname, fblob) {
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var a=0x0100; a<=0x017F; a++){ content += (hexToChar(a) + " "); }
-					for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
+					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
 		content += "</div></td></tr></table>";
 
 
@@ -4845,7 +4889,7 @@ function saveTextFile(fname, fblob) {
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var b=0x0180; b<=0x024F; b++){ content += (hexToChar(b) + " "); }
-					for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
+					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<h3>Custom Character Ranges</h3>"+
@@ -6478,24 +6522,24 @@ function saveTextFile(fname, fblob) {
 
 		if(cr.latinsuppliment){
 			if(showtitles) ccon += "<h3>latin suppliment</h3>";
-			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
+			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
 		}
 
 		if(cr.latinextendeda){
 			if(showtitles) ccon += "<h3>latin extended-a</h3>";
-			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
+			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
 		}
 
 		if(cr.latinextendedb){
 			if(showtitles) ccon += "<h3>latin extended-b</h3>";
-			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
+			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
 		}
 
 		var cn;
 		if(cr.custom.length){
 			for(var c=0; c<cr.custom.length; c++){
 				ccon += "<h3>custom range " + (c+1) + "</h3>";
-				for(var range=cr.custom[c].begin; range<cr.custom[c].end; range++){
+				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 					cn = decToHex(range);
 					if(_GP.projectsettings.charrange.filternoncharpoints){
 						if(getCharName(cn).indexOf('[')<0) ccon += makeCharChooserButton(cn, fname);
@@ -7752,6 +7796,7 @@ function saveTextFile(fname, fblob) {
 	function hexToChar(u) { return String.fromCharCode(u); }
 	function charToHex(s) { return decToHex(String(s).charCodeAt(0)); }
 	function hexToHTML(h) { return ("&#"+parseInt(h,16)+";"); }
+	function padHexString (h) { h = (''+h).substr(2); while(h.length < 4) h = '0'+h; return '0x'+h.toUpperCase(); }
 
 //	--------------------
 //	Range functions
@@ -7776,8 +7821,8 @@ function saveTextFile(fname, fblob) {
 			}
 
 			// maxes
-			newrange.begin = Math.max(newrange.begin, (_UI.latinextendedb.end+1));
-			newrange.end = Math.max(newrange.end, (_UI.latinextendedb.end+2));
+			newrange.begin = Math.max(newrange.begin, (_UI.charrange.latinextendedb.end+1));
+			newrange.end = Math.max(newrange.end, (_UI.charrange.latinextendedb.end+2));
 			newrange.begin = Math.min(newrange.begin, 0xFFFE);
 			newrange.end = Math.min(newrange.end, 0xFFFF);
 
@@ -7825,9 +7870,12 @@ function saveTextFile(fname, fblob) {
 //	-----------------
 
 	_UI.basiclatinorder = ["0x0041","0x0042","0x0043","0x0044","0x0045","0x0046","0x0047","0x0048","0x0049","0x004A","0x004B","0x004C","0x004D","0x004E","0x004F","0x0050","0x0051","0x0052","0x0053","0x0054","0x0055","0x0056","0x0057","0x0058","0x0059","0x005A","0x0061","0x0062","0x0063","0x0064","0x0065","0x0066","0x0067","0x0068","0x0069","0x006A","0x006B","0x006C","0x006D","0x006E","0x006F","0x0070","0x0071","0x0072","0x0073","0x0074","0x0075","0x0076","0x0077","0x0078","0x0079","0x007A","0x0030","0x0031","0x0032","0x0033","0x0034","0x0035","0x0036","0x0037","0x0038","0x0039","0x0021","0x0022","0x0023","0x0024","0x0025","0x0026","0x0027","0x0028","0x0029","0x002A","0x002B","0x002C","0x002D","0x002E","0x002F","0x003A","0x003B","0x003C","0x003D","0x003E","0x003F","0x0040","0x005B","0x005C","0x005D","0x005E","0x005F","0x0060","0x007B","0x007C","0x007D","0x007E","0x0020"];
-	_UI.latinsuppliment = {"begin":0x00A1, "end": 0x00FF};
-	_UI.latinextendeda = {"begin":0x0100, "end":0x017F};
-	_UI.latinextendedb = {"begin":0x0180, "end":0x024F};
+	_UI.charrange = {
+		"basiclatin": {"begin":0x0020, "end":0x007E},
+		"latinsuppliment": {"begin":0x00A1, "end": 0x00FF},
+		"latinextendeda": {"begin":0x0100, "end":0x017F},
+		"latinextendedb": {"begin":0x0180, "end":0x024F}
+	}
 
 	_UI.unicodenames = {
 	// Basic Latin

@@ -34,7 +34,7 @@
 			"spinnervaluechange" : 1,				// how much spinner controls change a value
 			"showkeyboardtipsicon" : true,			// button for keyboard tips on edit canvas
 			"stoppagenavigation" : true,			// asks to save on window close or refresh
-			"formatsavefile" : false,				// makes the JSON save file readable
+			"formatsavefile" : true,				// makes the JSON save file readable
 			"showoutline" : false,					// outline shapes when drawing
 			"showfill" : true,						// fill shapes when drawing
 			"color_glyphfill" : "rgb(0,0,0)",		// shape base color
@@ -139,21 +139,21 @@
 		}
 
 		if(cr.latinsuppliment){
-			for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){
+			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){
 				ccon += fname(decToHex(s));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendeda){
-			for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){
+			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){
 				ccon += fname(decToHex(a));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendedb){
-			for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){
+			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){
 				ccon += fname(decToHex(b));
 				//count++;
 			}

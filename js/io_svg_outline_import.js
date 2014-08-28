@@ -4,7 +4,7 @@
 //	Import SVG Outlines
 //	--------------------------
 	function ioSVG_convertTagsToChar(svgdata){
-		debug('\n ioSVG_convertTagsToChar \t Start');
+		// debug('\n ioSVG_convertTagsToChar \t Start');
 
 		var newshapes = [];
 		var data = {};
@@ -23,15 +23,15 @@
 		for(var g=0; g<grabtags.length; g++) shapetags[grabtags[g]] = [];
 		for(var s=0; s<unsortedshapetags.length; s++) shapetags[unsortedshapetags[s].name].push(unsortedshapetags[s]);
 
-		debug('\t shapetags from imported XML: ');
-		debug(shapetags);
+		// debug('\t shapetags from imported XML: ');
+		// debug(shapetags);
 
 		/*
 			GET PATH TAGS
 		*/
 
 		if(shapetags.path.length){
-			debug('\t parsing PATH');
+			// debug('\t parsing PATH');
 			data = '';
 			for(var p=0; p<shapetags.path.length; p++){
 				data = shapetags.path[p].attributes.d;
@@ -60,7 +60,7 @@
 		// console.log(shapetags);
 
 		if(shapetags.rect.length){
-			debug('\t parsing RECT');
+			// debug('\t parsing RECT');
 			data = {};
 			var rectmaxes = {};
 
@@ -81,7 +81,7 @@
 				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
 				if(data.height) rectmaxes.ymax = rectmaxes.ymin + (data.height*1);
 
-				//debug("IMPORTSVG_IMPORTCODE - Rect maxes: " + JSON.stringify(rectmaxes));
+				// debug("IMPORTSVG_IMPORTCODE - Rect maxes: " + JSON.stringify(rectmaxes));
 
 				shapecounter++;
 				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':("SVG Rectangle " + shapecounter)}));
@@ -96,7 +96,7 @@
 		poly = poly.concat(shapetags.polyline);
 
 		if(poly.length){
-			debug('\t parsing POLY and POLYLINE');
+			// debug('\t parsing POLY and POLYLINE');
 			data = {};
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
@@ -105,7 +105,7 @@
 
 				if(data.length){
 					data = data.split(' ');
-					//debug("IMPORTSVG_IMPORTCODE - polyline data.points: " + JSON.stringify(data));
+					// debug("IMPORTSVG_IMPORTCODE - polyline data.points: " + JSON.stringify(data));
 					var pparr = [];
 					var tpp, tcoord;
 					for(var co=0; co<data.length; co++){
@@ -115,7 +115,7 @@
 							pparr[co] = new PathPoint({"P":tcoord, "H1":tcoord, "H2":tcoord, "useh1":false, "useh2":false});
 						}
 					}
-					//debug(json(pparr));
+					// debug(json(pparr));
 
 					shapecounter++;
 					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':("SVG Polygon " + shapecounter)}));
@@ -130,7 +130,7 @@
 		round = round.concat(shapetags.ellipse);
 
 		if(round.length){
-			debug('\t parsing CIRCLE and ELLIPSE');
+			// debug('\t parsing CIRCLE and ELLIPSE');
 			data = '';
 			var ellipsemaxes, radius;
 			for(var c=0; c<round.length; c++){
@@ -141,7 +141,7 @@
 					'ymin': 0
 				};
 				data = round[c].attributes;
-				//debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
+				// debug("IMPORTSVG_IMPORTCODE - rect data: " + JSON.stringify(data));
 
 				// if(ioSVG_checkForIgnored(shapetags[r])) error = true;
 
@@ -168,15 +168,15 @@
 			importSVG_errorMessage("A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.");
 		}
 
-		debug('ioSVG_convertTagsToChar \t End \n');
+		// debug('ioSVG_convertTagsToChar \t End \n');
 		return new Char({"charshapes":newshapes});
 	}
 
 	function ioSVG_getTags(obj, grabtags) {
-		debug('\n ioSVG_getTags \t Start');
-		debug('\t grabtags: ' + JSON.stringify(grabtags));
-		debug('\t passed obj: ');
-		debug(obj);
+		// debug('\n ioSVG_getTags \t Start');
+		// debug('\t grabtags: ' + JSON.stringify(grabtags));
+		// debug('\t passed obj: ');
+		// debug(obj);
 
 		if(typeof grabtags === 'string') grabtags = [grabtags];
 		var result = [];
@@ -191,7 +191,7 @@
 			}
 		}
 
-		debug('ioSVG_getTags \t End \n');
+		// debug('ioSVG_getTags \t End \n');
 		return result;
 	}
 
@@ -205,7 +205,7 @@
 			}
 		} else return false;
 	}
-/*
+
 	function ioSVG_scrubAttr(s){
 		// debug('ioSVG_scrubAttr');
 		// debug('\t before: ' + s);
@@ -213,11 +213,11 @@
 		// debug('\t afters: ' + re);
 		return re;
 	}
-*/
+
 
 	function ioSVG_convertPathTag(data) {
 		// just path data
-		//debug("ioSVG_convertPathTag - data is \n" + data);
+		// debug("ioSVG_convertPathTag - data is \n" + data);
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s)/g, ',');
@@ -241,7 +241,7 @@
 		data = data.replace(/,,/g,',');
 		if(data.charAt(0) === ',') data = data.slice(1);
 
-		//debug("ioSVG_convertPathTag - parsed path data as \n" + data);
+		// debug("ioSVG_convertPathTag - parsed path data as \n" + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
@@ -266,12 +266,12 @@
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({"command":command, "data":dataarr});
 
-		//debug("ioSVG_convertPathTag - chunkarr data is \n" + json(chunkarr, true));
+		// debug("ioSVG_convertPathTag - chunkarr data is \n" + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			//debug("\nHandling Path Chunk " + c);
+			// debug("\nHandling Path Chunk " + c);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -281,20 +281,20 @@
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
 		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
-			//debug("ioSVG_convertPathTag - fp/lp same:\nFirst Point: "+json(fp)+"\nLast Point:  "+json(lp));
+			// debug("ioSVG_convertPathTag - fp/lp same:\nFirst Point: "+json(fp)+"\nLast Point:  "+json(lp));
 			fp.H1.x = lp.H1.x;
 			fp.H1.y = lp.H1.y;
 			fp.useh1 = lp.useh1;
 			patharr.pop();
 			fp.resolvePointType();
-			//debug("ioSVG_convertPathTag - AFTER:\nFirst Point: "+json(fp));
+			// debug("ioSVG_convertPathTag - AFTER:\nFirst Point: "+json(fp));
 		}
 
 		var newshape = new Shape({"path":new Path({"pathpoints":patharr})});
 		newshape.path.validate('IMPORTSVG');
 		newshape.path.calcMaxes();
 
-		//debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
+		// debug("IMPORTSVG_PARSEPATHTAG - unscaled shape: \n" + json(newshape));
 
 		return newshape;
 	}
@@ -327,8 +327,8 @@
 		var prevx = lastpoint.P.x;
 		var prevy = lastpoint.P.y;
 
-		//debug("\tprevious point x y\t"+prevx+" "+prevy);
-		//debug("\t"+cmd+" ["+chunk.data+"]");
+		// debug("\tprevious point x y\t"+prevx+" "+prevy);
+		// debug("\t"+cmd+" ["+chunk.data+"]");
 
 
 		// handle command types
@@ -370,7 +370,7 @@
 					break;
 			}
 
-			//debug("\tlinear end xx yy\t" + xx + " " + yy);
+			// debug("\tlinear end xx yy\t" + xx + " " + yy);
 			p = new Coord({"x":xx, "y":yy});
 
 			lastpoint.useh2 = false;
@@ -394,7 +394,7 @@
 				}
 
 				// default absolute for C
-				//debug("\tCc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
+				// debug("\tCc getting data values for new point px:" + currdata[4] + " py:" + currdata[5]);
 
 				lastpoint.H2 = new Coord({"x": currdata[0], "y": currdata[1]});
 				lastpoint.useh2 = true;
@@ -412,7 +412,7 @@
 					p.y += prevy;
 				}
 
-				//debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
+				// debug("\tbezier end Px Py\t"+p.x+" "+p.y+"\tH1x H1y:"+h1.x+" "+h1.y);
 
 				patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "useh1":true, "useh2":true}));
 			}
@@ -434,7 +434,7 @@
 				p.y += prevy;
 			}
 
-			//debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
+			// debug("\tbezier result px:"+p.x+" py:"+p.y+" h1x:"+h1.x+" h1y:"+h1.y);
 
 			patharr.push(new PathPoint({"P":p, "H1":h1, "H2":p, "type":"symmetric", "useh1":true, "useh2":true}));
 
@@ -445,7 +445,7 @@
 		}
 
 		var added = patharr[patharr.length-1];
-		//debug("CREATED PATH POINT \n"+json(added));
+		// debug("CREATED PATH POINT \n"+json(added));
 		if(islastpoint) added.resolvePointType();
 
 		return patharr;

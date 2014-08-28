@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		uglify: {
 			options: {
-				wrap: 'Glyphr_Studio',
+				//wrap: 'Glyphr_Studio',
 				preserveComments: false
 			},
 			build: {

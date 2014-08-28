@@ -74,7 +74,7 @@
 					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode characters 0x00A1 through 0x00FF</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var s=0x00A1; s<=0x00FF; s++){ content += (hexToChar(s) + " "); }
-					for(var s=_UI.latinsuppliment.begin; s<=_UI.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
+					for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
@@ -82,7 +82,7 @@
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var a=0x0100; a<=0x017F; a++){ content += (hexToChar(a) + " "); }
-					for(var a=_UI.latinextendeda.begin; a<=_UI.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
+					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
 		content += "</div></td></tr></table>";
 
 
@@ -91,7 +91,7 @@
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					//for(var b=0x0180; b<=0x024F; b++){ content += (hexToChar(b) + " "); }
-					for(var b=_UI.latinextendedb.begin; b<=_UI.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
+					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<h3>Custom Character Ranges</h3>"+
