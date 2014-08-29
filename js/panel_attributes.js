@@ -146,7 +146,7 @@
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 				"<td> use default left side bearing </td>"+
-				"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing",true)+"</td>"+
+				"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing", true, true)+"</td>"+
 				"</tr>";
 
 		if(sc.leftsidebearing){

@@ -240,12 +240,13 @@
 		return re;
 	}
 
-	function checkUI(varname, doredraw){
+	function checkUI(varname, doredraw, invert){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
 		var idname = varname.split(".");
 		idname = idname[idname.length-1];
 		var currbool = eval(varname);
-
+		if(invert) currbool = !currbool;
+		
 		var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
 			'<input type="checkbox" class="checkboxfunc" ' +
 			'id="'+idname+'"' +
