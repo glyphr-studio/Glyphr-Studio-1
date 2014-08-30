@@ -278,6 +278,14 @@
 		margin:10px 0px 16px 0px;
 	}
 
+	.navpanellink {
+		font-size:1.1em;
+		margin-bottom:10px;
+		padding:8px 0px 8px 0px;
+		line-height: 1.8em;
+		font-style:italic;'
+	}
+
 	#popout_pagenav,
 	#popout_charchooser,
 	#popout_layerchooser,

@@ -308,28 +308,19 @@ function saveTextFile(fname, fblob) {
 //-------------------
 // BUG EMAIL
 //-------------------
-	function sendBugEmail(){
-		var dcon = "<h1>Report an issue</h1>";
-		dcon += "Hey, sorry you ran into some wonky stuff!<br>Letting us know about your problem will help us fix it for everybody.<br>";
-		dcon += "To send us an email, click the link below.<br><br>Thanks!<br><br><br>";
-		dcon += "<a href='mailto:mail@glyphrstudio.com&subject=Issue%20Report&body="+genEmailContent()+"' style='padding:10px;' onclick='closeDialog();'>Send an issue email to the Glyphr team</a><br>";
-		dcon += "<br>";
-		openDialog(dcon);
-	}
 
 	function genEmailContent(){
-		var con = "Sorry about the issue – so we can fix it, please explain step by step how to re-create the issue you ran into. If there was a JavaScript Error message or line number, include that too.%0A%0A%0A%0A";
-		con += "Thank you!%0A%09The Glyphr Team%0A%0A";
-		con += "___________________________________________%0A%0A";
-		con += "Glyphr Studio Version %09%09" + _UI.thisGlyphrStudioVersion + "%0A";
-		//con += "appCodeName %09%09" + navigator.appCodeName + "%0A";
-		con += "appName %09%09" + navigator.appName + "%0A";
-		//con += "appVersion %09%09" + navigator.appVersion + "%0A";
-		con += "language %09%09" + navigator.language + "%0A";
-		con += "platform %09%09" + navigator.platform + "%0A";
-		con += "systemLanguage %09%09" + navigator.systemLanguage + "%0A";
-		con += "userLanguage %09%09" + navigator.userLanguage + "%0A";
-		con += "userAgent %09%09" + encodeURIComponent(navigator.userAgent) + "%0A";
+		var con = "Have a feature idea or ran into an issue%3F We%27d be happy to help!";
+		con += "%0A%0A%0A%0A___________________________________________%0A";
+		con += "version %09Glyphr Studio " + _UI.thisGlyphrStudioVersion + "%0A";
+		//con += "appCodeName %09" + navigator.appCodeName + "%0A";
+		con += "app name %09" + navigator.appName + "%0A";
+		//con += "appVersion %09" + navigator.appVersion + "%0A";
+		con += "language %09" + navigator.language + "%0A";
+		con += "platform %09" + navigator.platform + "%0A";
+		// con += "systemLanguage %09" + navigator.systemLanguage + "%0A";
+		// con += "userLanguage %09" + navigator.userLanguage + "%0A";
+		con += "user agent %09" + encodeURIComponent(navigator.userAgent) + "%0A";
 
 		//debug(con);
 

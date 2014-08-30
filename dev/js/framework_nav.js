@@ -351,7 +351,7 @@
 		navarr.push("about");
 		navarr.push("_");
 		navarr.push("bug");
-		navarr.push("feat");
+		navarr.push("issue");
 
 		var newsub = "<h1 class='paneltitle' style='margin-bottom:4px;'>Glyphr Studio</h1>";
 
@@ -362,9 +362,9 @@
 			if(navarr[i]==="_"){
 				newsub += "<div style='height:10px;'></div>";
 			} else if (navarr[i] === "bug"){
-				newsub += ("<a href='javascript:sendBugEmail()' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>report an issue</a><br>");
-			} else if (navarr[i] === "feat"){
-				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Feature%20Request' style='font-size:1.1em; padding:4px 0px 4px 0px; font-style:italic;'>request a feature</a><br>");
+				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body="+genEmailContent()+"' class='navpanellink'>email the glyphr studio team</a><br>");
+			} else if (navarr[i] === "issue"){
+				newsub += ("<a href='https://github.com/mattlag/Glyphr-Studio/issues/new' target=_new class='navpanellink'>create a new issue on github</a><br>");
 			} else {
 				newsub += ("<button class='"+bc+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>"+navarr[i]+"</button>");
 			}
