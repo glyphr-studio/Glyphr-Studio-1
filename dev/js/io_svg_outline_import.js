@@ -10,11 +10,15 @@
 		var data = {};
 		var shapecounter = 0;
 		var error = false;
-
 		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
-		var jsondata = convertXMLtoJSON(svgdata);
+		var jsondata;
 
-		// Check for XML Errors
+		try {
+			jsondata = convertXMLtoJSON(svgdata);
+		} catch (e){
+			importSVG_errorMessage(e.message);
+			return;
+		}
 
 		var unsortedshapetags = ioSVG_getTags(jsondata, grabtags);
 		var shapetags = {};
@@ -459,7 +463,6 @@
 
 	function convertXMLtoJSON(inputXML){
 		var XMLdoc, XMLerror;
-		inputXML = inputXML.replace(/(\r\n|\n|\r|\t)/gm,"");
 		// debug('convertXMLtoJSON \t PASSED\n' + inputXML);
 
 		if (typeof window.DOMParser !== "undefined") {
@@ -477,8 +480,7 @@
 		var parsererror = XMLdoc.getElementsByTagName("parsererror");
 		if (parsererror.length) {
 			var msgcon = XMLdoc.getElementsByTagName('div')[0].innerHTML;
-			console.warn("Invalid XML:\n" + msgcon);
-			XMLerror = new SyntaxError(JSON.stringify(msgcon));
+			XMLerror = new SyntaxError(trim(msgcon));
 			throw XMLerror;
 		}
 
@@ -508,7 +510,7 @@
 				tagattributes = tag_getAttributes(node.attributes);
 
 				if(node.nodeName === '#text' && JSON.stringify(tagattributes) === '{}'){
-					tagresult = tagcontent;
+					tagresult = trim(tagcontent);
 				} else {
 					tagresult.name = node.nodeName;
 					tagresult.attributes = tagattributes;
@@ -535,15 +537,17 @@
 			for(var a=0; a<attributes.length; a++){
 				attr = attributes[a];
 				// debug('\t\t'+attr.name+' : '+attr.value);
-				result[attr.name] = attr.value;
+				result[attr.name] = trim(attr.value);
 			}
 
 			return result;
 		}
 
 		function trim(text) {
-			try { return text.replace(/^\s+|\s+$/g, ''); }
-			catch(e) { return ''; }
+			try { 
+				text = text.replace(/^\s+|\s+$/g, '');
+				return text.replace(/(\r\n|\n|\r|\t)/gm,"");
+			} catch(e) { return ''; }
 		}
 	}
 

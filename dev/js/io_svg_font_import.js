@@ -11,13 +11,16 @@
 		svgdata = svgdata.replace(/unicode="&#x/g, 'unicode="0x');
 		svgdata = svgdata.replace(/unicode='&#x/g, "unicode='0x");
 
-		// Convert to an Object
-		var jsondata = convertXMLtoJSON(svgdata);
+		var jsondata;
+		try {
+			jsondata = convertXMLtoJSON(svgdata);
+		} catch (e){
+			//errormessage(e.message);
+			return;
+		}
 
 		debug('\t imported json data:');
 		debug(jsondata);
-
-		// check for errors
 
 		var font = ioSVG_getFirstTagInstance(jsondata, 'font');
 		debug('\t font data:');

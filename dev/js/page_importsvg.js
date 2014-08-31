@@ -129,6 +129,8 @@
 
 		var tempchar = ioSVG_convertTagsToChar(svgin);
 
+		if(!tempchar) return;
+		
 		// Flip and Scale
 		tempchar.flipNS();
 		var so = _UI.importsvg;

@@ -241,10 +241,6 @@
 		_GP = new GlyphrProject();
 
 		_GP.projectsettings.name = fn;
-		_GP.opentypeproperties.name[1].val = fn;
-		_GP.opentypeproperties.name[3].val = (fn + " 1.0");
-		_GP.opentypeproperties.name[4].val = fn;
-		_GP.opentypeproperties.name[6].val = fn;
 		_GP.metadata.font_family = fn;
 
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
