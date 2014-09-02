@@ -8,7 +8,7 @@
 	var _UI = {
 		// all pages
 		"navhere" : "firstrun",
-		"navprimaryhere" : "npChar",
+		"navprimaryhere" : "npChooser",
 		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
 		"thisGlyphrStudioVersionNum" : "0.4.0",
 		"projectsaved": true,

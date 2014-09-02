@@ -12,7 +12,7 @@
 		document.onkeypress = keypress;
 
 		_UI.selectedshape = -1;
-		linkedshapesredraw("loadPage_linkedshapes");
+		redraw_LinkedShapes("loadPage_linkedshapes");
 	}
 
 	function linkedshapes_content(){
@@ -27,69 +27,17 @@
 		return re;
 	}
 
-	function makePanel_LinkedShapeChooser(){
-		var re = "<h1 class='paneltitle'>linked shapes</h1>";
-		re += "<div class='subnavunit'>";
-		re += "<table class='layertable'>";
-		for(var lsid in _GP.linkedshapes){
-			if(_GP.linkedshapes.hasOwnProperty(lsid)){
-				//debug("LINKEDSHAPES_SUBNAV - making button for " + lsid);
-				re += makeLinkedShapeSubNavButton(lsid);
-			}
-		}
-		re += "</table><br><br>";
-
-		re += "<h1 class='paneltitle'>actions</h1>";
-		re += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
-		re += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
-		re += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
-		re += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
-		re += "</td></tr></table>";
-
-		return re;
-	}
-
-	function makeLinkedShapeSubNavButton(lsid){
-		// debug("makeLinkedShapeSubNavButton \t Start");
-		// debug("\t passed lsid:" + lsid);
-
-		var re = "";
-		var ls = getChar(lsid);
-		// debug('\t getChar for lsid: ' );
-		// debug(ls);
-
-		if(lsid === _UI.shownlinkedshape){
-			re += "<tr class='layersel'";
-		} else {
-			re += "<tr class='layer'";
-		}
-		re += " onclick='makeLinkedShapeSelected(\"" + lsid + "\");'>";
-		re += "<td class='layerthumb'>";
-		re += ls.shape.makeSVG();
-		re += "</td>";
-		re += "<td class='layername'>" + ls.shape.name + "</td></tr>";
-
-		return re;
-	}
-
-	function makeLinkedShapeSelected(lsid){
-		//debug("MAKELINKEDSHAPESELECTED - lsid: " + lsid);
-		_UI.shownlinkedshape = lsid;
-		_UI.selectedshape = lsid;
-		navigate('npAttributes');
-	}
-
 
 //-------------------
 // REDRAW
 //-------------------
 
-	function linkedshapesredraw(calledby){
-		//debug(Date.now()+"\t:: LINKEDSHAPESREDRAW Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);
+	function redraw_LinkedShapes(calledby){
+		//debug(Date.now()+"\t:: redraw_LinkedShapes Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);
 
 		if(_UI.redrawing){
 			// this is totally a hack
-			//debug("LINKEDSHAPESREDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
+			//debug("redraw_LinkedShapes - RETURNING because _UI.redrawing = " + _UI.redrawing);
 			return;
 		}
 
@@ -109,7 +57,7 @@
 
 		update_ToolsArea();
 		_UI.redrawing = false;
-		//debug(Date.now()+"\t:: LINKEDSHAPESREDRAW DONE - Called By: " + calledby);
+		//debug(Date.now()+"\t:: redraw_LinkedShapes DONE - Called By: " + calledby);
 	}
 
 

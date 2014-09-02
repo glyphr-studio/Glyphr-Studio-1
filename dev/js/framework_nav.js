@@ -117,7 +117,7 @@
 		document.getElementById('popout_actions').innerHTML = makePanel_Actions(true);
 
 		if(_UI.navhere === "test drive"){
-			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveOptions();
+			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
 		} else {
 			document.getElementById('popout_attributes').innerHTML = makePanel_Attributes();
 		}
@@ -153,14 +153,25 @@
 		if(nap){
 			_UI.navprimaryhere = nap;
 		} else {
-
-			_UI.navprimaryhere = "npNav";
-			if(nh==="character edit" || nh==="linked shapes" || nh==="import svg") _UI.navprimaryhere = "npChar";
-			else if(nh==="test drive") _UI.navprimaryhere = "npAttributes";
+			switch(nh){
+				// case "firstrun":  _UI.navprimaryhere = "";break;
+ 				case "character edit": 	_UI.navprimaryhere = "npChooser"; break;
+				case "linked shapes": 	_UI.navprimaryhere = "npChooser"; break;
+				case "ligatures": 		_UI.navprimaryhere = "npChooser"; break;
+				case "kerning": 		_UI.navprimaryhere = "npChooser"; break;
+				case "test drive": 		_UI.navprimaryhere = "npAttributes"; break;
+				case "font settings": 	_UI.navprimaryhere = "npNav"; break;
+				case "project settings":_UI.navprimaryhere = "npNav"; break;
+				case "open project": 	_UI.navprimaryhere = "npNav"; break;
+				case "export font": 	_UI.navprimaryhere = "npNav"; break;
+				case "import svg": 		_UI.navprimaryhere = "npChooser"; break;
+				case "help": 			_UI.navprimaryhere = "npNav"; break;
+				case "about": 			_UI.navprimaryhere = "npNav"; break;
+			}
 		}
 
 		// pages with redraw() call make_NavPanels_PopIn
-		if(!(nh==="character edit" || nh==="linked shapes" || nh==="test drive")){
+		if(!(nh==="character edit" || nh==="linked shapes" || nh==="test drive" || nh==="kerning" || nh==="ligatures")){
 			make_NavPanels_PopIn();
 			document.getElementById("mainwrapper").style.overflowY = "scroll";
 		} else {
@@ -177,49 +188,43 @@
 		var nt = document.getElementById("navarea_panel");
 		nt.innerHTML = "";
 
-		if((_UI.navhere!=="character edit")&&(_UI.navhere!=="linked shapes")&&(_UI.navhere!=="test drive")&&(_UI.navhere!=="import svg")) {
+		if((_UI.navhere!=="character edit") &&
+			(_UI.navhere!=="linked shapes") &&
+			(_UI.navhere!=="test drive") &&
+			(_UI.navhere!=="import svg")) {
 				_UI.navprimaryhere = "npNav";
 				nt.innerHTML = makePanel_PageNav();
 				return;
 		}
 
 		switch(_UI.navprimaryhere){
-			case "npNav":
-				nt.innerHTML = makePanel_PageNav();
-				break;
-
-			case "npChar":
-				if(_UI.navhere === "character edit") {
-					nt.innerHTML = makePanel_CharChooser('selectChar');
+			case "npChooser":
+				switch(_UI.navhere){
+					case "character edit": nt.innerHTML = makePanel_CharChooser('selectChar'); break;
+					case "import svg": nt.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
+					case "linked shapes": nt.innerHTML = makePanel_LinkedShapeChooser(); break;
+					case "ligatures": nt.innerHTML = makePanel_LigatureChooser(); break;
+					case "kerning": nt.innerHTML = makePanel_KernChooser(); break;
 				}
-				if(_UI.navhere === "import svg"){
-					nt.innerHTML = makePanel_CharChooser('importSVG_selectChar');
-				}
-				if(_UI.navhere === "linked shapes") {
-					nt.innerHTML = makePanel_LinkedShapeChooser();
-				}
-				break;
-
-			case "npLayers":
-				nt.innerHTML = makePanel_LayerChooser();
-	
 				break;
 
 			case "npAttributes":
-				if(_UI.navhere === "test drive"){
-					nt.innerHTML = makePanel_TestDriveOptions();
-				} else {
-					nt.innerHTML = makePanel_Attributes();
-					nt.innerHTML += makePanel_Actions();
+				switch (_UI.navhere){
+					case "character edit":
+					case "linked shapes":
+						nt.innerHTML = makePanel_Attributes();
+						nt.innerHTML += makePanel_Actions();
+					break;
+					case "ligatures": nt.innerHTML = makePanel_LigatureAttributes(); break;
+					case "kerning": nt.innerHTML = makePanel_KerningAttributes(); break;
+					case "test drive": nt.innerHTML = makePanel_TestDriveAttributes(); break;
 				}
 				break;
 
-			case "npHistory":
-				nt.innerHTML = makePanel_History();
-				break;
-			case "npSave":
-				saveGlyphrProjectFile();
-				break;
+			case "npNav": nt.innerHTML = makePanel_PageNav(); break;
+			case "npLayers": nt.innerHTML = makePanel_LayerChooser(); break;
+			case "npHistory": nt.innerHTML = makePanel_History(); break;
+			case "npSave": saveGlyphrProjectFile(); break;
 		}
 	}
 
@@ -251,6 +256,8 @@
 			case "test drive":			loadPage_testdrive();		break;
 			case "linked shapes":		loadPage_linkedshapes();	break;
 			case "character edit":		loadPage_charedit();		break;
+			case "kerning":				loadPage_kerning();			break;
+			case "ligatures":			loadPage_ligatures();		break;
 		}
 	}
 
@@ -265,25 +272,37 @@
 		var navarr = [];
 		navarr.push("npNav");
 
-		if(_UI.navhere==="character edit"){
+		switch(_UI.navhere){
+			case "character edit":
 			navarr.push("npAttributes");
 			navarr.push("npLayers");
-			navarr.push("npChar");
+			navarr.push("npChooser");
 			navarr.push("npHistory");
-		}
+			break;
 
-		if(_UI.navhere==="linked shapes"){
+			case "linked shapes":
 			navarr.push("npAttributes");
-			navarr.push("npChar");
+			navarr.push("npChooser");
 			navarr.push("npHistory");
-		}
+			break;
 
-		if(_UI.navhere==="test drive"){
+			case "ligatures":
 			navarr.push("npAttributes");
-		}
+			navarr.push("npChooser");
+			break;
 
-		if(_UI.navhere==="import svg"){
-			navarr.push("npChar");
+			case "kerning":
+			navarr.push("npAttributes");
+			navarr.push("npChooser");
+			break;
+
+			case "test drive":
+			navarr.push("npAttributes");
+			break;
+
+			case "import svg":
+			navarr.push("npChooser");
+			break;
 		}
 
 		var newsub = "";
@@ -335,23 +354,26 @@
 
 
 	function makePanel_PageNav(){
-		var navarr = [];
-		navarr.push("character edit");
-		navarr.push("linked shapes");
-		navarr.push("test drive");
-		navarr.push("_");
-		navarr.push("font settings");
-		navarr.push("project settings");
-		navarr.push("_");
-		navarr.push("open project");
-		navarr.push("import svg");
-		navarr.push("export font");
-		navarr.push("_");
-		navarr.push("help");
-		navarr.push("about");
-		navarr.push("_");
-		navarr.push("bug");
-		navarr.push("issue");
+		var navarr = [
+			"character edit",
+			"linked shapes",
+			"ligatures",
+			"kerning",
+			"test drive",
+			"_",
+			"font settings",
+			"project settings",
+			"_",
+			"open project",
+			"import svg",
+			"export font",
+			"_",
+			"help",
+			"about",
+			"_",
+			"bug",
+			"issue"
+		];
 
 		var newsub = "<h1 class='paneltitle' style='margin-bottom:4px;'>Glyphr Studio</h1>";
 

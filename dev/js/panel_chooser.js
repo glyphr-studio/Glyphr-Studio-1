@@ -1,7 +1,7 @@
 // start of file
 
 //-------------------
-// Panel Char Select
+// Character Chooser
 //-------------------
 	function makePanel_CharChooser(fname){
 		var con = "<h1 class='paneltitle'>characters</h1>";
@@ -87,6 +87,82 @@
 		rv += "</td></tr></table>";
 
 		return rv;
+	}
+
+
+
+//-------------------------
+// Linked Shape Chooser
+//-------------------------
+	function makePanel_LinkedShapeChooser(){
+		var re = "<h1 class='paneltitle'>linked shapes</h1>";
+		re += "<div class='subnavunit'>";
+		re += "<table class='layertable'>";
+		for(var lsid in _GP.linkedshapes){
+			if(_GP.linkedshapes.hasOwnProperty(lsid)){
+				//debug("LINKEDSHAPES_SUBNAV - making button for " + lsid);
+				re += makeLinkedShapeSubNavButton(lsid);
+			}
+		}
+		re += "</table><br><br>";
+
+		re += "<h1 class='paneltitle'>actions</h1>";
+		re += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
+		re += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
+		re += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
+		re += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
+		re += "</td></tr></table>";
+
+		return re;
+	}
+
+	function makeLinkedShapeSubNavButton(lsid){
+		// debug("makeLinkedShapeSubNavButton \t Start");
+		// debug("\t passed lsid:" + lsid);
+
+		var re = "";
+		var ls = getChar(lsid);
+		// debug('\t getChar for lsid: ' );
+		// debug(ls);
+
+		if(lsid === _UI.shownlinkedshape){
+			re += "<tr class='layersel'";
+		} else {
+			re += "<tr class='layer'";
+		}
+		re += " onclick='selectLinkedShape(\"" + lsid + "\");'>";
+		re += "<td class='layerthumb'>";
+		re += ls.shape.makeSVG();
+		re += "</td>";
+		re += "<td class='layername'>" + ls.shape.name + "</td></tr>";
+
+		return re;
+	}
+
+	function selectLinkedShape(lsid){
+		//debug("selectLinkedShape - lsid: " + lsid);
+		_UI.shownlinkedshape = lsid;
+		_UI.selectedshape = lsid;
+		navigate('npAttributes');
+	}
+
+
+//-------------------
+// Ligature Chooser
+//-------------------
+	function makePanel_LigatureChooser(){
+		var con = "<h1 class='paneltitle'>ligatures</h1>";
+		return con;
+	}
+
+
+
+//-------------------
+// Kern Chooser
+//-------------------
+	function makePanel_KernChooser(){
+		var con = "<h1 class='paneltitle'>kerning</h1>";
+		return con;
 	}
 
 // end of file
