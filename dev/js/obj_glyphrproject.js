@@ -5,81 +5,82 @@
 		// Default settings for new Glyphr Projects
 
 		this.projectsettings = {
-			"name": "My Font",			// project name (can be different than font names)
-			"version": 0,				// console version
-			"versionnum": 0,			// console number version
-			"linkedshapecounter": 0,	// private counter for ss id
-			"charrange": {				// canned and custom Unicode ranges
-				"basiclatin": true,
-				"latinsuppliment": false,
-				"latinextendeda": false,
-				"latinextendedb": false,
-				"custom": [],
-				"filternoncharpoints": true
+			'name': 'My Font',			// project name (can be different than font names)
+			'version': 0,				// console version
+			'versionnum': 0,			// console number version
+			'linkedshapecounter': 0,	// private counter for ss id
+			'charrange': {				// canned and custom Unicode ranges
+				'basiclatin': true,
+				'latinsuppliment': false,
+				'latinextendeda': false,
+				'latinextendedb': false,
+				'custom': [],
+				'filternoncharpoints': true
 			},
 
 			// Grid stuff
-			"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are
-			"ascent": 700,			// ascender
-			"capheight": 675,		// capital letter height
-			"xheight": 400,			// lowercase letter height
-			"linegap": 250,			// distance between lines
-			"italicangle": 0,		// slant of characters, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
-			"griddivisions": 10,	// how many squares of grid per emsize
-			"overshoot": 10,		// overshoot for round glyphs
-			"defaultlsb": 10,		// default left space
+			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are
+			'ascent': 700,			// ascender
+			'capheight': 675,		// capital letter height
+			'xheight': 400,			// lowercase letter height
+			'linegap': 250,			// distance between lines
+			'italicangle': 0,		// slant of characters, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
+			'griddivisions': 10,	// how many squares of grid per emsize
+			'overshoot': 10,		// overshoot for round glyphs
+			'defaultlsb': 10,		// default left side bearing
+			'defaultrsb': 10,		// default right side bearing
 
 			// UI stuff
-			"pointsize" : 5,						// path point square size
-			"spinnervaluechange" : 1,				// how much spinner controls change a value
-			"showkeyboardtipsicon" : true,			// button for keyboard tips on edit canvas
-			"stoppagenavigation" : true,			// asks to save on window close or refresh
-			"formatsavefile" : true,				// makes the JSON save file readable
-			"showoutline" : false,					// outline shapes when drawing
-			"showfill" : true,						// fill shapes when drawing
-			"color_glyphfill" : "rgb(0,0,0)",		// shape base color
-			"color_glyphoutline" : "rgb(0,0,0)",	// shape outline color
-			"color_grid" : "rgb(240,240,240)",		// grid base color
-			"color_os_guideline" : "rgb(204,79,34)",// OS guide base color
-			"guidelines" : [],						// user-defined guidelines
-			"snaptogrid" : false,					// snap to gridlines
-			"snaptoguides" : false					// snap to guidelines
+			'pointsize': 5,							// path point square size
+			'spinnervaluechange': 1,				// how much spinner controls change a value
+			'showkeyboardtipsicon': true,			// button for keyboard tips on edit canvas
+			'stoppagenavigation': true,				// asks to save on window close or refresh
+			'formatsavefile': true,					// makes the JSON save file readable
+			'showoutline': false,					// outline shapes when drawing
+			'showfill': true,						// fill shapes when drawing
+			'color_glyphfill': 'rgb(0,0,0)',		// shape base color
+			'color_glyphoutline': 'rgb(0,0,0)',		// shape outline color
+			'color_grid': 'rgb(240,240,240)',		// grid base color
+			'color_os_guideline': 'rgb(204,79,34)', // OS guide base color
+			'guidelines': [],						// user-defined guidelines
+			'snaptogrid': false,					// snap to gridlines
+			'snaptoguides': false					// snap to guidelines
 		};
 
 		this.metadata = {
-			//"font_family": 0,
-			"font_style": "normal",
-			"font_variant": "normal",
-			"font_weight": "normal",
-			"font_stretch": "normal",
-			// "font_size": "all",
-			// "unicode_range": 0,
-			// "units_per_em": 0,
-			// "panose_1": "0 0 0 0 0 0 0 0 0 0",
-			"stemv": 0,
-			"stemh": 0,
-			"slope": 0,
-			// "cap_height": 0,
-			// "x_height": 0,
-			// "accent_height": 0,
-			// "ascent": 0,
-			// "descent": 0,
-			// "widths": 0,
-			// "bbox": 0,
-			// "ideographic": 0,
-			// "alphabetic": 0,
-			// "mathematical": 0,
-			// "hanging": 0,
-			// "v_ideographic": 0,
-			// "v_alphabetic": 0,
-			// "v_mathematical": 0,
-			// "v_hanging": 0,
-			"underline_position": -50,
-			"underline_thickness": 10,
-			"strikethrough_position": 300,
-			"strikethrough_thickness": 10,
-			"overline_position": 750,
-			"overline_thickness": 10
+			//'font_family': 0,
+			'font_style': 'normal',
+			'font_variant': 'normal',
+			'font_weight': 'normal',
+			'font_stretch': 'normal',
+			// 'font_size': 'all',
+			// 'unicode_range': 0,
+			// 'units_per_em': 0,
+			// 'panose_1': '0 0 0 0 0 0 0 0 0 0',
+			'stemv': 0,
+			'stemh': 0,
+			'slope': 0,
+			// 'cap_height': 0,
+			// 'x_height': 0,
+			// 'accent_height': 0,
+			// 'ascent': 0,
+			// 'descent': 0,
+			// 'widths': 0,
+			// 'bbox': 0,
+			// 'ideographic': 0,
+			// 'alphabetic': 0,
+			// 'mathematical': 0,
+			// 'hanging': 0,
+			// 'v_ideographic': 0,
+			// 'v_alphabetic': 0,
+			// 'v_mathematical': 0,
+			// 'v_hanging': 0,
+			'underline_position': -50,
+			'underline_thickness': 10,
+			'strikethrough_position': 300,
+			'strikethrough_thickness': 10,
+			'overline_position': 750,
+			'overline_thickness': 10
 		};
 
 		this.fontchars = {};
