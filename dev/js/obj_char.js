@@ -364,6 +364,14 @@
 		return rechar? rechar.charshapes : [];
 	}
 
+	function getSelectedCharLeftSideBearing(){
+		//debug("getSelectedCharLeftSideBearing");
+		var sc = getSelectedChar();
+		if(!sc) return 0;
+		if(sc.objtype === 'linkedshape') return 0;
+		return sc.leftsidebearing || _GP.projectsettings.defaultlsb;
+	}
+
 	function selectChar(c, dontnavigate){
 		//debug("SELECTCHAR - selecting " + getChar(c, true).charname + " from value " + c);
 

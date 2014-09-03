@@ -93,119 +93,108 @@
 //-------------------
 
 	function drawGrid(){
+		if(_UI.showgrid){
+			var ps = _GP.projectsettings;
+			var v = getView("grid");
+			// var zupm = (ps.upm * v.dz);
+			// var gutter = ((_UI.chareditcanvassize*v.dz) - zupm)/2;
+			// var zasc = (ps.ascent * v.dz);
+			var xs = {};
+			xs.xmax = _UI.chareditcanvassize;
+			xs.xmin = 0;
+			xs.ymax = _UI.chareditcanvassize;
+			xs.ymin = 0;
+			//debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
 
-		var ps = _GP.projectsettings;
-		var v = getView("grid");
+			// background white square
+			_UI.chareditctx.fillStyle = "white";
+			_UI.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
+			//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
 
-		//debug("GRID: v:" + JSON.stringify(v));
-
-		_UI.chareditctx.fillStyle = _UI.colors.offwhite;
-		_UI.chareditctx.fillRect(0,0,99999,99999);
-
-		var zupm = (ps.upm * v.dz);
-		var gutter = ((_UI.chareditcanvassize*v.dz) - zupm)/2;
-		var zasc = (ps.ascent * v.dz);
-
-		// background white square
-		var xs = {};
-		xs.xmax = _UI.chareditcanvassize;
-		xs.xmin = 0;
-		xs.ymax = _UI.chareditcanvassize;
-		xs.ymin = 0;
-		//debug("GRID: zupm:" + zupm + " gutter:" + gutter + " zasc:" + zasc + " xs:" + JSON.stringify(xs));
-
-		_UI.chareditctx.fillStyle = "white";
-		_UI.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
-
-		// Grids
-		var mline = v.dy - (ps.ascent*v.dz);
-		var xline = v.dy - (ps.xheight*v.dz);
-		var dline = v.dy - ((ps.ascent - ps.upm)*v.dz);
-		var overshootsize = (ps.overshoot*v.dz);
-		var lgline = dline + overshootsize + (ps.linegap*v.dz);
-
-		//debug("GRID:\nascent / xheight / descent = "+ ps.ascent+ "/" + ps.xheight+ "/" + (ps.ascent-ps.upm));
-
-		if(_UI.showgrid || _UI.showguides){
+			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.chareditctx.lineWidth = 1;
 			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_grid;
+			//debug("GRID - gridsize set as: " + gsize);
 
-			if(_UI.showgrid){
-				var gsize = ((ps.upm/ps.griddivisions)*v.dz);
-				//debug("GRID - gridsize set as: " + gsize);
+			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i); }
+			vertical(xs.xmax+1);
+			for(var j=v.dx; j>=xs.xmin; j-=gsize){ vertical(j); }
 
-				for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i, xs.ymin, xs.ymax); }
-				vertical(xs.xmax+1, xs.ymin, xs.ymax);
-				for(var j=v.dx; j>=xs.xmin; j-=gsize){ vertical(j, xs.ymin, xs.ymax); }
+			for(var k=v.dy; k<xs.ymax-1; k+=gsize){ horizontal(k); }
+			horizontal(xs.ymax);
+			for(var p=v.dy; p>=xs.ymin; p-=gsize){ horizontal(p); }
 
-				for(var k=v.dy; k<xs.ymax-1; k+=gsize){ horizontal(k, xs.xmin, xs.xmax); }
-				horizontal(xs.ymax, xs.xmin, xs.xmax+1);
-				for(var p=v.dy; p>=xs.ymin; p-=gsize){ horizontal(p, xs.xmin, xs.xmax); }
-
+			function horizontal(y){
+				y = y.makeCrisp();
+				_UI.chareditctx.beginPath();
+				_UI.chareditctx.moveTo(xs.xmin,y);
+				_UI.chareditctx.lineTo(xs.xmax,y);
+				_UI.chareditctx.stroke();
+				_UI.chareditctx.closePath();
 			}
 
-			if(_UI.showguides){
-				// Minor Guidelines - Overshoots
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_os_guideline, 0.8, true);
-				horizontal(xline-overshootsize, xs.xmin, xs.xmax);
-				horizontal(mline-overshootsize, xs.xmin, xs.xmax);
-				horizontal(v.dy+overshootsize, xs.xmin, xs.xmax);
-				horizontal(dline+overshootsize, xs.xmin, xs.xmax);
-
-				// Right hand Em Square and Line Gap
-				//vertical(v.dx+(ps.upm*v.dz), xs.ymin, xs.ymax);
-				horizontal(lgline, xs.xmin, xs.xmax);
-
-				// Char Width
-				if(_UI.navhere == 'character edit'){
-					var sc = getSelectedChar();
-					vertical(v.dx - (v.dz*(sc.leftsidebearing || _GP.projectsettings.defaultlsb)), xs.xmin, xs.xmax);
-
-					var rhl = sc.advancewidth;
-					if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
-					vertical(v.dx + (v.dz*rhl), xs.xmin, xs.xmax);
-				}
-
-				// major guidelines - xheight, top (emzize)
-				_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_os_guideline, 0.5, true);
-				horizontal(xline, xs.xmin, xs.xmax);
-				//_UI.chareditctx.strokeStyle = shiftColor(_GP.projectsettings.color_os_guideline, .2, true);
-				horizontal(mline, xs.xmin, xs.xmax);
-				horizontal(dline, xs.xmin, xs.xmax);
-
-
-				// Out of bounds triangle
-				_UI.chareditctx.fillStyle = _GP.projectsettings.color_os_guideline;
+			function vertical(x){
+				x = x.makeCrisp();
 				_UI.chareditctx.beginPath();
-				_UI.chareditctx.moveTo(v.dx, v.dy);
-				_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
-				_UI.chareditctx.lineTo(v.dx-(_GP.projectsettings.pointsize*2), v.dy);
+				_UI.chareditctx.moveTo(x,xs.ymin);
+				_UI.chareditctx.lineTo(x,xs.ymax+1);
+				_UI.chareditctx.stroke();
 				_UI.chareditctx.closePath();
-				_UI.chareditctx.fill();
-
-				// Origin Lines
-				_UI.chareditctx.strokeStyle = _GP.projectsettings.color_os_guideline;
-				horizontal(v.dy, xs.xmin, xs.xmax);
-				vertical(v.dx, xs.ymin, xs.ymax);
 			}
 		}
 	}
 
-	function horizontal(y, xmin, xmax){
-		y = y.makeCrisp();
-		_UI.chareditctx.beginPath();
-		_UI.chareditctx.moveTo(xmin,y);
-		_UI.chareditctx.lineTo(xmax,y);
-		_UI.chareditctx.stroke();
-		_UI.chareditctx.closePath();
+	function drawGuides() {
+		if(_UI.showguides){
+			var g = _UI.guides;
+			var ps = _GP.projectsettings;
+
+			// Update system guides
+			g.xheight.location = ps.xheight;
+			g.capheight.location = ps.capheight;
+			g.ascent.location = ps.ascent;
+			// g.baseline.location = 0;
+			g.descent.location = (ps.ascent-ps.upm);
+			// g.leftside.location = 0;
+			// g.rightside.location = ps.upm;
+
+			// Minor Guidelines - Overshoots
+			if(_UI.showovershoots){
+				var os = ps.overshoot;
+				g.xheight.draw(-1*os);
+				g.ascent.draw(-1*os);
+				g.baseline.draw(os);
+				g.descent.draw(os);
+			}
+
+			// Char Width
+			if(_UI.navhere == 'character edit'){
+				g.leftside.draw(getSelectedCharLeftSideBearing()*-1);
+
+				var rhl = getSelectedChar().advancewidth*-1;
+				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
+				g.rightside.location = rhl;
+				g.rightside.draw();
+			}
+
+			// Major Guidelines
+			g.xheight.draw();
+			g.capheight.draw();
+			g.ascent.draw();
+			g.descent.draw();
+			g.leftside.draw();
+			g.baseline.draw();
+
+			// Out of bounds triangle
+			var v = getView('guides');
+			_UI.chareditctx.fillStyle = _GP.projectsettings.color_os_guideline;
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.moveTo(v.dx, v.dy);
+			_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
+			_UI.chareditctx.lineTo(v.dx-(_GP.projectsettings.pointsize*2), v.dy);
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.fill();
+		}
 	}
 
-	function vertical(x, ymin, ymax){
-		x = x.makeCrisp();
-		_UI.chareditctx.beginPath();
-		_UI.chareditctx.moveTo(x,ymin);
-		_UI.chareditctx.lineTo(x,ymax+1);
-		_UI.chareditctx.stroke();
-		_UI.chareditctx.closePath();
-	}
 // end of file

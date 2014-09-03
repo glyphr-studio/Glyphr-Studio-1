@@ -21,7 +21,7 @@
 			// Grid stuff
 			"upm": 1000,			// Units Per Em - (emsize) how tall normal cap letters are
 			"ascent": 700,			// ascender
-			"capheight": 600,		// capital letter height
+			"capheight": 675,		// capital letter height
 			"xheight": 400,			// lowercase letter height
 			"linegap": 250,			// distance between lines
 			"italicangle": 0,		// slant of characters, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)

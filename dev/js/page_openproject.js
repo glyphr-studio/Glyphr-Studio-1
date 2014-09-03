@@ -259,13 +259,24 @@
 
 
 	function finalizeGlyphrProject(){
-		// debug("FINALIZEGLYPHRPROJECT - start of function");
+		debug("finalizeGlyphrProject \t START");
+		// System Guidelines
+		var ps = _GP.projectsettings;
+		var lc = shiftColor(_GP.projectsettings.color_os_guideline, 0.6, true);
+		_UI.guides.xheight = new Guide({name:'xheight', type:'horizontal', location:ps.xheight, editable:false, color:lc});
+		_UI.guides.capheight = new Guide({name:'capheight', type:'horizontal', location:ps.capheight, editable:false, color:lc});
+		_UI.guides.ascent = new Guide({name:'ascent', type:'horizontal', location:ps.ascent, editable:false});
+		_UI.guides.baseline = new Guide({name:'baseline', type:'horizontal', location:0, editable:false});
+		_UI.guides.descent = new Guide({name:'descent', type:'horizontal', location:(ps.ascent-ps.upm), editable:false});
+
+		_UI.guides.leftside = new Guide({name:'leftside', type:'vertical', location:0, editable:false});
+		_UI.guides.rightside = new Guide({name:'rightside', type:'vertical', location:ps.upm, editable:false, color:lc});
+
+		// Edit Canvas Defaults
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
 
-		if(!isval(_GP.projectsettings.linkedshapecounter)){
-			_GP.projectsettings.linkedshapecounter = 0;
-		}
+		if(!isval(ps.linkedshapecounter)) ps.linkedshapecounter = 0;
 
 		_UI.shownlinkedshape = getFirstLinkedShapeID();
 

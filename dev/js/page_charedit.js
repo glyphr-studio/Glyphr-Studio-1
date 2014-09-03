@@ -79,6 +79,7 @@
 		var sc = getSelectedChar();
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 		drawGrid();
+		drawGuides();
 
 		// load char info
 		if(sc){

@@ -11,14 +11,14 @@
 		"navprimaryhere" : "npChooser",
 		"thisGlyphrStudioVersion" : "Beta 4 - 0.4.0.working",
 		"thisGlyphrStudioVersionNum" : "0.4.0",
-		"projectsaved": true,
-		"icons": {},
+		"projectsaved" : true,
+		"icons" : {},
 		"colors" : {
 			"accent" :		"rgb(0,170,225)",	// os accent base color
-			"accent_light": "rgb(165,222,240)",	// os accent base color light
-			"error":		"rgb(240,15,54)",	// os red warning color
-			"error_light":	"rgb(240,210,215)",	// os red warning color light
-			"error_dark":	"rgb(105,45,55)",	// os red warning color dark
+			"accent_light" :"rgb(165,222,240)",	// os accent base color light
+			"error" :		"rgb(240,15,54)",	// os red warning color
+			"error_light" :	"rgb(240,210,215)",	// os red warning color light
+			"error_dark" :	"rgb(105,45,55)",	// os red warning color dark
 			"offwhite" :	"rgb(250,252,255)",	// Off White
 			"g9" :			"rgb(229,234,239)",	// 90% gray  LIGHTER
 			"g8" :			"rgb(204,209,214)",	// 80% gray
@@ -32,9 +32,9 @@
 		},
 
 		// Internal Dev Stuff
-		"debug": true,		// global debug console switch
-		"devnav" : "import svg",	// navigate straight to a page
-		"loadsampleproject" : false,	// if sampleproject is present, load it and skip open project experience
+		"debug" : true,		// global debug console switch
+		"devnav" : "character edit",	// navigate straight to a page
+		"loadsampleproject" : true,	// if sampleproject is present, load it and skip open project experience
 
 		// Shared edit pages
 		"popout" : false,
@@ -42,11 +42,13 @@
 		"redrawing" : false,
 		"thumbsize" : 50,
 		"thumbgutter" : 5,
-		"showgrid" : true,		// display the grid
+		"showgrid" : true,			// display the grid
 		"showguides" : true,		// display guides
+		"showovershoots" : true,	// display overshoot guides
+		"guides" : {},
 		"clipboardshape" : false,
 		"chareditcanvas" : false,
-		"chareditcanvassize" : 2000,		// How big the viewport canvas is
+		"chareditcanvassize" : 2000,	// How big the viewport canvas is
 		"chareditctx" : false,
 		"ishereghostcanvas" : false,
 		"ishereghostctx" : false,
@@ -91,14 +93,14 @@
 		},
 
 		// page: import svg
-		"importsvg": {
+		"importsvg" : {
 			"scale" : false,
 			"move" : true,
 			"ascender" : false,
 			"descender" : false,
-			"overshoot_top": false,
-			"overshoot_bottom": false,
-			"svgcode": false
+			"overshoot_top" : false,
+			"overshoot_bottom" : false,
+			"svgcode" : false
 		}
 	};
 
