@@ -139,7 +139,7 @@
 	}
 
 	function makeLayout_PopIn(nap){
-		// debug("MAKELAYOUT_POPIN");
+		debug("\n makeLayout_PopIn - START");
 
 		var pil = '<div id="mainwrapper"></div>';
 		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
@@ -171,16 +171,26 @@
 		}
 
 		// pages with redraw() call make_NavPanels_PopIn
-		if(!(nh==="character edit" || nh==="linked shapes" || nh==="test drive" || nh==="kerning" || nh==="ligatures")){
+		if(onCanvasEditPage()){
+			document.getElementById("mainwrapper").style.overflowY = "hidden";
+		} else {
 			make_NavPanels_PopIn();
 			document.getElementById("mainwrapper").style.overflowY = "scroll";
-		} else {
-			document.getElementById("mainwrapper").style.overflowY = "hidden";
 		}
 	}
 
+	function onCanvasEditPage() {
+		var nh = _UI.navhere;
+		return ( nh==="character edit" ||
+					nh==="linked shapes" ||
+					nh==="test drive" ||
+					nh==="kerning" ||
+					nh==="ligatures");
+	}
+
 	function make_NavPanels_PopIn(){
-		//debug("make_NavPanels_PopIn - navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
+		debug("\n make_NavPanels_PopIn - START");
+		debug("\t navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		updateSaveIcon();
@@ -188,13 +198,10 @@
 		var nt = document.getElementById("navarea_panel");
 		nt.innerHTML = "";
 
-		if((_UI.navhere!=="character edit") &&
-			(_UI.navhere!=="linked shapes") &&
-			(_UI.navhere!=="test drive") &&
-			(_UI.navhere!=="import svg")) {
-				_UI.navprimaryhere = "npNav";
-				nt.innerHTML = makePanel_PageNav();
-				return;
+		if(!onCanvasEditPage()) {
+			_UI.navprimaryhere = "npNav";
+			nt.innerHTML = makePanel_PageNav();
+			return;
 		}
 
 		switch(_UI.navprimaryhere){
@@ -203,7 +210,10 @@
 					case "character edit": nt.innerHTML = makePanel_CharChooser('selectChar'); break;
 					case "import svg": nt.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
 					case "linked shapes": nt.innerHTML = makePanel_LinkedShapeChooser(); break;
-					case "ligatures": nt.innerHTML = makePanel_LigatureChooser(); break;
+					case "ligatures":
+						nt.innerHTML = makePanel_LigatureChooser();
+						debug('\t should have just made panel for ligature chooser')
+						break;
 					case "kerning": nt.innerHTML = makePanel_KernChooser(); break;
 				}
 				break;

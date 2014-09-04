@@ -11,6 +11,7 @@
 		this.charhtml = oa.charhtml || "ERROR_CHARHTML";
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
+		this.rightsidebearing = isval(oa.rightsidebearing)? oa.rightsidebearing : false;
 		this.advancewidth = isval(oa.advancewidth)? oa.advancewidth : 0;
 		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
 		this.maxes = oa.maxes || clone(_UI.mins);
@@ -192,6 +193,8 @@
 			}
 		}
 
+		if(sl.length === 0) re += 'M0,0Z';
+
 		re += '"/>';
 		re += '</g>';
 		re += '</svg>';
@@ -342,6 +345,7 @@
 	function getSelectedChar(){
 		//debug("GETSELECTEDCHAR");
 		if(_UI.navhere === 'linked shapes') return getChar(_UI.shownlinkedshape);
+		else if (_UI.navhere === 'ligatures') return getLigature(_UI.selectedchar);
 		else return getChar(_UI.selectedchar, true);
 	}
 

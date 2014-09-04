@@ -266,6 +266,7 @@ function saveTextFile(fname, fblob) {
 	function isval(val){
 		if(val === 0) return true;
 		else if (val === false) return true;
+		else if (JSON.stringify(val) === '{}') return false;
 		else return !!val;
 
 		//return ((typeof val !== "undefined") && (val !== null));

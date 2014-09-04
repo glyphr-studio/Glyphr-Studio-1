@@ -67,6 +67,8 @@
 // Redraw
 //-------------------
 	function redraw_CharacterEdit(){
+		debug('\n redraw_CharacterEdit - START');
+		
 		if(_UI.redrawing){
 			// this is totally a hack
 			//debug("REDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);

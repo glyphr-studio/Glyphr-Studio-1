@@ -259,7 +259,7 @@
 
 
 	function finalizeGlyphrProject(){
-		debug("finalizeGlyphrProject \t START");
+		debug("\nfinalizeGlyphrProject \t START");
 		// System Guidelines
 		var ps = _GP.projectsettings;
 		var lc = shiftColor(_GP.projectsettings.color_os_guideline, 0.6, true);
@@ -283,6 +283,14 @@
 		resetThumbView();
 
 		_UI.navhere = "character edit";
+
+		// Fake Content
+
+		if(!isval(_GP.ligatures)){
+			_GP.ligatures[''+charToHex('f')+charToHex('f')+charToHex('t')] = new Char({charname:'fft', charhtml:'fft'});
+		}
+
+		debug("finalizeGlyphrProject \t END\n");
 	}
 
 // end of file

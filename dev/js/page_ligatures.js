@@ -6,16 +6,19 @@
 
 	function loadPage_ligatures(){
 
-		// debug("LOADING PAGE >> loadPage_charedit");
+		// debug("LOADING PAGE >> ligatures");
+
 		getEditDocument().getElementById("mainwrapper").innerHTML = ligatures_content();
 
-		setupLigaturesEditCanvas();
+		setupEditCanvas();
+		setupGhostCanvas();
 
 		initEventHandlers();
 
 		_UI.selectedtool = "pathedit";
+		_UI.selectedchar = getFirstLigatureID();
 
-		redraw("loadPage_charedit");
+		redraw("loadPage_ligatures");
 	}
 
 	function ligatures_content(){
@@ -27,14 +30,50 @@
 		return re;
 	}
 
-	function setupLigaturesEditCanvas(){
-		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
-		_UI.chareditcanvas.height = _UI.chareditcanvassize;
-		_UI.chareditcanvas.width = _UI.chareditcanvassize;
-		_UI.chareditctx = _UI.chareditcanvas.getContext("2d");
-		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.chareditcanvas.onmouseout = mouseoutcec;
-		_UI.chareditcanvas.onmouseover = mouseovercec;
+
+//-----------------------
+// Char Paridy Functions
+//-----------------------
+	// GET
+	function getLigature(ch, create) {
+		debug('\ngetLigature - START');
+		ch = ''+ch;
+		debug("\t passed " + ch + " - force create? " + create);
+		var rechar = _GP.ligatures[ch];
+		debug("\t retrieved " + rechar + " from ligatures.");
+		
+		if(rechar){
+			return rechar;
+		} else if(create){
+			//debug("\t create was true, returning a new char.");
+			_GP.ligatures[ch] = new Char({"charname":makeLigatureName(ch), "charhtml":makeLigatureHTML(ch)});
+			
+			debug('getLigature - returning ' + _GP.ligatures[ch].charname + '\n');
+			return _GP.ligatures[ch];
+		}
+
+		debug('getLigature - returning false \n');
+		return false;
+	}
+
+	function makeLigatureName(ch) {
+		return 'fft';
+	}
+
+	function makeLigatureHTML(ch) {
+		return 'fft';
+	}
+
+	function getFirstLigatureID() {
+		for(var l in _GP.ligatures){
+			if(_GP.ligatures.hasOwnProperty(l)) {
+				debug('getFirstLigature - returning id for ' + _GP.ligatures[l].charname);
+				return l;
+			}
+		}
+
+		debug('getFirstLigature - returning false');
+		return false;
 	}
 
 // end of file

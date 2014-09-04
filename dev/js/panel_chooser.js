@@ -151,10 +151,52 @@
 // Ligature Chooser
 //-------------------
 	function makePanel_LigatureChooser(){
+		debug('\n makePanel_LigatureChooser - START');
+
 		var con = "<h1 class='paneltitle'>ligatures</h1>";
+		con += "<div class='subnavunit'>";
+		con += "<table class='layertable'>";
+		for(var lig in _GP.ligatures){
+			if(_GP.ligatures.hasOwnProperty(lig)){
+				//debug("makePanel_LigatureChooser - making button for " + lig);
+				con += makeLigatureChooserButton(lig);
+			}
+		}
+		con += "</table><br><br>";
+
+		con += "<h1 class='paneltitle'>actions</h1>";
+		con += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
+		// con += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
+		// con += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
+		// con += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.ligatures)>1? "": "buttondis")+"'>delete</button><br>";
+		con += "</td></tr></table>";
+
+		debug('makePanel_LigatureChooser - END\n');
 		return con;
 	}
 
+	function makeLigatureChooserButton(lig){
+		debug("makeLigatureChooserButton \t Start");
+		debug("\t passed lig:" + lig);
+
+		var re = "";
+		var ligchar = getLigature(lig);
+		debug('\t getChar for lig: ' );
+		debug(ligchar);
+
+		if(lig === _UI.shownlinkedshape){
+			re += "<tr class='layersel'";
+		} else {
+			re += "<tr class='layer'";
+		}
+		re += " onclick='selectShape(\"" + lig + "\");'>";
+		re += "<td class='layerthumb'>";
+		re += ligchar.makeSVG();
+		re += "</td>";
+		re += "<td class='layername'>" + ligchar.charname + "</td></tr>";
+
+		return re;
+	}
 
 
 //-------------------
