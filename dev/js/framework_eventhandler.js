@@ -668,7 +668,7 @@
 	}
 
 	function keyup(event){
-		if(!isOnEditPage()) return;
+		if(!onCanvasEditPage()) return;
 
 		var kc = getKeyFromEvent(event);
 		//debug("Key Up:\t\t" + kc + " from " + event.which);
@@ -685,7 +685,7 @@
 
 	function keypress(event){
 
-		if(!isOnEditPage()) return;
+		if(!onCanvasEditPage()) return;
 		if(event.type !== "keydown") return;
 
 		var s = ss("keypress event");
@@ -803,10 +803,6 @@
 			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 187:'plus', 189:'minus', 224:'meta'
 		};
 		return specialChars[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();
-	}
-
-	function isOnEditPage() {
-		return (_UI.navhere==='character edit' || _UI.navhere==='linked shapes');
 	}
 
 	function nudge(dx, dy) {

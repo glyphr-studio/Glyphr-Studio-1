@@ -27,12 +27,6 @@
 		if(this.pathpoints) this.calcMaxes();
 
 		//debug("Path() - created new path: " + this.pathpoints);
-
-		// if(_UI.pathdebugging){
-		// 	debug("\nX PATH RESULT");
-		// 	debug(this);
-		// 	debug(json(this));
-		// }
 	}
 
 
@@ -255,6 +249,8 @@
 
 	Path.prototype.makeSVGpathData = function(charname) {
 		charname = charname || 'not specified';
+		debug('\n Path.makeSVGpathData - START');
+		debug('\t Char ' + charname);
 		re = '';
 		var p1, p2;
 		var trr = "";
@@ -275,6 +271,8 @@
 		}
 
 		re += 'Z';
+		debug('\t returning: ' + re);
+		debug('Path.makeSVGpathData - END\n');
 		return re;
 	};
 

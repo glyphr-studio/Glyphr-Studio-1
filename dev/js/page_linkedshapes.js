@@ -2,26 +2,25 @@
 
 	function loadPage_linkedshapes(){
 		// debug("LOADING PAGE >> loadPage_linkedshapes");
+		
 		getEditDocument().getElementById("mainwrapper").innerHTML = linkedshapes_content();
-
 		setupEditCanvas();
-		setupGhostCanvas();
-
 		initEventHandlers();
-		document.onkeypress = keypress;
 
 		_UI.selectedshape = -1;
+		_UI.selectedtool = 'pathedit';
+
 		redraw_LinkedShapes("loadPage_linkedshapes");
 	}
 
 	function linkedshapes_content(){
 		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>'+
-			makeFloatLogo() +
 			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>'+
 			'<table class="charedittable" cellspacing=0 cellpadding=0 border=0><tr>'+
 			'<td id="detailsarea"> [ERROR: Uninitialized content] </td></tr>'+
 			'<tr><td id="actionsarea"> [ERROR: Uninitialized content] </td>'+
-			'</tr></table>';
+			'</tr></table>'+
+			makeFloatLogo();
 
 		return re;
 	}
@@ -33,12 +32,6 @@
 
 	function redraw_LinkedShapes(calledby){
 		//debug(Date.now()+"\t:: redraw_LinkedShapes Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);
-
-		if(_UI.redrawing){
-			// this is totally a hack
-			//debug("redraw_LinkedShapes - RETURNING because _UI.redrawing = " + _UI.redrawing);
-			return;
-		}
 
 		_UI.redrawing = true;
 
@@ -55,7 +48,9 @@
 		update_NavPanels();
 
 		update_ToolsArea();
+
 		_UI.redrawing = false;
+
 		//debug(Date.now()+"\t:: redraw_LinkedShapes DONE - Called By: " + calledby);
 	}
 

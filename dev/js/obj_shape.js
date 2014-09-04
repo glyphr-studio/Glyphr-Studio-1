@@ -418,7 +418,7 @@
 			newshape.name = ("Rectangle " + ((getSelectedCharShapes().length*1)+1));
 		}
 
-		if(_UI.navhere == "character edit") {
+		if(_UI.navhere == "character edit" || _UI.navhere === 'ligatures') {
 			_UI.selectedshape = getSelectedCharShapes().length;
 			_UI.navprimaryhere = 'npAttributes';
 		}
@@ -625,37 +625,6 @@
 		getEditDocument().body.style.cursor = "default";
 		return false;
 	};
-
-
-//	-------------------------
-//	Random Support Functions
-//	-------------------------
-	function ss(req){
-		//req? true : req="[probably a dynamically-generated page control]";
-		//debug("SS() - Requested by: " + req + " - CURRENT _UI.selectedshape = " + _UI.selectedshape);
-
-		if(_UI.navhere == "linked shapes"){
-			//debug("SS() - LINKEDSHAPE - Requested by: " + req + " - returning shownlinkedshape: " + _UI.shownlinkedshape);
-			return _GP.linkedshapes[_UI.shownlinkedshape].shape;
-		}
-
-		if(_UI.selectedshape != -1){
-			if((_UI.selectedshape >= 0)&&(_UI.selectedshape < getSelectedCharShapes().length)) {
-				// Charedit Selected Shape
-				//debug("SS() - CHAREDIT - returning shape object for position " + _UI.selectedshape);
-				return getSelectedCharShapes()[_UI.selectedshape];
-			} else {
-				// Out of bounds Selected Shape
-				//debug("SS() - Selected Shape outside of expected boundary. _UI.selectedshape: " + _UI.selectedshape);
-				_UI.selectedshape = -1;
-				return false;
-			}
-		} else {
-			// -1 = "no shape selected"
-			//debug("SS() - setting _UI.selectedshape = -1, returning false");
-			return false;
-		}
-	}
 
 	Shape.prototype.changeShapeName = function(sn){
 		sn = strSan(sn);

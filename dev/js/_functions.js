@@ -8,8 +8,14 @@
 		//console.clear();
 		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
 		//debug("MAIN SETUP() - START");
-		insertGlobalDOMElements();
 
+		// Initialize Stuff
+		insertGlobalDOMElements();
+		setupEditCanvas();
+		setupGhostCanvas();
+		initEventHandlers();
+
+		// Navigate
 		if(_UI.devnav){
 			debug(">>> DEV NAV - to " + _UI.devnav);
 
@@ -26,6 +32,7 @@
 		}
 
 		navigate();
+		
 		//debug("MAIN SETUP() - END");
 	};
 
@@ -42,10 +49,12 @@
 
 
 		var ihgc = '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
+		var cec = '<canvas id="chareditcanvas" height=10 width=10 ></canvas>';
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += ihgc;
+		document.body.innerHTML += cec;
 
 
 		window.onbeforeunload = function() {
@@ -260,6 +269,14 @@ function saveTextFile(fname, fblob) {
 	// removes illegal file name chars
 	function strSan(val){
 		return val.replace(/[<>'"\\]/g,"");
+	}
+
+	// removes begining and trailing whitespace, and any breaking or tab chars
+	function trim(text) {
+		try { 
+			text = text.replace(/^\s+|\s+$/g, '');
+			return text.replace(/(\r\n|\n|\r|\t)/gm, '');
+		} catch(e) { return ''; }
 	}
 
 	// returns true for 0 and false

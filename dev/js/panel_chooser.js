@@ -165,10 +165,9 @@
 		con += "</table><br><br>";
 
 		con += "<h1 class='paneltitle'>actions</h1>";
-		con += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
-		// con += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
-		// con += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
-		// con += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.ligatures)>1? "": "buttondis")+"'>delete</button><br>";
+		con += "<table class='actionsgrid'><tr><td colspan=3><h3>shape</h3>";
+		con += "<button onclick=''>create new</button><br>";
+		//con += "<button onclick='addLigature();putundoq(\"Create New Ligature Shape\");navigate();'>create new</button><br>";
 		con += "</td></tr></table>";
 
 		debug('makePanel_LigatureChooser - END\n');
@@ -184,6 +183,9 @@
 		debug('\t getChar for lig: ' );
 		debug(ligchar);
 
+		var ligsvg = ligchar.makeSVG();
+		debug('\t SVG: ' + ligsvg);
+
 		if(lig === _UI.shownlinkedshape){
 			re += "<tr class='layersel'";
 		} else {
@@ -191,7 +193,7 @@
 		}
 		re += " onclick='selectShape(\"" + lig + "\");'>";
 		re += "<td class='layerthumb'>";
-		re += ligchar.makeSVG();
+		re += ligsvg;
 		re += "</td>";
 		re += "<td class='layername'>" + ligchar.charname + "</td></tr>";
 

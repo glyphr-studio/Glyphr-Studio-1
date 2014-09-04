@@ -119,7 +119,7 @@
 		if(_UI.navhere === "test drive"){
 			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
 		} else {
-			document.getElementById('popout_attributes').innerHTML = makePanel_Attributes();
+			document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
 		}
 
 		updateSaveIcon();
@@ -222,10 +222,10 @@
 				switch (_UI.navhere){
 					case "character edit":
 					case "linked shapes":
-						nt.innerHTML = makePanel_Attributes();
+						nt.innerHTML = makePanel_CharAttributes();
 						nt.innerHTML += makePanel_Actions();
 					break;
-					case "ligatures": nt.innerHTML = makePanel_LigatureAttributes(); break;
+					case "ligatures": nt.innerHTML = makePanel_CharAttributes(); break;
 					case "kerning": nt.innerHTML = makePanel_KerningAttributes(); break;
 					case "test drive": nt.innerHTML = makePanel_TestDriveAttributes(); break;
 				}

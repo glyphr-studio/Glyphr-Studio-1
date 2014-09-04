@@ -542,13 +542,6 @@
 
 			return result;
 		}
-
-		function trim(text) {
-			try { 
-				text = text.replace(/^\s+|\s+$/g, '');
-				return text.replace(/(\r\n|\n|\r|\t)/gm,"");
-			} catch(e) { return ''; }
-		}
 	}
 
 // end of file

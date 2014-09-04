@@ -5,78 +5,33 @@
 //-------------------
 
 	function loadPage_charedit(){
-
 		// debug("LOADING PAGE >> loadPage_charedit");
+
 		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
-
 		setupEditCanvas();
-		setupGhostCanvas();
-
 		initEventHandlers();
 
 		_UI.selectedtool = "pathedit";
-
-		// DIFF FOR SANDBOX
-		// if(_UI.sampleprojectfirstrun){
-		//	selectChar("0x0067", true);
-		//	_UI.selectedshape = 3;
-		//	getChar("0x0067").charshapes[3].path.selectPathPoint(1);
-		//	_UI.sampleprojectfirstrun = false;
-		// } else {
 		_UI.selectedshape = -1;
+		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstCharID();
 
 		redraw("loadPage_charedit");
 	}
 
 	function charedit_content(){
-
-		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>'+
-			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>'+
+		return '<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
+			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>' + 
 			makeFloatLogo();
-
-		return re;
 	}
-
-	function setupGhostCanvas(){
-
-		//Is Here Ghost Canvas - same size as CEC
-		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
-		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
-		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
-		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
-		_UI.ishereghostctx.fillStyle = "cyan";
-		_UI.ishereghostctx.globalAlpha = 0.5;
-		_UI.ishereghostcanvas.style.backgroundColor = "transparent";
-	}
-
-	function setupEditCanvas(){
-
-		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
-		_UI.chareditcanvas.height = _UI.chareditcanvassize;
-		_UI.chareditcanvas.width = _UI.chareditcanvassize;
-		_UI.chareditctx = _UI.chareditcanvas.getContext("2d");
-		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.chareditcanvas.onmouseout = mouseoutcec;
-		_UI.chareditcanvas.onmouseover = mouseovercec;
-	}
-
-	function resetCursor() { getEditDocument().body.style.cursor = 'default'; }
 
 
 //-------------------
 // Redraw
 //-------------------
 	function redraw_CharacterEdit(){
-		debug('\n redraw_CharacterEdit - START');
-		
-		if(_UI.redrawing){
-			// this is totally a hack
-			//debug("REDRAW - RETURNING because _UI.redrawing = " + _UI.redrawing);
-			return;
-		}
+		// debug('\n redraw_CharacterEdit - START');
 
 		_UI.redrawing = true;
-
 
 		var sc = getSelectedChar();
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
@@ -130,7 +85,7 @@
 
 
 		// Pop In/Out
-		if(_UI.navhere === "character edit"){
+		if(_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
 			if(_UI.popout){
 				content += "<button title='one screen mode' class='tool' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
 			} else {
@@ -151,7 +106,7 @@
 
 
 		// New Shape
-		if(_UI.navhere == "character edit"){
+		if(_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
 			content += "<button title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
 			content += "<button title='new oval shape' class='" + (st==='newoval'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newoval\");'/>"+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+"</button>";
 			content += "<button title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";

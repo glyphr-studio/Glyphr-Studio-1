@@ -1,23 +1,59 @@
 // start of file
 
+//-------------------
+// INIT
+//-------------------
+	function setupGhostCanvas(){
+		//Is Here Ghost Canvas - same size as CEC
+		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
+		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
+		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
+		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
+		_UI.ishereghostctx.fillStyle = "cyan";
+		_UI.ishereghostctx.globalAlpha = 0.5;
+		_UI.ishereghostcanvas.style.backgroundColor = "transparent";
+	}
+
+	function setupEditCanvas(){
+		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
+		_UI.chareditcanvas.height = _UI.chareditcanvassize;
+		_UI.chareditcanvas.width = _UI.chareditcanvassize;
+		_UI.chareditctx = _UI.chareditcanvas.getContext("2d");
+		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
+		_UI.chareditcanvas.onmouseout = mouseoutcec;
+		_UI.chareditcanvas.onmouseover = mouseovercec;
+	}
+
+	function resetCursor() { getEditDocument().body.style.cursor = 'default'; }
+
 
 //-------------------
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		//debug(Date.now()+"\t:: REDRAW - Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);
-		
+		// debug("\n::::::::::::::::::::::\n REDRAW \t START");
+		// debug("\t Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);
+		var start = Date.now();
+
+		if(_UI.redrawing){
+			// this is totally a hack
+			// debug("\t RETURNING because _UI.redrawing = " + _UI.redrawing);
+			return;
+		}
+
 		_UI.redrawing = false;
 		
 		switch (_UI.navhere){
 			case "character edit": redraw_CharacterEdit(); break;
-			case "linked shapes": redraw_LinkedShapes("redraw"); break;
+			case "linked shapes": redraw_LinkedShapes(); break;
 			case "ligatures": redraw_CharacterEdit(); break;
 			case "kerning": redraw_Kerning(); break;
 			case "test drive": redraw_TestDrive(); break;
 		}
 
-		//debug(Date.now()+"\t:: REDRAW DONE - Called By: " + calledby);
+		_UI.redrawing = false;
+		
+		// debug(" REDRAW DONE\t" + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
 	}
 
 
@@ -85,6 +121,44 @@
 		};
 
 		//debug("RESETTHUMBVIEW - set to \n" + JSON.stringify(_UI.thumbview));
+	}
+
+
+
+//	-------------------------
+//	Global Get Selected Shape
+//	-------------------------
+	function ss(req){
+		//req? true : req="[probably a dynamically-generated page control]";
+		//debug("SS() - Requested by: " + req + " - CURRENT _UI.selectedshape = " + _UI.selectedshape);
+
+		if(_UI.navhere === 'linked shapes'){
+			//debug("SS() - LINKEDSHAPE - Requested by: " + req + " - returning shownlinkedshape: " + _UI.shownlinkedshape);
+			return _GP.linkedshapes[_UI.shownlinkedshape].shape;
+		}
+
+		var charshapes = [];
+
+		if(_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
+			charshapes = getSelectedCharShapes();
+		}
+
+		if(_UI.selectedshape != -1){
+			if((_UI.selectedshape >= 0) && (_UI.selectedshape < charshapes.length)) {
+				// Charedit Selected Shape
+				//debug("SS() - CHAREDIT - returning shape object for position " + _UI.selectedshape);
+				return charshapes[_UI.selectedshape];
+			} else {
+				// Out of bounds Selected Shape
+				//debug("SS() - Selected Shape outside of expected boundary. _UI.selectedshape: " + _UI.selectedshape);
+				_UI.selectedshape = -1;
+				return false;
+			}
+		} else {
+			// -1 = "no shape selected"
+			//debug("SS() - setting _UI.selectedshape = -1, returning false");
+			return false;
+		}
 	}
 
 

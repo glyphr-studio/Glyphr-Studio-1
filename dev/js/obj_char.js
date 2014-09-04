@@ -156,6 +156,7 @@
 	};
 
 	Char.prototype.makeSVG = function(size, gutter) {
+		// debug('\n Char.makeSVG - START');
 		size = size || _UI.thumbsize;
 		gutter = gutter || _UI.thumbgutter;
 		var upm = _GP.projectsettings.upm;
@@ -164,40 +165,49 @@
 		var gutterscale = (gutter / size) * upm;
 		var vbsize = upm - (gutter*2);
 		var sl = this.charshapes;
+		var pathdata = '';
+
+		// debug('\t sl.length = ' + sl.length);
+
+		// Make Pathdata
+		for(var j=0; j<sl.length; j++) {
+			sh = sl[j];
+			// debug('\t loop ' + j);
+			if(sh.visible) {
+				// debug('\t\t is visible');
+				if(sh.link){
+					if(sh.uselinkedshapexy){
+						sh = _GP.linkedshapes[sh.link].shape;
+						//debug("\t uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
+					} else {
+						var ns = clone(_GP.linkedshapes[sh.link].shape);
+						//debug("\t !uselinkedshapexy, shape before\n" + JSON.stringify(ns));
+						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
+						//debug("\t !uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
+						sh = ns;
+					}
+				}
+				//debug("\t making SVG of char " + this.charname);
+				pathdata += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
+				if(j < sl.length-1) pathdata += '\n';
+			}
+		}
+		if(trim(pathdata) === '') pathdata = 'M0,0Z';
+
+		// debug('\t pathdata = ' + pathdata);
+
+		// Assemble SVG
 		var re = '<svg version="1.1" ';
 		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
 		re += 'width="'+size+'" height="'+size+'" viewBox="0,0,'+vbsize+','+vbsize+'">';
 		re += '<g transform="translate('+(gutterscale)+','+(upm-desc-(gutterscale/2))+') scale('+charscale+',-'+charscale+')">';
 		// re += '<rect x="0" y="-'+desc+'" height="'+desc+'" width="1000" fill="lime"/>';
 		// re += '<rect x="0" y="0" height="'+(upm-desc)+'" width="1000" fill="cyan"/>';
-		re += '<path d="';
-
-		for(var j=0; j<sl.length; j++) {
-			sh = sl[j];
-			if(sh.visible) {
-				if(sh.link){
-					if(sh.uselinkedshapexy){
-						sh = _GP.linkedshapes[sh.link].shape;
-						//debug("DRAWCHARTOAREA - uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
-					} else {
-						var ns = clone(_GP.linkedshapes[sh.link].shape);
-						//debug("DRAWCHARTOAREA - !uselinkedshapexy, shape before\n" + JSON.stringify(ns));
-						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						//debug("DRAWCHARTOAREA - !uselinkedshapexy, shape afters\n" + JSON.stringify(sh));
-						sh = ns;
-					}
-				}
-				//debug("DRAWCHARTOAREA - drawing path of char " + this.charname);
-				re += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
-				if(j < sl.length-1) re += '\n';
-			}
-		}
-
-		if(sl.length === 0) re += 'M0,0Z';
-
-		re += '"/>';
+		re += '<path d="' + pathdata + '"/>';
 		re += '</g>';
 		re += '</svg>';
+
+		// debug(' Char.makeSVG - END\n');
 
 		return re;
 	};
@@ -339,6 +349,20 @@
 			var re = _UI.unicodenames[ch];
 			return re || "[not a character]";
 		}
+	}
+
+	function getFirstCharID() {
+		if(_GP.fontchars['0x0041']) return '0x0041';
+
+		for(var l in _GP.fontchars){
+			if(_GP.fontchars.hasOwnProperty(l)) {
+				// debug('getFirstCharID - returning id for ' + _GP.fontchars[l].charname);
+				return l;
+			}
+		}
+
+		// debug('getFirstCharID - returning false');
+		return false;
 	}
 
 	// GET SELECTED
