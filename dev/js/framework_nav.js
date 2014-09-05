@@ -139,7 +139,7 @@
 	}
 
 	function makeLayout_PopIn(nap){
-		debug("\n makeLayout_PopIn - START");
+		// debug("\n makeLayout_PopIn - START");
 
 		var pil = '<div id="mainwrapper"></div>';
 		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
@@ -189,8 +189,8 @@
 	}
 
 	function make_NavPanels_PopIn(){
-		debug("\n make_NavPanels_PopIn - START");
-		debug("\t navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
+		// debug("\n make_NavPanels_PopIn - START");
+		// debug("\t navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
 
 		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
 		updateSaveIcon();

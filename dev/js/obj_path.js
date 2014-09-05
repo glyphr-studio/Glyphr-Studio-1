@@ -249,8 +249,8 @@
 
 	Path.prototype.makeSVGpathData = function(charname) {
 		charname = charname || 'not specified';
-		debug('\n Path.makeSVGpathData - START');
-		debug('\t Char ' + charname);
+		// debug('\n Path.makeSVGpathData - START');
+		// debug('\t Char ' + charname);
 		re = '';
 		var p1, p2;
 		var trr = "";
@@ -271,8 +271,8 @@
 		}
 
 		re += 'Z';
-		debug('\t returning: ' + re);
-		debug('Path.makeSVGpathData - END\n');
+		// debug('\t returning: ' + re);
+		// debug('Path.makeSVGpathData - END\n');
 		return re;
 	};
 

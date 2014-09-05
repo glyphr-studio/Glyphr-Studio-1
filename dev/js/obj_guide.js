@@ -25,6 +25,8 @@
 		var v = getView("guide");
 		var start = {x:0, y:0};
 		var end = {x:0, y:0};
+		var label = {x:0, y:0};
+		var pad = 2;
 		var pos;
 
 		// debug('\t view: ' + JSON.stringify(v));
@@ -37,6 +39,8 @@
 			start.y = pos;
 			end.x = cansize;
 			end.y = pos;
+			label.x = 25;
+			label.y = pos - pad;
 		} else if (this.type === 'vertical'){
 			pos = (v.dx - (this.location*v.dz)).makeCrisp();
 			if(delta) pos += (delta*v.dz);
@@ -44,10 +48,12 @@
 			start.y = 0;
 			end.x = pos;
 			end.y = cansize;
+			label.x = pos + pad;
+			label.y = 15;
 		}
 
+		// Draw Line
 		// debug('\t start: ' + JSON.stringify(start) + ' / end: ' + JSON.stringify(end));
-
 		ctx.strokeStyle = this.color;
 		if(delta) ctx.strokeStyle = shiftColor(this.color, 0.6, true);
 		ctx.beginPath();
@@ -55,6 +61,14 @@
 		ctx.lineTo(end.x, end.y);
 		ctx.stroke();
 		ctx.closePath();
+
+		// Draw Label
+		if(!delta){
+			_UI.chareditctx.fillStyle = this.color;
+			_UI.chareditctx.font = '10px tahoma, verdana, sans-serif';
+			_UI.chareditctx.fillText(this.name, label.x, label.y);
+		}
+
 		// debug('Guide.draw \t END\n');
 	};
 

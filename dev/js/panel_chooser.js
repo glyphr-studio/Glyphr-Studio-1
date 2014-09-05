@@ -151,7 +151,7 @@
 // Ligature Chooser
 //-------------------
 	function makePanel_LigatureChooser(){
-		debug('\n makePanel_LigatureChooser - START');
+		// debug('\n makePanel_LigatureChooser - START');
 
 		var con = "<h1 class='paneltitle'>ligatures</h1>";
 		con += "<div class='subnavunit'>";
@@ -170,21 +170,21 @@
 		//con += "<button onclick='addLigature();putundoq(\"Create New Ligature Shape\");navigate();'>create new</button><br>";
 		con += "</td></tr></table>";
 
-		debug('makePanel_LigatureChooser - END\n');
+		// debug('makePanel_LigatureChooser - END\n');
 		return con;
 	}
 
 	function makeLigatureChooserButton(lig){
-		debug("makeLigatureChooserButton \t Start");
-		debug("\t passed lig:" + lig);
+		// debug("makeLigatureChooserButton \t Start");
+		// debug("\t passed lig:" + lig);
 
 		var re = "";
 		var ligchar = getLigature(lig);
-		debug('\t getChar for lig: ' );
-		debug(ligchar);
+		// debug('\t getChar for lig: ' );
+		// debug(ligchar);
 
 		var ligsvg = ligchar.makeSVG();
-		debug('\t SVG: ' + ligsvg);
+		// debug('\t SVG: ' + ligsvg);
 
 		if(lig === _UI.shownlinkedshape){
 			re += "<tr class='layersel'";

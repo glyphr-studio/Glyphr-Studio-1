@@ -261,7 +261,7 @@
 
 			// Out of bounds triangle
 			var v = getView('guides');
-			_UI.chareditctx.fillStyle = _GP.projectsettings.color_os_guideline;
+			_UI.chareditctx.fillStyle = shiftColor(_GP.projectsettings.color_os_guideline, 0.4, false);
 			_UI.chareditctx.beginPath();
 			_UI.chareditctx.moveTo(v.dx, v.dy);
 			_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));

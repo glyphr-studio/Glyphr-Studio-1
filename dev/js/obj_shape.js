@@ -24,11 +24,6 @@
 		this.uselinkedshapexy = false;
 
 		//debug("Just created a SHAPE: " + JSON.stringify(this));
-
-		// if(_UI.pathdebugging){
-		//	debug("X SHAPE RESULT");
-		//	debug(this);
-		// }
 	}
 
 
