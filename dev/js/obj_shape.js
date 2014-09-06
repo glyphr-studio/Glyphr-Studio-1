@@ -44,7 +44,7 @@
 		//this.checkPath();
 
 		if(this.visible){
-			lctx.fillStyle = _GP.projectsettings.color.glyphfill;
+			lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
 			if(lctx == _UI.ishereghostctx) { lctx.fillStyle = "rgba(0,0,255,0.2)"; }
 
 			// Draw the appropriate stuff for each shape's fill & border
@@ -74,7 +74,7 @@
 		//debug("DRAWSHAPETOAREA");
 		if(this.visible){
 			//debug("drawShapeToArea for shape: " + this.name + " view=" + JSON.stringify(view));
-			lctx.fillStyle = _GP.projectsettings.color.glyphfill;
+			lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
 			lctx.beginPath();
 			this.path.drawPathToArea(lctx, view);
 			lctx.closePath();

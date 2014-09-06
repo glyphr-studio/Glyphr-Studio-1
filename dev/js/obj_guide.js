@@ -11,7 +11,7 @@
 		this.name = oa.name || (this.type + ' guide');
 		this.location = oa.location || 0;
 		this.angle = oa.angle || false;
-		this.color = oa.color || _GP.projectsettings.color.guideline_med;
+		this.color = oa.color || _GP.projectsettings.colors.guide_med;
 		this.editable = oa.editable || true;
 		this.visible = isval(oa.visible)? oa.visible : true;
 	}

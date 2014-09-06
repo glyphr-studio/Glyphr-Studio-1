@@ -191,7 +191,7 @@
 
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _GP.projectsettings.color.grid;
+			_UI.chareditctx.strokeStyle = _GP.projectsettings.colors.grid || ((new GlyphrProject()).projectsettings.colors.grid);
 			//debug("GRID - gridsize set as: " + gsize);
 
 			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i); }
@@ -224,44 +224,43 @@
 
 	function drawGuides() {
 		if(_UI.showguides){
-			var g = _UI.guides;
 			var ps = _GP.projectsettings;
 
 			// Update system guides
-			g.xheight.location = ps.xheight;
-			g.capheight.location = ps.capheight;
-			g.ascent.location = ps.ascent;
+			// g.xheight.location = ps.xheight;
+			// g.capheight.location = ps.capheight;
+			// g.ascent.location = ps.ascent;
 			// g.baseline.location = 0;
-			g.descent.location = (ps.ascent-ps.upm);
+			// g.descent.location = (ps.ascent-ps.upm);
 			// g.leftside.location = 0;
 			// g.rightside.location = ps.upm;
 
 			// Minor Guidelines - Overshoots
 			if(_UI.showovershoots){
 				var os = ps.overshoot;
-				g.xheight.draw(-1*os);
-				g.ascent.draw(-1*os);
-				g.baseline.draw(os);
-				g.descent.draw(os);
+				ps.guides.xheight.draw(-1*os);
+				ps.guides.ascent.draw(-1*os);
+				ps.guides.baseline.draw(os);
+				ps.guides.descent.draw(os);
 			}
 
 			// Char Width
 			if(_UI.navhere == 'character edit'){
-				g.leftside.draw(getSelectedCharLeftSideBearing()*-1);
+				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
 				var rhl = getSelectedChar().advancewidth*-1;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
-				g.rightside.location = rhl;
-				g.rightside.draw();
+				ps.guides.rightside.location = rhl;
+				ps.guides.rightside.draw();
 			}
 
 			// Major Guidelines
-			g.xheight.draw();
-			g.capheight.draw();
-			g.ascent.draw();
-			g.descent.draw();
-			g.leftside.draw();
-			g.baseline.draw();
+			ps.guides.xheight.draw();
+			ps.guides.capheight.draw();
+			ps.guides.ascent.draw();
+			ps.guides.descent.draw();
+			ps.guides.leftside.draw();
+			ps.guides.baseline.draw();
 
 			// Out of bounds triangle
 			var v = getView('guides');

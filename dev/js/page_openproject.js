@@ -176,14 +176,24 @@
 	}
 
 	function hydrateGlyphrProject(data) {
-		// debug("\nHDRYATEGLYPHRPROJECT: PASSED");
-		// debug(data);
+		debug("\n hydrateGlyphrProject - START");
+		debug("\t passed: ");
+		debug(data);
 
 		_GP = new GlyphrProject();
 		var oggp = new GlyphrProject();
 
 		// Project Settings
 		if(data.projectsettings) _GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
+
+		// Guides
+		for (var g in data.projectsettings.guides) {
+			if(data.projectsettings.guides.hasOwnProperty(g)){
+				_GP.projectsettings.guides[g] = new Guide(data.projectsettings.guides[g]);
+			} else {
+				_GP.projectsettings.guides[g] = new Guide(_GP.projectsettings.guides[g]);
+			}
+		}
 
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
@@ -215,31 +225,29 @@
 			}
 		}
 
-		// Guidelines
-		var ps = _GP.projectsettings;
-		_UI.guides.baseline = new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color:oggp.projectsettings.color.guideline_dark});
-		_UI.guides.leftside = new Guide({name:'leftside', type:'vertical', location:0, editable:false, color:oggp.projectsettings.color.guideline_dark});
-		_UI.guides.ascent = new Guide({name:'ascent', type:'horizontal', location:oggp.projectsettings.ascent, editable:false, color:oggp.projectsettings.color.guideline_med});
-		_UI.guides.descent = new Guide({name:'descent', type:'horizontal', location:(oggp.projectsettings.ascent-oggp.projectsettings.upm), editable:false, color:oggp.projectsettings.color.guideline_med});
-		_UI.guides.rightside = new Guide({name:'rightside', type:'vertical', location:oggp.projectsettings.upm, editable:false, color:oggp.projectsettings.color.guideline_light});
-		_UI.guides.xheight = new Guide({name:'xheight', type:'horizontal', location:oggp.projectsettings.xheight, editable:false, color:oggp.projectsettings.color.guideline_light});
-		_UI.guides.capheight = new Guide({name:'capheight', type:'horizontal', location:oggp.projectsettings.capheight, editable:false, color:oggp.projectsettings.color.guideline_light});
-		
-		// debug("\nHDRYATEGLYPHRPROJECT: HYDRATED");
-		// debug(_GP);
+		debug('\t hydrated: ');
+		debug(_GP);
+		debug("hydrateGlyphrProject - END\n");
 
 		finalizeGlyphrProject();
 		//navigate();
 	}
 
-	function merge(re, im) {
-		for(var a in re){
-			if(re.hasOwnProperty(a)){
-				if(im[a]) re[a] = im[a];
+	// Takes a template object of expected keys and default values
+	// and an object to import, and overwites template values if
+	// they exist in the imported object
+	function merge(template, importing) {
+		for(var a in template){
+			if(template.hasOwnProperty(a)){
+				if(typeof template[a] === 'object'){
+					if(importing.hasOwnProperty(a)) template[a] = merge(template[a], importing[a]);
+				} else {
+					if(importing.hasOwnProperty(a)) template[a] = importing[a];
+				}
 			}
 		}
 
-		return re;
+		return template;
 	}
 
 	function handleDragOver(evt) {

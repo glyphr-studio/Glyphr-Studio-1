@@ -11,7 +11,7 @@
 			'linkedshapecounter': 0,	// private counter for ss id
 
 			// Font Metrics
-			'name': 'My Font',			// project name (can be different than font names)
+			'name': 'My Font',		// project name (can be different than font names)
 			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are
 			'ascent': 700,			// ascender
 			'capheight': 675,		// capital letter height
@@ -39,16 +39,16 @@
 			'formatsavefile': true,			// makes the JSON save file readable
 			'showoutline': false,			// outline shapes when drawing
 			'showfill': true,				// fill shapes when drawing
-			'guidelines': [],				// user-defined guidelines
+			'guides': {},					// user-defined guidelines
 			'snaptogrid': false,			// snap to gridlines
 			'snaptoguides': false,			// snap to guidelines
-			'color': {
-				'glyphfill': 'rgb(0,0,0)',				// shape base color
-				'glyphoutline': 'rgb(0,0,0)',			// shape outline color
-				'grid': 'rgb(240,240,240)',				// grid base color
-				'guideline_dark': 'rgb(204,40,0)',		// Dark OS Guideline
-				'guideline_med': 'rgb(255,91,51)',		// Medium OS Guideline
-				'guideline_light': 'rgb(255,173,153)',	// Light OS Guideline
+			'colors': {
+				'glyphfill': 'rgb(0,0,0)',			// shape base color
+				'glyphoutline': 'rgb(0,0,0)',		// shape outline color
+				'grid': 'rgb(230,230,230)',			// grid base color
+				'guide_dark': 'rgb(204,81,0)',		// Dark OS Guideline
+				'guide_med': 'rgb(255,132,51)',		// Medium OS Guideline
+				'guide_light': 'rgb(255,193,153)',	// Light OS Guideline
 			}
 		};
 
@@ -86,6 +86,16 @@
 			'strikethrough_thickness': 10,
 			'overline_position': 750,
 			'overline_thickness': 10
+		};
+
+		this.projectsettings.guides = {
+			'baseline': {name:'baseline', type:'horizontal', location:0, editable:false, color:this.projectsettings.colors.guide_dark},
+			'leftside': {name:'leftside', type:'vertical', location:0, editable:false, color:this.projectsettings.colors.guide_dark},
+			'ascent': {name:'ascent', type:'horizontal', location:this.projectsettings.ascent, editable:false, color:this.projectsettings.colors.guide_med},
+			'descent': {name:'descent', type:'horizontal', location:(this.projectsettings.ascent-this.projectsettings.upm), editable:false, color:this.projectsettings.colors.guide_med},
+			'rightside': {name:'rightside', type:'vertical', location:this.projectsettings.upm, editable:false, color:this.projectsettings.colors.guide_light},
+			'xheight': {name:'xheight', type:'horizontal', location:this.projectsettings.xheight, editable:false, color:this.projectsettings.colors.guide_light},
+			'capheight': {name:'capheight', type:'horizontal', location:this.projectsettings.capheight, editable:false, color:this.projectsettings.colors.guide_light}
 		};
 
 		this.fontchars = {};

@@ -148,7 +148,7 @@
 				sh.path.drawPathToArea(lctx, view);
 			}
 		}
-		lctx.fillStyle = _GP.projectsettings.color.glyphfill;
+		lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
 		lctx.closePath();
 		lctx.fill("nonzero");
 

@@ -45,7 +45,6 @@
 		'showgrid': true,		// display the grid
 		'showguides': true,		// display guides
 		'showovershoots': true,	// display overshoot guides
-		'guides': {},
 		'clipboardshape': false,
 		'chareditcanvas': false,
 		'chareditcanvassize': 2000,	// How big the viewport canvas is
@@ -109,7 +108,6 @@
 	_UI.colors.button_disabled = _UI.colors.g4;
 	_UI.colors.button_resting = _UI.colors.g8;
 	_UI.colors.button_selected = _UI.colors.accent;
-
 
 //------------------------------
 // GLOBAL PROJECT VARIABLES
