@@ -32,17 +32,17 @@
 		},
 
 		// Internal Dev Stuff
-		'debug': true,		// global debug console switch
+		'debug': true,			// global debug console switch
 		'devnav': 'ligatures',	// navigate straight to a page
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 
-		// Shared edit pages
+		// Shared edit pages 
 		'popout': false,
 		'selectedtool': 'pathedit',	// pathedit, shaperesize, pantool, newrect, newoval, newpath
 		'redrawing': false,
 		'thumbsize': 50,
 		'thumbgutter': 5,
-		'showgrid': true,			// display the grid
+		'showgrid': true,		// display the grid
 		'showguides': true,		// display guides
 		'showovershoots': true,	// display overshoot guides
 		'guides': {},

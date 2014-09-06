@@ -180,6 +180,7 @@
 		// debug(data);
 
 		_GP = new GlyphrProject();
+		var oggp = new GlyphrProject();
 
 		// Project Settings
 		if(data.projectsettings) _GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
@@ -207,6 +208,23 @@
 			}
 		}
 
+		// Ligatures
+		for (var lig in data.ligatures) {
+			if(data.ligatures.hasOwnProperty(lig)){
+				_GP.ligatures[lig] = new Char(data.ligatures[lig]);
+			}
+		}
+
+		// Guidelines
+		var ps = _GP.projectsettings;
+		_UI.guides.baseline = new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color:oggp.projectsettings.color.guideline_dark});
+		_UI.guides.leftside = new Guide({name:'leftside', type:'vertical', location:0, editable:false, color:oggp.projectsettings.color.guideline_dark});
+		_UI.guides.ascent = new Guide({name:'ascent', type:'horizontal', location:oggp.projectsettings.ascent, editable:false, color:oggp.projectsettings.color.guideline_med});
+		_UI.guides.descent = new Guide({name:'descent', type:'horizontal', location:(oggp.projectsettings.ascent-oggp.projectsettings.upm), editable:false, color:oggp.projectsettings.color.guideline_med});
+		_UI.guides.rightside = new Guide({name:'rightside', type:'vertical', location:oggp.projectsettings.upm, editable:false, color:oggp.projectsettings.color.guideline_light});
+		_UI.guides.xheight = new Guide({name:'xheight', type:'horizontal', location:oggp.projectsettings.xheight, editable:false, color:oggp.projectsettings.color.guideline_light});
+		_UI.guides.capheight = new Guide({name:'capheight', type:'horizontal', location:oggp.projectsettings.capheight, editable:false, color:oggp.projectsettings.color.guideline_light});
+		
 		// debug("\nHDRYATEGLYPHRPROJECT: HYDRATED");
 		// debug(_GP);
 
@@ -260,24 +278,12 @@
 
 	function finalizeGlyphrProject(){
 		debug("\nfinalizeGlyphrProject \t START");
-		// System Guidelines
-		var ps = _GP.projectsettings;
-		var lc = shiftColor(_GP.projectsettings.color_os_guideline, 0.6, true);
-		var dc = shiftColor(_GP.projectsettings.color_os_guideline, 0.4, false);
-		_UI.guides.xheight = new Guide({name:'xheight', type:'horizontal', location:ps.xheight, editable:false, color:lc});
-		_UI.guides.capheight = new Guide({name:'capheight', type:'horizontal', location:ps.capheight, editable:false, color:lc});
-		_UI.guides.ascent = new Guide({name:'ascent', type:'horizontal', location:ps.ascent, editable:false});
-		_UI.guides.baseline = new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color:dc});
-		_UI.guides.descent = new Guide({name:'descent', type:'horizontal', location:(ps.ascent-ps.upm), editable:false});
-
-		_UI.guides.leftside = new Guide({name:'leftside', type:'vertical', location:0, editable:false, color:dc});
-		_UI.guides.rightside = new Guide({name:'rightside', type:'vertical', location:ps.upm, editable:false, color:lc});
 
 		// Edit Canvas Defaults
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
 
-		if(!isval(ps.linkedshapecounter)) ps.linkedshapecounter = 0;
+		if(!isval(_GP.projectsettings.linkedshapecounter)) _GP.projectsettings.linkedshapecounter = 0;
 
 		_UI.shownlinkedshape = getFirstLinkedShapeID();
 

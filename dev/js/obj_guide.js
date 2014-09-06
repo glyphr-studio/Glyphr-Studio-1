@@ -11,7 +11,7 @@
 		this.name = oa.name || (this.type + ' guide');
 		this.location = oa.location || 0;
 		this.angle = oa.angle || false;
-		this.color = oa.color || _GP.projectsettings.color_os_guideline;
+		this.color = oa.color || _GP.projectsettings.color.guideline_med;
 		this.editable = oa.editable || true;
 		this.visible = isval(oa.visible)? oa.visible : true;
 	}
@@ -32,7 +32,7 @@
 		// debug('\t view: ' + JSON.stringify(v));
 		// debug('\t location: ' + this.location);
 
-		if(this.type === 'horizontal'){ 
+		if(this.type === 'horizontal'){
 			pos = (v.dy - (this.location*v.dz)).makeCrisp();
 			if(delta) pos += (delta*v.dz);
 			start.x = 0;

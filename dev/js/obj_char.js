@@ -148,7 +148,7 @@
 				sh.path.drawPathToArea(lctx, view);
 			}
 		}
-		lctx.fillStyle = _GP.projectsettings.color_glyphfill;
+		lctx.fillStyle = _GP.projectsettings.color.glyphfill;
 		lctx.closePath();
 		lctx.fill("nonzero");
 
@@ -367,10 +367,22 @@
 
 	// GET SELECTED
 	function getSelectedChar(){
-		//debug("GETSELECTEDCHAR");
-		if(_UI.navhere === 'linked shapes') return getChar(_UI.shownlinkedshape);
-		else if (_UI.navhere === 'ligatures') return getLigature(_UI.selectedchar);
-		else return getChar(_UI.selectedchar, true);
+		debug("\n getSelectedChar - START");
+		debug("\t selectedchar: " + _UI.selectedchar);
+		var re;
+		if(_UI.navhere === 'linked shapes') {
+			re = getChar(_UI.shownlinkedshape);
+			debug("\t case linked shapes, returning " + re.charname);
+			return re;
+		} else if (_UI.navhere === 'ligatures') {
+			re = getLigature(_UI.selectedchar);
+			debug("\t case ligatures, returning " + re.charname);
+			return re;
+		} else {
+			re = getChar(_UI.selectedchar, true);
+			debug("\t case character edit, returning " + re.charname);
+			return re;
+		}
 	}
 
 	function getSelectedCharID(){

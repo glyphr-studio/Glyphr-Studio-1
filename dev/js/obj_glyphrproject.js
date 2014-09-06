@@ -5,20 +5,13 @@
 		// Default settings for new Glyphr Projects
 
 		this.projectsettings = {
-			'name': 'My Font',			// project name (can be different than font names)
+			// Internal Stuff
 			'version': 0,				// console version
 			'versionnum': 0,			// console number version
 			'linkedshapecounter': 0,	// private counter for ss id
-			'charrange': {				// canned and custom Unicode ranges
-				'basiclatin': true,
-				'latinsuppliment': false,
-				'latinextendeda': false,
-				'latinextendedb': false,
-				'custom': [],
-				'filternoncharpoints': true
-			},
 
-			// Grid stuff
+			// Font Metrics
+			'name': 'My Font',			// project name (can be different than font names)
 			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are
 			'ascent': 700,			// ascender
 			'capheight': 675,		// capital letter height
@@ -29,22 +22,34 @@
 			'overshoot': 10,		// overshoot for round glyphs
 			'defaultlsb': 10,		// default left side bearing
 			'defaultrsb': 10,		// default right side bearing
+			'charrange': {			// canned and custom Unicode ranges
+				'basiclatin': true,
+				'latinsuppliment': false,
+				'latinextendeda': false,
+				'latinextendedb': false,
+				'custom': [],
+				'filternoncharpoints': true
+			},
 
 			// UI stuff
-			'pointsize': 5,							// path point square size
-			'spinnervaluechange': 1,				// how much spinner controls change a value
-			'showkeyboardtipsicon': true,			// button for keyboard tips on edit canvas
-			'stoppagenavigation': true,				// asks to save on window close or refresh
-			'formatsavefile': true,					// makes the JSON save file readable
-			'showoutline': false,					// outline shapes when drawing
-			'showfill': true,						// fill shapes when drawing
-			'color_glyphfill': 'rgb(0,0,0)',		// shape base color
-			'color_glyphoutline': 'rgb(0,0,0)',		// shape outline color
-			'color_grid': 'rgb(240,240,240)',		// grid base color
-			'color_os_guideline': 'rgb(204,79,34)', // OS guide base color
-			'guidelines': [],						// user-defined guidelines
-			'snaptogrid': false,					// snap to gridlines
-			'snaptoguides': false					// snap to guidelines
+			'pointsize': 5,					// path point square size
+			'spinnervaluechange': 1,		// how much spinner controls change a value
+			'showkeyboardtipsicon': true,	// button for keyboard tips on edit canvas
+			'stoppagenavigation': true,		// asks to save on window close or refresh
+			'formatsavefile': true,			// makes the JSON save file readable
+			'showoutline': false,			// outline shapes when drawing
+			'showfill': true,				// fill shapes when drawing
+			'guidelines': [],				// user-defined guidelines
+			'snaptogrid': false,			// snap to gridlines
+			'snaptoguides': false,			// snap to guidelines
+			'color': {
+				'glyphfill': 'rgb(0,0,0)',				// shape base color
+				'glyphoutline': 'rgb(0,0,0)',			// shape outline color
+				'grid': 'rgb(240,240,240)',				// grid base color
+				'guideline_dark': 'rgb(204,40,0)',		// Dark OS Guideline
+				'guideline_med': 'rgb(255,91,51)',		// Medium OS Guideline
+				'guideline_light': 'rgb(255,173,153)',	// Light OS Guideline
+			}
 		};
 
 		this.metadata = {

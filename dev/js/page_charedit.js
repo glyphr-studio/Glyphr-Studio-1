@@ -20,7 +20,7 @@
 
 	function charedit_content(){
 		return '<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
-			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>' + 
+			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>' +
 			makeFloatLogo();
 	}
 

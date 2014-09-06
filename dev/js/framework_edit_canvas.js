@@ -31,8 +31,10 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		// debug("\n::::::::::::::::::::::\n REDRAW \t START");
-		// debug("\t Called By: " + calledby + " - Selected Char: " + _UI.selectedchar + " - Navhere: " + _UI.navhere);
+		debug("\n::::::::::::::::::::::\n REDRAW \t START");
+		debug("\t navhere: " + _UI.navhere);
+		debug("\t called By: " + calledby);
+		debug("\t selected char: " + _UI.selectedchar);
 		var start = Date.now();
 
 		if(_UI.redrawing){
@@ -53,7 +55,7 @@
 
 		_UI.redrawing = false;
 		
-		// debug(" REDRAW DONE\t" + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
+		debug(" REDRAW DONE\t" + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
 	}
 
 
@@ -129,11 +131,13 @@
 //	Global Get Selected Shape
 //	-------------------------
 	function ss(req){
-		//req? true : req="[probably a dynamically-generated page control]";
-		//debug("SS() - Requested by: " + req + " - CURRENT _UI.selectedshape = " + _UI.selectedshape);
+		req = req || "[probably a dynamically-generated page control]";
+		debug("\nSS - START");
+		debug("\t Requested by: " + req);
+		debug("\t selectedshape: " + _UI.selectedshape);
 
 		if(_UI.navhere === 'linked shapes'){
-			//debug("SS() - LINKEDSHAPE - Requested by: " + req + " - returning shownlinkedshape: " + _UI.shownlinkedshape);
+			debug("\t LINKED SHAPES returning shownlinkedshape: " + _UI.shownlinkedshape);
 			return _GP.linkedshapes[_UI.shownlinkedshape].shape;
 		}
 
@@ -146,17 +150,17 @@
 		if(_UI.selectedshape != -1){
 			if((_UI.selectedshape >= 0) && (_UI.selectedshape < charshapes.length)) {
 				// Charedit Selected Shape
-				//debug("SS() - CHAREDIT - returning shape object for position " + _UI.selectedshape);
+				debug("SS - returning shape object for position " + _UI.selectedshape);
 				return charshapes[_UI.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
-				//debug("SS() - Selected Shape outside of expected boundary. _UI.selectedshape: " + _UI.selectedshape);
+				debug("SS - returning false - Selected Shape outside of expected boundary");
 				_UI.selectedshape = -1;
 				return false;
 			}
 		} else {
 			// -1 = "no shape selected"
-			//debug("SS() - setting _UI.selectedshape = -1, returning false");
+			debug("SS - returning false, ss=-1 no shape selected");
 			return false;
 		}
 	}
@@ -187,7 +191,7 @@
 
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _GP.projectsettings.color_grid;
+			_UI.chareditctx.strokeStyle = _GP.projectsettings.color.grid;
 			//debug("GRID - gridsize set as: " + gsize);
 
 			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i); }
@@ -261,7 +265,7 @@
 
 			// Out of bounds triangle
 			var v = getView('guides');
-			_UI.chareditctx.fillStyle = shiftColor(_GP.projectsettings.color_os_guideline, 0.4, false);
+			_UI.chareditctx.fillStyle = _UI.guides.baseline.color;
 			_UI.chareditctx.beginPath();
 			_UI.chareditctx.moveTo(v.dx, v.dy);
 			_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
