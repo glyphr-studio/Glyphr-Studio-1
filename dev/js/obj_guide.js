@@ -26,7 +26,7 @@
 		var start = {x:0, y:0};
 		var end = {x:0, y:0};
 		var label = {x:0, y:0};
-		var pad = 2;
+		var pad = 5;
 		var pos;
 
 		// debug('\t view: ' + JSON.stringify(v));

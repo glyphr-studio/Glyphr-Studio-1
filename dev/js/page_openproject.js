@@ -176,30 +176,38 @@
 	}
 
 	function hydrateGlyphrProject(data) {
-		debug("\n hydrateGlyphrProject - START");
-		debug("\t passed: ");
-		debug(data);
+		// debug("\n hydrateGlyphrProject - START");
+		// debug("\t passed: ");
+		// debug(data);
 
 		_GP = new GlyphrProject();
-		var oggp = new GlyphrProject();
+		// var oggp = new GlyphrProject();
 
 		// Project Settings
 		if(data.projectsettings) _GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
 
+		// debug('\t merged projectsettings');
+		// debug(_GP.projectsettings);
+
 		// Guides
-		for (var g in data.projectsettings.guides) {
-			if(data.projectsettings.guides.hasOwnProperty(g)){
-				_GP.projectsettings.guides[g] = new Guide(data.projectsettings.guides[g]);
-			} else {
+		for (var g in _GP.projectsettings.guides) {
+			if(_GP.projectsettings.guides.hasOwnProperty(g)){
 				_GP.projectsettings.guides[g] = new Guide(_GP.projectsettings.guides[g]);
 			}
 		}
 
+		// debug('\t hydrated guides');
+		// debug(_GP.projectsettings.guides);
+		
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
 
 		// Ligatures
-		if(data.ligatures) _GP.ligatures = clone(data.ligatures);
+		for (var lig in data.ligatures) {
+			if(data.ligatures.hasOwnProperty(lig)){
+				_GP.ligatures[lig] = new Char(data.ligatures[lig]);
+			}
+		}
 
 		// Kerning
 		if(data.kerning) _GP.kerning = clone(data.kerning);
@@ -225,9 +233,9 @@
 			}
 		}
 
-		debug('\t hydrated: ');
-		debug(_GP);
-		debug("hydrateGlyphrProject - END\n");
+		// debug('\t hydrated: ');
+		// debug(_GP);
+		// debug("hydrateGlyphrProject - END\n");
 
 		finalizeGlyphrProject();
 		//navigate();

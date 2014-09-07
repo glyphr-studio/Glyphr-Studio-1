@@ -210,10 +210,7 @@
 					case "character edit": nt.innerHTML = makePanel_CharChooser('selectChar'); break;
 					case "import svg": nt.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
 					case "linked shapes": nt.innerHTML = makePanel_LinkedShapeChooser(); break;
-					case "ligatures":
-						nt.innerHTML = makePanel_LigatureChooser();
-						debug('\t should have just made panel for ligature chooser')
-						break;
+					case "ligatures": nt.innerHTML = makePanel_LigatureChooser(); break;
 					case "kerning": nt.innerHTML = makePanel_KernChooser(); break;
 				}
 				break;

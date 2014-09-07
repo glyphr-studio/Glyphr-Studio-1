@@ -31,10 +31,10 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		debug("\n::::::::::::::::::::::\n REDRAW \t START");
-		debug("\t navhere: " + _UI.navhere);
-		debug("\t called By: " + calledby);
-		debug("\t selected char: " + _UI.selectedchar);
+		// debug("\n::::::::::::::::::::::\n REDRAW \t START");
+		// debug("\t navhere: " + _UI.navhere);
+		// debug("\t called By: " + calledby);
+		// debug("\t selected char: " + _UI.selectedchar);
 		var start = Date.now();
 
 		if(_UI.redrawing){
@@ -55,7 +55,7 @@
 
 		_UI.redrawing = false;
 		
-		debug(" REDRAW DONE\t" + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
+		// debug(" REDRAW DONE\t" + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
 	}
 
 
@@ -132,12 +132,12 @@
 //	-------------------------
 	function ss(req){
 		req = req || "[probably a dynamically-generated page control]";
-		debug("\nSS - START");
-		debug("\t Requested by: " + req);
-		debug("\t selectedshape: " + _UI.selectedshape);
+		// debug("\nSS - START");
+		// debug("\t Requested by: " + req);
+		// debug("\t selectedshape: " + _UI.selectedshape);
 
 		if(_UI.navhere === 'linked shapes'){
-			debug("\t LINKED SHAPES returning shownlinkedshape: " + _UI.shownlinkedshape);
+			// debug("\t LINKED SHAPES returning shownlinkedshape: " + _UI.shownlinkedshape);
 			return _GP.linkedshapes[_UI.shownlinkedshape].shape;
 		}
 
@@ -150,17 +150,17 @@
 		if(_UI.selectedshape != -1){
 			if((_UI.selectedshape >= 0) && (_UI.selectedshape < charshapes.length)) {
 				// Charedit Selected Shape
-				debug("SS - returning shape object for position " + _UI.selectedshape);
+				// debug("SS - returning shape object for position " + _UI.selectedshape);
 				return charshapes[_UI.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
-				debug("SS - returning false - Selected Shape outside of expected boundary");
+				// debug("SS - returning false - Selected Shape outside of expected boundary");
 				_UI.selectedshape = -1;
 				return false;
 			}
 		} else {
 			// -1 = "no shape selected"
-			debug("SS - returning false, ss=-1 no shape selected");
+			// debug("SS - returning false, ss=-1 no shape selected");
 			return false;
 		}
 	}
@@ -223,17 +223,21 @@
 	}
 
 	function drawGuides() {
-		if(_UI.showguides){
-			var ps = _GP.projectsettings;
+		// debug('\n drawGuides - START');
 
+		var ps = _GP.projectsettings;
+		// debug('\t ps.guides: ');
+		// debug(ps.guides);
+		
+		if(_UI.showguides){
 			// Update system guides
-			// g.xheight.location = ps.xheight;
-			// g.capheight.location = ps.capheight;
-			// g.ascent.location = ps.ascent;
-			// g.baseline.location = 0;
-			// g.descent.location = (ps.ascent-ps.upm);
-			// g.leftside.location = 0;
-			// g.rightside.location = ps.upm;
+			ps.guides.xheight.location = ps.xheight;
+			ps.guides.capheight.location = ps.capheight;
+			ps.guides.ascent.location = ps.ascent;
+			ps.guides.baseline.location = 0;
+			ps.guides.descent.location = (ps.ascent-ps.upm);
+			ps.guides.leftside.location = 0;
+			ps.guides.rightside.location = ps.upm;
 
 			// Minor Guidelines - Overshoots
 			if(_UI.showovershoots){
@@ -264,7 +268,7 @@
 
 			// Out of bounds triangle
 			var v = getView('guides');
-			_UI.chareditctx.fillStyle = _UI.guides.baseline.color;
+			_UI.chareditctx.fillStyle = ps.guides.baseline.color;
 			_UI.chareditctx.beginPath();
 			_UI.chareditctx.moveTo(v.dx, v.dy);
 			_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
@@ -272,6 +276,7 @@
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.fill();
 		}
+		// debug(' drawGuides - END\n');
 	}
 
 // end of file

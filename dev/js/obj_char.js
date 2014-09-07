@@ -367,20 +367,20 @@
 
 	// GET SELECTED
 	function getSelectedChar(){
-		debug("\n getSelectedChar - START");
-		debug("\t selectedchar: " + _UI.selectedchar);
+		// debug("\n getSelectedChar - START");
+		// debug("\t selectedchar: " + _UI.selectedchar);
 		var re;
 		if(_UI.navhere === 'linked shapes') {
 			re = getChar(_UI.shownlinkedshape);
-			debug("\t case linked shapes, returning " + re.charname);
+			// debug("\t case linked shapes, returning " + re.charname);
 			return re;
 		} else if (_UI.navhere === 'ligatures') {
 			re = getLigature(_UI.selectedchar);
-			debug("\t case ligatures, returning " + re.charname);
+			// debug("\t case ligatures, returning " + re.charname);
 			return re;
 		} else {
 			re = getChar(_UI.selectedchar, true);
-			debug("\t case character edit, returning " + re.charname);
+			// debug("\t case character edit, returning " + re.charname);
 			return re;
 		}
 	}
