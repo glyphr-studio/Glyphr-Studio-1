@@ -7,10 +7,10 @@ On the Fourth of July, Glyphr Studio Beta 4 was released!  Major new features ar
 
 ## Beta 5 is in the works!
 The big work items for Beta 5 have been set - thanks to all the community folks who submitted ideas and feedback!
-- *Import & Export SVG Font* importing single outlines in Beta 4 was just a stepping stone for this big goal.
-- *Ligatures* 'cuz, you know, fonts have ligatures
-- *Kerning* 'cuz, you know, fonts have kerning
-- *Deprecated TTX Support* Glyphr Studio has a need for a text-based file format.  TTX seemed promising and powerful, but in the end it has been too hard to debug, and too hard for end users to install.  We are shifting gears to SVG as our somewhat 'native' text file format.
+- **Import & Export SVG Font** - importing single outlines in Beta 4 was just a stepping stone for this big goal.
+- **Ligatures** - 'cuz, you know, fonts have ligatures
+- **Kerning** - 'cuz, you know, fonts have kerning
+- **Deprecated TTX Support** - Glyphr Studio has a need for a text-based file format.  TTX seemed promising and powerful, but in the end it has been too hard to debug, and too hard for end users to install.  We are shifting gears to SVG as our somewhat 'native' text file format.
 
 There will also be a smattering of smaller and medium sized features, like Custom Guides (in development now).
 
