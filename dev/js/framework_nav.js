@@ -84,13 +84,15 @@
 	function makeLayout_PopOut(){
 		//debug("MAKELAYOUT_POPOUT - start");
 
-		var pol = '<div id="popout_pagenav"></div>';
-		pol += '<div id="popout_charchooser"></div>';
-		pol += '<div id="popout_guides"></div>';
-		pol += '<div id="popout_history"></div>';
-		pol += '<div id="popout_layerchooser"></div>';
-		pol += '<div id="popout_actions"></div>';
-		pol += '<div id="popout_attributes"></div></td>';
+		var pol = '<table class="popout_table"><tr>';
+		pol += '<td id="popout_pagenav"></td>';
+		pol += '<td id="popout_charchooser"></td>';
+		pol += '<td id="popout_guides"></td>';
+		pol += '<td id="popout_history"></td>';
+		pol += '<td id="popout_layerchooser"></td>';
+		pol += '<td id="popout_actions"></td>';
+		pol += '<td id="popout_attributes"></td>';
+		pol += '</tr></table>';
 
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
 		//debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);

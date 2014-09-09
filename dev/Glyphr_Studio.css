@@ -302,17 +302,23 @@
 		font-style:italic;
 	}
 
+	/* Width = sum of panel widths +1 each for border + 20px each for padding */
+	.popout_table {
+		width:2487px;
+		height:100%;
+	}
+
 	#popout_pagenav,
 	#popout_charchooser,
 	#popout_layerchooser,
 	#popout_actions,
+	#popout_guides,
 	#popout_history,
 	#popout_attributes {
-		display:block;
-		position:absolute;
-		top:0px;
 		height:100%;
-		padding:0px 10px 0px 10px;
+		width:400px;
+		display: inline-block;
+		padding:18px 10px 0px 10px;
 		background-color:rgb(229,234,239);
 		border-left:1px solid rgb(204,209,214);
 		overflow-y:auto;
@@ -320,34 +326,13 @@
 	}
 
 	#popout_pagenav {
-		left:0px;
 		width:200px;
 	}
 
-	#popout_charchooser {
-		left:220px;
-		width:400px;
-	}
-
-	#popout_history {
-		left:640px;
-		width:400px;
-	}
-
-	#popout_layerchooser {
-		left:1060px;
-		width:400px;
-	}
-
 	#popout_actions {
-		left:1480px;
 		width:140px;
 	}
 
-	#popout_attributes {
-		left:1640px;
-		width:400px;
-	}
 
 	#mainwrapper {
 		position:absolute;
@@ -364,9 +349,9 @@
 		margin-left:470px;
 	}
 
-    #secondaryScreenLayout #mainwrapper {
-        margin-left: 0;
-    }
+	#secondaryScreenLayout #mainwrapper {
+		margin-left: 0;
+	}
 
 	.primarynavbutton,
 	.primarynavbutton:hover,

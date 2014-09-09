@@ -5,24 +5,15 @@
 //-------------------
 	function makePanel_Actions(){
 		var s = ss("Update Actions");
-
-		// "<h1"+(stack?" class='paneltitle'":"")+">actions</h1>
-
+		var pop = _UI.popout;
 		var content = "";
 
-		if(!_UI.popout) {
-			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
-			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-			content += getSelectedChar().charhtml;
-			content += "</h1>";
-		}
-
-		content += "<h1 class='paneltitle'>attributes</h1>";
+		content += "<h1 class='paneltitle'"+(pop? "":" style='margin-bottom:0px;'")+">actions</h1>";
 
 		// Generate Sections
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
 
-		var allactions = "<h3"+(stack?" style='margin-top:0px;'":"")+">universal</h3>";
+		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
 		allactions += "<button class='"+(_UI.charundoq.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((_UI.charundoq.length > 0) ? (" (" + _UI.charundoq.length) + ")" : "") + "</button><br>";
 		allactions += "<button onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
 		allactions += "<button onclick='insertLinkedShapeDialog();'>add linked shape</button><br>";
@@ -58,31 +49,31 @@
 
 		content += "<td>";
 		content += allactions;
-		if(!stack) content += "</td>";
+		if(!pop) content += "</td>";
 
-		if(!stack) content += "<td>";
+		if(!pop) content += "<td>";
 		if(s){ content += shapeactions; }
-		else if (!stack){ content += "&nbsp;";}
-		if(!stack) content += "</td>";
+		else if (!pop){ content += "&nbsp;";}
+		if(!pop) content += "</td>";
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(_UI.selectedtool != "pathedit") ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
-		if(!stack) content += "<td>";
+		if(!pop) content += "<td>";
 		if(ispointsel){ content += pointactions; }
-		else if (!stack){ content += "&nbsp;";}
-		if(!stack) content += "</td>";
+		else if (!pop){ content += "&nbsp;";}
+		if(!pop) content += "</td>";
 
-		if (!stack) content += "</tr><tr>";
+		if (!pop) content += "</tr><tr>";
 
-		if(!stack) content += "<td>";
+		if(!pop) content += "<td>";
 		content += canvasactions;
-		if(!stack) content += "</td>";
+		if(!pop) content += "</td>";
 
-		if(!stack) content += "<td>";
-		if(s && !stack){ content += layeractions; }
+		if(!pop) content += "<td>";
+		if(s && !pop){ content += layeractions; }
 		content += "</td>";
 
 		content += "</tr></table><br><br>";
