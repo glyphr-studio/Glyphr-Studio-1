@@ -5,7 +5,17 @@
 //-------------------
 	function makePanel_History(){
 
-		var content = "<h1 class='paneltitle'>character edit history</h1>";
+		var content = "";
+
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
+		}
+
+		content += "<h1 class='paneltitle'>edit history</h1>";
+
 		var q = _UI.charundoq;
 
 		if(_UI.navhere === 'linked shapes'){

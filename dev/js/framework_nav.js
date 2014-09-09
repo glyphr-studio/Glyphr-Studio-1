@@ -86,11 +86,11 @@
 
 		var pol = '<div id="popout_pagenav"></div>';
 		pol += '<div id="popout_charchooser"></div>';
+		pol += '<div id="popout_guides"></div>';
 		pol += '<div id="popout_history"></div>';
 		pol += '<div id="popout_layerchooser"></div>';
 		pol += '<div id="popout_actions"></div>';
 		pol += '<div id="popout_attributes"></div></td>';
-		// but a save icon somewhere
 
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
 		//debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
@@ -114,7 +114,9 @@
 
 		document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 
-		document.getElementById('popout_actions').innerHTML = makePanel_Actions(true);
+		document.getElementById('popout_actions').innerHTML = makePanel_Actions();
+		
+		document.getElementById('popout_guides').innerHTML = makePanel_Guides();
 
 		if(_UI.navhere === "test drive"){
 			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
@@ -230,6 +232,7 @@
 
 			case "npNav": nt.innerHTML = makePanel_PageNav(); break;
 			case "npLayers": nt.innerHTML = makePanel_LayerChooser(); break;
+			case "npGuides": nt.innerHTML = makePanel_Guides(); break;
 			case "npHistory": nt.innerHTML = makePanel_History(); break;
 			case "npSave": saveGlyphrProjectFile(); break;
 		}
@@ -284,23 +287,29 @@
 			navarr.push("npAttributes");
 			navarr.push("npLayers");
 			navarr.push("npChooser");
+			navarr.push("npGuides");
 			navarr.push("npHistory");
 			break;
 
 			case "linked shapes":
 			navarr.push("npAttributes");
 			navarr.push("npChooser");
+			navarr.push("npGuides");
 			navarr.push("npHistory");
 			break;
 
 			case "ligatures":
 			navarr.push("npAttributes");
 			navarr.push("npChooser");
+			navarr.push("npGuides");
+			navarr.push("npHistory");
 			break;
 
 			case "kerning":
 			navarr.push("npAttributes");
 			navarr.push("npChooser");
+			navarr.push("npGuides");
+			navarr.push("npHistory");
 			break;
 
 			case "test drive":

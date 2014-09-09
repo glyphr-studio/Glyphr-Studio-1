@@ -3,9 +3,23 @@
 //-------------------
 // Actions Panel
 //-------------------
-	function makePanel_Actions(stack){
+	function makePanel_Actions(){
 		var s = ss("Update Actions");
 
+		// "<h1"+(stack?" class='paneltitle'":"")+">actions</h1>
+
+		var content = "";
+
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
+		}
+
+		content += "<h1 class='paneltitle'>attributes</h1>";
+
+		// Generate Sections
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
 
 		var allactions = "<h3"+(stack?" style='margin-top:0px;'":"")+">universal</h3>";
@@ -40,7 +54,7 @@
 		pointactions += "<button onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together
-		var content = "<h1"+(stack?" class='paneltitle'":"")+">actions</h1><table class='actionsgrid'><tr>";
+		content += "<table class='actionsgrid'><tr>";
 
 		content += "<td>";
 		content += allactions;

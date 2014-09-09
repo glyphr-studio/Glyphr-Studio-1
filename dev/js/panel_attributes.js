@@ -13,11 +13,16 @@
 		if(_UI.selectedtool != "pathedit") ispointsel = false;
 
 		var content = "";
-		if(_UI.navhere == "linked shapes"){
-			content = "<h1 class='paneltitle'>" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "</h1>";
-		} else {
-			content = "<h1 class='paneltitle'>attributes</h1>";
+
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
 		}
+
+		content += "<h1 class='paneltitle'>attributes</h1>";
+
 
 		content += "<table class='detail'>";
 

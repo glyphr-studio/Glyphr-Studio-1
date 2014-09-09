@@ -261,7 +261,7 @@
 		left:70px;
 		width:400px;
 		height:100%;
-		padding:0px 10px 0px 10px;
+		padding:18px 10px 0px 10px;
 		background-color:rgb(229,234,239);
 		overflow-y:auto;
 		overflow-x:hidden;
@@ -271,11 +271,27 @@
 		color:rgb(51, 56, 61);
 	}
 
+	.panelsupertitle {
+		color: rgb(0,240,169);
+		font-weight:normal;
+		font-size:1.4em;
+		margin:0px 0px 10px 0px;
+		line-height: .78em;
+		text-transform: none;
+	}
+
+	.supertitleseperator {
+		padding:0px 10px;
+		font-size: inherit;
+		color:inherit;
+	}
+
 	.paneltitle {
 		color:rgb(204,209,214);
 		color:rgb(178,183,188);
 		font-weight:normal;
-		margin:10px 0px 16px 0px;
+		margin:0px 0px 20px 0px;
+		line-height: .78em;
 	}
 
 	.navpanellink {

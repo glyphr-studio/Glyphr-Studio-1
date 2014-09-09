@@ -4,9 +4,20 @@
 // Character Chooser
 //-------------------
 	function makePanel_CharChooser(fname){
-		var con = "<h1 class='paneltitle'>characters</h1>";
-		con += makeGenericCharChooserContent(fname);
-		return con;
+
+		var content = "";
+
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
+		}
+
+		content += "<h1 class='paneltitle'>characters</h1>";
+
+		content += makeGenericCharChooserContent(fname);
+		return content;
 	}
 
 	function makeGenericCharChooserContent(fname) {
@@ -95,25 +106,36 @@
 // Linked Shape Chooser
 //-------------------------
 	function makePanel_LinkedShapeChooser(){
-		var re = "<h1 class='paneltitle'>linked shapes</h1>";
-		re += "<div class='subnavunit'>";
-		re += "<table class='layertable'>";
+
+		var content = "";
+
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
+		}
+
+		content += "<h1 class='paneltitle'>linked shapes</h1>";
+
+		content += "<div class='subnavunit'>";
+		content += "<table class='layertable'>";
 		for(var lsid in _GP.linkedshapes){
 			if(_GP.linkedshapes.hasOwnProperty(lsid)){
 				//debug("LINKEDSHAPES_SUBNAV - making button for " + lsid);
-				re += makeLinkedShapeSubNavButton(lsid);
+				content += makeLinkedShapeSubNavButton(lsid);
 			}
 		}
-		re += "</table><br><br>";
+		content += "</table><br><br>";
 
-		re += "<h1 class='paneltitle'>actions</h1>";
-		re += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
-		re += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
-		re += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
-		re += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
-		re += "</td></tr></table>";
+		content += "<h1 class='paneltitle'>actions</h1>";
+		content += "<table class='actionsgrid'><tr><td colspan=3><h3>linked shape</h3>";
+		content += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
+		content += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
+		content += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
+		content += "</td></tr></table>";
 
-		return re;
+		return content;
 	}
 
 	function makeLinkedShapeSubNavButton(lsid){
@@ -152,26 +174,35 @@
 //-------------------
 	function makePanel_LigatureChooser(){
 		// debug('\n makePanel_LigatureChooser - START');
+		var content = "";
 
-		var con = "<h1 class='paneltitle'>ligatures</h1>";
-		con += "<div class='subnavunit'>";
-		con += "<table class='layertable'>";
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
+		}
+
+		content += "<h1 class='paneltitle'>characters</h1>";
+
+		content += "<div class='subnavunit'>";
+		content += "<table class='layertable'>";
 		for(var lig in _GP.ligatures){
 			if(_GP.ligatures.hasOwnProperty(lig)){
 				//debug("makePanel_LigatureChooser - making button for " + lig);
-				con += makeLigatureChooserButton(lig);
+				content += makeLigatureChooserButton(lig);
 			}
 		}
-		con += "</table><br><br>";
+		content += "</table><br><br>";
 
-		con += "<h1 class='paneltitle'>actions</h1>";
-		con += "<table class='actionsgrid'><tr><td colspan=3><h3>shape</h3>";
-		con += "<button onclick=''>create new</button><br>";
-		//con += "<button onclick='addLigature();putundoq(\"Create New Ligature Shape\");navigate();'>create new</button><br>";
-		con += "</td></tr></table>";
+		content += "<h1 class='paneltitle'>actions</h1>";
+		content += "<table class='actionsgrid'><tr><td colspan=3><h3>shape</h3>";
+		content += "<button onclick=''>create new</button><br>";
+		//content += "<button onclick='addLigature();putundoq(\"Create New Ligature Shape\");navigate();'>create new</button><br>";
+		content += "</td></tr></table>";
 
 		// debug('makePanel_LigatureChooser - END\n');
-		return con;
+		return content;
 	}
 
 	function makeLigatureChooserButton(lig){
@@ -205,8 +236,19 @@
 // Kern Chooser
 //-------------------
 	function makePanel_KernChooser(){
-		var con = "<h1 class='paneltitle'>kerning</h1>";
-		return con;
+		
+		var content = "";
+
+		if(!_UI.popout) {
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += getSelectedChar().charhtml;
+			content += "</h1>";
+		}
+
+		content += "<h1 class='paneltitle'>pairs</h1>";
+
+		return content;
 	}
 
 // end of file
