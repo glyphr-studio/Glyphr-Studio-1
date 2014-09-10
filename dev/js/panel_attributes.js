@@ -109,11 +109,9 @@
 				" value='" + round(sc.maxes.ymax-sc.maxes.ymin, 3) + "' >" + spinner() + "</td>"+
 				"</tr>";
 
-			if(_UI.selectedtool === "shaperesize") {
-				content += "<tr><td class='leftcol'>&nbsp;</td>"+
-					"<td> lock aspect ratio </td>"+
-					"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock")+"</td></tr>";
-			}
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td> lock aspect ratio </td>"+
+				"<td class='rightcol'>"+checkUI("getSelectedChar().ratiolock")+"</td></tr>";
 
 			content += "<tr><td class='leftcol'>&nbsp;</td><td colspan=2>"+
 				"<table class='actionsgrid'><tr><td>"+
@@ -264,7 +262,7 @@
 			"<button onclick='ss().path.reversePath();putundoq(\"Reverse Path Direction\");redraw(\"shapeDetails - Clockwise\");' class='spinnerbutton' style='width:40px;'>"+(s.path.winding>0?"&#8635":"&#8634")+"</button></td>"+
 			"</tr>";
 
-		if(_UI.selectedtool === "shaperesize") {
+		if(_UI.selectedtool !== "pathedit") {
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
 				"<td> lock aspect ratio </td>"+
 				"<td class='rightcol'>"+checkUI("ss().ratiolock",true)+"</tr>";

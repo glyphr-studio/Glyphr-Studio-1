@@ -12,8 +12,8 @@
 		this.location = oa.location || 0;
 		this.angle = oa.angle || false;
 		this.color = oa.color || _GP.projectsettings.colors.guide_med;
-		this.editable = oa.editable || true;
 		this.visible = isval(oa.visible)? oa.visible : true;
+		this.editable = isval(oa.editable)? oa.editable : true;
 	}
 
 	Guide.prototype.draw = function(delta) {
@@ -63,7 +63,7 @@
 		ctx.closePath();
 
 		// Draw Label
-		if(!delta){
+		if(_UI.showguidelabels && !delta){
 			_UI.chareditctx.fillStyle = this.color;
 			_UI.chareditctx.font = '10px tahoma, verdana, sans-serif';
 			_UI.chareditctx.fillText(this.name, label.x, label.y);

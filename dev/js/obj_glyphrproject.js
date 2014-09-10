@@ -56,7 +56,7 @@
 			//'font_family': 0,
 			'font_style': 'normal',
 			'font_variant': 'normal',
-			'font_weight': 'normal',
+			'font_weight': 'normal',	// Default to 400
 			'font_stretch': 'normal',
 			// 'font_size': 'all',
 			// 'unicode_range': 0,

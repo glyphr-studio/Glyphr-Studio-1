@@ -1059,6 +1059,36 @@
 		margin-bottom:2px;
 	}
 
+/*	GUIDES		*/
+	.guiderow {
+		background-color: rgb(250,252,255);
+		padding:10px;
+		width:100%;
+		margin-bottom:4px;
+	}
+
+	.guiderow td {
+		padding:4px 2px 8px 10px;
+	}
+
+	.guiderow select,
+	.guiderow input {
+		border-radius: 0px;
+		border: 1px solid rgb(153,158,163);
+		padding:2px;
+		font-size: 14px;
+	}
+
+	.guiderow input{
+		width:100px;
+		margin-left:10px;
+	}
+
+	.guidecolor {
+		height:100%;
+		width:30px;
+	}
+
 /*	HISTORY		*/
 	.history_char {
 		color:rgb(127,134,137);

@@ -38,12 +38,13 @@
 
 		// Shared edit pages 
 		'popout': false,
-		'selectedtool': 'pathedit',	// pathedit, shaperesize, pantool, newrect, newoval, newpath
+		'selectedtool': 'pathedit',	// pathedit, shaperesize, pan, newrect, newoval, newpath
 		'redrawing': false,
 		'thumbsize': 50,
 		'thumbgutter': 5,
 		'showgrid': true,		// display the grid
 		'showguides': true,		// display guides
+		'showguidelabels': true,// display guide labels
 		'showovershoots': true,	// display overshoot guides
 		'clipboardshape': false,
 		'chareditcanvas': false,
