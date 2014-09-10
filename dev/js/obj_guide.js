@@ -20,6 +20,8 @@
 		// debug('\nGuide.draw \t START');
 		// debug('\t name: ' + this.name);
 		// debug('\t delta: ' + delta);
+		if(!this.visible) return;
+		
 		var ctx = _UI.chareditctx;
 		var cansize = _UI.chareditcanvassize;
 		var v = getView("guide");

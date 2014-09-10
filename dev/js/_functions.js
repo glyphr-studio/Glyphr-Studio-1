@@ -247,8 +247,8 @@ function saveTextFile(fname, fblob) {
 
 	// flip boolean var
 	function toggle(val) {
-		//debug("TOGGLE - typeof val = " + typeof(val));
-		if(typeof(val) === 'string') eval(val + " = !" + val);
+		//debug("TOGGLE - typeof val = " + typeof val);
+		if(typeof val === 'string') eval(val + " = !" + val);
 		else val = !val;
 	}
 

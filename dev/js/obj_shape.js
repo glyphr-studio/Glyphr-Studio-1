@@ -142,7 +142,7 @@
 
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.chareditctx.lineWidth = 1;
-		_UI.chareditctx.strokeStyle = _UI.colors.accent;
+		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 
 		if((_UI.selectedtool=="newrect")||(_UI.selectedtool=="shaperesize")){
 			_UI.chareditctx.fillStyle = "transparent";
@@ -162,7 +162,7 @@
 			var w = (rx-lx);
 			var h = (by-ty);
 
-			_UI.chareditctx.strokeStyle = _UI.colors.accent;
+			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 			_UI.chareditctx.strokeRect(x,y,w,h);
 			if(_UI.selectedtool=="shaperesize"){ this.draw8points(onlycenter);}
 
@@ -173,7 +173,7 @@
 
 			// Draw path selection outline
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _UI.colors.accent;
+			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 
 			_UI.chareditctx.beginPath();
 			this.path.drawPath(_UI.chareditctx);
@@ -195,7 +195,7 @@
 			// Draw points
 			for(var s=0; s<pp.length; s++){
 				//debug("DRAWSELECTOUTLINE() - Drawing Point " + s + " - selected: " + pp[s].selected);
-				var c = _UI.colors.accent;
+				var c = _UI.colors.accent_65;
 				if(this.path.sp(false) && pp[s].selected){ c = "white"; }
 				if(s == pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]);
 				else pp[s].drawDirectionalityPoint(c, pp[s+1]);
@@ -203,11 +203,11 @@
 			}
 
 		} else if ((_UI.selectedtool=="newoval")){
-			_UI.chareditctx.strokeStyle = _UI.colors.accent;
+			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _UI.colors.accent;
+			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 
 			_UI.chareditctx.beginPath();
 			tpdso.drawPath(_UI.chareditctx);
@@ -332,7 +332,7 @@
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
 		var bbottomy = (by-hp).makeCrisp(true);
 
-		_UI.chareditctx.fillStyle = onlycenter?  _UI.colors.accent : "white";
+		_UI.chareditctx.fillStyle = onlycenter?  _UI.colors.accent_65 : "white";
 
 		if(!onlycenter){
 			//upper left

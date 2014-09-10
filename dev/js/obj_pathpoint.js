@@ -382,15 +382,15 @@
 	PathPoint.prototype.drawPoint = function(c) {
 		var ps = _GP.projectsettings.pointsize+2;
 		var hp = ps/2;
-		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;
+		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent_65;
 
 		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
-		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent;
-		_UI.chareditctx.strokeStyle = _UI.colors.accent;
+		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent_65;
+		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 		_UI.chareditctx.lineWidth = 1;
 		var begin = {"x":this.P.x, "y":this.P.y};
 		var end = {"x":this.H2.x, "y":this.H2.y};
@@ -438,7 +438,7 @@
 		_UI.chareditctx.stroke();
 
 		// Exact Middle Point
-		_UI.chareditctx.fillStyle = _UI.colors.accent;
+		_UI.chareditctx.fillStyle = _UI.colors.accent_65;
 		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 
 
@@ -459,7 +459,7 @@
 	};
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2) {
-		_UI.chareditctx.fillStyle = _UI.colors.accent;
+		_UI.chareditctx.fillStyle = _UI.colors.accent_65;
 		_UI.chareditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 

@@ -274,7 +274,7 @@
 	}
 
 	function updateSaveIcon(){
-		var fill = _UI.colors.g9;
+		var fill = _UI.colors.gray_90;
 		if(!_UI.projectsaved) fill = "white";
 		document.getElementById('npSave').innerHTML = makeIcon({'name': 'button_npSave', 'color': fill, 'hovercolor':'white'});
 	}
@@ -328,8 +328,8 @@
 		var nhover = 'white';
 
 		if(_UI.navprimaryhere === 'npNav'){
-			nfill = _UI.colors.accent;
-			nhover = _UI.colors.accent;
+			nfill = _UI.colors.accent_65;
+			nhover = _UI.colors.accent_65;
 		}
 
 		newsub += "<button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; make_NavPanels_PopIn();'>";
@@ -338,10 +338,10 @@
 
 		for(var i=1; i<navarr.length; i++){
 			if(_UI.navprimaryhere === navarr[i]){
-				nfill = _UI.colors.accent;
-				nhover = _UI.colors.accent;
+				nfill = _UI.colors.accent_65;
+				nhover = _UI.colors.accent_65;
 			} else {
-				nfill = _UI.colors.g9;
+				nfill = _UI.colors.gray_90;
 				nhover = 'white';
 			}
 			newsub += "<button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\"; make_NavPanels_PopIn();'>";
@@ -350,7 +350,7 @@
 		}
 
 		newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'>";
-		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.g9, 'hovercolor':'white'});
+		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.gray_90, 'hovercolor':'white'});
 		newsub += "</button>";
 
 		// Debug Dumps

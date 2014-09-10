@@ -89,13 +89,13 @@
 		};
 
 		this.projectsettings.guides = {
-			'baseline': {name:'baseline', type:'horizontal', location:0, editable:false, color:this.projectsettings.colors.guide_dark},
-			'leftside': {name:'leftside', type:'vertical', location:0, editable:false, color:this.projectsettings.colors.guide_dark},
 			'ascent': {name:'ascent', type:'horizontal', location:this.projectsettings.ascent, editable:false, color:this.projectsettings.colors.guide_med},
-			'descent': {name:'descent', type:'horizontal', location:(this.projectsettings.ascent-this.projectsettings.upm), editable:false, color:this.projectsettings.colors.guide_med},
-			'rightside': {name:'rightside', type:'vertical', location:this.projectsettings.upm, editable:false, color:this.projectsettings.colors.guide_light},
+			'capheight': {name:'capheight', type:'horizontal', location:this.projectsettings.capheight, editable:false, color:this.projectsettings.colors.guide_light},
 			'xheight': {name:'xheight', type:'horizontal', location:this.projectsettings.xheight, editable:false, color:this.projectsettings.colors.guide_light},
-			'capheight': {name:'capheight', type:'horizontal', location:this.projectsettings.capheight, editable:false, color:this.projectsettings.colors.guide_light}
+			'baseline': {name:'baseline', type:'horizontal', location:0, editable:false, color:this.projectsettings.colors.guide_dark},
+			'descent': {name:'descent', type:'horizontal', location:(this.projectsettings.ascent-this.projectsettings.upm), editable:false, color:this.projectsettings.colors.guide_med},
+			'leftside': {name:'leftside', type:'vertical', location:0, editable:false, color:this.projectsettings.colors.guide_dark},
+			'rightside': {name:'rightside', type:'vertical', location:this.projectsettings.upm, editable:false, color:this.projectsettings.colors.guide_light}
 		};
 
 		this.fontchars = {};

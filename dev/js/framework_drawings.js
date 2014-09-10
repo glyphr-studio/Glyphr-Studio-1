@@ -50,7 +50,7 @@
 
 		function makeGlyphrStudioLogo(oa){
 			oa = oa || {};
-			var fill = oa.fill || _UI.colors.accent;
+			var fill = oa.fill || _UI.colors.accent_65;
 			var width = oa.width || 184;
 			var height = width * (55/184);	// dimensions of the native logo
 
@@ -85,7 +85,7 @@
 	function makeToolButton(oa) {
 		//debug("MAKETOOLBUTTON - oa: " + json(oa));
 
-		var color_outline = _UI.colors.accent;
+		var color_outline = _UI.colors.accent_65;
 		var color_fill = 'transparent';
 
 		if(oa.selected){
@@ -158,11 +158,11 @@
 
 
 	function makePointButton(type, selected) {
-		var color = _UI.colors.g4;
+		var color = _UI.colors.gray_40;
 		var bgcolor = 'transparent';
 
 		if(selected){
-			color = _UI.colors.accent;
+			color = _UI.colors.accent_65;
 			bgcolor = _UI.colors.offwhite;
 		}
 
@@ -249,20 +249,32 @@
 		var currbool = eval(varname);
 		if(invert) currbool = !currbool;
 		
-		var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
-			'<input type="checkbox" class="checkboxfunc" ' +
-			'id="'+idname+'"' +
-			(currbool? ' checked ' : ' ') +
-			'onclick="' +
-			//'debug(\'Clicked on checkbox '+varname+'\'); ' +
-			'toggle(\''+varname+'\');';
+		// var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
+		// 	'<input type="checkbox" class="checkboxfunc" ' +
+		// 	'id="'+idname+'"' +
+		// 	(currbool? ' checked ' : ' ') +
+		// 	'onclick="' +
+		// 	//'debug(\'Clicked on checkbox '+varname+'\'); ' +
+		// 	'toggle(\''+varname+'\');';
 
-			if(doredraw){
-				re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');'+
-				' redraw(\'checkbox '+idname+'\');';
-			}
+		// 	if(doredraw){
+		// 		re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');'+
+		// 		' redraw(\'checkbox '+idname+'\');';
+		// 	}
 
-			re += '"><span class="checkboxui"></span></label>';
+		// 	re += '"><span class="checkboxui"></span></label>';
+
+		var re = '<input type="checkbox"';
+		re += (currbool? ' checked ' : ' ');
+		re += 'id="'+idname+'"';
+		re += 'onclick="toggle(\''+varname+'\');';
+
+		if(doredraw){
+			re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');';
+			re += ' redraw(\'checkbox '+idname+'\');';
+		}
+
+		re += '"/>';
 
 		return re;
 	}
@@ -274,9 +286,9 @@
 		'<svg version="1.1" '+
 		'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
 		'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
-			'<circle fill="'+_UI.colors.g8+'" cx="9" cy="9" r="9"/>'+
-			'<path fill="'+_UI.colors.g9+'" d="M8,12v-1c0-0.8,0.4-1.2,0.7-1.7C9,9,9.5,8.5,10.2,7.9c0.5-0.4,0.8-0.7,1-1c0.2-0.3,0.2-0.5,0.2-0.8c0-0.6-0.2-1.1-0.7-1.5C10.2,4.2,9.7,4,9.1,4C8.4,4,7.9,4.1,7.4,4.5C7,4.9,6.7,5.5,6.6,6.3L5,6.1C5.2,5,5.6,4.2,6.3,3.6S7.9,2.8,9,2.8c1.1,0,2.1,0.3,2.8,0.9S13,5,13,5.9c0,0.5-0.1,1-0.4,1.4c-0.2,0.4-0.7,0.9-1.5,1.5c-0.6,0.5-1,0.9-1.2,1.2c-0.2,0.3-0.2,0.2-0.3,0.9L8,12z"/>'+
-			'<ellipse fill="'+_UI.colors.g9+'" cx="8.8" cy="14.5" rx="1.4" ry="1.2"/>'+
+			'<circle fill="'+_UI.colors.gray_80+'" cx="9" cy="9" r="9"/>'+
+			'<path fill="'+_UI.colors.gray_90+'" d="M8,12v-1c0-0.8,0.4-1.2,0.7-1.7C9,9,9.5,8.5,10.2,7.9c0.5-0.4,0.8-0.7,1-1c0.2-0.3,0.2-0.5,0.2-0.8c0-0.6-0.2-1.1-0.7-1.5C10.2,4.2,9.7,4,9.1,4C8.4,4,7.9,4.1,7.4,4.5C7,4.9,6.7,5.5,6.6,6.3L5,6.1C5.2,5,5.6,4.2,6.3,3.6S7.9,2.8,9,2.8c1.1,0,2.1,0.3,2.8,0.9S13,5,13,5.9c0,0.5-0.1,1-0.4,1.4c-0.2,0.4-0.7,0.9-1.5,1.5c-0.6,0.5-1,0.9-1.2,1.2c-0.2,0.3-0.2,0.2-0.3,0.9L8,12z"/>'+
+			'<ellipse fill="'+_UI.colors.gray_90+'" cx="8.8" cy="14.5" rx="1.4" ry="1.2"/>'+
 		'</svg></button>';
 
 		//debug("HELPUI - output:\n"+re);

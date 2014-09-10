@@ -360,7 +360,7 @@
 		height:50px;
 		width:50px;
 		background-color: transparent;
-		margin-top:15px;
+		margin:10px;
 		cursor: pointer;
 		padding:0px;
 	}
@@ -676,7 +676,7 @@
 /* Page - Export Font */
 /* ------------------*/
 .ttxnote {
-	background-color: rgb(165,222,240);
+	background-color: rgb(155,221,255);
 	border: 1px solid rgb(0,170,225);
 	padding:16px;
 	margin-top:24px;
@@ -945,7 +945,7 @@
 
 	.layersel .layername {
 		background-color: rgb(0,170,225);
-		color: rgb(165,222,240);
+		color: rgb(155,221,255);
 	}
 
 	.layername{
@@ -1062,26 +1062,34 @@
 /*	GUIDES		*/
 	.guiderow {
 		background-color: rgb(250,252,255);
-		padding:10px;
 		width:100%;
 		margin-bottom:4px;
 	}
 
-	.guiderow td {
-		padding:4px 2px 8px 10px;
+	.guiderow span {
+		display: inline-block;
+		padding:0px 4px;
+		vertical-align: top;
+	}
+
+	.guidename {
+		font-weight: bold;
+		width:50%;
+		margin-left: 10px;
+	}
+
+	.guidelocation {
+		text-align: right;
+		width:100px;
 	}
 
 	.guiderow select,
-	.guiderow input {
+	.guiderow input[type=number] {
 		border-radius: 0px;
 		border: 1px solid rgb(153,158,163);
 		padding:2px;
 		font-size: 14px;
-	}
-
-	.guiderow input{
 		width:100px;
-		margin-left:10px;
 	}
 
 	.guidecolor {

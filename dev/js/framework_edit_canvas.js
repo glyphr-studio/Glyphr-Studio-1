@@ -267,14 +267,16 @@
 			ps.guides.baseline.draw();
 
 			// Out of bounds triangle
-			var v = getView('guides');
-			_UI.chareditctx.fillStyle = ps.guides.baseline.color;
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.moveTo(v.dx, v.dy);
-			_UI.chareditctx.lineTo(v.dx, v.dy+(_GP.projectsettings.pointsize*2));
-			_UI.chareditctx.lineTo(v.dx-(_GP.projectsettings.pointsize*2), v.dy);
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.fill();
+			if(ps.guides.baseline.visible || ps.guides.leftside.visible){
+				var v = getView('guides');
+				_UI.chareditctx.fillStyle = ps.guides.baseline.color;
+				_UI.chareditctx.beginPath();
+				_UI.chareditctx.moveTo(v.dx, v.dy);
+				_UI.chareditctx.lineTo(v.dx, v.dy+(ps.pointsize*2));
+				_UI.chareditctx.lineTo(v.dx-(ps.pointsize*2), v.dy);
+				_UI.chareditctx.closePath();
+				_UI.chareditctx.fill();
+			}
 		}
 		// debug(' drawGuides - END\n');
 	}

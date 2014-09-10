@@ -70,7 +70,7 @@
 				if(cc){
 					if(td.showcharbox){
 						tctx.fillStyle = "transparent";
-						tctx.strokeStyle = _UI.colors.accent;
+						tctx.strokeStyle = _UI.colors.accent_65;
 						tctx.lineWidth = 1;
 
 						tctx.strokeRect(
@@ -92,7 +92,7 @@
 	function drawLine(y){
 		//debug("TESTDRIVE - Drawing h line at " + y);
 		y = y.makeCrisp();
-		_UI.testdrive.ctx.strokeStyle = _UI.colors.accent;
+		_UI.testdrive.ctx.strokeStyle = _UI.colors.accent_65;
 		_UI.testdrive.ctx.beginPath();
 		_UI.testdrive.ctx.lineWidth = 1;
 		_UI.testdrive.ctx.moveTo(0,y);
