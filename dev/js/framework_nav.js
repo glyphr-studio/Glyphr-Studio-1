@@ -5,7 +5,7 @@
 //-------------------
 
 	function navigate(nap){
-		// debug(">>> NAVIGATE STARTED - to " + _UI.navhere + ", nav primary: " + nap);
+		// debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
 
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
@@ -22,12 +22,12 @@
 
 		loadPageContent();
 		document.body.focus();
-		// debug(">>> NAVIGATED - to " + _UI.navhere);
+		// debug('>>> NAVIGATED - to ' + _UI.navhere);
 	}
 
 
 	function update_NavPanels() {
-		//debug("UPDATE_NAVPANELS");
+		//debug('UPDATE_NAVPANELS');
 		if (_UI.popout){ make_NavPanels_PopOut(); }
 		else { make_NavPanels_PopIn(); }
 	}
@@ -46,11 +46,11 @@
 
 	function popOut(){
 		_UI.popout = window.open('', 'glyphr_popout');
-		//debug("POPOUT - opened window, _UI.popout is " + _UI.popout);
+		//debug('POPOUT - opened window, _UI.popout is ' + _UI.popout);
 		var pop = _UI.popout;
 		var popdoc = _UI.popout.document;
 
-		//debug("POPOUT - getting css:\n" + document.styleSheets[0]);
+		//debug('POPOUT - getting css:\n' + document.styleSheets[0]);
 
 		// Init window properties
         popdoc.write('<!doctype html>'+
@@ -77,12 +77,12 @@
         pop.setView = setView;
         pop.popIn = popIn;
         pop.toggleKeyboardTips = toggleKeyboardTips;
-		popdoc.getElementById("mainwrapper").style.overflowY = "hidden";
+		popdoc.getElementById('mainwrapper').style.overflowY = 'hidden';
 		navigate();
 	}
 
 	function makeLayout_PopOut(){
-		//debug("MAKELAYOUT_POPOUT - start");
+		//debug('MAKELAYOUT_POPOUT - start');
 
 		var pol = '<table class="popout_table"><tr>';
 		pol += '<td id="popout_pagenav"></td>';
@@ -95,21 +95,21 @@
 		pol += '</tr></table>';
 
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
-		//debug("MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
+		//debug('MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		make_NavPanels_PopOut();
-		//debug("MAKELAYOUT_POPOUT - end");
+		//debug('MAKELAYOUT_POPOUT - end');
 	}
 
 	function make_NavPanels_PopOut(){
-		//debug("make_NavPanels_PopOut");
-		//debug("\t\t primaryscreenlayout.innerhtml:\n" + document.getElementById('primaryScreenLayout').innerHTML);
+		//debug('make_NavPanels_PopOut');
+		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(_UI.navhere === "character edit") {
+		if(_UI.navhere === 'character edit') {
 			document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
 		}
-		if(_UI.navhere === "linked shapes") {
+		if(_UI.navhere === 'linked shapes') {
 			document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
 		}
 		document.getElementById('popout_history').innerHTML = makePanel_History();
@@ -117,10 +117,10 @@
 		document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 
 		document.getElementById('popout_actions').innerHTML = makePanel_Actions();
-		
+
 		document.getElementById('popout_guides').innerHTML = makePanel_Guides();
 
-		if(_UI.navhere === "test drive"){
+		if(_UI.navhere === 'test drive'){
 			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
 		} else {
 			document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
@@ -137,13 +137,13 @@
 
 	function popIn(){
 		try { _UI.popout.close(); } catch (e) {}
-        document.body.classList.remove("poppedOut");
+        document.body.classList.remove('poppedOut');
 		_UI.popout = false;
 		navigate();
 	}
 
 	function makeLayout_PopIn(nap){
-		// debug("\n makeLayout_PopIn - START");
+		// debug('\n makeLayout_PopIn - START');
 
 		var pil = '<div id="mainwrapper"></div>';
 		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
@@ -158,85 +158,84 @@
 			_UI.navprimaryhere = nap;
 		} else {
 			switch(nh){
-				// case "firstrun":  _UI.navprimaryhere = "";break;
- 				case "character edit": 	_UI.navprimaryhere = "npChooser"; break;
-				case "linked shapes": 	_UI.navprimaryhere = "npChooser"; break;
-				case "ligatures": 		_UI.navprimaryhere = "npChooser"; break;
-				case "kerning": 		_UI.navprimaryhere = "npChooser"; break;
-				case "test drive": 		_UI.navprimaryhere = "npAttributes"; break;
-				case "font settings": 	_UI.navprimaryhere = "npNav"; break;
-				case "project settings":_UI.navprimaryhere = "npNav"; break;
-				case "open project": 	_UI.navprimaryhere = "npNav"; break;
-				case "export font": 	_UI.navprimaryhere = "npNav"; break;
-				case "import svg": 		_UI.navprimaryhere = "npChooser"; break;
-				case "help": 			_UI.navprimaryhere = "npNav"; break;
-				case "about": 			_UI.navprimaryhere = "npNav"; break;
+				// case 'firstrun':  _UI.navprimaryhere = '';break;
+ 				case 'character edit': 	_UI.navprimaryhere = 'npChooser'; break;
+				case 'linked shapes': 	_UI.navprimaryhere = 'npChooser'; break;
+				case 'ligatures': 		_UI.navprimaryhere = 'npChooser'; break;
+				case 'kerning': 		_UI.navprimaryhere = 'npChooser'; break;
+				case 'test drive': 		_UI.navprimaryhere = 'npAttributes'; break;
+				case 'font settings': 	_UI.navprimaryhere = 'npNav'; break;
+				case 'project settings':_UI.navprimaryhere = 'npNav'; break;
+				case 'open project': 	_UI.navprimaryhere = 'npNav'; break;
+				case 'export font': 	_UI.navprimaryhere = 'npNav'; break;
+				case 'import svg': 		_UI.navprimaryhere = 'npChooser'; break;
+				case 'help': 			_UI.navprimaryhere = 'npNav'; break;
+				case 'about': 			_UI.navprimaryhere = 'npNav'; break;
 			}
 		}
 
 		// pages with redraw() call make_NavPanels_PopIn
 		if(onCanvasEditPage()){
-			document.getElementById("mainwrapper").style.overflowY = "hidden";
+			document.getElementById('mainwrapper').style.overflowY = 'hidden';
 		} else {
 			make_NavPanels_PopIn();
-			document.getElementById("mainwrapper").style.overflowY = "scroll";
+			document.getElementById('mainwrapper').style.overflowY = 'scroll';
 		}
 	}
 
 	function onCanvasEditPage() {
 		var nh = _UI.navhere;
-		return ( nh==="character edit" ||
-					nh==="linked shapes" ||
-					nh==="test drive" ||
-					nh==="kerning" ||
-					nh==="ligatures");
+		return ( nh==='character edit' ||
+					nh==='linked shapes' ||
+					nh==='test drive' ||
+					nh==='kerning' ||
+					nh==='ligatures');
 	}
 
 	function make_NavPanels_PopIn(){
-		// debug("\n make_NavPanels_PopIn - START");
-		// debug("\t navhere:" + _UI.navhere + " navprimaryhere:" + _UI.navprimaryhere);
+		// debug('\n make_NavPanels_PopIn - START');
+		// debug('\t navhere:' + _UI.navhere + ' navprimaryhere:' + _UI.navprimaryhere);
 
-		document.getElementById("navarea_tabs").innerHTML = makePanel_NavTabs();
+		var np = document.getElementById('navarea_panel');
+		document.getElementById('navarea_tabs').innerHTML = makePanel_NavTabs();
+		np.innerHTML = '';
 		updateSaveIcon();
 
-		var nt = document.getElementById("navarea_panel");
-		nt.innerHTML = "";
-
 		if(!onCanvasEditPage()) {
-			_UI.navprimaryhere = "npNav";
-			nt.innerHTML = makePanel_PageNav();
+			_UI.navprimaryhere = 'npNav';
+			np.innerHTML = makePanel_PageNav();
 			return;
 		}
 
 		switch(_UI.navprimaryhere){
-			case "npChooser":
+			case 'npChooser':
 				switch(_UI.navhere){
-					case "character edit": nt.innerHTML = makePanel_CharChooser('selectChar'); break;
-					case "import svg": nt.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
-					case "linked shapes": nt.innerHTML = makePanel_LinkedShapeChooser(); break;
-					case "ligatures": nt.innerHTML = makePanel_LigatureChooser(); break;
-					case "kerning": nt.innerHTML = makePanel_KernChooser(); break;
+					case 'character edit': np.innerHTML = makePanel_CharChooser('selectChar'); break;
+					case 'import svg': np.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
+					case 'linked shapes': np.innerHTML = makePanel_LinkedShapeChooser(); break;
+					case 'ligatures': np.innerHTML = makePanel_LigatureChooser(); break;
+					case 'kerning': np.innerHTML = makePanel_KernChooser(); break;
 				}
 				break;
 
-			case "npAttributes":
+			case 'npAttributes':
 				switch (_UI.navhere){
-					case "character edit":
-					case "linked shapes":
-						nt.innerHTML = makePanel_CharAttributes();
-						nt.innerHTML += makePanel_Actions();
+					case 'character edit':
+					case 'linked shapes':
+						np.innerHTML = makePanel_CharAttributes();
+						np.innerHTML += makePanel_Actions();
 					break;
-					case "ligatures": nt.innerHTML = makePanel_CharAttributes(); break;
-					case "kerning": nt.innerHTML = makePanel_KerningAttributes(); break;
-					case "test drive": nt.innerHTML = makePanel_TestDriveAttributes(); break;
+					case 'ligatures': np.innerHTML = makePanel_CharAttributes(); break;
+					case 'kerning': np.innerHTML = makePanel_KerningAttributes(); break;
+					case 'test drive': np.innerHTML = makePanel_TestDriveAttributes(); break;
 				}
 				break;
 
-			case "npNav": nt.innerHTML = makePanel_PageNav(); break;
-			case "npLayers": nt.innerHTML = makePanel_LayerChooser(); break;
-			case "npGuides": nt.innerHTML = makePanel_Guides(); break;
-			case "npHistory": nt.innerHTML = makePanel_History(); break;
-			case "npSave": saveGlyphrProjectFile(); break;
+			case 'npNav': np.innerHTML = makePanel_PageNav(); break;
+			case 'npLayers': np.innerHTML = makePanel_LayerChooser(); break;
+			case 'npGuides': np.innerHTML = makePanel_Guides(); break;
+			case 'npHistory': np.innerHTML = makePanel_History(); break;
+			case 'npSave': saveGlyphrProjectFile(); break;
 		}
 	}
 
@@ -257,73 +256,75 @@
 
 	function loadPageContent(){
 		switch(_UI.navhere){
-			case "firstrun":			loadPage_firstrun();		break;
-			case "font settings":		loadPage_fontsettings();	break;
-			case "project settings":	loadPage_projectsettings();	break;
-			case "open project":		loadPage_openproject();		break;
-			case "export font":			loadPage_exportfont();		break;
-			case "import svg":			loadPage_importsvg();		break;
-			case "help":				loadPage_help();			break;
-			case "about":				loadPage_about();			break;
-			case "test drive":			loadPage_testdrive();		break;
-			case "linked shapes":		loadPage_linkedshapes();	break;
-			case "character edit":		loadPage_charedit();		break;
-			case "kerning":				loadPage_kerning();			break;
-			case "ligatures":			loadPage_ligatures();		break;
+			case 'firstrun':			loadPage_firstrun();		break;
+			case 'font settings':		loadPage_fontsettings();	break;
+			case 'project settings':	loadPage_projectsettings();	break;
+			case 'open project':		loadPage_openproject();		break;
+			case 'export font':			loadPage_exportfont();		break;
+			case 'import svg':			loadPage_importsvg();		break;
+			case 'help':				loadPage_help();			break;
+			case 'about':				loadPage_about();			break;
+			case 'test drive':			loadPage_testdrive();		break;
+			case 'linked shapes':		loadPage_linkedshapes();	break;
+			case 'character edit':		loadPage_charedit();		break;
+			case 'kerning':				loadPage_kerning();			break;
+			case 'ligatures':			loadPage_ligatures();		break;
 		}
 	}
 
 	function updateSaveIcon(){
 		var fill = _UI.colors.gray_90;
-		if(!_UI.projectsaved) fill = "white";
+		if(!_UI.projectsaved) fill = 'white';
 		document.getElementById('npSave').innerHTML = makeIcon({'name': 'button_npSave', 'color': fill, 'hovercolor':'white'});
 	}
 
 
 	function makePanel_NavTabs(){
 		var navarr = [];
-		navarr.push("npNav");
+		navarr.push('npNav');
 
-		switch(_UI.navhere){
-			case "character edit":
-			navarr.push("npAttributes");
-			navarr.push("npLayers");
-			navarr.push("npChooser");
-			navarr.push("npGuides");
-			navarr.push("npHistory");
-			break;
+		if(_UI.navprimaryhere !== 'npNav'){
+			switch(_UI.navhere){
+				case 'character edit':
+				navarr.push('npAttributes');
+				navarr.push('npLayers');
+				navarr.push('npChooser');
+				navarr.push('npGuides');
+				navarr.push('npHistory');
+				break;
 
-			case "linked shapes":
-			navarr.push("npAttributes");
-			navarr.push("npChooser");
-			navarr.push("npGuides");
-			navarr.push("npHistory");
-			break;
+				case 'linked shapes':
+				navarr.push('npAttributes');
+				navarr.push('npChooser');
+				navarr.push('npGuides');
+				navarr.push('npHistory');
+				break;
 
-			case "ligatures":
-			navarr.push("npAttributes");
-			navarr.push("npChooser");
-			navarr.push("npGuides");
-			navarr.push("npHistory");
-			break;
+				case 'ligatures':
+				navarr.push('npAttributes');
+				navarr.push('npChooser');
+				navarr.push('npGuides');
+				navarr.push('npHistory');
+				break;
 
-			case "kerning":
-			navarr.push("npAttributes");
-			navarr.push("npChooser");
-			navarr.push("npGuides");
-			navarr.push("npHistory");
-			break;
+				case 'kerning':
+				navarr.push('npAttributes');
+				navarr.push('npChooser');
+				navarr.push('npGuides');
+				navarr.push('npHistory');
+				break;
 
-			case "test drive":
-			navarr.push("npAttributes");
-			break;
+				case 'test drive':
+				navarr.push('npAttributes');
+				break;
 
-			case "import svg":
-			navarr.push("npChooser");
-			break;
+				case 'import svg':
+				navarr.push('npChooser');
+				break;
+			}
 		}
 
-		var newsub = "";
+		var newsub = '';
 
 		// defaults for logo
 		var nfill = _UI.colors.accent_85;
@@ -332,11 +333,15 @@
 		if(_UI.navprimaryhere === 'npNav'){
 			nfill = _UI.colors.accent_35;
 			nhover = _UI.colors.accent_35;
+			document.getElementById('navarea_tabs').style.backgroundColor = _UI.colors.gray_90;
+		} else {
+			document.getElementById('navarea_tabs').style.backgroundColor = _UI.colors.gray_80;
 		}
 
-		newsub += "<div class='navarea_header' style='background-color:"+_UI.colors.accent_45+";'><button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; make_NavPanels_PopIn();'>";
+		// Start putting together the tabs
+		newsub += '<div class="navarea_header" style="background-color:'+_UI.colors.accent_45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
 		newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
-		newsub += "</button></div>";
+		newsub += '</button></div>';
 
 		for(var i=1; i<navarr.length; i++){
 			if(_UI.navprimaryhere === navarr[i]){
@@ -346,27 +351,27 @@
 				nfill = _UI.colors.gray_90;
 				nhover = 'white';
 			}
-			newsub += "<div class='navarea_section'><button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\"; make_NavPanels_PopIn();'>";
+			newsub += '<div class="navarea_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\"'+navarr[i]+'\"; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
-			newsub += "</button></div>";
+			newsub += '</button></div>';
 		}
 
-		newsub += "<div class='navarea_section'><button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'>";
+		newsub += '<div class="navarea_section"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
 		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.gray_90, 'hovercolor':'white'});
-		newsub += "</button></div>";
+		newsub += '</button></div>';
 
 		// Debug Dumps
 		if(_UI.debug){
-			newsub += "<div style='position:absolute; bottom:20px; left:10px;'>Console<br>Dump<br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_UI);'>UI</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_GP.projectsettings);'>PS</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_GP.metadata);'>META</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_GP.fontchars);'>CHAR</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_GP.kerning);'>KRN</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_GP.ligatures);'>LIG</button><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='debug(_GP.linkedshapes);'>LS</button><br><br>";
-			newsub += "<button class='buttonsel' style='width:50px; padding:0px; 4px;' onclick='console.clear();'>clear</button><br>";
-			newsub += "</div>";
+			newsub += '<div style="position:absolute; bottom:20px; left:10px;">Console<br>Dump<br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_UI);">UI</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.metadata);">META</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.fontchars);">CHAR</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.linkedshapes);">LS</button><br><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="console.clear();">clear</button><br>';
+			newsub += '</div>';
 		}
 
 		return newsub;
@@ -375,52 +380,52 @@
 
 	function makePanel_PageNav(){
 		var navarr = [
-			"character edit",
-			"linked shapes",
-			"ligatures",
-			"kerning",
-			"test drive",
-			"_",
-			"font settings",
-			"project settings",
-			"_",
-			"open project",
-			"import svg",
-			"export font",
-			"_",
-			"help",
-			"about",
-			"_",
-			"bug",
-			"issue"
+			'character edit',
+			'linked shapes',
+			'ligatures',
+			'kerning',
+			'test drive',
+			'_',
+			'font settings',
+			'project settings',
+			'_',
+			'open project',
+			'import svg',
+			'export font',
+			'_',
+			'help',
+			'about',
+			'_',
+			'bug',
+			'issue'
 		];
 
-		var newsub = "<div class='navarea_header' style='padding:12px 10px 8px 10px;'>"+makeGlyphrStudioLogo({fill:'white', width:150})+"</div>";
-		newsub += "<div class='navarea_section'>";
+		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
+		newsub += '<div class="navarea_section">';
 
 		for(var i=0; i<navarr.length; i++){
-			var bc = "navtargetbutton";
-			if(navarr[i] === _UI.navhere) { bc = "navtargetbuttonsel"; }
+			var bc = 'navtargetbutton';
+			if(navarr[i] === _UI.navhere) { bc = 'navtargetbuttonsel'; }
 
-			if(navarr[i]==="_"){
-				newsub += "<div style='height:10px;'></div>";
-			} else if (navarr[i] === "bug"){
-				newsub += ("<a href='mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body="+genEmailContent()+"' class='navpanellink'>email the glyphr studio team</a><br>");
-			} else if (navarr[i] === "issue"){
-				newsub += ("<a href='https://github.com/mattlag/Glyphr-Studio/issues/new' target=_new class='navpanellink'>create a new issue on github</a><br>");
+			if(navarr[i]==='_'){
+				newsub += '<div style="height:10px;"></div>';
+			} else if (navarr[i] === 'bug'){
+				newsub += ('<a href="mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body='+genEmailContent()+'" class="navpanellink">email the glyphr studio team</a><br>');
+			} else if (navarr[i] === 'issue'){
+				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target=_new class="navpanellink">create a new issue on github</a><br>');
 			} else {
-				newsub += ("<button class='"+bc+"' onclick='_UI.navhere=\""+navarr[i]+"\"; _UI.selectedshape=-1; navigate();'>"+navarr[i]+"</button>");
+				newsub += ('<button class="'+bc+'" onclick="_UI.navhere=\"'+navarr[i]+'\"; _UI.selectedshape=-1; navigate();">'+navarr[i]+'</button>');
 			}
 		}
 
 		if(_UI.popout) {
-			newsub += "<div class='popoutsave'>";
-			newsub += "<button class='primarynavbutton' id='npSave' style='margin-left:12px;' onclick='saveGlyphrProjectFile();'></button>";
-			newsub += "<button title='one screen mode' class='tool' style='background-color:transparent; position:relative; top:-15px;' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
-			newsub += "</div>";
+			newsub += '<div class="popoutsave">';
+			newsub += '<button class="primarynavbutton" id="npSave" style="margin-left:12px;" onclick="saveGlyphrProjectFile();"></button>';
+			newsub += '<button title="one screen mode" class="tool" style="background-color:transparent; position:relative; top:-15px;" onclick="popIn();">'+makeToolButton({'name':'tool_popIn'})+'</button>';
+			newsub += '</div>';
 		}
 
-		newsub += "</div>";
+		newsub += '</div>';
 
 		return newsub;
 	}

@@ -3,17 +3,17 @@
 //	--------------------
 //	Conversion Functions
 //	--------------------
-	function decToHex(d) { var dr = Number(d).toString(16); while(dr.length < 4) { dr = "0"+dr; } return "0x"+dr.toUpperCase(); }
+	function decToHex(d) { var dr = Number(d).toString(16); while(dr.length < 4) { dr = '0'+dr; } return '0x'+dr.toUpperCase(); }
 	function hexToChar(u) { return String.fromCharCode(u); }
 	function charToHex(s) { return decToHex(String(s).charCodeAt(0)); }
-	function hexToHTML(h) { return ("&#"+parseInt(h,16)+";"); }
+	function hexToHTML(h) { return ('&#'+parseInt(h,16)+';'); }
 	function padHexString (h) { h = (''+h).substr(2); while(h.length < 4) h = '0'+h; return '0x'+h.toUpperCase(); }
 
 //	--------------------
 //	Range functions
 //	--------------------
 	function addCustomCharacterRange(){
-		var newrange = {"begin":0, "end":0};
+		var newrange = {'begin':0, 'end':0};
 		newrange.begin = parseInt(document.getElementById('customrangebegin').value, 16);
 		newrange.end = parseInt(document.getElementById('customrangeend').value, 16);
 		document.getElementById('customrangebegin').value = '';
@@ -49,30 +49,30 @@
 
 	function updateCustomRangeTable(){
 		var cr = _GP.projectsettings.charrange.custom;
-		//debug("UPDATECUSTOMRANGETABLE - \n\t custom is " + JSON.stringify(cr));
-		var content = "";
+		//debug('UPDATECUSTOMRANGETABLE - \n\t custom is ' + JSON.stringify(cr));
+		var content = '';
 		if(cr.length){
-			content += "Existing custom character ranges:<br><table style='margin-top:8px;'>";
+			content += 'Existing custom character ranges:<br><table style="margin-top:8px;">';
 			for(var c=0; c<cr.length; c++){
-				content += "<tr><td class='customrangeline'>";
-				content += cr[c].begin + "&nbsp;&nbsp;through&nbsp;&nbsp;" + cr[c].end + "&nbsp;&nbsp;";
-				content += "</td><td>";
-				content += "<button onclick='removeCustomCharacterRange("+c+");'>remove</button>";
-				content += "</td></tr>";
+				content += '<tr><td class="customrangeline">';
+				content += cr[c].begin + '&nbsp;&nbsp;through&nbsp;&nbsp;' + cr[c].end + '&nbsp;&nbsp;';
+				content += '</td><td>';
+				content += '<button onclick="removeCustomCharacterRange('+c+');">remove</button>';
+				content += '</td></tr>';
 			}
-			content += "</table><br>";
-			content += "Note, removing a custom range will not delete character data from your Glyphr Project.  ";
-			content += "Custom ranges only determine what is shown in the UI, and what is exported to fonts.";
+			content += '</table><br>';
+			content += 'Note, removing a custom range will not delete character data from your Glyphr Project.  ';
+			content += 'Custom ranges only determine what is shown in the UI, and what is exported to fonts.';
 		}
 		document.getElementById('customrangetable').innerHTML = content;
 	}
 
 	function removeCustomCharacterRange(i){
 		var cr = _GP.projectsettings.charrange.custom;
-		//debug("REMOVECUSTOMCHARACTERRANGE - called on index " + i + "\n\t custom is " + JSON.stringify(cr));
+		//debug('REMOVECUSTOMCHARACTERRANGE - called on index ' + i + '\n\t custom is ' + JSON.stringify(cr));
 		cr.splice(i,1);
 		updateCustomRangeTable();
-		//debug("REMOVECUSTOMCHARACTERRANGE - \n\t custom is " + JSON.stringify(cr));
+		//debug('REMOVECUSTOMCHARACTERRANGE - \n\t custom is ' + JSON.stringify(cr));
 	}
 
 
@@ -80,13 +80,13 @@
 //	Global Vars
 //	-----------------
 
-	_UI.basiclatinorder = ["0x0041","0x0042","0x0043","0x0044","0x0045","0x0046","0x0047","0x0048","0x0049","0x004A","0x004B","0x004C","0x004D","0x004E","0x004F","0x0050","0x0051","0x0052","0x0053","0x0054","0x0055","0x0056","0x0057","0x0058","0x0059","0x005A","0x0061","0x0062","0x0063","0x0064","0x0065","0x0066","0x0067","0x0068","0x0069","0x006A","0x006B","0x006C","0x006D","0x006E","0x006F","0x0070","0x0071","0x0072","0x0073","0x0074","0x0075","0x0076","0x0077","0x0078","0x0079","0x007A","0x0030","0x0031","0x0032","0x0033","0x0034","0x0035","0x0036","0x0037","0x0038","0x0039","0x0021","0x0022","0x0023","0x0024","0x0025","0x0026","0x0027","0x0028","0x0029","0x002A","0x002B","0x002C","0x002D","0x002E","0x002F","0x003A","0x003B","0x003C","0x003D","0x003E","0x003F","0x0040","0x005B","0x005C","0x005D","0x005E","0x005F","0x0060","0x007B","0x007C","0x007D","0x007E","0x0020"];
+	_UI.basiclatinorder = ['0x0041','0x0042','0x0043','0x0044','0x0045','0x0046','0x0047','0x0048','0x0049','0x004A','0x004B','0x004C','0x004D','0x004E','0x004F','0x0050','0x0051','0x0052','0x0053','0x0054','0x0055','0x0056','0x0057','0x0058','0x0059','0x005A','0x0061','0x0062','0x0063','0x0064','0x0065','0x0066','0x0067','0x0068','0x0069','0x006A','0x006B','0x006C','0x006D','0x006E','0x006F','0x0070','0x0071','0x0072','0x0073','0x0074','0x0075','0x0076','0x0077','0x0078','0x0079','0x007A','0x0030','0x0031','0x0032','0x0033','0x0034','0x0035','0x0036','0x0037','0x0038','0x0039','0x0021','0x0022','0x0023','0x0024','0x0025','0x0026','0x0027','0x0028','0x0029','0x002A','0x002B','0x002C','0x002D','0x002E','0x002F','0x003A','0x003B','0x003C','0x003D','0x003E','0x003F','0x0040','0x005B','0x005C','0x005D','0x005E','0x005F','0x0060','0x007B','0x007C','0x007D','0x007E','0x0020'];
 	_UI.charrange = {
-		"basiclatin": {"begin":0x0020, "end":0x007E},
-		"latinsuppliment": {"begin":0x00A1, "end": 0x00FF},
-		"latinextendeda": {"begin":0x0100, "end":0x017F},
-		"latinextendedb": {"begin":0x0180, "end":0x024F}
-	}
+		'basiclatin': {'begin':0x0020, 'end':0x007E},
+		'latinsuppliment': {'begin':0x00A1, 'end': 0x00FF},
+		'latinextendeda': {'begin':0x0100, 'end':0x017F},
+		'latinextendedb': {'begin':0x0180, 'end':0x024F}
+	};
 
 	_UI.unicodenames = {
 	// Basic Latin

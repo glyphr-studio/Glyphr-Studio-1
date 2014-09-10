@@ -24,9 +24,14 @@
 	function makePanel_TestDriveAttributes(){
 		if(_UI.navprimaryhere != "npAttributes") return;
 
-		var content = "<h1 class='paneltitle'>settings</h1><h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";
-			content += "<br><h2>options</h2><div>" + drawTDOptions() + "</div>";
-			content += "</td></tr></table></div>";
+		var content = "<div class='navarea_header'>";
+		content += "<h1 class='panelsupertitle'>TEST DRIVE</h1>";
+		content += "<h1 class='paneltitle'>controls</h1>";
+
+		content += "</div><div class='navarea_section'>";
+		content += "<h2>sample text</h2><div>" + drawSampletextButtons() + "</div>";
+		content += "<br><h2>options</h2><div>" + drawTDOptions() + "</div>";
+		content += "</td></tr></table></div>";
 
 		return content;
 	}

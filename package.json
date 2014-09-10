@@ -12,5 +12,43 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mattlag/Glyphr-Studio.git"
+  },
+  "jshintConfig": {
+    // ENFORCING
+    "bitwise": true,
+    "curly": false,
+    "eqeqeq": true,
+    "evil": false,
+    "forin": true,
+    "freeze": true,
+    "latedef": false,
+    "newcap": true,
+    "nonbsp": true,
+    "plusplus": false,
+    "strict": false,
+    "undef": false,
+    "unused": false,
+
+    // RELAXING
+    "debug": true,
+    "globalstrict": true,
+
+    // ENVIRONMENTS
+    "browser": true,
+    "devel": true,
+
+    // GLOBALS
+    "predef": [
+      "_UI",
+      "_GP",
+      "Coord",
+      "Path",
+      "PathPoint",
+      "Shape",
+      "LinkedShape",
+      "Char",
+      "GlyphrProject",
+      "Guide"
+    ]
   }
 }

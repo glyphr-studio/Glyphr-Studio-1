@@ -6,8 +6,8 @@
 
 	window.onload = function() {
 		//console.clear();
-		console.log("%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n" + _UI.thisGlyphrStudioVersion + "\n\n", "color:rgb(0,170,225)");
-		//debug("MAIN SETUP() - START");
+		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\n' + _UI.thisGlyphrStudioVersion + '\n\n', 'color:rgb(0,170,225)');
+		//debug('MAIN SETUP() - START');
 
 		// Initialize Stuff
 		insertGlobalDOMElements();
@@ -17,10 +17,10 @@
 
 		// Navigate
 		if(_UI.devnav){
-			debug(">>> DEV NAV - to " + _UI.devnav);
+			debug('>>> DEV NAV - to ' + _UI.devnav);
 
 			if(_UI.loadsampleproject && _UI.sampleproject){
-				debug("NAVIGATE - using sample project");
+				debug('NAVIGATE - using sample project');
 				importGlyphrProjectFromText(_UI.sampleproject);
 				_UI.loadsampleproject = false;
 				_UI.sampleproject = false;
@@ -59,7 +59,7 @@
 
 		window.onbeforeunload = function() {
 			if(_GP.projectsettings.stoppagenavigation && !_UI.debug){
-				return "\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n";
+				return '\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n';
 			} else {
 				return;
 			}
@@ -123,8 +123,8 @@
 		_UI.projectsaved = true;
 
 		if(_UI.popout) {
-			document.title = "Glyphr Studio - Tools";
-			_UI.popout.document.title = "Glyphr Studio - Canvas";
+			document.title = 'Glyphr Studio - Tools';
+			_UI.popout.document.title = 'Glyphr Studio - Canvas';
 		} else {
 			document.title = 'Glyphr Studio';
 		}
@@ -136,8 +136,8 @@
 		_UI.projectsaved = false;
 
 		if(_UI.popout) {
-			document.title = " ❖ Glyphr Studio - Tools";
-			_UI.popout.document.title = " ❖ Glyphr Studio - Canvas";
+			document.title = ' ❖ Glyphr Studio - Tools';
+			_UI.popout.document.title = ' ❖ Glyphr Studio - Canvas';
 		} else {
 			document.title = ' ❖ Glyphr Studio';
 		}
@@ -164,13 +164,13 @@ function saveTextFile(fname, fblob) {
 		//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
 		link.download = fname;
 
-		var event = document.createEvent("MouseEvents");
-		event.initEvent("click", true, false);
+		var event = document.createEvent('MouseEvents');
+		event.initEvent('click', true, false);
 		link.dispatchEvent(event);
 		return;
 	}
 
-	console.error("File could not be saved: " + fname);
+	console.error('File could not be saved: ' + fname);
 }
 
 
@@ -180,12 +180,12 @@ function saveTextFile(fname, fblob) {
 //-------------------
 	function putundoq(calledfrom){
 		var uqo = {
-			"char": getSelectedCharID(),
-			"name": calledfrom,
-			"date": new Date().getTime()
+			'char': getSelectedCharID(),
+			'name': calledfrom,
+			'date': new Date().getTime()
 		};
 
-		if (_UI.navhere == "linked shapes"){
+		if (_UI.navhere == 'linked shapes'){
 			uqo.state = clone(_UI.linkcurrstate);
 			_UI.linkedshapeundoq.push(uqo);
 			_UI.linkcurrstate = clone(_GP.linkedshapes);
@@ -199,23 +199,23 @@ function saveTextFile(fname, fblob) {
 	}
 
 	function pullundoq(){
-		//debug("PULLUNDOQ - Undo Pressed, undoq: " + undoq);
+		//debug('PULLUNDOQ - Undo Pressed, undoq: ' + undoq);
 		var uqo;
 
-		if (_UI.navhere == "linked shapes"){
+		if (_UI.navhere == 'linked shapes'){
 			if(_UI.linkedshapeundoq.length > 0){
 				uqo = _UI.linkedshapeundoq.pop();
 				_GP.linkedshapes = uqo.state;
 				_UI.linkcurrstate = clone(_GP.linkedshapes);
-				redraw("pullundoq");
+				redraw('pullundoq');
 			}
 		} else {
 			if(_UI.charundoq.length > 0){
 				uqo = _UI.charundoq.pop();
 				_GP.fontchars = uqo.state;
 				_UI.charcurrstate = clone(_GP.fontchars);
-				if(_UI.navhere === "character edit") redraw("pullundoq");
-				else if (_UI.navhere === "import svg") update_NavPanels();
+				if(_UI.navhere === 'character edit') redraw('pullundoq');
+				else if (_UI.navhere === 'import svg') update_NavPanels();
 			}
 
 			if(_UI.charundoq.length === 0 && _UI.linkedshapeundoq.length === 0){
@@ -232,7 +232,7 @@ function saveTextFile(fname, fblob) {
 	function clone(cobj){
 		var newObj = (cobj instanceof Array) ? [] : {};
 		for (var i in cobj) {
-			if (cobj[i] && typeof cobj[i] == "object") {
+			if (cobj[i] && typeof cobj[i] === 'object') {
 				newObj[i] = clone(cobj[i]);
 			} else newObj[i] = cobj[i];
 		} return newObj;
@@ -248,7 +248,7 @@ function saveTextFile(fname, fblob) {
 	// flip boolean var
 	function toggle(val) {
 		//debug("TOGGLE - typeof val = " + typeof val);
-		if(typeof val === 'string') eval(val + " = !" + val);
+		if(typeof val === 'string') eval(val + ' = !' + val);
 		else val = !val;
 	}
 
@@ -294,9 +294,9 @@ function saveTextFile(fname, fblob) {
 // Generic Spinner Control
 //-------------------
 	function spinner(){
-		var content ="";
-		content += "<button class='spinnerbutton' onclick='inc(this);'>&#9652;</button>";  //&and;
-		content += "<button class='spinnerbutton' onclick='dec(this);'>&#9662;</button>";  //&or;
+		var content ='';
+		content += '<button class="spinnerbutton" onclick="inc(this);">&#9652;</button>';  //&and;
+		content += '<button class="spinnerbutton" onclick="dec(this);">&#9662;</button>';  //&or;
 		return content;
 	}
 
@@ -328,17 +328,17 @@ function saveTextFile(fname, fblob) {
 //-------------------
 
 	function genEmailContent(){
-		var con = "Have a feature idea or ran into an issue%3F We%27d be happy to help!";
-		con += "%0A%0A%0A%0A___________________________________________%0A";
-		con += "version %09Glyphr Studio " + _UI.thisGlyphrStudioVersion + "%0A";
-		//con += "appCodeName %09" + navigator.appCodeName + "%0A";
-		con += "app name %09" + navigator.appName + "%0A";
-		//con += "appVersion %09" + navigator.appVersion + "%0A";
-		con += "language %09" + navigator.language + "%0A";
-		con += "platform %09" + navigator.platform + "%0A";
-		// con += "systemLanguage %09" + navigator.systemLanguage + "%0A";
-		// con += "userLanguage %09" + navigator.userLanguage + "%0A";
-		con += "user agent %09" + encodeURIComponent(navigator.userAgent) + "%0A";
+		var con = 'Have a feature idea or ran into an issue%3F We%27d be happy to help!';
+		con += '%0A%0A%0A%0A___________________________________________%0A';
+		con += 'version %09Glyphr Studio ' + _UI.thisGlyphrStudioVersion + '%0A';
+		//con += 'appCodeName %09' + navigator.appCodeName + '%0A';
+		con += 'app name %09' + navigator.appName + '%0A';
+		//con += 'appVersion %09' + navigator.appVersion + '%0A';
+		con += 'language %09' + navigator.language + '%0A';
+		con += 'platform %09' + navigator.platform + '%0A';
+		// con += 'systemLanguage %09' + navigator.systemLanguage + '%0A';
+		// con += 'userLanguage %09' + navigator.userLanguage + '%0A';
+		con += 'user agent %09' + encodeURIComponent(navigator.userAgent) + '%0A';
 
 		//debug(con);
 
@@ -356,13 +356,13 @@ function saveTextFile(fname, fblob) {
 		percent = Math.max(0,Math.min(percent,1));
 		var val = {};
 
-		if(c.charAt(0)=="#"){
+		if(c.charAt(0)==="#"){
 			c = c.substring(1,7);
 			val.r = parseInt(c.substring(0,2),16);
 			val.g = parseInt(c.substring(2,4),16);
 			val.b = parseInt(c.substring(4,6),16);
-		} else if (c.substring(0,4) === "rgb("){
-			c = c.split("(")[1].split(")")[0].split(",");
+		} else if (c.substring(0,4) === 'rgb('){
+			c = c.split('(')[1].split(')')[0].split(',');
 			val.r = c[0];
 			val.g = c[1];
 			val.b = c[2];
@@ -386,7 +386,7 @@ function saveTextFile(fname, fblob) {
 			val.b = round((val.b*1)-(val.b*percent));
 		}
 
-		return "rgb("+val.r+","+val.g+","+val.b+")";
+		return 'rgb('+val.r+','+val.g+','+val.b+')';
 	}
 
 // end of file
