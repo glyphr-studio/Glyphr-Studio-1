@@ -107,7 +107,7 @@
 // Update Actions
 //-------------------
 	function linkedShapeActions(){
-		var content = "<h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
+		var content = "<div class='navarea_section'><h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
 
 		var s = ss("Update Actions");
 
@@ -149,7 +149,7 @@
 		content += "</tr><tr>";
 		content += canvasactions;
 
-		content += "</td></tr></table>";
+		content += "</td></tr></table></div>";
 		return content;
 	}
 

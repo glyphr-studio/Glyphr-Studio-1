@@ -324,34 +324,36 @@
 		}
 
 		var newsub = "";
-		var nfill = 'white';
-		var nhover = 'white';
+
+		// defaults for logo
+		var nfill = _UI.colors.accent_85;
+		var nhover = _UI.colors.offwhite;
 
 		if(_UI.navprimaryhere === 'npNav'){
-			nfill = _UI.colors.accent_65;
-			nhover = _UI.colors.accent_65;
+			nfill = _UI.colors.accent_35;
+			nhover = _UI.colors.accent_35;
 		}
 
-		newsub += "<button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; make_NavPanels_PopIn();'>";
+		newsub += "<div class='navarea_header' style='background-color:"+_UI.colors.accent_45+";'><button class='primarynavbutton' id='npNav' onclick='_UI.navprimaryhere=\"npNav\"; make_NavPanels_PopIn();'>";
 		newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
-		newsub += "</button>";
+		newsub += "</button></div>";
 
 		for(var i=1; i<navarr.length; i++){
 			if(_UI.navprimaryhere === navarr[i]){
-				nfill = _UI.colors.accent_65;
-				nhover = _UI.colors.accent_65;
+				nfill = _UI.colors.accent_55;
+				nhover = _UI.colors.accent_55;
 			} else {
 				nfill = _UI.colors.gray_90;
 				nhover = 'white';
 			}
-			newsub += "<button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\"; make_NavPanels_PopIn();'>";
+			newsub += "<div class='navarea_section'><button class='primarynavbutton' id='"+navarr[i]+"' onclick='_UI.navprimaryhere=\""+navarr[i]+"\"; make_NavPanels_PopIn();'>";
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
-			newsub += "</button>";
+			newsub += "</button></div>";
 		}
 
-		newsub += "<button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'>";
+		newsub += "<div class='navarea_section'><button class='primarynavbutton' id='npSave' onclick='saveGlyphrProjectFile();'>";
 		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.gray_90, 'hovercolor':'white'});
-		newsub += "</button>";
+		newsub += "</button></div>";
 
 		// Debug Dumps
 		if(_UI.debug){
@@ -393,7 +395,8 @@
 			"issue"
 		];
 
-		var newsub = "<h1 class='paneltitle' style='margin-bottom:4px;'>Glyphr Studio</h1>";
+		var newsub = "<div class='navarea_header' style='padding:12px 10px 8px 10px;'>"+makeGlyphrStudioLogo({fill:'white', width:150})+"</div>";
+		newsub += "<div class='navarea_section'>";
 
 		for(var i=0; i<navarr.length; i++){
 			var bc = "navtargetbutton";
@@ -416,6 +419,8 @@
 			newsub += "<button title='one screen mode' class='tool' style='background-color:transparent; position:relative; top:-15px;' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
 			newsub += "</div>";
 		}
+
+		newsub += "</div>";
 
 		return newsub;
 	}

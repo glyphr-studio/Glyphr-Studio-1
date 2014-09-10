@@ -5,7 +5,7 @@
 //-------------------
 	function makePanel_LayerChooser(){
 
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -15,6 +15,8 @@
 		}
 
 		content += "<h1 class='paneltitle'>shapes</h1>";
+
+		content += "</div><div class='navarea_section'>";
 
 		var scs = getSelectedCharShapes();
 
@@ -51,6 +53,8 @@
 
 		content +=  "<br><br>" + updateLayerActions();
 
+		content += "</div>";
+		
 		return content;
 	}
 

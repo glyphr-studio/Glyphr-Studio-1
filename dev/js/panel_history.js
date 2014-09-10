@@ -5,7 +5,7 @@
 //-------------------
 	function makePanel_History(){
 
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -22,6 +22,8 @@
 			content = "<h1 class='paneltitle'>linked shapes history</h1>";
 			q = _UI.linkedshapeundoq;
 		}
+
+		content += "</div><div class='navarea_section'>";
 
 		//debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
 
@@ -45,6 +47,8 @@
 		}
 
 		content += "</table>";
+		content += "</div>";
+
 		return content;
 	}
 

@@ -5,7 +5,7 @@
 //-------------------
 	function makePanel_CharChooser(fname){
 
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -16,7 +16,12 @@
 
 		content += "<h1 class='paneltitle'>characters</h1>";
 
+		content += "</div><div class='navarea_section'>";
+
 		content += makeGenericCharChooserContent(fname);
+
+		content += "</div>";
+
 		return content;
 	}
 
@@ -107,7 +112,7 @@
 //-------------------------
 	function makePanel_LinkedShapeChooser(){
 
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -117,6 +122,8 @@
 		}
 
 		content += "<h1 class='paneltitle'>linked shapes</h1>";
+
+		content += "</div><div class='navarea_section'>";
 
 		content += "<div class='subnavunit'>";
 		content += "<table class='layertable'>";
@@ -134,6 +141,8 @@
 		content += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
 		content += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
 		content += "</td></tr></table>";
+
+		content += "</div>";
 
 		return content;
 	}
@@ -174,7 +183,7 @@
 //-------------------
 	function makePanel_LigatureChooser(){
 		// debug('\n makePanel_LigatureChooser - START');
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -184,6 +193,8 @@
 		}
 
 		content += "<h1 class='paneltitle'>characters</h1>";
+
+		content += "</div><div class='navarea_section'>";
 
 		content += "<div class='subnavunit'>";
 		content += "<table class='layertable'>";
@@ -201,6 +212,7 @@
 		//content += "<button onclick='addLigature();putundoq(\"Create New Ligature Shape\");navigate();'>create new</button><br>";
 		content += "</td></tr></table>";
 
+		content += "</div>";
 		// debug('makePanel_LigatureChooser - END\n');
 		return content;
 	}
@@ -237,7 +249,7 @@
 //-------------------
 	function makePanel_KernChooser(){
 		
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -248,6 +260,10 @@
 
 		content += "<h1 class='paneltitle'>pairs</h1>";
 
+		content += "</div><div class='navarea_section'>";
+
+		content += "</div>";
+		
 		return content;
 	}
 

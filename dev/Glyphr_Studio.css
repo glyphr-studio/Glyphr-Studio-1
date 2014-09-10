@@ -261,10 +261,24 @@
 		left:70px;
 		width:400px;
 		height:100%;
-		padding:18px 10px 0px 10px;
 		background-color:rgb(229,234,239);
 		overflow-y:auto;
 		overflow-x:hidden;
+	}
+
+	.navarea_section,
+	.navarea_header {
+		width:380px;
+		padding:10px;
+	}
+
+	.navarea_header {
+		height:50px;
+		background-color: rgb(0,140,210);
+	}
+
+	.navarea_header .paneltitle {
+		color:rgb(250,252,255);
 	}
 
 	#navarea_panel a {
@@ -272,10 +286,10 @@
 	}
 
 	.panelsupertitle {
-		color: rgb(0,240,169);
+		color: rgb(155,221,255);
 		font-weight:normal;
-		font-size:1.4em;
-		margin:0px 0px 10px 0px;
+		font-size:1.3em;
+		margin:4px 0px 10px 0px;
 		line-height: .78em;
 		text-transform: none;
 	}
@@ -287,10 +301,8 @@
 	}
 
 	.paneltitle {
-		color:rgb(204,209,214);
-		color:rgb(178,183,188);
+		color:rgb(0,90,135);
 		font-weight:normal;
-		margin:0px 0px 20px 0px;
 		line-height: .78em;
 	}
 
@@ -302,9 +314,9 @@
 		font-style:italic;
 	}
 
-	/* Width = sum of panel widths +1 each for border + 20px each for padding */
+	/* Width = sum of panel widths +1 each for border */
 	.popout_table {
-		width:2487px;
+		width:2372px;
 		height:100%;
 	}
 
@@ -318,7 +330,6 @@
 		height:100%;
 		width:400px;
 		display: inline-block;
-		padding:18px 10px 0px 10px;
 		background-color:rgb(229,234,239);
 		border-left:1px solid rgb(204,209,214);
 		overflow-y:auto;
@@ -326,11 +337,11 @@
 	}
 
 	#popout_pagenav {
-		width:200px;
+		width:220px;
 	}
 
 	#popout_actions {
-		width:140px;
+		width:145px;
 	}
 
 
@@ -359,8 +370,8 @@
 	.primarynavbutton:focus {
 		height:50px;
 		width:50px;
+		margin:0px;
 		background-color: transparent;
-		margin:10px;
 		cursor: pointer;
 		padding:0px;
 	}
@@ -472,12 +483,14 @@
 		height:50px;
 		width:50px;
 		background-color:rgb(250,252,255);
+		border:1px solid white;
 		display: block;
 		clear:both;
 	}
 
 	.charselectthumbsel {
-		background-color:rgb(0,170,225);
+		background-color:rgb(80,196,255);
+		border:1px solid rgb(0,170,255);
 	}
 
 	.charselectbuttonsel,
@@ -1044,12 +1057,8 @@
 	}
 
 	.actionsgrid td {
+		padding:0px 0px 12px 0px;
 		width:126px;
-	}
-
-	.actionsgrid h3,
-	.detail h3 {
-		margin:12px 0px 0px 0px;
 	}
 
 	.actionsgrid button {

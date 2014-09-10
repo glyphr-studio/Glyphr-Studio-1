@@ -6,9 +6,12 @@
 	function makePanel_Actions(){
 		var s = ss("Update Actions");
 		var pop = _UI.popout;
-		var content = "";
+		var content = "<div class='navarea_section'>";
+		if(pop) content = "<div class='navarea_header'>";
 
-		content += "<h1 class='paneltitle'"+(pop? "":" style='margin-bottom:0px;'")+">actions</h1>";
+		content += "<h1 class='paneltitle'>actions</h1>";
+
+		content += "</div><div class='navarea_section'>";
 
 		// Generate Sections
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
@@ -34,10 +37,6 @@
 		var layeractions = "<h3>layer</h3>";
 		layeractions += "<button onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'>move up</button><br>";
 		layeractions += "<button onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'>move down</button><br>";
-
-		var canvasactions = "<h3>editor view</h3>";
-		canvasactions += "<button onclick='_UI.showgrid? _UI.showgrid=false : _UI.showgrid=true; redraw(\"updateactions\");'>toggle grid</button><br>";
-		canvasactions += "<button onclick='_UI.showguides? _UI.showguides=false : _UI.showguides=true; redraw(\"updateactions\");'>toggle guides</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
 		pointactions += "<button onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
@@ -69,14 +68,10 @@
 		if (!pop) content += "</tr><tr>";
 
 		if(!pop) content += "<td>";
-		content += canvasactions;
-		if(!pop) content += "</td>";
-
-		if(!pop) content += "<td>";
 		if(s && !pop){ content += layeractions; }
 		content += "</td>";
 
-		content += "</tr></table><br><br>";
+		content += "</tr></table></div>";
 
 		return content;
 	}

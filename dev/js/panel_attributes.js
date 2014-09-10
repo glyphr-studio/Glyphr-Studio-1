@@ -12,7 +12,7 @@
 		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(_UI.selectedtool != "pathedit") ispointsel = false;
 
-		var content = "";
+		var content = "<div class='navarea_header'>";
 
 		if(!_UI.popout) {
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
@@ -23,6 +23,7 @@
 
 		content += "<h1 class='paneltitle'>attributes</h1>";
 
+		content += "</div><div class='navarea_section'>";
 
 		content += "<table class='detail'>";
 
@@ -57,6 +58,8 @@
 			content += linkedShapeCharDetails();
 			content += "</table><br>";
 		}
+
+		content += "</div>";
 
 		return content;
 	}
