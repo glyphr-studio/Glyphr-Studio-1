@@ -194,14 +194,6 @@
 			_UI.chareditctx.strokeStyle = _GP.projectsettings.colors.grid || ((new GlyphrProject()).projectsettings.colors.grid);
 			//debug('GRID - gridsize set as: ' + gsize);
 
-			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i); }
-			vertical(xs.xmax+1);
-			for(var j=v.dx; j>=xs.xmin; j-=gsize){ vertical(j); }
-
-			for(var k=v.dy; k<xs.ymax-1; k+=gsize){ horizontal(k); }
-			horizontal(xs.ymax);
-			for(var p=v.dy; p>=xs.ymin; p-=gsize){ horizontal(p); }
-
 			var horizontal = function(y){
 				y = y.makeCrisp();
 				_UI.chareditctx.beginPath();
@@ -219,6 +211,15 @@
 				_UI.chareditctx.stroke();
 				_UI.chareditctx.closePath();
 			};
+
+			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i); }
+			vertical(xs.xmax+1);
+			for(var j=v.dx; j>=xs.xmin; j-=gsize){ vertical(j); }
+
+			for(var k=v.dy; k<xs.ymax-1; k+=gsize){ horizontal(k); }
+			horizontal(xs.ymax);
+			for(var p=v.dy; p>=xs.ymin; p-=gsize){ horizontal(p); }
+
 		}
 	}
 

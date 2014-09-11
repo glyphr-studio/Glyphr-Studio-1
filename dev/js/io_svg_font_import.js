@@ -71,7 +71,7 @@
 				// Get some range data
 				minchar = Math.min(minchar, uni);
 				maxchar = Math.max(maxchar, uni);
-				if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni)
+				if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni);
 				uni = padHexString(uni);
 				debug('\t uni is ' + uni);
 				
@@ -92,7 +92,7 @@
 						if(data[d].length){
 							newshapes.push(ioSVG_convertPathTag(data[d]));
 							shapecounter++;
-							newshapes[newshapes.length-1].name = ("SVG Path " + shapecounter);
+							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
 						}
 					}
 				}
@@ -103,7 +103,7 @@
 				*/
 
 
-				fc[uni] = new Char({"charshapes":newshapes, "charname":cname, "charhtml":chtml});
+				fc[uni] = new Char({'charshapes':newshapes, 'charname':cname, 'charhtml':chtml});
 
 				// specified advance width?
 				if(tc.attributes['horiz-adv-x']){
@@ -124,8 +124,8 @@
 			if(_UI.charrange.hasOwnProperty(r)){
 				rstart = 1*_UI.charrange[r].begin;
 				rend = 1*_UI.charrange[r].end+1;
-				for(var c=rstart; c<rend; c++){
-					if(getChar(c)){
+				for(var t=rstart; t<rend; t++){
+					if(getChar(t)){
 						_GP.projectsettings.charrange[r] = true;
 						break;
 					}
@@ -136,7 +136,7 @@
 		// Make a custom range for the rest
 		if(customcharrange.length){
 			customcharrange = customcharrange.sort();
-			_GP.projectsettings.charrange.custom.push({"begin":customcharrange[0], "end":customcharrange[customcharrange.length-1]});
+			_GP.projectsettings.charrange.custom.push({'begin':customcharrange[0], 'end':customcharrange[customcharrange.length-1]});
 		}
 
 

@@ -351,7 +351,7 @@
 				nfill = _UI.colors.gray_90;
 				nhover = 'white';
 			}
-			newsub += '<div class="navarea_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\"'+navarr[i]+'\"; make_NavPanels_PopIn();">';
+			newsub += '<div class="navarea_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
 			newsub += '</button></div>';
 		}
@@ -414,7 +414,7 @@
 			} else if (navarr[i] === 'issue'){
 				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target=_new class="navpanellink">create a new issue on github</a><br>');
 			} else {
-				newsub += ('<button class="'+bc+'" onclick="_UI.navhere=\"'+navarr[i]+'\"; _UI.selectedshape=-1; navigate();">'+navarr[i]+'</button>');
+				newsub += ('<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; _UI.selectedshape=-1; navigate();">'+navarr[i]+'</button>');
 			}
 		}
 

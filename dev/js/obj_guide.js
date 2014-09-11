@@ -5,7 +5,7 @@
 //-------------------------------------------------------
 
 	function Guide(oa){
-		this.objtype = "guide";
+		this.objtype = 'guide';
 
 		this.type = oa.type || 'horizontal';
 		this.name = oa.name || (this.type + ' guide');
@@ -24,7 +24,7 @@
 		
 		var ctx = _UI.chareditctx;
 		var cansize = _UI.chareditcanvassize;
-		var v = getView("guide");
+		var v = getView('guide');
 		var start = {x:0, y:0};
 		var end = {x:0, y:0};
 		var label = {x:0, y:0};

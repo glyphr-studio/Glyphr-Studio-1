@@ -5,15 +5,15 @@
 //  -----------------------------------
 
 	function Path(oa){
-		this.objtype = "path";
+		this.objtype = 'path';
 
-		//debug("NEW PATH: oa = \n" + JSON.stringify(oa));
+		//debug('NEW PATH: oa = \n' + JSON.stringify(oa));
 
 		// declare attributes
 		this.pathpoints = false;
 		if(oa.pathpoints && oa.pathpoints.length){
 			this.pathpoints = [];
-			//debug("NEW PATH : Hydrating Path Points, length " + oa.pathpoints.length);
+			//debug('NEW PATH : Hydrating Path Points, length ' + oa.pathpoints.length);
 			for (var i = 0; i < oa.pathpoints.length; i++) {
 				this.pathpoints[i] = new PathPoint(oa.pathpoints[i]);
 			}
@@ -26,7 +26,7 @@
 		this.selectPathPoint(false);
 		if(this.pathpoints) this.calcMaxes();
 
-		//debug("Path() - created new path: " + this.pathpoints);
+		//debug('Path() - created new path: ' + this.pathpoints);
 	}
 
 
@@ -44,9 +44,9 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
-		//debug("UPDATEPATHSIZE - dw,dh,rl\t"+dw+" , "+dh+" , "+ratiolock);
+		//debug('UPDATEPATHSIZE - dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
 
-		var s = ss("updatePathSize");
+		var s = ss('updatePathSize');
 		dw = s.wlock? 0 : dw;
 		dh = s.hlock? 0 : dh;
 
@@ -81,28 +81,28 @@
 		var re = 0;
 		if (Math.abs(v1) === Math.abs(v2)) re = (v1 > v2)? v1 : v2;
 		else re = (Math.abs(v1) > Math.abs(v2))? v1 : v2;
-		//debug("GETRATIOLOCKVALUE " + v1 + " || " + v2 + " = " + re);
+		//debug('GETRATIOLOCKVALUE ' + v1 + ' || ' + v2 + ' = ' + re);
 		return re;
 	}
 
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
-		//debug("SETPATHPOSITION - nx/ny/force:\t " + nx + "\t " + ny + "\t " + force);
-		//debug("SETPATHPOSITION - this.maxes.ymax: " + this.maxes.ymax);
+		//debug('SETPATHPOSITION - nx/ny/force:\t ' + nx + '\t ' + ny + '\t ' + force);
+		//debug('SETPATHPOSITION - this.maxes.ymax: ' + this.maxes.ymax);
 		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;
-		//debug("SETPATHPOSITION - dx/dy: " + dx + " " + dy);
+		//debug('SETPATHPOSITION - dx/dy: ' + dx + ' ' + dy);
 		this.updatePathPosition(dx,dy,force);
 	};
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
-		//debug("UPDATEPATHPOSITION - dx,dy,f\t"+dx+" , "+dy+" , "+force);
+		//debug('UPDATEPATHPOSITION - dx,dy,f\t'+dx+' , '+dy+' , '+force);
 
 		for(var d=0; d<this.pathpoints.length; d++){
 			var pp = this.pathpoints[d];
-			//debug("-------------------- pathPoint #" + d);
-			pp.updatePathPointPosition("P",dx,dy,force);
+			//debug('-------------------- pathPoint #' + d);
+			pp.updatePathPointPosition('P',dx,dy,force);
 		}
 
 		this.calcMaxes();
@@ -111,10 +111,10 @@
 
 	// Selected Point - returns the selected point object
 	Path.prototype.sp = function(wantindex, calledby){
-		//debug("SP - Called By : " + calledby);
+		//debug('SP - Called By : ' + calledby);
 
 		if(!this.pathpoints) {
-			//debug("SP - returning false, this.pathpoints = " + JSON.stringify(this.pathpoints));
+			//debug('SP - returning false, this.pathpoints = ' + JSON.stringify(this.pathpoints));
 			return false;
 		}
 
@@ -133,7 +133,7 @@
 	};
 
 	Path.prototype.drawPath = function(lctx) {
-		//if(lctx == _UI.chareditctx)	debug("DRAWPATH");
+		//if(lctx == _UI.chareditctx)	debug('DRAWPATH');
 
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
@@ -144,19 +144,19 @@
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-			
+
 			// if(lctx == _UI.chareditctx)	{
-			//	debug("  point " + cp);
-			//	debug("\n  pp\n" + JSON.stringify(pp));
-			//	debug("  np\n" + JSON.stringify(np));
+			//	debug('  point ' + cp);
+			//	debug('\n  pp\n' + JSON.stringify(pp));
+			//	debug('  np\n' + JSON.stringify(np));
 			// }
-			
-			this.validate("DRAW PATH");
 
-			if(pp.type == "symmetric") { pp.makeSymmetric("H1"); }
-			else if (pp.type == "flat") { pp.makeFlat("H1"); }
+			this.validate('DRAW PATH');
 
-			this.validate("DRAW PATH");
+			if(pp.type == 'symmetric') { pp.makeSymmetric('H1'); }
+			else if (pp.type == 'flat') { pp.makeFlat('H1'); }
+
+			this.validate('DRAW PATH');
 
 			pph2x = sx_cx(pp.getH2x());
 			pph2y = sy_cy(pp.getH2y());
@@ -165,7 +165,7 @@
 			nxppx = sx_cx(np.P.x);
 			nxppy = sy_cy(np.P.y);
 
-			//if(lctx == _UI.chareditctx)	debug("  curve " + pph2x +" "+ pph2y +" "+ nxh1x +" "+ nxh1y +" "+ nxppx +" "+ nxppy);
+			//if(lctx == _UI.chareditctx)	debug('  curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
 		}
 	};
@@ -176,27 +176,27 @@
 		for(var pp=0; pp<this.pathpoints.length; pp++){
 			tp = this.pathpoints[pp];
 			if(!tp.P.x && tp.P.x !== 0){
-				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.x from " + tp.P.x);
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' P.x from ' + tp.P.x);
 				tp.P.x = 0;
 			}
 			if(!tp.P.y && tp.P.y !== 0){
-				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" P.y from " + tp.P.y);
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' P.y from ' + tp.P.y);
 				tp.P.y = 0;
 			}
 			if(!tp.H1.x && tp.H1.x !== 0){
-				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.x from " + tp.H1.x);
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H1.x from ' + tp.H1.x);
 				tp.H1.x = 0;
 			}
 			if(!tp.H1.y && tp.H1.y !== 0){
-				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H1.y from " + tp.H1.y);
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H1.y from ' + tp.H1.y);
 				tp.H1.y = 0;
 			}
 			if(!tp.H2.x && tp.H2.x !== 0){
-				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.x from " + tp.H2.x);
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H2.x from ' + tp.H2.x);
 				tp.H2.x = 0;
 			}
 			if(!tp.H2.y && tp.H2.y !== 0){
-				//debug("VALIDATE PATH: "+calledby+" - resetting point "+pp+" H2.y from " + tp.H2.y);
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H2.y from ' + tp.H2.y);
 				tp.H2.y = 0;
 			}
 
@@ -205,7 +205,7 @@
 	};
 
 	Path.prototype.drawPathToArea = function(lctx, view){
-		var tempv = clone(getView("Path.drawPathToArea"));
+		var tempv = clone(getView('Path.drawPathToArea'));
 		setView(view);
 		this.drawPath(lctx);
 
@@ -213,14 +213,14 @@
 	};
 
 	Path.prototype.genPathPostScript = function(lastx, lasty){
-		if(!this.pathpoints) return {"re":"", "lastx":lastx, "lasty":lasty};
+		if(!this.pathpoints) return {'re':'', 'lastx':lastx, 'lasty':lasty};
 
 		var p1, p2, p1h2x, p1h2y, p2h1x, p2h1y, p2ppx, p2ppy;
-		var trr = "";
+		var trr = '';
 
-		var re = "\t\t\t\t" + (this.pathpoints[0].P.x - lastx) + " " + (this.pathpoints[0].P.y - lasty) + " rmoveto \n";
+		var re = '\t\t\t\t' + (this.pathpoints[0].P.x - lastx) + ' ' + (this.pathpoints[0].P.y - lasty) + ' rmoveto \n';
 
-		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
+		//debug('GENPATHPOSTSCRIPT:\n\t ' + re);
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
@@ -233,17 +233,17 @@
 			p2ppx = p2.P.x - p2.getH1x();
 			p2ppy = p2.P.y - p2.getH1y();
 
-			trr = "\t\t\t\t" + p1h2x + " " + p1h2y + " " + p2h1x + " " + p2h1y + " " + p2ppx + " " + p2ppy + " rrcurveto \n";
+			trr = '\t\t\t\t' + p1h2x + ' ' + p1h2y + ' ' + p2h1x + ' ' + p2h1y + ' ' + p2ppx + ' ' + p2ppy + ' rrcurveto \n';
 
-			//debug("\t " + trr);
+			//debug('\t ' + trr);
 
 			re += trr;
 		}
 
 		return {
-			"re" : re,
-			"lastx" : p2.P.x,
-			"lasty" : p2.P.y
+			're' : re,
+			'lastx' : p2.P.x,
+			'lasty' : p2.P.y
 		};
 	};
 
@@ -253,16 +253,16 @@
 		// debug('\t Char ' + charname);
 		re = '';
 		var p1, p2;
-		var trr = "";
+		var trr = '';
 
-		re += "M" + (this.pathpoints[0].P.x) + "," + (this.pathpoints[0].P.y);
-		//debug("GENPATHPOSTSCRIPT:\n\t " + re);
+		re += 'M' + (this.pathpoints[0].P.x) + ',' + (this.pathpoints[0].P.y);
+		//debug('GENPATHPOSTSCRIPT:\n\t ' + re);
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
-			trr = "C" + p1.getH2x() + "," + p1.getH2y() + "," + p2.getH1x() + "," + p2.getH1y() + "," + p2.P.x + "," + p2.P.y;
-			//debug("\t " + trr);
+			trr = 'C' + p1.getH2x() + ',' + p1.getH2y() + ',' + p2.getH1x() + ',' + p2.getH1y() + ',' + p2.P.x + ',' + p2.P.y;
+			//debug('\t ' + trr);
 
 			if(trr.indexOf('NaN') > -1){
 				console.warn(charname + ' PathPoint ' + cp + ' has NaN: ' + trr);
@@ -278,19 +278,19 @@
 
 	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints;
-		var hp = _GP.projectsettings.pointsize/getView("Path.isOverControlPoint").dz;
+		var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
 
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){
 				this.selectPathPoint(k);
-				//debug("ISOVERCONTROLPOINT() - Returning P1, selectedpoint: " + k);
+				//debug('ISOVERCONTROLPOINT() - Returning P1, selectedpoint: ' + k);
 				return 'P';
 			}
 
 			if(a[k].useh1){
 				if( ((a[k].H1.x+hp) > x) && ((a[k].H1.x-hp) < x) && ((a[k].H1.y+hp) > y) && ((a[k].H1.y-hp) < y) ){
 					this.selectPathPoint(k);
-					//debug("ISOVERCONTROLPOINT() - Returning H1, selectedpoint: " + k);
+					//debug('ISOVERCONTROLPOINT() - Returning H1, selectedpoint: ' + k);
 					return 'H1';
 				}
 			}
@@ -298,19 +298,19 @@
 			if(a[k].useh2){
 				if( ((a[k].H2.x+hp) > x) && ((a[k].H2.x-hp) < x) && ((a[k].H2.y+hp) > y) && ((a[k].H2.y-hp) < y) ){
 					this.selectPathPoint(k);
-					//debug("ISOVERCONTROLPOINT() - Returning H2, selectedpoint: " + k);
+					//debug('ISOVERCONTROLPOINT() - Returning H2, selectedpoint: ' + k);
 					return 'H2';
 				}
 			}
 		}
 
 		this.selectPathPoint(0);
-		//debug("ISOVERCONTROLPOINT() - Returning FALSE");
+		//debug('ISOVERCONTROLPOINT() - Returning FALSE');
 		return false;
 	};
 
 	Path.prototype.findWinding = function(){
-		//debug("findWinding");
+		//debug('findWinding');
 		var j,k,z;
 		var count = 0;
 		var parr = this.pathpoints;
@@ -330,7 +330,7 @@
 		// negative = clockwise
 		// positive = counterclockwise
 
-		//debug("findWinding returning " + count);
+		//debug('findWinding returning ' + count);
 		return count;
 	};
 
@@ -356,7 +356,7 @@
 		var ly = this.maxes.ymax;
 
 		if(!mid) mid = ((this.maxes.ymax - this.maxes.ymin)/2)+this.maxes.ymin;
-		//debug("FLIPNS - calculating mid: (b-t)/2 + t = mid: " + this.maxes.ymin +","+ this.maxes.ymax + ","+ mid);
+		//debug('FLIPNS - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.ymin +','+ this.maxes.ymax + ','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -373,7 +373,7 @@
 		var lx = this.maxes.xmin;
 
 		if(!mid) mid = ((this.maxes.xmax - this.maxes.xmin)/2)+this.maxes.xmin;
-		//debug("flipEW - calculating mid: (b-t)/2 + t = mid: " + this.maxes.xmax +","+ this.maxes.xmin +","+ mid);
+		//debug('flipEW - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.xmax +','+ this.maxes.xmin +','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];
@@ -387,7 +387,7 @@
 	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
-		//debug("ADDPATHPOINT - new point? " + newpp);
+		//debug('ADDPATHPOINT - new point? ' + newpp);
 
 		if(!newpp) {
 			// No pathpoint passed to function - make a new one
@@ -436,7 +436,7 @@
 	Path.prototype.insertPathPoint = function() {
 		// http://antigrain.com/research/adaptive_bezier/index.html
 
-		var pp1i = this.sp(true, "insert path point");
+		var pp1i = this.sp(true, 'insert path point');
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
 		var pp2 = this.pathpoints[pp2i];
@@ -458,27 +458,27 @@
 			var y1234 = (y123 + y234) / 2;
 
 			// New Point
-			nP = new Coord({"x":x1234, "y":y1234});
-			nH1 = new Coord({"x":x123, "y":y123});
-			nH2 = new Coord({"x":x234, "y":y234});
-			ppn = new PathPoint({"P":nP, "H1":nH1, "H2":nH2, "type":"flat"});
+			nP = new Coord({'x':x1234, 'y':y1234});
+			nH1 = new Coord({'x':x123, 'y':y123});
+			nH2 = new Coord({'x':x234, 'y':y234});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat'});
 
 			// Update P1
-			if(pp1.type === "symmetric") pp1.type = "flat";
+			if(pp1.type === 'symmetric') pp1.type = 'flat';
 			pp1.H2.x = x12;
 			pp1.H2.y = y12;
 
 			// Update P2
-			if(pp2.type === "symmetric") pp2.type = "flat";
+			if(pp2.type === 'symmetric') pp2.type = 'flat';
 			pp2.H1.x = x34;
 			pp2.H1.y = y34;
 		} else {
 			//just make a random point
 			var d = 100;
-			nP = new Coord({"x":pp1.P.x+d, "y":pp1.P.y+d});
-			nH1 = new Coord({"x":pp1.getH2x()+d, "y":pp1.getH2y()+d});
-			nH2 = new Coord({"x":pp1.getH1x()+d, "y":pp1.getH1y()+d});
-			ppn = new PathPoint({"P":nP, "H1":nH1, "H2":nH2, "type":pp1.type});
+			nP = new Coord({'x':pp1.P.x+d, 'y':pp1.P.y+d});
+			nH1 = new Coord({'x':pp1.getH2x()+d, 'y':pp1.getH2y()+d});
+			nH2 = new Coord({'x':pp1.getH1x()+d, 'y':pp1.getH1y()+d});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':pp1.type});
 		}
 
 		// Insert
@@ -504,14 +504,14 @@
 			}
 			this.calcMaxes();
 		} else {
-			_UI.selectedtool = "pathedit";
+			_UI.selectedtool = 'pathedit';
 			deleteShape();
 		}
 	};
 
 	Path.prototype.selectPathPoint = function(index){
 		// FOR NOW, ONLY ONE POINT SELECTED
-		//debug("SELECTPATHPOINT - passed " + index + " length " + this.pathpoints.length + " mod " +(index%this.pathpoints.length));
+		//debug('SELECTPATHPOINT - passed ' + index + ' length ' + this.pathpoints.length + ' mod ' +(index%this.pathpoints.length));
 		for(var j=0; j<this.pathpoints.length; j++){
 			this.pathpoints[j].selected = false;
 		}
@@ -521,7 +521,7 @@
 		} else {
 			index = (index == -1)? (this.pathpoints.length-1) : Math.abs(index);
 			this.pathpoints[index%this.pathpoints.length].selected = true;
-			//debug("SELECTPATHPOINT - selecting point " + index%this.pathpoints.length));
+			//debug('SELECTPATHPOINT - selecting point ' + index%this.pathpoints.length));
 		}
 	};
 
@@ -530,7 +530,7 @@
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
-		//console.time("CalcMaxes_NEW");
+		//console.time('CalcMaxes_NEW');
 
 		this.maxes.ymax = (_UI.chareditcanvassize*-1);
 		this.maxes.ymin = _UI.chareditcanvassize;
@@ -552,15 +552,15 @@
 		}
 
 		updateCurrentCharWidth();
-		//console.timeEnd("CalcMaxes_NEW");
+		//console.timeEnd('CalcMaxes_NEW');
 	};
 
 	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){
 		var bounds = {
-			"minx" : Math.min(x1,x2),
-			"miny" : Math.min(y1,y2),
-			"maxx" : Math.max(x1,x2),
-			"maxy" : Math.max(y1,y2)
+			'minx' : Math.min(x1,x2),
+			'miny' : Math.min(y1,y2),
+			'maxx' : Math.max(x1,x2),
+			'maxy' : Math.max(y1,y2)
 		};
 
 		var dcx0 = cx1 - x1;

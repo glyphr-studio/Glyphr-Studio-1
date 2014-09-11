@@ -5,13 +5,13 @@
 //-------------------------------------------------------
 
 	function PathPoint(oa){
-		this.objtype = "pathpoint";
+		this.objtype = 'pathpoint';
 
-		this.P = oa.P? new Coord(oa.P) : new Coord({"x":100, "y":100});
-		this.H1 = oa.H1? new Coord(oa.H1) : new Coord({"x":0, "y":0});
-		this.H2 = oa.H2? new Coord(oa.H2) : new Coord({"x":200, "y":200});
+		this.P = oa.P? new Coord(oa.P) : new Coord({'x':100, 'y':100});
+		this.H1 = oa.H1? new Coord(oa.H1) : new Coord({'x':0, 'y':0});
+		this.H2 = oa.H2? new Coord(oa.H2) : new Coord({'x':200, 'y':200});
 
-		this.type = oa.type || "corner";		// corner, flat, symmetric
+		this.type = oa.type || 'corner';		// corner, flat, symmetric
 		this.selected = oa.selected || false;
 
 		if(isval(oa.useh1) && oa.useh1) this.useh1 = true;
@@ -20,16 +20,16 @@
 		if(isval(oa.useh2) && oa.useh2) this.useh2 = true;
 		else this.useh2 = false;
 
-		if(this.type == "symmetric") { this.makeSymmetric("H1"); }
-		else if (this.type == "flat") { this.makeFlat("H1"); }
+		if(this.type == 'symmetric') { this.makeSymmetric('H1'); }
+		else if (this.type == 'flat') { this.makeFlat('H1'); }
 
-		//debug("PATHPOINT was passed " + JSON.stringify(oa));
+		//debug('PATHPOINT was passed ' + JSON.stringify(oa));
 
 		// if(_UI.pathdebugging){
-		//	debug("\nX PATHPOINT RESULT");
+		//	debug('\nX PATHPOINT RESULT');
 		//	debug(JSON.stringify(this));
 		//	debug(json(this));
-		//	debug("typeof this.useh1: " + typeof this.useh1);
+		//	debug('typeof this.useh1: ' + typeof this.useh1);
 		// }
 	}
 
@@ -47,7 +47,7 @@
 		var changed = false;
 
 		switch(controlpoint){
-			case "P":
+			case 'P':
 				if(!this.P.xlock && !isNaN(nx)){
 					dx = (this.P.x - nx);
 					this.P.x = nx;
@@ -62,7 +62,7 @@
 				}
 				break;
 
-			case "H1":
+			case 'H1':
 				if(!this.H1.xlock && !isNaN(nx)){
 					this.H1.x = nx;
 					changed = 'H1';
@@ -73,7 +73,7 @@
 				}
 				break;
 
-			case "H2":
+			case 'H2':
 				if(!this.H2.xlock && !isNaN(nx)){
 					this.H2.x = nx;
 					changed = 'H2';
@@ -86,8 +86,8 @@
 		}
 
 		if(changed){
-			if(this.type === "symmetric"){ this.makeSymmetric(changed); }
-			else if (this.type === "flat") { this.makeFlat(changed); }
+			if(this.type === 'symmetric'){ this.makeSymmetric(changed); }
+			else if (this.type === 'flat') { this.makeFlat(changed); }
 		}
 
 		//this.roundAll();
@@ -95,7 +95,7 @@
 	};
 
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
-		//debug("UPDATEPOINTPOSITION - cp / dx / dy / force: " + controlpoint + " / " + dx + " / " + dy + " / " + force);
+		//debug('UPDATEPOINTPOSITION - cp / dx / dy / force: ' + controlpoint + ' / ' + dx + ' / ' + dy + ' / ' + force);
 		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
 		var locky = (_UI.selectedtool==='pathedit'? this.P.ylock : false);
 
@@ -107,7 +107,7 @@
 		}
 
 		switch(controlpoint){
-			case "P":
+			case 'P':
 				if(!lockx) this.P.x += dx;
 				if(!locky) this.P.y += dy;
 				if(!lockx) this.H1.x += dx;
@@ -116,18 +116,18 @@
 				if(!locky) this.H2.y += dy;
 				break;
 
-			case "H1" :
+			case 'H1' :
 				this.H1.x += dx;
 				this.H1.y += dy;
-				if(this.type === "symmetric"){ this.makeSymmetric("H1"); }
-				else if (this.type === "flat") { this.makeFlat("H1"); }
+				if(this.type === 'symmetric'){ this.makeSymmetric('H1'); }
+				else if (this.type === 'flat') { this.makeFlat('H1'); }
 				break;
 
-			case "H2" :
+			case 'H2' :
 				this.H2.x += dx;
 				this.H2.y += dy;
-				if(this.type === "symmetric"){ this.makeSymmetric("H2"); }
-				else if (this.type === "flat") { this.makeFlat("H2"); }
+				if(this.type === 'symmetric'){ this.makeSymmetric('H2'); }
+				else if (this.type === 'flat') { this.makeFlat('H2'); }
 				break;
 		}
 
@@ -172,23 +172,23 @@
 
 
 	PathPoint.prototype.toggleUseHandle = function(h){
-		//debug("TOGGLEUSEHANDLE - before:\n"+json(this));
+		//debug('TOGGLEUSEHANDLE - before:\n'+json(this));
 
 		if(h==='H1'){
 			this.useh1 = !this.useh1;
-			putundoq("Use Handle 1 : " + this.useh1);
+			putundoq('Use Handle 1 : ' + this.useh1);
 		} else {
 			this.useh2 = !this.useh2;
-			putundoq("Use Handle 2 : " + this.useh2);
+			putundoq('Use Handle 2 : ' + this.useh2);
 		}
 		ss().path.calcMaxes();
-		redraw("pointDetails");
+		redraw('pointDetails');
 
-		//debug("TOGGLEUSEHANDLE - after:\n"+json(this));
+		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
 	};
 
 	PathPoint.prototype.makeFlat = function(hold){
-		//debug("MAKEFLAT - hold " + hold + " starts as " + JSON.stringify(this));
+		//debug('MAKEFLAT - hold ' + hold + ' starts as ' + JSON.stringify(this));
 
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
@@ -215,23 +215,23 @@
 		var hyp2 = this.getHandleLength(this.H2);
 
 		if(angle1==angle2){
-			//debug("MAKEFLAT - Equal Angles, returning");
+			//debug('MAKEFLAT - Equal Angles, returning');
 			return;
 		}
 
 		if(isNaN(angle1) || isNaN(angle2)) {
-			//debug("MAKEFLAT - NaN found, returning");
+			//debug('MAKEFLAT - NaN found, returning');
 			return;
 		}
 
 
-		//debug("MAKEFLAT - angle1 "+angle1+" angle2 "+angle2+" hyp1 "+hyp1+" hyp2 "+hyp2);
+		//debug('MAKEFLAT - angle1 '+angle1+' angle2 '+angle2+' hyp1 '+hyp1+' hyp2 '+hyp2);
 
 		//new values
 		var newHx, newHy, mod, newadj1, newadj2;
 
 		switch(hold){
-			case "H1" :
+			case 'H1' :
 				//modifier
 				mod = (this.H1.y > this.P.y)? -1 : 1;
 
@@ -242,7 +242,7 @@
 				//Set values
 				newHx =  (this.P.x + (newadj2));
 				newHy = (this.P.y + (newopp2*mod));
-				//debug("MAKEFLAT hold H1 - compute x/y " + newHx + " / " + newHy);
+				//debug('MAKEFLAT hold H1 - compute x/y ' + newHx + ' / ' + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
 					this.H2.x = newHx;
 					this.H2.y = newHy;
@@ -252,7 +252,7 @@
 				}
 				break;
 
-			case "H2" :
+			case 'H2' :
 				//modifier
 				mod = (this.H2.y > this.P.y)? -1 : 1;
 
@@ -263,7 +263,7 @@
 				//Set values
 				newHx =  (this.P.x + (newadj1));
 				newHy = (this.P.y + (newopp1*mod));
-				//debug("MAKEFLAT hold H2 - compute x/y " + newHx + " / " + newHy);
+				//debug('MAKEFLAT hold H2 - compute x/y ' + newHx + ' / ' + newHy);
 				if(!isNaN(newHx) && !isNaN(newHy)){
 					this.H1.x = newHx;
 					this.H1.y = newHy;
@@ -275,7 +275,7 @@
 		}
 
 		//this.roundAll();
-		//debug("MAKEFLAT - returns " + json(this));
+		//debug('MAKEFLAT - returns ' + json(this));
 	};
 
 	PathPoint.prototype.getHandleAngle = function(hn){
@@ -283,12 +283,12 @@
 		var opp = (this.P.y-hn.y) || 0;
 		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
 		var result = Math.acos(adj / hyp);
-		//debug("GETHANDLEANGLE - adj / opp / hyp / re: " + adj + " " + opp + " " + hyp + ' ' + result);
+		//debug('GETHANDLEANGLE - adj / opp / hyp / re: ' + adj + ' ' + opp + ' ' + hyp + ' ' + result);
 		return result;
 	};
 
 	PathPoint.prototype.getHandleLength = function(hn){
-		//debug("GETHANDLELENGTH - hn= " + json(hn));
+		//debug('GETHANDLELENGTH - hn= ' + json(hn));
 		var adj = this.P.x-hn.x;
 		var opp = this.P.y-hn.y;
 		var result = Math.sqrt( (adj*adj) + (opp*opp) );
@@ -296,7 +296,7 @@
 	};
 
 	PathPoint.prototype.makeSymmetric = function(hold){
-		//debug("MAKESYMETRIC - hold " + hold + " starts as " + JSON.stringify(this));
+		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
 
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
@@ -314,11 +314,11 @@
 		}
 
 		switch(hold){
-			case "H1" :
+			case 'H1' :
 				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
 				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
 				break;
-			case "H2" :
+			case 'H2' :
 				this.H1.x = ((this.P.x - this.H2.x) + this.P.x);
 				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
 				break;
@@ -329,7 +329,7 @@
 		this.useh2 = true;
 
 		//this.roundAll();
-		//debug("MAKESYMETRIC - returns " + JSON.stringify(this));
+		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
 	};
 
 	PathPoint.prototype.resolvePointType = function(){
@@ -352,18 +352,18 @@
 		var hyp1 = Math.sqrt( (adj1*adj1) + (opp1*opp1) );
 		var angle1 = Math.acos(adj1 / hyp1);
 
-		//debug("MAKEPOINTEDTO - x/y/l " + px + " " + py + " " + length + " - Before H1x/y " + this.H1.x + " " + this.H1.y);
+		//debug('MAKEPOINTEDTO - x/y/l ' + px + ' ' + py + ' ' + length + ' - Before H1x/y ' + this.H1.x + ' ' + this.H1.y);
 		this.H1.x = this.P.x - Math.cos(angle1)*length;
 		this.H1.y = this.P.y - Math.sin(angle1)*length;
-		//debug("MAKEPOINTEDTO - after H1x/y " + this.H1.x + " " + this.H1.y);
-		this.makeFlat("H1");
-		//debug("MAKEPOINTEDTO - after makesymmetric H1x/y " + this.H1.x + " " + this.H1.y);
+		//debug('MAKEPOINTEDTO - after H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		this.makeFlat('H1');
+		//debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
 
 		//this.roundAll();
 	};
 
 	PathPoint.prototype.resetHandles = function(){
-		this.type = "flat";
+		this.type = 'flat';
 		this.H2.x = this.P.x - 200;
 		this.H2.y = this.P.y;
 		this.H1.x = this.P.x + 200;
@@ -392,11 +392,11 @@
 		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent_65;
 		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 		_UI.chareditctx.lineWidth = 1;
-		var begin = {"x":this.P.x, "y":this.P.y};
-		var end = {"x":this.H2.x, "y":this.H2.y};
+		var begin = {'x':this.P.x, 'y':this.P.y};
+		var end = {'x':this.H2.x, 'y':this.H2.y};
 
 		if(!this.useh2) {
-			end = {"x":next.P.x, "y":next.P.y};
+			end = {'x':next.P.x, 'y':next.P.y};
 		}
 
 		var ps = (_GP.projectsettings.pointsize*0.75);
@@ -422,7 +422,7 @@
 			]);
 		}
 
-		//debug("DRAWPOINT arrow = " + JSON.stringify(arrow) + "  - rotatedarrow = " + JSON.stringify(rotatedarrow));
+		//debug('DRAWPOINT arrow = ' + JSON.stringify(arrow) + '  - rotatedarrow = ' + JSON.stringify(rotatedarrow));
 
 		_UI.chareditctx.beginPath();
 		_UI.chareditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
@@ -444,13 +444,13 @@
 
 
 		// if(ss().path.sp(true) === 0){
-		//	debug("DRAWING POINT FOR PATHPOINT 0");
-		//	debug("\t P x y\t\t" + this.P.x + " / " + this.P.y);
-		//	debug("\t P s_c\t" + sx_cx(this.P.x) + " / " + sy_cy(this.P.y));
-		//	debug("\t Fill Style: " + c);
-		//	debug("\t Computed Angle: " + ang);
-		//	//debug("\t arrow = \n" + json(arrow) + "\t rotatedarrow = \n" + json(rotatedarrow));
-		//	// _UI.chareditctx.fillStyle = "lime";
+		//	debug('DRAWING POINT FOR PATHPOINT 0');
+		//	debug('\t P x y\t\t' + this.P.x + ' / ' + this.P.y);
+		//	debug('\t P s_c\t' + sx_cx(this.P.x) + ' / ' + sy_cy(this.P.y));
+		//	debug('\t Fill Style: ' + c);
+		//	debug('\t Computed Angle: ' + ang);
+		//	//debug('\t arrow = \n' + json(arrow) + '\t rotatedarrow = \n' + json(rotatedarrow));
+		//	// _UI.chareditctx.fillStyle = 'lime';
 		//	// _UI.chareditctx.fillRect((sx_cx(this.P.x)-5), (sy_cy(this.P.y)-5), 10, 10);
 		// }
 
@@ -496,7 +496,7 @@
 //-------------------------------------------------------
 
 	function Coord(oa){
-		this.objtype = "coord";
+		this.objtype = 'coord';
 
 		this.x = oa.x || 0;
 		this.y = oa.y || 0;
