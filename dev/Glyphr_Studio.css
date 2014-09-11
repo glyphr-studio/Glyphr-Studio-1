@@ -51,6 +51,7 @@
 	}
 
 	a,
+	a:focus,
 	a:active {
 		color:rgb(0,170,225);
 		text-decoration:none;
@@ -107,6 +108,7 @@
 	}
 
 	label,
+	label:focus,
 	label:active {
 		display:inline;
 	}
@@ -520,6 +522,7 @@
 	}
 
 	.help,
+	.help:focus,
 	.help:active {
 		font-size:10px;
 		padding:0px 3px 1px 2px;
@@ -539,9 +542,11 @@
 
 	.navtargetbutton,
 	.navtargetbutton:active,
+	.navtargetbutton:focus,
 	.navtargetbutton:hover,
 	.navtargetbuttonsel,
 	.navtargetbuttonsel:active,
+	.navtargetbuttonsel:focus,
 	.navtargetbuttonsel:hover {
 		font-size:1.5em;
 		display:block;
@@ -565,6 +570,7 @@
 
 	.navtargetbuttonsel,
 	.navtargetbuttonsel:active,
+	.navtargetbuttonsel:focus,
 	.navtargetbuttonsel:hover {
 		color:rgb(0,170,225);
 		background-color: rgb(250,252,255);
@@ -605,6 +611,7 @@
 
 	.dialogCloseButton,
 	.dialogCloseButton:active,
+	.dialogCloseButton:focus,
 	.dialogCloseButton:hover {
 		width:20px;
 		height:25px;
@@ -849,6 +856,7 @@
 	}
 
 	.ssthumb,
+	.ssthumb:focus,
 	.ssthumb:active {
 		border:3px solid transparent;
 		cursor:pointer;
@@ -877,6 +885,7 @@
 	}
 
 	#keyboardtips,
+	#keyboardtips:focus,
 	#keyboardtips:active {
 		position:fixed;
 		bottom:10px;
@@ -925,6 +934,7 @@
 
 	.tool,
 	.tool:active,
+	.tool:focus,
 	.tool:hover {
 		height:30px;
 		width:30px;
@@ -933,6 +943,7 @@
 
 	.zoomreadout,
 	.zoomreadout:active,
+	.zoomreadout:focus,
 	.zoomreadout:hover {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
@@ -1039,6 +1050,7 @@
 
 	.pointtypebutton,
 	.pointtypebutton:active,
+	.pointtypebutton:focus,
 	.pointtypebutton:hover {
 		margin:auto 6px auto 0px;
 		padding:2px;
@@ -1174,6 +1186,7 @@
 
 	.settingstable .spinnerbutton,
 	.settingstable .spinnerbutton:active,
+	.settingstable .spinnerbutton:focus,
 	.settingstable .spinnerbutton:hover {
 		height:28px;
 		position: relative;
@@ -1262,6 +1275,7 @@
 	}
 
 	.ssusedinthumb,
+	.ssusedinthumb:focus,
 	.ssusedinthumb:active {
 		border-bottom:3px solid transparent;
 		background-color: white;

@@ -14,7 +14,6 @@
     "url": "https://github.com/mattlag/Glyphr-Studio.git"
   },
   "jshintConfig": {
-    // ENFORCING
     "bitwise": true,
     "curly": false,
     "eqeqeq": true,
@@ -28,16 +27,10 @@
     "strict": false,
     "undef": false,
     "unused": false,
-
-    // RELAXING
     "debug": true,
     "globalstrict": true,
-
-    // ENVIRONMENTS
     "browser": true,
     "devel": true,
-
-    // GLOBALS
     "predef": [
       "_UI",
       "_GP",
