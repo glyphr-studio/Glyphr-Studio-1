@@ -57,7 +57,7 @@
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
-		if(_UI.selectedtool != "pathedit") ispointsel = false;
+		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
 		if(!pop) content += "<td>";
@@ -109,12 +109,12 @@
 //-------------------
 	function copyShape(){
 
-		if(_UI.navhere == "linked shapes"){
+		if(_UI.navhere === "linked shapes"){
 			_UI.clipboardshape = {
 				"s":_GP.linkedshapes[_UI.shownlinkedshape].shape,
 				"c":_UI.shownlinkedshape
 			};
-		} else if (_UI.navhere == "character edit"){
+		} else if (_UI.navhere === "character edit"){
 			var s = ss("copy shape");
 			if(s.link) s = _GP.linkedshapes[s.link].shape;
 			if(s){

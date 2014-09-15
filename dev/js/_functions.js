@@ -66,7 +66,21 @@
 		};
 	}
 
-
+		
+//-------------------
+// Common Panel Title
+//-------------------
+	function makePanelSuperTitle() {
+		var content = "";
+		if(!_UI.popout) {
+			var sc = getSelectedChar();
+			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+			content += (sc.charhtml || sc.shape.name);
+			content += "</h1>";
+		}
+		return content;
+	}
 
 //-------------------
 // Debug
@@ -185,7 +199,7 @@ function saveTextFile(fname, fblob) {
 			'date': new Date().getTime()
 		};
 
-		if (_UI.navhere == 'linked shapes'){
+		if (_UI.navhere === 'linked shapes'){
 			uqo.state = clone(_UI.linkcurrstate);
 			_UI.linkedshapeundoq.push(uqo);
 			_UI.linkcurrstate = clone(_GP.linkedshapes);
@@ -202,7 +216,7 @@ function saveTextFile(fname, fblob) {
 		//debug('PULLUNDOQ - Undo Pressed, undoq: ' + undoq);
 		var uqo;
 
-		if (_UI.navhere == 'linked shapes'){
+		if (_UI.navhere === 'linked shapes'){
 			if(_UI.linkedshapeundoq.length > 0){
 				uqo = _UI.linkedshapeundoq.pop();
 				_GP.linkedshapes = uqo.state;

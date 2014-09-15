@@ -292,7 +292,10 @@
 		color: rgb(155,221,255);
 		font-weight:normal;
 		font-size:1.3em;
-		margin:4px 0px 10px 0px;
+		margin:4px 0px 0px 0px;
+		width:2000px;
+		height:24px;
+		overflow-x: hidden;
 		line-height: .78em;
 		text-transform: none;
 	}

@@ -7,12 +7,7 @@
 
 		var content = "<div class='navarea_header'>";
 
-		if(!_UI.popout) {
-			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
-			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-			content += getSelectedChar().charhtml;
-			content += "</h1>";
-		}
+		content += makePanelSuperTitle();
 
 		content += "<h1 class='paneltitle'>shapes</h1>";
 
@@ -24,7 +19,7 @@
 			content += "<table class='layertable'>";
 			for(var i=(scs.length-1); i>=0; i--){
 
-				if(i==_UI.selectedshape){
+				if(i===_UI.selectedshape){
 					content += "<tr class='layersel'";
 				} else {
 					content += "<tr class='layer'";

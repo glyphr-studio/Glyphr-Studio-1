@@ -7,12 +7,7 @@
 
 		var content = "<div class='navarea_header'>";
 
-		if(!_UI.popout) {
-			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
-			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-			content += getSelectedChar().charhtml;
-			content += "</h1>";
-		}
+		content += makePanelSuperTitle();
 
 		content += "<h1 class='paneltitle'>guides</h1>";
 
