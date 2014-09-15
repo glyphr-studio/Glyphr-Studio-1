@@ -1128,6 +1128,10 @@
 	.guidecolor {
 		height:100%;
 		width:30px;
+		cursor: pointer;
+		border-width:2px;
+		border-style:solid;
+		border-color:rgb(250,252,255);
 	}
 
 /*	HISTORY		*/

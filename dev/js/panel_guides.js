@@ -42,7 +42,7 @@
 					"<tr><td style='width:20px'>" + checkUI('_UI.showguidelabels', true) + "</td>" +
 					"<td><label style='margin-left:10px;' for='showguidelabels'>show guide labels</label></td></tr>" +
 					"<tr><td style='width:20px'>" + checkUI('_UI.showovershoots', true) + "</td>" +
-					"<td><label style='margin-left:10px;' for='showovershoots'>show overshoots</label></td></tr>" +
+					"<td><label style='margin-left:10px;' for='showovershoots'>show overshoots ("+_GP.projectsettings.overshoot+" em units)</label></td></tr>" +
 					"</table>";
 
 		content += "<br><br><h3>system guides</h3>";
@@ -58,13 +58,35 @@
 
 	function makeOneSystemGuideRow(guide, path) {
 		var re = "<table class='guiderow'>";
-		re += "<tr><td class='guidecolor' style='background-color:"+ guide.color + ";'>&nbsp;</td><td style='padding:6px;'>";
+		re += "<tr><td class='guidecolor' "+
+			" style='background-color:"+ guide.color + ";' "+
+			" onmouseover='hideAllSatChoosers(); this.style.borderColor=\""+ guide.color + "\";' "+
+			" onmouseout='this.style.borderColor=\"rgb(250,252,255)\";' "+
+			" onclick='hideAllSatChoosers(); showGuideSatChooser(this, \""+guide.name+"\");'>"+
+			"</td><td style='padding:6px;'>";
 		re += checkUI((path+'.visible'), true);
 		re += "<span class='guidename'>" + guide.name + "</span>";
-		re += "<span class='guidelocation'>" + guide.location + "</span>";
+		if(guide.name === 'rightside') re += "<span class='guidelocation'>" + getSelectedChar().advancewidth + "</span>";
+		else re += "<span class='guidelocation'>" + guide.location + "</span>";
 		re += "</td></tr></table>";
 
 		return re;
+	}
+
+	function showGuideSatChooser(ctx, name) {
+		var sc = new SatChooser({clickCallback:function(args){
+			_GP.projectsettings.guides[name].color = args.colorstring;
+			redraw();
+		}});
+		sc.show({elem:ctx});
+	}
+
+	function hideAllSatChoosers() {
+		var scid = document.getElementById('satchooser');
+		while(scid) {
+			scid.parentNode.removeChild(scid);
+			scid = document.getElementById('satchooser');
+		}
 	}
 
 	function makeOneGuideRow(guide, path, showeditable) {
@@ -79,7 +101,7 @@
 				re += "<option selected value='vertical'>vertical</option>";
 			}
 
-			re += "</select>"
+			re += "</select>";
 		return re;
 	}
 // end of file
