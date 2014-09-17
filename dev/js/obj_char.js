@@ -7,8 +7,8 @@
 
 		this.objtype = 'char';
 
-		this.charname = oa.charname || 'ERROR_CHARNAME';
-		this.charhtml = oa.charhtml || 'ERROR_CHARHTML';
+		this.charname = oa.charname || getCharName(oa.charhex) || 'ERROR_CHARNAME';
+		this.charhtml = oa.charhtml || hexToHTML(oa.charhex) || 'ERROR_CHARHTML';
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.rightsidebearing = isval(oa.rightsidebearing)? oa.rightsidebearing : false;
@@ -336,7 +336,7 @@
 				return rechar;
 			} else if(create){
 				//debug('GETCHAR - create was true, returning a new ligature.');
-				_GP.ligatures[ch] = new Char({'charname':hexToChar(ch), 'charhtml':hexToHTML(ch)});
+				_GP.ligatures[ch] = new Char({'charhex':ch});
 				return _GP.ligatures[ch];
 			}
 
@@ -347,7 +347,7 @@
 				return rechar;
 			} else if(create){
 				//debug('GETCHAR - create was true, returning a new char.');
-				_GP.fontchars[ch] = new Char({'charname':getCharName(ch), 'charhtml':hexToHTML(ch)});
+				_GP.fontchars[ch] = new Char({'charhex':ch});
 				return _GP.fontchars[ch];
 			}
 		}
@@ -366,10 +366,12 @@
 			// linked shape
 			debug('\t linked shape - returning ' + cobj.shape.name);
 			return cobj.shape.name;
-		} else {
+		} else if(ch.indexOf('0x',2) > -1){
 			// ligature
-			debug('\t ligature - returning ' + cobj.charname);
-			return cobj.charname || '[name not found]';
+			debug('\t ligature - returning ' + hexToHTML(ch));
+			return hexToHTML(ch);
+		} else {
+			return '[name not found]';
 		}
 	}
 

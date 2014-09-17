@@ -75,13 +75,9 @@
 				uni = padHexString(uni);
 				debug('\t uni is ' + uni);
 				
-				// Get the char name data
-				cname = getCharName(uni);
-				chtml = hexToHTML(uni);
-
 				// CASE ONE: a Glyph tag with just pathdata
 				data = tc.attributes.d;
-				// debug('\t Character ' + cname + ' has path data ' + data);
+				// debug('\t Character has path data ' + data);
 
 				if(data){
 					// Compound Paths are treated as different Glyphr Shapes
@@ -103,7 +99,7 @@
 				*/
 
 
-				fc[uni] = new Char({'charshapes':newshapes, 'charname':cname, 'charhtml':chtml});
+				fc[uni] = new Char({'charshapes':newshapes, 'charhex':uni});
 
 				// specified advance width?
 				if(tc.attributes['horiz-adv-x']){

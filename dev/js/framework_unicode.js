@@ -4,8 +4,13 @@
 //	Conversion Functions
 //	--------------------
 	function decToHex(d) { var dr = Number(d).toString(16); while(dr.length < 4) { dr = '0'+dr; } return '0x'+dr.toUpperCase(); }
-	function charToHex(s) { return decToHex(String(s).charCodeAt(0)); }
 	function padHexString (h) { h = (''+h).substr(2); while(h.length < 4) h = '0'+h; return '0x'+h.toUpperCase(); }
+	
+	function charToHex(s) { 
+		var result = '';
+		for(var i=0; i<s.length; i++) result += decToHex(String(s).charCodeAt(i));
+		return result;
+	}
 
 	function hexToChar(u) {
 		u = u.split('0x');

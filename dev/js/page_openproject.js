@@ -310,7 +310,8 @@
 		// Fake Content
 
 		if(!isval(_GP.ligatures)){
-			_GP.ligatures[''+charToHex('f')+charToHex('f')+charToHex('t')] = new Char({charname:'fft', charhtml:'fft'});
+			var ffthex = charToHex('fft');
+			_GP.ligatures[ffthex] = new Char({'charhex': ffthex});
 		}
 
 		debug("finalizeGlyphrProject \t END\n");
