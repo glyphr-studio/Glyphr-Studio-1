@@ -13,10 +13,7 @@
 
 		var q = _UI.charundoq;
 
-		if(_UI.navhere === 'linked shapes'){
-			content = "<h1 class='paneltitle'>linked shapes history</h1>";
-			q = _UI.linkedshapeundoq;
-		}
+		if(_UI.navhere === 'linked shapes') q = _UI.linkedshapeundoq;
 
 		content += "</div><div class='navarea_section'>";
 
