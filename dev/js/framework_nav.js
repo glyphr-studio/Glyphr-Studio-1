@@ -192,6 +192,16 @@
 					nh==='ligatures');
 	}
 
+	function onNoNavPage() {
+		var nh = _UI.navhere;
+		return ( nh==='font settings' ||
+					nh==='project settings' ||
+					nh==='open project' ||
+					nh==='export font' ||
+					nh==='help' ||
+					nh==='about');
+	}
+
 	function make_NavPanels_PopIn(){
 		// debug('\n make_NavPanels_PopIn - START');
 		// debug('\t navhere:' + _UI.navhere + ' navprimaryhere:' + _UI.navprimaryhere);
@@ -201,7 +211,7 @@
 		np.innerHTML = '';
 		updateSaveIcon();
 
-		if(!onCanvasEditPage()) {
+		if(onNoNavPage()) {
 			_UI.navprimaryhere = 'npNav';
 			np.innerHTML = makePanel_PageNav();
 			return;
@@ -209,6 +219,7 @@
 
 		switch(_UI.navprimaryhere){
 			case 'npChooser':
+				// debug('\t case ' + npChooser);
 				switch(_UI.navhere){
 					case 'character edit': np.innerHTML = makePanel_CharChooser('selectChar'); break;
 					case 'import svg': np.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
@@ -219,6 +230,7 @@
 				break;
 
 			case 'npAttributes':
+				// debug('\t case ' + npAttributes);
 				switch (_UI.navhere){
 					case 'character edit':
 					case 'linked shapes':
@@ -237,6 +249,7 @@
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
 			case 'npSave': saveGlyphrProjectFile(); break;
 		}
+		// debug('make_NavPanels_PopIn - END\n');
 	}
 
 
