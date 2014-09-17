@@ -9,17 +9,18 @@
 		"<table style='margin-top:16px;'><tr><td style='width:50%;'>"+
 			"<table><tr><td>"+
 				checkUI("_UI.importsvg.scale") +
-			"</td><td style='vertical-align:middle; padding:3px 0px 2px 4px;'>"+
+			"</td><td style='padding:0px 0px 8px 5px;'>"+
 				"<label for='scale'>Scale the imported SVG outlines</label>"+
 			"</td></tr><tr><td>"+
 				checkUI("_UI.importsvg.move") +
-			"</td><td style='vertical-align:middle; padding:3px 0px 2px 4px;'>"+
+			"</td><td style='padding:0px 0px 8px 5px;'>"+
 				"<label for='move'>Move the imported SVG outlines</label>"+
 			"</td></tr></table>"+
 		"</td><td style='width:50%; padding-top:4px;'>"+
 			"Enter the height metrics for this character:<br>"+
 
-			"<table style='margin-top:10px;'><tr><td style='width:20px;vertical-align:middle;'>"+
+			"<table style='margin-top:10px;'><tr>"+
+			"<td style='width:20px; padding-top:10px;'>"+
 				checkUI("_UI.importsvg.ascender")+
 			"</td><td class='svgscaleoption'>"+
 				"<label for='ascender'>Ascender</label>"+
@@ -29,20 +30,20 @@
 					"For rounded characters:"+
 				"</td></tr><tr><td>"+
 					checkUI("_UI.importsvg.overshoot_top")+
-				"</td><td style='vertical-align:middle; padding:4px 0px 2px 8px;'>"+
+				"</td><td style='padding:0px 0px 8px 8px;'>"+
 					"<label for='overshoot_top'>top overshoot</label>"+
 				"</td></tr><tr><td>"+
 					checkUI("_UI.importsvg.overshoot_bottom")+
-				"</td><td style='vertical-align:middle; padding:4px 0px 2px 8px;'>"+
+				"</td><td style='padding:0px 0px 8px 8px;'>"+
 					"<label for='overshoot_bottom'>bottom overshoot</label>"+
 				"</td></tr></table>"+
 
 
-			"</tr><tr><td style='vertical-align:middle;'>"+
-				"<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUtJREFUeNpiYKAyYKRE88x5iwWA1H4gDkxPin0AEmOi0EHzgdgAiOspdiHQdQFAaj2SkCPQlQdYzly89p9Uw/7+/ctw+fJlMI0EQK48QJaXHzx4gG4YA9TrpIfhhw8fwBhdGORlkg389esX2HVYQCEw/C5gGPjt2zdyvNoINGwBjAM38O3btwy3bt3CaeirV68YPn/+jCImLCzMADSsAVmMCeYymO13797FcAXIq8+ePUMR4+LiYpCVlcWwGGwgyGX4wgndq8zMzAzKyspgGquBAgICGDH5/PlznF5VU1NjYGNjwxo0LCBCQUEBHo4wAPIiyAWPHz9G0QBSC/IuLsCETyG6YWJiYuCIwAeY0L2Cy3ZQsGCLBLwGgryIzVAQHxYsJBmILQZBtLy8PNYYJcpAEADFIMilMMPxRQLWWMYGQIYYGBiQXBIBBBgAnLmHKqNtApUAAAAASUVORK5CYII='>"+
+			"</tr><tr><td style='padding-top:10px;'>"+
+				"<input type='checkbox' disabled checked/>"+
 			"</td><td class='svgscaleoption'>"+
 				"<span style='color:"+_UI.colors.gray_40+";'>X Height</span>"+
-			"</td></tr><tr><td style='vertical-align:middle;'>"+
+			"</td></tr><tr><td style='padding-top:10px;'>"+
 				checkUI("_UI.importsvg.descender")+
 			"</td><td class='svgscaleoption'>"+
 				"<label for='descender'>Descender</label><br>"+

@@ -286,7 +286,7 @@
 	}
 
 	function updateSaveIcon(){
-		var fill = _UI.colors.gray_90;
+		var fill = (onNoNavPage()? _UI.colors.offwhite : _UI.colors.gray_90);
 		if(!_UI.projectsaved) fill = 'white';
 		document.getElementById('npSave').innerHTML = makeIcon({'name': 'button_npSave', 'color': fill, 'hovercolor':'white'});
 	}
@@ -369,8 +369,9 @@
 			newsub += '</button></div>';
 		}
 
+		var savecolor = (onNoNavPage()? _UI.colors.offwhite : _UI.colors.gray_90);
 		newsub += '<div class="navarea_section"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
-		newsub += makeIcon({'name': 'button_npSave', 'color':_UI.colors.gray_90, 'hovercolor':'white'});
+		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
 		newsub += '</button></div>';
 
 		// Debug Dumps
