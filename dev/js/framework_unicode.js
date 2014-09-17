@@ -4,10 +4,31 @@
 //	Conversion Functions
 //	--------------------
 	function decToHex(d) { var dr = Number(d).toString(16); while(dr.length < 4) { dr = '0'+dr; } return '0x'+dr.toUpperCase(); }
-	function hexToChar(u) { return String.fromCharCode(u); }
 	function charToHex(s) { return decToHex(String(s).charCodeAt(0)); }
-	function hexToHTML(h) { return ('&#'+parseInt(h,16)+';'); }
 	function padHexString (h) { h = (''+h).substr(2); while(h.length < 4) h = '0'+h; return '0x'+h.toUpperCase(); }
+
+	function hexToChar(u) {
+		u = u.split('0x');
+		var result = '';
+		for(var i=0; i<u.lengtch; i++){ if(u[i] !== ''){
+			u[i] = String.fromCharCode('0x'+u[i]);
+			if(u[i]) result += u[i];
+		}}
+		return result;
+	}
+
+	function hexToHTML(h) {
+		// debug('\n hexToHTML - START');
+		// debug('\t passed ' + h);
+		h = h.split('0x');
+		var result = '';
+		for(var i=0; i<h.length; i++){ if(h[i] !== ''){
+			h[i] = ('0x'+h[i]);
+			h[i] = parseInt(h[i],16);
+			if(h[i]) result += ('&#'+h[i]+';');
+		}}
+		return result;
+	}
 
 	function parseUnicodeInput(str) {
 		// takes any kind or number of input
@@ -129,4 +150,4 @@
 	};
 
 
-// end of file	
+// end of file

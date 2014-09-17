@@ -299,32 +299,33 @@
 		if(_UI.navprimaryhere !== 'npNav'){
 			switch(_UI.navhere){
 				case 'character edit':
-				navarr.push('npAttributes');
-				navarr.push('npLayers');
 				navarr.push('npChooser');
-				navarr.push('npGuides');
+				navarr.push('npLayers');
+				navarr.push('npAttributes');
 				navarr.push('npHistory');
+				navarr.push('npGuides');
 				break;
 
 				case 'linked shapes':
-				navarr.push('npAttributes');
 				navarr.push('npChooser');
-				navarr.push('npGuides');
+				navarr.push('npAttributes');
 				navarr.push('npHistory');
+				navarr.push('npGuides');
 				break;
 
 				case 'ligatures':
-				navarr.push('npAttributes');
 				navarr.push('npChooser');
-				navarr.push('npGuides');
+				navarr.push('npLayers');
+				navarr.push('npAttributes');
 				navarr.push('npHistory');
+				navarr.push('npGuides');
 				break;
 
 				case 'kerning':
-				navarr.push('npAttributes');
 				navarr.push('npChooser');
-				navarr.push('npGuides');
+				navarr.push('npAttributes');
 				navarr.push('npHistory');
+				navarr.push('npGuides');
 				break;
 
 				case 'test drive':

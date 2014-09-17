@@ -324,10 +324,24 @@
 	function getChar(ch, create) {
 		ch = ''+ch;
 		//debug('GETCHAR - passed ' + ch + ' - force create? ' + create);
+		var rechar;
+
 		if(ch.indexOf('id') >= 0){
 			return _GP.linkedshapes[ch];
+
+		} else if (ch.indexOf('0x', 2) > -1){
+			rechar = _GP.ligatures[ch];
+			//debug('GETCHAR - retrieved ' + rechar + ' from ligatures.');
+			if(rechar){
+				return rechar;
+			} else if(create){
+				//debug('GETCHAR - create was true, returning a new ligature.');
+				_GP.ligatures[ch] = new Char({'charname':hexToChar(ch), 'charhtml':hexToHTML(ch)});
+				return _GP.ligatures[ch];
+			}
+
 		} else {
-			var rechar = _GP.fontchars[ch];
+			rechar = _GP.fontchars[ch];
 			//debug('GETCHAR - retrieved ' + rechar + ' from fontchars.');
 			if(rechar){
 				return rechar;
@@ -342,12 +356,20 @@
 
 	function getCharName(ch) {
 		ch = ''+ch;
-		//debug('GETCHARNAME - for ' + ch);
-		if(ch.indexOf('id') >= 0){
-			return _GP.linkedshapes[ch].shape.name;
+		debug('GETCHARNAME - for ' + ch);
+
+		// known unicode names
+		if(_UI.unicodenames[ch]) return _UI.unicodenames[ch];
+
+		var cobj = getChar(ch);
+		if(cobj.shape) {
+			// linked shape
+			debug('\t linked shape - returning ' + cobj.shape.name);
+			return cobj.shape.name;
 		} else {
-			var re = _UI.unicodenames[ch];
-			return re || '[not a character]';
+			// ligature
+			debug('\t ligature - returning ' + cobj.charname);
+			return cobj.charname || '[name not found]';
 		}
 	}
 
@@ -373,10 +395,6 @@
 		if(_UI.navhere === 'linked shapes') {
 			re = getChar(_UI.shownlinkedshape);
 			// debug('\t case linked shapes, returning ' + re.charname);
-			return re;
-		} else if (_UI.navhere === 'ligatures') {
-			re = getLigature(_UI.selectedchar);
-			// debug('\t case ligatures, returning ' + re.charname);
 			return re;
 		} else {
 			re = getChar(_UI.selectedchar, true);
@@ -426,9 +444,9 @@
 	}
 
 	function updateCurrentCharWidth() {
-		if(_UI.navhere == 'character edit'){
+		if(_UI.navhere === 'character edit'){
 			getSelectedChar().calcCharMaxes();
-		} else if (_UI.navhere == 'linked shapes' && _GP.linkedshapes[_UI.shownlinkedshape]) {
+		} else if (_UI.navhere === 'linked shapes' && _GP.linkedshapes[_UI.shownlinkedshape]) {
 			var lsarr = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
 			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharMaxes();
 		}

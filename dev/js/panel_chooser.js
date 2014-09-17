@@ -26,7 +26,6 @@
 
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectChar';
-		_UI.selectchardrawarr = [];
 		var cr = _GP.projectsettings.charrange;
 		var showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 
@@ -67,7 +66,6 @@
 		}
 
 		ccon += '</div>';
-		// debug('\t number chars drawn _UI.selectchardrawarr.length = ' + _UI.selectchardrawarr.length);
 		// debug('makeGenericCharChooserContent - END\n');
 		return ccon;
 	}
@@ -81,7 +79,8 @@
 		var chtml = hexToHTML(index);
 		if(index === '0x0020') chtml = 'space';
 
-		if(_GP.fontchars[index] && _GP.fontchars[index].charshapes[0]){
+		if((_GP.fontchars[index] && _GP.fontchars[index].charshapes[0]) ||
+			(_GP.ligatures[index] && _GP.ligatures[index].charshapes[0])) {
 			var extra = '';
 			if(issel) {extra = ' charselectthumbsel';}
 			rv += '<div class="charselectthumb'+extra+'">'+getChar(index).makeSVG()+'</div>';
@@ -173,8 +172,8 @@
 //-------------------
 // Ligature Chooser
 //-------------------
-	function makePanel_LigatureChooser(){
-		// debug('\n makePanel_LigatureChooser - START');
+	function makePanel_LigatureChooser(fname){
+
 		var content = '<div class="navarea_header">';
 
 		content += makePanelSuperTitle();
@@ -183,52 +182,40 @@
 
 		content += '</div><div class="navarea_section">';
 
-		content += '<div class="subnavunit">';
-		content += '<table class="layertable">';
-		for(var lig in _GP.ligatures){
-			if(_GP.ligatures.hasOwnProperty(lig)){
-				//debug('makePanel_LigatureChooser - making button for ' + lig);
-				content += makeLigatureChooserButton(lig);
-			}
-		}
-		content += '</table><br><br>';
+		content += makeGenericLigatureChooserContent(fname);
 
-		content += '<h1 class="paneltitle">actions</h1>';
-		content += '<table class="actionsgrid"><tr><td colspan=3><h3>shape</h3>';
-		content += '<button onclick="">create new</button><br>';
-		//content += '<button onclick="addLigature();putundoq(\'Create New Ligature Shape\');navigate();">create new</button><br>';
-		content += '</td></tr></table>';
+		content += '</div><div class="navarea_section">';
+
+		content += '<table class="actionsgrid"><tr>'+
+					'<td><button onclick="showNewLigatureDialog();">add new ligature</button></td>'+
+					'<td><button onclick="">delete ligature</button></td>'+
+					'<td></td>'+
+					'</tr></table>';
 
 		content += '</div>';
-		// debug('makePanel_LigatureChooser - END\n');
+
 		return content;
 	}
 
-	function makeLigatureChooserButton(lig){
-		// debug('makeLigatureChooserButton \t Start');
-		// debug('\t passed lig:' + lig);
 
-		var re = "";
-		var ligchar = getLigature(lig);
-		// debug('\t getChar for lig: ' );
-		// debug(ligchar);
+	function makeGenericLigatureChooserContent(fname) {
+		// debug('\n makeGenericLigatureChooserContent - START');
+		// debug('\t passed fname ' + fname);
 
-		var ligsvg = ligchar.makeSVG();
-		// debug('\t SVG: ' + ligsvg);
+		var content = '<div class="charchooserwrapper">';
+		//content += '<h3>ligatures</h3>';
+		fname = fname? fname : 'selectChar';
 
-		if(lig === _UI.shownlinkedshape){
-			re += '<tr class="layersel"';
-		} else {
-			re += '<tr class="layer"';
-		}
-		re += ' onclick="selectShape(\'' + lig + '\');">';
-		re += '<td class="layerthumb">';
-		re += ligsvg;
-		re += '</td>';
-		re += '<td class="layername">' + ligchar.charname + '</td></tr>';
+		var lig = _GP.ligatures;
+		for(var l in lig){ if(lig.hasOwnProperty(l)){
+			content += makeCharChooserButton(l, fname);
+		}}
 
-		return re;
+		content += '</div>';
+		// debug('makeGenericLigatureChooserContent - END\n');
+		return content;
 	}
+
 
 
 //-------------------

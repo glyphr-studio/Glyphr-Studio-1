@@ -152,7 +152,7 @@
 			if(n > 0){
 				var suffix = newname.substring(n+5);
 				newname = newname.substring(0,n);
-				if(suffix == ")"){
+				if(suffix === ")"){
 					newsuffix = "(copy 2)";
 				} else {
 					//debug("PASTESHAPE - suffix " + suffix);

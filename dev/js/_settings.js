@@ -6,6 +6,11 @@
 // These are NOT SAVED with the project
 
 	var _UI = {
+		// Internal Dev Stuff
+		'debug': true,			// global debug console switch
+		'devnav': 'ligatures',	// navigate straight to a page
+		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
+
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
@@ -45,11 +50,6 @@
 			'error_light':	'rgb(240,210,215)',	// os red warning color light
 			'error_dark':	'rgb(105,45,55)',	// os red warning color dark
 		},
-
-		// Internal Dev Stuff
-		'debug': true,			// global debug console switch
-		'devnav': 'import svg',	// navigate straight to a page
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 
 		// Shared edit pages 
 		'popout': false,
@@ -91,7 +91,6 @@
 		'selectedshape': -1,
 		'charundoq': [],
 		'charcurrstate': {},
-		'selectchardrawarr': [],
 		'shapelayers': [],
 
 		// page: test drive
