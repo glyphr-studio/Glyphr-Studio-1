@@ -203,7 +203,7 @@
 				//debug("----------------- uia step " + cui + " is " + uia[cui] + " and has #getSelectedCharShapes() " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.shownlinkedshape);
-					if(tc[sl].link == _UI.shownlinkedshape){
+					if(tc[sl].link === _UI.shownlinkedshape){
 						//debug("----------------- they are =, deleting index " + sl + " from array.");
 						//debug("----------------- (befor): " + tc);
 						tc.splice(sl, 1);

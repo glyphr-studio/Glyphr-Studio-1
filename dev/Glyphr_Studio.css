@@ -271,6 +271,7 @@
 
 	.navarea_section,
 	.navarea_header {
+		clear:both;
 		width:380px;
 		padding:10px;
 	}
@@ -609,7 +610,7 @@
 		width:auto;
 		background-color:rgb(229,234,239);
 		z-index:1002;
-		overflow:auto;
+		overflow:hidden;
 	}
 
 	.dialogCloseButton,
@@ -649,8 +650,8 @@
 	}
 
 	#dialogRightContent input {
-		background-color:rgb(25,30,35);
-		color:rgb(204,209,214);
+		color:rgb(25,30,35);
+		background-color:rgb(204,209,214);
 		margin:1px;
 		cursor:pointer;
 		padding:4px 12px;
@@ -668,9 +669,41 @@
 		color:rgb(76,81,86);
 	}
 
+	#errormessagebox {
+		display:none;
+		height:auto;
+		width:100%;
+		background-color:rgb(240,210,215);
+		border:1px solid rgb(240,15,54);
+		margin:18px 0px 0px 0px;
+	}
 
+	.errormessageclosebutton,
+	.errormessageclosebutton:hover,
+	.errormessageclosebutton:focus,
+	.errormessageclosebutton:active {
+		width:20px;
+		height:25px;
+		color:rgb(229,234,239);
+		background-color:rgb(240,15,54);
+		font-size:24px;
+		font-weight:bold;
+		text-align:center;
+		padding:0px;
+		cursor:pointer;
+		border-radius:0px;
+	}
 
+	.errormessageleftbar {
+		width:20px;
+		vertical-align:top;
+		background-color:rgb(240,15,54);
+	}
 
+	#errormessagecontent {
+		padding:10px 20px 20px 20px;
+		color:rgb(105,45,55);
+	}
 
 
 /*	============================= */
@@ -725,39 +758,6 @@
 		font-family: monospace;
 		font-size:8px;
 		padding: 8px;
-	}
-
-	#svgerrormessagebox {
-		display:none;
-		height:auto;
-		width:100%;
-		background-color:rgb(240,210,215);
-		border:1px solid rgb(240,15,54);
-		margin:18px 0px 0px 0px;
-	}
-
-	.svgerrormessageclosebutton {
-		width:20px;
-		height:25px;
-		color:rgb(229,234,239);
-		background-color:rgb(240,15,54);
-		font-size:24px;
-		font-weight:bold;
-		text-align:center;
-		padding:0px;
-		cursor:pointer;
-		border-radius:0px;
-	}
-
-	.svgerrormessageleftbar {
-		width:20px;
-		vertical-align:top;
-		background-color:rgb(240,15,54);
-	}
-
-	#svgerrormessagecontent {
-		padding:10px 20px 20px 20px;
-		color:rgb(105,45,55);
 	}
 
 	.svgscaleoption {

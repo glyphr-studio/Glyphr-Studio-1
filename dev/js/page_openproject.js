@@ -307,13 +307,6 @@
 
 		_UI.navhere = "character edit";
 
-		// Fake Content
-
-		if(!isval(_GP.ligatures)){
-			var ffthex = charToHex('fft');
-			_GP.ligatures[ffthex] = new Char({'charhex': ffthex});
-		}
-
 		debug("finalizeGlyphrProject \t END\n");
 	}
 

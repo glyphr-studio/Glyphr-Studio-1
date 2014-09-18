@@ -250,7 +250,7 @@
 			}
 
 			// Char Width
-			if(_UI.navhere == 'character edit'){
+			if(_UI.navhere === 'character edit'){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
 				var rhl = getSelectedChar().advancewidth*-1;

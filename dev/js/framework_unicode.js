@@ -13,10 +13,14 @@
 	}
 
 	function hexToChar(u) {
+		u = String(decToHex(u));
+		// debug('\n hexToChar - START');
+		// debug('\t passed ' + u + ' which is a ' + typeof u);
 		u = u.split('0x');
 		var result = '';
-		for(var i=0; i<u.lengtch; i++){ if(u[i] !== ''){
+		for(var i=0; i<u.length; i++){ if(u[i] !== ''){
 			u[i] = String.fromCharCode('0x'+u[i]);
+			// debug('\t added ' + u[i]);
 			if(u[i]) result += u[i];
 		}}
 		return result;
@@ -25,7 +29,7 @@
 	function hexToHTML(h) {
 		// debug('\n hexToHTML - START');
 		// debug('\t passed ' + h);
-		h = h.split('0x');
+		h = String(h).split('0x');
 		var result = '';
 		for(var i=0; i<h.length; i++){ if(h[i] !== ''){
 			h[i] = ('0x'+h[i]);
@@ -52,10 +56,7 @@
 		if(prefix === 'U+') entries = str.split('U+');
 		else if (prefix === '0x') entries = str.split('0x');
 		else {
-			for(var s=0; s<str.length; s++){
-				results.push(decToHex('0x'+str.charAt(s)));
-			}
-			return results;
+			return charToHex(str);
 		}
 
 		var te;

@@ -75,8 +75,10 @@
 		if(!_UI.popout) {
 			var sc = getSelectedChar();
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
-			content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-			content += (sc.charhtml || sc.shape.name);
+			if(sc){
+				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+				content += (sc.charhtml || sc.shape.name);
+			}
 			content += "</h1>";
 		}
 		return content;
@@ -129,6 +131,29 @@
 		document.getElementById('dialog_bg').style.display='block';
 	}
 
+	function makeshowErrorMessageBox() {
+		var con ='<div id="errormessagebox" style="display:none;">' +
+		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
+		'<td class="errormessageleftbar">'+
+		'<button class="errormessageclosebutton" onclick="closeshowErrorMessageBox();">&times;</button></td>' +
+		'<td id="errormessagecontent"></td>' +
+		'</tr></table></div>';
+
+		return con;
+	}
+
+	function showErrorMessageBox(msg) {
+		console.error("Error - " + msg);
+		var msgcon = document.getElementById('errormessagecontent');
+		var msgbox = document.getElementById('errormessagebox');
+		msgcon.innerHTML = msg;
+		msgbox.style.display = 'block';
+	}
+
+	function closeshowErrorMessageBox(){
+		document.getElementById('errormessagecontent').innerHTML = "";
+		document.getElementById('errormessagebox').style.display = 'none';
+	}
 
 //-------------------
 // Project Saved Sate

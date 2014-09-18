@@ -64,12 +64,9 @@
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='pullundoq();'>undo</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>clear code</button>"+
 
-		'<div id="svgerrormessagebox">' +
-		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
-		'<td class="svgerrormessageleftbar"><button class="svgerrormessageclosebutton" onclick="document.getElementById(\'svgerrormessagebox\').style.display=\'none\';">&times;</button></td>' +
-		'<td id="svgerrormessagecontent"></td>' +
-		'</tr></table></div>'+
+		makeshowErrorMessageBox() +
 		"<br><br></div>";
+		
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		//importSVG_selectChar("0x0061");
 
@@ -100,7 +97,7 @@
 				document.getElementById('svgcode').value = reader.result;
 				_UI.importsvg.svgcode = reader.result;
 				dt.innerHTML = "Loaded " + theFile.name;
-				importSVG_closeErrorMessage();
+				closeshowErrorMessageBox();
 			};
 		})(f);
 
@@ -113,7 +110,7 @@
 		document.getElementById('svgcode').value = '';
 		document.getElementById('svgcode').focus();
 		_UI.importsvg.svgcode = false;
-		importSVG_closeErrorMessage();
+		closeshowErrorMessageBox();
 	}
 
 	function importSVG_selectChar(cid){
@@ -126,7 +123,7 @@
 	function importSVG_importCode() {
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
-		importSVG_closeErrorMessage();
+		closeshowErrorMessageBox();
 
 		var tempchar = ioSVG_convertTagsToChar(svgin);
 
@@ -160,19 +157,6 @@
 		putundoq("Imported Paths from SVG to character "+getSelectedCharName());
 
 		update_NavPanels();
-	}
-
-	function importSVG_errorMessage(msg) {
-		console.error("Import SVG Error - " + msg);
-		var msgcon = document.getElementById('svgerrormessagecontent');
-		var msgbox = document.getElementById('svgerrormessagebox');
-		msgcon.innerHTML = msg;
-		msgbox.style.display = 'block';
-	}
-
-	function importSVG_closeErrorMessage(){
-		document.getElementById('svgerrormessagecontent').innerHTML = "";
-		document.getElementById('svgerrormessagebox').style.display = 'none';
 	}
 
 // end of file

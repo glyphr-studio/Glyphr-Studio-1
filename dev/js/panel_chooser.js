@@ -71,8 +71,9 @@
 	}
 
 	function makeCharChooserButton(index, fname){
-
-		var onc = (fname + '("' + index + '");');
+		// debug('\n makeCharChooserButton - START');
+		var onc = (fname + '(\'' + index + '\');');
+		// debug('\t constructed function: ' + onc);
 		var rv = '<table class="charselectbuttontable" onclick="'+onc+'" title="'+getCharName(index)+'"><tr><td>';
 		var issel = (index === _UI.selectedchar);
 		issel = (issel && (_UI.navhere !== 'linked shapes'));
@@ -186,10 +187,12 @@
 
 		content += '</div><div class="navarea_section">';
 
-		content += '<table class="actionsgrid"><tr>'+
-					'<td><button onclick="showNewLigatureDialog();">add new ligature</button></td>'+
-					'<td><button onclick="">delete ligature</button></td>'+
-					'<td></td>'+
+		content += '<h1 class="paneltitle">actions</h1>';
+		content += '<table class="actionsgrid"><tr>';
+		content += '<td><h3>ligature</h3>'+
+					'<button onclick="showNewLigatureDialog();">add new ligature</button><br>'+
+					'<button onclick="deleteLigatureConfirm();">delete ligature</button><br>'+
+					'<td></td><td></td>'+
 					'</tr></table>';
 
 		content += '</div>';
@@ -202,8 +205,7 @@
 		// debug('\n makeGenericLigatureChooserContent - START');
 		// debug('\t passed fname ' + fname);
 
-		var content = '<div class="charchooserwrapper">';
-		//content += '<h3>ligatures</h3>';
+		var content = '';
 		fname = fname? fname : 'selectChar';
 
 		var lig = _GP.ligatures;
@@ -211,7 +213,10 @@
 			content += makeCharChooserButton(l, fname);
 		}}
 
-		content += '</div>';
+		if(content === '') content = 'No ligatures exist.  Press the "add new ligature" button below to get started.';
+
+		content = '<div class="charchooserwrapper">'+content+'</div>';
+		
 		// debug('makeGenericLigatureChooserContent - END\n');
 		return content;
 	}

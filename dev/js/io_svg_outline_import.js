@@ -16,7 +16,7 @@
 		try {
 			jsondata = convertXMLtoJSON(svgdata);
 		} catch (e){
-			importSVG_errorMessage(e.message);
+			showErrorMessageBox(e.message);
 			return;
 		}
 
@@ -164,12 +164,12 @@
 
 
 		if(shapecounter === 0) {
-			importSVG_errorMessage('Could not find any SVG tags to import.  Supported tagas are: &lt;path&gt;, &lt;rect&gt;, &lt;polygon&gt;, &lt;polyline&gt;, and &lt;ellipse&gt;.');
+			showErrorMessageBox('Could not find any SVG tags to import.  Supported tagas are: &lt;path&gt;, &lt;rect&gt;, &lt;polygon&gt;, &lt;polyline&gt;, and &lt;ellipse&gt;.');
 			return;
 		}
 
 		if(error){
-			importSVG_errorMessage('A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.');
+			showErrorMessageBox('A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.');
 		}
 
 		// debug('ioSVG_convertTagsToChar \t End \n');
@@ -235,7 +235,7 @@
 				curr++;
 			}
 			if(curr > 99999) {
-				importSVG_errorMessage('Data longer than 100,000 characters is not allowed.');
+				showErrorMessageBox('Data longer than 100,000 characters is not allowed.');
 				return;
 			} else {
 				curr++;
@@ -393,7 +393,7 @@
 				currdata = [];
 				currdata = chunk.data.splice(0,6);
 				if(currdata.length % 6 !== 0) {
-					importSVG_errorMessage('Bezier path command (C or c) was expecting 6 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
+					showErrorMessageBox('Bezier path command (C or c) was expecting 6 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<6) { currdata.push(currdata[currdata.length-1]+100); }
 				}
 
@@ -445,7 +445,7 @@
 		} else if(cmd === 'Z' || cmd === 'z'){
 			// End Path
 		} else {
-			importSVG_errorMessage('Unrecognized path command '+cmd+', ignoring and moving on...');
+			showErrorMessageBox('Unrecognized path command '+cmd+', ignoring and moving on...');
 		}
 
 		var added = patharr[patharr.length-1];
