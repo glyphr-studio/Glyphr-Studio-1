@@ -131,11 +131,11 @@
 		document.getElementById('dialog_bg').style.display='block';
 	}
 
-	function makeshowErrorMessageBox() {
+	function makeErrorMessageBox() {
 		var con ='<div id="errormessagebox" style="display:none;">' +
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
 		'<td class="errormessageleftbar">'+
-		'<button class="errormessageclosebutton" onclick="closeshowErrorMessageBox();">&times;</button></td>' +
+		'<button class="errormessageclosebutton" onclick="closeErrorMessageBox();">&times;</button></td>' +
 		'<td id="errormessagecontent"></td>' +
 		'</tr></table></div>';
 
@@ -150,7 +150,7 @@
 		msgbox.style.display = 'block';
 	}
 
-	function closeshowErrorMessageBox(){
+	function closeErrorMessageBox(){
 		document.getElementById('errormessagecontent').innerHTML = "";
 		document.getElementById('errormessagebox').style.display = 'none';
 	}

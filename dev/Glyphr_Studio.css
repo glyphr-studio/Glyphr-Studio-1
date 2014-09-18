@@ -276,6 +276,11 @@
 		padding:10px;
 	}
 
+	.navarea_section h3 {
+		color: rgb(0,63,95);
+		margin-top: 10px;
+	}
+
 	.navarea_header {
 		height:50px;
 		background-color: rgb(0,140,210);
@@ -1086,10 +1091,6 @@
 	.actionsgrid td {
 		padding:0px 0px 12px 0px;
 		width:126px;
-	}
-
-	.actionsgrid h3 {
-		margin-top:10px;
 	}
 	
 	.actionsgrid button {

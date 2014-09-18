@@ -64,7 +64,7 @@
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='pullundoq();'>undo</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>clear code</button>"+
 
-		makeshowErrorMessageBox() +
+		makeErrorMessageBox() +
 		"<br><br></div>";
 		
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
@@ -97,7 +97,7 @@
 				document.getElementById('svgcode').value = reader.result;
 				_UI.importsvg.svgcode = reader.result;
 				dt.innerHTML = "Loaded " + theFile.name;
-				closeshowErrorMessageBox();
+				closeErrorMessageBox();
 			};
 		})(f);
 
@@ -110,7 +110,7 @@
 		document.getElementById('svgcode').value = '';
 		document.getElementById('svgcode').focus();
 		_UI.importsvg.svgcode = false;
-		closeshowErrorMessageBox();
+		closeErrorMessageBox();
 	}
 
 	function importSVG_selectChar(cid){
@@ -123,7 +123,7 @@
 	function importSVG_importCode() {
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
-		closeshowErrorMessageBox();
+		closeErrorMessageBox();
 
 		var tempchar = ioSVG_convertTagsToChar(svgin);
 

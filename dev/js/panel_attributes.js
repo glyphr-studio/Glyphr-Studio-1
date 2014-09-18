@@ -67,15 +67,6 @@
 		var content = "";
 		var numshapes = getSelectedCharShapes().length;
 
-		content += "<tr><td colspan=3><h3 style='margin:0px;'>"+sc.charname+"</h3></td></tr>";
-
-		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> number of shapes </td>"+
-				"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-				numshapes + "'/></td>"+
-				"</tr>";
-
-
 		content += "<tr><td colspan=3><h3> bulk-transform character shapes </h3></td></tr>";
 
 		if(numshapes > 1){
@@ -123,7 +114,7 @@
 			"</tr>";
 		}
 
-		content += "<tr><td colspan=3><h3> width metrics for kerning </h3></td></tr>";
+		content += "<tr><td colspan=3><h3> width metrics </h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
 				"<td> auto advance width </td>"+

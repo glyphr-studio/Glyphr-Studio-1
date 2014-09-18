@@ -26,7 +26,7 @@
 		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Ligature Characters</h3>';
 		con += '<input type="text" id="newligatureinput" style="font-size:24px; padding:8px;"/><br>';
-		con += makeshowErrorMessageBox();
+		con += makesErrorMessageBox();
 		con += '<br>';
 		con += '<button class="buttonsel" onclick="createNewLigature();">create new ligature</button>';
 		con += '</div>';
@@ -50,7 +50,7 @@
 			showErrorMessageBox('Ligatures must be at least two characters.');
 		} else {
 			lig[lid] = new Char({'charhex':lid});
-
+			sortLigatures();
 			_UI.selectedchar = lid;
 			navigate();
 			closeDialog();
@@ -75,6 +75,34 @@
 		navigate();
 
 		debug('deleteLigature - END\n');
+	}
+
+	function sortLigatures() {
+		var temp;
+		var sortarr = [];
+
+		for(var n in _GP.ligatures) { if(_GP.ligatures.hasOwnProperty(n)){
+			temp = _GP.ligatures[n];
+			sortarr.push({'id':n, 'ligature':temp});
+		}}
+
+		sortarr.sort(function(a,b){
+			if(a.id.length === b.id.length){
+				if (a.id > b.id) return 1;
+				if (a.id < b.id) return -1;
+			} else {
+				return a.id.length - b.id.length;
+			}
+		});
+
+		_GP.ligatures = {};
+
+		for(var s=0; s<sortarr.length; s++){
+			temp = sortarr[s];
+			_GP.ligatures[temp.id] = temp.ligature;
+		}
+
+		return sortarr;
 	}
 
 //-----------------------
