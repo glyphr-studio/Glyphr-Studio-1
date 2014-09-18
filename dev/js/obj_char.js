@@ -12,7 +12,7 @@
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.rightsidebearing = isval(oa.rightsidebearing)? oa.rightsidebearing : false;
-		this.advancewidth = isval(oa.advancewidth)? oa.advancewidth : 0;
+		this.charwidth = isval(oa.charwidth)? oa.charwidth : 0;
 		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
 		this.maxes = oa.maxes || clone(_UI.mins);
 
@@ -108,7 +108,7 @@
 
 	Char.prototype.calcCharAdvanceWidth = function(){
 		if(!this.isautowide) return;
-		this.advancewidth = Math.max(this.maxes.xmax, 0);
+		this.charwidth = Math.max(this.maxes.xmax, 0);
 	};
 
 	Char.prototype.drawCharToArea = function(lctx, view){
@@ -117,7 +117,7 @@
 
 		//debug('DRAWCHARTOAREA - starting ' + this.charname);
 
-		var width = (this.advancewidth*view.dz);
+		var width = (this.charwidth*view.dz);
 		if(this.isautowide){
 			//debug('---------------- for ' + this.charname + ' isautowide=false, adding left side bearing width ' + (ps.defaultlsb*view.dz) + ' to width ' + width);
 			if(this.leftsidebearing === false){

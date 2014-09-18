@@ -117,21 +117,21 @@
 		content += "<tr><td colspan=3><h3> width metrics </h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> auto advance width </td>"+
+				"<td> auto character width </td>"+
 				"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide",true)+"</td>"+
 				"</tr>";
 
 		if(!sc.isautowide){
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> advance width <span class='unit'>(em units)</span> </td>"+
+				"<td> character width <span class='unit'>(em units)</span> </td>"+
 				"<td class='rightcol'><input class='input' type='text' value='"+
-				round(sc.advancewidth, 3) + "' onchange='getSelectedChar().advancewidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+				round(sc.charwidth, 3) + "' onchange='getSelectedChar().charwidth = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
 				"</tr>";
 		} else {
 			content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> advance width <span class='unit'>(em units)</span> </td>"+
+				"<td> character width <span class='unit'>(em units)</span> </td>"+
 				"<td class='rightcol'><input type='text' disabled='disabled' value='"+
-				round(sc.advancewidth, 3) + "'/></td>"+
+				round(sc.charwidth, 3) + "'/></td>"+
 				"</tr>";
 		}
 

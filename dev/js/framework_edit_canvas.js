@@ -253,7 +253,7 @@
 			if(_UI.navhere === 'character edit'){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
-				var rhl = getSelectedChar().advancewidth*-1;
+				var rhl = getSelectedChar().charwidth*-1;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
 				ps.guides.rightside.location = rhl;
 				ps.guides.rightside.draw();

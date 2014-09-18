@@ -106,7 +106,7 @@
 					adv = parseInt(tc.attributes['horiz-adv-x']);
 					if(!isNaN(adv) && adv > 0){
 						fc[uni].isautowide = false;
-						fc[uni].advancewidth = adv;
+						fc[uni].charwidth = adv;
 					}
 				}
 			}

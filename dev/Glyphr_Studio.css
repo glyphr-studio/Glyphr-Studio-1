@@ -276,9 +276,11 @@
 		padding:10px;
 	}
 
+	.navarea_section h1,
+	.navarea_section h2,
 	.navarea_section h3 {
 		color: rgb(0,63,95);
-		margin-top: 10px;
+		margin: 10px 0px 4px 0px;
 	}
 
 	.navarea_header {

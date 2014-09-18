@@ -61,7 +61,7 @@
 			"</td><td style='padding:6px;'>";
 		re += checkUI((path+'.visible'), true);
 		re += "<span class='guidename'>" + guide.name + "</span>";
-		if(guide.name === 'rightside') re += "<span class='guidelocation'>" + getSelectedChar().advancewidth + "</span>";
+		if(guide.name === 'rightside') re += "<span class='guidelocation'>" + getSelectedChar().charwidth + "</span>";
 		else re += "<span class='guidelocation'>" + guide.location + "</span>";
 		re += "</td></tr></table>";
 
