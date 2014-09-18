@@ -11,8 +11,6 @@
 
 		content += "<h1 class='paneltitle'>actions</h1>";
 
-		content += "</div><div class='navarea_section'>";
-
 		// Generate Sections
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
 
