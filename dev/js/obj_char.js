@@ -10,15 +10,13 @@
 		this.charname = oa.charname || getCharName(oa.charhex) || 'ERROR_CHARNAME';
 		this.charhtml = oa.charhtml || hexToHTML(oa.charhex) || 'ERROR_CHARHTML';
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
+		this.charwidth = isval(oa.charwidth)? oa.charwidth : 0;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.rightsidebearing = isval(oa.rightsidebearing)? oa.rightsidebearing : false;
-		this.charwidth = isval(oa.charwidth)? oa.charwidth : 0;
 		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
 		this.maxes = oa.maxes || clone(_UI.mins);
-
-		//this.hints = oa.hints || {};
-		//this.counters = oa.counters || {};
 		this.charshapes = [];
+
 		var lc = 0;
 		var cs = 0;
 		if(oa.charshapes && oa.charshapes.length){
@@ -36,15 +34,6 @@
 		}
 
 		this.calcCharMaxes();
-
-		//debug('CHAR - finished ' + this.charname + '\tlinks:' + lc + '\tshapes:' + cs);
-
-		// if(oa.charname === 'LATIN SMALL LETTER X') {
-		//	_UI.pathdebugging = false;
-		//	debug('IMPORTING CHAR X: result');
-		//	debug(this.charshapes);
-		// }
-
 	}
 
 
@@ -103,31 +92,37 @@
 			};
 		}
 
-		this.calcCharAdvanceWidth();
+		this.calcCharWidth();
 	};
 
-	Char.prototype.calcCharAdvanceWidth = function(){
+	Char.prototype.calcCharWidth = function(){
 		if(!this.isautowide) return;
 		this.charwidth = Math.max(this.maxes.xmax, 0);
 	};
 
-	Char.prototype.drawCharToArea = function(lctx, view){
-		var ps = _GP.projectsettings;
+	Char.prototype.getTotalWidth = function() {
+		this.calcCharWidth();
+		return this.charwidth + this.getLSB() + this.getRSB();
+	};
+
+	Char.prototype.getLSB = function() {
+		if(this.leftsidebearing === false) return _GP.projectsettings.defaultlsb;
+		else return this.leftsidebearing;
+	};
+
+	Char.prototype.getRSB = function() {
+		if(this.rightsidebearing === false) return _GP.projectsettings.defaultrsb;
+		else return this.rightsidebearing;
+	};
+
+	Char.prototype.drawCharToArea = function(lctx, view, uselsb){
+		// debug('\n Char.drawCharToArea - START');
+		// debug('\t ' + this.charname);
 		var sl = this.charshapes;
-
-		//debug('DRAWCHARTOAREA - starting ' + this.charname);
-
-		var width = (this.charwidth*view.dz);
-		if(this.isautowide){
-			//debug('---------------- for ' + this.charname + ' isautowide=false, adding left side bearing width ' + (ps.defaultlsb*view.dz) + ' to width ' + width);
-			if(this.leftsidebearing === false){
-				width += (ps.defaultlsb * view.dz);
-			} else {
-				width += (this.leftsidebearing * view.dz);
-			}
-		}
-
 		var sh = {};
+		var lsb = uselsb ? this.getLSB() : 0;
+		// debug('\t uselsb: ' + uselsb + ' calculated lsb: ' + lsb);
+
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
 			sh = sl[j];
@@ -135,24 +130,25 @@
 				if(sh.link){
 					if(sh.uselinkedshapexy){
 						sh = _GP.linkedshapes[sh.link].shape;
-						//debug('DRAWCHARTOAREA - uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
+						// debug('\t uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
 					} else {
 						var ns = clone(_GP.linkedshapes[sh.link].shape);
-						//debug('DRAWCHARTOAREA - !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
+						// debug('\t !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
 						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						//debug('DRAWCHARTOAREA - !uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
+						// debug('\t !uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
 						sh = ns;
 					}
 				}
-				//debug('DRAWCHARTOAREA - drawing path of char ' + this.charname);
-				sh.path.drawPathToArea(lctx, view);
+				// debug('\t drawing path of char ' + this.charname);
+				sh.path.drawPathToArea(lctx, view, lsb);
 			}
 		}
 		lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
 		lctx.closePath();
 		lctx.fill('nonzero');
 
-		return width;
+		// debug('Char.drawCharToArea - END\n');
+		return (this.getTotalWidth()*view.dz);
 	};
 
 	Char.prototype.makeSVG = function(size, gutter) {
@@ -447,6 +443,14 @@
 		if(!sc) return 0;
 		if(sc.objtype === 'linkedshape') return 0;
 		return sc.leftsidebearing || _GP.projectsettings.defaultlsb;
+	}
+
+	function getSelectedCharRightSideBearing(){
+		//debug('getSelectedCharLeftSideBearing');
+		var sc = getSelectedChar();
+		if(!sc) return 0;
+		if(sc.objtype === 'linkedshape') return 0;
+		return sc.rightsidebearing || _GP.projectsettings.defaultrsb;
 	}
 
 	function selectChar(c, dontnavigate){

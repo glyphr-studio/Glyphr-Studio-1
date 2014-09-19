@@ -106,6 +106,9 @@
 					adv = parseInt(tc.attributes['horiz-adv-x']);
 					if(!isNaN(adv) && adv > 0){
 						fc[uni].isautowide = false;
+						/*
+							GLYPHR charwidth !== horiz-adv-x
+						*/
 						fc[uni].charwidth = adv;
 					}
 				}

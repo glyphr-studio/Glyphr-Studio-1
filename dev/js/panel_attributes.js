@@ -114,10 +114,12 @@
 			"</tr>";
 		}
 
-		content += "<tr><td colspan=3><h3> width metrics </h3></td></tr>";
+
+		// AUTO CHAR WIDTH
+		content += "<tr><td colspan=3><h3> character width </h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> auto character width </td>"+
+				"<td> automatically calculate </td>"+
 				"<td class='rightcol'>"+checkUI("getSelectedChar().isautowide",true)+"</td>"+
 				"</tr>";
 
@@ -135,10 +137,12 @@
 				"</tr>";
 		}
 
-		//content += "<tr><td colspan=3>&nbsp;</td></tr>";
+
+		// LEFT SIDE BEARING
+		content += "<tr><td colspan=3><h3> left side bearing </h3></td></tr>";
 
 		content += "<tr><td class='leftcol'>&nbsp;</td>"+
-				"<td> use default left side bearing </td>"+
+				"<td> use default </td>"+
 				"<td class='rightcol'>"+checkUI("getSelectedChar().leftsidebearing", true, true)+"</td>"+
 				"</tr>";
 
@@ -157,7 +161,30 @@
 				"</tr>";
 		}
 
-		content += "<tr><td colspan=3>&nbsp;</td></tr>";
+
+		// RIGHT SIDE BEARING
+		content += "<tr><td colspan=3><h3> right side bearing </h3></td></tr>";
+
+		content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td> use default </td>"+
+				"<td class='rightcol'>"+checkUI("getSelectedChar().rightsidebearing", true, true)+"</td>"+
+				"</tr>";
+
+		if(sc.rightsidebearing){
+			if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td>right side bearing <span class='unit'>(em units)</span> </td>"+
+				"<td class='rightcol'><input class='input' type='text' value='"+
+				sc.rightsidebearing + "' onchange='getSelectedChar().rightsidebearing = (this.value*1); redraw(\"charDetails\");'>"+spinner()+"</td>"+
+				"</tr>";
+		} else {
+			content += "<tr><td class='leftcol'>&nbsp;</td>"+
+				"<td>right side bearing <span class='unit'>(em units)</span> </td>"+
+				"<td class='rightcol'><input type='text' disabled='disabled' value='"+
+				round(_GP.projectsettings.defaultrsb, 3) + "'/></td>"+
+				"</tr>";
+		}
+
 
 		return content;
 

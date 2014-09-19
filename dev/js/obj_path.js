@@ -153,8 +153,8 @@
 
 			this.validate('DRAW PATH');
 
-			if(pp.type == 'symmetric') { pp.makeSymmetric('H1'); }
-			else if (pp.type == 'flat') { pp.makeFlat('H1'); }
+			if(pp.type === 'symmetric') { pp.makeSymmetric('H1'); }
+			else if (pp.type === 'flat') { pp.makeFlat('H1'); }
 
 			this.validate('DRAW PATH');
 
@@ -204,12 +204,18 @@
 		}
 	};
 
-	Path.prototype.drawPathToArea = function(lctx, view){
+	Path.prototype.drawPathToArea = function(lctx, view, dx){
+		// debug('\n Path.drawPathToArea - START');
+		// debug('\t passed dx ' + dx);
 		var tempv = clone(getView('Path.drawPathToArea'));
+		var drawpath = clone(this);
+
+		if(dx) drawpath.updatePathPosition(dx, 0, true);
 		setView(view);
-		this.drawPath(lctx);
+		drawpath.drawPath(lctx);
 
 		setView(tempv);
+		// debug(' Path.drawPathToArea - END\n');
 	};
 
 	Path.prototype.genPathPostScript = function(lastx, lasty){

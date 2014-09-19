@@ -37,7 +37,7 @@
 	}
 
 	function redraw_TestDrive(){
-		//debug("redraw_TestDrive");
+		debug("\n redraw_TestDrive - START");
 		var td = _UI.testdrive;
 		var ps = _GP.projectsettings;
 
@@ -47,7 +47,6 @@
 		var contentArray = td.sampletext.split('');
 		var tctx = td.ctx;
 		var scale = td.fontscale;
-		var pad = td.padsize;
 		var textEm = (ps.upm*scale);
 		var pagepadding = 10;
 		var currx = pagepadding;
@@ -57,10 +56,10 @@
 		tctx.clearRect(0,0,5000,5000);
 		if(td.showhorizontals) drawLine(curry);
 
-		debug("\t contentarray.length: " + contentArray.length);
+		debug('\t contentarray.length: ' + contentArray.length);
 
 		for(var k=0; k<contentArray.length; k++){
-			if(contentArray[k] === "\n"){
+			if(contentArray[k] === '\n'){
 				// reset X val
 				currx = pagepadding;
 
@@ -81,14 +80,16 @@
 						tctx.strokeRect(
 							currx.makeCrisp(),
 							(curry.makeCrisp()-(ps.ascent*scale)),
-							round(cc.charwidth*scale),
+							round(cc.getTotalWidth()*scale),
 							round(textEm)
 						);
 					}
 
-					currx += cc.drawCharToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry});
+					debug('\t starting drawing ');
+					debug(cc);
+					currx += cc.drawCharToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
-					// debug('\t done drawing ' + cc.charname);
+					debug('\t done drawing ' + cc.charname);
 				}
 			}
 		}
@@ -132,7 +133,7 @@
 
 	function drawTDOptions(){
 		if(!_UI.testdrive.linegap) _UI.testdrive.linegap = _GP.projectsettings.linegap;
-		if(!_UI.testdrive.padsize) _UI.testdrive.padsize = _GP.projectsettings.defaultlsb;
+		if(!isval(_UI.testdrive.padsize)) _UI.testdrive.padsize = _GP.projectsettings.defaultlsb;
 
 		var content = '<table class="detail">';
 		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input class="input" type="text" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();">'+spinner()+'</td></tr>';

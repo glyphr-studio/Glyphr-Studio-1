@@ -7,11 +7,11 @@
 	function loadPage_charedit(){
 		// debug("LOADING PAGE >> loadPage_charedit");
 
-		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
+		getEditDocument().getElementById('mainwrapper').innerHTML = charedit_content();
 		setupEditCanvas();
 		initEventHandlers();
 
-		_UI.selectedtool = "pathedit";
+		_UI.selectedtool = 'pathedit';
 		_UI.selectedshape = -1;
 		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstCharID();
 
@@ -67,11 +67,11 @@
 		var pointselectclass = "";
 		var pointselectclickable = true;
 		var s = ss("Charedit: UpdateTools");
-		if(_UI.navhere == "linked shapes") {
+		if(_UI.navhere === "linked shapes") {
 			if(!_GP.linkedshapes[_UI.selectedshape]) { s = false; }
 		}
 
-		if(_UI.selectedtool=='pathedit'){
+		if(_UI.selectedtool === 'pathedit'){
 			pointselectclass = "buttonsel tool";
 		} else if (s.link){
 			pointselectclass = "buttondis tool";

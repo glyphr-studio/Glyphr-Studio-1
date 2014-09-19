@@ -22,6 +22,7 @@
 		// debug('\t delta: ' + delta);
 		if(!this.visible) return;
 		
+		delta = delta*1;
 		var ctx = _UI.chareditctx;
 		var cansize = _UI.chareditcanvassize;
 		var v = getView('guide');

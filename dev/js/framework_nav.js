@@ -353,9 +353,13 @@
 		}
 
 		// Start putting together the tabs
-		newsub += '<div class="navarea_header" style="background-color:'+_UI.colors.accent_45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
-		newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
-		newsub += '</button></div>';
+		if(_UI.navprimaryhere === 'npNav'){
+			newsub += '<div class="navarea_header"></div>';
+		} else {
+			newsub += '<div class="navarea_header" style="background-color:'+_UI.colors.accent_45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
+			newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
+			newsub += '</button></div>';
+		}
 
 		for(var i=1; i<navarr.length; i++){
 			if(_UI.navprimaryhere === navarr[i]){

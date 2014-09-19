@@ -250,12 +250,14 @@
 			}
 
 			// Char Width
-			if(_UI.navhere === 'character edit'){
+			if((_UI.navhere === 'character edit' || _UI.navhere === 'ligatures') && 
+				(getSelectedChar().charshapes.length || _UI.selectedchar === '0x0020')){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
 				var rhl = getSelectedChar().charwidth*-1;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
 				ps.guides.rightside.location = rhl;
+				ps.guides.rightside.draw(getSelectedCharRightSideBearing());
 				ps.guides.rightside.draw();
 			}
 

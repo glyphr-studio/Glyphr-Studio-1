@@ -249,21 +249,6 @@
 		var currbool = eval(varname);
 		if(invert) currbool = !currbool;
 
-		// var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
-		// 	'<input type="checkbox" class="checkboxfunc" ' +
-		// 	'id="'+idname+'"' +
-		// 	(currbool? ' checked ' : ' ') +
-		// 	'onclick="' +
-		// 	//'debug(\'Clicked on checkbox '+varname+'\'); ' +
-		// 	'toggle(\''+varname+'\');';
-
-		// 	if(doredraw){
-		// 		re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');'+
-		// 		' redraw(\'checkbox '+idname+'\');';
-		// 	}
-
-		// 	re += '"><span class="checkboxui"></span></label>';
-
 		var re = '<input type="checkbox"';
 		re += (currbool? ' checked ' : ' ');
 		re += 'id="'+idname+'"';
