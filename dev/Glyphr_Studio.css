@@ -502,11 +502,6 @@
 		clear:both;
 	}
 
-	.charselectthumbsel {
-		background-color:rgb(80,196,255);
-		border:1px solid rgb(0,170,255);
-	}
-
 	.charselectbuttonsel,
 	.charselectbutton {
 		width:50px;
@@ -522,8 +517,11 @@
 		clear:both;
 	}
 
+	.charselectthumbsel,
 	.charselectbuttonsel {
-		background-color:rgb(0,170,225);
+		background-color:rgb(80,196,255);
+		border:1px solid rgb(0,170,255);
+		color: rgb(0,170,255);
 	}
 
 	.unit {
