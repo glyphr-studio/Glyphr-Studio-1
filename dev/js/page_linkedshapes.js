@@ -63,7 +63,7 @@
 
 		if(_GP.linkedshapes[_UI.shownlinkedshape].usedin.length > 0){
 			content += "<table style='margin-top:10px;'><tr><td colspan=3><h3>characters that use this linked shape</h3>";
-			content += generateUsedinThumbs();
+			content += makeUsedInThumbs();
 			content += "</td></tr></table>";
 		} else {
 			content += "<table><tr><td>&nbsp;</td><td colspan=2><br><i>this linked shape is not currently being used by any characters. <a href='#' onclick='showAddSSToCharDialog();'>add this linked shape to a character now</a>.</i></td></tr></table>";
@@ -73,7 +73,7 @@
 		return content;
 	}
 
-	function generateUsedinThumbs(){
+	function makeUsedInThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
 		var ui = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
 		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) === pos;});
@@ -87,7 +87,7 @@
 			re += "</div></td></tr><tr><td>";
 			re += (cname === 'Space')? cname : getChar(unique[k]).charhtml;
 			re += "</td></tr></table>";
-			//debug("GENERATEUSEDINTHUMBS - created canvas 'thumb"+unique[k]+"'");
+			//debug("makeUsedInThumbs - created canvas 'thumb"+unique[k]+"'");
 		}
 		re += "</div>";
 		return re;
@@ -174,7 +174,7 @@
 	}
 
 	function deleteLinkedShapeConfirm(){
-		var content = "Are you sure you want to delete this linked shape?<br>";
+		var content = "<h1>Delete Linked Shape</h1>Are you sure you want to delete this linked shape?<br>";
 		var uia = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
 		if(uia.length > 0){
 			content += "If you do, the linked shape instances will also be removed from the following characters:<br><br>";
@@ -231,7 +231,7 @@
 	}
 
 	function showAddSSToCharDialog(msg){
-		var content = "<table style='width:900px'><tr><td>";
+		var content = "<h1>Link to Character</h1><table style='width:900px'><tr><td>";
 		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.shownlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' being used.<br><br>";
 		content += "Select the character you would like to link to this linked shape:<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";

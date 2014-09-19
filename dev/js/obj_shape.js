@@ -628,7 +628,7 @@
 			this.name = sn;
 			putundoq('shape name');
 		} else {
-			openDialog('<h2>Invalid shape name</h2><br>Shape names must only contain alphanumeric characters or spaces.<br>');
+			openDialog('<h1>Invalid shape name</h1><br>Shape names must only contain alphanumeric characters or spaces.<br>');
 		}
 
 		redraw('Shape Name');

@@ -159,7 +159,7 @@
 		if(document.getElementById('dialog_box').style.display==='block'){
 			closeDialog();
 		} else {
-			var con = "<h2>Keyboard and Mouse Shortcuts</h2>";
+			var con = "<h1>Keyboard and Mouse Shortcuts</h1>";
 
 			con += "<table style='margin:20px 40px 40px 0px;'><tr><td colspan=2>"+
 

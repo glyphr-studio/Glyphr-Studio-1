@@ -44,7 +44,8 @@
 		if(_UI.navprimaryhere === 'npAttributes') changefontscale(td.fontsize);
 		document.getElementById('tdtextarea').value = td.sampletext;
 
-		var contentArray = td.sampletext.split('');
+		var contentarray = td.sampletext.split('');
+		contentarray = findAndMergeLigatures(contentarray);
 		var tctx = td.ctx;
 		var scale = td.fontscale;
 		var textEm = (ps.upm*scale);
@@ -56,10 +57,10 @@
 		tctx.clearRect(0,0,5000,5000);
 		if(td.showhorizontals) drawLine(curry);
 
-		debug('\t contentarray.length: ' + contentArray.length);
+		debug('\t contentarray.length: ' + contentarray.length);
 
-		for(var k=0; k<contentArray.length; k++){
-			if(contentArray[k] === '\n'){
+		for(var k=0; k<contentarray.length; k++){
+			if(contentarray[k] === '\n'){
 				// reset X val
 				currx = pagepadding;
 
@@ -70,7 +71,7 @@
 				// draw baseline
 				if(td.showhorizontals) drawLine(curry);
 			} else {
-				cc = getChar(charToHex(contentArray[k]));
+				cc = getChar(charToHex(contentarray[k]));
 				if(cc){
 					if(td.showcharbox){
 						tctx.fillStyle = 'transparent';
@@ -85,8 +86,8 @@
 						);
 					}
 
-					debug('\t starting drawing ');
-					debug(cc);
+					debug('\t starting drawing ' + cc.charname);
+					// debug(cc);
 					currx += cc.drawCharToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
 					debug('\t done drawing ' + cc.charname);
@@ -95,6 +96,30 @@
 		}
 	}
 
+	function findAndMergeLigatures(carr) {
+		// debug('\n findAndMergeLigatures - START');
+		var ligs = sortLigatures();
+		// debug('\t sorted ligs: ');
+		// debug(ligs);
+
+		var ligchars, carrot;
+		for(var c=0; c<carr.length; c++){
+			for(var g=ligs.length-1; g>-1; g--){
+				ligchars = hexToChar(ligs[g].id);
+				// debug('\t checking ' + ligchars);
+				carrot = carr.slice(c, (c+ligchars.length)).join('');
+				// debug('\t against ' + carrot);
+				if(carrot === ligchars){
+					carr.splice(c, ligchars.length, ligchars);
+					// debug('\t !Ligature Found! array['+c+'] is now ' + carr[c]);
+				}
+			}
+		}
+
+		// debug(' findAndMergeLigatures - END\n');
+		return carr;
+	}
+	
 	function drawLine(y){
 		// debug('TESTDRIVE - Drawing h line at ' + y);
 		y = y.makeCrisp();

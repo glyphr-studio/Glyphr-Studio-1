@@ -15,10 +15,11 @@
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
 
 		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
+		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
 		allactions += "<button class='"+(_UI.charundoq.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((_UI.charundoq.length > 0) ? (" (" + _UI.charundoq.length) + ")" : "") + "</button><br>";
 		allactions += "<button onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
 		allactions += "<button onclick='insertLinkedShapeDialog();'>add linked shape</button><br>";
-		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
+		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
@@ -107,24 +108,24 @@
 //-------------------
 	function copyShape(){
 
-		if(_UI.navhere === "linked shapes"){
+		if(_UI.navhere === 'linked shapes'){
 			_UI.clipboardshape = {
-				"s":_GP.linkedshapes[_UI.shownlinkedshape].shape,
-				"c":_UI.shownlinkedshape
+				's':_GP.linkedshapes[_UI.shownlinkedshape].shape,
+				'c':_UI.shownlinkedshape
 			};
-		} else if (_UI.navhere === "character edit"){
-			var s = ss("copy shape");
+		} else if (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
+			var s = ss('copy shape');
 			if(s.link) s = _GP.linkedshapes[s.link].shape;
 			if(s){
 				_UI.clipboardshape = {
-					"s":s,
-					"c":_UI.selectedchar,
-					"dx": 0,
-					"dy": 0
+					's':s,
+					'c':_UI.selectedchar,
+					'dx': 0,
+					'dy': 0
 				};
 				//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name);
 			}
-			redraw("copyShape");
+			redraw('copyShape');
 		}
 	}
 
@@ -144,21 +145,21 @@
 			}
 
 			var newname = newshape.name;
-			var newsuffix = " (copy)";
-			var n = newshape.name.lastIndexOf("(copy");
+			var newsuffix = ' (copy)';
+			var n = newshape.name.lastIndexOf('(copy');
 
 			if(n > 0){
 				var suffix = newname.substring(n+5);
 				newname = newname.substring(0,n);
-				if(suffix === ")"){
-					newsuffix = "(copy 2)";
+				if(suffix === ')'){
+					newsuffix = '(copy 2)';
 				} else {
 					//debug("PASTESHAPE - suffix " + suffix);
 					suffix = suffix.substring(1);
 					//debug("PASTESHAPE - suffix " + suffix);
 					suffix = suffix.substring(0, suffix.length-1);
 					//debug("PASTESHAPE - suffix " + suffix);
-					newsuffix = "(copy " + (parseInt(suffix)+1) + ")";
+					newsuffix = '(copy ' + (parseInt(suffix)+1) + ")";
 					//debug("PASTESHAPE - newsuffix " + newsuffix);
 				}
 			}
@@ -173,6 +174,26 @@
 		}
 	}
 
+	function showGetShapesDialog(msg){
+		var content = "<h1>Get Shapes</h1><table style='width:900px'><tr><td>";
+		content += msg? msg : "<br>";
+		content += "Clicking a character will copy all the shapes in that character, and paste them into this character.<br><br></td></tr>";
+		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
+		content += makeGenericCharChooserContent("pasteShapesFrom");
+		content += "</div></td></tr>";
+		content += "<tr><td><br>";
+		content += "<button style='width:100px;' onclick='closeDialog();'>done</button>";
+		content += "</td></tr></table>";
+		openDialog(content);
+	}
+
+	function pasteShapesFrom(chid) {
+		getChar(chid).sendShapesTo(getSelectedCharID());
+		redraw();
+		putundoq("Pasted Shapes to Character");
+		closeDialog();
+		showGetShapesDialog("The shapes from '" + getCharName(chid) + "' were successfully pasted to character " + getSelectedCharName() + ".<br>");
+	}
 
 //-------------------
 // Move up / down

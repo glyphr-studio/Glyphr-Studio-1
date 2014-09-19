@@ -51,13 +51,12 @@
 //	Insert Linked Shape
 	function insertLinkedShapeDialog(){
 		if(aalength(_GP.linkedshapes)>0){
-			var content = 'Choose a Linked Shape to insert as a layer in this character:<br><br>';
+			var content = '<h1>Add Linked Shape</h1>Choose a Linked Shape to insert as a layer in this character:<br><br>';
 			content += makeLinkedShapeThumbs();
 			content += '<div style="display:block;"><button onclick="closeDialog();">cancel</button></div>';
 			openDialog(content);
-			drawSSThumbs();
 		} else {
-			openDialog('<div class="dialoglargetext">No Linked Shapes exist.  First, create some Linked Shapes, then you can insert them into characters.</div>');
+			openDialog('<h1>Add Linked Shape</h1><div class="dialoglargetext">No Linked Shapes exist.  First, create some Linked Shapes, then you can insert them into characters.</div>');
 		}
 	}
 
@@ -99,14 +98,16 @@
 	function makeLinkedShapeThumbs(){
 		var re = '<div class="ssthumbcontainer">';
 		var tochar = getSelectedCharID();
-		for(var lsid in _GP.linkedshapes){
+		var ls = _GP.linkedshapes;
+		for(var lsid in ls){if(ls.hasOwnProperty(lsid)){
 			re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-			re += '<canvas class="ssthumb" id="thumb'+lsid+'" onclick="insertLinkedShape(\''+lsid+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'></canvas>';
-			re += '</td></tr><tr><td>';
-			re += _GP.linkedshapes[lsid].shape.name;
+			re += '<div class="charselectthumb" onclick="insertLinkedShape(\''+lsid+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
+			re += getChar(lsid).shape.makeSVG();
+			re += '</div></td></tr><tr><td>';
+			re += getCharName(lsid);
 			re += '</td></tr></table>';
 			//debug('makeLinkedShapeThumbs - created canvas thumb'+lsid);
-		}
+		}}
 		re += '</div>';
 		return re;
 	}

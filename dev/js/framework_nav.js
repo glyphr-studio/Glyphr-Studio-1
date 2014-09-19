@@ -234,10 +234,10 @@
 				switch (_UI.navhere){
 					case 'character edit':
 					case 'linked shapes':
+					case 'ligatures':
 						np.innerHTML = makePanel_CharAttributes();
 						np.innerHTML += makePanel_Actions();
 					break;
-					case 'ligatures': np.innerHTML = makePanel_CharAttributes(); break;
 					case 'kerning': np.innerHTML = makePanel_KerningAttributes(); break;
 					case 'test drive': np.innerHTML = makePanel_TestDriveAttributes(); break;
 				}

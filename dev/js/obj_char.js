@@ -304,9 +304,9 @@
 		}
 	};
 
-	Char.prototype.sendShapesTo = function(otherchar) {
-		var destination = getChar(otherchar, true);
-		destination.charshapes = destination.charshapes.concat(this.charshapes);
+	Char.prototype.sendShapesTo = function(chid) {
+		var destination = getChar(chid, true);
+		destination.charshapes = clone(destination.charshapes.concat(this.charshapes));
 		destination.calcCharMaxes();
 	};
 
@@ -318,12 +318,12 @@
 
 	// GET
 	function getChar(ch, create) {
-		// debug('\n getChar - START');
-		// debug('\t passed ' + ch);
-		// debug('\t force create? ' + create);
+		debug('\n getChar - START');
+		debug('\t passed ' + ch);
+		debug('\t force create? ' + create);
 
 		if(!ch){
-			// debug('getChar - not passed an ID, returning false');
+			debug('getChar - not passed an ID, returning false');
 			return false;
 		}
 
@@ -331,31 +331,33 @@
 		var rechar;
 
 		if(ch.indexOf('id') >= 0){
+			debug('\t linked shape, retrieved');
+			debug(_GP.linkedshapes[ch]);
 			return _GP.linkedshapes[ch];
 
 		} else if (ch.indexOf('0x', 2) > -1){
 			rechar = _GP.ligatures[ch];
-			// debug('\t retrieved ' + rechar + ' from ligatures.');
+			debug('\t retrieved ' + rechar + ' from ligatures.');
 			if(rechar){
 				return rechar;
 			} else if(create){
-				// debug('\t create was true, returning a new ligature.');
+				debug('\t create was true, returning a new ligature.');
 				_GP.ligatures[ch] = new Char({'charhex':ch});
 				return _GP.ligatures[ch];
 			}
 
 		} else {
 			rechar = _GP.fontchars[ch];
-			// debug('\t retrieved ' + rechar + ' from fontchars.');
+			debug('\t retrieved ' + rechar + ' from fontchars.');
 			if(rechar){
 				return rechar;
 			} else if(create){
-				// debug('\t create was true, returning a new char.');
+				debug('\t create was true, returning a new char.');
 				_GP.fontchars[ch] = new Char({'charhex':ch});
 				return _GP.fontchars[ch];
 			}
 		}
-		// debug('getChar - returning FALSE\n');
+		debug('getChar - returning FALSE\n');
 		return false;
 	}
 

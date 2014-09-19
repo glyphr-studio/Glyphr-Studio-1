@@ -863,16 +863,6 @@
 		display: none;
 	}
 
-	.ssthumb,
-	.ssthumb:focus,
-	.ssthumb:active {
-		border:3px solid transparent;
-		cursor:pointer;
-	}
-
-	.ssthumb:hover {
-		border:3px solid rgb(0,170,225);/* dynamic */
-	}
 
 /*	TOOLS		*/
 	#toolsarea {
@@ -1276,14 +1266,12 @@
 	}
 
 	.ssthumbcontainer table {
+		width:50px;
 		margin:0px 10px 30px 0px;
+		overflow: hidden;
 		display:inline;
 		float:left;
 		text-transform:none;
-	}
-
-	.ssthumbcontainer canvas {
-		background-color:white;
 	}
 
 	.ssusedinthumb,

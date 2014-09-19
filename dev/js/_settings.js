@@ -8,7 +8,7 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
-		'devnav': 'character edit',	// navigate straight to a page
+		'devnav': 'ligatures',	// navigate straight to a page
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 
 		// all pages

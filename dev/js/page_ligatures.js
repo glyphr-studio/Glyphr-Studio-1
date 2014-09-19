@@ -26,7 +26,7 @@
 		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Ligature Characters</h3>';
 		con += '<input type="text" id="newligatureinput" style="font-size:24px; padding:8px;"/><br>';
-		con += makesErrorMessageBox();
+		con += makeErrorMessageBox();
 		con += '<br>';
 		con += '<button class="buttonsel" onclick="createNewLigature();">create new ligature</button>';
 		con += '</div>';
@@ -58,7 +58,7 @@
 	}
 
 	function deleteLigatureConfirm(){
-		var content = "Are you sure you want to delete this ligature?<br>";
+		var content = "<h1>Delete Ligature</h1>Are you sure you want to delete this ligature?<br>";
 		content += "<br>Warning: This action cannot be undone!<br>";
 		content += "<br><button onclick='deleteLigature();'>permanently delete this ligature</button> &nbsp; <button onclick='closeDialog();'>cancel</button>";
 
