@@ -209,14 +209,14 @@
 	};
 
 	Char.prototype.setCharPosition = function(nx, ny, force){
-		debug('SETCHARPOSITION nx/ny/force: ' + nx + ' ' + ny + ' ' + force);
+		// debug('SETCHARPOSITION nx/ny/force: ' + nx + ' ' + ny + ' ' + force);
 		var dx = (nx)? (nx - this.maxes.xmin) : 0;
 		var dy = (ny)? (ny - this.maxes.ymax) : 0;
 		this.updateCharPosition(dx, dy, force);
 	};
 
 	Char.prototype.updateCharPosition = function(dx, dy, force){
-		debug('UPDATECHARPOSITION dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
+		// debug('UPDATECHARPOSITION dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
 		var cs = this.charshapes;
 		for(var i=0; i<cs.length; i++){
 			if(!this.charshapes[i].link){
@@ -227,8 +227,8 @@
 	};
 
 	Char.prototype.setCharSize = function(nw, nh, ratiolock){
-		debug('SET CHARSIZE ---- nw/nh/ra:\t' + nw + '\t ' + nh + '\t ' + ratiolock);
-		debug('\t maxes: ' + json(this.maxes));
+		// debug('SET CHARSIZE ---- nw/nh/ra:\t' + nw + '\t ' + nh + '\t ' + ratiolock);
+		// debug('\t maxes: ' + json(this.maxes));
 		var ch = (this.maxes.ymax - this.maxes.ymin);
 		var cw = (this.maxes.xmax - this.maxes.xmin);
 		var dw = (nw)? (nw - cw) : 0;
@@ -242,7 +242,7 @@
 	};
 
 	Char.prototype.updateCharSize = function(dw, dh, ratiolock){
-		debug('UPDATE CHARSIZE - dw/dh/ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
+		// debug('UPDATE CHARSIZE - dw/dh/ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
 
 		var oldw = this.maxes.xmax - this.maxes.xmin;
 		var oldh = this.maxes.ymax - this.maxes.ymin;
@@ -251,17 +251,17 @@
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
-		debug('\tadj dh/dw:\t' + dh + '\t ' + dw);
-		debug('\told h/w:\t' + oldh + '\t ' + oldw);
-		debug('\tnew h/w:\t' + newh + '\t ' + neww);
-		debug('\tratio dh/dw:\t' + ratiodh + '\t ' + ratiodw);
+		// debug('\tadj dh/dw:\t' + dh + '\t ' + dw);
+		// debug('\told h/w:\t' + oldh + '\t ' + oldw);
+		// debug('\tnew h/w:\t' + newh + '\t ' + neww);
+		// debug('\tratio dh/dw:\t' + ratiodh + '\t ' + ratiodw);
 
 		var cs = this.charshapes;
 		var tp, pnw, pnh, pnx, pny;
 		for(var i=0; i<cs.length; i++){
 			if(!cs[i].link){
 				tp = cs[i].path;
-				debug('\t\tpath ' + i + ' before h/w ' + (tp.maxes.ymax - tp.maxes.ymin) + ' ' + (tp.maxes.xmax - tp.maxes.xmin));
+				// debug('\t\tpath ' + i + ' before h/w ' + (tp.maxes.ymax - tp.maxes.ymin) + ' ' + (tp.maxes.xmax - tp.maxes.xmin));
 
 				// scale
 				if(dw === 0) pnw = false;
@@ -279,7 +279,7 @@
 
 				tp.setPathPosition(pnx, pny, true);
 
-				debug('\t\tpath ' + i + ' afters h/w ' + (tp.maxes.ymax - tp.maxes.ymin) + ' ' + (tp.maxes.xmax - tp.maxes.xmin));
+				// debug('\t\tpath ' + i + ' afters h/w ' + (tp.maxes.ymax - tp.maxes.ymin) + ' ' + (tp.maxes.xmax - tp.maxes.xmin));
 			}
 		}
 
@@ -318,12 +318,12 @@
 
 	// GET
 	function getChar(ch, create) {
-		debug('\n getChar - START');
-		debug('\t passed ' + ch);
-		debug('\t force create? ' + create);
+		// debug('\n getChar - START');
+		// debug('\t passed ' + ch);
+		// debug('\t force create? ' + create);
 
 		if(!ch){
-			debug('getChar - not passed an ID, returning false');
+			// debug('getChar - not passed an ID, returning false');
 			return false;
 		}
 
@@ -331,33 +331,33 @@
 		var rechar;
 
 		if(ch.indexOf('id') >= 0){
-			debug('\t linked shape, retrieved');
-			debug(_GP.linkedshapes[ch]);
+			// debug('\t linked shape, retrieved');
+			// debug(_GP.linkedshapes[ch]);
 			return _GP.linkedshapes[ch];
 
 		} else if (ch.indexOf('0x', 2) > -1){
 			rechar = _GP.ligatures[ch];
-			debug('\t retrieved ' + rechar + ' from ligatures.');
+			// debug('\t retrieved ' + rechar + ' from ligatures.');
 			if(rechar){
 				return rechar;
 			} else if(create){
-				debug('\t create was true, returning a new ligature.');
+				// debug('\t create was true, returning a new ligature.');
 				_GP.ligatures[ch] = new Char({'charhex':ch});
 				return _GP.ligatures[ch];
 			}
 
 		} else {
 			rechar = _GP.fontchars[ch];
-			debug('\t retrieved ' + rechar + ' from fontchars.');
+			// debug('\t retrieved ' + rechar + ' from fontchars.');
 			if(rechar){
 				return rechar;
 			} else if(create){
-				debug('\t create was true, returning a new char.');
+				// debug('\t create was true, returning a new char.');
 				_GP.fontchars[ch] = new Char({'charhex':ch});
 				return _GP.fontchars[ch];
 			}
 		}
-		debug('getChar - returning FALSE\n');
+		// debug('getChar - returning FALSE\n');
 		return false;
 	}
 

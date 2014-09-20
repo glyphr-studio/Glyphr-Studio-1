@@ -35,12 +35,12 @@
 	}
 
 	function createNewLigature() {
-		debug('\n createNewLigature - START');
+		// debug('\n createNewLigature - START');
 		var lid = document.getElementById('newligatureinput').value;
-		debug('\t retrieved ' + lid);
+		// debug('\t retrieved ' + lid);
 		lid = lid.replace(/\s/gi, '');
 		lid = parseUnicodeInput(lid);
-		debug('\t parsed ' + lid);
+		// debug('\t parsed ' + lid);
 
 		var lig = _GP.ligatures;
 
@@ -66,15 +66,15 @@
 	}
 
 	function deleteLigature(){
-		debug('\n deleteLigature - START');
-		debug('\t deleting ' + _UI.selectedchar);
+		// debug('\n deleteLigature - START');
+		// debug('\t deleting ' + _UI.selectedchar);
 
 		closeDialog();
 		delete _GP.ligatures[_UI.selectedchar];
 		_UI.selectedchar = getFirstLigatureID();
 		navigate();
 
-		debug('deleteLigature - END\n');
+		// debug('deleteLigature - END\n');
 	}
 
 	function sortLigatures() {
@@ -111,7 +111,7 @@
 	function getFirstLigatureID() {
 		for(var g in _GP.ligatures){
 			if(_GP.ligatures.hasOwnProperty(g)) {
-				debug('getFirstLigature - returning id for ' + _GP.ligatures[g].charname);
+				// debug('getFirstLigature - returning id for ' + _GP.ligatures[g].charname);
 				return g;
 			}
 		}

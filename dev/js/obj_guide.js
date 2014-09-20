@@ -7,11 +7,11 @@
 	function Guide(oa){
 		this.objtype = 'guide';
 
-		this.type = oa.type || 'horizontal';
+		this.type = oa.type || 'vertical';
 		this.name = oa.name || (this.type + ' guide');
-		this.location = oa.location || 0;
+		this.location = oa.location || 200;
 		this.angle = oa.angle || false;
-		this.color = oa.color || _GP.projectsettings.colors.guide_med;
+		this.color = oa.color || makeRandomSaturatedColor();
 		this.visible = isval(oa.visible)? oa.visible : true;
 		this.editable = isval(oa.editable)? oa.editable : true;
 	}
@@ -45,7 +45,7 @@
 			label.x = 25;
 			label.y = pos - pad;
 		} else if (this.type === 'vertical'){
-			pos = (v.dx - (this.location*v.dz)).makeCrisp();
+			pos = (v.dx - (this.location*v.dz*-1)).makeCrisp();
 			if(delta) pos += (delta*v.dz);
 			start.x = pos;
 			start.y = 0;
@@ -75,4 +75,25 @@
 		// debug('Guide.draw \t END\n');
 	};
 
+	function makeRandomSaturatedColor(){
+		var sat = Math.floor(Math.random()*5)*51;
+		var arr = [];
+		var satloc = Math.floor(Math.random()*3);
+		arr[satloc] = sat;
+		switch(satloc){
+			case 0:
+				arr[1] = 0;
+				arr[2] = 255;
+				break;
+			case 1: 
+				arr[0] = 0;
+				arr[2] = 255;
+				break;
+			case 2:
+				arr[0] = 255;
+				arr[1] = 0;
+				break;
+		}
+		return 'rgb('+arr[0]+','+arr[1]+','+arr[2]+')';
+	}
 // end of file

@@ -231,6 +231,15 @@
 		// debug(ps.guides);
 		
 		if(_UI.showguides){
+			// Update custom guides
+			var g;
+			for(var c in ps.guides){if(ps.guides.hasOwnProperty(c)){
+				g = ps.guides[c];
+				if(g.editable){
+					g.draw();
+				}
+			}}
+
 			// Update system guides
 			ps.guides.xheight.location = ps.xheight;
 			ps.guides.capheight.location = ps.capheight;
@@ -254,7 +263,7 @@
 				(getSelectedChar().charshapes.length || _UI.selectedchar === '0x0020')){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
-				var rhl = getSelectedChar().charwidth*-1;
+				var rhl = getSelectedChar().charwidth;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
 				ps.guides.rightside.location = rhl;
 				ps.guides.rightside.draw(getSelectedCharRightSideBearing());
