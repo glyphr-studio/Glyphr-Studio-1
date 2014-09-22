@@ -1092,12 +1092,13 @@
 
 /*	GUIDES		*/
 	.guiderow {
-		background-color: rgb(250,252,255);
 		width:100%;
 		margin-bottom: 2px;
+		border:0px;
 	}
 
 	.guiderow td {
+		background-color: rgb(250,252,255);
 		height: 30px;
 		vertical-align: middle;
 		padding:auto auto;
@@ -1146,7 +1147,7 @@
 	}
 
 	.guidetype:disabled {
-		background-color: rgb(204,209,214);
+		background-color: rgb(229,234,239);
 		color:rgb(51,56,61);
 		cursor: default;
 	}
@@ -1157,6 +1158,26 @@
 		border-width:2px;
 		border-style:solid;
 		border-color:rgb(250,252,255);
+	}
+
+	.guideremove,
+	.guideremove:active,
+	.guideremove:focus,
+	.guideremove:hover,
+	.guideremove:disabled {
+		height:25px;
+		width:25px;
+		padding:4px;
+		text-align: center;
+		line-height: 2px;
+		margin:auto 0px auto 0px;
+		background-color: rgb(250,252,255);
+		color:rgb(229,234,239);
+	}
+
+	.guideremove:hover{
+		background-color: white;
+		color:rgb(240,15,54);
 	}
 
 /*	HISTORY		*/

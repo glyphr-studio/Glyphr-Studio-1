@@ -54,7 +54,7 @@
 	function makeOneGuideRow(guide, path, id) {
 		var sys = !guide.editable;
 		var re = '<table class="guiderow"><tr>';
-	
+
 		re += '<td class="guidecolor" style="background-color:'+ guide.color + ';"';
 		if(!sys){
 			re += ' onmouseover="hideAllSatChoosers(); this.style.cursor=\'pointer\'; this.style.borderColor=\''+ guide.color + '\';"';
@@ -63,11 +63,11 @@
 		}
 		re += '>';
 		re += '</td>';
-		
+
 		re += '<td>';
 		re += checkUI((path+'.visible'), true);
 		re += '</td>';
-		
+
 		re += '<td>';
 		if(guide.type === 'horizontal'){
 			re += '<button '+(sys? 'disabled':'')+' class="guidetype" onclick="updateGuide(\''+id+'\', \'type\', \'vertical\');">&mdash;</button>';
@@ -79,18 +79,40 @@
 		re += '<td>';
 		re += '<input '+(sys? 'disabled':'')+' type="text" class="guidename" value="' + guide.name + '" onchange="updateGuide(\''+id+'\', \'name\', this.value);"/>';
 		re += '</td>';
-		
+
 		re += '<td>';
 		re += '<input '+(sys? 'disabled':'')+' type="number" class="guidelocation" value="' + guide.location + '" onchange="updateGuide(\''+id+'\', \'location\', (1*this.value));"/>';
 		re += '</td>';
+
+		if(!sys){
+		re += '<td>';
+		re += '<button class="guideremove" onclick="removeGuide(\''+id+'\');">&times</button>';
+		re += '</td>';
+		}
 
 		re += '</tr></table>';
 		return re;
 	}
 
 	function updateGuide(id, key, value) {
-		_GP.projectsettings.guides[id][key] = value;
+		var g = _GP.projectsettings.guides[id];
+		g[key] = value;
+		if(key === 'type'){
+			if(g.name === 'horizontal guide') g.name = 'vertical guide';
+			else if(g.name === 'vertical guide') g.name = 'horizontal guide';
+		}
 		redraw();
+	}
+
+	function removeGuide(id) {
+		var g = _GP.projectsettings.guides[id];
+		var con = '<h1>Delete Guide</h1>';
+		con += 'Are you sure you want to remove the guide: ';
+		con += g.name + '?<br><br>';
+		con += '<button class="buttonsel" onclick="delete _GP.projectsettings.guides[\''+id+'\']; closeDialog(); redraw();">Delete Guide</button>';
+		con += '<button onclick="closeDialog();">Cancel</button>';
+
+		openDialog(con);
 	}
 
 	function showGuideSatChooser(ctx, id) {
