@@ -24,73 +24,67 @@
 			if(tg.editable){
 				user += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), g);
 			} else {
-				system += makeOneSystemGuideRow(tg, ('_GP.projectsettings.guides.'+g));
+				system += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), g);
 			}
 		}}
 
 		content += '<h3>options</h3>';
 		content += '<table style="wdith:100%;">'+
-					'<tr><td style="width:20px">' + checkUI('_UI.showgrid', true) + '</td>' +
-					'<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
-					'<tr><td style="width:20px">' + checkUI('_UI.showguides', true) + '</td>' +
-					'<td><label style="margin-left:10px;" for="showguides">show guides</label></td></tr>' +
-					'<tr><td style="width:20px">' + checkUI('_UI.showguidelabels', true) + '</td>' +
-					'<td><label style="margin-left:10px;" for="showguidelabels">show guide labels</label></td></tr>' +
-					'<tr><td style="width:20px">' + checkUI('_UI.showovershoots', true) + '</td>' +
-					'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+_GP.projectsettings.overshoot+' em units)</label></td></tr>' +
-					'</table>';
+			'<tr><td style="width:20px">' + checkUI('_UI.showgrid', true) + '</td>' +
+			'<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showguides', true) + '</td>' +
+			'<td><label style="margin-left:10px;" for="showguides">show guides</label></td></tr>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showguidelabels', true) + '</td>' +
+			'<td><label style="margin-left:10px;" for="showguidelabels">show guide labels</label></td></tr>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showovershoots', true) + '</td>' +
+			'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+_GP.projectsettings.overshoot+' em units)</label></td></tr>' +
+			'</table>';
 
 		content += '<br><br><h3>system guides</h3>';
 		content += system;
 		content += '<br><br><h3>custom guides</h3>';
 		content += user;
-		content += '<button onclick="newGuide();">new guide</button>';
+		content += '<br><button onclick="newGuide();">new guide</button>';
 
 		content += '</div>';
 
 		return content;
 	}
 
-	function makeOneSystemGuideRow(guide, path) {
-		var re = '<table class="guiderow">';
-		re += '<tr><td class="guidecolor" '+
-			' style="background-color:'+ guide.color + ";' "+
-			' onmouseover="hideAllSatChoosers(); this.style.borderColor="'+ guide.color + "\";' "+
-			' onmouseout="this.style.borderColor=\'rgb(250,252,255)\';" '+
-			' onclick="hideAllSatChoosers(); showGuideSatChooser(this, \''+guide.name+'\');">'+
-			'</td><td style="padding:6px;">';
-		re += checkUI((path+'.visible'), true);
-		re += '<span class="guidename">' + guide.name + '</span>';
-		if(guide.name === 'rightside') re += '<span class="guidelocation">' + getSelectedChar().charwidth + '</span>';
-		else re += '<span class="guidelocation">' + guide.location + '</span>';
-		re += '</td></tr></table>';
-
-		return re;
-	}
-
 	function makeOneGuideRow(guide, path, id) {
-		var re = '<table class="guiderow">';
-		re += '<tr><td class="guidecolor" '+
-			' style="background-color:'+ guide.color + ";' "+
-			' onmouseover="hideAllSatChoosers(); this.style.borderColor="'+ guide.color + "\";' "+
-			' onmouseout="this.style.borderColor=\'rgb(250,252,255)\';" '+
-			' onclick="hideAllSatChoosers(); showGuideSatChooser(this, \''+id+'\');">'+
-			'</td><td style="padding:6px;">';
-		re += checkUI((path+'.visible'), true);
-		re += '<input type="text" class="guidename" value="' + guide.name + '" onchange="updateGuide(\''+id+'\', \'name\', this.value);"/>';
-		re += '<input type="number" class="guidelocation" value="' + guide.location + '" onchange="updateGuide(\''+id+'\', \'location\', (1*this.value));"/>';
-
-		re += '<select onchange="updateGuide(\''+id+'\', \'type\', this.value);">';
-		if(guide.type === 'horizontal'){
-			re += '<option selected value="horizontal">horizontal</option>';
-			re += '<option value="vertical">vertical</option>';
-		} else {
-			re += '<option value="horizontal">horizontal</option>';
-			re += '<option selected value="vertical">vertical</option>';
+		var sys = !guide.editable;
+		var re = '<table class="guiderow"><tr>';
+	
+		re += '<td class="guidecolor" style="background-color:'+ guide.color + ';"';
+		if(!sys){
+			re += ' onmouseover="hideAllSatChoosers(); this.style.cursor=\'pointer\'; this.style.borderColor=\''+ guide.color + '\';"';
+			re += ' onmouseout="this.style.borderColor=\'rgb(250,252,255)\';"';
+			re += ' onclick="hideAllSatChoosers(); showGuideSatChooser(this, \''+id+'\');"';
 		}
-		re += '</select>';
+		re += '>';
+		re += '</td>';
+		
+		re += '<td>';
+		re += checkUI((path+'.visible'), true);
+		re += '</td>';
+		
+		re += '<td>';
+		if(guide.type === 'horizontal'){
+			re += '<button '+(sys? 'disabled':'')+' class="guidetype" onclick="updateGuide(\''+id+'\', \'type\', \'vertical\');">&mdash;</button>';
+		} else {
+			re += '<button '+(sys? 'disabled':'')+' class="guidetype" onclick="updateGuide(\''+id+'\', \'type\', \'horizontal\');">|</button>';
+		}
+		re += '</td>';
 
-		re += '</td></tr></table>';
+		re += '<td>';
+		re += '<input '+(sys? 'disabled':'')+' type="text" class="guidename" value="' + guide.name + '" onchange="updateGuide(\''+id+'\', \'name\', this.value);"/>';
+		re += '</td>';
+		
+		re += '<td>';
+		re += '<input '+(sys? 'disabled':'')+' type="number" class="guidelocation" value="' + guide.location + '" onchange="updateGuide(\''+id+'\', \'location\', (1*this.value));"/>';
+		re += '</td>';
+
+		re += '</tr></table>';
 		return re;
 	}
 

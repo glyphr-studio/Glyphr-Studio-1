@@ -1094,39 +1094,66 @@
 	.guiderow {
 		background-color: rgb(250,252,255);
 		width:100%;
-		margin-bottom:4px;
+		margin-bottom: 2px;
 	}
 
-	.guiderow span {
-		display: inline-block;
-		padding:0px 4px;
-		vertical-align: top;
+	.guiderow td {
+		height: 30px;
+		vertical-align: middle;
+		padding:auto auto;
+	}
+
+	.guiderow input[type=checkbox]{
+		margin:4px 0px 4px 8px;
+	}
+
+	.guidename,
+	.guidelocation {
+		height:20px;
+		background-color: white;
+		margin-left: 10px;
+		border-style:solid;
+		border-width: 1px;
+		border-color: rgb(204,209,214) !important;
+	}
+
+	.guidename:disabled,
+	.guidelocation:disabled {
+		border-color:white !important;
 	}
 
 	.guidename {
 		font-weight: bold;
-		width:50%;
-		margin-left: 10px;
+		width:100%;
 	}
 
 	.guidelocation {
 		text-align: right;
-		width:100px;
+		width:60px;
 	}
 
-	.guiderow select,
-	.guiderow input[type=number] {
-		border-radius: 0px;
-		border: 1px solid rgb(153,158,163);
-		padding:2px;
-		font-size: 14px;
-		width:100px;
+	.guidetype,
+	.guidetype:active,
+	.guidetype:hover,
+	.guidetype:focus,
+	.guidetype:disabled {
+		height:25px;
+		width:25px;
+		padding:4px;
+		text-align: center;
+		line-height: 2px;
+		margin:auto 0px auto 10px;
+	}
+
+	.guidetype:disabled {
+		background-color: rgb(204,209,214);
+		color:rgb(51,56,61);
+		cursor: default;
 	}
 
 	.guidecolor {
 		height:100%;
-		width:30px;
-		cursor: pointer;
+		width:20px;
 		border-width:2px;
 		border-style:solid;
 		border-color:rgb(250,252,255);
