@@ -5,7 +5,7 @@
 		// SETTINGS
 		var ps = _GP.projectsettings;
 
-		var content = "<div class='pagecontent textpage'><h1>Font Settings</h1>";
+		var content = "<h1 class='pagetitle'>Font Settings</h1><div class='pagecontent textpage'>";
 		content += "<p style='margin-bottom:20px;'>These properties are used by the Glyphr project while you are designing this font.  By default, these are the same as some of the OpenType settings below." +
 					"<br><i>Values will be saved as you change them</i>.</p>";
 

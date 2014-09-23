@@ -83,6 +83,7 @@
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<button onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
 			allactions += "<button onclick='insertLinkedShapeDialog();'>add linked shape</button><br>";
+			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
 
 		var shapeactions = "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
 

@@ -420,7 +420,7 @@
 	}
 
 	.pagecontent {
-		margin:10px 20px 100px 40px;
+		margin:10px 20px 100px 30px;
 		line-height: 1.6em;
 	}
 
@@ -434,24 +434,21 @@
 		display:block;
 		text-transform:none;
 		margin-bottom:0px;
-	}
-
-	.pagecontent h1 {
-		margin-top:30px;
 		margin-bottom:10px;
 	}
 
-	.pagecontent > h1:first-child {
-		margin-top:0px;
+	.pagetitle {
+		height:52px;
+		padding-top:18px;
+		padding-left:30px;
+		margin-bottom:10px;
+		background-color: rgb(225,245,255);
+		color:rgb(0,140,210);
 	}
 
-	.pagecontent h2 {
-		margin-top:20px;
-	}
-
-	.pagecontent h3 {
-		margin-top:16px;
-	}
+	.pagecontent h1 { margin-top:10px; }
+	.pagecontent h2 { margin-top:8px; }
+	.pagecontent h3 { margin-top:6px; }
 
 	.btt {
 		font-style:normal;

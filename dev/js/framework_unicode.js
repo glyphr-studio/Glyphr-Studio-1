@@ -13,7 +13,7 @@
 	}
 
 	function hexToChar(u) {
-		if(u.charAt(1) !== 'x') u = String(decToHex(u));
+		if(String(u).charAt(1) !== 'x') u = String(decToHex(u));
 		// debug('\n hexToChar - START');
 		// debug('\t passed ' + u + ' which is a ' + typeof u);
 		u = u.split('0x');

@@ -5,7 +5,7 @@
 
 		update_NavPanels();
 
-		var content = '<div class="pagecontent"><h1>Test Drive</h1>' +
+		var content = '<h1 class="pagetitle">Test Drive</h1><div class="pagecontent">' +
 			'<textarea id="tdtextarea" onkeyup="_UI.testdrive.sampletext=this.value; redraw_TestDrive()">'+_UI.testdrive.sampletext+'</textarea><br>' +
 			'<canvas id="tdcanvas"></canvas><br>' +
 			'<div id="genimg" style="display:none;"></div></div>';

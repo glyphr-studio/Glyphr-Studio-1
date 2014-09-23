@@ -4,8 +4,8 @@
 		// debug("LOADING PAGE >> loadPage_projectsettings");
 		var ps = _GP.projectsettings;
 
-		var content = "<div class='pagecontent textpage'><h1>Project Settings</h1>";
-		content += "These project and interface settings will be saved with your Glyphr project file.";
+		var content = "<h1 class='pagetitle'>Project Settings</h1><div class='pagecontent textpage'>";
+		content += "These project and interface settings will be saved with your Glyphr project file.<br><br>";
 
 		content += "<h2>Project Name</h2>"+
 					"The Font Name and the Project name can be different, but they start out the same.  The Font Name details can be changed on the Font Settings page."+

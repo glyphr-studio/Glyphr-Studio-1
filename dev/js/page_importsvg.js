@@ -3,7 +3,7 @@
 	function loadPage_importsvg(){
 		// debug("LOADING PAGE >> loadpage_importsvg");
 		var chname = getSelectedCharName();
-		var content = "<div class='pagecontent textpage'><h1>Import SVG</h1>" +
+		var content = "<h1 class='pagetitle'>Import SVG</h1><div class='pagecontent textpage'>" +
 		"<h2 id='importsvgselecttitle'>Target character: "+chname+"</h2>"+
 
 		"<table style='margin-top:16px;'><tr><td style='width:50%;'>"+

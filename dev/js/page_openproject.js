@@ -2,7 +2,7 @@
 
 	function loadPage_openproject(){
 		// debug("LOADING PAGE >> loadPage_openproject");
-		var ct = "<div class='pagecontent textpage'><h1>Open Project</h1>" +
+		var ct = "<h1 class='pagetitle'>Open Project</h1><div class='pagecontent textpage'>" +
 		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
 		"project file if you want to save your current project.<br><br>" +
 		"<button style='padding:10px;' onclick='saveGlyphrProjectFile();'>Save current project</button><br><br>" +
