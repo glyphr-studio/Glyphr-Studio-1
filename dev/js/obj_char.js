@@ -473,7 +473,7 @@
 			getSelectedChar().calcCharMaxes();
 		} else if (_UI.navhere === 'linked shapes' && _GP.linkedshapes[_UI.shownlinkedshape]) {
 			var lsarr = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
-			if(lsarr) for(var c=0; c<lsarr.length; c++) _GP.fontchars[lsarr[c]].calcCharMaxes();
+			if(lsarr) for(var c=0; c<lsarr.length; c++) getChar(lsarr[c]).calcCharMaxes();
 		}
 	}
 

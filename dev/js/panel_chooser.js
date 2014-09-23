@@ -27,7 +27,7 @@
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectChar';
 		var cr = _GP.projectsettings.charrange;
-		var showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
+		var showtitles = (getFirstLigatureID() || !cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 
 		if(cr.basiclatin){
 			var bl = _UI.basiclatinorder;
@@ -63,6 +63,14 @@
 					}
 				}
 			}
+		}
+
+		if(getFirstLigatureID()){
+			if(showtitles) ccon += '<h3>ligatures</h3>';
+			var lig = _GP.ligatures;
+			for(var l in lig){ if(lig.hasOwnProperty(l)){
+				ccon += makeCharChooserButton(l, fname);
+			}}
 		}
 
 		ccon += '</div>';

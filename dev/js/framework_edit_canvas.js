@@ -49,7 +49,7 @@
 			case 'character edit': redraw_CharacterEdit(); break;
 			case 'linked shapes': redraw_LinkedShapes(); break;
 			case 'ligatures': redraw_CharacterEdit(); break;
-			case 'kerning': /*redraw_Kerning();*/ break;
+			case 'kerning': redraw_Kerning(); break;
 			case 'test drive': redraw_TestDrive(); break;
 		}
 

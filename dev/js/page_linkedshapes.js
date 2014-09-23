@@ -97,7 +97,9 @@
 		//debug("GOTOEDITCHAR - " + chid);
 		_UI.selectedshape = -1;
 		_UI.selectedchar = chid;
-		_UI.navhere = "character edit";
+		if(chid.length === 6) _UI.navhere = "character edit";
+		else if (chid.length > 6) _UI.navhere = 'ligatures';
+		else debug('\n goToEditChar - BAD CHID CAN\'T NAVIGATE TO ' + chid);
 		_UI.navprimaryhere = "npAttributes";
 		navigate();
 	}
@@ -142,7 +144,7 @@
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
-		if(_UI.selectedtool != "pathedit") ispointsel = false;
+		if(_UI.selectedtool !== "pathedit") ispointsel = false;
 		if(ispointsel) {content += pointactions; }
 		else { content += "<td><h3>&nbsp;</h3></td>"; }
 
@@ -245,7 +247,7 @@
 		insertLinkedShape(_UI.shownlinkedshape, chid);
 		putundoq("Insert Linked Shape to Character");
 		closeDialog();
-		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + _GP.fontchars[chid].charname + ".<br><br>");
+		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + getCharName(chid) + ".<br><br>");
 	}
 
 // end of file
