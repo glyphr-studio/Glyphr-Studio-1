@@ -228,8 +228,8 @@
 		idname = idname[idname.length-1];
 		var currbool = eval(varname);
 
-		var re = '<label for="'+idname+'" class="checkboxfunclabel">' +
-			'<input type="checkbox" class="checkboxfunc" ' +
+		var re = '<label for="'+idname+'" class="lockuilabel">' +
+			'<input type="checkbox" class="lockuifunc" ' +
 			'id="'+idname+'"' +
 			(currbool? ' checked ' : ' ') +
 			'onclick="' +
