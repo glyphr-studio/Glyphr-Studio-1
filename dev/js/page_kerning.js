@@ -1,9 +1,5 @@
 // start of file
 
-//-------------------
-// UBER FUCNTIONS
-//-------------------
-
 	function loadPage_kerning(){
 
 		// debug("LOADING PAGE >> loadPage_charedit");
@@ -13,7 +9,7 @@
 
 		initEventHandlers();
 
-		_UI.selectedtool = "pathedit";
+		_UI.selectedtool = "kern";
 
 		redraw("loadPage_charedit");
 	}
@@ -37,4 +33,24 @@
 		_UI.chareditcanvas.onmouseover = mouseovercec;
 	}
 
+
+//-------------------
+// REDRAW
+//-------------------
+	function redraw_Kerning() {
+		debug('\n redraw_Kerning - START');
+		_UI.redrawing = true;
+		
+		_UI.chareditctx.clearRect(0,0,5000,5000);
+		drawGrid();
+		drawGuides();
+
+
+		update_NavPanels();
+
+		update_ToolsArea();
+
+		_UI.redrawing = false;
+		debug(' redraw_Kerning - END\n');		
+	}
 // end of file

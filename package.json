@@ -32,8 +32,6 @@
     "browser": true,
     "devel": true,
     "predef": [
-      "_UI",
-      "_GP",
       "Coord",
       "Path",
       "PathPoint",
