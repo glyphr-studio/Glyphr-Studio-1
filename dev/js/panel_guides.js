@@ -40,12 +40,14 @@
 			'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+_GP.projectsettings.overshoot+' em units)</label></td></tr>' +
 			'</table>';
 
-		content += '<br><br><h3>system guides</h3>';
-		content += system;
-		content += '<br><br><h3>custom guides</h3>';
-		content += user;
-		content += '<br><button onclick="newGuide();">new guide</button>';
-
+		if(_UI.navhere !== 'kerning'){
+			content += '<br><br><h3>system guides</h3>';
+			content += system;
+			content += '<br><br><h3>custom guides</h3>';
+			content += user;
+			content += '<br><button onclick="newGuide();">new guide</button>';
+		}
+		
 		content += '</div>';
 
 		return content;

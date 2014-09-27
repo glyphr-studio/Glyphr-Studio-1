@@ -226,13 +226,6 @@
 			}
 		}
 
-		// Ligatures
-		for (var lig in data.ligatures) {
-			if(data.ligatures.hasOwnProperty(lig)){
-				_GP.ligatures[lig] = new Char(data.ligatures[lig]);
-			}
-		}
-
 		// debug('\t hydrated: ');
 		// debug(_GP);
 		// debug("hydrateGlyphrProject - END\n");
@@ -298,7 +291,9 @@
 		// Edit Canvas Defaults
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
-
+		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
+		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
+		
 		if(!isval(_GP.projectsettings.linkedshapecounter)) _GP.projectsettings.linkedshapecounter = 0;
 
 		_UI.shownlinkedshape = getFirstLinkedShapeID();

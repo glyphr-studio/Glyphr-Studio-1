@@ -81,6 +81,12 @@
 			'ymin': 999999
 		},
 
+		// page: kerning
+		'guides': {
+			'leftgroup_xmax': {'type':'vertical', 'name':'boundary', 'color':'rgb(255,0,255)'},
+			'rightgroup_xmin': {'type':'vertical', 'name':'boundary', 'color':'rgb(255,0,255)'}
+		},
+
 		// page: linked shapes
 		'shownlinkedshape': 'id0',
 		'linkedshapecurrstate': {},

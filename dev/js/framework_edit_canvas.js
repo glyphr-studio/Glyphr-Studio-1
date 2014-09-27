@@ -396,6 +396,8 @@
 		// debug('\n drawGuides - START');
 
 		var ps = _GP.projectsettings;
+		var oncharedit = (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures');
+		var onkern = (_UI.navhere === 'kerning');
 		// debug('\t ps.guides: ');
 		// debug(ps.guides);
 		
@@ -427,9 +429,8 @@
 				ps.guides.descent.draw(os);
 			}
 
-			// Char Width
-			if((_UI.navhere === 'character edit' || _UI.navhere === 'ligatures') && 
-				(getSelectedChar().charshapes.length || _UI.selectedchar === '0x0020')){
+			// Char Width or Kerning
+			if(oncharedit && (getSelectedChar().charshapes.length || _UI.selectedchar === '0x0020')){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
 				var rhl = getSelectedChar().charwidth;
@@ -437,6 +438,11 @@
 				ps.guides.rightside.location = rhl;
 				ps.guides.rightside.draw(getSelectedCharRightSideBearing());
 				ps.guides.rightside.draw();
+			} else if (onkern){
+				_UI.guides.leftgroup_xmax.location = ps.upm;
+				_UI.guides.rightgroup_xmin.location = ps.upm + 100;
+				_UI.guides.leftgroup_xmax.draw();
+				_UI.guides.rightgroup_xmin.draw();
 			}
 
 			// Major Guidelines
@@ -444,11 +450,11 @@
 			ps.guides.capheight.draw();
 			ps.guides.ascent.draw();
 			ps.guides.descent.draw();
-			ps.guides.leftside.draw();
+			if (!onkern) ps.guides.leftside.draw();
 			ps.guides.baseline.draw();
 
 			// Out of bounds triangle
-			if(ps.guides.baseline.visible || ps.guides.leftside.visible){
+			if(!onkern && (ps.guides.baseline.visible || ps.guides.leftside.visible)){
 				var v = getView('guides');
 				_UI.chareditctx.fillStyle = ps.guides.baseline.color;
 				_UI.chareditctx.beginPath();
