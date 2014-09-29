@@ -330,12 +330,7 @@
 		ch = ''+ch;
 		var rechar;
 
-		if(ch.indexOf('id') >= 0){
-			// debug('\t linked shape, retrieved');
-			// debug(_GP.linkedshapes[ch]);
-			return _GP.linkedshapes[ch];
-
-		} else if (ch.indexOf('0x', 2) > -1){
+		if (ch.indexOf('0x', 2) > -1){
 			rechar = _GP.ligatures[ch];
 			// debug('\t retrieved ' + rechar + ' from ligatures.');
 			if(rechar){
@@ -345,8 +340,7 @@
 				_GP.ligatures[ch] = new Char({'charhex':ch});
 				return _GP.ligatures[ch];
 			}
-
-		} else {
+		} else if(ch.indexOf('0x') > -1){
 			rechar = _GP.fontchars[ch];
 			// debug('\t retrieved ' + rechar + ' from fontchars.');
 			if(rechar){
@@ -356,7 +350,12 @@
 				_GP.fontchars[ch] = new Char({'charhex':ch});
 				return _GP.fontchars[ch];
 			}
+		} else {
+			// debug('\t linked shape, retrieved');
+			// debug(_GP.linkedshapes[ch]);
+			return _GP.linkedshapes[ch];
 		}
+
 		// debug('getChar - returning FALSE\n');
 		return false;
 	}
@@ -392,16 +391,7 @@
 
 	function getFirstCharID() {
 		if(_GP.fontchars['0x0041']) return '0x0041';
-
-		for(var l in _GP.fontchars){
-			if(_GP.fontchars.hasOwnProperty(l)) {
-				// debug('getFirstCharID - returning id for ' + _GP.fontchars[l].charname);
-				return l;
-			}
-		}
-
-		// debug('getFirstCharID - returning false');
-		return false;
+		else return getFirstID(_GP.fontchars);
 	}
 
 	// GET SELECTED

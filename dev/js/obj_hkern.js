@@ -15,5 +15,10 @@
 
 	function getSelectedKern() {
 		var re = _GP.kerning[_UI.selectedkern];
-		return re || false;
+		return re || _GP.kerning[getFirstID(_GP.kerning)] || false;
+	}
+
+	function getSelectedKernID() {
+		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
+		return _UI.selectedkern;
 	}

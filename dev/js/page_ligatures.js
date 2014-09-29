@@ -13,7 +13,7 @@
 		initEventHandlers();
 
 		_UI.selectedtool = "pathedit";
-		if(_UI.selectedchar.length < 7) _UI.selectedchar = getFirstLigatureID();
+		if(_UI.selectedchar.length < 7) _UI.selectedchar = getFirstID(_GP.ligatures);
 
 		redraw("loadPage_ligatures");
 	}
@@ -71,7 +71,7 @@
 
 		closeDialog();
 		delete _GP.ligatures[_UI.selectedchar];
-		_UI.selectedchar = getFirstLigatureID();
+		_UI.selectedchar = getFirstID(_GP.ligatures);
 		navigate();
 
 		// debug('deleteLigature - END\n');
@@ -103,21 +103,6 @@
 		}
 
 		return sortarr;
-	}
-
-//-----------------------
-// Char Paridy Functions
-//-----------------------
-	function getFirstLigatureID() {
-		for(var g in _GP.ligatures){
-			if(_GP.ligatures.hasOwnProperty(g)) {
-				// debug('getFirstLigature - returning id for ' + _GP.ligatures[g].charname);
-				return g;
-			}
-		}
-
-		// debug('getFirstLigature - returning false');
-		return false;
 	}
 
 // end of file

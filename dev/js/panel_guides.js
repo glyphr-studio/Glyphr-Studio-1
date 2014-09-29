@@ -134,11 +134,8 @@
 	}
 
 	function newGuide() {
-		var id = 'id0';
-		var number = 0;
 		var g = _GP.projectsettings.guides;
-
-		while (g.hasOwnProperty(id)) id = 'id'+(number++);
+		var id = generateNewID(g, 'guide');
 
 		g[id] = new Guide({});
 

@@ -234,7 +234,7 @@
 
 	function setView(oa){
 
-		var sc = getSelectedCharID();
+		var sc = _UI.navhere === 'kerning'? getSelectedKernID() : getSelectedCharID();
 		var v = _UI.views;
 
 		// Ensure there are at least defaults

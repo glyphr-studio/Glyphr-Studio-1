@@ -331,6 +331,31 @@ function saveTextFile(fname, fblob) {
 	}
 
 
+	
+//-------------------
+// Object ID Stuff
+//-------------------
+	// Returns the first ID from an object
+	function getFirstID(obj) {
+		for(var key in obj){
+			if(obj.hasOwnProperty(key)){
+				return key;
+			}
+		}
+
+		return false;
+	}
+
+	// Generate a new ID for an object
+	function generateNewID(obj, base) {
+		var number = 1;
+		base = base || 'id';
+		var id = ('' + base + number);
+		while (obj.hasOwnProperty(id)) id = ('' + base + (++number));
+
+		return id;
+	}
+	
 //-------------------
 // Generic Spinner Control
 //-------------------

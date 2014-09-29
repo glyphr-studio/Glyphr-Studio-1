@@ -291,23 +291,22 @@
 
 	function finalizeGlyphrProject(){
 		debug("\nfinalizeGlyphrProject \t START");
+		// FAKE CONTENT
+		_GP.kerning = {'kern0': new HKern({'leftgroup':['A'], 'rightgroup':['V'], 'value':400})};
 
 		// Edit Canvas Defaults
 		_UI.charcurrstate = clone(_GP.fontchars);
 		_UI.linkcurrstate = clone(_GP.linkedshapes);
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
-		
-		if(!isval(_GP.projectsettings.linkedshapecounter)) _GP.projectsettings.linkedshapecounter = 0;
 
-		_UI.shownlinkedshape = getFirstLinkedShapeID();
+		_UI.shownlinkedshape = getFirstID(_GP.linkedshapes);
+		_UI.selectedkern = getFirstID(_GP.kerning);
 
 		resetThumbView();
 
 		_UI.navhere = "character edit";
 
-		// FAKE CONTENT
-		_GP.kerning = {'kern0': new HKern({'leftgroup':['A'], 'rightgroup':['V'], 'value':400})};
 
 		debug("finalizeGlyphrProject \t END\n");
 	}

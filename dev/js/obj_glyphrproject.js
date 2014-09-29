@@ -8,7 +8,6 @@
 			// Internal Stuff
 			'version': 0,				// console version
 			'versionnum': 0,			// console number version
-			'linkedshapecounter': 0,	// private counter for ss id
 
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)

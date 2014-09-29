@@ -23,7 +23,7 @@
 	function LinkedShapeInstance(oa){
 		this.objtype = 'linkedshapeinstance';
 
-		this.link = oa.link || getFirstLinkedShapeID();
+		this.link = oa.link || getFirstID(_GP.linkedshapes);
 		this.uselinkedshapexy = (isval(oa.uselinkedshapexy)? oa.uselinkedshapexy : true);
 
 		this.name = oa.name || 'Linked Shape Instance';
@@ -259,26 +259,5 @@
 	};
 
 	LinkedShapeInstance.prototype.isOverHandle = function(){ return false; };
-
-
-
-//	------------------------------
-//	Generic Linked Shape Functions
-//	------------------------------
-
-	function getFirstLinkedShapeID(){
-		for(var lsid in _GP.linkedshapes){
-			if(_GP.linkedshapes.hasOwnProperty(lsid)){
-				return lsid;
-			}
-		}
-
-		return '[ERROR] - LINKEDSHAPES array has zero keys';
-	}
-
-	function generateNewLinkedShapeID(){
-		_GP.projectsettings.linkedshapecounter++;
-		return ('id'+_GP.projectsettings.linkedshapecounter);
-	}
 
 // end of file

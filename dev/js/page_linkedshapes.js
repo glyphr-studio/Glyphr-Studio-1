@@ -156,15 +156,17 @@
 	}
 
 	function addLinkedShape(pshape){
-		var newid = generateNewLinkedShapeID();
+		var newid = generateNewID(_GP.linkedshapes, 'ls');
 		var newls;
-		_UI.shownlinkedshape = newid;
+		var count = 0;
 
+		for(var key in _GP.linkedshapes) if(_GP.linkedshapes.hasOwnProperty(key)) count++;
+		_UI.shownlinkedshape = newid;
 
 		if(pshape){
 			newls = new LinkedShape({"shape":pshape});
 		} else {
-			newls = new LinkedShape({"name":("linkedshape " + _GP.projectsettings.linkedshapecounter)});
+			newls = new LinkedShape({"name":("linkedshape " + count)});
 		}
 
 		if(_UI.navhere === 'linked shapes') _UI.selectedshape = newid;
@@ -216,7 +218,7 @@
 
 			// delete linkedshape and switch selection
 			delete _GP.linkedshapes[_UI.shownlinkedshape];
-			_UI.shownlinkedshape = getFirstLinkedShapeID();
+			_UI.shownlinkedshape = getFirstID(_GP.linkedshapes);
 			_UI.selectedshape = _UI.shownlinkedshape;
 			//debug("DELETELINKEDSHAPE - delete complete, new shownlinkedshape = " + shownlinkedshape);
 
