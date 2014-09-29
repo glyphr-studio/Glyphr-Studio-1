@@ -282,7 +282,7 @@
 		getChar("0x0020", true).charwidth = _GP.projectsettings.upm/2;
 
 		_GP.linkedshapes = {};
-		_GP.linkedshapes.id0 = new LinkedShape({"shape": new Shape({})});
+		_GP.linkedshapes.ls0 = new LinkedShape({"shape": new Shape({})});
 
 		finalizeGlyphrProject();
 		//navigate();
@@ -291,8 +291,6 @@
 
 	function finalizeGlyphrProject(){
 		debug("\nfinalizeGlyphrProject \t START");
-		// FAKE CONTENT
-		_GP.kerning = {'kern0': new HKern({'leftgroup':['A'], 'rightgroup':['V'], 'value':400})};
 
 		// Edit Canvas Defaults
 		_UI.charcurrstate = clone(_GP.fontchars);

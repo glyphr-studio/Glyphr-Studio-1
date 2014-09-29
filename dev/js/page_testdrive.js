@@ -29,8 +29,9 @@
 		content += '<h1 class="paneltitle">controls</h1>';
 
 		content += '</div><div class="navarea_section">';
+		content += '<h2>options</h2><div>' + drawTDOptions() + '</div>';
+		content += '</div><div class="navarea_section">';
 		content += '<h2>sample text</h2><div>' + drawSampletextButtons() + '</div>';
-		content += '<br><h2>options</h2><div>' + drawTDOptions() + '</div>';
 		content += '</td></tr></table></div>';
 
 		return content;
@@ -52,7 +53,7 @@
 		var pagepadding = 10;
 		var currx = pagepadding;
 		var curry = pagepadding + (ps.ascent*scale);
-		var cc;
+		var cc, nc;
 
 		tctx.clearRect(0,0,5000,5000);
 		if(td.showhorizontals) drawLine(curry);
@@ -90,10 +91,46 @@
 					// debug(cc);
 					currx += cc.drawCharToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
+					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
 					debug('\t done drawing ' + cc.charname);
 				}
 			}
 		}
+	}
+
+	function calculateKernOffset(c1, c2) {
+		debug('\n calculateKernOffset - START');
+		debug('\t passed: ' + c1 + ' and ' + c2);
+
+		if(!c1 || !c2) return 0;
+
+		c1 = parseUnicodeInput(c1);
+		c2 = parseUnicodeInput(c2);
+		debug('\t converted: ' + c1 + ' and ' + c2);
+
+		var k = _GP.kerning;
+		var tlc, trc, re;
+
+		for(var p in k){ if(k.hasOwnProperty(p)){
+			for(var l=0; l<k[p].leftgroup.length; l++){
+				tlc = k[p].leftgroup[l];
+				debug('\t checking leftgroup ' + tlc + ' against ' + c1);
+				if(parseUnicodeInput(tlc) === c1){
+					debug('\t LEFTGROUP MATCH! for ' + c1);
+					for(var r=0; r<k[p].rightgroup.length; r++){
+						trc = k[p].rightgroup[r];
+						if(parseUnicodeInput(trc) === c2){
+							re = (k[p].value*-1);
+							debug('\t FOUND MATCH! returning ' + re);
+							return re;
+						}
+					}
+				}
+			}
+		}}
+
+		debug(' calculateKernOffset - END\n');
+		return 0;
 	}
 
 	function findAndMergeLigatures(carr) {
@@ -149,11 +186,11 @@
 	}
 
 	function makeTDButton(text){
-		return '<button onclick="_UI.testdrive.sampletext=\''+text+'\';redraw_TestDrive();">'+text+'</button><br>';
+		return '<button class="sampletext" onclick="_UI.testdrive.sampletext=\''+text+'\';redraw_TestDrive();">'+text+'</button><br>';
 	}
 
 	function makeTDSymbolButton(){
-		return "<button onclick='document.getElementById(\"tdtextarea\").value=\"!\\\"#$%&&#39;()*+,-./:;\\\<=\\\>?@[\\\\]^_`{|}~\";redraw_TestDrive();'>!\"#$%&&#39;()*+,-./:;\<=\>?@[\\]^_`{|}~</button><br>";
+		return "<button class='sampletext' onclick='document.getElementById(\"tdtextarea\").value=\"!\\\"#$%&&#39;()*+,-./:;\\\<=\\\>?@[\\\\]^_`{|}~\";redraw_TestDrive();'>!\"#$%&&#39;()*+,-./:;\<=\>?@[\\]^_`{|}~</button><br>";
 	}
 
 	function drawTDOptions(){

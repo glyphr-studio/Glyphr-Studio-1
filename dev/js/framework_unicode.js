@@ -47,7 +47,8 @@
 
 		debug('\n parseUnicodeInput - START');
 		debug('\t passed ' + str);
-
+		if(!str) return false;
+		
 		var prefix = str.substr(0,2);
 		str = str.replace(/u+/g, 'U+');
 		str = str.replace(/0X/g, '0x');

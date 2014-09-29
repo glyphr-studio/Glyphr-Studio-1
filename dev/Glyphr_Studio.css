@@ -123,11 +123,6 @@
 		cursor: pointer;
 	}
 
-	.lockui {
-		display: block;
-		cursor: pointer;
-	}
-
 
 
 /*	============================= */
@@ -138,6 +133,11 @@
 /* ------- */
 /* Button */
 /* ----- */
+
+	.lockui {
+		display: block;
+		cursor: pointer;
+	}
 
 	button,
 	button:active,
@@ -1308,14 +1308,15 @@
 
 	#tdcanvas {
 		background-color:white;
+		border:1px solid rgb(204,209,214);
 	}
 
 	#tdtextarea	{
 		width:795px;
 		height:150px;
 		padding:2px 0px 0px 5px;
-		border:0px;
-		background-color:rgb(204,209,214);
+		background-color:white;
+		border:1px solid rgb(204,209,214);
 		overflow:hidden;
 		margin:1px 0px 10px 0px;
 		font-size:2em;
@@ -1325,9 +1326,16 @@
 		padding-left: 6px;
 	}
 
-/* ------------------ */
+	.sampletext,
+	.sampletext:hover,
+	.sampletext:active,
+	.sampletext:focus {
+		padding:4px 6px;
+	}
+
+/* ---------------------*/
 /* Page - LinkedShapes */
-/* ---------------- */
+/* -------------------*/
 
 	.ssthumbcontainer {
 		width:100%;
