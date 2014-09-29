@@ -45,9 +45,25 @@
 		drawGrid();
 		drawGuides();
 
+		var ch;
+		var v = getView();
+		var ctx = _UI.chareditctx;
+		var selkern = getSelectedKern();
+		debug('\t Kern Pair ' + selkern.leftgroup[0] + ' | ' + selkern.rightgroup[0]);
+		
+		// DRAW ALL RIGHT HAND GROUP
+		ch = getChar(charToHex(selkern.rightgroup[0]));
+		debug('\t got rightgroup char ' + ch.charname);
+		ch.drawCharToArea(ctx, v);
+
+		// DRAW ALL LEFT HAND GROUP
+		ch = getChar(charToHex(selkern.leftgroup[0]));
+		debug('\t got leftgroup char ' + ch.charname);
+		v.dx -= (ch.getTotalWidth()*v.dz);
+		ch.drawCharToArea(ctx, v);
+
 
 		update_NavPanels();
-
 		update_ToolsArea();
 
 		_UI.redrawing = false;

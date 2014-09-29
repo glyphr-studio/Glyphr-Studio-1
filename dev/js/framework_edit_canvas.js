@@ -439,8 +439,6 @@
 				ps.guides.rightside.draw(getSelectedCharRightSideBearing());
 				ps.guides.rightside.draw();
 			} else if (onkern){
-				_UI.guides.leftgroup_xmax.location = ps.upm;
-				_UI.guides.rightgroup_xmin.location = ps.upm + 100;
 				_UI.guides.leftgroup_xmax.draw();
 				_UI.guides.rightgroup_xmin.draw();
 			}

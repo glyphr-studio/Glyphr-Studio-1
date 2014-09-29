@@ -210,7 +210,11 @@
 		}
 
 		// Kerning
-		if(data.kerning) _GP.kerning = clone(data.kerning);
+		for (var pair in data.kerning){
+			if(data.kerning.hasOwnProperty(pair)){
+				_GP.kerning[pair] = new HKern(data.kerning[pair]);
+			}
+		}
 
 		// Linked Shapes
 		for (var lsid in data.linkedshapes) {
@@ -278,7 +282,7 @@
 		getChar("0x0020", true).charwidth = _GP.projectsettings.upm/2;
 
 		_GP.linkedshapes = {};
-		_GP.linkedshapes["id0"] = new LinkedShape({"shape": new Shape({})});
+		_GP.linkedshapes.id0 = new LinkedShape({"shape": new Shape({})});
 
 		finalizeGlyphrProject();
 		//navigate();
@@ -301,6 +305,9 @@
 		resetThumbView();
 
 		_UI.navhere = "character edit";
+
+		// FAKE CONTENT
+		_GP.kerning = {'id0': new HKern({'leftgroup':['A'], 'rightgroup':['V'], 'value':400})};
 
 		debug("finalizeGlyphrProject \t END\n");
 	}

@@ -413,10 +413,12 @@
 			re = getChar(_UI.shownlinkedshape);
 			// debug('\t case linked shapes, returning ' + re.charname);
 			return re;
-		} else {
+		} else if (_UI.navhere !== 'kerning'){
 			re = getChar(_UI.selectedchar, true);
 			// debug('\t case character edit, returning ' + re.charname);
 			return re;
+		} else {
+			return false;
 		}
 	}
 

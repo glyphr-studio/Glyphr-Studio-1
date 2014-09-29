@@ -229,24 +229,4 @@
 		return content;
 	}
 
-
-
-//-------------------
-// Kern Chooser
-//-------------------
-	function makePanel_KernChooser(){
-		
-		var content = '<div class="navarea_header">';
-
-		content += makePanelSuperTitle();
-
-		content += '<h1 class="paneltitle">pairs</h1>';
-
-		content += '</div><div class="navarea_section">';
-
-		content += '</div>';
-		
-		return content;
-	}
-
 // end of file

@@ -376,4 +376,36 @@
 		return content;
 	}
 
+
+//	------------------------
+//	KERN ATTRIBUTES
+//	------------------------
+
+	function makePanel_KerningAttributes() {
+		var content = '<div class="navarea_header">';
+
+		content += makePanelSuperTitle();
+
+		content += '<h1 class="paneltitle">Pairs</h1>';
+
+		content += '</div><div class="navarea_section">';
+
+		for(var k in _GP.kerning){ if(_GP.kerning.hasOwnProperty(k)){
+			content += makeOneKernPairRow(_GP.kerning[k]);
+		}}
+
+		content += '</div>';
+
+		return content;
+	}
+
+	function makeOneKernPairRow(k) {
+		var re = '<table class="guiderow"><tr>';
+		re += '<td><input type="text" value="' + k.leftgroup[0] + '"></td>';
+		re += '<td><input type="text" value="' + k.rightgroup[0] + '"></td>';
+		re += '<td><input type="text" value="' + k.value + '"></td>';
+		re += '</tr></table>';
+		return re;
+	}
+
 // end of file

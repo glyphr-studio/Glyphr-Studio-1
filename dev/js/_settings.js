@@ -82,9 +82,10 @@
 		},
 
 		// page: kerning
+		'selectedkern': 'id0',
 		'guides': {
-			'leftgroup_xmax': {'type':'vertical', 'name':'boundary', 'color':'rgb(255,0,255)'},
-			'rightgroup_xmin': {'type':'vertical', 'name':'boundary', 'color':'rgb(255,0,255)'}
+			'leftgroup_xmax': {'type':'vertical', 'location':0, 'name':'boundary', 'color':'rgb(255,0,255)'},
+			'rightgroup_xmin': {'type':'vertical', 'location':0, 'name':'boundary', 'color':'rgb(255,0,255)'}
 		},
 
 		// page: linked shapes

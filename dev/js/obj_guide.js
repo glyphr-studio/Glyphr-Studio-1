@@ -9,7 +9,7 @@
 
 		this.type = oa.type || 'vertical';
 		this.name = oa.name || (this.type + ' guide');
-		this.location = oa.location || 200;
+		this.location = isval(oa.location)? oa.location : 200;
 		this.angle = oa.angle || false;
 		this.color = oa.color || makeRandomSaturatedColor();
 		this.visible = isval(oa.visible)? oa.visible : true;

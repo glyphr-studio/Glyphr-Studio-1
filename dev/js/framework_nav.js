@@ -162,7 +162,7 @@
  				case 'character edit': 	_UI.navprimaryhere = 'npChooser'; break;
 				case 'linked shapes': 	_UI.navprimaryhere = 'npChooser'; break;
 				case 'ligatures': 		_UI.navprimaryhere = 'npChooser'; break;
-				case 'kerning': 		_UI.navprimaryhere = 'npChooser'; break;
+				case 'kerning': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'test drive': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'font settings': 	_UI.navprimaryhere = 'npNav'; break;
 				case 'project settings':_UI.navprimaryhere = 'npNav'; break;
@@ -225,7 +225,6 @@
 					case 'import svg': np.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
 					case 'linked shapes': np.innerHTML = makePanel_LinkedShapeChooser(); break;
 					case 'ligatures': np.innerHTML = makePanel_LigatureChooser(); break;
-					case 'kerning': np.innerHTML = makePanel_KernChooser(); break;
 				}
 				break;
 
@@ -322,7 +321,6 @@
 				break;
 
 				case 'kerning':
-				navarr.push('npChooser');
 				navarr.push('npAttributes');
 				navarr.push('npHistory');
 				navarr.push('npGuides');

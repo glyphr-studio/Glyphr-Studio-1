@@ -71,6 +71,7 @@
 // Common Panel Title
 //-------------------
 	function makePanelSuperTitle() {
+		// debug('\n makePanelSuperTitle - START');
 		var content = "";
 		if(!_UI.popout) {
 			var sc = getSelectedChar();
@@ -81,6 +82,7 @@
 			}
 			content += "</h1>";
 		}
+		// debug(' makePanelSuperTitle - returning\n' + content + '\n');
 		return content;
 	}
 
