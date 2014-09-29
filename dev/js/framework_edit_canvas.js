@@ -234,7 +234,7 @@
 
 	function setView(oa){
 
-		var sc = _UI.selectedchar;
+		var sc = getSelectedCharID();
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
@@ -252,10 +252,9 @@
 	}
 
 	function getView(calledby){
-		////stack(arguments);
 		//debug('GETVIEW - called by ' + calledby);
 
-		var sc = _UI.selectedchar;
+		var sc = getSelectedCharID();
 		var v = _UI.views;
 
 		if(isval(v[sc])){
@@ -439,8 +438,7 @@
 				ps.guides.rightside.draw(getSelectedCharRightSideBearing());
 				ps.guides.rightside.draw();
 			} else if (onkern){
-				_UI.guides.leftgroup_xmax.draw();
-				_UI.guides.rightgroup_xmin.draw();
+				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;
 			}
 
 			// Major Guidelines
@@ -450,6 +448,8 @@
 			ps.guides.descent.draw();
 			if (!onkern) ps.guides.leftside.draw();
 			ps.guides.baseline.draw();
+			if(onkern) _UI.guides.leftgroup_xmax.draw();
+			if(onkern) _UI.guides.rightgroup_xmin.draw();
 
 			// Out of bounds triangle
 			if(!onkern && (ps.guides.baseline.visible || ps.guides.leftside.visible)){

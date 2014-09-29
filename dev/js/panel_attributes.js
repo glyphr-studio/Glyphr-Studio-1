@@ -391,7 +391,7 @@
 		content += '</div><div class="navarea_section">';
 
 		for(var k in _GP.kerning){ if(_GP.kerning.hasOwnProperty(k)){
-			content += makeOneKernPairRow(_GP.kerning[k]);
+			content += makeOneKernPairRow(_GP.kerning[k], k);
 		}}
 
 		content += '</div>';
@@ -399,13 +399,17 @@
 		return content;
 	}
 
-	function makeOneKernPairRow(k) {
+	function makeOneKernPairRow(k, id) {
 		var re = '<table class="guiderow"><tr>';
-		re += '<td><input type="text" value="' + k.leftgroup[0] + '"></td>';
+		re += '<td><input type="text" value="' + k.leftgroup[0] + '" style="text-align:right;"></td>';
 		re += '<td><input type="text" value="' + k.rightgroup[0] + '"></td>';
-		re += '<td><input type="text" value="' + k.value + '"></td>';
+		re += '<td><input type="number" value="' + k.value + '" onchange="updateKernValue(\''+id+'\', this.value);"></td>';
 		re += '</tr></table>';
 		return re;
 	}
 
+	function updateKern(id, attr, val) {
+		_GP.kerning[id].value = val;
+		redraw();
+	}
 // end of file

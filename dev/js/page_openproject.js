@@ -307,7 +307,7 @@
 		_UI.navhere = "character edit";
 
 		// FAKE CONTENT
-		_GP.kerning = {'id0': new HKern({'leftgroup':['A'], 'rightgroup':['V'], 'value':400})};
+		_GP.kerning = {'kern0': new HKern({'leftgroup':['A'], 'rightgroup':['V'], 'value':400})};
 
 		debug("finalizeGlyphrProject \t END\n");
 	}

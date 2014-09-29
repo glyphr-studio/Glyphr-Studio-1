@@ -82,14 +82,19 @@
 		},
 
 		// page: kerning
-		'selectedkern': 'id0',
+		'selectedkern': 'kern0',
+		'defaultkernview': {
+			'dx': 700,		// X offset for the canvas origin
+			'dy': 500,		// Y offset for the canvas origin
+			'dz': 0.5,		// Zoom or scale of the canvas
+		},
 		'guides': {
-			'leftgroup_xmax': {'type':'vertical', 'location':0, 'name':'boundary', 'color':'rgb(255,0,255)'},
-			'rightgroup_xmin': {'type':'vertical', 'location':0, 'name':'boundary', 'color':'rgb(255,0,255)'}
+			'leftgroup_xmax': {'type':'vertical', 'location':0, 'name':'left group', 'color':'rgb(255,0,255)'},
+			'rightgroup_xmin': {'type':'vertical', 'location':0, 'name':'right group', 'color':'rgb(255,0,255)'}
 		},
 
 		// page: linked shapes
-		'shownlinkedshape': 'id0',
+		'shownlinkedshape': 'ls0',
 		'linkedshapecurrstate': {},
 		'linkedshapeundoq': [],
 

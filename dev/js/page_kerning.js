@@ -11,6 +11,10 @@
 
 		_UI.selectedtool = "kern";
 
+		var v = getView();
+		v.dx += (_GP.projectsettings.upm*0.6)*v.dz;
+		setView(v);
+
 		redraw("loadPage_charedit");
 	}
 
@@ -46,21 +50,23 @@
 		drawGuides();
 
 		var ch;
-		var v = getView();
 		var ctx = _UI.chareditctx;
 		var selkern = getSelectedKern();
 		debug('\t Kern Pair ' + selkern.leftgroup[0] + ' | ' + selkern.rightgroup[0]);
 		
 		// DRAW ALL RIGHT HAND GROUP
+		var rv = getView();
 		ch = getChar(charToHex(selkern.rightgroup[0]));
 		debug('\t got rightgroup char ' + ch.charname);
-		ch.drawCharToArea(ctx, v);
+		ch.drawCharToArea(ctx, rv, true);
 
 		// DRAW ALL LEFT HAND GROUP
+		var lv = getView();
 		ch = getChar(charToHex(selkern.leftgroup[0]));
 		debug('\t got leftgroup char ' + ch.charname);
-		v.dx -= (ch.getTotalWidth()*v.dz);
-		ch.drawCharToArea(ctx, v);
+		lv.dx -= (ch.getTotalWidth()*lv.dz);
+		lv.dx += (selkern.value*lv.dz);
+		ch.drawCharToArea(ctx, lv, true);
 
 
 		update_NavPanels();
