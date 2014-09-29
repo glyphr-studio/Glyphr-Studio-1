@@ -236,18 +236,26 @@
 		var idname = varname.split("()");
 		idname = idname[idname.length-1];
 		var currbool = eval(varname);
+		var restcolor = _UI.colors.gray_80;
+		var selcolor = _UI.colors.accent_65;
 
-		var re = '<label for="'+idname+'" class="lockuilabel">' +
-			'<input type="checkbox" class="lockuifunc" ' +
-			'id="'+idname+'"' +
-			(currbool? ' checked ' : ' ') +
+		var re = '<svg '+
+			'version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" '+
+			'x="0px" y="0px" width="15px" height="15px" viewBox="0 0 15 15" enable-background="new 0 0 15 15" '+
+			'id='+idname+' '+
+			'class="lockui" '+
 			'onclick="' +
-			//'debug(\'Clicked on checkbox '+varname+'\'); ' +
-			'toggle(\''+varname+'\'); ' +
-			//'putundoq(\'Toggled '+idname+': '+!currbool+'\'); '+
-			(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
-			'><span class="lockui"></span></label>';
-
+				'debug(\'Clicked on checkbox '+varname+'\'); ' +
+				'toggle(\''+varname+'\'); ' +
+				//'putundoq(\'Toggled '+idname+': '+!currbool+'\'); '+
+				(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
+			'>';
+		re += '<rect width="15" height="15" fill="'+(currbool? selcolor : restcolor)+'"></rect>';
+		re += '<g fill="'+_UI.colors.gray_90+'">';
+		re += '<polygon points="4,3 4,4 3,4 3,7 7,7 7,4 6,4 6,3"/>';
+		re += '<polygon points="0,0 0,7 1,7 1,3 2,3 2,2 3,2 3,1 7,1 7,2 8,2 8,3 9,3 9,7 10,7 10,15 15,15 15,0"/>';
+		re += '</g>';
+		re += '</svg>';
 		return re;
 	}
 

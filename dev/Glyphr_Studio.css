@@ -123,32 +123,9 @@
 		cursor: pointer;
 	}
 
-	.lockuilabel {
+	.lockui {
 		display: block;
-		height: 20px;
-		width: 20px;
 		cursor: pointer;
-	}
-
-	.lockui {
-		background-position:0px 0px;
-		background-repeat: no-repeat;
-		height: 20px;
-		width: 20px;
-		display: block;
-	}
-
-	.lockui {
-		background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAH5JREFUeNpiYKAyYETmnLl47T8y30Rfi5FsA9ENI9dQRnTDYAZgEyMGMOFyDTnexTCQGoDqBjLiigxyI2fwe3nUwEFo4CgYCQC1BFn7DrXkCRYiv07BMIxMQxkxDIMZgE2M5JyCrJEM7w6ROgVnZJAZOaMF7KiBo2B4AIAAAwB6LiUZDaiVYwAAAABJRU5ErkJggg==")
-	}
-
-	.lockfunc {
-		display: none;
-	}
-
-	.lockfunc:checked + .checkboxui,
-	.lockfunc:checked + .lockui {
-		background-position: 0 -20px;
 	}
 
 
