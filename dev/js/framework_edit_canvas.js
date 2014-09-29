@@ -234,7 +234,7 @@
 
 	function setView(oa){
 
-		var sc = _UI.navhere === 'kerning'? getSelectedKernID() : getSelectedCharID();
+		var sc = (_UI.navhere === 'kerning')? getSelectedKernID() : getSelectedCharID();
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
@@ -253,8 +253,8 @@
 
 	function getView(calledby){
 		//debug('GETVIEW - called by ' + calledby);
-
-		var sc = getSelectedCharID();
+		var onkern = (_UI.navhere === 'kerning');
+		var sc = onkern? getSelectedKernID() : getSelectedCharID();
 		var v = _UI.views;
 
 		if(isval(v[sc])){
@@ -262,7 +262,7 @@
 			return clone(v[sc]);
 		} else {
 			//debug('GETVIEW - char ' + sc + ' HAS NO EXISTING value, returning default');
-			return clone(_UI.defaultview);
+			return onkern? clone(_UI.defaultkernview) : clone(_UI.defaultview);
 		}
 	}
 

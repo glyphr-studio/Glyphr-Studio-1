@@ -84,7 +84,7 @@
 		// page: kerning
 		'selectedkern': 'kern0',
 		'defaultkernview': {
-			'dx': 700,		// X offset for the canvas origin
+			'dx': 500,		// X offset for the canvas origin
 			'dy': 500,		// Y offset for the canvas origin
 			'dz': 0.5,		// Zoom or scale of the canvas
 		},

@@ -390,9 +390,23 @@
 
 		content += '</div><div class="navarea_section">';
 
+		var rows = '';
 		for(var k in _GP.kerning){ if(_GP.kerning.hasOwnProperty(k)){
-			content += makeOneKernPairRow(_GP.kerning[k], k);
+			rows += makeOneKernPairRow(_GP.kerning[k], k);
 		}}
+
+		if(rows === '') rows = 'No kern pairs exist yet.  Press the "New Kern Pair" button below to get started.';
+
+		content += rows;
+		content += '</div><div class="navarea_section">';
+
+		content += '<h1 class="paneltitle">actions</h1>';
+		content += '<table class="actionsgrid"><tr>';
+		content += '<td><h3>kern pair</h3>'+
+					'<button onclick="showNewKernPairDialog();">new kern pair</button><br>'+
+					'<button onclick="deleteKernPairConfirm();">delete kern pair</button><br>'+
+					'<td></td><td></td>'+
+					'</tr></table>';
 
 		content += '</div>';
 
@@ -401,8 +415,8 @@
 
 	function makeOneKernPairRow(k, id) {
 		var re = '<table class="guiderow"><tr>';
-		re += '<td><input type="text" value="' + k.leftgroup[0] + '" style="text-align:right;"></td>';
-		re += '<td><input type="text" value="' + k.rightgroup[0] + '"></td>';
+		re += '<td><input type="text" value="' + k.leftgroup.join('') + '" style="text-align:right;"></td>';
+		re += '<td><input type="text" value="' + k.rightgroup.join('') + '"></td>';
 		re += '<td><input type="number" value="' + k.value + '" onchange="updateKernValue(\''+id+'\', this.value);"></td>';
 		re += '</tr></table>';
 		return re;
@@ -412,4 +426,43 @@
 		_GP.kerning[id].value = val;
 		redraw();
 	}
+
+	function showNewKernPairDialog() {
+		var con = '<h1>New Kern Pair</h1>';
+		con += '<div style="width:500px;">';
+		con += 'Create a new kern pair by specifying a character for the left and right sides. ';
+		con += 'Each side of the kern pair can also be a group of characters.  When any character from the left side is displayed before any character in the right side, the pair will be kerned. ';
+		con += 'Characters can also be specified in Unicode format (like U+0066) or hexadecimal format (like 0x0066). ';
+		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
+		con += '<h3>Kern Pair Characters</h3>';
+		con += '<input type="text" id="leftgroup" style="font-size:24px; width:45%; padding:8px; text-align:right;"/>';
+		con += '<input type="text" id="rightgroup" style="font-size:24px; width:45%; padding:8px;"/><br>';
+		con += makeErrorMessageBox();
+		con += '<br>';
+		con += '<button class="buttonsel" onclick="createNewKernPair();">create new kern pair</button>';
+		con += '</div>';
+
+		openDialog(con);
+	}
+
+	function createNewKernPair() {
+		var l = document.getElementById('leftgroup').value;
+		var r = document.getElementById('rightgroup').value;
+
+		l = l.split('').filter(function(elem, pos) { return l.indexOf(elem) === pos;});
+		r = r.split('').filter(function(elem, pos) { return r.indexOf(elem) === pos;});
+
+		var id = generateNewID(_GP.kerning, 'kern');
+
+		_GP.kerning[id] = new HKern({'leftgroup':l, 'rightgroup':r});
+
+		closeDialog();
+		_UI.selectedkern = id;
+		redraw();
+	}
+
+	function deleteKernPairConfirm() {
+		
+	}
+
 // end of file
