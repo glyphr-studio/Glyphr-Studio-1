@@ -400,13 +400,7 @@
 		content += rows;
 		content += '</div><div class="navarea_section">';
 
-		content += '<h1 class="paneltitle">actions</h1>';
-		content += '<table class="actionsgrid"><tr>';
-		content += '<td><h3>kern pair</h3>'+
-					'<button onclick="showNewKernPairDialog();">new kern pair</button><br>'+
-					'<button onclick="deleteKernPairConfirm();">delete kern pair</button><br>'+
-					'<td></td><td></td>'+
-					'</tr></table>';
+		content += '<button onclick="showNewKernPairDialog();">new kern pair</button><br>';
 
 		content += '</div>';
 
@@ -414,16 +408,27 @@
 	}
 
 	function makeOneKernPairRow(k, id) {
-		var re = '<table class="guiderow"><tr>';
-		re += '<td><input type="text" value="' + k.leftgroup.join('') + '" style="text-align:right;"></td>';
-		re += '<td><input type="text" value="' + k.rightgroup.join('') + '"></td>';
-		re += '<td><input type="number" value="' + k.value + '" onchange="updateKernValue(\''+id+'\', this.value);"></td>';
+		var selstyle = '';
+		if(getSelectedKernID() === id) selstyle = ('style="background-color:'+_UI.colors.accent_55+'; ');
+
+		var re = '<table class="kernrow"><tr>';
+		re += '<td class="selkern" '+selstyle+'onclick="selectKern(\''+id+'\');"></td>';
+		re += '<td><input class="rowleftgroup" type="text" value="' + k.leftgroup.join('') + '" style="text-align:right;"></td>';
+		re += '<td><input class="rowrightgroup" type="text" value="' + k.rightgroup.join('') + '"></td>';
+		re += '<td><input class="kernvalue" type="number" value="' + k.value + '" onchange="updateKernValue(\''+id+'\', this.value);"></td>';
+		re += '<td><button class="guideremove" onclick="deleteKernPairConfirm(\''+id+'\');">&times</button></td>';
+
 		re += '</tr></table>';
 		return re;
 	}
 
-	function updateKern(id, attr, val) {
+	function updateKernValue(id, val) {
 		_GP.kerning[id].value = val;
+		redraw();
+	}
+
+	function selectKern(id) {
+		_UI.selectedkern = id;
 		redraw();
 	}
 
@@ -449,20 +454,35 @@
 		var l = document.getElementById('leftgroup').value;
 		var r = document.getElementById('rightgroup').value;
 
-		l = l.split('').filter(function(elem, pos) { return l.indexOf(elem) === pos;});
-		r = r.split('').filter(function(elem, pos) { return r.indexOf(elem) === pos;});
+		l = trim(l).split('').filter(function(elem, pos) { return l.indexOf(elem) === pos;});
+		r = trim(r).split('').filter(function(elem, pos) { return r.indexOf(elem) === pos;});
 
-		var id = generateNewID(_GP.kerning, 'kern');
+		if(!l.length) showErrorMessageBox('The left kern group cannot be empty.');
+		else if(!r.length) showErrorMessageBox('The right kern group cannot be empty.');
+		else {
 
-		_GP.kerning[id] = new HKern({'leftgroup':l, 'rightgroup':r});
+			var id = generateNewID(_GP.kerning, 'kern');
 
-		closeDialog();
-		_UI.selectedkern = id;
-		redraw();
+			_GP.kerning[id] = new HKern({'leftgroup':l, 'rightgroup':r});
+
+			closeDialog();
+			_UI.selectedkern = id;
+			redraw();
+		}
 	}
 
-	function deleteKernPairConfirm() {
-		
+	function deleteKernPairConfirm(id) {
+		var k = _GP.kerning[id];
+		var con = '<h1>Delete Kern Pair</h1>';
+		con += 'Are you sure you want to remove the kern pair:<br><br>';
+		con += k.leftgroup.join('');
+		con += '<span style="color:'+_UI.colors.gray_80+'">&ensp;|&ensp;</span>';
+		con += k.rightgroup.join('');
+		con += '<br><br>';
+		con += '<button class="buttonsel" onclick="delete _GP.kerning[\''+id+'\']; _UI.selectedkern = getFirstID(_GP.kerning); closeDialog(); redraw();">Delete Kern Pair</button>';
+		con += '<button onclick="closeDialog();">Cancel</button>';
+
+		openDialog(con);
 	}
 
 // end of file

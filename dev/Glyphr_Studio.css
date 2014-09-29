@@ -1081,9 +1081,58 @@
 		margin-bottom:2px;
 	}
 
+
+/*	KERNING		*/
+	.kernrow {
+		width:380px;
+		margin-bottom: 2px;
+		border:0px;
+	}
+
+	.kernrow td {
+		background-color: rgb(250,252,255);
+		height: 30px;
+		vertical-align: middle;
+		padding:auto auto;
+	}
+
+	.selkern {
+		width:20px;
+		cursor: pointer;
+		background-color: transparent;
+	}
+
+	.selkern:hover {
+		background-color: rgb(155,221,255);
+	}
+
+	.rowleftgroup,
+	.rowrightgroup {
+		height:20px;
+		width:120px;
+		background-color: white;
+		border-style:solid;
+		border-width: 1px;
+		border-color: rgb(204,209,214) !important;
+	}
+
+	.rowleftgroup {
+		margin-left:10px;
+	}
+
+	.kernvalue {
+		text-align: right;
+		height:28px;
+		width:60px;
+		padding:0px;
+		border-style:solid;
+		border-width: 1px;
+		border-color: rgb(204,209,214) !important;
+	}
+
 /*	GUIDES		*/
 	.guiderow {
-		width:100%;
+		width:380px;
 		margin-bottom: 2px;
 		border:0px;
 	}
@@ -1116,12 +1165,17 @@
 
 	.guidename {
 		font-weight: bold;
-		width:100%;
+		width:188px;
 	}
 
 	.guidelocation {
 		text-align: right;
+		height:28px;
 		width:60px;
+		padding:0px;
+		border-style:solid;
+		border-width: 1px;
+		border-color: rgb(204,209,214) !important;
 	}
 
 	.guidetype,
