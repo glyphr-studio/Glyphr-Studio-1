@@ -8,8 +8,8 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
-		'devnav': 'test drive',	// navigate straight to a page
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
+		'devnav': false,	// navigate straight to a page
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 
 		// all pages
 		'navhere': 'firstrun',
