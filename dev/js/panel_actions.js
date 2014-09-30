@@ -180,7 +180,7 @@
 		content += msg? msg : "<br>";
 		content += "Clicking a character will copy all the shapes in that character, and paste them into this character.<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
-		content += makeGenericCharChooserContent("pasteShapesFrom");
+		content += makeGenericCharChooserContent("pasteShapesFrom", true);
 		content += "</div></td></tr>";
 		content += "<tr><td><br>";
 		content += "<button style='width:100px;' onclick='closeDialog();'>done</button>";

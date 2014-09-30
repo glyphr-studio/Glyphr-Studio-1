@@ -20,9 +20,9 @@
 		return content;
 	}
 
-	function makeGenericCharChooserContent(fname) {
-		debug('\n makeGenericCharChooserContent - START');
-		debug('\t passed fname ' + fname);
+	function makeGenericCharChooserContent(fname, includeligatures) {
+		// debug('\n makeGenericCharChooserContent - START');
+		// debug('\t passed fname ' + fname);
 
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectChar';
@@ -52,7 +52,7 @@
 
 		var cn;
 		if(cr.custom.length){
-			debug('\t custom ranges: ' + cr.custom.length);
+			// debug('\t custom ranges: ' + cr.custom.length);
 			for(var c=0; c<cr.custom.length; c++){
 				ccon += '<h3>custom range ' + (c+1) + '</h3>';
 				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
@@ -66,7 +66,7 @@
 			}
 		}
 
-		if(getFirstID(_GP.ligatures)){
+		if(includeligatures && getFirstID(_GP.ligatures)){
 			if(showtitles) ccon += '<h3>ligatures</h3>';
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
