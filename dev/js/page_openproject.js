@@ -192,7 +192,7 @@
 		// Guides
 		for (var g in _GP.projectsettings.guides) {
 			if(_GP.projectsettings.guides.hasOwnProperty(g)){
-				_GP.projectsettings.guides[g] = new Guide(_GP.projectsettings.guides[g]);
+				_GP.projectsettings.guides[g] = new Guide(data.guides[g]);
 			}
 		}
 

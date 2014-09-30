@@ -70,18 +70,16 @@
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.charrange.latinsuppliment")+"</td>"+
-					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode characters 0x00A1 through 0x00FF</label></td></tr>"+
+					"<td style='vertical-align:top;'>"+checkUI("_GP.projectsettings.charrange.latinsuppliment")+"</td>"+
+					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode characters 0x0080 through 0x00FF<br>Note: characters 0x0080 - 0x00A0 are printing control codes, which fonts may use as other characters.</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					//for(var s=0x00A1; s<=0x00FF; s++){ content += (hexToChar(s) + " "); }
-					for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ content += (hexToChar(s) + " "); }
+					for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
 					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendeda")+"</td>"+
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					//for(var a=0x0100; a<=0x017F; a++){ content += (hexToChar(a) + " "); }
 					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
 		content += "</div></td></tr></table>";
 
@@ -90,22 +88,21 @@
 					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendedb")+"</td>"+
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					//for(var b=0x0180; b<=0x024F; b++){ content += (hexToChar(b) + " "); }
 					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<h3>Custom Character Ranges</h3>"+
 					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix of '0x' or 'U+'.<br>"+
-					"For example, Unicode sets aside the range 0xE000 through 0xF8FF to be specifically not used for characters.  This range can be handy for Icon Fonts.<br>" +
+					"A nice overview of character ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target=_new>Wikipedia's Unicode Block page</a>.<br>" +
 					"Custom character ranges must be unique (non-overlapping), be greater than 0x024F and less than 0xFFFF.<br><br>"+
-					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.charrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table><br>"+
+					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.charrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+
 					"<td><br><button onclick='addCustomCharacterRange();'>Add Range</button></td>"+
 					"<td><br><div id='customrangeerror'>bad range input</div></td>"+
 					"</tr></table>"+
-					"<div id='customrangetable'></div>";
+					"<div id='customrangetable'></div><br><br>";
 
 
 		// METADATA

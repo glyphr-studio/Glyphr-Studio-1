@@ -21,8 +21,8 @@
 	}
 
 	function makeGenericCharChooserContent(fname) {
-		// debug('\n makeGenericCharChooserContent - START');
-		// debug('\t passed fname ' + fname);
+		debug('\n makeGenericCharChooserContent - START');
+		debug('\t passed fname ' + fname);
 
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectChar';
@@ -52,12 +52,13 @@
 
 		var cn;
 		if(cr.custom.length){
+			debug('\t custom ranges: ' + cr.custom.length);
 			for(var c=0; c<cr.custom.length; c++){
 				ccon += '<h3>custom range ' + (c+1) + '</h3>';
 				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 					cn = decToHex(range);
 					if(_GP.projectsettings.charrange.filternoncharpoints){
-						if(getCharName(cn).indexOf('[')<0) ccon += makeCharChooserButton(cn, fname);
+						if(getUnicodeName(cn).indexOf('[')<0) ccon += makeCharChooserButton(cn, fname);
 					} else {
 						ccon += makeCharChooserButton(cn, fname);
 					}

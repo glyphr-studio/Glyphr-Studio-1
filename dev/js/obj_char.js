@@ -372,7 +372,7 @@
 		}
 		
 		// known unicode names
-		if(_UI.unicodenames[ch]) return _UI.unicodenames[ch];
+		if(getUnicodeName(ch)) return getUnicodeName(ch);
 
 		var cobj = getChar(ch);
 		if(cobj.shape) {
