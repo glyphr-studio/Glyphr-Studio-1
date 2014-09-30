@@ -184,15 +184,19 @@
 		// var oggp = new GlyphrProject();
 
 		// Project Settings
+		// merge settings to conform to current .projectsettings
+		// but not guides, because they can be custom
+		var dataguides = clone(data.projectsettings.guides);
 		if(data.projectsettings) _GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
 
 		// debug('\t merged projectsettings');
 		// debug(_GP.projectsettings);
 
 		// Guides
-		for (var g in _GP.projectsettings.guides) {
-			if(_GP.projectsettings.guides.hasOwnProperty(g)){
-				_GP.projectsettings.guides[g] = new Guide(data.guides[g]);
+		// Import all gudes
+		for (var g in dataguides) {
+			if(dataguides.hasOwnProperty(g)){
+				_GP.projectsettings.guides[g] = new Guide(dataguides[g]);
 			}
 		}
 

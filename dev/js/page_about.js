@@ -13,12 +13,14 @@
 		"<tr><td><i>GitHub: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://github.com/mattlag/Glyphr-Studio/' target=_new>github.com/mattlag/Glyphr-Studio/</a> for dev and code related stuff.</td></tr>" +
 		"</table>"+
 
+		"<br>"+
 		"<h1>This Glyphr Project</h1>"+
 		"<p>"+
 		"The currently opened project was created with: <span style='font-weight:bold; color:rgb(102, 107, 112);'>" + _GP.projectsettings.version + " </span><br>" +
 		"</p>"+
 		"Glyphr Projects may be incompatible with different Beta versions of Glyphr Studio." +
 
+		"<br><br>"+
 		"<h1>Contribute!</h1>"+
 		"<p>"+
 		"If you think Glyphr Studio is pretty cool, there are two huge ways you can make it better:<br>"+
@@ -39,6 +41,7 @@
 
 		"</li></ul></p>"+
 
+		"<br><br>"+
 		"<h1>License</h1>"+
 		"<p>"+
 		"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
