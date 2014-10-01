@@ -115,21 +115,21 @@
 
 		var ls1actions = "<td><h3>linked shape</h3>";
 			ls1actions += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
-			ls1actions += "<button onclick='addLinkedShape();putundoq(\"Create New Linked Shape\");navigate();'>create new</button><br>";
+			ls1actions += "<button onclick='addLinkedShape();history_put(\"Create New Linked Shape\");navigate();'>create new</button><br>";
 			ls1actions += "<button onclick='deleteLinkedShapeConfirm();' class='"+(aalength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
 			ls1actions += "</td>";
 
 		var	ls2actions = "<td><h3>&nbsp;</h3>";
-			ls2actions += "<button onclick='pullundoq()' class='"+(_UI.linkedshapeundoq.length>0? "": "buttondis")+"'>undo" + ((_UI.linkedshapeundoq.length > 0) ? (" (" + _UI.linkedshapeundoq.length) + ")": "") + "</button><br>";
+			ls2actions += "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
 			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
-			ls2actions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
-			ls2actions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
+			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
+			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
 			ls2actions += "</td>";
 
 		var pointactions = "<td><h3>path point</h3>";
-			pointactions += "<button onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'>insert</button><br>";
-			pointactions += "<button onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw(\"updatelinkedshapeactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
-			pointactions += "<button onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'>reset handles</button><br>";
+			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'>insert</button><br>";
+			pointactions += "<button onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatelinkedshapeactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
+			pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'>reset handles</button><br>";
 			pointactions += "</td>";
 
 		var canvasactions = "<td><h3>editor view</h3>";
@@ -247,7 +247,7 @@
 
 	function insertLinkedShapeToChar(chid){
 		insertLinkedShape(_UI.shownlinkedshape, chid);
-		putundoq("Insert Linked Shape to Character");
+		history_put("Insert Linked Shape to Character");
 		closeDialog();
 		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.shownlinkedshape].shape.name + "' was successfully inserted into character " + getCharName(chid) + ".<br><br>");
 	}

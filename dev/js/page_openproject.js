@@ -296,12 +296,16 @@
 	function finalizeGlyphrProject(){
 		debug("\nfinalizeGlyphrProject \t START");
 
-		// Edit Canvas Defaults
-		_UI.charcurrstate = clone(_GP.fontchars);
-		_UI.linkcurrstate = clone(_GP.linkedshapes);
+		// UI Defaults
+		_UI.history['character edit'] = new History(_GP.fontchars);
+		_UI.history['linked shapes'] = new History(_GP.linkedshapes);
+		_UI.history.ligatures = new History(_GP.ligatures);
+		_UI.history.kerning = new History(_GP.kerning);
+
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
+		_UI.selectedchar = getFirstCharID();
 		_UI.shownlinkedshape = getFirstID(_GP.linkedshapes);
 		_UI.selectedkern = getFirstID(_GP.kerning);
 

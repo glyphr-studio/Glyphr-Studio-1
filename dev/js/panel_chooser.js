@@ -139,7 +139,7 @@
 		content += '<h1 class="paneltitle">actions</h1>';
 		content += '<table class="actionsgrid"><tr><td colspan=3><h3>linked shape</h3>';
 		content += '<button onclick="showAddSSToCharDialog();">link to character</button><br>';
-		content += '<button onclick="addLinkedShape();putundoq(\'Create New Linked Shape\');navigate();">create new</button><br>';
+		content += '<button onclick="addLinkedShape();history_put(\'Create New Linked Shape\');navigate();">create new</button><br>';
 		content += '<button onclick="deleteLinkedShapeConfirm();" class="'+(aalength(_GP.linkedshapes)>1? '': 'buttondis')+'">delete</button><br>';
 		content += '</td></tr></table>';
 

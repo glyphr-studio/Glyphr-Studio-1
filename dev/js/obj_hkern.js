@@ -22,3 +22,8 @@
 		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
 		return _UI.selectedkern;
 	}
+
+	function getSelectedKernName() {
+		var k = getSelectedKern();
+		return 'kern ' + k.leftgroup.join('') + ' | ' + k.rightgroup.join('');
+	}

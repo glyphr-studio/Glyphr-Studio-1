@@ -15,17 +15,17 @@
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();
 
 		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
-		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();putundoq(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
-		allactions += "<button class='"+(_UI.charundoq.length>0? "": "buttondis")+"' onclick='pullundoq()'>undo" + ((_UI.charundoq.length > 0) ? (" (" + _UI.charundoq.length) + ")" : "") + "</button><br>";
-		allactions += "<button onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
+		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
+		allactions += "<button class='"+(history_length()? "": "buttondis")+"' onclick='history_pull()'>undo" + (history_length()? (" ("+history_length()+")") : "") + "</button><br>";
+		allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
 		allactions += "<button onclick='insertLinkedShapeDialog();'>add linked shape</button><br>";
 		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
-		shapeactions += "<button onclick='ss().path.flipEW();putundoq(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
-		shapeactions += "<button onclick='ss().path.flipNS();putundoq(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
-		shapeactions += "<button onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+		shapeactions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
+		shapeactions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
+		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
 		if(s.link){
 			shapeactions += "<button onclick='turnLinkedShapeIntoAShape();redraw(\"turnLinkedShapeIntoAShape\");'>unlink this linked shape</button><br>";
@@ -34,13 +34,13 @@
 		}
 
 		var layeractions = "<h3>layer</h3>";
-		layeractions += "<button onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'>move up</button><br>";
-		layeractions += "<button onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'>move down</button><br>";
+		layeractions += "<button onclick='moveupShape();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
+		layeractions += "<button onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
-		pointactions += "<button onclick='ss().path.insertPathPoint(); putundoq(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
-		pointactions += "<button class='"+(s? "": "buttondis")+"' onclick='ss().path.deletePathPoint(); putundoq(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
-		pointactions += "<button onclick='ss().path.sp().resetHandles(); putundoq(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
+		pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
+		pointactions += "<button class='"+(s? "": "buttondis")+"' onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
+		pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together
 		content += "<table class='actionsgrid'><tr>";
@@ -81,15 +81,15 @@
 
 		var s = ss("Update Actions");
 		var allactions = "<td><h3>shape</h3>";
-			allactions += "<button onclick='addShape();putundoq(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
+			allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
 			allactions += "<button onclick='insertLinkedShapeDialog();'>add linked shape</button><br>";
 			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
 
-		var shapeactions = "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();putundoq(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
+		var shapeactions = "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
 
 		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='moveupShape();putundoq(\"Move Shape Layer Up\");'>move up</button><br>";
-			layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='movedownShape();putundoq(\"Move Shape Layer Down\");'>move down</button><br>";
+			layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='moveupShape();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
+			layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 			layeractions += "</td>";
 
 		content += allactions;
@@ -191,7 +191,7 @@
 	function pasteShapesFrom(chid) {
 		getChar(chid).sendShapesTo(getSelectedCharID());
 		redraw();
-		putundoq("Pasted Shapes to Character");
+		history_put("Pasted Shapes to Character");
 		closeDialog();
 		showGetShapesDialog("The shapes from '" + getCharName(chid) + "' were successfully pasted to character " + getSelectedCharName() + ".<br>");
 	}

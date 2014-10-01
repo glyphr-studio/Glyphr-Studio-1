@@ -179,7 +179,7 @@
 		var re = "";
 
 		re += '<button class="pointtypebutton" style="background-color:'+bgcolor+';" ';
-		re += 'onclick="ss().path.sp().type = \''+type+'\'; putundoq(\'Point Type: '+type+'\'); redraw(\'pointDetails\');" ';
+		re += 'onclick="ss().path.sp().type = \''+type+'\'; history_put(\'Point Type: '+type+'\'); redraw(\'pointDetails\');" ';
 		re += 'title="point type: '+type+'" ';
 		re += '>';
 		re += '<svg version="1.1" ';
@@ -247,7 +247,7 @@
 			'onclick="' +
 				'debug(\'Clicked on checkbox '+varname+'\'); ' +
 				'toggle(\''+varname+'\'); ' +
-				//'putundoq(\'Toggled '+idname+': '+!currbool+'\'); '+
+				//'history_put(\'Toggled '+idname+': '+!currbool+'\'); '+
 				(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
 			'>';
 		re += '<rect width="15" height="15" fill="'+(currbool? selcolor : restcolor)+'"></rect>';
@@ -272,7 +272,7 @@
 		re += 'onclick="toggle(\''+varname+'\');';
 
 		if(doredraw){
-			re += ' putundoq(\'Toggled '+idname+': '+!currbool+'\');';
+			re += ' history_put(\'Toggled '+idname+': '+!currbool+'\');';
 			re += ' redraw(\'checkbox '+idname+'\');';
 		}
 

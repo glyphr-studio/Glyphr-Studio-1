@@ -80,6 +80,15 @@
 			'ymax': -999999,
 			'ymin': 999999
 		},
+		'history': {},
+
+		// page: charedit
+		'selectedchar': '0x0061',
+		'selectedshape': -1,
+		'shapelayers': [],
+
+		// page: linked shapes
+		'shownlinkedshape': 'ls0',
 
 		// page: kerning
 		'selectedkern': 'kern0',
@@ -92,18 +101,6 @@
 			'leftgroup_xmax': {'type':'vertical', 'location':0, 'name':'left group', 'color':'rgb(255,0,255)'},
 			'rightgroup_xmin': {'type':'vertical', 'location':0, 'name':'right group', 'color':'rgb(255,0,255)'}
 		},
-
-		// page: linked shapes
-		'shownlinkedshape': 'ls0',
-		'linkedshapecurrstate': {},
-		'linkedshapeundoq': [],
-
-		// page: charedit
-		'selectedchar': '0x0061',
-		'selectedshape': -1,
-		'charundoq': [],
-		'charcurrstate': {},
-		'shapelayers': [],
 
 		// page: test drive
 		'testdrive': {

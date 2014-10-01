@@ -176,10 +176,10 @@
 
 		if(h==='H1'){
 			this.useh1 = !this.useh1;
-			putundoq('Use Handle 1 : ' + this.useh1);
+			history_put('Use Handle 1 : ' + this.useh1);
 		} else {
 			this.useh2 = !this.useh2;
-			putundoq('Use Handle 2 : ' + this.useh2);
+			history_put('Use Handle 2 : ' + this.useh2);
 		}
 		ss().path.calcMaxes();
 		redraw('pointDetails');

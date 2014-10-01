@@ -179,7 +179,7 @@
 				currpath.calcMaxes();
 				updateCurrentCharWidth();
 				// For new shape tools, mouse up always adds to the undo-queue
-				putundoq('New Path tool');
+				history_put('New Path tool');
 				_UI.eventhandlers.uqhaschanged = false;
 				redraw('Event Handler Tool_NewPath mouseup');
 			}
@@ -275,7 +275,7 @@
 			_UI.eventhandlers.firstx = -100;
 			_UI.eventhandlers.firsty = -100;
 			_UI.eventhandlers.tempnewbasicshape = false;
-			putundoq('New Basic Shape tool');
+			history_put('New Basic Shape tool');
 			_UI.eventhandlers.uqhaschanged = false;
 
 			clickTool('pathedit');
@@ -354,7 +354,7 @@
 			if(_UI.eventhandlers.uqhaschanged) {
 				ss('Path Edit - Mouse Up').path.calcMaxes();
 				updateCurrentCharWidth();
-				putundoq('Path Edit tool');
+				history_put('Path Edit tool');
 				_UI.eventhandlers.uqhaschanged = false;
 				redraw('Event Handler Tool_PathEdit mouseup');
 			}
@@ -459,7 +459,7 @@
 			_UI.eventhandlers.lasty = -100;
 			_UI.eventhandlers.firstx = -100;
 			_UI.eventhandlers.firsty = -100;
-			if(_UI.eventhandlers.uqhaschanged) putundoq('Path Edit tool');
+			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
 			_UI.eventhandlers.uqhaschanged = false;
 			redraw('Event Handler Tool_ShapeResize mouseup');
 			//debug('EVENTHANDLER - after Tool_ShapeResize Mouse Up REDRAW');
@@ -761,14 +761,14 @@
 		// z
 		if(kc==='undo' || (event.ctrlKey && kc==='z')){
 			event.preventDefault();
-			pullundoq();
+			history_pull();
 		}
 
 		// del
 		if(kc==='del'){
 			event.preventDefault();
 			deleteShape();
-			putundoq('Delete Shape');
+			history_put('Delete Shape');
 			redraw('Keypress DEL');
 		}
 
@@ -782,7 +782,7 @@
 		if(event.ctrlKey && kc==='v'){
 			event.preventDefault();
 			pasteShape();
-			putundoq('Paste Shape');
+			history_put('Paste Shape');
 			redraw('Paste Shape');
 		}
 

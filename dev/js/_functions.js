@@ -36,8 +36,6 @@
 		//debug("MAIN SETUP() - END");
 	};
 
-
-
 	function insertGlobalDOMElements(){
 
 		var dialogbox = '<div id="dialog_box">' +
@@ -85,6 +83,7 @@
 		// debug(' makePanelSuperTitle - returning\n' + content + '\n');
 		return content;
 	}
+
 
 //-------------------
 // Debug
@@ -157,6 +156,7 @@
 		document.getElementById('errormessagebox').style.display = 'none';
 	}
 
+
 //-------------------
 // Project Saved Sate
 //-------------------
@@ -213,57 +213,6 @@ function saveTextFile(fname, fblob) {
 
 	console.error('File could not be saved: ' + fname);
 }
-
-
-
-//-------------------
-// Undo Queue
-//-------------------
-	function putundoq(calledfrom){
-		var uqo = {
-			'char': getSelectedCharID(),
-			'name': calledfrom,
-			'date': new Date().getTime()
-		};
-
-		if (_UI.navhere === 'linked shapes'){
-			uqo.state = clone(_UI.linkcurrstate);
-			_UI.linkedshapeundoq.push(uqo);
-			_UI.linkcurrstate = clone(_GP.linkedshapes);
-		} else {
-			uqo.state = clone(_UI.charcurrstate);
-			_UI.charundoq.push(uqo);
-			_UI.charcurrstate = clone(_GP.fontchars);
-		}
-
-		setProjectAsUnsaved();
-	}
-
-	function pullundoq(){
-		//debug('PULLUNDOQ - Undo Pressed, undoq: ' + undoq);
-		var uqo;
-
-		if (_UI.navhere === 'linked shapes'){
-			if(_UI.linkedshapeundoq.length > 0){
-				uqo = _UI.linkedshapeundoq.pop();
-				_GP.linkedshapes = uqo.state;
-				_UI.linkcurrstate = clone(_GP.linkedshapes);
-				redraw('pullundoq');
-			}
-		} else {
-			if(_UI.charundoq.length > 0){
-				uqo = _UI.charundoq.pop();
-				_GP.fontchars = uqo.state;
-				_UI.charcurrstate = clone(_GP.fontchars);
-				if(_UI.navhere === 'character edit') redraw('pullundoq');
-				else if (_UI.navhere === 'import svg') update_NavPanels();
-			}
-
-			if(_UI.charundoq.length === 0 && _UI.linkedshapeundoq.length === 0){
-				setProjectAsSaved();
-			}
-		}
-	}
 
 
 //-------------------
@@ -373,7 +322,7 @@ function saveTextFile(fname, fblob) {
 			if(!valbox.value*1) valbox.value = 0;
 			valbox.value = ((valbox.value*1) + _GP.projectsettings.spinnervaluechange);
 			valbox.onchange();
-			//putundoq("Up Spinner");
+			//history_put("Up Spinner");
 		}
 	}
 
@@ -384,7 +333,7 @@ function saveTextFile(fname, fblob) {
 			if(!valbox.value*1) valbox.value = 0;
 			valbox.value = ((valbox.value*1) - _GP.projectsettings.spinnervaluechange);
 			valbox.onchange();
-			//putundoq("Down Spinner");
+			//history_put("Down Spinner");
 		}
 	}
 

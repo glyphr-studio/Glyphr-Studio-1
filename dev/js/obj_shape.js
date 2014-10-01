@@ -626,7 +626,7 @@
 		//debug('CHANGESHAPENAME - sanitized name: ' + sn);
 		if(sn !== ''){
 			this.name = sn;
-			putundoq('shape name');
+			history_put('shape name');
 		} else {
 			openDialog('<h1>Invalid shape name</h1><br>Shape names must only contain alphanumeric characters or spaces.<br>');
 		}
