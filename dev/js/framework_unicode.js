@@ -13,6 +13,12 @@
 		return result;
 	}
 
+	function charToHexArray(s) {
+		var result = [];
+		for(var i=0; i<s.length; i++) result.push(decToHex(String(s).charCodeAt(i)));
+		return result;
+	}
+
 	function hexToChar(u) {
 		if(String(u).charAt(1) !== 'x') u = String(decToHex(u));
 		// debug('\n hexToChar - START');
@@ -50,16 +56,18 @@
 		debug('\t passed ' + str);
 		if(!str) return false;
 		
-		var prefix = str.substr(0,2);
-		str = str.replace(/u+/g, 'U+');
-		str = str.replace(/0X/g, '0x');
 		var entries = [];
 		var results = [];
 
-		if(prefix === 'U+') entries = str.split('U+');
-		else if (prefix === '0x') entries = str.split('0x');
-		else {
-			return charToHex(str);
+		var prefix = str.substr(0,2);
+		if(isInputUnicode(str)) {
+			str = str.replace(/u+/g, 'U+');
+			entries = str.split('U+');
+		} else if (isInputHex(str)) {
+			str = str.replace(/0X/g, '0x');
+			entries = str.split('0x');
+		} else {
+			return charToHexArray(str);
 		}
 
 		var te;
@@ -73,19 +81,39 @@
 			}
 		}
 
-		if(results.length === 1) results = results[0];
 		debug('\t returning ' + JSON.stringify(results));
 		debug('parseUnicodeInput - END\n');
 		return results;
 	}
 
+	function isInputUnicode(str) {
+		str = str.replace(/u+/g, 'U+');
+		var count = 0;
+		var pos = str.indexOf('U+');
+		while(pos !== -1){
+			count ++;
+			pos = str.indexOf('U+', pos+2);
+		}
+		return count;
+	}
+
+	function isInputHex(str) {
+		str = str.replace(/0X/g, '0x');
+		var count = 0;
+		var pos = str.indexOf('0x');
+		while(pos !== -1){
+			count ++;
+			pos = str.indexOf('0x', pos+2);
+		}
+		return count;
+	}
 //	--------------------
 //	Range functions
 //	--------------------
 	function addCustomCharacterRange(){
 		var newrange = {'begin':0, 'end':0};
-		newrange.begin = parseUnicodeInput(document.getElementById('customrangebegin').value);
-		newrange.end = parseUnicodeInput(document.getElementById('customrangeend').value);
+		newrange.begin = parseUnicodeInput(document.getElementById('customrangebegin').value)[0];
+		newrange.end = parseUnicodeInput(document.getElementById('customrangeend').value)[0];
 		document.getElementById('customrangebegin').value = '';
 		document.getElementById('customrangeend').value = '';
 

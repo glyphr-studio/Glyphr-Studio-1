@@ -413,8 +413,8 @@
 
 		var re = '<table class="kernrow"><tr>';
 		re += '<td class="selkern" '+selstyle+'onclick="selectKern(\''+id+'\');"></td>';
-		re += '<td><input class="rowleftgroup" type="text" value="' + k.leftgroup.join('') + '" style="text-align:right;"></td>';
-		re += '<td><input class="rowrightgroup" type="text" value="' + k.rightgroup.join('') + '"></td>';
+		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToChar(k.leftgroup.join('')) + '" style="text-align:right;"></td>';
+		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToChar(k.rightgroup.join('')) + '"></td>';
 		re += '<td><input class="kernvalue" type="number" value="' + k.value + '" onchange="updateKernValue(\''+id+'\', this.value);"></td>';
 		re += '<td><button class="guideremove" onclick="deleteKernPairConfirm(\''+id+'\');">&times</button></td>';
 
@@ -425,6 +425,12 @@
 	function updateKernValue(id, val) {
 		_GP.kerning[id].value = val;
 		redraw();
+	}
+
+	function updateKernGroup(id, side, val){
+		if(side === 'left') _GP.kerning[id].leftgroup = parseKernGroupInput(val);
+		else if(side === 'right') _GP.kerning[id].rightgroup = parseKernGroupInput(val);
+		selectKern(id);
 	}
 
 	function selectKern(id) {
@@ -451,11 +457,8 @@
 	}
 
 	function createNewKernPair() {
-		var l = document.getElementById('leftgroup').value;
-		var r = document.getElementById('rightgroup').value;
-
-		l = trim(l).split('').filter(function(elem, pos) { return l.indexOf(elem) === pos;});
-		r = trim(r).split('').filter(function(elem, pos) { return r.indexOf(elem) === pos;});
+		var l = parseKernGroupInput(document.getElementById('leftgroup').value);
+		var r = parseKernGroupInput(document.getElementById('rightgroup').value);
 
 		if(!l.length) showErrorMessageBox('The left kern group cannot be empty.');
 		else if(!r.length) showErrorMessageBox('The right kern group cannot be empty.');
@@ -469,6 +472,13 @@
 			_UI.selectedkern = id;
 			redraw();
 		}
+	}
+
+	function parseKernGroupInput(chars) {
+		chars = trim(chars);
+		chars = parseUnicodeInput(chars);
+		chars = chars.filter(function(elem, pos) { return chars.indexOf(elem) === pos;});
+		return chars;
 	}
 
 	function deleteKernPairConfirm(id) {

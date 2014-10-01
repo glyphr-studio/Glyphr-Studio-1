@@ -38,7 +38,10 @@
 // REDRAW
 //-------------------
 	function redraw_Kerning() {
-		// debug('\n redraw_Kerning - START');
+		debug('\n redraw_Kerning - START');
+		debug('\t kerning: ');
+		debug(_GP.kerning);
+
 		_UI.redrawing = true;
 
 		drawGrid();
@@ -54,7 +57,7 @@
 
 			// DRAW ALL RIGHT HAND GROUP
 			for(var i=0; i<selkern.rightgroup.length; i++){
-				ch = getChar(charToHex(selkern.rightgroup[i]));
+				ch = getChar(selkern.rightgroup[i]);
 				// debug('\t got rightgroup char ' + ch.charname);
 				ch.drawCharToArea(ctx, v, true);
 			}
@@ -62,7 +65,7 @@
 			// DRAW ALL LEFT HAND GROUP
 			for(var j=0; j<selkern.leftgroup.length; j++){
 				v = getView();
-				ch = getChar(charToHex(selkern.leftgroup[j]));
+				ch = getChar(selkern.leftgroup[j]);
 				// debug('\t got leftgroup char ' + ch.charname);
 				v.dx -= (ch.getTotalWidth()*v.dz);
 				v.dx += (selkern.value*v.dz);
@@ -71,7 +74,7 @@
 		}
 
 		_UI.redrawing = false;
-		// debug(' redraw_Kerning - END\n');
+		debug(' redraw_Kerning - END\n');
 	}
 
 // end of file

@@ -39,7 +39,7 @@
 		var lid = document.getElementById('newligatureinput').value;
 		// debug('\t retrieved ' + lid);
 		lid = lid.replace(/\s/gi, '');
-		lid = parseUnicodeInput(lid);
+		lid = parseUnicodeInput(lid).join('');
 		// debug('\t parsed ' + lid);
 
 		var lig = _GP.ligatures;

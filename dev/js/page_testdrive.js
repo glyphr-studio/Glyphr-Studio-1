@@ -104,8 +104,8 @@
 
 		if(!c1 || !c2) return 0;
 
-		c1 = parseUnicodeInput(c1);
-		c2 = parseUnicodeInput(c2);
+		c1 = parseUnicodeInput(c1)[0];
+		c2 = parseUnicodeInput(c2)[0];
 		// debug('\t converted: ' + c1 + ' and ' + c2);
 
 		var k = _GP.kerning;
@@ -115,11 +115,11 @@
 			for(var l=0; l<k[p].leftgroup.length; l++){
 				tlc = k[p].leftgroup[l];
 				// debug('\t checking leftgroup ' + tlc + ' against ' + c1);
-				if(parseUnicodeInput(tlc) === c1){
+				if(parseUnicodeInput(tlc)[0] === c1){
 					// debug('\t LEFTGROUP MATCH! for ' + c1);
 					for(var r=0; r<k[p].rightgroup.length; r++){
 						trc = k[p].rightgroup[r];
-						if(parseUnicodeInput(trc) === c2){
+						if(parseUnicodeInput(trc)[0] === c2){
 							re = (k[p].value*-1);
 							// debug('\t FOUND MATCH! returning ' + re);
 							return re;
