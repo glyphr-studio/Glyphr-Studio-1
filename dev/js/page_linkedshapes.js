@@ -3,14 +3,14 @@
 	function loadPage_linkedshapes(){
 		// debug("LOADING PAGE >> loadPage_linkedshapes");
 		
-		getEditDocument().getElementById("mainwrapper").innerHTML = linkedshapes_content();
+		getEditDocument().getElementById('mainwrapper').innerHTML = linkedshapes_content();
 		setupEditCanvas();
 		initEventHandlers();
 
 		_UI.selectedshape = -1;
 		_UI.selectedtool = 'pathedit';
 
-		redraw_LinkedShapes("loadPage_linkedshapes");
+		redraw("loadPage_linkedshapes");
 	}
 
 	function linkedshapes_content(){
@@ -31,11 +31,11 @@
 //-------------------
 
 	function redraw_LinkedShapes(calledby){
-		//debug(Date.now()+"\t:: redraw_LinkedShapes Called By: " + calledby + " - Shown Linked Shape: " + _UI.shownlinkedshape + " - Selected Shape: " + _UI.selectedshape);
+		// debug('\n redraw_LinkedShapes - START');
+		// debug('\t Called By: ' + calledby + ' - Shown Linked Shape: ' + _UI.shownlinkedshape + ' - Selected Shape: ' + _UI.selectedshape);
 
 		_UI.redrawing = true;
 
-		_UI.chareditctx.clearRect(0,0,5000,5000);
 		drawGrid();
 		drawGuides();
 
@@ -45,13 +45,9 @@
 			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline();
 		}
 
-		update_NavPanels();
-
-		update_ToolsArea();
-
 		_UI.redrawing = false;
 
-		//debug(Date.now()+"\t:: redraw_LinkedShapes DONE - Called By: " + calledby);
+		// debug(' redraw_LinkedShapes - END\n');
 	}
 
 

@@ -34,7 +34,6 @@
 		_UI.redrawing = true;
 
 		var sc = getSelectedChar();
-		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 		drawGrid();
 		drawGuides();
 
@@ -51,10 +50,6 @@
 				_UI.selectedtool = 'shaperesize';
 			}
 		}
-
-		update_NavPanels();
-
-		update_ToolsArea();
 
 		_UI.redrawing = false;
 	}

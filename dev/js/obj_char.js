@@ -375,7 +375,7 @@
 		if(getUnicodeName(ch)) return getUnicodeName(ch);
 
 		var cobj = getChar(ch);
-		if(cobj.shape) {
+		if(cobj && cobj.shape) {
 			// linked shape
 			// debug('\t linked shape - returning ' + cobj.shape.name);
 			return cobj.shape.name;

@@ -11,7 +11,7 @@
 
 		content += "<h1 class='paneltitle'>edit history</h1>";
 
-		var q = _UI.history[_UI.navhere];
+		var q = _UI.history[_UI.navhere].queue;
 
 		content += "</div><div class='navarea_section'>";
 
@@ -20,13 +20,13 @@
 		content += "<button style='width:100px;' class='"+(q.length>0? "buttonsel": "buttondis")+"' onclick='history_pull();clickTool(\"pathedit\");'>undo" + ((q.length > 0) ? (" (" + q.length + ")") : "") + "</button><br>";
 		content += "<table class='detail'>";
 
-		var te, currchar;
+		var te, currname;
 		for(var e=q.length-1; e>=0; e--){
 			te = q[e];
 
-			if(te.charname !== currchar){
-				content += "<tr><td colspan=3 ><div class='history_char'>"+getCharName(te.charname)+"</div></td></tr>";
-				currchar = te.charname;
+			if(te.charname !== currname){
+				content += "<tr><td colspan=3 ><div class='history_char'>"+te.charname+"</div></td></tr>";
+				currname = te.charname;
 			}
 
 			content += "<tr>"+

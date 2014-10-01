@@ -38,7 +38,7 @@
 	}
 
 	function redraw_TestDrive(){
-		debug("\n redraw_TestDrive - START");
+		// debug("\n redraw_TestDrive - START");
 		var td = _UI.testdrive;
 		var ps = _GP.projectsettings;
 
@@ -58,7 +58,7 @@
 		tctx.clearRect(0,0,5000,5000);
 		if(td.showhorizontals) drawLine(curry);
 
-		debug('\t contentarray.length: ' + contentarray.length);
+		// debug('\t contentarray.length: ' + contentarray.length);
 
 		for(var k=0; k<contentarray.length; k++){
 			if(contentarray[k] === '\n'){
@@ -87,26 +87,26 @@
 						);
 					}
 
-					debug('\t starting drawing ' + cc.charname);
+					// debug('\t starting drawing ' + cc.charname);
 					// debug(cc);
 					currx += cc.drawCharToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
 					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
-					debug('\t done drawing ' + cc.charname);
+					// debug('\t done drawing ' + cc.charname);
 				}
 			}
 		}
 	}
 
 	function calculateKernOffset(c1, c2) {
-		debug('\n calculateKernOffset - START');
-		debug('\t passed: ' + c1 + ' and ' + c2);
+		// debug('\n calculateKernOffset - START');
+		// debug('\t passed: ' + c1 + ' and ' + c2);
 
 		if(!c1 || !c2) return 0;
 
 		c1 = parseUnicodeInput(c1);
 		c2 = parseUnicodeInput(c2);
-		debug('\t converted: ' + c1 + ' and ' + c2);
+		// debug('\t converted: ' + c1 + ' and ' + c2);
 
 		var k = _GP.kerning;
 		var tlc, trc, re;
@@ -114,14 +114,14 @@
 		for(var p in k){ if(k.hasOwnProperty(p)){
 			for(var l=0; l<k[p].leftgroup.length; l++){
 				tlc = k[p].leftgroup[l];
-				debug('\t checking leftgroup ' + tlc + ' against ' + c1);
+				// debug('\t checking leftgroup ' + tlc + ' against ' + c1);
 				if(parseUnicodeInput(tlc) === c1){
-					debug('\t LEFTGROUP MATCH! for ' + c1);
+					// debug('\t LEFTGROUP MATCH! for ' + c1);
 					for(var r=0; r<k[p].rightgroup.length; r++){
 						trc = k[p].rightgroup[r];
 						if(parseUnicodeInput(trc) === c2){
 							re = (k[p].value*-1);
-							debug('\t FOUND MATCH! returning ' + re);
+							// debug('\t FOUND MATCH! returning ' + re);
 							return re;
 						}
 					}
@@ -129,7 +129,7 @@
 			}
 		}}
 
-		debug(' calculateKernOffset - END\n');
+		// debug(' calculateKernOffset - END\n');
 		return 0;
 	}
 

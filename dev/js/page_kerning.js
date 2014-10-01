@@ -2,7 +2,7 @@
 
 	function loadPage_kerning(){
 
-		// debug("LOADING PAGE >> loadPage_charedit");
+		// debug("LOADING PAGE >> loadPage_kerning");
 		getEditDocument().getElementById("mainwrapper").innerHTML = kerning_content();
 
 		setupKerningEditCanvas();
@@ -11,7 +11,7 @@
 
 		_UI.selectedtool = "kern";
 
-		redraw("loadPage_charedit");
+		redraw("loadPage_kerning");
 	}
 
 	function kerning_content(){
@@ -41,10 +41,10 @@
 		// debug('\n redraw_Kerning - START');
 		_UI.redrawing = true;
 
-		_UI.chareditctx.clearRect(0,0,5000,5000);
 		drawGrid();
 
 		var selkern = getSelectedKern();
+		// debug('\t selkern: ' + json(selkern));
 		if(selkern){
 			drawGuides();
 			var ch;
@@ -69,9 +69,6 @@
 				ch.drawCharToArea(ctx, v, true);
 			}
 		}
-
-		update_NavPanels();
-		update_ToolsArea();
 
 		_UI.redrawing = false;
 		// debug(' redraw_Kerning - END\n');

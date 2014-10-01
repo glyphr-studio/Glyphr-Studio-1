@@ -4,28 +4,41 @@
 // History Object
 //-------------------
 
-	function History(oa) {
+	function History(pn) {
 		this.queue = [];
-		this.parent = oa.parent;
+		this.parentname = pn;
+		this.currstate = clone(_GP[this.parentname]);
+		this.initialstate = clone(_GP[this.parentname]);
 	}
 
 	History.prototype.put = function(des) {
+		// debug('\n History.put - START');
+
 		this.queue.push({
 			'charname': getCurrentWorkingObjectName(),
 			'description': des,
 			'date': new Date().getTime(),
-			'state': clone(this.parent)
+			'state': clone(this.currstate)
 		});
+
+		this.currstate = clone(_GP[this.parentname]);
+
 		setProjectAsUnsaved();
+
+		// debug(' History.put - END\n');
 	};
 
 	History.prototype.pull = function() {
-		if(this.queue.length > 0){
-			this.parent = this.queue.pop().state;
-			redraw('history_pull');
-		}
-		//if(_UI.navhere === 'character edit') redraw('history_pull');
-		//else if (_UI.navhere === 'import svg') update_NavPanels();
+		// debug('\n History.pull - START');
+		// debug('\t queue.length ' + this.queue.length);
+
+		var top = this.queue.length? this.queue.pop().state : this.initialstate;		
+		_GP[this.parentname] = clone(top);
+		this.currstate = clone(top);
+		if (_UI.navhere === 'import svg') update_NavPanels();
+		else redraw('history_pull');
+
+		// debug('\t after redraw');
 
 		var empty = true;
 		for(var q in _UI.history){ if(_UI.history.hasOwnProperty(q)){
@@ -35,6 +48,8 @@
 			}
 		}}
 		if(empty) setProjectAsSaved();
+
+		// debug(' History.pull - END\n');
 	};
 	
 	// Global Accessor Functions

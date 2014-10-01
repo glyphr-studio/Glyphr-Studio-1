@@ -45,6 +45,8 @@
 
 		_UI.redrawing = false;
 		
+		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
+
 		switch (_UI.navhere){
 			case 'character edit': redraw_CharacterEdit(); break;
 			case 'linked shapes': redraw_LinkedShapes(); break;
@@ -52,6 +54,9 @@
 			case 'kerning': redraw_Kerning(); break;
 			case 'test drive': redraw_TestDrive(); break;
 		}
+
+		update_ToolsArea();
+		update_NavPanels();
 
 		_UI.redrawing = false;
 		
@@ -63,6 +68,7 @@
 // Update Tools
 //-------------------
 	function update_ToolsArea(){
+		// debug('\n update_ToolsArea - START');
 
 		var pointselectclass = '';
 		var pointselectclickable = true;
@@ -146,11 +152,14 @@
 
 		if(_GP.projectsettings.showkeyboardtipsicon) content += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
 
+		// debug('\t trying to add to document...');
 		try {
 			getEditDocument().getElementById("toolsarea").innerHTML = content;
+			// debug('\t ...success!');
 		} catch(err) {
-			console.error("UPDATETOOLS - innerHTML update error caught");
+			console.error('\t ...failure! update_ToolsArea div could not be found.');
 		}
+		// debug(' update_ToolsArea - END\n');
 	}
 
 	function clickTool(ctool){

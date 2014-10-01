@@ -518,12 +518,15 @@
 			//debug('Tool_Kern - Mouse Up');
 			this.dragging = false;
 			this.deltax = 0;
+			history_put('Kern Adjustment: ' + getSelectedKern().value);
 		};
 
 		this.mousemove = function (ev) {
 			if (this.dragging) {
 				// Moving shapes if mousedown
-				getSelectedKern().value += (_UI.eventhandlers.mousex - this.deltax)/getView().dz;
+				var sk = getSelectedKern();
+				var val = (1*sk.value);
+				sk.value = val + (1*(_UI.eventhandlers.mousex - this.deltax)/getView().dz);
 				this.deltax = (_UI.eventhandlers.mousex);
 				redraw();
 			}

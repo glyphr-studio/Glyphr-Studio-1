@@ -294,13 +294,13 @@
 
 
 	function finalizeGlyphrProject(){
-		debug("\nfinalizeGlyphrProject \t START");
+		// debug("\nfinalizeGlyphrProject \t START");
 
 		// UI Defaults
-		_UI.history['character edit'] = new History(_GP.fontchars);
-		_UI.history['linked shapes'] = new History(_GP.linkedshapes);
-		_UI.history.ligatures = new History(_GP.ligatures);
-		_UI.history.kerning = new History(_GP.kerning);
+		_UI.history['character edit'] = new History('fontchars');
+		_UI.history['linked shapes'] = new History('linkedshapes');
+		_UI.history.ligatures = new History('ligatures');
+		_UI.history.kerning = new History('kerning');
 
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
@@ -314,7 +314,7 @@
 		_UI.navhere = "character edit";
 
 
-		debug("finalizeGlyphrProject \t END\n");
+		// debug("finalizeGlyphrProject \t END\n");
 	}
 
 // end of file

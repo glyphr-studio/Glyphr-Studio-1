@@ -27,7 +27,7 @@
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectChar';
 		var cr = _GP.projectsettings.charrange;
-		var showtitles = (getFirstID(_GP.ligatures) || !cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
+		var showtitles = (includeligatures || !cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 
 		if(cr.basiclatin){
 			var bl = _UI.basiclatinorder;
@@ -149,13 +149,13 @@
 	}
 
 	function makeLinkedShapeSubNavButton(lsid){
-		debug('makeLinkedShapeSubNavButton \t Start');
-		debug('\t passed lsid:' + lsid);
+		// debug('makeLinkedShapeSubNavButton \t Start');
+		// debug('\t passed lsid:' + lsid);
 
 		var re = '';
 		var ls = getChar(lsid);
-		debug("\t getChar for lsid: " );
-		debug(ls);
+		// debug("\t getChar for lsid: " );
+		// debug(ls);
 
 		if(lsid === _UI.shownlinkedshape){
 			re += '<tr class="layersel"';
