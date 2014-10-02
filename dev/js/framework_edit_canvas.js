@@ -134,7 +134,7 @@
 
 		if(_UI.selectedtool === 'newpath'){
 			edittools += "<div style='height:5px;'>&nbsp;</div>";
-			edittools += "<button class='buttonsel' style='height:30px; width:94px; font-size:.8em; padding:2px;' title='done editing path' onclick='clickTool(\"pathedit\");'>done editing path</button>";
+			edittools += "<button class='buttonsel' style='width:94px; font-size:.8em; padding:2px;' title='done editing path' onclick='clickTool(\"pathedit\");'>done editing path</button>";
 		}
 
 		// Kern

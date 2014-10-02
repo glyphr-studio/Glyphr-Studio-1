@@ -252,7 +252,7 @@
 			"</td>"+
 		"</tr>";
 
-		var overlaphelptext = "<h1>Overlap Mode</h1><br><br><div style=\\&apos;width:500px;\\&apos;>"+
+		var overlaphelptext = "<h1>Overlap Mode</h1><div style=\\&apos;width:500px;\\&apos;>"+
 			"The Path Points that make up a shape outline have either a clockwise or counter-clockwise direction. "+
 			"This path direction is also known as a path&rsquo;s &ldquo;winding&rdquo;. "+
 			"Shapes with the same winding will combine, opposite windings will cut-out.<br><br>"+
@@ -270,9 +270,9 @@
 			"<td> overlap mode </td>"+
 			"<td>"+
 				"<button style='width:180px; height:26px; padding:0px;' onclick='ss().path.reversePath();history_put(\"Reverse Path Direction\");redraw(\"shapeDetails - Winding\");'>"+
-				(s.path.winding===0?"unknown":(s.path.winding>0?"counterclockwise&emsp;&#8634":"clockwise&emsp;&#8635"))+
+				(s.path.winding===0?"unknown":(s.path.winding>0?"counterclockwise&ensp;&#8634":"clockwise&ensp;&#8635"))+
 				"</button>"+
-				"&emsp;"+helpUI(overlaphelptext)+
+				"&ensp;"+helpUI(overlaphelptext)+
 			"</td>"+
 		"</tr>";
 
@@ -294,7 +294,7 @@
 
 		content += "<tr>"+
 			"<td> selected point </td>"+
-			"<td><input type='number' value='" + s.path.sp(true) + "' onchange='ss().path.selectPathPoint(this.value); redraw(\"pointDetails\");'></td>"+
+			"<td><input type='number' class='lockpad' value='" + s.path.sp(true) + "' onchange='ss().path.selectPathPoint(this.value); redraw(\"pointDetails\");'></td>"+
 		"</tr>";
 
 		content += "<tr><td> point type </td><td>";
@@ -304,84 +304,71 @@
 		content += "</td></tr>";
 
 		content += "<tr>"+
-			"<td>"+lockUI("ss().path.sp().P.xlock")+"</td>"+
-			"<td> point x </td>"+
-			"<td><input type='number' " + (tp.P.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"P\", (this.value), \"null\"); history_put(\"Point X Position : \"+this.value); redraw(\"pointDetails\");'")+
-			" value='" + round(tp.P.x, 3) + "' ></td>"+
-			"</tr>";
+			"<td>x"+dimSplit()+"y</td>"+
+			"<td>"+
+				lockUI("ss().path.sp().P.xlock")+
+				"<input type='number' " + (tp.P.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"P\", (this.value), \"null\"); history_put(\"Point X Position : \"+this.value); redraw(\"pointDetails\");'")+
+				" value='" + round(tp.P.x, 3) + "' >"+
+				dimSplit()+
+				lockUI("ss().path.sp().P.ylock")+
+				"<input type='number' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"P\", \"null\", (this.value)); history_put(\"Point Y Position : \"+this.value); redraw(\"pointDetails\");'")+
+				" value='" + round(tp.P.y, 3) + "' >"+
+			"</td>"+
+		"</tr>";
 
-		content += "<tr>"+
-			"<td>"+lockUI("ss().path.sp().P.ylock")+"</td>"+
-			"<td> point y </td>"+
-			"<td><input type='number' " + (tp.P.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"P\", \"null\", (this.value)); history_put(\"Point Y Position : \"+this.value); redraw(\"pointDetails\");'")+
-			" value='" + round(tp.P.y, 3) + "' ></td>"+
-			"</tr>";
-
-		content += "<tr><td colspan=2><h3>handle 1 <span class='unit'>(before the point)</span></h3></td></tr>";
 
 		var issymmetric = tp.type === 'symmetric';
-		if(!issymmetric){
-			content += "<tr>"+
-				"<td> use handle 1 </td>"+
-				"<td>"+checkUI("ss().path.sp().useh1",true)+"</td>"+
-				"</tr>";
-		}
+
+		// HANDLE 1
+		content += "<tr><td colspan=2><h3>"+(issymmetric? "<input type='checkbox' checked disabled>" : checkUI("ss().path.sp().useh1",true))+" handle 1 <span class='unit'>(before the point)</span></h3></td></tr>";
 
 		if(tp.useh1){
 			content += "<tr>"+
-				"<td>"+(issymmetric? "&nbsp;" : lockUI("ss().path.sp().H1.xlock"))+"</td>"+
-				"<td> handle 1 x </td>"+
-				"<td><input type='number' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", (this.value), \"null\"); history_put(\"H1 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
-				" value='" + round(tp.H1.x, 3) + "' ></td>"+
-				"</tr>";
-
-			content += "<tr>"+
-				"<td>"+(issymmetric? "&nbsp;" : lockUI("ss().path.sp().H1.ylock"))+"</td>"+
-				"<td> handle 1 y </td>"+
-				"<td><input type='number' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", \"null\", (this.value)); history_put(\"H1 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
-				" value='" + round(tp.H1.y, 3) + "' ></td>"+
-				"</tr>";
+				"<td>x"+dimSplit()+"y</td>"+
+				"<td>"+
+					(issymmetric? "" : lockUI("ss().path.sp().H1.xlock"))+
+					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", (this.value), \"null\"); history_put(\"H1 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					" value='" + round(tp.H1.x, 3) + "' >"+
+					dimSplit()+
+					(issymmetric? "" : lockUI("ss().path.sp().H1.ylock"))+
+					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", \"null\", (this.value)); history_put(\"H1 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					" value='" + round(tp.H1.y, 3) + "' >"+
+				"</td>"+
+			"</tr>";
 
 			content += "<tr>"+
 				"<td> angle <span class='unit'>(degrees)</span></td>"+
-				"<td><input type='number' disabled='disabled' value='"+(round(tp.getHandleAngle(tp.H1)*180/Math.PI,3) || 0)+"'></td>"+
-				"</tr>";
+				"<td><input type='number' class='lockpad' disabled='disabled' value='"+(round(tp.getHandleAngle(tp.H1)*180/Math.PI,3) || 0)+"'></td>"+
+			"</tr>";
 		}
 
-		content += "<tr><td colspan=2><h3>handle 2 <span class='unit'>(after the point)</span></h3></td></tr>";
-
-		if(!issymmetric){
-			content += "<tr>"+
-				"<td> use handle 2 </td>"+
-				"<td>"+checkUI("ss().path.sp().useh2",true)+"</td>"+
-				"</tr>";
-		}
+		// HANDLE 2
+		content += "<tr><td colspan=2><h3>"+(issymmetric? "<input type='checkbox' checked disabled>" : checkUI("ss().path.sp().useh2",true))+" handle 2 <span class='unit'>(after the point)</span></h3></td></tr>";
 
 		if(tp.useh2){
 			content += "<tr>"+
-				"<td>"+(issymmetric? "&nbsp;" : lockUI("ss().path.sp().H2.xlock"))+"</td>"+
-				"<td> handle 2 x </td>"+
-				"<td><input type='number' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", (this.value), \"null\"); history_put(\"H2 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
-				" value='" + round(tp.H2.x, 3) + "' ></td>"+
-				"</tr>";
-
-			content += "<tr>"+
-				"<td>"+(issymmetric? "&nbsp;" : lockUI("ss().path.sp().H2.ylock"))+"</td>"+
-				"<td> handle 2 y </td>"+
-				"<td><input type='number' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", \"null\", (this.value)); history_put(\"H2 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
-				" value='" + round(tp.H2.y, 3) + "' ></td>"+
-				"</tr>";
+				"<td>x"+dimSplit()+"y</td>"+
+				"<td>"+
+					(issymmetric? "" : lockUI("ss().path.sp().H2.xlock"))+
+					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", (this.value), \"null\"); history_put(\"H2 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					" value='" + round(tp.H2.x, 3) + "' >"+
+					dimSplit()+
+					(issymmetric? "" : lockUI("ss().path.sp().H2.ylock"))+
+					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", \"null\", (this.value)); history_put(\"H2 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					" value='" + round(tp.H2.y, 3) + "' >"+
+				"</td>"+
+			"</tr>";
 
 			content += "<tr>"+
 				"<td> angle <span class='unit'>(degrees)</span></td>"+
-				"<td><input type='number' disabled='disabled' value='"+(round(tp.getHandleAngle(tp.H2)*180/Math.PI,3) || 0)+"'></td>"+
-				"</tr>";
+				"<td><input type='number' class='lockpad' disabled='disabled' value='"+(round(tp.getHandleAngle(tp.H2)*180/Math.PI,3) || 0)+"'></td>"+
+			"</tr>";
 		}
 
 		return content;
 	}
 
-	function dimSplit() { return '<span style="color:'+_UI.colors.gray_60+'; width:20px; text-align:center; display:inline-block; font-size:1.2em;">&#x2044;</span>';	}
+	function dimSplit() { return '<span style="color:'+_UI.colors.gray_60+'; width:20px; height:26px; text-align:center; display:inline-block; font-size:1.4em; vertical-align:-2px;">&#x2044;</span>';	}
 
 
 //	------------------------

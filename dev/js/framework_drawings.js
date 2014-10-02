@@ -230,12 +230,12 @@
 //	LOCK, CHECKBOX, HELP
 //	-----------------------
 
-	function lockUI(varname, doredraw){
+	function lockUI(varname){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
 		var idname = varname.split("()");
 		idname = idname[idname.length-1];
 		var currbool = eval(varname);
-		var restcolor = _UI.colors.gray_80;
+		var restcolor = _UI.colors.gray_90;
 		var selcolor = _UI.colors.accent_65;
 
 		var re = '<svg '+
@@ -243,12 +243,13 @@
 			'x="0px" y="0px" width="26px" height="26px" viewBox="0 0 26 26" enable-background="new 0 0 26 26" '+
 			'id='+idname+' '+
 			'class="lockui" '+
+			'style="background-color:'+(currbool? _UI.colors.gray_80 : 'white')+'" '+
 			'onclick="' +
 				'debug(\'Clicked on checkbox '+varname+'\'); ' +
 				'toggle(\''+varname+'\'); ' +
 				//'history_put(\'Toggled '+idname+': '+!currbool+'\'); '+
-				(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
-			'>';
+				'redraw(\'checkbox '+idname+'\'); ' +
+			'">';
 		re += '<path fill="'+(currbool? selcolor : restcolor)+'" d="M17,12V8h-1V7h-1V6h-4v1h-1v1H9v4H8v8h10v-8H17z M15,12h-4V9h1V8h2v1h1V12z"/>';
 		re += '</svg>';
 		return re;
