@@ -29,21 +29,24 @@
 		overflow:hidden;
 	}
 
-	input	{
+	input,
+	textarea	{
 		border:none;
-		padding:4px;
+		padding:0px 0px 0px 4px;
+		height:24px;
 		text-align:left;
-	}
-
-	input[type=text],
-	input[type=file],
-	textarea {
 		background-color: white;
 		color:rgb(25,30,35);
 		border:1px solid rgb(229,234,239);
 	}
 
-	input[type=text][disabled='disabled']{
+	input[type=number]{
+		text-align: right;
+		width:86px;
+	}
+
+	input[type=text][disabled='disabled'],
+	input[type=number][disabled='disabled']{
 		background-color:rgb(229,234,239);
 		border:1px solid rgb(229,234,239);
 		color:rgb(127,134,137);
@@ -188,23 +191,20 @@
 		border-radius: 0px;
 	}
 
-	.spinnerbutton,
-	.spinnerbutton:hover,
-	.spinnerbutton:active,
-	.spinnerbutton:focus {
-		height:22px;
-		width:20px;
-		font-size:15px;
+	.inlineinputbutton,
+	.inlineinputbutton:hover,
+	.inlineinputbutton:active,
+	.inlineinputbutton:focus {
+		padding:0px;
+		height:26px;
+		font-size:1.2em;
 		text-align:center;
-		padding:0;
-		vertical-align:4px;
 		font-weight:bold;
+		vertical-align: bottom;
 		margin:0px 0px 0px 0px;
-		background-color: rgb(153,158,163);
-		border-radius: 0px;
 	}
 
-	.spinnerbutton:hover {
+	.inlineinputbutton:hover {
 		color:white;
 	}
 
@@ -999,16 +999,12 @@
 		height:25px;
 	}
 
-	.detail input[type='text'] {
-		padding:0 .4em;
+	.detail input {
 		display:inline;
-		width:140px;
-		height:20px;
-		vertical-align:top;
-		border:1px solid white;
 	}
 
-	.detail input[type=text][disabled='disabled']{
+	.detail input[type=text][disabled='disabled'],
+	.detail input[type=number][disabled='disabled']{
 		background-color:rgb(204,209,214);
 		border:1px solid rgb(204,209,214);
 		color:rgb(127,134,137);
@@ -1153,7 +1149,7 @@
 
 	.guidename {
 		font-weight: bold;
-		width:188px;
+		width:175px;
 	}
 
 	.guidelocation {
@@ -1265,16 +1261,6 @@
 	.settingstable td {
 		padding:0px 10px 0px 0px;
 		vertical-align:middle;
-	}
-
-	.settingstable .spinnerbutton,
-	.settingstable .spinnerbutton:active,
-	.settingstable .spinnerbutton:focus,
-	.settingstable .spinnerbutton:hover {
-		height:28px;
-		position: relative;
-		top:4px;
-		left:-4px;
 	}
 
 	.charrangepreview {

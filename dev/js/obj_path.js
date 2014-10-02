@@ -316,7 +316,7 @@
 	};
 
 	Path.prototype.findWinding = function(){
-		//debug('findWinding');
+		debug('\n Path.findWinding - START');
 		var j,k,z;
 		var count = 0;
 		var parr = this.pathpoints;
@@ -336,11 +336,12 @@
 		// negative = clockwise
 		// positive = counterclockwise
 
-		//debug('findWinding returning ' + count);
+		debug(' Path.findWinding - END returning: ' + count + '\n');
 		return count;
 	};
 
 	Path.prototype.reversePath = function(){
+		debug('\n Path.reversePath - START');
 		var HT,pp;
 		if(this.pathpoints){
 			for (var i = 0; i < this.pathpoints.length; i++) {
@@ -354,8 +355,9 @@
 				}
 			}
 			this.pathpoints.reverse();
-			this.findWinding();
+			this.winding = this.findWinding();
 		}
+		debug(' Path.reversePath - END\n');
 	};
 
 	Path.prototype.flipNS = function(mid){
@@ -525,7 +527,7 @@
 		if(index === false){
 			return;
 		} else {
-			index = (index == -1)? (this.pathpoints.length-1) : Math.abs(index);
+			index = (index === -1)? (this.pathpoints.length-1) : Math.abs(index);
 			this.pathpoints[index%this.pathpoints.length].selected = true;
 			//debug('SELECTPATHPOINT - selecting point ' + index%this.pathpoints.length));
 		}

@@ -13,30 +13,30 @@
 		
 		content += "<h3>Key Metrics</h3>"+
 					"<table class='settingstable'>"+
-					"<tr><td>Ascent height: </td><td><input type='text' value='"+ps.ascent+"' onchange='updateAscender(this.value);'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Cap height: </td><td><input type='text' value='"+ps.capheight+"' onchange='_GP.projectsettings.capheight = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>x Height: </td><td><input type='text' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = this.value'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Descent height: </td><td><input type='text' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Total Units per Em: </td><td><input type='text' disabled='disabled' value='"+ps.upm+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Ascent height: </td><td><input type='number' value='"+ps.ascent+"' onchange='updateAscender(this.value);'></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Cap height: </td><td><input type='number' value='"+ps.capheight+"' onchange='_GP.projectsettings.capheight = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>x Height: </td><td><input type='number' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = this.value'></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Total Units per Em: </td><td><input type='number' disabled='disabled' value='"+ps.upm+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
 
 		content += "<h3>Overshoot</h3>"+
 					"Round letters usually extend a little above the x height line and below the baseline. " +
 					"A light guideline will show this overshoot distance.<br>" +
 					"<table class='settingstable'>"+
-					"<tr><td>Overshoot:</td><td><input type='text' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Overshoot:</td><td><input type='number' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 		content += "<h3>Line Gap</h3>" +
 					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
 					"<table class='settingstable'>"+
-					"<tr><td>Line Gap: </td><td><input type='text' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Line Gap: </td><td><input type='number' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 		content += "<h3>Default Left Side Bearing</h3>" +
 					"This is the amount of blank space that is added to the left of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
 					"<table class='settingstable'>"+
-					"<tr><td>Left Side Bearing: </td><td><input type='text' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = this.value;'>"+spinner()+"</td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Left Side Bearing: </td><td><input type='number' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 
@@ -46,9 +46,9 @@
 					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " +
 					"divide evenly into the Units per Em.<br>" +
 					"<table class='settingstable'>"+
-					"<tr><td>Units per Em:</td><td><input type='text' disabled='disabled' value='" + ps.upm + "'/></td><td><span class='unit'>(total)</span></td></tr>"+
-					"<tr><td>Grid Divisions</td><td><input type='text' value='"+ps.griddivisions+"' onchange='updateGridDivisions(this.value);'/>"+spinner()+"</td><td><span class='unit'>(number)</span></td></tr>"+
-					"<tr><td>Grid Square Size:</td><td><input type='text' id='metirc-ssize' disabled='disabled' value='" + (ps.upm/ps.griddivisions) + "'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Units per Em:</td><td><input type='number' disabled='disabled' value='" + ps.upm + "'/></td><td><span class='unit'>(total)</span></td></tr>"+
+					"<tr><td>Grid Divisions</td><td><input type='number' value='"+ps.griddivisions+"' onchange='updateGridDivisions(this.value);'/></td><td><span class='unit'>(number)</span></td></tr>"+
+					"<tr><td>Grid Square Size:</td><td><input type='number' id='metirc-ssize' disabled='disabled' value='" + (ps.upm/ps.griddivisions) + "'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
 
 

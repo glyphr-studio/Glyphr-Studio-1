@@ -305,37 +305,6 @@ function saveTextFile(fname, fblob) {
 		return id;
 	}
 	
-//-------------------
-// Generic Spinner Control
-//-------------------
-	function spinner(){
-		var content ='';
-		content += '<button class="spinnerbutton" onclick="inc(this);">&#9652;</button>';  //&and;
-		content += '<button class="spinnerbutton" onclick="dec(this);">&#9662;</button>';  //&or;
-		return content;
-	}
-
-	function inc(obj){
-		var valbox = obj.parentNode.childNodes[0];
-		valbox.value = valbox.value*1;
-		if(valbox){
-			if(!valbox.value*1) valbox.value = 0;
-			valbox.value = ((valbox.value*1) + _GP.projectsettings.spinnervaluechange);
-			valbox.onchange();
-			//history_put("Up Spinner");
-		}
-	}
-
-	function dec(obj){
-		var valbox = obj.parentNode.childNodes[0];
-		valbox.value = valbox.value*1;
-		if(valbox){
-			if(!valbox.value*1) valbox.value = 0;
-			valbox.value = ((valbox.value*1) - _GP.projectsettings.spinnervaluechange);
-			valbox.onchange();
-			//history_put("Down Spinner");
-		}
-	}
 
 
 //-------------------

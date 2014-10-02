@@ -228,7 +228,7 @@
 
 
 	//	-----------------------
-	//	LOCK, SPINNER, CHECKBOX
+	//	LOCK, CHECKBOX, HELP
 	//	-----------------------
 
 	function lockUI(varname, doredraw){

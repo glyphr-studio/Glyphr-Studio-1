@@ -198,10 +198,10 @@
 		if(!isval(_UI.testdrive.padsize)) _UI.testdrive.padsize = _GP.projectsettings.defaultlsb;
 
 		var content = '<table class="detail">';
-		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input class="input" type="text" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();">'+spinner()+'</td></tr>';
+		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input type="number" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td id="roughptsize">75</td></tr>';
-		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input class="input" type="text" value="'+_UI.testdrive.linegap+'" onchange="_UI.testdrive.linegap=this.value*1; redraw_TestDrive();">'+spinner()+'</td></tr>';
-		content += '<tr><td> character spacing <span class="unit">(em units)</span> </td><td><input class="input" type="text" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();">'+spinner()+'</td></tr>';
+		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.linegap+'" onchange="_UI.testdrive.linegap=this.value*1; redraw_TestDrive();"></td></tr>';
+		content += '<tr><td> character spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> <label for="showcharbox">show character boxes</label> </td><td>' + checkUI("_UI.testdrive.showcharbox",true) + "</td></tr>";
 		content += '<tr><td> <label for="showhorizontals">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showhorizontals",true) + "</td></tr>";
 
