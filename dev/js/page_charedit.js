@@ -12,7 +12,13 @@
 		initEventHandlers();
 
 		_UI.selectedtool = 'pathedit';
+		
 		_UI.selectedshape = -1;
+		if(_UI.devselectedshape){
+			_UI.selectedshape = _UI.devselectedshape;
+			_UI.devselectedshape = false;
+		}
+
 		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstCharID();
 
 		redraw("loadPage_charedit");

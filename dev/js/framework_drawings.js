@@ -44,9 +44,9 @@
 
 
 
-	//-------------------
-	// Logos
-	//-------------------
+//-------------------
+// Logos
+//-------------------
 
 		function makeGlyphrStudioLogo(oa){
 			oa = oa || {};
@@ -79,9 +79,9 @@
 
 
 
-	//	---------------------
-	//	TOOLS
-	//	---------------------
+//	---------------------
+//	TOOLS
+//	---------------------
 	function makeToolButton(oa) {
 		//debug("MAKETOOLBUTTON - oa: " + json(oa));
 
@@ -161,10 +161,9 @@
 	};
 
 
-	//	--------------------
-	//	Custom UI
-	//	--------------------
-
+//	--------------------
+//	Custom UI
+//	--------------------
 
 	function makePointButton(type, selected) {
 		var color = _UI.colors.gray_40;
@@ -227,9 +226,9 @@
 
 
 
-	//	-----------------------
-	//	LOCK, CHECKBOX, HELP
-	//	-----------------------
+//	-----------------------
+//	LOCK, CHECKBOX, HELP
+//	-----------------------
 
 	function lockUI(varname, doredraw){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
@@ -241,7 +240,7 @@
 
 		var re = '<svg '+
 			'version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" '+
-			'x="0px" y="0px" width="15px" height="15px" viewBox="0 0 15 15" enable-background="new 0 0 15 15" '+
+			'x="0px" y="0px" width="26px" height="26px" viewBox="0 0 26 26" enable-background="new 0 0 26 26" '+
 			'id='+idname+' '+
 			'class="lockui" '+
 			'onclick="' +
@@ -250,11 +249,7 @@
 				//'history_put(\'Toggled '+idname+': '+!currbool+'\'); '+
 				(doredraw? 'redraw(\'checkbox '+idname+'\');"' : '"') +
 			'>';
-		re += '<rect width="15" height="15" fill="'+(currbool? selcolor : restcolor)+'"></rect>';
-		re += '<g fill="'+_UI.colors.gray_90+'">';
-		re += '<polygon points="4,3 4,4 3,4 3,7 7,7 7,4 6,4 6,3"/>';
-		re += '<polygon points="0,0 0,7 1,7 1,3 2,3 2,2 3,2 3,1 7,1 7,2 8,2 8,3 9,3 9,7 10,7 10,15 15,15 15,0"/>';
-		re += '</g>';
+		re += '<path fill="'+(currbool? selcolor : restcolor)+'" d="M17,12V8h-1V7h-1V6h-4v1h-1v1H9v4H8v8h10v-8H17z M15,12h-4V9h1V8h2v1h1V12z"/>';
 		re += '</svg>';
 		return re;
 	}

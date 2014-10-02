@@ -8,9 +8,11 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
-		'devnav': 'character edit',	// navigate straight to a page
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-
+		'devnav': 'character edit',	// navigate straight to a page
+		'devnavprimary': 'npAttributes', // navigate straight to a panel
+		'devselectedshape': 1, // automatically select a shape
+		
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
@@ -21,11 +23,10 @@
 		'colors': {
 			
 			// ACCENT BLUE
-			// 'accent':		'rgb(0,170,225)',	// os accent base color
 			'accent_95': 'rgb(225,245,255)',
 			'accent_85': 'rgb(155,221,255)',
 			'accent_75': 'rgb(80,196,255)',
-			'accent_65': 'rgb(0,170,255)',
+			'accent_65': 'rgb(0,170,255)',		// Primary Accent
 			'accent_55': 'rgb(0,140,210)',
 			'accent_45': 'rgb(0,113,170)',
 			'accent_35': 'rgb(0,90,135)',

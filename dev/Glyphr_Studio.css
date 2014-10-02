@@ -42,7 +42,7 @@
 
 	input[type=number]{
 		text-align: right;
-		width:86px;
+		width:70px;
 	}
 
 	input[type=text][disabled='disabled'],
@@ -145,7 +145,12 @@
 /* ----- */
 
 	.lockui {
-		display: block;
+		width:24px;
+		height:24px;
+		margin:1px -1px 0px 0px;
+		vertical-align: top;
+		background-color: white;
+		display: inline-block;
 		cursor: pointer;
 	}
 
@@ -993,10 +998,9 @@
 	}
 
 	.detail td {
-		margin:0px 10px 10px 10px;
-		padding:0px 10px 5px 0px;
-		vertical-align:top;
-		height:25px;
+		padding:0px 4px 10px 0px;
+		vertical-align:middle;
+		height:26px;
 	}
 
 	.detail input {
@@ -1008,17 +1012,6 @@
 		background-color:rgb(204,209,214);
 		border:1px solid rgb(204,209,214);
 		color:rgb(127,134,137);
-	}
-
-	.detail .rightcol {
-		width:200px;
-	}
-
-	.detail .leftcol	{
-		width:12px;
-		padding:0px 2px 0px 0px;
-		margin:0px;
-		overflow:hidden;
 	}
 
 	.pointtypebutton,

@@ -31,8 +31,8 @@
 			_UI.navhere = _UI.devnav;
 		}
 
-		navigate();
-		
+		navigate(_UI.devnavprimary);
+
 		debug(' MAIN SETUP - END\n');
 	};
 
