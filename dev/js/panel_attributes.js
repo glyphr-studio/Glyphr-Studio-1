@@ -407,7 +407,7 @@
 
 		var re = '<table class="kernrow"><tr>';
 		re += '<td class="selkern" '+selstyle+'onclick="selectKern(\''+id+'\');"></td>';
-		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToChar(k.leftgroup.join('')) + '" style="text-align:right;"></td>';
+		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToChar(k.leftgroup.join('')) + '"></td>';
 		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToChar(k.rightgroup.join('')) + '"></td>';
 		re += '<td><input class="kernvalue" type="number" value="' + k.value + '" onchange="updateKernValue(\''+id+'\', this.value);"></td>';
 		re += '<td><button class="guideremove" onclick="deleteKernPairConfirm(\''+id+'\');">&times</button></td>';

@@ -9,7 +9,7 @@
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'character edit',	// navigate straight to a page
+		'devnav': 'kerning',	// navigate straight to a page
 		'devnavprimary': 'npAttributes', // navigate straight to a panel
 		'devselectedshape': 1, // automatically select a shape
 		

@@ -1,22 +1,5 @@
 // start of file
 
-	function loadPage_openproject(){
-		// debug("LOADING PAGE >> loadPage_openproject");
-		var ct = "<h1 class='pagetitle'>Open Project</h1><div class='pagecontent textpage'>" +
-		"<h2>But wait!</h2>If you open a new project, your current project will be lost.  Be sure to download a Glyphr " +
-		"project file if you want to save your current project.<br><br>" +
-		"<button style='padding:10px;' onclick='saveGlyphrProjectFile();'>Save current project</button><br><br>" +
-		"<h2>Okay, now...</h2>";
-
-		ct += importOrCreateNew();
-		ct += "</div>";
-
-
-		getEditDocument().getElementById("mainwrapper").innerHTML = ct;
-		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
-		getEditDocument().getElementById("droptarget").addEventListener('drop', handleDrop, false);
-	}
-
 	function loadPage_firstrun(){
 		// debug("LOADING PAGE >> loadPage_firstrun");
 

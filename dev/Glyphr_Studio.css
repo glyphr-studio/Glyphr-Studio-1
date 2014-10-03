@@ -570,7 +570,11 @@
 		background-color: rgb(250,252,255);
 	}
 
-
+	.navtargeticon {
+		display: inline-block;
+		vertical-align: -4px;
+		margin-right:10px;
+	}
 
 /* ------- */
 /* Dialog */
@@ -1117,7 +1121,7 @@
 
 	.rowleftgroup,
 	.rowrightgroup {
-		height:20px;
+		height:28px;
 		width:120px;
 		background-color: white;
 		border-style:solid;
@@ -1127,6 +1131,8 @@
 
 	.rowleftgroup {
 		margin-left:10px;
+		padding-right:4px;
+		text-align: right;
 	}
 
 	.kernvalue {
@@ -1159,7 +1165,7 @@
 
 	.guidename,
 	.guidelocation {
-		height:20px;
+		height:28px;
 		background-color: white;
 		margin-left: 10px;
 		border-style:solid;

@@ -166,7 +166,6 @@
 				case 'test drive': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'font settings': 	_UI.navprimaryhere = 'npNav'; break;
 				case 'project settings':_UI.navprimaryhere = 'npNav'; break;
-				case 'open project': 	_UI.navprimaryhere = 'npNav'; break;
 				case 'export font': 	_UI.navprimaryhere = 'npNav'; break;
 				case 'import svg': 		_UI.navprimaryhere = 'npChooser'; break;
 				case 'help': 			_UI.navprimaryhere = 'npNav'; break;
@@ -196,7 +195,6 @@
 		var nh = _UI.navhere;
 		return ( nh==='font settings' ||
 					nh==='project settings' ||
-					nh==='open project' ||
 					nh==='export font' ||
 					nh==='help' ||
 					nh==='about');
@@ -271,7 +269,6 @@
 			case 'firstrun':			loadPage_firstrun();		break;
 			case 'font settings':		loadPage_fontsettings();	break;
 			case 'project settings':	loadPage_projectsettings();	break;
-			case 'open project':		loadPage_openproject();		break;
 			case 'export font':			loadPage_exportfont();		break;
 			case 'import svg':			loadPage_importsvg();		break;
 			case 'help':				loadPage_help();			break;
@@ -407,7 +404,6 @@
 			'font settings',
 			'project settings',
 			'_',
-			'open project',
 			'import svg',
 			'export font',
 			'_',
@@ -420,10 +416,16 @@
 
 		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
 		newsub += '<div class="navarea_section">';
+		
+		var iconname, bc;
 
 		for(var i=0; i<navarr.length; i++){
-			var bc = 'navtargetbutton';
-			if(navarr[i] === _UI.navhere) { bc = 'navtargetbuttonsel'; }
+			bc = 'navtargetbutton';
+			iconcolor = _UI.colors.accent_25;
+			if(navarr[i] === _UI.navhere) { 
+				bc = 'navtargetbuttonsel'; 
+				iconcolor = _UI.colors.accent_55;
+			}
 
 			if(navarr[i]==='_'){
 				newsub += '<div style="height:10px;"></div>';
@@ -432,7 +434,11 @@
 			} else if (navarr[i] === 'issue'){
 				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target=_new class="navpanellink">create a new issue on github</a><br>');
 			} else {
-				newsub += ('<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; _UI.selectedshape=-1; navigate();">'+navarr[i]+'</button>');
+				iconname = 'nav_'+navarr[i].replace(' ','');
+				newsub += '<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; _UI.selectedshape=-1; navigate();">'+
+					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':24})+'</div>'+
+					navarr[i]+
+				'</button>';
 			}
 		}
 
