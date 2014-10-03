@@ -175,7 +175,7 @@
 		content += makeTDButton('pack my box with five dozen liquor jugs');
 		content += makeTDButton('the quick brown fox jumps over a lazy dog');
 		content += makeTDButton('amazingly few discotheques provide jukeboxes');
-		content += makeTDButton('quick enemy movement will jeopardize six of the gunboats');
+		content += makeTDButton('quick enemy movement will<br>jeopardize six of the gunboats');
 		content += '<br><h3>character sets</h3>';
 		content += makeTDButton('abcdefghijklmnopqrstuvwxyz');
 		content += makeTDButton('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
@@ -186,7 +186,8 @@
 	}
 
 	function makeTDButton(text){
-		return '<button class="sampletext" onclick="_UI.testdrive.sampletext=\''+text+'\';redraw_TestDrive();">'+text+'</button><br>';
+		var val = text.replace('<br>', ' ');
+		return '<button class="sampletext" onclick="_UI.testdrive.sampletext=\''+val+'\';redraw_TestDrive();">'+text+'</button><br>';
 	}
 
 	function makeTDSymbolButton(){
