@@ -1,31 +1,14 @@
 // start of file
-
+	
 //-------------------
-// INIT
+// Common Edit Page
 //-------------------
-	function setupGhostCanvas(){
-		//Is Here Ghost Canvas - same size as CEC
-		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
-		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
-		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
-		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
-		_UI.ishereghostctx.fillStyle = 'cyan';
-		_UI.ishereghostctx.globalAlpha = 0.5;
-		_UI.ishereghostcanvas.style.backgroundColor = 'transparent';
+
+	function editPage_Content(){
+		return '<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
+			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>' +
+			makeFloatLogo();
 	}
-
-	function setupEditCanvas(){
-		_UI.chareditcanvas = getEditDocument().getElementById('chareditcanvas');
-		_UI.chareditcanvas.height = _UI.chareditcanvassize;
-		_UI.chareditcanvas.width = _UI.chareditcanvassize;
-		_UI.chareditctx = _UI.chareditcanvas.getContext('2d');
-		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.chareditcanvas.onmouseout = mouseoutcec;
-		_UI.chareditcanvas.onmouseover = mouseovercec;
-	}
-
-	function resetCursor() { getEditDocument().body.style.cursor = 'default'; }
-
 
 //-------------------
 // REDRAW
@@ -44,7 +27,7 @@
 		}
 
 		_UI.redrawing = false;
-		
+
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 
 		switch (_UI.navhere){
@@ -59,7 +42,7 @@
 		update_NavPanels();
 
 		_UI.redrawing = false;
-		
+
 		// debug(' REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
 	}
 
@@ -70,6 +53,11 @@
 	function update_ToolsArea(){
 		// debug('\n update_ToolsArea - START');
 
+		if(!isWorkItemSelected()){
+			getEditDocument().getElementById("toolsarea").innerHTML = '';
+			return;
+		}
+
 		var pointselectclass = '';
 		var pointselectclickable = true;
 		var onchar = (_UI.navhere === 'character edit');
@@ -78,14 +66,14 @@
 		var onkern = (_UI.navhere === 'kerning');
 
 		var s = ss('Charedit: UpdateTools');
-		
+
 		if(onlink) {
 			if(!_GP.linkedshapes[_UI.selectedshape]) { s = false; }
 		}
 
 		if(_UI.selectedtool === 'pathedit'){
 			pointselectclass = 'buttonsel tool';
-		} else if (s.link){
+		} else if (s.link && UI.navhere !== 'linked shapes'){
 			pointselectclass = 'buttondis tool';
 			pointselectclickable = false;
 		} else {
@@ -126,7 +114,7 @@
 
 		// Pan
 		var pan = "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
-		
+
 		// Path and Shape Edit
 		var edittools = '';
 		edittools += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pathEdit', 'selected':(st==='pathedit')})+"</button>";
@@ -145,9 +133,15 @@
 		var content = '';
 		content += pop;
 		content += zoom;
+
 		if(onchar || onlig) content += newshape;
+		var sls = getSelectedChar();
+		if(onlink && sls && !sls.shape) content += newshape;
+
 		content += pan;
+
 		if(onchar || onlink || onlig) content += edittools;
+
 		if(onkern) content += kern;
 
 		if(_GP.projectsettings.showkeyboardtipsicon) content += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
@@ -305,30 +299,51 @@
 
 
 //	-------------------------
-//	Global Get Selected Shape
+//	Global Get Selected Char and Shape
 //	-------------------------
+	function isWorkItemSelected() {
+		switch(_UI.navhere){
+			case 'character edit': return true;
+			case 'linked shapes': return _UI.selectedlinkedshape;
+			case 'ligatures': return _UI.selectedchar;
+			case 'kerning': return _UI.selectedkern;
+		}
+
+		return false;
+	}
+
+	function getCurrentWorkItemName() {
+		switch(_UI.navhere){
+			case 'character edit':
+			case 'linked shapes':
+				return getSelectedCharName();
+			case 'ligatures':
+				return 'ligature ' + getSelectedCharName();
+			case 'kerning':
+				return getSelectedKernName();
+		}
+
+		return 'no working object';
+	}
+
 	function ss(req){
 		req = req || '[probably a dynamically-generated page control]';
 		// debug('\nSS - START');
 		// debug('\t Requested by: ' + req);
 		// debug('\t selectedshape: ' + _UI.selectedshape);
 
+		var scs = getSelectedCharShapes();
+
 		if(_UI.navhere === 'linked shapes'){
-			// debug('\t LINKED SHAPES returning shownlinkedshape: ' + _UI.shownlinkedshape);
-			return _GP.linkedshapes[_UI.shownlinkedshape].shape;
-		}
-
-		var charshapes = [];
-
-		if(_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
-			charshapes = getSelectedCharShapes();
+			// debug('\t LINKED SHAPES returning selectedlinkedshape: ' + _UI.selectedlinkedshape);
+			return scs[0] || false;
 		}
 
 		if(_UI.selectedshape !== -1){
-			if((_UI.selectedshape >= 0) && (_UI.selectedshape < charshapes.length)) {
+			if((_UI.selectedshape >= 0) && (_UI.selectedshape < scs.length)) {
 				// Charedit Selected Shape
 				// debug('SS - returning shape object for position ' + _UI.selectedshape);
-				return charshapes[_UI.selectedshape];
+				return scs[_UI.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
 				// debug('SS - returning false - Selected Shape outside of expected boundary');
@@ -403,12 +418,14 @@
 	function drawGuides() {
 		// debug('\n drawGuides - START');
 
+		if(!isWorkItemSelected()) return;
+
 		var ps = _GP.projectsettings;
 		var oncharedit = (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 		// debug('\t ps.guides: ');
 		// debug(ps.guides);
-		
+
 		if(_UI.showguides){
 			// Update custom guides
 			var g;
@@ -438,7 +455,7 @@
 			}
 
 			// Char Width or Kerning
-			if(oncharedit && (getSelectedChar().charshapes.length || _UI.selectedchar === '0x0020')){
+			if(oncharedit && (getSelectedCharShapes.length || _UI.selectedchar === '0x0020')){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
 				var rhl = getSelectedChar().charwidth;
@@ -474,5 +491,32 @@
 		}
 		// debug(' drawGuides - END\n');
 	}
+
+
+//-------------------
+// INIT
+//-------------------
+	function setupGhostCanvas(){
+		//Is Here Ghost Canvas - same size as CEC
+		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
+		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
+		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
+		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
+		_UI.ishereghostctx.fillStyle = 'cyan';
+		_UI.ishereghostctx.globalAlpha = 0.5;
+		_UI.ishereghostcanvas.style.backgroundColor = 'transparent';
+	}
+
+	function setupEditCanvas(){
+		_UI.chareditcanvas = getEditDocument().getElementById('chareditcanvas');
+		_UI.chareditcanvas.height = _UI.chareditcanvassize;
+		_UI.chareditcanvas.width = _UI.chareditcanvassize;
+		_UI.chareditctx = _UI.chareditcanvas.getContext('2d');
+		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
+		_UI.chareditcanvas.onmouseout = mouseoutcec;
+		_UI.chareditcanvas.onmouseover = mouseovercec;
+	}
+
+	function resetCursor() { getEditDocument().body.style.cursor = 'default'; }
 
 // end of file

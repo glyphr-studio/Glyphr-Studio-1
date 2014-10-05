@@ -6,15 +6,12 @@
 	function makePanel_CharChooser(fname){
 
 		var content = '<div class="navarea_header">';
-
 		content += makePanelSuperTitle();
-
 		content += '<h1 class="paneltitle">characters</h1>';
+		content += '</div>';
 
-		content += '</div><div class="navarea_section">';
-
+		content += '<div class="navarea_section">';
 		content += makeGenericCharChooserContent(fname);
-
 		content += '</div>';
 
 		return content;
@@ -118,32 +115,29 @@
 //-------------------------
 	function makePanel_LinkedShapeChooser(){
 
+		var lslen = getLength(_GP.linkedshapes);
+
 		var content = '<div class="navarea_header">';
-
 		content += makePanelSuperTitle();
-
 		content += '<h1 class="paneltitle">linked shapes</h1>';
-
-		content += '</div><div class="navarea_section">';
-
-		content += '<div class="subnavunit">';
-		content += '<table class="layertable">';
-		for(var lsid in _GP.linkedshapes){
-			if(_GP.linkedshapes.hasOwnProperty(lsid)){
-				//debug('LINKEDSHAPES_SUBNAV - making button for ' + lsid);
-				content += makeLinkedShapeSubNavButton(lsid);
-			}
-		}
-		content += '</table><br><br>';
-
-		content += '<h1 class="paneltitle">actions</h1>';
-		content += '<table class="actionsgrid"><tr><td colspan=3><h3>linked shape</h3>';
-		content += '<button onclick="showAddSSToCharDialog();">link to character</button><br>';
-		content += '<button onclick="addLinkedShape();history_put(\'Create New Linked Shape\');navigate();">create new</button><br>';
-		content += '<button onclick="deleteLinkedShapeConfirm();" class="'+(aalength(_GP.linkedshapes)>1? '': 'buttondis')+'">delete</button><br>';
-		content += '</td></tr></table>';
-
 		content += '</div>';
+
+		content += '<div class="navarea_section">';
+		content += '<table class="layertable">';
+		var layers = lslen? '' : '<tr><td>No linked shapes exist yet.  Press the "add new linked shape" button below to get started.</td></tr>';
+		for(var lsid in _GP.linkedshapes){ if(_GP.linkedshapes.hasOwnProperty(lsid)){
+			//debug('LINKEDSHAPES_SUBNAV - making button for ' + lsid);
+			layers += makeLinkedShapeSubNavButton(lsid);
+		}}
+		content += layers;
+		content += '</table>';
+		content += '</div>';
+
+		content += '<div class="navarea_section">';
+		content += '<button onclick="addLinkedShape();history_put(\'Create New Linked Shape\');navigate();">add new linked shape</button><br>';
+		if(lslen) content += '<button onclick="deleteLinkedShapeConfirm();">delete linked shape</button><br>';
+		content += '</div>';
+
 
 		return content;
 	}
@@ -157,23 +151,23 @@
 		// debug("\t getChar for lsid: " );
 		// debug(ls);
 
-		if(lsid === _UI.shownlinkedshape){
+		if(lsid === _UI.selectedlinkedshape){
 			re += '<tr class="layersel"';
 		} else {
 			re += '<tr class="layer"';
 		}
 		re += ' onclick="selectLinkedShape(\'' + lsid + '\');">';
 		re += '<td class="layerthumb">';
-		re += ls.shape.makeSVG();
+		if(ls.shape) re += ls.shape.makeSVG();
 		re += '</td>';
-		re += '<td class="layername">' + ls.shape.name + '</td></tr>';
+		re += '<td class="layername">' + (ls.shape.name || '[no shape outline yet]') + '</td></tr>';
 
 		return re;
 	}
 
 	function selectLinkedShape(lsid){
 		//debug("selectLinkedShape - lsid: " + lsid);
-		_UI.shownlinkedshape = lsid;
+		_UI.selectedlinkedshape = lsid;
 		_UI.selectedshape = lsid;
 		navigate('npAttributes');
 	}
@@ -189,21 +183,15 @@
 		content += makePanelSuperTitle();
 
 		content += '<h1 class="paneltitle">characters</h1>';
+		content += '</div>';
 
-		content += '</div><div class="navarea_section">';
-
+		content += '<div class="navarea_section">';
 		content += makeGenericLigatureChooserContent(fname);
+		content += '</div>';
 
-		content += '</div><div class="navarea_section">';
-
-		content += '<h1 class="paneltitle">actions</h1>';
-		content += '<table class="actionsgrid"><tr>';
-		content += '<td><h3>ligature</h3>'+
-					'<button onclick="showNewLigatureDialog();">add new ligature</button><br>'+
-					'<button onclick="deleteLigatureConfirm();">delete ligature</button><br>'+
-					'<td></td><td></td>'+
-					'</tr></table>';
-
+		content += '<div class="navarea_section">';
+		content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
+		if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
 		content += '</div>';
 
 		return content;
@@ -222,7 +210,7 @@
 			content += makeCharChooserButton(l, fname);
 		}}
 
-		if(content === '') content = 'No ligatures exist.  Press the "add new ligature" button below to get started.';
+		if(content === '') content = 'No ligatures exist yet.  Press the "add new ligature" button below to get started.';
 
 		content = '<div class="charchooserwrapper">'+content+'</div>';
 		

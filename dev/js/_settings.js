@@ -8,10 +8,10 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'test drive',	// navigate straight to a page
-		'devnavprimary': 'npAttributes', // navigate straight to a panel
-		'devselectedshape': 1, // automatically select a shape
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'devnav': 'linked shapes',	// navigate straight to a page
+		'devnavprimary': false, // navigate straight to a panel
+		'devselectedshape': false, // automatically select a shape
 		
 		// all pages
 		'navhere': 'firstrun',
@@ -89,7 +89,7 @@
 		'shapelayers': [],
 
 		// page: linked shapes
-		'shownlinkedshape': 'ls0',
+		'selectedlinkedshape': false,
 
 		// page: kerning
 		'selectedkern': 'kern0',

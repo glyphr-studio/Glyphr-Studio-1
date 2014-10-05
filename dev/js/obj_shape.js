@@ -45,7 +45,7 @@
 
 		if(this.visible){
 			lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
-			if(lctx == _UI.ishereghostctx) { lctx.fillStyle = 'rgba(0,0,255,0.2)'; }
+			if(lctx === _UI.ishereghostctx) { lctx.fillStyle = 'rgba(0,0,255,0.2)'; }
 
 			// Draw the appropriate stuff for each shape's fill & border
 			lctx.beginPath();
@@ -64,7 +64,7 @@
 				return;
 			}
 
-			if((this.path.maxes.xmax == -1) && (lctx == _UI.chareditctx) && (_UI.selectedtool != 'newpath')) this.path.calcMaxes();
+			if((this.path.maxes.xmax === -1) && (lctx === _UI.chareditctx) && (_UI.selectedtool !== 'newpath')) this.path.calcMaxes();
 
 			this.path.drawPath(lctx);
 		}
@@ -403,7 +403,7 @@
 		if(newshape){
 			if(newshape.link){
 				_UI.selectedtool = 'shaperesize';
-			} else if(newshape.path && (_UI.selectedtool == 'shaperesize')) {
+			} else if(newshape.path && (_UI.selectedtool === 'shaperesize')) {
 				//debug('ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
 				//newshape.path.calcMaxes();
 			}
@@ -413,12 +413,18 @@
 			newshape.name = ('Rectangle ' + ((getSelectedCharShapes().length*1)+1));
 		}
 
-		if(_UI.navhere == 'character edit' || _UI.navhere === 'ligatures') {
-			_UI.selectedshape = getSelectedCharShapes().length;
-			_UI.navprimaryhere = 'npAttributes';
+		var sc = getSelectedChar();
+
+		if(_UI.navhere === 'linked shapes' ){
+			_UI.selectedshape = getSelectedCharID();
+			sc.shape = newshape;
+		} else {
+			_UI.selectedshape = sc.charshapes.length;
+			sc.charshapes.push(newshape);
+			updateCurrentCharWidth();
 		}
-		getSelectedCharShapes().push(newshape);
-		updateCurrentCharWidth();
+
+		_UI.navprimaryhere = 'npAttributes';
 
 		//debug('ADDSHAPE - returns:\n' + JSON.stringify(newshape));
 		return newshape;

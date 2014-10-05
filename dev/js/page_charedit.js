@@ -7,7 +7,7 @@
 	function loadPage_charedit(){
 		// debug("LOADING PAGE >> loadPage_charedit");
 
-		getEditDocument().getElementById('mainwrapper').innerHTML = charedit_content();
+		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
 		initEventHandlers();
 
@@ -22,12 +22,6 @@
 		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstCharID();
 
 		redraw("loadPage_charedit");
-	}
-
-	function charedit_content(){
-		return '<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
-			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>' +
-			makeFloatLogo();
 	}
 
 

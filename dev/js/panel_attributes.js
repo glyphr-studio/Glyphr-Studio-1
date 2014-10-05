@@ -6,24 +6,22 @@
 	function makePanel_CharAttributes(){
 		//debug("UPDATECHAREDITDETAILS");
 
-		var s = ss("update details");
+		var s = ss('update details');
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
-		var content = "<div class='navarea_header'>";
-
+		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
+		content += '<h1 class="paneltitle">attributes</h1>';
+		content += '</div>';
 
-		content += "<h1 class='paneltitle'>attributes</h1>";
-
-		content += "</div><div class='navarea_section'>";
-
-		content += "<table class='detail'>";
+		content += '<div class="navarea_section">';
+		content += '<table class="detail">';
 
 		//debug("UPDATEDETAILS - _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
-		if (_UI.navhere === "character edit" || _UI.navhere === 'ligatures'){
+		if (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
 			//debug("UPDATEDETAILS - detected navhere = character edit");
 			if(s && s.link){
 				// linked shape selected
@@ -40,9 +38,7 @@
 				content += charDetails();
 			}
 
-			content += "</table><br>";
-
-		} else if (_UI.navhere === "linked shapes"){
+		} else if (_UI.navhere === 'linked shapes'){
 			//debug("UPDATEDETAILS - detected navhere = linked shapes");
 			if (s){
 				content += shapeDetails(s);
@@ -51,10 +47,10 @@
 				}
 			}
 			content += linkedShapeCharDetails();
-			content += "</table><br>";
 		}
 
-		content += "</div>";
+		content += '</table><br>';
+		content += '</div>';
 
 		return content;
 	}
@@ -377,25 +373,20 @@
 
 	function makePanel_KerningAttributes() {
 		var content = '<div class="navarea_header">';
-
 		content += makePanelSuperTitle();
-
 		content += '<h1 class="paneltitle">Pairs</h1>';
+		content += '</div>';
 
-		content += '</div><div class="navarea_section">';
-
-		var rows = '';
+		content += '<div class="navarea_section">';
+		var rows = 'No kern pairs exist yet.  Press the "add new kern pair" button below to get started.';
 		for(var k in _GP.kerning){ if(_GP.kerning.hasOwnProperty(k)){
 			rows += makeOneKernPairRow(_GP.kerning[k], k);
 		}}
-
-		if(rows === '') rows = 'No kern pairs exist yet.  Press the "New Kern Pair" button below to get started.';
-
 		content += rows;
-		content += '</div><div class="navarea_section">';
+		content += '</div>';
 
-		content += '<button onclick="showNewKernPairDialog();">new kern pair</button><br>';
-
+		content += '<div class="navarea_section">';
+		content += '<button onclick="showNewKernPairDialog();">add new kern pair</button><br>';
 		content += '</div>';
 
 		return content;

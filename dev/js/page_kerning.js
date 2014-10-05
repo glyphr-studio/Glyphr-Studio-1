@@ -3,7 +3,7 @@
 	function loadPage_kerning(){
 
 		// debug("LOADING PAGE >> loadPage_kerning");
-		getEditDocument().getElementById("mainwrapper").innerHTML = kerning_content();
+		getEditDocument().getElementById("mainwrapper").innerHTML = editPage_Content();
 
 		setupKerningEditCanvas();
 
@@ -12,15 +12,6 @@
 		_UI.selectedtool = "kern";
 
 		redraw("loadPage_kerning");
-	}
-
-	function kerning_content(){
-
-		var re = '<canvas id="chareditcanvas" width=12 height=12 ></canvas>'+
-			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>'+
-			makeFloatLogo();
-
-		return re;
 	}
 
 	function setupKerningEditCanvas(){

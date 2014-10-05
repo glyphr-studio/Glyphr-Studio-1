@@ -76,7 +76,7 @@
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
 			if(sc){
 				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-				content += (sc.charhtml || sc.shape.name);
+				content += (sc.charhtml || sc.shape.name || '[no shape outline yet]');
 			}
 			content += "</h1>";
 		}
@@ -249,13 +249,6 @@ function saveTextFile(fname, fblob) {
 		return Number(Math.round(num+'e'+dec)+'e-'+dec);
 	}
 
-	// returns the length of an associative array
-	function aalength(aa){
-		var len = 0;
-		for(var key in aa){	if( aa.hasOwnProperty(key)) len++; }
-		return len;
-	}
-
 	// removes illegal file name chars
 	function strSan(val){
 		return val.replace(/[<>'"\\]/g,"");
@@ -305,7 +298,12 @@ function saveTextFile(fname, fblob) {
 		return id;
 	}
 	
-
+	// returns the length of an associative array
+	function getLength(obj){
+		var len = 0;
+		for(var key in obj){ if( obj.hasOwnProperty(key)) len++; }
+		return len;
+	}
 
 //-------------------
 // BUG EMAIL

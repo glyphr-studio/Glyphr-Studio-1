@@ -353,7 +353,7 @@
 		} else {
 			// debug('\t linked shape, retrieved');
 			// debug(_GP.linkedshapes[ch]);
-			return _GP.linkedshapes[ch];
+			return _GP.linkedshapes[ch] || false;
 		}
 
 		// debug('getChar - returning FALSE\n');
@@ -400,7 +400,7 @@
 		// debug('\t selectedchar: ' + _UI.selectedchar);
 		var re;
 		if(_UI.navhere === 'linked shapes') {
-			re = getChar(_UI.shownlinkedshape);
+			re = getChar(_UI.selectedlinkedshape);
 			// debug('\t case linked shapes, returning ' + re.charname);
 			return re;
 		} else if (_UI.navhere !== 'kerning'){
@@ -414,20 +414,20 @@
 
 	function getSelectedCharID(){
 		//debug('GETSELECTEDCHARID');
-		if(_UI.navhere === 'linked shapes') return _UI.shownlinkedshape;
+		if(_UI.navhere === 'linked shapes') return _UI.selectedlinkedshape;
 		else return _UI.selectedchar;
 	}
 
 	function getSelectedCharName() {
 		//debug('GETSELECTEDCHARNAME - _UI.selectedchar: ' + _UI.selectedchar);
-		if(_UI.navhere === 'linked shapes') return getCharName(_UI.shownlinkedshape);
+		if(_UI.navhere === 'linked shapes') return getCharName(_UI.selectedlinkedshape);
 		else return getCharName(_UI.selectedchar);
 	}
 
 	function getSelectedCharShapes(){
 		//debug('GETSELECTEDCHARSHAPES');
 		var rechar = getSelectedChar();
-		if(rechar.objtype === 'linkedshape') return [rechar];
+		if(rechar && rechar.objtype === 'linkedshape') return [rechar.shape];
 		return rechar? rechar.charshapes : [];
 	}
 
@@ -463,8 +463,8 @@
 	function updateCurrentCharWidth() {
 		if(_UI.navhere === 'character edit'){
 			getSelectedChar().calcCharMaxes();
-		} else if (_UI.navhere === 'linked shapes' && _GP.linkedshapes[_UI.shownlinkedshape]) {
-			var lsarr = _GP.linkedshapes[_UI.shownlinkedshape].usedin;
+		} else if (_UI.navhere === 'linked shapes' && _GP.linkedshapes[_UI.selectedlinkedshape]) {
+			var lsarr = _GP.linkedshapes[_UI.selectedlinkedshape].usedin;
 			if(lsarr) for(var c=0; c<lsarr.length; c++) getChar(lsarr[c]).calcCharMaxes();
 		}
 	}

@@ -15,7 +15,7 @@
 		// debug('\n History.put - START');
 
 		this.queue.push({
-			'charname': getCurrentWorkingObjectName(),
+			'charname': getCurrentWorkItemName(),
 			'description': des,
 			'date': new Date().getTime(),
 			'state': clone(this.currstate)
@@ -56,20 +56,5 @@
 	function history_put(dsc){ _UI.history[_UI.navhere].put(dsc); }
 	function history_pull(){ _UI.history[_UI.navhere].pull(); }
 	function history_length() { return _UI.history[_UI.navhere].queue.length || 0; }
-	
-	// Name Stuff
-	function getCurrentWorkingObjectName() {
-		switch(_UI.navhere){
-			case 'character edit':
-			case 'linked shapes':
-				return getSelectedCharName();
-			case 'ligatures':
-				return 'ligature ' + getSelectedCharName();
-			case 'kerning':
-				return getSelectedKernName();
-		}
-
-		return 'no working object';
-	}
 
 // end of file

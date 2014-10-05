@@ -200,7 +200,7 @@
 
 		var content = '<table class="detail">';
 		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input type="number" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();"></td></tr>';
-		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td id="roughptsize">75</td></tr>';
+		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td><input type="number" disabled="disabled" id="roughptsize" valu="75"/></td></tr>';
 		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.linegap+'" onchange="_UI.testdrive.linegap=this.value*1; redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> character spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> <label for="showcharbox">show character boxes</label> </td><td>' + checkUI("_UI.testdrive.showcharbox",true) + "</td></tr>";
@@ -214,7 +214,7 @@
 	function changefontscale(newval){
 		_UI.testdrive.fontsize = newval*1;
 		_UI.testdrive.fontscale = (newval/_GP.projectsettings.upm);
-		document.getElementById('roughptsize').innerHTML = (newval*0.75);
+		document.getElementById('roughptsize').value = (newval*0.75);
 	}
 
 	function createimg(){

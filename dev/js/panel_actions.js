@@ -111,8 +111,8 @@
 
 		if(_UI.navhere === 'linked shapes'){
 			_UI.clipboardshape = {
-				's':_GP.linkedshapes[_UI.shownlinkedshape].shape,
-				'c':_UI.shownlinkedshape
+				's':_GP.linkedshapes[_UI.selectedlinkedshape].shape,
+				'c':_UI.selectedlinkedshape
 			};
 		} else if (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
 			var s = ss('copy shape');
@@ -223,4 +223,138 @@
 		}
 	}
 
+
+//-------------------
+// LINKED SHAPE Actions
+//-------------------
+	function linkedShapeActions(){
+		var s = ss("Update Actions");
+
+		var content = "<div class='navarea_section'><h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
+
+		var ls1actions = "<td><h3>linked shape</h3>";
+			if(s) ls1actions += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
+			ls1actions += "<button onclick='addLinkedShape();history_put(\"Create New Linked Shape\");navigate();'>create new</button><br>";
+			if(s) ls1actions += "<button onclick='deleteLinkedShapeConfirm();' class='"+(getLength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
+			ls1actions += "</td>";
+
+		var	ls2actions = "<td><h3>&nbsp;</h3>";
+			ls2actions += "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
+			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
+			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
+			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
+			ls2actions += "</td>";
+
+		var pointactions = "<td><h3>path point</h3>";
+			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'>insert</button><br>";
+			pointactions += "<button onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatelinkedshapeactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
+			pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'>reset handles</button><br>";
+			pointactions += "</td>";
+
+
+		// Put it all together
+		content += ls1actions;
+		if(s) content += ls2actions;
+
+		var ispointsel = false;
+		if(s && !s.link) ispointsel = s.path.sp(false);
+		if(_UI.selectedtool !== "pathedit") ispointsel = false;
+		if(ispointsel) {content += pointactions; }
+		else { content += "<td><h3>&nbsp;</h3></td>"; }
+
+		content += "</tr></table></div>";
+		return content;
+	}
+
+	function addLinkedShape(pshape){
+		var newid = generateNewID(_GP.linkedshapes, 'ls');
+		var newls;
+		_UI.selectedlinkedshape = newid;
+
+		if(pshape){
+			newls = new LinkedShape({"shape":pshape});
+		} else {
+			newls = new LinkedShape({"name":("linkedshape " + (getLength(_GP.linkedshapes)+1))});
+		}
+
+		if(_UI.navhere === 'linked shapes') _UI.selectedshape = newid;
+		_GP.linkedshapes[newid] = newls;
+
+		//debug("Added New Linked Shape: " + newid + " JSON=" + json(_GP.linkedshapes));
+
+		return newid;
+	}
+
+	function deleteLinkedShapeConfirm(){
+		var content = "<h1>Delete Linked Shape</h1>Are you sure you want to delete this linked shape?<br>";
+		var uia = _GP.linkedshapes[_UI.selectedlinkedshape].usedin;
+		if(uia.length > 0){
+			content += "If you do, the linked shape instances will also be removed from the following characters:<br><br>";
+			for(var ssu=0; ssu<uia.length; ssu++){
+				content += ("&nbsp; &nbsp; " + _GP.fontchars[uia[ssu]].charname.replace(/LATIN /gi,"") + "<br>");
+			}
+		} else {
+			content += "This linked shape is not currently being used by any characters.<br>";
+		}
+
+		content += "<br>Warning: This action cannot be undone!<br>";
+		content += "<br><button onclick='deleteLinkedShape();'>permanently delete this linked shape</button> &nbsp; <button onclick='closeDialog();'>cancel</button>";
+
+		openDialog(content);
+	}
+
+	function deleteLinkedShape(){
+		//debug("DELETELINKEDSHAPE - deleting " + _UI.selectedlinkedshape);
+		closeDialog();
+		var sls = getSelectedChar();
+		if(sls){
+			// find & delete all linked shape instances
+			//debug("----------------- starting to go through sls.usedin: " + sls.usedin);
+			for(var cui=0; cui<sls.usedin.length; cui++){
+				var tc = _GP.fontchars[sls.usedin[cui]].charshapes;
+				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedCharShapes() " + tc.length);
+				for(var sl=0; sl<tc.length; sl++){
+					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.selectedlinkedshape);
+					if(tc[sl].link === _UI.selectedlinkedshape){
+						//debug("----------------- they are =, deleting index " + sl + " from array.");
+						//debug("----------------- (befor): " + tc);
+						tc.splice(sl, 1);
+						//debug("----------------- (after): " + tc);
+					}
+				}
+			}
+
+			// delete linkedshape and switch selection
+			delete _GP.linkedshapes[_UI.selectedlinkedshape];
+			_UI.selectedlinkedshape = getFirstID(_GP.linkedshapes);
+			_UI.selectedshape = _UI.selectedlinkedshape;
+			//debug("DELETELINKEDSHAPE - delete complete, new selectedlinkedshape = " + selectedlinkedshape);
+
+			navigate();
+		}
+	}
+
+	function pasteLinkedShape(){
+		if(_UI.clipboardshape){
+			_GP.linkedshapes[_UI.selectedlinkedshape].shape = _UI.clipboardshape;
+		}
+	}
+
+	function showAddSSToCharDialog(msg){
+		var content = "<h1>Link to Character</h1><table style='width:900px'><tr><td>";
+		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.selectedlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.selectedlinkedshape].shape.name + "' being used.<br><br>";
+		content += "Select the character you would like to link to this linked shape:<br><br></td></tr>";
+		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
+		content += makeGenericCharChooserContent("insertLinkedShapeToChar", true);
+		content += "</div></td></tr>";
+		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
+		openDialog(content);
+	}
+
+	function insertLinkedShapeToChar(chid){
+		insertLinkedShape(_UI.selectedlinkedshape, chid);
+		history_put("Insert Linked Shape to Character");
+		closeDialog();
+		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.selectedlinkedshape].shape.name + "' was successfully inserted into character " + getCharName(chid) + ".<br><br>");
+	}
 // end of file

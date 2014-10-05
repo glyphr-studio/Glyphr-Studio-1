@@ -8,7 +8,7 @@
 
 		// debug("LOADING PAGE >> ligatures");
 
-		getEditDocument().getElementById("mainwrapper").innerHTML = charedit_content();
+		getEditDocument().getElementById("mainwrapper").innerHTML = editPage_Content();
 		setupEditCanvas();
 		initEventHandlers();
 

@@ -7,12 +7,19 @@
 	function LinkedShape(oa){
 		this.objtype = 'linkedshape';
 
-		this.shape = (oa && oa.shape)? new Shape(oa.shape) : new Shape({'name':'Linked Shape'});
+		// this.shape = (oa && oa.shape)? new Shape(oa.shape) : new Shape({'name':'Linked Shape'});
+		this.shape = (oa && oa.shape)? new Shape(oa.shape) : false;
 		this.usedin = oa.usedin || [];
 	}
 
 	LinkedShape.prototype.drawShapeToArea = function(ctx, view) {
-		return this.shape.drawShapeToArea(ctx, view);
+		if(this.shape) return this.shape.drawShapeToArea(ctx, view);
+		else return;
+	};
+
+	LinkedShape.prototype.drawShape_Single = function(ctx) {
+		if(this.shape) return this.shape.drawShape_Single(ctx);
+		else return;
 	};
 
 
@@ -50,7 +57,7 @@
 
 //	Insert Linked Shape
 	function insertLinkedShapeDialog(){
-		if(aalength(_GP.linkedshapes)>0){
+		if(getLength(_GP.linkedshapes)>0){
 			var content = '<h1>Add Linked Shape</h1>Choose a Linked Shape to insert as a layer in this character:<br><br>';
 			content += makeLinkedShapeThumbs();
 			content += '<div style="display:block;"><button onclick="closeDialog();">cancel</button></div>';
@@ -126,7 +133,7 @@
 		//debug("REMOVEFROMUSEDIN - lsid/charid " + lsid + "/" + charid);
 		var uia = _GP.linkedshapes[lsid].usedin;
 		var charindex = uia.indexOf(''+charid);
-		if(charindex != -1){
+		if(charindex !== -1){
 			uia.splice(charindex, 1);
 		}
 
@@ -150,7 +157,7 @@
 	}
 
 	function goToEditLinkedShape(lsid){
-		_UI.shownlinkedshape = lsid;
+		_UI.selectedlinkedshape = lsid;
 		_UI.navhere = 'linked shapes';
 		navigate();
 	}
@@ -158,9 +165,10 @@
 	function clickSelectLinkedShape(x,y){
 		//debug('CLICKSELECTLinkedShape() - checking x:' + x + ' y:' + y);
 
-		if(_GP.linkedshapes[_UI.shownlinkedshape].shape.isHere(x,y)){
-			_UI.selectedshape = _UI.shownlinkedshape;
-			//debug('CLICKSELECTLinkedShape() - selecting shape ' + _UI.shownlinkedshape);
+		var sls = getSelectedChar();
+		if(sls.shape && sls.shape.isHere(x,y)){
+			_UI.selectedshape = _UI.selectedlinkedshape;
+			//debug('CLICKSELECTLinkedShape() - selecting shape ' + _UI.selectedlinkedshape);
 
 			_UI.navprimaryhere = 'npAttributes';
 			return true;

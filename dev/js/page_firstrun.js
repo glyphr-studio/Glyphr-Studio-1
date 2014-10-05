@@ -269,7 +269,7 @@
 		getChar("0x0020", true).charwidth = _GP.projectsettings.upm/2;
 
 		_GP.linkedshapes = {};
-		_GP.linkedshapes.ls0 = new LinkedShape({"shape": new Shape({})});
+		// _GP.linkedshapes.ls0 = new LinkedShape({"shape": new Shape({})});
 
 		finalizeGlyphrProject();
 		//navigate();
@@ -289,7 +289,7 @@
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
 		_UI.selectedchar = getFirstCharID();
-		_UI.shownlinkedshape = getFirstID(_GP.linkedshapes);
+		_UI.selectedlinkedshape = getFirstID(_GP.linkedshapes);
 		_UI.selectedkern = getFirstID(_GP.kerning);
 
 		resetThumbView();
