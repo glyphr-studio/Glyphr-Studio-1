@@ -76,13 +76,15 @@
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
 			if(sc){
 				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-				content += (sc.charhtml || sc.shape.name || '[no shape outline yet]');
+				content += (sc.charname || sc.charhtml || sc.shape.name || '[no shape outline yet]');
 			}
 			content += "</h1>";
 		}
 		// debug(' makePanelSuperTitle - returning\n' + content + '\n');
 		return content;
 	}
+
+
 
 
 //-------------------

@@ -485,6 +485,7 @@
 		border:1px solid white;
 		display: block;
 		clear:both;
+		cursor: pointer;
 	}
 
 	.charselectbuttonsel,

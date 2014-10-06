@@ -52,8 +52,8 @@
 		// Unicode, Hex, or character
 		// and returns an array of padded hex values
 
-		debug('\n parseUnicodeInput - START');
-		debug('\t passed ' + str);
+		// debug('\n parseUnicodeInput - START');
+		// debug('\t passed ' + str);
 		if(!str) return false;
 		
 		var entries = [];
@@ -76,13 +76,13 @@
 			if(te !== ''){
 				while(te.length < 4) te = '0'+te;
 				te = ('0x'+te.toUpperCase());
-				debug('\t parsed ' + e + ' as ' + te);
+				// debug('\t parsed ' + e + ' as ' + te);
 				results.push(te);
 			}
 		}
 
-		debug('\t returning ' + JSON.stringify(results));
-		debug('parseUnicodeInput - END\n');
+		// debug('\t returning ' + JSON.stringify(results));
+		// debug('parseUnicodeInput - END\n');
 		return results;
 	}
 

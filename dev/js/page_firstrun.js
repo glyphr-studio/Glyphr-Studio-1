@@ -250,10 +250,10 @@
 
 	function newGlyphrProject(){
 		var fn;
-		if(document.getElementById("newprojectname") && document.getElementById("newprojectname").value){
-			fn = document.getElementById("newprojectname").value;
+		if(document.getElementById('newprojectname') && document.getElementById('newprojectname').value){
+			fn = document.getElementById('newprojectname').value;
 		} else {
-			fn = "My Font";
+			fn = 'My Font';
 		}
 
 		_GP = new GlyphrProject();
@@ -264,12 +264,9 @@
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;
 
-		_GP.fontchars = {};
-		getChar("0x0020", true).isautowide = false;
-		getChar("0x0020", true).charwidth = _GP.projectsettings.upm/2;
-
-		_GP.linkedshapes = {};
-		// _GP.linkedshapes.ls0 = new LinkedShape({"shape": new Shape({})});
+		getChar('0x0020', true).isautowide = false;
+		getChar('0x0020', true).charwidth = _GP.projectsettings.upm/2;
+		getChar('0x0041', true);
 
 		finalizeGlyphrProject();
 		//navigate();

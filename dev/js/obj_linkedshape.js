@@ -57,9 +57,10 @@
 
 //	Insert Linked Shape
 	function insertLinkedShapeDialog(){
-		if(getLength(_GP.linkedshapes)>0){
+		var thumbs = makeLinkedShapeThumbs();
+		if(thumbs){
 			var content = '<h1>Add Linked Shape</h1>Choose a Linked Shape to insert as a layer in this character:<br><br>';
-			content += makeLinkedShapeThumbs();
+			content += thumbs;
 			content += '<div style="display:block;"><button onclick="closeDialog();">cancel</button></div>';
 			openDialog(content);
 		} else {
@@ -103,19 +104,25 @@
 	}
 
 	function makeLinkedShapeThumbs(){
-		var re = '<div class="ssthumbcontainer">';
+		var re = '';
 		var tochar = getSelectedCharID();
 		var ls = _GP.linkedshapes;
+		var tls;
+
 		for(var lsid in ls){if(ls.hasOwnProperty(lsid)){
-			re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-			re += '<div class="charselectthumb" onclick="insertLinkedShape(\''+lsid+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
-			re += getChar(lsid).shape.makeSVG();
-			re += '</div></td></tr><tr><td>';
-			re += getCharName(lsid);
-			re += '</td></tr></table>';
-			//debug('makeLinkedShapeThumbs - created canvas thumb'+lsid);
+			tls = getChar(lsid);
+			if(tls.shape){
+				re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
+				re += '<div class="charselectthumb" onclick="insertLinkedShape(\''+lsid+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
+				re += getChar(lsid).shape.makeSVG();
+				re += '</div></td></tr><tr><td>';
+				re += getCharName(lsid);
+				re += '</td></tr></table>';
+				//debug('makeLinkedShapeThumbs - created canvas thumb'+lsid);
+			}
 		}}
-		re += '</div>';
+
+		if (re !== '') re = '<div class="ssthumbcontainer">'+re+'</div>';
 		return re;
 	}
 

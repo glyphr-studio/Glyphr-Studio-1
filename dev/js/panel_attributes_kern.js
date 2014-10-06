@@ -11,11 +11,11 @@
 		content += '</div>';
 
 		content += '<div class="panel_section">';
-		var rows = 'No kern pairs exist yet.  Press the "add new kern pair" button below to get started.';
+		var rows = '';
 		for(var k in _GP.kerning){ if(_GP.kerning.hasOwnProperty(k)){
 			rows += makeOneKernPairRow(_GP.kerning[k], k);
 		}}
-		content += rows;
+		content += rows || 'No kern pairs exist yet.  Press the "add new kern pair" button below to get started.';
 		content += '</div>';
 
 		content += '<div class="panel_section">';
