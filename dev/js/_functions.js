@@ -99,14 +99,6 @@
 		}
 	}
 
-	/*
-	function stack(a){
-		if(_GP.projectsettings.debug){
-			console.log(Date.now()+"\t%c::function: " + a.callee.name + "("+a.length+")", "color:rgb(0,100,0)");
-		}
-	}
-	*/
-
 	function json(obj, raw) {
 		if(raw) return JSON.stringify(obj);
 		else return JSON.stringify(obj, undefined, '\t').replace(/\n/g, '\r\n');

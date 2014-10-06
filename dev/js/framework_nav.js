@@ -291,6 +291,7 @@
 	function makePanel_NavTabs(){
 		var navarr = [];
 		navarr.push('npNav');
+		var wi = isWorkItemSelected();
 
 		if(_UI.navprimaryhere !== 'npNav'){
 			switch(_UI.navhere){
@@ -304,23 +305,23 @@
 
 				case 'linked shapes':
 				navarr.push('npChooser');
-				navarr.push('npAttributes');
-				navarr.push('npHistory');
-				navarr.push('npGuides');
+				if(wi) navarr.push('npAttributes');
+				if(wi) navarr.push('npHistory');
+				if(wi) navarr.push('npGuides');
 				break;
 
 				case 'ligatures':
 				navarr.push('npChooser');
-				navarr.push('npLayers');
-				navarr.push('npAttributes');
-				navarr.push('npHistory');
-				navarr.push('npGuides');
+				if(wi) navarr.push('npLayers');
+				if(wi) navarr.push('npAttributes');
+				if(wi) navarr.push('npHistory');
+				if(wi) navarr.push('npGuides');
 				break;
 
 				case 'kerning':
 				navarr.push('npAttributes');
-				navarr.push('npHistory');
-				navarr.push('npGuides');
+				if(wi) navarr.push('npHistory');
+				if(wi) navarr.push('npGuides');
 				break;
 
 				case 'test drive':

@@ -228,6 +228,8 @@
 // LINKED SHAPE Actions
 //-------------------
 	function linkedShapeActions(){
+		if(!getSelectedChar()) return '';
+		
 		var s = ss("Update Actions");
 
 		var content = "<div class='panel_section'><h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";

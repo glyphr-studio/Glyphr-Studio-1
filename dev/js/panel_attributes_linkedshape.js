@@ -4,21 +4,15 @@
 //	LINKED SHAPE ATTRIBUTES
 //	---------------------------------
 	function linkedShapeCharDetails(){
-		var con = '<div class="panel_section">';
-		var sls = getSelectedChar();
-		if(sls){
-			con += '<h3>characters that use this linked shape</h3>';
-			if(sls.usedin.length > 0){
-				con += makeUsedInThumbs();
-			} else {
-				con += '<br><i>this linked shape is not currently being used by any characters. ';
-				con += '<a href="#" onclick="showAddSSToCharDialog();">add this linked shape to a character now</a>.</i>';
-			}
+		var con = '';
+
+		con += '<h3>characters that use this linked shape</h3>';
+		if(getSelectedChar().usedin.length > 0){
+			con += makeUsedInThumbs();
 		} else {
-			con += 'No linked shapes exist yet.  Press the "add new linked shape" button below to get started.<br><br>';
-			con += '<button onclick="addLinkedShape();history_put(\'Create New Linked Shape\');navigate();">add new linked shape</button><br>';
+			con += '<br><i>this linked shape is not currently being used by any characters. ';
+			con += '<a href="#" onclick="showAddSSToCharDialog();">add this linked shape to a character now</a>.</i>';
 		}
-		con += '</div>';
 
 		//debug("LINKEDSHAPECHARDETAILS - returning html:\n" + con);
 		return con;

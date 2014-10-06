@@ -19,10 +19,10 @@
 		content += '</div>';
 
 		content += '<div class="panel_section">';
-		content += '<table class="detail">';
 
 		//debug("UPDATEDETAILS - _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
 		if (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
+			content += '<table class="detail">';
 			//debug("UPDATEDETAILS - detected navhere = character edit");
 			if(s && s.link){
 				// linked shape selected
@@ -38,19 +38,21 @@
 				//debug("UPDATEDETAILS: no shape selected");
 				content += charDetails();
 			}
+			content += '</table><br>';
 
 		} else if (_UI.navhere === 'linked shapes'){
 			//debug("UPDATEDETAILS - detected navhere = linked shapes");
 			if (s){
+				content += '<table class="detail">';
 				content += shapeDetails(s);
 				if(ispointsel){
 					content += pointDetails(s);
 				}
+			content += '</table><br>';
 			}
 			content += linkedShapeCharDetails();
 		}
 
-		content += '</table><br>';
 		content += '</div>';
 
 		return content;
