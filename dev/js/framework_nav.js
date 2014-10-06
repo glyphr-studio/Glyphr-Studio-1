@@ -364,13 +364,13 @@
 				nfill = _UI.colors.gray_90;
 				nhover = 'white';
 			}
-			newsub += '<div class="navarea_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
+			newsub += '<div class="panel_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
 			newsub += '</button></div>';
 		}
 
 		var savecolor = (onNoNavPage()? _UI.colors.offwhite : _UI.colors.gray_90);
-		newsub += '<div class="navarea_section"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
+		newsub += '<div class="panel_section"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
 		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
 		newsub += '</button></div>';
 
@@ -415,7 +415,7 @@
 		];
 
 		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
-		newsub += '<div class="navarea_section">';
+		newsub += '<div class="panel_section">';
 		
 		var iconname, bc;
 

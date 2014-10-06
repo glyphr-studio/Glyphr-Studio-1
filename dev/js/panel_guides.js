@@ -11,7 +11,7 @@
 
 		content += '<h1 class="paneltitle">guides</h1>';
 
-		content += '</div><div class="navarea_section">';
+		content += '</div><div class="panel_section">';
 
 		var system = '';
 		var user = '';

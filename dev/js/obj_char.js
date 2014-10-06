@@ -461,10 +461,11 @@
 	}
 
 	function updateCurrentCharWidth() {
+		var sc = getSelectedChar();
 		if(_UI.navhere === 'character edit'){
-			getSelectedChar().calcCharMaxes();
-		} else if (_UI.navhere === 'linked shapes' && _GP.linkedshapes[_UI.selectedlinkedshape]) {
-			var lsarr = _GP.linkedshapes[_UI.selectedlinkedshape].usedin;
+			sc.calcCharMaxes();
+		} else if (_UI.navhere === 'linked shapes' && sc) {
+			var lsarr = sc.usedin;
 			if(lsarr) for(var c=0; c<lsarr.length; c++) getChar(lsarr[c]).calcCharMaxes();
 		}
 	}

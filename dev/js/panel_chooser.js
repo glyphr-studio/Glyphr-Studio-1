@@ -10,7 +10,7 @@
 		content += '<h1 class="paneltitle">characters</h1>';
 		content += '</div>';
 
-		content += '<div class="navarea_section">';
+		content += '<div class="panel_section">';
 		content += makeGenericCharChooserContent(fname);
 		content += '</div>';
 
@@ -122,7 +122,7 @@
 		content += '<h1 class="paneltitle">linked shapes</h1>';
 		content += '</div>';
 
-		content += '<div class="navarea_section">';
+		content += '<div class="panel_section">';
 		content += '<table class="layertable">';
 		var layers = lslen? '' : '<tr><td>No linked shapes exist yet.  Press the "add new linked shape" button below to get started.</td></tr>';
 		for(var lsid in _GP.linkedshapes){ if(_GP.linkedshapes.hasOwnProperty(lsid)){
@@ -133,7 +133,7 @@
 		content += '</table>';
 		content += '</div>';
 
-		content += '<div class="navarea_section">';
+		content += '<div class="panel_section">';
 		content += '<button onclick="addLinkedShape();history_put(\'Create New Linked Shape\');navigate();">add new linked shape</button><br>';
 		if(lslen) content += '<button onclick="deleteLinkedShapeConfirm();">delete linked shape</button><br>';
 		content += '</div>';
@@ -185,11 +185,11 @@
 		content += '<h1 class="paneltitle">characters</h1>';
 		content += '</div>';
 
-		content += '<div class="navarea_section">';
+		content += '<div class="panel_section">';
 		content += makeGenericLigatureChooserContent(fname);
 		content += '</div>';
 
-		content += '<div class="navarea_section">';
+		content += '<div class="panel_section">';
 		content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
 		if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
 		content += '</div>';

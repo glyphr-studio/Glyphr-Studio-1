@@ -6,7 +6,7 @@
 	function makePanel_Actions(){
 		var s = ss("Update Actions");
 		var pop = _UI.popout;
-		var content = "<div class='navarea_section'>";
+		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";
 
 		content += "<h1 class='paneltitle'>actions</h1>";
@@ -111,7 +111,7 @@
 
 		if(_UI.navhere === 'linked shapes'){
 			_UI.clipboardshape = {
-				's':_GP.linkedshapes[_UI.selectedlinkedshape].shape,
+				's':getSelectedChar().shape,
 				'c':_UI.selectedlinkedshape
 			};
 		} else if (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
@@ -230,7 +230,7 @@
 	function linkedShapeActions(){
 		var s = ss("Update Actions");
 
-		var content = "<div class='navarea_section'><h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
+		var content = "<div class='panel_section'><h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
 
 		var ls1actions = "<td><h3>linked shape</h3>";
 			if(s) ls1actions += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
@@ -287,7 +287,7 @@
 
 	function deleteLinkedShapeConfirm(){
 		var content = "<h1>Delete Linked Shape</h1>Are you sure you want to delete this linked shape?<br>";
-		var uia = _GP.linkedshapes[_UI.selectedlinkedshape].usedin;
+		var uia = getSelectedChar().usedin;
 		if(uia.length > 0){
 			content += "If you do, the linked shape instances will also be removed from the following characters:<br><br>";
 			for(var ssu=0; ssu<uia.length; ssu++){
@@ -336,13 +336,14 @@
 
 	function pasteLinkedShape(){
 		if(_UI.clipboardshape){
-			_GP.linkedshapes[_UI.selectedlinkedshape].shape = _UI.clipboardshape;
+			getSelectedChar().shape = _UI.clipboardshape;
 		}
 	}
 
 	function showAddSSToCharDialog(msg){
+		var sls = getSelectedChar();
 		var content = "<h1>Link to Character</h1><table style='width:900px'><tr><td>";
-		content += msg? msg : "There is currently " + _GP.linkedshapes[_UI.selectedlinkedshape].usedin.length + " instances of '" + _GP.linkedshapes[_UI.selectedlinkedshape].shape.name + "' being used.<br><br>";
+		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the character you would like to link to this linked shape:<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
 		content += makeGenericCharChooserContent("insertLinkedShapeToChar", true);
@@ -355,6 +356,6 @@
 		insertLinkedShape(_UI.selectedlinkedshape, chid);
 		history_put("Insert Linked Shape to Character");
 		closeDialog();
-		showAddSSToCharDialog("The LinkedShape '" + _GP.linkedshapes[_UI.selectedlinkedshape].shape.name + "' was successfully inserted into character " + getCharName(chid) + ".<br><br>");
+		showAddSSToCharDialog("The LinkedShape '" + getSelectedChar().shape.name + "' was successfully inserted into character " + getCharName(chid) + ".<br><br>");
 	}
 // end of file

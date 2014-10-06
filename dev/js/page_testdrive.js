@@ -28,9 +28,9 @@
 		content += '<h1 class="panelsupertitle">TEST DRIVE</h1>';
 		content += '<h1 class="paneltitle">controls</h1>';
 
-		content += '</div><div class="navarea_section">';
+		content += '</div><div class="panel_section">';
 		content += '<h2>options</h2><div>' + drawTDOptions() + '</div>';
-		content += '</div><div class="navarea_section">';
+		content += '</div><div class="panel_section">';
 		content += '<h2>sample text</h2><div>' + drawSampletextButtons() + '</div>';
 		content += '</td></tr></table></div>';
 

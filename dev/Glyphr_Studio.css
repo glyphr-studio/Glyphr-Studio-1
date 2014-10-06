@@ -158,7 +158,7 @@
 	button:hover,
 	button:focus {
 		text-align: center;
-		padding:4px 2px 5px 5px;
+		padding:4px 5px 5px 5px;
 		margin:1px;
 		cursor:pointer;
 		border: none;
@@ -253,16 +253,16 @@
 		overflow-x:hidden;
 	}
 
-	.navarea_section,
+	.panel_section,
 	.navarea_header {
 		clear:both;
 		width:380px;
 		padding:10px;
 	}
 
-	.navarea_section h1,
-	.navarea_section h2,
-	.navarea_section h3 {
+	.panel_section h1,
+	.panel_section h2,
+	.panel_section h3 {
 		color: rgb(0,63,95);
 		margin: 10px 0px 0px 0px;
 		padding-bottom: 0px;

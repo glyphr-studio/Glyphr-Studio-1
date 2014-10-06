@@ -13,7 +13,7 @@
 
 		var q = _UI.history[_UI.navhere].queue;
 
-		content += "</div><div class='navarea_section'>";
+		content += "</div><div class='panel_section'>";
 
 		//debug("MAKEPANEL_HISTORY - rolling out queue\n" + json(q));
 
