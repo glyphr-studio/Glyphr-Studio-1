@@ -324,12 +324,12 @@
 			content += "<tr>"+
 				"<td>x"+dimSplit()+"y</td>"+
 				"<td>"+
-					(issymmetric? "" : lockUI("ss().path.sp().H1.xlock"))+
-					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", (this.value), \"null\"); history_put(\"H1 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					lockUI("ss().path.sp().H1.xlock")+
+					"<input type='number' " + (tp.H1.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", (this.value), \"null\"); history_put(\"H1 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + round(tp.H1.x, 3) + "' >"+
 					dimSplit()+
-					(issymmetric? "" : lockUI("ss().path.sp().H1.ylock"))+
-					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", \"null\", (this.value)); history_put(\"H1 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					lockUI("ss().path.sp().H1.ylock")+
+					"<input type='number' " + (tp.H1.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H1\", \"null\", (this.value)); history_put(\"H1 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + round(tp.H1.y, 3) + "' >"+
 				"</td>"+
 			"</tr>";
@@ -347,12 +347,12 @@
 			content += "<tr>"+
 				"<td>x"+dimSplit()+"y</td>"+
 				"<td>"+
-					(issymmetric? "" : lockUI("ss().path.sp().H2.xlock"))+
-					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", (this.value), \"null\"); history_put(\"H2 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					lockUI("ss().path.sp().H2.xlock")+
+					"<input type='number' " + (tp.H2.xlock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", (this.value), \"null\"); history_put(\"H2 X Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + round(tp.H2.x, 3) + "' >"+
 					dimSplit()+
-					(issymmetric? "" : lockUI("ss().path.sp().H2.ylock"))+
-					"<input type='number' "+(issymmetric? "class='lockpad' " : " ") + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", \"null\", (this.value)); history_put(\"H2 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
+					lockUI("ss().path.sp().H2.ylock")+
+					"<input type='number' " + (tp.H2.ylock? "disabled='disabled'" : "onchange='ss().path.sp().setPathPointPosition(\"H2\", \"null\", (this.value)); history_put(\"H2 Y Position : \"+round(this.value)); redraw(\"pointDetails\");'")+
 					" value='" + round(tp.H2.y, 3) + "' >"+
 				"</td>"+
 			"</tr>";
