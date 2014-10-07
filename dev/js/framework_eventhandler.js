@@ -125,7 +125,8 @@
 				//debug('Tool_NewPath MOUSEDOWN - after new path is made.');
 
 				// make a new shape with the new path
-				var newshape = addShape(new Shape({'name': ('Path '+(getSelectedCharShapes().length+1)), 'path': newpath}));
+				var count = (_UI.navhere === 'linked shapes')? (getLength(_GP.linkedshapes)) : getSelectedCharShapes().length;
+				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
 				newshape.path.selectPathPoint(0);
 				//debug('Tool_NewPath MOUSEDOWN - end of firstpoint, new shape added with new path with single point.');
 
@@ -223,7 +224,7 @@
 				'ymin': cy_sy(_UI.eventhandlers.mousey)
 			};
 
-			var newshape = new Shape({'visible':false});
+			var newshape = new Shape({'visible':false, 'name':'...'});
 			newshape.path.maxes = _UI.eventhandlers.tempnewbasicshape;
 			newshape = addShape(newshape);
 
@@ -257,12 +258,13 @@
 			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
+				var count = (_UI.navhere === 'linked shapes')? (getLength(_GP.linkedshapes)) : getSelectedCharShapes().length;
 
 				if(_UI.selectedtool==='newrect'){
-					newshape.name = ('Rectangle ' + (getSelectedCharShapes().length));
+					newshape.name = ('Rectangle ' + count);
 					newshape.path = rectPathFromMaxes(tnbs);
 				} else {
-					newshape.name = ('Oval ' + (getSelectedCharShapes().length));
+					newshape.name = ('Oval ' + count);
 					newshape.path = ovalPathFromMaxes(tnbs);
 				}
 

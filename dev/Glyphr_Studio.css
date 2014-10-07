@@ -279,6 +279,7 @@
 
 	#navarea_panel a {
 		color:rgb(51, 56, 61);
+		text-decoration: underline;
 	}
 
 	.panelsupertitle {
