@@ -38,80 +38,80 @@
 		*/
 
 		var chars = ioSVG_getTags(font, 'glyph');
-		var tc, data, uni, cname, chtml, adv;
+		var tc, data, uni, cname, chtml, adv, isautowide;
 		var maxchar = 0;
 		var minchar = 0xffff;
 		var customcharrange = [];
 		var shapecounter = 0;
 		var newshapes = [];
 		var fc = {};
-
+		var fl = {};
+		
 		for(var c=0; c<chars.length; c++){
-			// One Char in the font
+			// One Char or Ligature in the font
 			tc = chars[c];
 			newshapes = [];
 			shapecounter = 0;
 
 			// Get the appropriate unicode decimal for this char
-			uni = tc.attributes.unicode;
-			debug('\t Char ' + c + ' starting unicode attribute: ' + uni);
+			uni = parseUnicodeInput(tc.attributes.unicode);
+			debug('\t GLYPH ' + c + ' starting unicode attribute: ' + JSON.stringify(uni));
 
-			if(uni){
-				if(uni.length > 3){
-					uni = uni.split(';')[0];
-				} else if (uni.length === 1){
-					uni = charToHex(uni);
-				} else {
-					uni = false;
-					console.warn('Unknown Unicode Value: ' + uni + ' - could not parse.');
+			if(uni.length === 0){
+				debug('\t !!! Can"t read a <GLYPH> with no Unicode ID !!!');
+				break;
+			}
+
+			/*
+			*
+			*	CHARACTER OR LIGATURE IMPORT
+			*
+			*/
+			debug('\t Importing Char');
+
+			// Import Path Data
+			data = tc.attributes.d;
+			// debug('\t Character has path data ' + data);
+			if(data){
+				// Compound Paths are treated as different Glyphr Shapes
+				data.replace(/Z/g,'z');
+				data = data.split('z');
+
+				for(var d=0; d<data.length; d++){
+					if(data[d].length){
+						newshapes.push(ioSVG_convertPathTag(data[d]));
+						shapecounter++;
+						newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
+					}
 				}
 			}
 
-			if(uni){
+			// Get Advance Width
+			isautowide = true;
+			adv = parseInt(tc.attributes['horiz-adv-x']);
+			if(adv){
+				if(!isNaN(adv) && adv > 0){
+					isautowide = false;
+					/*
+						GLYPHR charwidth !== horiz-adv-x
+					*/
+				}
+			} else adv = false;
+
+
+			if(uni.length === 1){
+				// It's a CHAR
 				// Get some range data
 				minchar = Math.min(minchar, uni);
 				maxchar = Math.max(maxchar, uni);
 				if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni);
-				uni = padHexString(uni);
-				debug('\t uni is ' + uni);
-				
-				// CASE ONE: a Glyph tag with just pathdata
-				data = tc.attributes.d;
-				// debug('\t Character has path data ' + data);
 
-				if(data){
-					// Compound Paths are treated as different Glyphr Shapes
-					data.replace(/Z/g,'z');
-					data = data.split('z');
+				fc[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 
-					for(var d=0; d<data.length; d++){
-						if(data[d].length){
-							newshapes.push(ioSVG_convertPathTag(data[d]));
-							shapecounter++;
-							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
-						}
-					}
-				}
-
-				// CASE TWO: a Glyph tag with child shape data
-				/*
-					stuff
-				*/
-
-
-				fc[uni] = new Char({'charshapes':newshapes, 'charhex':uni});
-
-				// specified advance width?
-				if(tc.attributes['horiz-adv-x']){
-					adv = parseInt(tc.attributes['horiz-adv-x']);
-					if(!isNaN(adv) && adv > 0){
-						fc[uni].isautowide = false;
-						/*
-							GLYPHR charwidth !== horiz-adv-x
-						*/
-						fc[uni].charwidth = adv;
-					}
-				}
+			} else {
+				// It's a LIGATURE
+				uni = uni.join('');
+				fl[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 			}
 		}
 
@@ -139,10 +139,91 @@
 		}
 
 
+		/*
+		*
+		*	KERN IMPORT
+		*
+		*/
+		var kerns = ioSVG_getTags(font, 'hkern');
+		var tk, tempgroup, reg, leftgroup, rightgroup, newid;
+		var fk = {};
+		for(var k=0; i<kerns.length; k++){
+			leftgroup = [];
+			rightgroup = [];
+			tk = kerns[k];
+
+			// Get members by name
+			leftgroup = getKernMembersByName(tk.attributes.g1, chars);
+			rightgroup = getKernMembersByName(tk.attributes.g2, chars);
+
+			// Get members by Unicode
+			leftgroup = leftgroup.concat(getKernMembersByUnicodeID(tk.attributes.u1, chars));
+			rightgroup = rightgroup.concat(getKernMembersByUnicodeID(tk.attributes.u2, chars));
+
+			newid = generateNewID(fk);
+			kernval = tk.attributes.k || 0;
+
+			fk[newid] = new HKern({'leftgroup':leftgroup, 'rightgroup':rightgroup, 'value':kernval});
+		}
+
+
+
+		/*
+		*
+		*	FINALIZE
+		*
+		*/
 		// Check to make sure certain stuff is there
 		// space has horiz-adv-x
 
 		_GP.fontchars = fc;
+		_GP.ligatures = fl;
+		_GP.kerning = fk;
+	}
+
+
+	function getKernMembersByName(names, chars) {
+		var re = [];
+		if(names){
+			names = names.split(',');
+
+			// Check all the character names
+			for(var n=0; n<names.length; n++){
+
+				// Check all the chars
+				for(var c=0; c<chars.length; c++){
+
+					// Push the match
+					if(names[n] === chars[c].attributes.glyph-name){
+						re.push(parseUnicodeInput(chars[c].attributes.unicode));
+					}
+				}
+			}
+		}
+
+		return re;
+	}
+
+	function getKernMembersByUnicodeID(ids, chars) {
+		var re = [];
+		if(ids){
+			ids = ids.split(',');
+
+			// Check all the IDs
+			for(var i=0; i<ids.length; i++){
+			
+				// Check all the chars
+				for(var c=0; c<chars.length; c++){
+
+					// Push the match
+					if(ids[i] === chars[c].attributes.unicode){
+						re.push(parseUnicodeInput(chars[c].attributes.unicode));
+					}
+				}
+			}
+		}
+
+		return re;
 	}
 
 // end of file
