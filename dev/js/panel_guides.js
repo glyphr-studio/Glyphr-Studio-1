@@ -6,11 +6,8 @@
 	function makePanel_Guides(){
 
 		var content = '<div class="navarea_header">';
-
 		content += makePanelSuperTitle();
-
 		content += '<h1 class="paneltitle">guides</h1>';
-
 		content += '</div><div class="panel_section">';
 
 		var system = '';
@@ -28,7 +25,7 @@
 			}
 		}}
 
-		content += '<h3>options</h3>';
+		content += '<h3 style="margin-top:0px; margin-bottom:10px;">options</h3>';
 		content += '<table style="wdith:100%;">'+
 			'<tr><td style="width:20px">' + checkUI('_UI.showgrid', true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
@@ -41,9 +38,9 @@
 			'</table>';
 
 		if(_UI.navhere !== 'kerning'){
-			content += '<br><br><h3>system guides</h3>';
+			content += '<br><h3 style=" margin-bottom:10px;">system guides</h3>';
 			content += system;
-			content += '<br><br><h3>custom guides</h3>';
+			content += '<br><h3 style=" margin-bottom:10px;">custom guides</h3>';
 			content += user;
 			content += '<br><button onclick="newGuide();">new guide</button>';
 		}

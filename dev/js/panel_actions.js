@@ -6,10 +6,11 @@
 	function makePanel_Actions(){
 		var s = ss("Update Actions");
 		var pop = _UI.popout;
+		
 		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";
-
 		content += "<h1 class='paneltitle'>actions</h1>";
+		if(pop) content += "</div><div class='panel_section'>";
 
 		// Generate Sections
 		if(_UI.navhere==='linked shapes') return linkedShapeActions();

@@ -4,12 +4,12 @@
 // Character Chooser
 //-------------------
 	function makePanel_CharChooser(fname){
-
 		var content = '<div class="navarea_header">';
+		
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">characters</h1>';
 		content += '</div>';
-
+		
 		content += '<div class="panel_section">';
 		content += makeGenericCharChooserContent(fname);
 		content += '</div>';
@@ -179,9 +179,7 @@
 	function makePanel_LigatureChooser(fname){
 
 		var content = '<div class="navarea_header">';
-
 		content += makePanelSuperTitle();
-
 		content += '<h1 class="paneltitle">characters</h1>';
 		content += '</div>';
 

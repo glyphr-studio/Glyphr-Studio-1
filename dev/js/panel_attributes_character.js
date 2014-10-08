@@ -6,7 +6,7 @@
 
 	function makePanel_CharAttributes(){
 		//debug("UPDATECHAREDITDETAILS");
-
+		var sc = getSelectedChar();
 		var s = ss('update details');
 
 		var ispointsel = false;
@@ -17,6 +17,7 @@
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">attributes</h1>';
 		content += '</div>';
+		if(!sc) return content;
 
 		content += '<div class="panel_section">';
 
@@ -65,7 +66,7 @@
 		var content = "";
 		var numshapes = getSelectedCharShapes().length;
 
-		content += "<tr><td colspan=2><h3> bulk-transform character shapes </h3></td></tr>";
+		content += "<tr><td colspan=2><h3 style='margin-top:0px;'> bulk-transform character shapes </h3></td></tr>";
 
 		if(numshapes > 1){
 			content += "<tr>"+

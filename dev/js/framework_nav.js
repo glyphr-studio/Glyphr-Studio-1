@@ -84,13 +84,15 @@
 	function makeLayout_PopOut(){
 		//debug('MAKELAYOUT_POPOUT - start');
 		var onls = _UI.navhere === 'linked shapes';
+		var onkern = _UI.navhere === 'kerning';
+
 		var pol = '<table class="popout_table"><tr>';
 		pol += '<td id="popout_pagenav"></td>';
-		pol += '<td id="popout_charchooser"></td>';
+		if(!onkern) pol += '<td id="popout_charchooser"></td>';
 		pol += '<td id="popout_guides"></td>';
 		pol += '<td id="popout_history"></td>';
-		if(!onls) pol += '<td id="popout_layerchooser"></td>';
-		pol += '<td id="popout_actions"></td>';
+		if(!onls && !onkern) pol += '<td id="popout_layerchooser"></td>';
+		if(!onkern) pol += '<td id="popout_actions"></td>';
 		pol += '<td id="popout_attributes"></td>';
 		pol += '</tr></table>';
 
@@ -105,23 +107,26 @@
 		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		var onls = _UI.navhere === 'linked shapes';
 		var once = _UI.navhere === 'character edit';
+		var onlig = _UI.navhere === 'ligatures';
 		var ontd = _UI.navhere === 'test drive';
+		var onkern = _UI.navhere === 'kerning';
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
 		if(once) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
-		
-		if(onls) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
+		else if(onls) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
+		else if (onlig) document.getElementById('popout_charchooser').innerHTML = makePanel_LigatureChooser();
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 
-		if(!onls) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
+		if(!onls && !onkern) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 
-		document.getElementById('popout_actions').innerHTML = makePanel_Actions();
+		if(!onkern)document.getElementById('popout_actions').innerHTML = makePanel_Actions();
 
 		document.getElementById('popout_guides').innerHTML = makePanel_Guides();
 
 		if(ontd) document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
+		else if (onkern) document.getElementById('popout_attributes').innerHTML = makePanel_KerningAttributes();
 		else document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
 		
 		updateSaveIcon();
@@ -184,7 +189,6 @@
 		var nh = _UI.navhere;
 		return ( nh==='character edit' ||
 					nh==='linked shapes' ||
-					nh==='test drive' ||
 					nh==='kerning' ||
 					nh==='ligatures');
 	}
