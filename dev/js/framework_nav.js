@@ -10,7 +10,7 @@
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
 		} else if (_UI.popout){
-			if(_UI.navhere === 'character edit'){
+			if(onCanvasEditPage()){
 				makeLayout_PopOut();
 			} else {
 				popIn();
@@ -83,13 +83,13 @@
 
 	function makeLayout_PopOut(){
 		//debug('MAKELAYOUT_POPOUT - start');
-
+		var onls = _UI.navhere === 'linked shapes';
 		var pol = '<table class="popout_table"><tr>';
 		pol += '<td id="popout_pagenav"></td>';
 		pol += '<td id="popout_charchooser"></td>';
 		pol += '<td id="popout_guides"></td>';
 		pol += '<td id="popout_history"></td>';
-		pol += '<td id="popout_layerchooser"></td>';
+		if(!onls) pol += '<td id="popout_layerchooser"></td>';
 		pol += '<td id="popout_actions"></td>';
 		pol += '<td id="popout_attributes"></td>';
 		pol += '</tr></table>';
@@ -103,29 +103,27 @@
 	function make_NavPanels_PopOut(){
 		//debug('make_NavPanels_PopOut');
 		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
+		var onls = _UI.navhere === 'linked shapes';
+		var once = _UI.navhere === 'character edit';
+		var ontd = _UI.navhere === 'test drive';
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(_UI.navhere === 'character edit') {
-			document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
-		}
-		if(_UI.navhere === 'linked shapes') {
-			document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
-		}
+		if(once) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
+		
+		if(onls) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
+
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 
-		document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
+		if(!onls) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 
 		document.getElementById('popout_actions').innerHTML = makePanel_Actions();
 
 		document.getElementById('popout_guides').innerHTML = makePanel_Guides();
 
-		if(_UI.navhere === 'test drive'){
-			document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
-		} else {
-			document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
-		}
-
+		if(ontd) document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
+		else document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
+		
 		updateSaveIcon();
 	}
 

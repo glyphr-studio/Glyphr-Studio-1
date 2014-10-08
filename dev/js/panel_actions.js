@@ -228,43 +228,51 @@
 // LINKED SHAPE Actions
 //-------------------
 	function linkedShapeActions(){
-		if(!getSelectedChar()) return '';
-		
-		var s = ss("Update Actions");
+		var pop = _UI.popout;
+		var content = '<div class="panel_section">';
+		if(pop) content = '<div class="navarea_header">';
+		content += '<h1 class="paneltitle">actions</h1>';
+		if(!getSelectedChar()) return content + '</div>';
+		if(pop) content += '</div><div class="panel_section">';
 
-		var content = "<div class='panel_section'><h1 class='paneltitle'>actions</h1><table class='actionsgrid'><tr>";
+		var s = ss('Update Actions');
 
-		var ls1actions = "<td><h3>linked shape</h3>";
+		var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">linked shape</h3>";
 			if(s) ls1actions += "<button onclick='showAddSSToCharDialog();'>link to character</button><br>";
 			ls1actions += "<button onclick='addLinkedShape();history_put(\"Create New Linked Shape\");navigate();'>create new</button><br>";
 			if(s) ls1actions += "<button onclick='deleteLinkedShapeConfirm();' class='"+(getLength(_GP.linkedshapes)>1? "": "buttondis")+"'>delete</button><br>";
-			ls1actions += "</td>";
 
-		var	ls2actions = "<td><h3>&nbsp;</h3>";
-			ls2actions += "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
+		var	ls2actions = "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
 			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
 			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
 			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
-			ls2actions += "</td>";
 
-		var pointactions = "<td><h3>path point</h3>";
+		var pointactions = "<h3>path point</h3>";
 			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'>insert</button><br>";
 			pointactions += "<button onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatelinkedshapeactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
 			pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'>reset handles</button><br>";
-			pointactions += "</td>";
 
 
 		// Put it all together
+		content += '<table class="actionsgrid"><tr>';
+		content += '<td>';
 		content += ls1actions;
-		if(s) content += ls2actions;
+		if(s){
+			if(pop) content += ls2actions;
+			else content += '</td><td><h3>&nbsp;</h3>'+ls2actions+'</td>';
+		}
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(_UI.selectedtool !== "pathedit") ispointsel = false;
-		if(ispointsel) {content += pointactions; }
-		else { content += "<td><h3>&nbsp;</h3></td>"; }
+		if(ispointsel) {
+			if(pop) content += pointactions; 
+			else content += '<td>'+pointactions+'</td>';
+		}
+		else { if(!pop) content += "<td><h3>&nbsp;</h3></td>"; }
 
-		content += "</tr></table></div>";
+		content += "</tr></table>";
+		content += "</div>";
 		return content;
 	}
 

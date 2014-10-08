@@ -5,9 +5,11 @@
 //	---------------------------------
 	function linkedShapeCharDetails(){
 		var con = '';
+		var sls = getSelectedChar();
+		if(!sls) return '';
 
-		con += '<h3>characters that use this linked shape</h3>';
-		if(getSelectedChar().usedin.length > 0){
+		con += '<h3'+((sls.shape)? '' : ' style="margin-top:0px;"')+'>characters that use this linked shape</h3>';
+		if(sls.usedin.length > 0){
 			con += makeUsedInThumbs();
 		} else {
 			con += '<br><i>this linked shape is not currently being used by any characters. ';
