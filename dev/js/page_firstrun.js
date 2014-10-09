@@ -72,6 +72,8 @@
 							con += 'The &lt;hkern&gt; element with the following attributes is causing issues.<br>';
 							con += '<textarea style="width:500px; height:200px;">'+json(re.kern.attributes)+'</textarea>';
 						}
+
+						con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';
 						openDialog(con);
 					}
 				} else if(fname === 'txt') {
@@ -79,6 +81,7 @@
 					navigate();
 				} else {
 					con = '<h1>oops</h1>Could not read file type with suffix ' + fname;
+					con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';
 					openDialog(con);
 				}
 
