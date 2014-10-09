@@ -66,11 +66,11 @@
 						con = '<h1>oops</h1>Looks like there was a SVG import error.<br><br>';
 
 						if(re.char){
-							con += 'The &lt;glyph&gt; element with the following attributes is causing issues.<br>';
-							con += '<textarea style="width:500px; height:200px;">'+json(re.kern.attributes)+'</textarea>';
+							con += 'This &lt;glyph&gt; element seems to be causing issues:<br>';
+							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.char.attributes)+'</textarea>';
 						} else if (re.kern){
-							con += 'The &lt;hkern&gt; element with the following attributes is causing issues.<br>';
-							con += '<textarea style="width:500px; height:200px;">'+json(re.kern.attributes)+'</textarea>';
+							con += 'This &lt;hkern&gt; element seems to be causing issues:<br>';
+							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.kern.attributes)+'</textarea>';
 						}
 
 						con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';

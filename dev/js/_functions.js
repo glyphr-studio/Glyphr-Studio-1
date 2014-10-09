@@ -103,7 +103,11 @@
 
 	function json(obj, raw) {
 		if(raw) return JSON.stringify(obj);
-		else return JSON.stringify(obj, undefined, '\t').replace(/\n/g, '\r\n');
+		else {
+			var j = JSON.stringify(obj, undefined, '\t');
+			if(j) return j.replace(/\n/g, '\r\n');
+			else return '';
+		}
 	}
 
 
@@ -143,6 +147,7 @@
 		var msgbox = document.getElementById('errormessagebox');
 		msgcon.innerHTML = msg;
 		msgbox.style.display = 'block';
+		console.warn(msgcon);
 	}
 
 	function closeErrorMessageBox(){

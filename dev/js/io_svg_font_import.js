@@ -55,7 +55,8 @@
 			tc = chars[c];
 
 			// Get the appropriate unicode decimal for this char
-			// debug('\n\t GLYPH starting  unicode \t' + tc.attributes.unicode);
+			// debug('\n Char Import - START');
+			// debug('\t starting  unicode \t' + tc.attributes.unicode);
 			uni = parseUnicodeInput(tc.attributes.unicode);
 			// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
 
@@ -118,6 +119,8 @@
 					uni = uni.join('');
 					fl[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 				}
+
+				// debug(' Char Import - END\n');
 			}
 		} catch(e){
 			return {'char':tc, 'kern':false};
@@ -157,23 +160,35 @@
 		var tk, tempgroup, reg, leftgroup, rightgroup, newid;
 		var fk = {};
 		for(var k=0; k<kerns.length; k++){ try {
+			// debug('\n Kern Import - START ' + k + '/' + kerns.length);
 			leftgroup = [];
 			rightgroup = [];
 			tk = kerns[k];
+			// debug('\t Kern Attributes: ' + json(tk.attributes, true));
 
 			// Get members by name
-			leftgroup = getKernMembersByName(tk.attributes.g1, chars, _UI.charrange.latinextendedb.end);
-			rightgroup = getKernMembersByName(tk.attributes.g2, chars, _UI.charrange.latinextendedb.end);
+			leftgroup = getKernMembersByName(tk.attributes.g1, chars, leftgroup, _UI.charrange.latinextendedb.end);
+			rightgroup = getKernMembersByName(tk.attributes.g2, chars, rightgroup, _UI.charrange.latinextendedb.end);
+			
+			// debug('\t kern groups by name ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
 
 			// Get members by Unicode
-			leftgroup = leftgroup.concat(getKernMembersByUnicodeID(tk.attributes.u1, chars, _UI.charrange.latinextendedb.end));
-			rightgroup = rightgroup.concat(getKernMembersByUnicodeID(tk.attributes.u2, chars, _UI.charrange.latinextendedb.end));
+			leftgroup = getKernMembersByUnicodeID(tk.attributes.u1, chars, leftgroup, _UI.charrange.latinextendedb.end);
+			rightgroup = getKernMembersByUnicodeID(tk.attributes.u2, chars, rightgroup, _UI.charrange.latinextendedb.end);
 
-			if(leftgroup.length && rigthgroup.length){
+			// debug('\t kern groups parsed as ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
+
+			if(leftgroup.length && rightgroup.length){
 				newid = generateNewID(fk, 'kern');
 				kernval = tk.attributes.k || 0;
+				// debug('\t Making a kern pair with k = ' + kernval);
 				fk[newid] = new HKern({'leftgroup':leftgroup, 'rightgroup':rightgroup, 'value':kernval});
+				// debug('\t Made the new kern successfully.');
+			} else {
+				// debug('\t Kern ' + json(tk.attributes, true) + ' returned an empty group.');
 			}
+
+			// debug(' Kern Import - END\n');
 
 		} catch(e) {
 			return {'char':false, 'kern':tk};
@@ -201,9 +216,8 @@
 	}
 
 
-	function getKernMembersByName(names, chars, limit) {
+	function getKernMembersByName(names, chars, arr, limit) {
 		limit = limit || 0xFFFF;
-		var re = [];
 		var uni;
 		if(names){
 			names = names.split(',');
@@ -218,19 +232,18 @@
 						// Push the match
 						if(names[n] === chars[c].attributes['glyph-name']){
 							uni = parseUnicodeInput(chars[c].attributes.unicode);
-							if(1*uni < limit) re.push(uni);
+							if(1*uni < limit) arr = arr.concat(uni);
 						}
 					}
 				}
 			}
 		}
 
-		return re;
+		return arr;
 	}
 
-	function getKernMembersByUnicodeID(ids, chars, limit) {
+	function getKernMembersByUnicodeID(ids, chars, arr, limit) {
 		limit = limit || 0xFFFF;
-		var re = [];
 		var uni;
 		if(ids){
 			ids = ids.split(',');
@@ -245,14 +258,14 @@
 						// Push the match
 						if(ids[i] === chars[c].attributes.unicode){
 							uni = parseUnicodeInput(chars[c].attributes.unicode);
-							if(1*uni < limit) re.push(uni);
+							if(1*uni < limit) arr = arr.concat(uni);
 						}
 					}
 				}
 			}
 		}
 
-		return re;
+		return arr;
 	}
 
 // end of file

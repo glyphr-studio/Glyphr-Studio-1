@@ -304,7 +304,8 @@
 	}
 
 	function ioSVG_isPathCommand(c){
-		if('MmLlCcSsZzHhVv'.indexOf(c) > -1) return c;
+		// if('MmLlCcSsZzHhVv'.indexOf(c) > -1) return c;
+		if('MmLlCcSsZzHhVvAaQqTt'.indexOf(c) > -1) return c;
 		return false;
 	}
 
