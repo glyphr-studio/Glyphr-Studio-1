@@ -185,7 +185,8 @@
 // File Savr
 //-------------------
 
-function saveTextFile(fname, fblob) {
+function saveTextFile(fname, json) {
+	var fblob = new Blob([json], {'type':'text/plain;charset=utf-8', 'endings':'native'});
 
 	try {
 		// IE

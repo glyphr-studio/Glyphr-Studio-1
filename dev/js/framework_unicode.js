@@ -4,10 +4,10 @@
 //	Conversion Functions
 //	--------------------
 	function decToHex(d) { var dr = Number(d).toString(16); while(dr.length < 4) { dr = '0'+dr; } return '0x'+dr.toUpperCase(); }
-	function padHexString (h) { h = (''+h).substr(2); while(h.length < 4) h = '0'+h; return '0x'+h.toUpperCase(); }
+
 	function decToHTML(d) { return hexToHTML(decToHex(d)); }
 
-	function charToHex(s) { 
+	function charToHex(s) {
 		var result = '';
 		for(var i=0; i<s.length; i++) result += decToHex(String(s).charCodeAt(i));
 		return result;
@@ -55,7 +55,7 @@
 		// debug('\n parseUnicodeInput - START');
 		// debug('\t passed ' + str);
 		if(!str) return false;
-		
+
 		var entries = [];
 		var results = [];
 
@@ -73,6 +73,7 @@
 		var te;
 		for(var e=0; e<entries.length; e++){
 			te = entries[e];
+			te = te.replace(/;/g, '');
 			if(te !== ''){
 				while(te.length < 4) te = '0'+te;
 				te = ('0x'+te.toUpperCase());
@@ -187,7 +188,7 @@
 			return 'CJK Unified Ideograph ' + ch.substr(2);
 		}
 
-		return re || false;
+		return re || '[name not found]';
 	}
 
 //	-----------------

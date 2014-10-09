@@ -25,18 +25,18 @@
 	function importOrCreateNew(){
 
 		var con = "<div class='newtile'>"+
-					"<h3>Load an existing Glyphr Project</h3>"+
-					"<div id='droptarget'>drop file here...</div>"+
+					"<h3>drag and drop to load a file</h3>"+
+					"<div id='droptarget'>Glyphr Project File (.txt)<br>SVG Font File (.svg)</div>"+
 				"</div>";
 		con += "<div class='newtile'>"+
 					"<h3>Start a new Glyphr Project</h3>"+
 					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 					"<button onclick='newGlyphrProject(); navigate();' class='buttonsel'>Start a new font from scratch</button>"+
 				"</div>";
-		con += "<div class='newtile'>"+
-					"<h3>Import SVG Font</h3>"+
-					"<button onclick='ioSVG_importSVGfont(_UI.samplesvgfont);' class='buttonsel'>Import SVG Font</button>"+
-				"</div>";
+		// con += "<div class='newtile'>"+
+		// 			"<h3>Import SVG Font</h3>"+
+		// 			"<button onclick='ioSVG_importSVGfont(_UI.samplesvgfont);' class='buttonsel'>Import SVG Font</button>"+
+		// 		"</div>";
 
 		return con;
 	}
@@ -53,15 +53,53 @@
 		// Closure to capture the file information.
 		reader.onload = (function() {
 			return function(e) {
-				//console.log(reader.result);
-				importGlyphrProjectFromText(reader.result);
-				navigate();
+				debug('\n reader.onload - START');
+				debug('\t filename: ' + f.name);
+				var fname = f.name.split('.');
+				fname = fname[fname.length-1].toLowerCase();
+				var con;
+
+				if(fname === 'svg') {
+					var re = ioSVG_importSVGfont(reader.result);
+					if(re === true) navigate();
+					else {
+						con = '<h1>oops</h1>Looks like there was a SVG import error.<br><br>';
+
+						if(re.char){
+							con += 'The &lt;glyph&gt; element with the following attributes is causing issues.<br>';
+							con += '<textarea style="width:500px; height:200px;">'+json(re.kern.attributes)+'</textarea>';
+						} else if (re.kern){
+							con += 'The &lt;hkern&gt; element with the following attributes is causing issues.<br>';
+							con += '<textarea style="width:500px; height:200px;">'+json(re.kern.attributes)+'</textarea>';
+						}
+						openDialog(con);
+					}
+				} else if(fname === 'txt') {
+					importGlyphrProjectFromText(reader.result);
+					navigate();
+				} else {
+					con = '<h1>oops</h1>Could not read file type with suffix ' + fname;
+					openDialog(con);
+				}
+
+				debug(' reader.onload - END\n');
 			};
 		})(f);
 
 		reader.readAsText(f);
 
 	}
+
+	function handleDragOver(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+
+
+//	-------------------------------
+//	IMPORT FUNCTIONS
+//	-------------------------------
 
 	function importGlyphrProjectFromText(textcontent){
 		// debug("IMPORTGLYPHRPROJECTFROMTEXT");
@@ -240,12 +278,6 @@
 		}
 
 		return template;
-	}
-
-	function handleDragOver(evt) {
-		evt.stopPropagation();
-		evt.preventDefault();
-		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 	}
 
 	function newGlyphrProject(){
