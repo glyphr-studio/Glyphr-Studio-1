@@ -210,23 +210,21 @@
 		} else return false;
 	}
 
-	function ioSVG_scrubAttr(s){
-		// debug('ioSVG_scrubAttr');
-		// debug('\t before: ' + s);
-		var re = s.replace(/[^\w\s,#.]/gi, '');
-		// debug('\t afters: ' + re);
-		return re;
-	}
+	// function ioSVG_scrubAttr(s){
+	// 	debug('ioSVG_scrubAttr');
+	// 	debug('\t before: ' + s);
+	// 	var re = s.replace(/[^\w\s,#.]/gi, '');
+	// 	debug('\t afters: ' + re);
+	// 	return re;
+	// }
 
 
 	function ioSVG_convertPathTag(data) {
-		// just path data
-		// debug('ioSVG_convertPathTag - data is \n' + data);
+		debug('\n ioSVG_convertPathTag - START');
+		debug('\t dirty data\n' + data);
 
 		// Parse in the path data, comma separating everything
-		data = data.replace(/(\s)/g, ',');
-		data = data.replace(/-/g, ',-');
-		if(data.charAt(0) === ' ') data = data.slice(1);
+		data = data.replace(/(\s+)/g, ',');
 
 		var curr = 0;
 		while(curr < data.length){
@@ -242,10 +240,14 @@
 			}
 		}
 
+		data = data.replace(/-/g, ',-');
+		if(data.charAt(0) === ' ') data = data.slice(1);
+		if(data.charAt(data.length) === ',') data = data.slice(0, data.length-1);
 		data = data.replace(/,,/g,',');
 		if(data.charAt(0) === ',') data = data.slice(1);
 
-		// debug('ioSVG_convertPathTag - parsed path data as \n' + data);
+		debug('\t clean data\n' + data);
+		// debug('\t parsed path data as \n' + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
@@ -270,12 +272,12 @@
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({'command':command, 'data':dataarr});
 
-		// debug('ioSVG_convertPathTag - chunkarr data is \n' + json(chunkarr, true));
+		// debug('\t chunkarr data is \n' + json(chunkarr));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			// debug('\nHandling Path Chunk ' + c);
+			// debug('Handling Path Chunk ' + c);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -285,26 +287,25 @@
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
 		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
-			// debug('ioSVG_convertPathTag - fp/lp same:\nFirst Point: '+json(fp)+'\nLast Point:  '+json(lp));
+			// debug('\t fp/lp same:\nFirst Point: '+json(fp)+'\nLast Point:  '+json(lp));
 			fp.H1.x = lp.H1.x;
 			fp.H1.y = lp.H1.y;
 			fp.useh1 = lp.useh1;
 			patharr.pop();
 			fp.resolvePointType();
-			// debug('ioSVG_convertPathTag - AFTER:\nFirst Point: '+json(fp));
+			// debug('\t AFTER:\nFirst Point: '+json(fp));
 		}
 
 		var newshape = new Shape({'path':new Path({'pathpoints':patharr})});
 		newshape.path.validate('IMPORTSVG');
 		newshape.path.calcMaxes();
 
-		// debug('IMPORTSVG_PARSEPATHTAG - unscaled shape: \n' + json(newshape));
-
+		// debug('\t unscaled shape: \n' + json(newshape));
+		debug(' ioSVG_convertTag - END\n');
 		return newshape;
 	}
 
 	function ioSVG_isPathCommand(c){
-		// if('MmLlCcSsZzHhVv'.indexOf(c) > -1) return c;
 		if('MmLlCcSsZzHhVvAaQqTt'.indexOf(c) > -1) return c;
 		return false;
 	}
@@ -318,12 +319,12 @@
 			V v		Vertical Line
 			C c		Bezier (can be chained)
 			S s		Smooth Bezier
+			Q q		Quadratic Bezier (can be chained)
+			T t		Smooth Quadratic 
 			Z z		Close Path
 
 			Possibly fail gracefully for these by moving to the final point
 			A a		ArcTo (don't support)
-			Q q		Quadratic Bezier (don't support)
-			T t		Smooth Quadratic (don't support)
 		*/
 
 		var cmd = chunk.command;
@@ -381,12 +382,31 @@
 			lastpoint.useh2 = false;
 			patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 
-		} else if(cmd === 'C' || cmd === 'c'){
+		} else if(cmd === 'C' || cmd === 'c' || cmd === 'Q' || cmd === 'q' || cmd === 'T' || cmd === 't'){
+			// ABSOLUTE quadratic smooth bezier curve
+			// relative quadratic smooth bezier curve
+				// Convert to non-smooth
+			if (cmd === 'T' || cmd === 't') {
+				lastpoint.makeSymmetric('H1');
+				lastpoint.useh2 = true;
+				chunk.data[0] = isval(chunk.data[0])? chunk.data[0] : lastpoint.P2.x+100;
+				chunk.data[1] = isval(chunk.data[1])? chunk.data[1] : lastpoint.P2.y+100;
+
+				chunk.data = [lastpoint.H2.x, lastpoint.H2.y, chunk.data[0], chunk.data[1]];
+				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+			}
+
+
+			// ABSOLUTE quadratic bezier curve to
+			// relative quadratic bezier curve to
+				// These will be converted to regular (cubic) bezier curves
+			if(cmd === 'Q' || cmd === 'q') chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+
+
 			// ABSOLUTE bezier curve to
 			// relative bezier curve to
 				// The three subsiquent x/y points are relative to the last command's x/y point
 				// relative x/y point (n) is NOT relative to (n-1)
-
 			var currdata = [];
 			// Loop through (potentially) PolyBeziers
 			while(chunk.data.length){
@@ -407,7 +427,7 @@
 				h1 = new Coord({'x': currdata[2], 'y': currdata[3]});
 				p = new Coord({'x': currdata[4], 'y': currdata[5]});
 
-				if (cmd === 'c'){
+				if (cmd === 'c' || cmd === 'q' || cmd === 't'){
 					// Relative offset for c
 					lastpoint.H2.x += prevx;
 					lastpoint.H2.y += prevy;
@@ -456,6 +476,51 @@
 		return patharr;
 	}
 
+	function convertQuadraticToCubic(data, pc0x, pc0y) {
+		debug('\n convertQuadraticToCubic - START');
+		debug('\t data: ' + json(data, true));
+		var re = [];
+		var currdata, basex, basey, c1x, c1y, c2x, c2y, q0x, q0y, q1x, q1y, q2x, q2y;
+		q0x = pc0x;
+		q0y = pc0y;
+
+		while(data.length){
+			// Grab the next chunk of data and make sure it's length=4
+			currdata = [];
+			currdata = data.splice(0,4);
+			debug('\t data chunk: ' + json(currdata, true));
+
+			if(currdata.length % 4 !== 0) {
+				showErrorMessageBox('Quadratic Bezier path command (Q or q) was expecting 4 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
+				while(currdata.length<4) { currdata.push(currdata[currdata.length-1]+100); }
+			}
+
+			q0x = basex;
+			q0y = basey;
+			q1x = currdata[0];
+			q1y = currdata[1];
+			q2x = currdata[2];
+			q2y = currdata[3];
+
+			c1x = q0x+((2/3)*(q1x-q0x));
+			c1y = q0y+((2/3)*(q1y-q0y));
+
+			c2x = q2x+((2/3)*(q1x-q2x));
+			c2y = q2y+((2/3)*(q1y-q2y));
+
+			re.push(c1x);
+			re.push(c1y);
+			re.push(c2x);
+			re.push(c2y);
+			re.push(q2x);
+			re.push(q2y);
+
+			basex = q2x;
+			basey = q2y;
+		}
+
+		return re;
+	}
 
 
 //	-------------------

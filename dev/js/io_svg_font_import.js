@@ -39,7 +39,7 @@
 		*/
 
 		var chars = ioSVG_getTags(font, 'glyph');
-		var tc, data, uni, cname, chtml, adv, isautowide;
+		var tc, data, uni, ns, cname, chtml, adv, isautowide;
 		var maxchar = 0;
 		var minchar = 0xffff;
 		var customcharrange = [];
@@ -50,19 +50,19 @@
 		
 		//saveTextFile('chardump.txt', json(chars));
 
-		for(var c=0; c<chars.length; c++){ try {
+		for(var c=0; c<chars.length; c++){ //try {
 			// One Char or Ligature in the font
 			tc = chars[c];
 
 			// Get the appropriate unicode decimal for this char
-			// debug('\n Char Import - START');
-			// debug('\t starting  unicode \t' + tc.attributes.unicode);
+			debug('\n Char Import - START');
+			debug('\t starting  unicode \t' + tc.attributes.unicode);
 			uni = parseUnicodeInput(tc.attributes.unicode);
-			// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
+			debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
 
 			if(uni === false){
 				// Check for .notdef
-				// debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' with no Unicode ID !!!');
+				debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' with no Unicode ID !!!');
 				chars.splice(c, 1);
 			} else if (uni.length > 1 || uni[0] <= _UI.charrange.latinextendedb.end){
 
@@ -82,9 +82,14 @@
 					data.replace(/Z/g,'z');
 					data = data.split('z');
 
+					debug('\t data.length (shapes) = ' + data.length);
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
-							newshapes.push(ioSVG_convertPathTag(data[d]));
+							debug('\t starting convertPathTag');
+							ns = ioSVG_convertPathTag(data[d]);
+							debug('\t created shape from PathTag');
+							debug(ns);
+							newshapes.push(ns);
 							shapecounter++;
 							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
 						}
@@ -120,11 +125,11 @@
 					fl[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 				}
 
-				// debug(' Char Import - END\n');
+				debug(' Char Import - END\n');
 			}
-		} catch(e){
+		}/* catch(e){
 			return {'char':tc, 'kern':false};
-		}}
+		}}*/
 
 		// Enable applicable built-in char ranges
 		debug('\t Done with Char Import');
