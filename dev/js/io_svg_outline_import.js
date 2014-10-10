@@ -220,8 +220,8 @@
 
 
 	function ioSVG_convertPathTag(data) {
-		debug('\n ioSVG_convertPathTag - START');
-		debug('\t dirty data\n' + data);
+		// debug('\n ioSVG_convertPathTag - START');
+		// debug('\t dirty data\n' + data);
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s+)/g, ',');
@@ -242,11 +242,11 @@
 
 		data = data.replace(/-/g, ',-');
 		if(data.charAt(0) === ' ') data = data.slice(1);
-		if(data.charAt(data.length) === ',') data = data.slice(0, data.length-1);
-		data = data.replace(/,,/g,',');
+		data = data.replace(/,+/g,',');
+		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
 		if(data.charAt(0) === ',') data = data.slice(1);
 
-		debug('\t clean data\n' + data);
+		// debug('\t clean data\n' + data);
 		// debug('\t parsed path data as \n' + data);
 
 		// Parse comma separated data into commands / data chunks
@@ -301,7 +301,7 @@
 		newshape.path.calcMaxes();
 
 		// debug('\t unscaled shape: \n' + json(newshape));
-		debug(' ioSVG_convertTag - END\n');
+		// debug(' ioSVG_convertTag - END\n');
 		return newshape;
 	}
 
@@ -338,7 +338,7 @@
 
 
 		// handle command types
-		if(cmd === 'M' || cmd === 'm' || cmd === 'L' || cmd === 'l' || cmd === 'H' || cmd === 'h' || cmd === 'V' || cmd === 'v'){
+		if('MmLlHhVv'.indexOf(cmd) > -1){
 
 			var xx = prevx;
 			var yy = prevy;
@@ -382,15 +382,19 @@
 			lastpoint.useh2 = false;
 			patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 
-		} else if(cmd === 'C' || cmd === 'c' || cmd === 'Q' || cmd === 'q' || cmd === 'T' || cmd === 't'){
+		} else if('CcQqTt'.indexOf(cmd) > -1){
 			// ABSOLUTE quadratic smooth bezier curve
 			// relative quadratic smooth bezier curve
 				// Convert to non-smooth
 			if (cmd === 'T' || cmd === 't') {
 				lastpoint.makeSymmetric('H1');
 				lastpoint.useh2 = true;
-				chunk.data[0] = isval(chunk.data[0])? chunk.data[0] : lastpoint.P2.x+100;
-				chunk.data[1] = isval(chunk.data[1])? chunk.data[1] : lastpoint.P2.y+100;
+
+				debug('\t Tt CMD lastpoint: ' + json(lastpoint, true));
+				debug('\t chunk.data: ' + json(chunk.data, true));
+
+				// chunk.data[0] = isval(chunk.data[0])? chunk.data[0] : lastpoint.P2.x+100;
+				// chunk.data[1] = isval(chunk.data[1])? chunk.data[1] : lastpoint.P2.y+100;
 
 				chunk.data = [lastpoint.H2.x, lastpoint.H2.y, chunk.data[0], chunk.data[1]];
 				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
@@ -407,7 +411,9 @@
 			// relative bezier curve to
 				// The three subsiquent x/y points are relative to the last command's x/y point
 				// relative x/y point (n) is NOT relative to (n-1)
+			
 			var currdata = [];
+			var ptype;
 			// Loop through (potentially) PolyBeziers
 			while(chunk.data.length){
 				// Grab the next chunk of data and make sure it's length=6
@@ -438,11 +444,12 @@
 				}
 
 				// debug('\tbezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
-
-				patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'useh1':true, 'useh2':true}));
+				ptype = 'corner';
+				if('Tt'.indexOf(cmd) > -1) ptype = 'symmetric';
+				patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'useh1':true, 'useh2':true, 'type':ptype}));
 			}
 
-		} else if (cmd === 'S' || cmd === 's'){
+		} else if ('Ss'.indexOf(cmd) > -1){
 			// ABSOLUTE symmetric shorthand bezier curve to
 			// relative symmetric shorthand bezier curve to
 			lastpoint.makeSymmetric('H1');
@@ -463,7 +470,7 @@
 
 			patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'type':'symmetric', 'useh1':true, 'useh2':true}));
 
-		} else if(cmd === 'Z' || cmd === 'z'){
+		} else if('Zz'.indexOf(cmd) > -1){
 			// End Path
 		} else {
 			showErrorMessageBox('Unrecognized path command '+cmd+', ignoring and moving on...');
@@ -477,8 +484,8 @@
 	}
 
 	function convertQuadraticToCubic(data, pc0x, pc0y) {
-		debug('\n convertQuadraticToCubic - START');
-		debug('\t data: ' + json(data, true));
+		// debug('\n convertQuadraticToCubic - START');
+		// debug('\t data: ' + json(data, true));
 		var re = [];
 		var currdata, basex, basey, c1x, c1y, c2x, c2y, q0x, q0y, q1x, q1y, q2x, q2y;
 		q0x = pc0x;
@@ -488,7 +495,7 @@
 			// Grab the next chunk of data and make sure it's length=4
 			currdata = [];
 			currdata = data.splice(0,4);
-			debug('\t data chunk: ' + json(currdata, true));
+			// debug('\t data chunk: ' + json(currdata, true));
 
 			if(currdata.length % 4 !== 0) {
 				showErrorMessageBox('Quadratic Bezier path command (Q or q) was expecting 4 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');

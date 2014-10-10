@@ -54,21 +54,31 @@
 
 		// debug('\n parseUnicodeInput - START');
 		// debug('\t passed ' + str);
+
+		if(str === 'u')	debug('\t PARSEUNICODEINPUT FOUND A U');
+
 		if(!str) return false;
+
+		if(str === 'u')	debug('\t AFTER RETURN FALSE');
 
 		var entries = [];
 		var results = [];
 
 		var prefix = str.substr(0,2);
 		if(isInputUnicode(str)) {
-			str = str.replace(/u+/g, 'U+');
+			if(str === 'u')	debug('\t ISINPUTUNICOD === TRUE');
+			str = str.replace(/u\+/g, 'U+');
 			entries = str.split('U+');
 		} else if (isInputHex(str)) {
+			if(str === 'u')	debug('\t ISINPUTHEX === TRUE');
 			str = str.replace(/0X/g, '0x');
 			entries = str.split('0x');
 		} else {
+			if(str === 'u')	debug('\t CALLING CHARTOHEXARRAY');
 			return charToHexArray(str);
 		}
+
+		if(str === 'u')	debug('\t ENTRIES AFTER SCRUB: ' + entries);
 
 		var te;
 		for(var e=0; e<entries.length; e++){
@@ -82,13 +92,15 @@
 			}
 		}
 
+		if(str === 'u')	debug('\t RETURNING: ' + results);
+
 		// debug('\t returning ' + JSON.stringify(results));
 		// debug('parseUnicodeInput - END\n');
 		return results;
 	}
 
 	function isInputUnicode(str) {
-		str = str.replace(/u+/g, 'U+');
+		str = str.replace(/u\+/g, 'U+');
 		var count = 0;
 		var pos = str.indexOf('U+');
 		while(pos !== -1){

@@ -57,6 +57,9 @@
 			// Get the appropriate unicode decimal for this char
 			debug('\n Char Import - START');
 			debug('\t starting  unicode \t' + tc.attributes.unicode);
+
+			if(tc.attributes.unicode === 'u') debug('\t !!!! YOOOOOOOOOOOOUUUUUUUUUUUUUUUUUUUUUUUUUUUU !!!!!!\n' + json(tc.attributes));
+
 			uni = parseUnicodeInput(tc.attributes.unicode);
 			debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
 
@@ -66,6 +69,7 @@
 				chars.splice(c, 1);
 			} else if (uni.length > 1 || uni[0] <= _UI.charrange.latinextendedb.end){
 
+				debug('\t Char IF section');
 				/*
 				*
 				*	CHARACTER OR LIGATURE IMPORT
