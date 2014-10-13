@@ -53,8 +53,13 @@
 	};
 	
 	// Global Accessor Functions
-	function history_put(dsc){ _UI.history[_UI.navhere].put(dsc); }
+	function history_put(dsc){
+		var queue = _UI.navhere === 'import svg'? 'character edit' : _UI.navhere;
+		_UI.history[queue].put(dsc);
+	}
+
 	function history_pull(){ _UI.history[_UI.navhere].pull(); }
+	
 	function history_length() { return _UI.history[_UI.navhere].queue.length || 0; }
 
 // end of file

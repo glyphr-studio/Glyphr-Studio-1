@@ -10,6 +10,7 @@
 		this.P = oa.P? new Coord(oa.P) : new Coord({'x':100, 'y':100});
 		this.H1 = oa.H1? new Coord(oa.H1) : new Coord({'x':0, 'y':0});
 		this.H2 = oa.H2? new Coord(oa.H2) : new Coord({'x':200, 'y':200});
+		this.Q = oa.Q? new Coord(oa.Q) : false;	// Remembering Quadratic sinlge handle for Import SVG
 
 		this.type = oa.type || 'corner';		// corner, flat, symmetric
 		this.selected = oa.selected || false;
@@ -20,17 +21,10 @@
 		if(isval(oa.useh2) && oa.useh2) this.useh2 = true;
 		else this.useh2 = false;
 
-		if(this.type == 'symmetric') { this.makeSymmetric('H1'); }
-		else if (this.type == 'flat') { this.makeFlat('H1'); }
+		if(this.type === 'symmetric') { this.makeSymmetric('H1'); }
+		else if (this.type === 'flat') { this.makeFlat('H1'); }
 
 		//debug('PATHPOINT was passed ' + JSON.stringify(oa));
-
-		// if(_UI.pathdebugging){
-		//	debug('\nX PATHPOINT RESULT');
-		//	debug(JSON.stringify(this));
-		//	debug(json(this));
-		//	debug('typeof this.useh1: ' + typeof this.useh1);
-		// }
 	}
 
 
@@ -214,7 +208,7 @@
 		var hyp1 = this.getHandleLength(this.H1);
 		var hyp2 = this.getHandleLength(this.H2);
 
-		if(angle1==angle2){
+		if(angle1===angle2){
 			//debug('MAKEFLAT - Equal Angles, returning');
 			return;
 		}
@@ -295,6 +289,15 @@
 		return result;
 	};
 
+	PathPoint.prototype.findQuadraticSymmetric = function() {
+		if(this.Q){
+			return {
+				'x' : ((this.P.x - this.Q.x) + this.P.x),
+				'y' : ((this.P.y - this.Q.y) + this.P.y)
+			};
+		} else return false;
+	};
+
 	PathPoint.prototype.makeSymmetric = function(hold){
 		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
 
@@ -333,16 +336,21 @@
 	};
 
 	PathPoint.prototype.resolvePointType = function(){
+		debug('\n PathPoint.resolvePointType - START');
 		// corner, flat, symmetric
 		if(round(this.getHandleAngle(this.H1),2) === round((this.getHandleAngle(this.H2)+Math.PI)%(Math.PI*2),2)){
 			if(this.getHandleLength(this.H1) === this.getHandleLength(this.H2)){
+				debug('\t setting to Symmetric');
 				this.type = 'symmetric';
 			} else {
+				debug('\t setting to Flat');
 				this.type = 'flat';
 			}
 		} else {
+			debug('\t setting to Corner');
 			this.type = 'corner';
 		}
+		debug(' pathPoint.resolvePointType - END\n');
 	};
 
 	PathPoint.prototype.makePointedTo = function(px, py, length){
@@ -415,12 +423,12 @@
 			ang = (this.P.x > this.H2.x)? Math.PI : 0;
 		}
 
-		for(var a in arrow){
+		for(var a in arrow){ if(arrow.hasOwnProperty(a)){
 			rotatedarrow.push([
 				((arrow[a][0] * Math.cos(ang)) - (arrow[a][1] * Math.sin(ang))),
 				((arrow[a][0] * Math.sin(ang)) + (arrow[a][1] * Math.cos(ang)))
 			]);
-		}
+		}}
 
 		//debug('DRAWPOINT arrow = ' + JSON.stringify(arrow) + '  - rotatedarrow = ' + JSON.stringify(rotatedarrow));
 
@@ -440,21 +448,6 @@
 		// Exact Middle Point
 		_UI.chareditctx.fillStyle = _UI.colors.accent_65;
 		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
-
-
-
-		// if(ss().path.sp(true) === 0){
-		//	debug('DRAWING POINT FOR PATHPOINT 0');
-		//	debug('\t P x y\t\t' + this.P.x + ' / ' + this.P.y);
-		//	debug('\t P s_c\t' + sx_cx(this.P.x) + ' / ' + sy_cy(this.P.y));
-		//	debug('\t Fill Style: ' + c);
-		//	debug('\t Computed Angle: ' + ang);
-		//	//debug('\t arrow = \n' + json(arrow) + '\t rotatedarrow = \n' + json(rotatedarrow));
-		//	// _UI.chareditctx.fillStyle = 'lime';
-		//	// _UI.chareditctx.fillRect((sx_cx(this.P.x)-5), (sy_cy(this.P.y)-5), 10, 10);
-		// }
-
-
 
 	};
 
@@ -488,6 +481,24 @@
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 		}
+
+		// Draw Quadratic handle point from imported SVG
+		/*
+		if(this.Q){
+			_UI.chareditctx.fillStyle = _UI.colors.error;
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.arc(sx_cx(this.Q.x), sy_cy(this.Q.y), hp, 0, Math.PI*2, true);
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.fill();
+			
+			_UI.chareditctx.strokeStyle = _UI.colors.error;
+			_UI.chareditctx.beginPath();
+			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.chareditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
+			_UI.chareditctx.closePath();
+			_UI.chareditctx.stroke();
+		}
+		*/
 	};
 
 

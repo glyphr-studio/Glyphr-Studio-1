@@ -220,7 +220,7 @@
 
 
 	function ioSVG_convertPathTag(data) {
-		// debug('\n ioSVG_convertPathTag - START');
+		debug('\n ioSVG_convertPathTag - START');
 		// debug('\t dirty data\n' + data);
 
 		// Parse in the path data, comma separating everything
@@ -233,7 +233,7 @@
 				curr++;
 			}
 			if(curr > 99999) {
-				showErrorMessageBox('Data longer than 100,000 characters is not allowed.');
+				showErrorMessageBox('Data longer than 100,000 characters is super uncool.');
 				return;
 			} else {
 				curr++;
@@ -277,7 +277,8 @@
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			// debug('Handling Path Chunk ' + c);
+			debug('\t Handling Path Chunk ' + c);
+			debug('\t cmd = ' + chunkarr[c].command + ' data = ' + chunkarr[c].data);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -301,7 +302,7 @@
 		newshape.path.calcMaxes();
 
 		// debug('\t unscaled shape: \n' + json(newshape));
-		// debug(' ioSVG_convertTag - END\n');
+		debug(' ioSVG_convertTag - END\n');
 		return newshape;
 	}
 
@@ -328,6 +329,7 @@
 		*/
 
 		var cmd = chunk.command;
+		var iscmd = function(str){ return str.indexOf(cmd) > -1; };
 		var p, h1;
 		var lastpoint = patharr[patharr.length-1] || new PathPoint({'P':new Coord({'x':0,'y':0})});
 		var prevx = lastpoint.P.x;
@@ -338,7 +340,7 @@
 
 
 		// handle command types
-		if('MmLlHhVv'.indexOf(cmd) > -1){
+		if(iscmd('MmLlHhVv')){
 
 			var xx = prevx;
 			var yy = prevy;
@@ -382,30 +384,27 @@
 			lastpoint.useh2 = false;
 			patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 
-		} else if('CcQqTt'.indexOf(cmd) > -1){
-			// ABSOLUTE quadratic smooth bezier curve
-			// relative quadratic smooth bezier curve
-				// Convert to non-smooth
-			if (cmd === 'T' || cmd === 't') {
-				lastpoint.makeSymmetric('H1');
-				lastpoint.useh2 = true;
-
-				debug('\t Tt CMD lastpoint: ' + json(lastpoint, true));
-				debug('\t chunk.data: ' + json(chunk.data, true));
-
-				// chunk.data[0] = isval(chunk.data[0])? chunk.data[0] : lastpoint.P2.x+100;
-				// chunk.data[1] = isval(chunk.data[1])? chunk.data[1] : lastpoint.P2.y+100;
-
-				chunk.data = [lastpoint.H2.x, lastpoint.H2.y, chunk.data[0], chunk.data[1]];
-				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
-			}
-
-
+		} else if(iscmd('CcQqTt')){
 			// ABSOLUTE quadratic bezier curve to
 			// relative quadratic bezier curve to
 				// These will be converted to regular (cubic) bezier curves
-			if(cmd === 'Q' || cmd === 'q') chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+			var q = false;
+			if(iscmd('Qq')) {
+				q = new Coord({'x':chunk.data[0], 'y':chunk.data[1]});
+				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+			}
 
+			// ABSOLUTE quadratic symmetric bezier curve to
+			// relative quadratic symmetric bezier curve to
+			if(iscmd('Tt')) {
+				//lastpoint.makeSymmetric('H1');
+				var qh = lastpoint.findQuadraticSymmetric();
+				chunk.data.unshift(qh.y);
+				chunk.data.unshift(qh.x);
+				debug('\t Tt - chunk.data unshifted to ' + chunk.data);
+				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+				debug('\t Tt - chunk.data converted to ' + chunk.data);
+			}
 
 			// ABSOLUTE bezier curve to
 			// relative bezier curve to
@@ -413,7 +412,6 @@
 				// relative x/y point (n) is NOT relative to (n-1)
 			
 			var currdata = [];
-			var ptype;
 			// Loop through (potentially) PolyBeziers
 			while(chunk.data.length){
 				// Grab the next chunk of data and make sure it's length=6
@@ -433,7 +431,7 @@
 				h1 = new Coord({'x': currdata[2], 'y': currdata[3]});
 				p = new Coord({'x': currdata[4], 'y': currdata[5]});
 
-				if (cmd === 'c' || cmd === 'q' || cmd === 't'){
+				if (iscmd('cqt')){
 					// Relative offset for c
 					lastpoint.H2.x += prevx;
 					lastpoint.H2.y += prevy;
@@ -444,22 +442,24 @@
 				}
 
 				// debug('\tbezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
-				ptype = 'corner';
-				if('Tt'.indexOf(cmd) > -1) ptype = 'symmetric';
-				patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'useh1':true, 'useh2':true, 'type':ptype}));
+				patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'Q':q, 'useh1':true, 'useh2':true, 'type':'corner'}));
 			}
 
-		} else if ('Ss'.indexOf(cmd) > -1){
-			// ABSOLUTE symmetric shorthand bezier curve to
-			// relative symmetric shorthand bezier curve to
+		} else if (iscmd('Ss')){
+			// ABSOLUTE symmetric bezier curve to
+			// relative symmetric bezier curve to
 			lastpoint.makeSymmetric('H1');
 			lastpoint.useh2 = true;
+
+			// POLYBEZIER WHILE LOOP
 
 			h1 = new Coord({'x': chunk.data[0], 'y': chunk.data[1]});
 			p = new Coord({'x': chunk.data[2], 'y': chunk.data[3]});
 
-			if (cmd === 's'){
-				// Relative offset for s
+			debug('\t point: ' + json(p, true));
+			
+			if (iscmd('s')){
+				// Relative offset for st
 				h1.x += prevx;
 				h1.y += prevy;
 				p.x += prevx;
@@ -468,9 +468,9 @@
 
 			// debug('\tbezier result px:'+p.x+' py:'+p.y+' h1x:'+h1.x+' h1y:'+h1.y);
 
-			patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'type':'symmetric', 'useh1':true, 'useh2':true}));
+			patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'type':'corner', 'useh1':true, 'useh2':true}));
 
-		} else if('Zz'.indexOf(cmd) > -1){
+		} else if(iscmd('Zz')){
 			// End Path
 		} else {
 			showErrorMessageBox('Unrecognized path command '+cmd+', ignoring and moving on...');
@@ -487,9 +487,9 @@
 		// debug('\n convertQuadraticToCubic - START');
 		// debug('\t data: ' + json(data, true));
 		var re = [];
-		var currdata, basex, basey, c1x, c1y, c2x, c2y, q0x, q0y, q1x, q1y, q2x, q2y;
-		q0x = pc0x;
-		q0y = pc0y;
+		var currdata, c1x, c1y, c2x, c2y, q0x, q0y, q1x, q1y, q2x, q2y;
+		var basex = pc0x;
+		var basey = pc0y;
 
 		while(data.length){
 			// Grab the next chunk of data and make sure it's length=4
