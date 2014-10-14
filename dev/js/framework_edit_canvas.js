@@ -73,7 +73,7 @@
 
 		if(_UI.selectedtool === 'pathedit'){
 			pointselectclass = 'buttonsel tool';
-		} else if (s.link && UI.navhere !== 'linked shapes'){
+		} else if (s.link && _UI.navhere !== 'linked shapes'){
 			pointselectclass = 'buttondis tool';
 			pointselectclickable = false;
 		} else {

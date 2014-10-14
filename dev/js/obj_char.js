@@ -362,31 +362,37 @@
 
 	function getCharName(ch) {
 		ch = ''+ch;
-		// debug('\n getCharName');
-		// debug('\t passed ' + ch);
+		debug('\n getCharName');
+		debug('\t passed ' + ch);
 
 		// not passed an id
 		if(!ch){
-			// debug('\t not passed an ID, returning false');
+			debug('\t not passed an ID, returning false');
 			return false;
 		}
 		
 		// known unicode names
-		if(getUnicodeName(ch)) return getUnicodeName(ch);
+		var un = getUnicodeName(ch);
+		if(un !== '[name not found]'){
+			debug('\t got unicode name: ' + un);
+			return un;
+		}
 
 		var cobj = getChar(ch);
 		if(cobj && cobj.shape) {
 			// linked shape
-			// debug('\t linked shape - returning ' + cobj.shape.name);
+			debug('\t linked shape - returning ' + cobj.shape.name);
 			return cobj.shape.name;
 		} else if(ch.indexOf('0x',2) > -1){
 			// ligature
-			// debug('\t ligature - returning ' + hexToHTML(ch));
+			debug('\t ligature - returning ' + hexToHTML(ch));
 			return hexToHTML(ch);
 		} else {
-			// debug('getCharName - inexplicably fails, returning [name not found]\n');
+			debug('getCharName - inexplicably fails, returning [name not found]\n');
 			return '[name not found]';
 		}
+
+		debug(' getCharName - returning nothing - END\n');
 	}
 
 	function getFirstCharID() {
