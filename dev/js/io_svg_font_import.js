@@ -3,30 +3,12 @@
 //	--------------------------
 //	Import SVG Font
 //	--------------------------
-	function ioSVG_importSVGfont (svgdata) {
+	function ioSVG_importSVGfont(dropped) {
 		debug('ioSVG_importSVGfont \t Start');
-		_GP = new GlyphrProject();
+		
+		openDialog('<h1>Importing Font</h1><div id="fontimportstatus">Reading font data...</div>');
 
-		// Convert unicode characters to decimal values
-		// DOM Parser does not return unicode values as text strings
-		// Kern groups containing '&#x' will get fuck'd
-		svgdata = svgdata.replace(/&#x/g, '0x');
-
-		var jsondata;
-		try {
-			jsondata = convertXMLtoJSON(svgdata);
-		} catch (e){
-			//errormessage(e.message);
-			return;
-		}
-
-		debug('\t imported json data:');
-		debug(jsondata);
-
-		var font = ioSVG_getFirstTagInstance(jsondata, 'font');
-		debug('\t font data:');
-		debug(font);
-
+		setTimeout(startFontImport, 10);
 		/*
 		*	Cases to consider
 		*	-----------------
@@ -38,7 +20,51 @@
 		*	unicode spanning known ranges
 		*/
 
-		var chars = ioSVG_getTags(font, 'glyph');
+		var importStatus = function(msg){ document.getElementById('fontimportstatus').innerHTML = msg; };
+
+		var font, chars, kerns;
+		var svgdata = dropped;
+		function startFontImport(){
+			debug('\n startFontImport - START');
+
+			_GP = new GlyphrProject();
+
+			// Convert unicode characters to decimal values
+			// DOM Parser does not return unicode values as text strings
+			// Kern groups containing '&#x' will get fuck'd
+			svgdata = svgdata.replace(/&#x/g, '0x');
+
+			var jsondata;
+			try {
+				jsondata = convertXMLtoJSON(svgdata);
+			} catch (e){
+				//errormessage(e.message);
+				return;
+			}
+
+			// Get Font
+			font = ioSVG_getFirstTagInstance(jsondata, 'font');
+			debug('\t got font');
+
+			// Get Kerns
+			kerns = ioSVG_getTags(font, 'hkern');
+			debug('\t got kerns');
+
+			// Get Chars
+			chars = ioSVG_getTags(font, 'glyph');
+			debug('\t got chars');
+
+			// Kick off the import
+			importStatus('Importing Character 1 of ' + chars.length);
+			debug(' startFontImport - END\n');
+			setTimeout(importOneChar, 1);
+		}
+
+		/*
+		*
+		*	CHAR IMPORT
+		*
+		*/
 		var tc, data, uni, ns, cname, chtml, adv, isautowide;
 		var maxchar = 0;
 		var minchar = 0xffff;
@@ -47,18 +73,21 @@
 		var newshapes = [];
 		var fc = {};
 		var fl = {};
-		
-		//saveTextFile('chardump.txt', json(chars));
+	
+		var c=0;
+		function importOneChar(){
+			if(c >= chars.length) {
+				importStatus('Importing Kern Pair 1 of ' + kerns.length);
+				setTimeout(importOneKern, 1);
+				return;
+			}
 
-		for(var c=0; c<chars.length; c++){ //try {
 			// One Char or Ligature in the font
 			tc = chars[c];
 
 			// Get the appropriate unicode decimal for this char
 			debug('\n Char Import - START');
 			debug('\t starting  unicode \t' + tc.attributes.unicode);
-
-			if(tc.attributes.unicode === 'u') debug('\t !!!! YOOOOOOOOOOOOUUUUUUUUUUUUUUUUUUUUUUUUUUUU !!!!!!\n' + json(tc.attributes));
 
 			uni = parseUnicodeInput(tc.attributes.unicode);
 			debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
@@ -131,44 +160,29 @@
 
 				debug(' Char Import - END\n');
 			}
-		}/* catch(e){
-			return {'char':tc, 'kern':false};
-		}}*/
 
-		// Enable applicable built-in char ranges
-		debug('\t Done with Char Import');
-		debug('\t Char range: ' + minchar + ' to ' + maxchar);
-
-		// var rstart, rend;
-		for(var r in _UI.charrange){
-			if(_UI.charrange.hasOwnProperty(r)){
-				rstart = 1*_UI.charrange[r].begin;
-				rend = 1*_UI.charrange[r].end+1;
-				for(var t=rstart; t<rend; t++){
-					if(getChar(t)){
-						_GP.projectsettings.charrange[r] = true;
-						break;
-					}
-				}
-			}
+			// finish loop
+			c++;
+			importStatus('Importing Character ' + c + ' of ' + chars.length);
+			setTimeout(importOneChar, 1);
 		}
-
-		// Make a custom range for the rest
-		if(customcharrange.length){
-			customcharrange = customcharrange.sort();
-			_GP.projectsettings.charrange.custom.push({'begin':customcharrange[0], 'end':customcharrange[customcharrange.length-1]});
-		}
-
 
 		/*
 		*
 		*	KERN IMPORT
 		*
 		*/
-		var kerns = ioSVG_getTags(font, 'hkern');
 		var tk, tempgroup, reg, leftgroup, rightgroup, newid;
 		var fk = {};
-		for(var k=0; k<kerns.length; k++){ try {
+
+		var k = 0;
+		function importOneKern(){
+			if(k >= kerns.length) {
+				importStatus('Finalizing the imported font...');
+				setTimeout(finalizeFontImport, 1);
+				return;
+			}
+
 			// debug('\n Kern Import - START ' + k + '/' + kerns.length);
 			leftgroup = [];
 			rightgroup = [];
@@ -198,12 +212,10 @@
 			}
 
 			// debug(' Kern Import - END\n');
-
-		} catch(e) {
-			return {'char':false, 'kern':tk};
-		}}
-
-		debug('\t Done with Kern Import');
+			k++;
+			importStatus('Importing Kern Pair ' + k + ' of ' + kerns.length);
+			setTimeout(importOneKern, 1);
+		}
 
 
 		/*
@@ -211,19 +223,64 @@
 		*	FINALIZE
 		*
 		*/
+		function finalizeFontImport(){
+			// var rstart, rend;
+			for(var r in _UI.charrange){
+				if(_UI.charrange.hasOwnProperty(r)){
+					rstart = 1*_UI.charrange[r].begin;
+					rend = 1*_UI.charrange[r].end+1;
+					for(var t=rstart; t<rend; t++){
+						if(getChar(t)){
+							_GP.projectsettings.charrange[r] = true;
+							break;
+						}
+					}
+				}
+			}
 
-		// Import Font Settings
-		// Check to make sure certain stuff is there
-		// space has horiz-adv-x
+			// Make a custom range for the rest
+			if(customcharrange.length){
+				customcharrange = customcharrange.sort();
+				_GP.projectsettings.charrange.custom.push({'begin':customcharrange[0], 'end':customcharrange[customcharrange.length-1]});
+			}
 
-		_GP.fontchars = fc;
-		_GP.ligatures = fl;
-		_GP.kerning = fk;
+			// Import Font Settings
+			// Check to make sure certain stuff is there
+			// space has horiz-adv-x
+			_GP.fontchars = fc;
+			_GP.ligatures = fl;
+			_GP.kerning = fk;
 
-		finalizeGlyphrProject();
-		return true;
+			var fontattr = ioSVG_getFirstTagInstance(font, 'font-face').attributes;
+
+			_GP.projectsettings.upm = 1*fontattr['units-per-em'];
+			
+			finalizeGlyphrProject();
+			closeDialog();
+
+			debug(' ioSVG_importSVGfont - END\n');
+			navigate();
+		}
 	}
+/*
+					if(re === true) navigate();
+					else {
+						con = '<h1>oops</h1>Looks like there was a SVG import error.<br><br>';
 
+						if(re.char){
+							con += 'This &lt;glyph&gt; element seems to be causing issues:<br>';
+							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.char.attributes)+'</textarea>';
+						} else if (re.kern){
+							con += 'This &lt;hkern&gt; element seems to be causing issues:<br>';
+							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.kern.attributes)+'</textarea>';
+						}
+
+						con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';
+						openDialog(con);
+					}
+
+
+*/
 
 	function getKernMembersByName(names, chars, arr, limit) {
 		limit = limit || 0xFFFF;

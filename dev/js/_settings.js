@@ -9,7 +9,7 @@
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'import svg',	// navigate straight to a page
+		'devnav': false,	// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		
@@ -124,12 +124,7 @@
 			'descender': false,
 			'overshoot_top': false,
 			'overshoot_bottom': false,
-			// 'svgcode': '<path d="M 0 0 L 0 100 Q 100 200 200 100 L 200 0z"/>'
-			// 'svgcode': '<path d="M 100 100 q -100 100 0 200 t 200 0 l 0 -200 z"/>'
-			'svgcode': '<path d="M200,300 Q400,50 600,300 T1000,300 L200,300z"/>'
-			// 'svgcode': '<path d="M 68 531 q 0 295 164 437 q 137 118 334 118 q 219 0 358 -143.5 t 139 -396.5 q 0 -205 -61.5 -322.5 t -179 -182.5 t -256.5 -65 q -223 0 -360.5 143 t -137.5 412 z" />'
-			// 'svgcode': '<path d="M 253 531 q 0 -204 89 -305.5 t 224 -101.5 q 134 0 223 102 t 89 311 q 0 197 -89.5 298.5 t -222.5 101.5 q -135 0 -224 -101 t -89 -305 z" />'		
-
+			'svgcode': false
 		}
 	};
 

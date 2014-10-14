@@ -362,37 +362,37 @@
 
 	function getCharName(ch) {
 		ch = ''+ch;
-		debug('\n getCharName');
-		debug('\t passed ' + ch);
+		// debug('\n getCharName');
+		// debug('\t passed ' + ch);
 
 		// not passed an id
 		if(!ch){
-			debug('\t not passed an ID, returning false');
+			// debug('\t not passed an ID, returning false');
 			return false;
 		}
 		
 		// known unicode names
 		var un = getUnicodeName(ch);
 		if(un !== '[name not found]'){
-			debug('\t got unicode name: ' + un);
+			// debug('\t got unicode name: ' + un);
 			return un;
 		}
 
 		var cobj = getChar(ch);
 		if(cobj && cobj.shape) {
 			// linked shape
-			debug('\t linked shape - returning ' + cobj.shape.name);
+			// debug('\t linked shape - returning ' + cobj.shape.name);
 			return cobj.shape.name;
 		} else if(ch.indexOf('0x',2) > -1){
 			// ligature
-			debug('\t ligature - returning ' + hexToHTML(ch));
+			// debug('\t ligature - returning ' + hexToHTML(ch));
 			return hexToHTML(ch);
 		} else {
-			debug('getCharName - inexplicably fails, returning [name not found]\n');
+			// debug('getCharName - inexplicably fails, returning [name not found]\n');
 			return '[name not found]';
 		}
 
-		debug(' getCharName - returning nothing - END\n');
+		// debug(' getCharName - returning nothing - END\n');
 	}
 
 	function getFirstCharID() {
@@ -409,7 +409,9 @@
 			re = getChar(_UI.selectedlinkedshape);
 			// debug('\t case linked shapes, returning ' + re.charname);
 			return re;
-		} else if (_UI.navhere !== 'kerning'){
+		} else if (_UI.navhere === 'firstrun'){
+			return false;
+		} else if(_UI.navhere !== 'kerning'){
 			re = getChar(_UI.selectedchar, true);
 			// debug('\t case character edit, returning ' + re.charname);
 			return re;

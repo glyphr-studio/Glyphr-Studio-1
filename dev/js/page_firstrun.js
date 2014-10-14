@@ -60,22 +60,7 @@
 				var con;
 
 				if(fname === 'svg') {
-					var re = ioSVG_importSVGfont(reader.result);
-					if(re === true) navigate();
-					else {
-						con = '<h1>oops</h1>Looks like there was a SVG import error.<br><br>';
-
-						if(re.char){
-							con += 'This &lt;glyph&gt; element seems to be causing issues:<br>';
-							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.char.attributes)+'</textarea>';
-						} else if (re.kern){
-							con += 'This &lt;hkern&gt; element seems to be causing issues:<br>';
-							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.kern.attributes)+'</textarea>';
-						}
-
-						con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';
-						openDialog(con);
-					}
+					ioSVG_importSVGfont(reader.result);
 				} else if(fname === 'txt') {
 					importGlyphrProjectFromText(reader.result);
 					navigate();

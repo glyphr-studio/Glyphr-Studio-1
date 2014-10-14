@@ -297,7 +297,7 @@
 			// debug('\t AFTER:\nFirst Point: '+json(fp));
 		}
 
-		var newshape = new Shape({'path':new Path({'pathpoints':patharr})});
+		var newshape = new Shape({'path': new Path({'pathpoints':patharr})});
 		newshape.path.validate('IMPORTSVG');
 		newshape.path.calcMaxes();
 
