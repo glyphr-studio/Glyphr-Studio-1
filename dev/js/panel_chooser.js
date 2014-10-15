@@ -5,11 +5,11 @@
 //-------------------
 	function makePanel_CharChooser(fname){
 		var content = '<div class="navarea_header">';
-		
+
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">characters</h1>';
 		content += '</div>';
-		
+
 		content += '<div class="panel_section">';
 		content += makeGenericCharChooserContent(fname);
 		content += '</div>';
@@ -190,11 +190,11 @@
 		content += '<div class="panel_section">';
 		content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
 		if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
+		else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 		content += '</div>';
 
 		return content;
 	}
-
 
 	function makeGenericLigatureChooserContent(fname) {
 		// debug('\n makeGenericLigatureChooserContent - START');
@@ -208,12 +208,29 @@
 			content += makeCharChooserButton(l, fname);
 		}}
 
-		if(content === '') content = 'No ligatures exist yet.  Press the "add new ligature" button below to get started.';
+		if(content === '') content = 'No ligatures exist yet.  You can create a new one, or add a few common ligatures to get started.';
 
 		content = '<div class="charchooserwrapper">'+content+'</div>';
-		
+
 		// debug('makeGenericLigatureChooserContent - END\n');
 		return content;
+	}
+
+	function addCommonLigatures() {
+		var ff = parseUnicodeInput('ff');
+		var fi = parseUnicodeInput('fi');
+		var fl = parseUnicodeInput('fl');
+		var ffi = parseUnicodeInput('ffi');
+		var ffl = parseUnicodeInput('ffl');
+
+		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Char({'charhex':ff});
+		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Char({'charhex':fi});
+		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Char({'charhex':fl});
+		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Char({'charhex':ffi});
+		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Char({'charhex':ffl});
+
+		_UI.selectedchar = getFirstID(_GP.ligatures);
+		redraw();
 	}
 
 // end of file

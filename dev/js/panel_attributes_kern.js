@@ -15,11 +15,12 @@
 		for(var k in _GP.kerning){ if(_GP.kerning.hasOwnProperty(k)){
 			rows += makeOneKernPairRow(_GP.kerning[k], k);
 		}}
-		content += rows || 'No kern pairs exist yet.  Press the "add new kern pair" button below to get started.';
+		content += rows || 'No kern pairs exist yet.  You can create a new one, or add some common kern pairs to get started.';
 		content += '</div>';
 
 		content += '<div class="panel_section">';
 		content += '<button onclick="showNewKernPairDialog();">add new kern pair</button><br>';
+		if(!rows) content += '<button onclick="addCommonKernPairs();">add some common kern pairs</button>';
 		content += '</div>';
 
 		return content;
@@ -38,6 +39,19 @@
 
 		re += '</tr></table>';
 		return re;
+	}
+
+	function addCommonKernPairs() {
+		var add = ['A','VWY', 'A','CO', 'VWY','A', 'FP','A', 'O','A'];
+		var nid;
+
+		for(var k=0; k<add.length; k+=2){
+			nid = generateNewID(_GP.kerning);
+			_GP.kerning[nid] = new HKern({'leftgroup':parseKernGroupInput(add[k]), 'rightgroup':parseKernGroupInput(add[k+1])});
+		}
+
+		_UI.selectedkern = getFirstID(_GP.kerning);
+		redraw();
 	}
 
 	function updateKernValue(id, val) {
