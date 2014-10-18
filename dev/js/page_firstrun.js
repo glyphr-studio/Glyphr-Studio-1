@@ -10,7 +10,7 @@
 			"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
 			"Which is a free / open source 'copyleft' license. You are free to use, distribute, and modify Glyphr Studio as long as " +
 			"this license and its freeness stays intact.</td>"+
-		"<td class='firstruntableright' vertical-align='middle'>" + importOrCreateNew() + "</td>"+
+		"<td id='firstruntableright' vertical-align='middle'>" + importOrCreateNew() + "</td>"+
 		"</tr></table>";
 
 		var mp = getEditDocument().getElementById("mainwrapper");
@@ -33,11 +33,6 @@
 					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 					"<button onclick='newGlyphrProject(); navigate();' class='buttonsel'>Start a new font from scratch</button>"+
 				"</div>";
-		// con += "<div class='newtile'>"+
-		// 			"<h3>Import SVG Font</h3>"+
-		// 			"<button onclick='ioSVG_importSVGfont(_UI.samplesvgfont);' class='buttonsel'>Import SVG Font</button>"+
-		// 		"</div>";
-
 		return con;
 	}
 
