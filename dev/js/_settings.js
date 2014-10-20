@@ -119,7 +119,7 @@
 		// page: import svg
 		'importsvg': {
 			'scale': false,
-			'move': true,
+			'move': false,
 			'ascender': false,
 			'descender': false,
 			'overshoot_top': false,

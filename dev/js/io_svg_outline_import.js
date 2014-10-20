@@ -210,17 +210,8 @@
 		} else return false;
 	}
 
-	// function ioSVG_scrubAttr(s){
-	// 	debug('ioSVG_scrubAttr');
-	// 	debug('\t before: ' + s);
-	// 	var re = s.replace(/[^\w\s,#.]/gi, '');
-	// 	debug('\t afters: ' + re);
-	// 	return re;
-	// }
-
-
 	function ioSVG_convertPathTag(data) {
-		debug('\n ioSVG_convertPathTag - START');
+		// debug('\n ioSVG_convertPathTag - START');
 		// debug('\t dirty data\n' + data);
 
 		// Parse in the path data, comma separating everything
@@ -277,8 +268,8 @@
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			debug('\t Handling Path Chunk ' + c);
-			debug('\t cmd = ' + chunkarr[c].command + ' data = ' + chunkarr[c].data);
+			debug('\n\t Path Chunk ' + c);
+			debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -301,8 +292,9 @@
 		newshape.path.validate('IMPORTSVG');
 		newshape.path.calcMaxes();
 
-		// debug('\t unscaled shape: \n' + json(newshape));
-		debug(' ioSVG_convertTag - END\n');
+		// debug('\t unscaled shape:');
+		// debug(newshape);
+		// debug(' ioSVG_convertTag - END\n');
 		return newshape;
 	}
 
@@ -335,7 +327,7 @@
 		var prevx = lastpoint.P.x;
 		var prevy = lastpoint.P.y;
 
-		// debug('\tprevious point x y\t'+prevx+' '+prevy);
+		// debug('\t previous point: \t'+prevx+','+prevy);
 		// debug('\t'+cmd+' ['+chunk.data+']');
 
 
@@ -348,8 +340,8 @@
 			switch(cmd){
 				case 'L':
 				case 'M':
-					// ABSOLUTE move to
 					// ABSOLUTE line to
+					// ABSOLUTE move to
 					xx = chunk.data[0];
 					yy = chunk.data[1];
 					break;
@@ -391,7 +383,11 @@
 			var q = false;
 			if(iscmd('Qq')) {
 				q = new Coord({'x':chunk.data[0], 'y':chunk.data[1]});
-				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+				
+				if(cmd === 'q') chunk.data = convertQuadraticToCubic(chunk.data, 0, 0);
+				else chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+
+				// debug('\t Qq - chunk.data converted to ' + chunk.data);
 			}
 
 			// ABSOLUTE quadratic symmetric bezier curve to
@@ -399,11 +395,24 @@
 			if(iscmd('Tt')) {
 				//lastpoint.makeSymmetric('H1');
 				var qh = lastpoint.findQuadraticSymmetric();
+				// debug('\t findQuadSymm returned ' + json(qh));
+
 				chunk.data.unshift(qh.y);
 				chunk.data.unshift(qh.x);
-				debug('\t Tt - chunk.data unshifted to ' + chunk.data);
-				chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
-				debug('\t Tt - chunk.data converted to ' + chunk.data);
+				
+				// debug('\t Tt - chunk.data unshifted to ' + chunk.data);
+				
+				if(cmd === 't') {
+					chunk.data[0] -= prevx;
+					chunk.data[1] -= prevy;
+					q = new Coord({'x':chunk.data[0], 'y':chunk.data[1]});
+					chunk.data = convertQuadraticToCubic(chunk.data, 0, 0);
+				} else {
+					q = new Coord({'x':chunk.data[0], 'y':chunk.data[1]});
+					chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
+				}
+				
+				// debug('\t Tt - chunk.data converted to ' + chunk.data);
 			}
 
 			// ABSOLUTE bezier curve to
@@ -439,10 +448,14 @@
 					h1.y += prevy;
 					p.x += prevx;
 					p.y += prevy;
+					if(q){
+						q.x += prevx;
+						q.y += prevy;
+					}
 				}
 
 				// debug('\tbezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
-				patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'Q':q, 'useh1':true, 'useh2':true, 'type':'corner'}));
+				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'Q':clone(q), 'useh1':true, 'useh2':true, 'type':'corner'}));
 			}
 
 		} else if (iscmd('Ss')){
@@ -456,7 +469,7 @@
 			h1 = new Coord({'x': chunk.data[0], 'y': chunk.data[1]});
 			p = new Coord({'x': chunk.data[2], 'y': chunk.data[3]});
 
-			debug('\t point: ' + json(p, true));
+			// debug('\t point: ' + json(p, true));
 			
 			if (iscmd('s')){
 				// Relative offset for st
@@ -468,7 +481,7 @@
 
 			// debug('\tbezier result px:'+p.x+' py:'+p.y+' h1x:'+h1.x+' h1y:'+h1.y);
 
-			patharr.push(new PathPoint({'P':p, 'H1':h1, 'H2':p, 'type':'corner', 'useh1':true, 'useh2':true}));
+			patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'type':'corner', 'useh1':true, 'useh2':true}));
 
 		} else if(iscmd('Zz')){
 			// End Path
@@ -477,7 +490,8 @@
 		}
 
 		var added = patharr[patharr.length-1];
-		// debug('CREATED PATH POINT \n'+json(added));
+		// debug(added);
+
 		if(islastpoint) added.resolvePointType();
 
 		return patharr;

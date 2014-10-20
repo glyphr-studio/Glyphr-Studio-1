@@ -186,8 +186,10 @@
 				pp[sep].drawHandles(true, true);
 
 				// Draw prev/next handles
-				if(sep>0){ pp[sep-1].drawHandles(false, true); }
-				else { pp[pp.length-1].drawHandles(false, true); }
+				var prev = sep-1;
+				if (prev === -1) prev = pp.length-1;
+				pp[prev].drawHandles(false, true);
+				pp[sep].drawQuadraticHandle(pp[prev].P);
 
 				pp[(sep+1) % pp.length].drawHandles(true, false);
 			}
@@ -197,12 +199,12 @@
 				//debug('DRAWSELECTOUTLINE() - Drawing Point ' + s + ' - selected: ' + pp[s].selected);
 				var c = _UI.colors.accent_65;
 				if(this.path.sp(false) && pp[s].selected){ c = 'white'; }
-				if(s == pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]);
+				if(s === pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]);
 				else pp[s].drawDirectionalityPoint(c, pp[s+1]);
 
 			}
 
-		} else if ((_UI.selectedtool=='newoval')){
+		} else if ((_UI.selectedtool==='newoval')){
 			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 

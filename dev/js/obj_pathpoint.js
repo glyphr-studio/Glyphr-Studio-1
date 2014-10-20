@@ -336,21 +336,27 @@
 	};
 
 	PathPoint.prototype.resolvePointType = function(){
-		debug('\n PathPoint.resolvePointType - START');
+		// debug('\n PathPoint.resolvePointType - START');
+		// debug(this);
+
 		// corner, flat, symmetric
-		if(round(this.getHandleAngle(this.H1),2) === round((this.getHandleAngle(this.H2)+Math.PI)%(Math.PI*2),2)){
+		var a1 = round(this.getHandleAngle(this.H1),2);
+		var a2 = round((this.getHandleAngle(this.H2)+Math.PI)%(Math.PI*2),2);
+		// debug('\t comparing ' + a1 + ' === ' + a2);
+		if(a1 === a2){
+			// debug('\t Angle test passed... flat or symmetric');
 			if(this.getHandleLength(this.H1) === this.getHandleLength(this.H2)){
-				debug('\t setting to Symmetric');
+				// debug('\t resolvePointType - setting to Symmetric');
 				this.type = 'symmetric';
 			} else {
-				debug('\t setting to Flat');
+				// debug('\t resolvePointType - setting to Flat');
 				this.type = 'flat';
 			}
 		} else {
-			debug('\t setting to Corner');
+			// debug('\t resolvePointType - setting to Corner');
 			this.type = 'corner';
 		}
-		debug(' pathPoint.resolvePointType - END\n');
+		// debug(' pathPoint.resolvePointType - END\n');
 	};
 
 	PathPoint.prototype.makePointedTo = function(px, py, length){
@@ -453,6 +459,7 @@
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2) {
 		_UI.chareditctx.fillStyle = _UI.colors.accent_65;
+		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 		_UI.chareditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 
@@ -481,24 +488,36 @@
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 		}
+	};
 
+	PathPoint.prototype.drawQuadraticHandle = function(prevP) {
 		// Draw Quadratic handle point from imported SVG
-		/*
+		_UI.chareditctx.fillStyle = _UI.colors.error;
+		_UI.chareditctx.strokeStyle = _UI.colors.error;
+		_UI.chareditctx.lineWidth = 1;
+		var hp = _GP.projectsettings.pointsize/2;
+
 		if(this.Q){
-			_UI.chareditctx.fillStyle = _UI.colors.error;
 			_UI.chareditctx.beginPath();
 			_UI.chareditctx.arc(sx_cx(this.Q.x), sy_cy(this.Q.y), hp, 0, Math.PI*2, true);
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.fill();
-			
-			_UI.chareditctx.strokeStyle = _UI.colors.error;
+
 			_UI.chareditctx.beginPath();
 			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
 			_UI.chareditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
+
+			if(prevP){
+				_UI.chareditctx.beginPath();
+				_UI.chareditctx.moveTo(sx_cx(prevP.x), sy_cy(prevP.y));
+				_UI.chareditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
+				_UI.chareditctx.closePath();
+				_UI.chareditctx.stroke();
+			}
 		}
-		*/
+
 	};
 
 
