@@ -3,41 +3,40 @@
 //	--------------------------
 //	Import SVG Font
 //	--------------------------
-	function ioSVG_importSVGfont(dropped) {
-		debug('ioSVG_importSVGfont \t Start');
-		
-		var loadcon = '';
-		loadcon += '<div class="newtile">';
-		loadcon += '<h3>Importing Font</h3>';
-		loadcon += '<div id="fontimportstatus">Reading font data...</div>';
-		loadcon += genLoadingAnimationHTML();
-		loadcon += '</div>';
-		document.getElementById('firstruntableright').innerHTML = loadcon;
+	/*
+	*	Cases to consider
+	*	-----------------
+	*	needs scaling
+	*	unicode included but no path or children
+	*	unicode outside of known ranges
+	*		and provides a name
+	*		provides no name
+	*	unicode spanning known ranges
+	*/
 
-		setTimeout(startFontImport, 10);
-		/*
-		*	Cases to consider
-		*	-----------------
-		*	needs scaling
-		*	unicode included but no path or children
-		*	unicode outside of known ranges
-		*		and provides a name
-		*		provides no name
-		*	unicode spanning known ranges
-		*/
+	function ioSVG_importSVGfont(filter) {
+		debug('\n ioSVG_importSVGfont - Start');
+
+		document.getElementById('firstruntableright').innerHTML = make_LoadingAnimation(false);
+
+		setTimeout(setupFontImport, 10);
+
 		var fis = document.getElementById('fontimportstatus');
 		var sweep = document.getElementById('sweep');
 		var degrees = 0;
-		var importStatus = function(msg){ 
+		function importStatus(msg){
+			debug('\t>> import status >> ' + msg);
 		    degrees = ((degrees + 2) % 360);
             sweep.style.transform = ('rotate('+degrees+'deg)');
             fis.innerHTML = msg;
-		};
+		}
 
 		var font, chars, kerns;
-		var svgdata = dropped;
-		function startFontImport(){
-			debug('\n startFontImport - START');
+		var svgdata = _UI.droppedFileContent;
+
+		function setupFontImport(){
+			importStatus('Reading font data...');
+			debug('\n setupFontImport - START');
 
 			_GP = new GlyphrProject();
 
@@ -50,7 +49,7 @@
 			try {
 				jsondata = convertXMLtoJSON(svgdata);
 			} catch (e){
-				//errormessage(e.message);
+				showErrorMessageBox(e.message);
 				return;
 			}
 
@@ -66,10 +65,20 @@
 			chars = ioSVG_getTags(font, 'glyph');
 			debug('\t got chars');
 
-			// Kick off the import
+			// test for range
+			if(chars.length < 600 || filter){
+				setTimeout(startFontImport, 1);
+			} else {
+				document.getElementById('firstruntableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
+			}
+			debug(' setupFontImport - END\n');
+		}
+
+		function startFontImport() {
+			debug('\n startFontImport - START');
 			importStatus('Importing Character 1 of ' + chars.length);
+			setTimeout(importOneChar, 4);
 			debug(' startFontImport - END\n');
-			setTimeout(importOneChar, 1);
 		}
 
 		/*
@@ -85,11 +94,12 @@
 		var newshapes = [];
 		var fc = {};
 		var fl = {};
-	
+
 		var c=0;
 		function importOneChar(){
+			importStatus('Importing Character ' + c + ' of ' + chars.length);
+
 			if(c >= chars.length) {
-				importStatus('Importing Kern Pair 1 of ' + kerns.length);
 				setTimeout(importOneKern, 1);
 				return;
 			}
@@ -98,19 +108,26 @@
 			tc = chars[c];
 
 			// Get the appropriate unicode decimal for this char
-			debug('\n Char Import - START');
-			debug('\t starting  unicode \t' + tc.attributes.unicode);
+			// debug('\n importOneChar - START');
+			// debug('\t starting  unicode \t' + tc.attributes.unicode);
 
 			uni = parseUnicodeInput(tc.attributes.unicode);
-			debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
+			// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
 
 			if(uni === false){
 				// Check for .notdef
-				debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' with no Unicode ID !!!');
+				// debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' No Unicode !!!');
 				chars.splice(c, 1);
-			} else if (uni.length > 1 || uni[0] <= _UI.charrange.latinextendedb.end){
 
-				debug('\t Char IF section');
+			} else if (isOutOfBounds(uni)){
+				// debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' OUT OF BOUNDS !!!');
+				chars.splice(c, 1);
+
+			} else {
+
+				// Check if within range
+
+				// debug('\t Char or Ligature section');
 				/*
 				*
 				*	CHARACTER OR LIGATURE IMPORT
@@ -127,13 +144,13 @@
 					data.replace(/Z/g,'z');
 					data = data.split('z');
 
-					debug('\t data.length (shapes) = ' + data.length);
+					// debug('\t data.length (shapes) = ' + data.length);
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
-							debug('\t starting convertPathTag');
+							// debug('\t starting convertPathTag');
 							ns = ioSVG_convertPathTag(data[d]);
-							debug('\t created shape from PathTag');
-							debug(ns);
+							// debug('\t created shape from PathTag');
+							// debug(ns);
 							newshapes.push(ns);
 							shapecounter++;
 							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
@@ -170,13 +187,24 @@
 					fl[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 				}
 
-				debug(' Char Import - END\n');
 			}
 
 			// finish loop
 			c++;
-			importStatus('Importing Character ' + c + ' of ' + chars.length);
 			setTimeout(importOneChar, 1);
+
+			// debug(' importOneChar - END\n');
+		}
+
+		function isOutOfBounds(uni) {
+			if(!filter) return false;
+			if(!uni.length) return true;
+
+			for(var u=0; u<uni.length; u++){
+				if((parseInt(uni[u]) > _UI.importrange.end) || (parseInt(uni[u]) < _UI.importrange.begin)) return true;
+			}
+
+			return false;
 		}
 
 		/*
@@ -189,9 +217,10 @@
 
 		var k = 0;
 		function importOneKern(){
+			importStatus('Importing Kern Pair ' + k + ' of ' + kerns.length);
+
 			if(k >= kerns.length) {
-				importStatus('Finalizing the imported font...');
-				setTimeout(finalizeFontImport, 1);
+				setTimeout(startFinalizeFontImport, 1);
 				return;
 			}
 
@@ -204,7 +233,7 @@
 			// Get members by name
 			leftgroup = getKernMembersByName(tk.attributes.g1, chars, leftgroup, _UI.charrange.latinextendedb.end);
 			rightgroup = getKernMembersByName(tk.attributes.g2, chars, rightgroup, _UI.charrange.latinextendedb.end);
-			
+
 			// debug('\t kern groups by name ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
 
 			// Get members by Unicode
@@ -225,7 +254,6 @@
 
 			// debug(' Kern Import - END\n');
 			k++;
-			importStatus('Importing Kern Pair ' + k + ' of ' + kerns.length);
 			setTimeout(importOneKern, 1);
 		}
 
@@ -235,6 +263,11 @@
 		*	FINALIZE
 		*
 		*/
+		function startFinalizeFontImport() {
+			importStatus('Finalizing the imported font...');
+			setTimeout(finalizeFontImport, 4);
+		}
+
 		function finalizeFontImport(){
 			// var rstart, rend;
 			for(var r in _UI.charrange){
@@ -263,45 +296,102 @@
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
 
-			var fontattr = ioSVG_getFirstTagInstance(font, 'font-face').attributes;
+			var fatt = ioSVG_getFirstTagInstance(font, 'font-face').attributes;
 
-			_GP.projectsettings.upm = 1*fontattr['units-per-em'];
-			
+			_GP.projectsettings.upm = 1*fatt['units-per-em'];
+
 			finalizeGlyphrProject();
 			closeDialog();
 
 			debug(' ioSVG_importSVGfont - END\n');
 			navigate();
 		}
+		debug(' ioSVG_importSVGfont - END\n');
 	}
-/*
-					if(re === true) navigate();
-					else {
-						con = '<h1>oops</h1>Looks like there was a SVG import error.<br><br>';
 
-						if(re.char){
-							con += 'This &lt;glyph&gt; element seems to be causing issues:<br>';
-							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.char.attributes)+'</textarea>';
-						} else if (re.kern){
-							con += 'This &lt;hkern&gt; element seems to be causing issues:<br>';
-							con += '<textarea style="width:500px; height:200px; margin-top:10px;">'+json(re.kern.attributes)+'</textarea>';
-						}
-
-						con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';
-						openDialog(con);
-					}
-
-
-*/
-	function genLoadingAnimationHTML() {
+	function make_LoadingAnimation() {
+		debug('\n make_LoadingAnimation - START');
 		var re = '';
+		re += '<div class="newtile">';
+		re += '<h3>Importing Font</h3>';
+		re += '<div id="fontimportstatus">...</div>';
 		re += '<br><div style="margin:0px; width:50px; height:50px; padding:0px; background-color:'+_UI.colors.accent_65+';';
 		re += 'background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwFJREFUeNrsWd2N2kAQNtYpr/F1wFUQUgG4gnAVABXEVwFHBXepwEkFx1UAVHBOBXYHOK9RJDJzGkerZWZ3bYy9QYw0Qgh2dr6d2dn5Gfz+czgEF0BhcCF0BeIb3bQsryDe0fet9vuEPsfAQ+JWaNDCZc+AfwCvP9wMijoLYW8EMgWeAY/6AFKi4sCruspbQC0JWNQFkO/ADwCgPIevgz4I4gl4fi4gePILALDt4vKCXnifUtd75AqkthVIkSOqcxB1rOMC5Bk2f3DYFH37C13akUOAQH4F2WsH2Qgmsf3pYODEdmLAj8B7ixwT70lGZNkrMckxAUkdBJ8CgANkO7hUWi+51hZMHhv89kV53NomvEP30n2E/Tfc3qHwRiwEIej7b2cEUb3+b7QXRwvS0QqEfeTowdq0mVYY6H0v2lOPeqjbyha1CvjjneBOm1PTiIbpT8y5GeiUq4eqW2QlCFz2ACKgPZfCbyvJIiUgvzXciz7pTnD3fZWXhdrrLVmjb3oyZBxHFvkMqDPmguee1E5HVlG9JVTcKmMWTz0qAqdMBMuqUBwq0YGjmUdAZobI9g/IzhA1fCFJl50KpHBNw/skQafCCKRJudkBRTYgvruVVadrg+5/AlJ6qG/ZBEjmIZDMBmQidDt8skopdGAmKpCxsPibR0AkXcZ60nirFzBUUOUevCklJY2cfnv9jiSMe+HC2ANrxEIzImELKw41IcfMM+3BMu+NEK6Jp3tLqD3/bBFFguKOI1lVr68NBV+kItObXXNL4vbYcmOO7TxadJi7NOhKOonMICiiQudrizlZRpFpbWqWU1W40d1c6jSioHuXzrkydfoUuDWwVcWRfwaO0y5K41+4u2rrxuMo4blB3TAM5EZe0WTKRX1hqQnhNFbYUuQo+oi7dChpYGnTumS/KCCnTviwSwA0EcgDh15z0xmi04CmIYBqYDSvs+6U8XQ12X3FS9vU9cjKI1K+0UT3VCBc7VxQJPqlfFepCgIfSXlTUOgNyLXUvQK5RCB/BRgA7GD39jF9VXsAAAAASUVORK5CYII=); ';
 		re += 'rgb(0,140,210) no-repeat fixed;">';
 		re += '<img id="sweep" style="margin:0px; padding:0px;" ';
 		re += 'src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAu9JREFUeNrsWMtu00AU9TNOkyakjxSXlj4gIPESYsdjg8SGDSyRWCCxgQ9gh9Qt38LX8AHtCj4AKE1aEzuOuSOdka4uTqxCbHcxRzoa2+PEc+bce30T21ow4knWpKFHdNjlHWKC45S4TPxJ/K7Y8Ozkf5/rWYtHJkRIuMRt4grxGsTHNBySoK8XSUjR7io3YnHtLnGXBA1p/EKCjs77ULsEIWqHwzmhtUYM2NwGsYGQs9g9n8/jkGOVg0lBaHG0hIgruPaWNuQ5cq42IeM5c4EIbX7uo1BoYQ+J70jMRl1C0jlzPjteJ56w8y3isbj/CfEjibl60YTwvOyKEPPFvfvEEeY+zBNTihBK0lmh1WNhtyRyaZN4Ks4dtilaTFilI7PKsNrxKY77xIhVKelUh3gm8ukB8YDEtKsUkhbkR4Md99miW3BjyOY7eHmeoJS/rtsRly0sYeX2lAndFwWgkyPsJblyr04hAatWMRa+yty7TvzB7g/BYU5H8qkuIR76MB5iW2zhN1GhNHYRZiPxPeoze8pJcuVF6UKocqU5PVaEluQMiwxYhRrDGSX4Bo4jUfEGKAo6n95X4YglmsOmaEl2EDJruBajJA/gQso+p0LuEgRMeYkmV55WIWQiQku3JGrxv1Fm17FAldTqhfeL3b+NUIpyQtWFS2/KauNnlWCbtSS3Uak2ca4Sus2Suo/fKyMRXvod0wSVONVYdr2KQ6uLKjVEch8jxDy40oNbY5HkS3CsgdDKhEOPyxaSsER32KJChNYAY4YXHk9wF3nRYu7O6uHulCqEKteUbJ/CjRWETBu7uofwCjEfseqkQ2dc0IC6cPNZ2Y7ohHewwBDjKt4lujVxUZabuD/L+U0TsILhY9QuP6pCSIIF3yJeRg74SP5liNKhk2DOxRjg2C14Rq8qIfchpIsc8VjFbLCF+//6ELtsFZQjale/sf+6MhEWC0EVQtRL7pVlYGBgYGBgYGBgYGBgYGBgYGBg8Bf+CDAAUF2+ry6GVycAAAAASUVORK5CYII=">';
 		re += '</div>';
+		re += '</div>';
+
+		debug(' make_LoadingAnimation - END\n');
         return re;
+	}
+
+	function make_ImportFilter(chars, kerns) {
+		var re = '<div class="newtile" style="width:500px;">'+
+			'<h2>Whoa, there...</h2><br><br>'+
+			'The font you\'re trying to import has <b>'+chars+' characters</b> and <b>'+kerns+' kern pairs</b>.  '+
+			'Glyphr Studio has a hard time with super-large fonts like this.  '+
+			'We recomend pairing it down a little:<br><br>';
+
+		re += '<table>';
+
+		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'basic\');" id="basic" checked/></td><td>';
+		re += '<h3>Only import Latin characters</h3>'+
+			'This includes Latin and Latin Extended Unicode ranges (0x0020 - 0x024F).<br><br>';
+		re += '</td></tr>';
+
+		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
+		re += '<h3>Import a custom range of characters</h3>'+
+			'A nice overview of character ranges can be found at <a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
+			'<table class="settingstable"><tr>'+
+			'<td>begin:<br><input type="text" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
+			'<td>end:<br><input type="text" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
+			'<td><br><button onclick="checkFilter(\'custom\');">Set Range</button>'+helpUI('what?')+'</td>'+
+			'<td><br><div id="customrangeerror">bad range input</div></td>'+
+			'</tr></table><br>';
+		re += '</td></tr>';
+
+		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'everything\');" id="everything"/></td><td>';
+		re += '<h3>Import all the characters</h3>'+
+			'Don\'t say we did\'t try to warn you.';
+		re += '</td></tr>';
+
+		re += '</table>';
+
+		re += '<br><br><button class="buttonsel" style="padding:10px 20px;" onclick="ioSVG_importSVGfont(true);">Import Font</button>';
+
+		return re;
+	}
+
+	function setFontImportRange() {
+		var range = getCustomRange(false);
+		if(range){
+			_UI.importrange = range;
+			document.getElementById('customrangebegin').value = range.begin;
+			document.getElementById('customrangeend').value = range.end;
+		}
+	}
+
+	function checkFilter(id) {
+		if(id === 'basic'){
+			document.getElementById('basic').checked = true;
+			document.getElementById('custom').checked = false;
+			document.getElementById('everything').checked = false;
+			_UI.importrange.begin = 0x0020;
+			_UI.importrange.end = 0x024F;
+		} else if (id === 'custom'){
+			document.getElementById('basic').checked = false;
+			document.getElementById('custom').checked = true;
+			document.getElementById('everything').checked = false;
+			setFontImportRange();
+		} else if (id === 'everything'){
+			document.getElementById('basic').checked = false;
+			document.getElementById('custom').checked = false;
+			document.getElementById('everything').checked = true;
+			_UI.importrange.begin = 0x0000;
+			_UI.importrange.end = 0xFFFF;
+		}
 	}
 
 	function getKernMembersByName(names, chars, arr, limit) {
@@ -338,7 +428,7 @@
 
 			// Check all the IDs
 			for(var i=0; i<ids.length; i++){
-			
+
 				// Check all the chars
 				for(var c=0; c<chars.length; c++){
 					if(chars[c].attributes.unicode){

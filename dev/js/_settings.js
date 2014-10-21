@@ -125,6 +125,14 @@
 			'overshoot_top': false,
 			'overshoot_bottom': false,
 			'svgcode': false
+		},
+
+		// page: firstrun
+		'droppedFileContent': false,
+		'spinning': true,
+		'importrange': {
+			'begin': 0x0020,
+			'end': 0x024F
 		}
 	};
 

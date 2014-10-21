@@ -268,8 +268,8 @@
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			debug('\n\t Path Chunk ' + c);
-			debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
+			// debug('\n\t Path Chunk ' + c);
+			// debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}

@@ -144,7 +144,7 @@
 		_UI.chareditctx.lineWidth = 1;
 		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 
-		if((_UI.selectedtool=='newrect')||(_UI.selectedtool=='shaperesize')){
+		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
 			_UI.chareditctx.fillStyle = 'transparent';
 
 			//draw bounding box and 8points
@@ -164,9 +164,9 @@
 
 			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
 			_UI.chareditctx.strokeRect(x,y,w,h);
-			if(_UI.selectedtool=='shaperesize'){ this.draw8points(onlycenter);}
+			if(_UI.selectedtool==='shaperesize'){ this.draw8points(onlycenter);}
 
-		} else if ((_UI.selectedtool == 'pathedit')||(_UI.selectedtool=='newpath')){
+		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')){
 			// Draw Path Points
 			var sep = this.path.sp(true, 'DRAWSELECTOUTLINE');
 			var pp = this.path.pathpoints;
@@ -189,7 +189,9 @@
 				var prev = sep-1;
 				if (prev === -1) prev = pp.length-1;
 				pp[prev].drawHandles(false, true);
-				pp[sep].drawQuadraticHandle(pp[prev].P);
+				
+				// debugging SVG Import
+				//pp[sep].drawQuadraticHandle(pp[prev].P);
 
 				pp[(sep+1) % pp.length].drawHandles(true, false);
 			}
@@ -441,7 +443,7 @@
 		var shapetype = 'Shape ';
 		var p1,p2,p3,p4;
 
-		if(type == 'oval'){
+		if(type === 'oval'){
 			p1 = new PathPoint({'P':new Coord({'x':0,'y':(th/2)}), 'H1':new Coord({'x':0,'y':hd}), 'H2':new Coord({'x':0,'y':(th-hd)}), 'type':'symmetric'});
 			p2 = new PathPoint({'P':new Coord({'x':(tw/2),'y':th}), 'H1':new Coord({'x':hd,'y':th}), 'H2':new Coord({'x':(tw-hd),'y':th}), 'type':'symmetric'});
 			p3 = new PathPoint({'P':new Coord({'x':tw,'y':(th/2)}), 'H1':new Coord({'x':tw,'y':(th-hd)}), 'H2':new Coord({'x':tw,'y':hd}), 'type':'symmetric'});
@@ -460,7 +462,7 @@
 		newshape.path = new Path({'pathpoints':parr});
 		newshape.name = (shapetype + getSelectedCharShapes().length+1);
 
-		if(_UI.navhere == 'character edit') { _UI.selectedshape = getSelectedCharShapes().length; }
+		if(_UI.navhere === 'character edit') { _UI.selectedshape = getSelectedCharShapes().length; }
 		getSelectedCharShapes().push(newshape);
 		updateCurrentCharWidth();
 	}
@@ -474,7 +476,7 @@
 
 		if((scs.length > 0) && (_UI.selectedshape >= 0)){
 			scs.splice(_UI.selectedshape, 1);
-			if(scs.length == _UI.selectedshape) {
+			if(scs.length === _UI.selectedshape) {
 				_UI.selectedshape = _UI.selectedshape-1;
 			}
 		} else {
@@ -501,7 +503,7 @@
 	function clickSelectShape(x,y){
 		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
 
-		if(_UI.navhere == 'linked shapes'){
+		if(_UI.navhere === 'linked shapes'){
 			return clickSelectLinkedShape(x,y);
 		}
 		var ts;
@@ -511,7 +513,7 @@
 
 			if(ts.isHere(x,y)){
 				if(!ts.link) ts.path.selectPathPoint(false);
-				if(j != _UI.selectedshape){
+				if(j !== _UI.selectedshape){
 					//debug('CLICKSELECTShape() - selecting shape ' + j);
 					_UI.selectedshape = j;
 

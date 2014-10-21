@@ -3,14 +3,14 @@
 	function loadPage_firstrun(){
 		// debug("LOADING PAGE >> loadPage_firstrun");
 
-		var ct = "<table class='firstruntable'><tr>"+
+		var ct = "<table style='height:100%; width:100%;'><tr>"+
 		"<td class='firstruntableleft' vertical-align='middle'><div id='splashscreenlogo'></div>"+
 			"<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>"+
 			"For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>"+
 			"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
 			"Which is a free / open source 'copyleft' license. You are free to use, distribute, and modify Glyphr Studio as long as " +
 			"this license and its freeness stays intact.</td>"+
-		"<td id='firstruntableright' vertical-align='middle'>" + importOrCreateNew() + "</td>"+
+		"<td id='firstruntableright' vertical-align='middle'>" + make_ImportOrCreateNew() + "</td>"+
 		"</tr></table>";
 
 		var mp = getEditDocument().getElementById("mainwrapper");
@@ -22,11 +22,12 @@
 		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
 	}
 
-	function importOrCreateNew(){
+	function make_ImportOrCreateNew(){
 
 		var con = "<div class='newtile'>"+
 					"<h3>drag and drop to load a file</h3>"+
 					"<div id='droptarget'>Glyphr Project File (.txt)<br>SVG Font File (.svg)</div>"+
+					makeErrorMessageBox() +
 				"</div>";
 		con += "<div class='newtile'>"+
 					"<h3>Start a new Glyphr Project</h3>"+
@@ -55,7 +56,8 @@
 				var con;
 
 				if(fname === 'svg') {
-					ioSVG_importSVGfont(reader.result);
+					_UI.droppedFileContent = reader.result;
+					ioSVG_importSVGfont(false);
 				} else if(fname === 'txt') {
 					importGlyphrProjectFromText(reader.result);
 					navigate();

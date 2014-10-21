@@ -769,25 +769,19 @@
 /* Page - Open / New */
 /* -----------------*/
 
-
-	.firstruntable {
-		border-collapse: collapse;
-		height:100%;
-		width:100%;
-	}
-
-	.firstruntable td {
+	.firstruntableleft {
+		background-color: rgb(0,170,225);
+		border-left:20px solid rgb(0,140,210);
+		border-right:2px solid rgb(80,196,255);
+		width:475px;
 		vertical-align: middle;
 		padding:0px 0px 0px 50px;
 	}
 
-	.firstruntableleft {
-		background-color: rgb(0,170,225);
-		width:475px;
+	#firstruntableright {
+		vertical-align: middle;
+		padding:0px 0px 0px 50px;
 	}
-
-
-	#firstruntableright {}
 
 	#splashscreenlogo {
 		width: 400px;
@@ -829,6 +823,12 @@
 		border:1px dashed rgb(127,134,137);
 		color: rgb(0,170,225);
 		padding: 20px 0px 20px 20px;
+	}
+
+	.checkcol {
+		width:30px;
+		vertical-align: top;
+		padding:4px;
 	}
 
 
