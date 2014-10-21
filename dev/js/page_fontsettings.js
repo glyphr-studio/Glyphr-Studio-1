@@ -4,10 +4,12 @@
 		// debug("LOADING PAGE >> loadPage_fontsettings");
 		// SETTINGS
 		var ps = _GP.projectsettings;
+		var meta = _GP.metadata;
 
 		var content = "<h1 class='pagetitle'>Font Settings</h1><div class='pagecontent textpage'>";
-		content += "<p style='margin-bottom:20px;'>These properties are used by the Glyphr project while you are designing this font.  By default, these are the same as some of the OpenType settings below." +
-					"<br><i>Values will be saved as you change them</i>.</p>";
+
+		content += "<h2>Font Name</h2>";
+		content += "<input type='text' style='width:300px; padding:8px; font-size:1.2em; margin-bottom:20px;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value;'/><br>";
 
 		content += "<h2>Character Proportions</h2>";
 		
@@ -111,10 +113,9 @@
 			"<br><i>Values will be saved as you change them</i>.</p>";
 
 
-		var meta = _GP.metadata;
 		content += "<table class='settingstable'>";
 		for(var m in meta){
-			if(meta.hasOwnProperty(m)){
+			if(meta.hasOwnProperty(m) && m!== 'font_family'){
 				content += "<tr>";
 				content += "<td class='propname' style='width:200px'>" + m.replace(/_/g, '-') + "</td>";
 				content += "<td><input type='text' value='"+meta[m]+"' onchange=''/></td>";
