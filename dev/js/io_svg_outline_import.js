@@ -624,7 +624,9 @@
 			for(var a=0; a<attributes.length; a++){
 				attr = attributes[a];
 				// debug('\t\t'+attr.name+' : '+attr.value);
-				result[attr.name] = trim(attr.value);
+				// result[attr.name] = trim(attr.value);
+				if(attr.name === 'd') result[attr.name] = trim(attr.value);
+				else result[attr.name] = attr.value;
 			}
 
 			return result;

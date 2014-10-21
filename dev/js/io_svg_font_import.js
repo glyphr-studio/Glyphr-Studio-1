@@ -53,7 +53,8 @@
 
 			// Get Chars
 			chars = ioSVG_getTags(font, 'glyph');
-			// debug('\t got chars');
+			debug('\t got chars');
+			debug(chars);
 
 			// test for range
 			if(chars.length < 600 || filter){
@@ -98,26 +99,34 @@
 			tc = chars[c];
 
 			// Get the appropriate unicode decimal for this char
-			// debug('\n importOneChar - START');
-			// debug('\t starting  unicode \t' + tc.attributes.unicode);
+			debug('\n importOneChar - START');
+			debug('\t starting  unicode \t' + tc.attributes.unicode + ' \t ' + tc.attributes['glyph-name']);
 
 			uni = parseUnicodeInput(tc.attributes.unicode);
-			// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + JSON.stringify(uni) + '\t name: ' + tc.attributes['glyph-name']);
+
+			if(tc.attributes.unicode === ' '){
+				debug('\t IMPORTING SPACE!!!!\n'+ json(tc.attributes));
+				uni = ['0x0020'];
+			}
+
+			if(tc.attributes.unicode === '0x3c') {
+				debug('\t IMPORTING LESS THAN!!!\n' + json(tc.attributes));
+			}
+			
+
 
 			if(uni === false){
 				// Check for .notdef
-				// debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' No Unicode !!!');
+				debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' No Unicode !!!');
 				chars.splice(c, 1);
 
 			} else if (isOutOfBounds(uni)){
-				// debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' OUT OF BOUNDS !!!');
+				debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' OUT OF BOUNDS !!!');
 				chars.splice(c, 1);
 
 			} else {
 
-				// Check if within range
-
-				// debug('\t Char or Ligature section');
+				// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + json(uni) + '\t attributes: ' + json(tc.attributes));
 				/*
 				*
 				*	CHARACTER OR LIGATURE IMPORT
