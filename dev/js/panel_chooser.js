@@ -217,11 +217,11 @@
 	}
 
 	function addCommonLigatures() {
-		var ff = parseUnicodeInput('ff');
-		var fi = parseUnicodeInput('fi');
-		var fl = parseUnicodeInput('fl');
-		var ffi = parseUnicodeInput('ffi');
-		var ffl = parseUnicodeInput('ffl');
+		var ff = parseUnicodeInput('ff').join('');
+		var fi = parseUnicodeInput('fi').join('');
+		var fl = parseUnicodeInput('fl').join('');
+		var ffi = parseUnicodeInput('ffi').join('');
+		var ffl = parseUnicodeInput('ffl').join('');
 
 		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Char({'charhex':ff});
 		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Char({'charhex':fi});

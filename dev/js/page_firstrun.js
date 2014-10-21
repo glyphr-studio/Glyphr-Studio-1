@@ -62,9 +62,9 @@
 					importGlyphrProjectFromText(reader.result);
 					navigate();
 				} else {
-					con = '<h1>oops</h1>Could not read file type with suffix ' + fname;
-					con += '<br><button onclick="document.getElementById(\'droptarget\').innerHTML = \'Try loading another file\'; closeDialog();">Close</button>';
-					openDialog(con);
+					con = 'Could not read .' + fname + ' file type.';
+					con += '<br>Try loading another .svg or .txt file...';
+					document.getElementById('droptarget').innerHTML = con;
 				}
 
 				debug(' reader.onload - END\n');
@@ -313,7 +313,8 @@
 		_UI.selectedchar = getFirstCharID();
 		_UI.selectedlinkedshape = getFirstID(_GP.linkedshapes);
 		_UI.selectedkern = getFirstID(_GP.kerning);
-
+		
+		calculateDefaultView();
 		resetThumbView();
 
 		_UI.navhere = "character edit";

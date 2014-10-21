@@ -74,7 +74,7 @@
 		var con = '<h1>New Kern Pair</h1>';
 		con += '<div style="width:500px;">';
 		con += 'Create a new kern pair by specifying a character for the left and right sides. ';
-		con += 'Each side of the kern pair can also be a group of characters.  When any character from the left side is displayed before any character in the right side, the pair will be kerned. ';
+		con += 'Each side of the kern pair can also be a group of characters.  When any character from the left side is displayed before any character in the right side, the pair will be kerned.<br><br>';
 		con += 'Characters can also be specified in Unicode format (like U+0066) or hexadecimal format (like 0x0066). ';
 		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Kern Pair Characters</h3>';
@@ -92,8 +92,8 @@
 		var l = parseKernGroupInput(document.getElementById('leftgroup').value);
 		var r = parseKernGroupInput(document.getElementById('rightgroup').value);
 
-		if(!l.length) showErrorMessageBox('The left kern group cannot be empty.');
-		else if(!r.length) showErrorMessageBox('The right kern group cannot be empty.');
+		if(!l || !l.length) showErrorMessageBox('The left kern group cannot be empty.');
+		else if(!r || !r.length) showErrorMessageBox('The right kern group cannot be empty.');
 		else {
 
 			var id = generateNewID(_GP.kerning, 'kern');
@@ -109,6 +109,7 @@
 	function parseKernGroupInput(chars) {
 		chars = trim(chars);
 		chars = parseUnicodeInput(chars);
+		if(chars === false) return false;
 		chars = chars.filter(function(elem, pos) { return chars.indexOf(elem) === pos;});
 		return chars;
 	}

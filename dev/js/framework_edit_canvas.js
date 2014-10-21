@@ -296,6 +296,9 @@
 		//debug('RESETTHUMBVIEW - set to \n' + JSON.stringify(_UI.thumbview));
 	}
 
+	function calculateDefaultView() {
+		if(_GP.projectsettings.upm > 2000) _UI.defaultview = {'dx':200, 'dy':550, 'dz':0.3};
+	}
 
 
 //	-------------------------

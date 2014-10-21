@@ -419,7 +419,7 @@ _UI.icons.nav_characteredit = '<path d="M15.4,19.4v2.7h-5.3v-1.9c-1.5,1.4-3.1,2.
 	}
 
 	function helpUI(message){
-		var re = "<button class='customui' style='margin-left:4px;' "+
+		var re = '<button class="customui" style="margin-left:4px;" '+
 		'title="quick help tip" '+
 		'onclick="openDialog(\''+message+'\');">'+
 		'<svg version="1.1" '+

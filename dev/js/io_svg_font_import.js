@@ -348,16 +348,17 @@
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'basic\');" id="basic" checked/></td><td>';
 		re += '<h3>Only import Latin characters</h3>'+
-			'This includes Latin and Latin Extended Unicode ranges (0x0020 - 0x024F).<br><br>';
+			'This includes Latin and Latin Extended Unicode ranges<br>(0x0020 - 0x024F).<br><br>';
 		re += '</td></tr>';
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
 		re += '<h3>Import a custom range of characters</h3>'+
-			'A nice overview of character ranges can be found at <a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
+			'A nice overview of character ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
 			'<table class="settingstable"><tr>'+
 			'<td>begin:<br><input type="text" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
 			'<td>end:<br><input type="text" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
-			'<td><br><button onclick="checkFilter(\'custom\');">Set Range</button>'+helpUI('what?')+'</td>'+
+			'<td><br><button onclick="checkFilter(\'custom\');">Set Range</button></td>'+
+			'<td style="padding-top:20px;">'+helpUI(unicodeInputHelp())+'</td>'+
 			'<td><br><div id="customrangeerror">bad range input</div></td>'+
 			'</tr></table><br>';
 		re += '</td></tr>';

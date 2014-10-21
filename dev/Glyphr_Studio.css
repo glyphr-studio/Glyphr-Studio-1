@@ -813,6 +813,11 @@
 		padding:8px 25px;
 	}
 
+	.newtile #customrangebegin,
+	.newtile #customrangeend {
+		width:140px;
+	}
+
 	#newprojectname	{
 		width:94%;
 		height:25px;

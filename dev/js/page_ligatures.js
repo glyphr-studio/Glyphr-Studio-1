@@ -21,7 +21,7 @@
 	function showNewLigatureDialog() {
 		var con = '<h1>New Ligature</h1>';
 		con += '<div style="width:500px;">';
-		con += 'Create a new ligature by specifying two or more individual characters that will make up the ligature (like ff). ';
+		con += 'Create a new ligature by specifying two or more individual characters that will make up the ligature (like ff).<br><br>';
 		con += 'Ligature characters can also be specified in Unicode format (like U+0066U+0066) or hexadecimal format (like 0x00660x0066). ';
 		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Ligature Characters</h3>';
@@ -39,14 +39,21 @@
 		var lid = document.getElementById('newligatureinput').value;
 		// debug('\t retrieved ' + lid);
 		lid = lid.replace(/\s/gi, '');
-		lid = parseUnicodeInput(lid).join('');
+		lid = parseUnicodeInput(lid);
+		if(lid) lid = lid.join('');
+		else {
+			showErrorMessageBox('Ligatures must be at least two characters.'); 
+			return;
+		}
+			
+
 		// debug('\t parsed ' + lid);
 
 		var lig = _GP.ligatures;
 
 		if(lig[lid]){
 			showErrorMessageBox('Ligature allready exists.');
-		} else if (lid.length < 2){
+		} else if (lig === false || lid.length < 2){
 			showErrorMessageBox('Ligatures must be at least two characters.');
 		} else {
 			lig[lid] = new Char({'charhex':lid});
