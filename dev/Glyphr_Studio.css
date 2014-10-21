@@ -771,8 +771,6 @@
 
 	.firstruntableleft {
 		background-color: rgb(0,170,225);
-		border-left:20px solid rgb(0,140,210);
-		border-right:2px solid rgb(80,196,255);
 		width:475px;
 		vertical-align: middle;
 		padding:0px 0px 0px 50px;
@@ -801,10 +799,18 @@
 	}
 
 	.newtile {
-		width:320px;
+		width:350px;
 		margin:20px 4px 20px 20px;
 		display:inline;
 		float:left;
+	}
+
+	.newtile h2 {
+		display:block;
+	}
+
+	.newtile .buttonsel {
+		padding:8px 25px;
 	}
 
 	#newprojectname	{

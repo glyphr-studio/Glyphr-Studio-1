@@ -455,10 +455,11 @@
 			}
 
 			// Char Width or Kerning
-			if(oncharedit && (getSelectedCharShapes.length || _UI.selectedchar === '0x0020')){
+			var sc = getSelectedChar();
+			if(oncharedit){
 				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
 
-				var rhl = getSelectedChar().charwidth;
+				var rhl = sc.charwidth;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
 				ps.guides.rightside.location = rhl;
 				ps.guides.rightside.draw(getSelectedCharRightSideBearing());

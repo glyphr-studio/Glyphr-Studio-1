@@ -25,12 +25,12 @@
 	function make_ImportOrCreateNew(){
 
 		var con = "<div class='newtile'>"+
-					"<h3>drag and drop to load a file</h3>"+
+					"<h2>drag and drop to load a file</h2>"+
 					"<div id='droptarget'>Glyphr Project File (.txt)<br>SVG Font File (.svg)</div>"+
 					makeErrorMessageBox() +
 				"</div>";
 		con += "<div class='newtile'>"+
-					"<h3>Start a new Glyphr Project</h3>"+
+					"<h2>Start a new Glyphr Project</h2>"+
 					"Project name: &nbsp; <input id='newprojectname' type='text' value='My Font'/><br>"+
 					"<button onclick='newGlyphrProject(); navigate();' class='buttonsel'>Start a new font from scratch</button>"+
 				"</div>";
@@ -113,12 +113,17 @@
 			vn = vn.split(".");
 			// debug("\t versionnum found " + vn);
 
+			var major = vn[0]*1;
+			var minor = vn[1]*1;
 			/* Major Version 0 */
-			if(vn[0]*1 === 0){
+			if(major === 0){
 				// debug("\t Major Version = 0");
-				if(vn[1]*1 < 5){
-					// debug("\t Minor Version < 5");
-					/* Minor Version 0.4 or earlier */
+				if(minor === 4){
+					// debug("\t Minor Version === 4");
+					fcontent = migrateFromBetaFourToFive(fcontent);
+					hydrateGlyphrProject(fcontent);
+				} else if(minor === 5){
+					// debug("\t Minor Version === 5");
 					hydrateGlyphrProject(fcontent);
 					// debug("\t _GP after hydrate:");
 					// debug(_GP);
@@ -140,7 +145,10 @@
 		}
 	}
 
-
+	function migrateFromBetaFourToFive(fc) {	
+		return fc;
+	}
+	
 	function migrateFromBetaThreeToFour(fc){
 
 		newfc = new GlyphrProject();

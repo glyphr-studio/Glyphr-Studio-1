@@ -6,8 +6,8 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			'version': 0,				// console version
-			'versionnum': 0,			// console number version
+			'version': 'Beta 5 - 0.5.working',	// project version
+			'versionnum': '0.5.0',				// project number version
 
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)
@@ -52,7 +52,7 @@
 		};
 
 		this.metadata = {
-			//'font_family': 0,
+			'font_family': 'My Font',
 			'font_style': 'normal',
 			'font_variant': 'normal',
 			'font_weight': 'normal',	// Default to 400
@@ -60,7 +60,7 @@
 			// 'font_size': 'all',
 			// 'unicode_range': 0,
 			// 'units_per_em': 0,
-			// 'panose_1': '0 0 0 0 0 0 0 0 0 0',
+			'panose_1': '0 0 0 0 0 0 0 0 0 0',
 			'stemv': 0,
 			'stemh': 0,
 			'slope': 0,

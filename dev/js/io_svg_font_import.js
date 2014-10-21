@@ -3,19 +3,9 @@
 //	--------------------------
 //	Import SVG Font
 //	--------------------------
-	/*
-	*	Cases to consider
-	*	-----------------
-	*	needs scaling
-	*	unicode included but no path or children
-	*	unicode outside of known ranges
-	*		and provides a name
-	*		provides no name
-	*	unicode spanning known ranges
-	*/
 
 	function ioSVG_importSVGfont(filter) {
-		debug('\n ioSVG_importSVGfont - Start');
+		// debug('\n ioSVG_importSVGfont - Start');
 
 		document.getElementById('firstruntableright').innerHTML = make_LoadingAnimation(false);
 
@@ -25,7 +15,7 @@
 		var sweep = document.getElementById('sweep');
 		var degrees = 0;
 		function importStatus(msg){
-			debug('\t>> import status >> ' + msg);
+			// debug('\t>> import status >> ' + msg);
 		    degrees = ((degrees + 2) % 360);
             sweep.style.transform = ('rotate('+degrees+'deg)');
             fis.innerHTML = msg;
@@ -36,7 +26,7 @@
 
 		function setupFontImport(){
 			importStatus('Reading font data...');
-			debug('\n setupFontImport - START');
+			// debug('\n setupFontImport - START');
 
 			_GP = new GlyphrProject();
 
@@ -55,15 +45,15 @@
 
 			// Get Font
 			font = ioSVG_getFirstTagInstance(jsondata, 'font');
-			debug('\t got font');
+			// debug('\t got font');
 
 			// Get Kerns
 			kerns = ioSVG_getTags(font, 'hkern');
-			debug('\t got kerns');
+			// debug('\t got kerns');
 
 			// Get Chars
 			chars = ioSVG_getTags(font, 'glyph');
-			debug('\t got chars');
+			// debug('\t got chars');
 
 			// test for range
 			if(chars.length < 600 || filter){
@@ -71,14 +61,14 @@
 			} else {
 				document.getElementById('firstruntableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
 			}
-			debug(' setupFontImport - END\n');
+			// debug(' setupFontImport - END\n');
 		}
 
 		function startFontImport() {
-			debug('\n startFontImport - START');
+			// debug('\n startFontImport - START');
 			importStatus('Importing Character 1 of ' + chars.length);
 			setTimeout(importOneChar, 4);
-			debug(' startFontImport - END\n');
+			// debug(' startFontImport - END\n');
 		}
 
 		/*
@@ -296,25 +286,45 @@
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
 
+			// Font Settings
 			var fatt = ioSVG_getFirstTagInstance(font, 'font-face').attributes;
+			var ps = _GP.projectsettings;
+			var md = _GP.metadata;
+			var fname = fatt['font-family'] || 'My Font';
 
-			_GP.projectsettings.upm = 1*fatt['units-per-em'];
+			ps.upm = 1*fatt['units-per-em'] || 1000;
+			ps.name = fname;
+			ps.ascent = 1*fatt.ascent || 700;
+			ps.capheight = 1*fatt['cap-height'] || 675;
+			ps.xheight = 1*fatt['x-height'] || 400;
+			ps.overshoot = round(ps.upm / 100);
+			md.font_family = fname;
+			md.panose_1 = fatt['panose-1'] || '0 0 0 0 0 0 0 0 0 0';
+			md.font_weight = 1*fatt['font-weight'] || 400;
+			md.font_stretch = fatt['font-stretch'] || 'normal';
+			md.underline_position = 1*fatt['underline-position'] || -50;
+			md.underline_thickness = 1*fatt['underline-thickness'] || 10;
+			md.strikethrough_position = 1*fatt['strikethrough-position'] || 300;
+			md.strikethrough_thickness = 1*fatt['strikethrough-thickness'] || 10;
+			md.overline_position = 1*fatt['overline-position'] || 750;
+			md.overline_thickness = 1*fatt['overline-thickness'] || 10;
 
+			// Finish Up
 			finalizeGlyphrProject();
 			closeDialog();
 
-			debug(' ioSVG_importSVGfont - END\n');
+			// debug(' ioSVG_importSVGfont - END\n');
 			navigate();
 		}
-		debug(' ioSVG_importSVGfont - END\n');
+		// debug(' ioSVG_importSVGfont - END\n');
 	}
 
 	function make_LoadingAnimation() {
-		debug('\n make_LoadingAnimation - START');
+		// debug('\n make_LoadingAnimation - START');
 		var re = '';
 		re += '<div class="newtile">';
-		re += '<h3>Importing Font</h3>';
-		re += '<div id="fontimportstatus">...</div>';
+		re += '<h2>Importing Font</h2>';
+		re += '<div id="fontimportstatus">Reading font data...</div>';
 		re += '<br><div style="margin:0px; width:50px; height:50px; padding:0px; background-color:'+_UI.colors.accent_65+';';
 		re += 'background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwFJREFUeNrsWd2N2kAQNtYpr/F1wFUQUgG4gnAVABXEVwFHBXepwEkFx1UAVHBOBXYHOK9RJDJzGkerZWZ3bYy9QYw0Qgh2dr6d2dn5Gfz+czgEF0BhcCF0BeIb3bQsryDe0fet9vuEPsfAQ+JWaNDCZc+AfwCvP9wMijoLYW8EMgWeAY/6AFKi4sCruspbQC0JWNQFkO/ADwCgPIevgz4I4gl4fi4gePILALDt4vKCXnifUtd75AqkthVIkSOqcxB1rOMC5Bk2f3DYFH37C13akUOAQH4F2WsH2Qgmsf3pYODEdmLAj8B7ixwT70lGZNkrMckxAUkdBJ8CgANkO7hUWi+51hZMHhv89kV53NomvEP30n2E/Tfc3qHwRiwEIej7b2cEUb3+b7QXRwvS0QqEfeTowdq0mVYY6H0v2lOPeqjbyha1CvjjneBOm1PTiIbpT8y5GeiUq4eqW2QlCFz2ACKgPZfCbyvJIiUgvzXciz7pTnD3fZWXhdrrLVmjb3oyZBxHFvkMqDPmguee1E5HVlG9JVTcKmMWTz0qAqdMBMuqUBwq0YGjmUdAZobI9g/IzhA1fCFJl50KpHBNw/skQafCCKRJudkBRTYgvruVVadrg+5/AlJ6qG/ZBEjmIZDMBmQidDt8skopdGAmKpCxsPibR0AkXcZ60nirFzBUUOUevCklJY2cfnv9jiSMe+HC2ANrxEIzImELKw41IcfMM+3BMu+NEK6Jp3tLqD3/bBFFguKOI1lVr68NBV+kItObXXNL4vbYcmOO7TxadJi7NOhKOonMICiiQudrizlZRpFpbWqWU1W40d1c6jSioHuXzrkydfoUuDWwVcWRfwaO0y5K41+4u2rrxuMo4blB3TAM5EZe0WTKRX1hqQnhNFbYUuQo+oi7dChpYGnTumS/KCCnTviwSwA0EcgDh15z0xmi04CmIYBqYDSvs+6U8XQ12X3FS9vU9cjKI1K+0UT3VCBc7VxQJPqlfFepCgIfSXlTUOgNyLXUvQK5RCB/BRgA7GD39jF9VXsAAAAASUVORK5CYII=); ';
 		re += 'rgb(0,140,210) no-repeat fixed;">';
@@ -323,16 +333,16 @@
 		re += '</div>';
 		re += '</div>';
 
-		debug(' make_LoadingAnimation - END\n');
+		// debug(' make_LoadingAnimation - END\n');
         return re;
 	}
 
 	function make_ImportFilter(chars, kerns) {
 		var re = '<div class="newtile" style="width:500px;">'+
-			'<h2>Whoa, there...</h2><br><br>'+
+			'<h2>Whoa, there...</h2><br>'+
 			'The font you\'re trying to import has <b>'+chars+' characters</b> and <b>'+kerns+' kern pairs</b>.  '+
 			'Glyphr Studio has a hard time with super-large fonts like this.  '+
-			'We recomend pairing it down a little:<br><br>';
+			'We recommend pairing it down a little:<br><br>';
 
 		re += '<table>';
 
@@ -359,7 +369,7 @@
 
 		re += '</table>';
 
-		re += '<br><br><button class="buttonsel" style="padding:10px 20px;" onclick="ioSVG_importSVGfont(true);">Import Font</button>';
+		re += '<br><br><button class="buttonsel" onclick="ioSVG_importSVGfont(true);">Import Font</button>';
 
 		return re;
 	}
