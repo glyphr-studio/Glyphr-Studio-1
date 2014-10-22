@@ -55,7 +55,7 @@
 				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 					cn = decToHex(range);
 					if(_GP.projectsettings.charrange.filternoncharpoints){
-						if(getUnicodeName(cn) === '[name not found]') ccon += makeCharChooserButton(cn, fname);
+						if(getUnicodeName(cn) !== '[name not found]') ccon += makeCharChooserButton(cn, fname);
 					} else {
 						ccon += makeCharChooserButton(cn, fname);
 					}

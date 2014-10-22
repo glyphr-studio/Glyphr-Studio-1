@@ -362,8 +362,8 @@
 		re += '<h3>Import a custom range of characters</h3>'+
 			'A nice overview of character ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
 			'<table class="settingstable"><tr>'+
-			'<td>begin:<br><input type="text" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
-			'<td>end:<br><input type="text" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
+			'<td>begin:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
+			'<td>end:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
 			'<td><br><button onclick="checkFilter(\'custom\');">Set Range</button></td>'+
 			'<td style="padding-top:20px;">'+helpUI(unicodeInputHelp())+'</td>'+
 			'<td><br><div id="customrangeerror">bad range input</div></td>'+
@@ -377,7 +377,7 @@
 
 		re += '</table>';
 
-		re += '<br><br><button class="buttonsel" onclick="ioSVG_importSVGfont(true);">Import Font</button>';
+		re += '<br><br><button class="buttonsel" id="importfontbutton" onclick="ioSVG_importSVGfont(true);">Import Font</button>';
 
 		return re;
 	}
@@ -410,6 +410,8 @@
 			_UI.importrange.begin = 0x0000;
 			_UI.importrange.end = 0xFFFF;
 		}
+
+		document.getElementById('importfontbutton').disabled = false;
 	}
 
 	function getKernMembersByName(names, chars, arr, limit) {

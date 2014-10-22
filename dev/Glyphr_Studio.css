@@ -173,6 +173,14 @@
 		border-radius: 3px;
 	}
 
+	button[disabled],
+	button[disabled]:active,
+	button[disabled]:hover,
+	button[disabled]:hover,
+	button[disabled]:focus {
+		background-color:rgb(204,209,214);
+		cursor: default;
+	}
 
 	.buttonsel,
 	.buttonsel:hover,

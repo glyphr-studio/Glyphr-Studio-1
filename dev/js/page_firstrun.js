@@ -218,10 +218,13 @@
 		// merge settings to conform to current .projectsettings
 		// but not guides, because they can be custom
 		var dataguides = clone(data.projectsettings.guides);
-		if(data.projectsettings) _GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
+		if(data.projectsettings) {
+			_GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
+			_GP.projectsettings.charrange.custom = data.projectsettings.charrange.custom || [];
+		}
 
-		// debug('\t merged projectsettings');
-		// debug(_GP.projectsettings);
+		debug('\t merged projectsettings');
+		debug(_GP.projectsettings);
 
 		// Guides
 		// Import all gudes
