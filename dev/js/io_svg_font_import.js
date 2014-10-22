@@ -53,8 +53,8 @@
 
 			// Get Chars
 			chars = ioSVG_getTags(font, 'glyph');
-			debug('\t got chars');
-			debug(chars);
+			// debug('\t got chars');
+			// debug(chars);
 
 			// test for range
 			if(chars.length < 600 || filter){
@@ -101,27 +101,20 @@
 			tca = chars[c].attributes;
 
 			// Get the appropriate unicode decimal for this char
-			debug('\n importOneChar - START');
-			debug('\t starting  unicode \t' + tca.unicode + ' \t ' + tca['glyph-name']);
+			// debug('\n importOneChar - START');
+			// debug('\t starting  unicode \t' + tca.unicode + ' \t ' + tca['glyph-name']);
 
 			uni = parseUnicodeInput(tca.unicode);
 
 			if(tca.unicode === ' ') uni = ['0x0020'];
 
-			if(tca.unicode === "0x3c;" || tca.name === 'less') {
-				debug('\t >>>>>>>>>>>>>>>>>>>>>>>>IMPORTING LESS THAN\n' + json(tca));
-				uni = ['0x003C'];
-			}
-			
-
-
 			if(uni === false){
 				// Check for .notdef
-				debug('\t !!! Skipping '+tca['glyph-name']+' NO UNICODE !!!');
+				// debug('\t !!! Skipping '+tca['glyph-name']+' NO UNICODE !!!');
 				chars.splice(c, 1);
 
 			} else if (isOutOfBounds(uni)){
-				debug('\t !!! Skipping '+tca['glyph-name']+' OUT OF BOUNDS !!!');
+				// debug('\t !!! Skipping '+tca['glyph-name']+' OUT OF BOUNDS !!!');
 				chars.splice(c, 1);
 
 			} else {
@@ -179,6 +172,7 @@
 					if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni);
 
 					fc[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
+					if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.charrange.filternoncharpoints = false;
 
 				} else {
 					// It's a LIGATURE
@@ -193,7 +187,7 @@
 			// finish loop
 			setTimeout(importOneChar, 1);
 
-			debug(' importOneChar - END\n');
+			// debug(' importOneChar - END\n');
 		}
 
 		function isOutOfBounds(uni) {
