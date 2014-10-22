@@ -60,7 +60,7 @@
 			if(chars.length < 600 || filter){
 				setTimeout(startFontImport, 1);
 				// Dump JSON for Debug
-				saveTextFile('Parsed JSON', json(jsondata));
+				// saveTextFile('Parsed JSON', json(jsondata));
 			} else {
 				document.getElementById('firstruntableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
 			}

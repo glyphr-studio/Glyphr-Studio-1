@@ -4,7 +4,7 @@
 		// debug("LOADING PAGE >> loadPage_firstrun");
 
 		var ct = "<table style='height:100%; width:100%;'><tr>"+
-		"<td class='firstruntableleft' vertical-align='middle'><div id='splashscreenlogo'></div>"+
+		"<td id='firstruntableleft' vertical-align='middle'><div id='splashscreenlogo'></div>"+
 			"<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>"+
 			"For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>"+
 			"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
@@ -13,11 +13,16 @@
 		"<td id='firstruntableright' vertical-align='middle'>" + make_ImportOrCreateNew() + "</td>"+
 		"</tr></table>";
 
-		var mp = getEditDocument().getElementById("mainwrapper");
+		var mp = document.getElementById("mainwrapper");
 		mp.innerHTML = ct;
 		mp.style.marginLeft = "0px";
-		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
-		getEditDocument().getElementById("droptarget").addEventListener('drop', handleDrop, false);
+		document.getElementById("firstruntableright").addEventListener('dragover', handleDragOver, false);
+		document.getElementById("firstruntableright").addEventListener('drop', handleDrop, false);
+		document.getElementById("firstruntableright").addEventListener('dragleave', handleDragLeave, false);
+		document.getElementById("firstruntableleft").addEventListener('dragover', handleDragOver, false);
+		document.getElementById("firstruntableleft").addEventListener('drop', handleDrop, false);
+		document.getElementById("firstruntableleft").addEventListener('dragleave', handleDragLeave, false);
+
 
 		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
 	}
@@ -39,6 +44,7 @@
 
 	function handleDrop(evt) {
 		document.getElementById("droptarget").innerHTML = "Loading File...";
+		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.offwhite;
 
 		evt.stopPropagation();
 		evt.preventDefault();
@@ -65,6 +71,7 @@
 					con = 'Could not read .' + fname + ' file type.';
 					con += '<br>Try loading another .svg or .txt file...';
 					document.getElementById('droptarget').innerHTML = con;
+					document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.offwhite;
 				}
 
 				debug(' reader.onload - END\n');
@@ -78,9 +85,19 @@
 	function handleDragOver(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+		evt.dataTransfer.dropEffect = 'move';
+
+		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.accent_95;
+		document.getElementById('droptarget').innerHTML = 'Drop it!';
 	}
 
+	function handleDragLeave(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.offwhite;
+		document.getElementById('droptarget').innerHTML = 'Glyphr Project File (.txt)<br>SVG Font File (.svg)';
+	}
 
 //	-------------------------------
 //	IMPORT FUNCTIONS

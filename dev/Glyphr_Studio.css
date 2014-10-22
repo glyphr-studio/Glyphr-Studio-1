@@ -769,7 +769,7 @@
 /* Page - Open / New */
 /* -----------------*/
 
-	.firstruntableleft {
+	#firstruntableleft {
 		background-color: rgb(0,170,225);
 		width:475px;
 		vertical-align: middle;
