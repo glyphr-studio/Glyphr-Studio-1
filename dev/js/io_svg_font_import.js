@@ -59,6 +59,8 @@
 			// test for range
 			if(chars.length < 600 || filter){
 				setTimeout(startFontImport, 1);
+				// Dump JSON for Debug
+				saveTextFile('Parsed JSON', json(jsondata));
 			} else {
 				document.getElementById('firstruntableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
 			}
@@ -77,7 +79,7 @@
 		*	CHAR IMPORT
 		*
 		*/
-		var tc, data, uni, ns, cname, chtml, adv, isautowide;
+		var tca, data, uni, ns, cname, chtml, adv, isautowide;
 		var maxchar = 0;
 		var minchar = 0xffff;
 		var customcharrange = [];
@@ -96,37 +98,35 @@
 			}
 
 			// One Char or Ligature in the font
-			tc = chars[c];
+			tca = chars[c].attributes;
 
 			// Get the appropriate unicode decimal for this char
 			debug('\n importOneChar - START');
-			debug('\t starting  unicode \t' + tc.attributes.unicode + ' \t ' + tc.attributes['glyph-name']);
+			debug('\t starting  unicode \t' + tca.unicode + ' \t ' + tca['glyph-name']);
 
-			uni = parseUnicodeInput(tc.attributes.unicode);
+			uni = parseUnicodeInput(tca.unicode);
 
-			if(tc.attributes.unicode === ' '){
-				debug('\t IMPORTING SPACE!!!!\n'+ json(tc.attributes));
-				uni = ['0x0020'];
-			}
+			if(tca.unicode === ' ') uni = ['0x0020'];
 
-			if(tc.attributes.unicode === '0x3c') {
-				debug('\t IMPORTING LESS THAN!!!\n' + json(tc.attributes));
+			if(tca.unicode === "0x3c;" || tca.name === 'less') {
+				debug('\t >>>>>>>>>>>>>>>>>>>>>>>>IMPORTING LESS THAN\n' + json(tca));
+				uni = ['0x003C'];
 			}
 			
 
 
 			if(uni === false){
 				// Check for .notdef
-				debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' No Unicode !!!');
+				debug('\t !!! Skipping '+tca['glyph-name']+' NO UNICODE !!!');
 				chars.splice(c, 1);
 
 			} else if (isOutOfBounds(uni)){
-				debug('\t !!! Skipping <GLYPH> '+tc.attributes['glyph-name']+' OUT OF BOUNDS !!!');
+				debug('\t !!! Skipping '+tca['glyph-name']+' OUT OF BOUNDS !!!');
 				chars.splice(c, 1);
 
 			} else {
 
-				// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + json(uni) + '\t attributes: ' + json(tc.attributes));
+				// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + json(uni) + '\t attributes: ' + json(tca));
 				/*
 				*
 				*	CHARACTER OR LIGATURE IMPORT
@@ -136,7 +136,7 @@
 				shapecounter = 0;
 
 				// Import Path Data
-				data = tc.attributes.d;
+				data = tca.d;
 				// debug('\t Character has path data ' + data);
 				if(data){
 					// Compound Paths are treated as different Glyphr Shapes
@@ -159,7 +159,7 @@
 
 				// Get Advance Width
 				isautowide = true;
-				adv = parseInt(tc.attributes['horiz-adv-x']);
+				adv = parseInt(tca['horiz-adv-x']);
 				if(adv){
 					if(!isNaN(adv) && adv > 0){
 						isautowide = false;
@@ -186,13 +186,14 @@
 					fl[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 				}
 
+				// Successfull loop, advance c
+				c++;
 			}
 
 			// finish loop
-			c++;
 			setTimeout(importOneChar, 1);
 
-			// debug(' importOneChar - END\n');
+			debug(' importOneChar - END\n');
 		}
 
 		function isOutOfBounds(uni) {
@@ -247,12 +248,13 @@
 				// debug('\t Making a kern pair with k = ' + kernval);
 				fk[newid] = new HKern({'leftgroup':leftgroup, 'rightgroup':rightgroup, 'value':kernval});
 				// debug('\t Made the new kern successfully.');
+				k++;
 			} else {
+				kerns.splice(k, 1);
 				// debug('\t Kern ' + json(tk.attributes, true) + ' returned an empty group.');
 			}
 
 			// debug(' Kern Import - END\n');
-			k++;
 			setTimeout(importOneKern, 1);
 		}
 
