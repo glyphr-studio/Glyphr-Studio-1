@@ -217,12 +217,14 @@
 
 		var k = 0;
 		function importOneKern(){
-			importStatus('Importing Kern Pair ' + k + ' of ' + kerns.length);
 
 			if(k >= kerns.length) {
+				importStatus('Finalizing the imported font...');
 				setTimeout(startFinalizeFontImport, 1);
 				return;
 			}
+
+			importStatus('Importing Kern Pair ' + k + ' of ' + kerns.length);
 
 			// debug('\n Kern Import - START ' + k + '/' + kerns.length);
 			leftgroup = [];

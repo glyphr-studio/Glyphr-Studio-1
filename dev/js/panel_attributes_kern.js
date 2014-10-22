@@ -42,7 +42,7 @@
 	}
 
 	function addCommonKernPairs() {
-		var add = ['A','VWY', 'A','CO', 'VWY','A', 'FP','A', 'O','A'];
+		var add = ['A','VWY', 'A','CO', 'VWY','A', 'FP','A', 'O','A', 'L','TVW'];
 		var nid;
 
 		for(var k=0; k<add.length; k+=2){
