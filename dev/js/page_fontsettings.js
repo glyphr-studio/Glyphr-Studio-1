@@ -57,10 +57,9 @@
 
 		// CHARACTERS
 		content += "<h1>Character Ranges</h1>"+
-					"Character ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible characters in a font. "+
-					"You may encounter Unicode numbers as U+1234, in Glyphr Studio this is equivalent to 0x1234, it's just a different way of representing hex numbers.";
+					"Character ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible characters in a font. ";
 
-		content += "<h3>Standard Character Ranges</h3>"+
+		content += "<br><br><h3>Standard Character Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
 					"The most common character sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
 
 		content += "<table class='settingstable'><tr>"+
@@ -93,10 +92,10 @@
 					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
 		content += "</div></td></tr></table>";
 
-		content += "<h3>Custom Character Ranges</h3>"+
-					"Additional character ranges above 0x024F can be included here. Type a begining and an end value (inclusive) as four digit hexadecimal numbers, with a prefix of '0x' or 'U+'.<br>"+
+		content += "<br><h3>Custom Character Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
+					"Additional character ranges above 0x024F can be included here. "+
 					"A nice overview of character ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target=_new>Wikipedia's Unicode Block page</a>.<br>" +
-					"Custom character ranges must be unique (non-overlapping), be greater than 0x024F and less than 0xFFFF.<br><br>"+
+					"Custom character ranges are inclusive, must be unique (non-overlapping), must be greater than 0x024F and less than 0xFFFF.<br><br>"+
 					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.charrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
@@ -109,8 +108,7 @@
 
 		// METADATA
 		content += "<br><h1>Font Metadata</h1>" +
-			"<p style='margin-bottom:20px;'>These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>." +
-			"<br><i>Values will be saved as you change them</i>.</p>";
+			"<p style='margin-bottom:20px;'>These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>.";
 
 
 		content += "<table class='settingstable'>";

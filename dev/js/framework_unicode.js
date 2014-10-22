@@ -123,16 +123,17 @@
 
 	function unicodeInputHelp() {
 		var re = '<h1>Using Unicode Values</h1>'+
-			'Unicode is a format used by fonts that assigns an ID number to every character. '+
-			'Glyphr Studio uses this format for importing fonts, and identifying characters, kern pairs, and ligatures.<br><br>'+
+			'Unicode is a format used by fonts that assigns an ID number to every character.<br>'+
+			'Glyphr Studio uses this format for importing fonts, and for identifying characters,<br>kern pairs, and ligatures.<br><br>'+
 			'Glyphr Studio accepts three flavors of this ID number:<br>'+
 			'<ul>'+
 				'<li><b>Decimal Numbers</b> - for example, the number 78 corresponds to capital N.</li>'+
-				'<li><b>Hexadecimal Numbers</b> - a base-16 number with a 0x prefix. For example, 0x4E corresponds to capital N.</li>'+
-				'<li><b>Unicode Numbers</b> - a base-16 number with a U+ prefix. For example, U+4E corresponds to capital N.</li>'+
+				'<li><b>Hexadecimal Numbers</b> - a base-16 number with a 0x prefix. For example,<br>0x4E corresponds to capital N.</li>'+
+				'<li><b>Unicode Numbers</b> - a base-16 number with a U+ prefix. For example,<br>U+4E corresponds to capital N.</li>'+
 			'</ul>'+
-			'When you input any of these numbers, Glyphr Studio will validate the number, and convert it to a four digit hex format (like 0x004E).<br><br>'+
-			'Note: Glyphr Studio is limited to the Basic Multilingual Plane, Unicode U+0000 through U+FFFF.  Unicode range notation is not supported.';
+			'When you input any of these numbers, Glyphr Studio will validate the number,<br>and convert it to a four digit hex format (like 0x004E).<br><br>'+
+			'Note: Glyphr Studio is limited to the Basic Multilingual Plane,<br>Unicode U+0000 through U+FFFF.  Unicode range notation is not supported.'+
+			'';
 		return re;
 	}
 

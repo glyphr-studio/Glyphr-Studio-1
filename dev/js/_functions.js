@@ -121,13 +121,12 @@
 		document.body.focus();
 	}
 
-	function openDialog(content, width){
+	function openDialog(content){
 		document.body.focus();
 		var dc = document.getElementById('dialogRightContent');
 		dc.innerHTML = content;
 		
 		if(dc.style.height > 800) dc.style.height = 800;
-		if(width) dc.style.width = width;
 		else dc.style.width = 'auto';
 
 		document.getElementById('dialog_box').style.display='block';
