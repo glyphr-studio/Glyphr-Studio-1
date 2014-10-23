@@ -160,37 +160,7 @@
 		var charscale = (size-(gutter*2)) / size;
 		var gutterscale = (gutter / size) * upm;
 		var vbsize = upm - (gutter*2);
-		var sl = this.charshapes;
-		var pathdata = '';
-
-		// debug('\t sl.length = ' + sl.length);
-
-		// Make Pathdata
-		for(var j=0; j<sl.length; j++) {
-			sh = sl[j];
-			// debug('\t loop ' + j);
-			if(sh.visible) {
-				// debug('\t\t is visible');
-				if(sh.link){
-					if(sh.uselinkedshapexy){
-						sh = _GP.linkedshapes[sh.link].shape;
-						//debug('\t uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
-					} else {
-						var ns = clone(_GP.linkedshapes[sh.link].shape);
-						//debug('\t !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
-						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						//debug('\t !uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
-						sh = ns;
-					}
-				}
-				//debug('\t making SVG of char ' + this.charname);
-				pathdata += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
-				if(j < sl.length-1) pathdata += '\n';
-			}
-		}
-		if(trim(pathdata) === '') pathdata = 'M0,0Z';
-
-		// debug('\t pathdata = ' + pathdata);
+		var pathdata = this.makeSVGpathData();
 
 		// Assemble SVG
 		var re = '<svg version="1.1" ';
@@ -206,6 +176,41 @@
 		// debug(' Char.makeSVG - END\n');
 
 		return re;
+	};
+
+	Char.prototype.makeSVGpathData = function() {
+		var sl = this.charshapes;
+		var pathdata = '';
+		var sh, ns;
+		// debug('\t sl.length = ' + sl.length);
+		// Make Pathdata
+		for(var j=0; j<sl.length; j++) {
+			sh = sl[j];
+			// debug('\t loop ' + j);
+			if(sh.visible) {
+				// debug('\t\t is visible');
+				if(sh.link){
+					if(sh.uselinkedshapexy){
+						sh = _GP.linkedshapes[sh.link].shape;
+						//debug('\t uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
+					} else {
+						ns = clone(_GP.linkedshapes[sh.link].shape);
+						//debug('\t !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
+						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
+						//debug('\t !uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
+						sh = ns;
+					}
+				}
+				//debug('\t making SVG of char ' + this.charname);
+				pathdata += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
+				if(j < sl.length-1) pathdata += '\n';
+			}
+		}
+		if(trim(pathdata) === '') pathdata = 'M0,0Z';
+
+		// debug('\t pathdata = ' + pathdata);
+
+		return pathdata;
 	};
 
 	Char.prototype.setCharPosition = function(nx, ny, force){
