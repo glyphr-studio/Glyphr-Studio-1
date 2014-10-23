@@ -14,8 +14,8 @@
 		timeoutput[1] = timeoutput[1].replace(/\./g, ':');
 		timeoutput = timeoutput.join(' at ');
 
-		var con = '<?xml version="1.0" standalone="yes"?>\n'+
-			'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >\n'+
+		var con = '<?xml version="1.0" standalone="no"?>\n'+
+			'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >'+
 			'<svg width="100%" height="100%">\n'+
 			'   <metadata>\n\n'+
 			'      Project: ' + ps.name + '\n'+
