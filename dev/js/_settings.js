@@ -8,7 +8,7 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'export font',	// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape

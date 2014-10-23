@@ -36,9 +36,9 @@
 
 	function createNewLigature() {
 		// debug('\n createNewLigature - START');
-		var lid = document.getElementById('newligatureinput').value;
+		var inlig = document.getElementById('newligatureinput').value;
 		// debug('\t retrieved ' + lid);
-		lid = lid.replace(/\s/gi, '');
+		var lid = inlig.replace(/\s/gi, '');
 		lid = parseUnicodeInput(lid);
 		if(lid) lid = lid.join('');
 		else {
@@ -56,7 +56,7 @@
 		} else if (lig === false || lid.length < 2){
 			showErrorMessageBox('Ligatures must be at least two characters.');
 		} else {
-			lig[lid] = new Char({'charhex':lid});
+			lig[lid] = new Char({'charhex':lid, 'charname':('Ligature ' + inlig)});
 			sortLigatures();
 			_UI.selectedchar = lid;
 			navigate();

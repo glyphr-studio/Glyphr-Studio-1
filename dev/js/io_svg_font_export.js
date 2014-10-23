@@ -15,18 +15,19 @@
 		timeoutput = timeoutput.join(' at ');
 
 		var con = '<?xml version="1.0" standalone="yes"?>\n'+
-			'<svg width="400px" height="300px" version="1.1" xmlns = "http://www.w3.org/2000/svg">\n'+
+			'<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'+
 			'\t<metadata>\n\n'+
-			'\t\tCreated with Glyphr Studio - the free, web-based font editor\n'+
-			'\t\tVersion: ' + _UI.thisGlyphrStudioVersion + '\n'+
+			'\t\tProject: ' + ps.name + '\n'+
 			'\t\tFont exported on ' + timeoutput + '\n\n'+
+			'\t\tCreated with Glyphr Studio - the free, web-based font editor\n'+
+			'\t\tVersion: ' + _UI.thisGlyphrStudioVersion + '\n\n'+
 			'\t\tFind out more at www.glyphrstudio.com\n\n'+
 			'\t</metadata>\n'+
 			'\t<defs>\n'+
 			'\t\t<font id="'+md.font_family.replace(/ /g, '_')+'" horiz-adv-x="'+ps.upm+'">\n'+
 			'\t\t\t<font-face\n'+ ioSVG_makeFontFace()+'\n'+
 			'\t\t\t\t<font-face-src>\n'+
-			'\t\t\t\t\t<font-face-name name="'+md.font_family+'"/>\n'+
+			'\t\t\t\t\t<font-face-name name="'+md.font_family+'" />\n'+
 			'\t\t\t\t</font-face-src>\n'+
 			'\t\t\t</font-face>\n';
 
@@ -34,11 +35,11 @@
 		con += ioSVG_makeMissingGlyph();
 		con += '\n\n';
 		con += ioSVG_makeAllCharsAndLigatures();
-		con += '\n\n';
+		con += '\n';
 		con += ioSVG_makeAllKernPairs();
 		con += '\n';
 
-		con += '\n\t\t</font>\n'+
+		con += '\t\t</font>\n'+
 			'\t</defs>\n'+
 			'</svg>';
 
@@ -86,17 +87,19 @@
 		//<glyph glyph-name="uniFEDF_uniFEE0_uniFBAB.liga" unicode="&#xfedf;&#xfee0;&#xfbab;" horiz-adv-x="1262" d="M1224 5
 
 		var fc = _GP.fontchars;
-		var con = '\t\t\t<!-- Characters -->\n';
-		for(var c in fc){ if (fc.hasOwnProperty(c)){
-			con += ioSVG_makeOneCharOrLigature(fc[c], c);
-		}}
-
-		con += '\n';
+		var con = '';
 
 		var li = _GP.ligatures;
 		con += '\t\t\t<!-- Ligatures -->\n';
 		for(var l in li){ if (li.hasOwnProperty(l)){
 			con += ioSVG_makeOneCharOrLigature(li[l], l);
+		}}
+
+		con += '\n';
+
+		con += '\t\t\t<!-- Characters -->\n';
+		for(var c in fc){ if (fc.hasOwnProperty(c)){
+			con += ioSVG_makeOneCharOrLigature(fc[c], c);
 		}}
 
 		debug(' ioSVG_makeAllCharsAndLigatures - END\n');
@@ -105,25 +108,43 @@
 
 	function ioSVG_makeOneCharOrLigature(ch, uni) {
 		uni = uni.split('0x');
-		uni.forEach(function(element){element = '&#x'+element+';';});
+		uni.forEach(function(el, i, arr){if(el) arr[i] = '&#x'+el+';';});
 		uni = uni.join('');
+		var pathdata = ch.makeSVGpathData();
 
 		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+ch.charname+'" ';
 		con += 'unicode="'+uni+'" ';
 		con += 'horiz-adv-x="'+ch.charwidth+'" ';
-		con += 'd="'+ch.makeSVGpathData()+'">\n';
+		con += 'd="'+pathdata+'" />\n';
 		return con;
 	}
 
 	function ioSVG_makeAllKernPairs() {
 		debug('\n ioSVG_makeAllKernPairs - START');
 		var t = '\t\t\t';
-		var con = t;
+		var kp = _GP.kerning;
+		var con = t+'<!-- Kern Pairs -->\n';
 
+		for(var k in kp){ if (kp.hasOwnProperty(k)){
+			con += t+'<hkern ';
+			con += 'g1="'+ioSVG_convertKernGroup(kp[k].leftgroup)+'" ';
+			con += 'g2="'+ioSVG_convertKernGroup(kp[k].rightgroup)+'" ';
+			con += 'k="'+kp[k].value+'" />\n';
+		}}
 
 		debug(' ioSVG_makeAllKernPairs - END\n');
 		return con;
+	}
+
+	function ioSVG_convertKernGroup (kgarr) {
+		var re = clone(kgarr);
+		re.forEach(function(el, i, arr){
+			arr[i] = arr[i].replace(/0x/, '&#x');
+			arr[i] += ';';
+		});
+
+		return re.join(',');
 	}
 
 // end of file
