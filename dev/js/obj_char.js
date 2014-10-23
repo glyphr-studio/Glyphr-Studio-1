@@ -181,11 +181,12 @@
 	Char.prototype.makeSVGpathData = function() {
 		var sl = this.charshapes;
 		var pathdata = '';
+		var lsb = this.getLSB();
 		var sh, ns;
 		// debug('\t sl.length = ' + sl.length);
 		// Make Pathdata
 		for(var j=0; j<sl.length; j++) {
-			sh = sl[j];
+			sh = clone(sl[j]);
 			// debug('\t loop ' + j);
 			if(sh.visible) {
 				// debug('\t\t is visible');
@@ -201,6 +202,12 @@
 						sh = ns;
 					}
 				}
+
+				// Add Left Side Bearing to overall path width
+				ns = clone(sh);
+				ns.path.updatePathPosition(lsb, 0, true);
+				sh = ns;
+
 				//debug('\t making SVG of char ' + this.charname);
 				pathdata += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
 				//if(j < sl.length-1) pathdata += '\n';

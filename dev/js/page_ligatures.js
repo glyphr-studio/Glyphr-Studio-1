@@ -98,7 +98,7 @@
 				if (a.id > b.id) return 1;
 				if (a.id < b.id) return -1;
 			} else {
-				return a.id.length - b.id.length;
+				return b.id.length - a.id.length;
 			}
 		});
 

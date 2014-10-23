@@ -40,8 +40,16 @@
 		con += '\n';
 
 		con += '\t\t</font>\n'+
-			'\t</defs>\n'+
-			'</svg>';
+			'\t</defs>\n';
+
+		con += '\t<text x="100" y="150" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">'+md.font_family+'</text>\n';
+		con += '\t<text x="100" y="220" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>\n';
+		con += '\t<text x="100" y="290" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">abcdefghijklmnopqrstuvwxyz</text>\n';
+		con += '\t<text x="100" y="360" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">1234567890</text>\n';
+		con += '\t<text x="100" y="430" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">!\"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</text>\n';
+		// con += '\t<text x="100" y="430" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">! \" # $ % &amp; \' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \\ ] ^ _ ` { | } ~</text>\n';
+
+		con += '</svg>';
 
 		var filename = ps.name + ' - SVG Font - ' + timestamp + '.svg';
 
@@ -72,10 +80,15 @@
 
 	function ioSVG_makeMissingGlyph() {
 		debug('\n ioSVG_makeMissingGlyph - START');
-		var t = '\t\t\t';
-		var con = t;
+		var con = '\t\t\t';
+		var gh = _GP.projectsettings.ascent;
+		var gw = round(gh * 0.618);
+		var gt = round(gh/100);
 
-		con += '<missing-glyph horiz-adv-x="1536" d="M256 0v1280h1024v-1280h-1024zM288 32h960v1216h-960v-1216z"/>';
+		con += '<missing-glyph horiz-adv-x="1536" ';
+		con += 'd="M0,0 v'+gh+' h'+gw+' v-'+gh+' h-'+gw+'z ';
+		con += 'M'+gt+','+gt+' v'+(gh-(gt*2))+' h'+(gw-(gt*2))+' v-'+(gh-(gt*2))+' h-'+(gw-(gt*2))+'z';
+		con += '" />';
 
 		debug(' ioSVG_makeMissingGlyph - END\n');
 		return con;
@@ -107,6 +120,8 @@
 	}
 
 	function ioSVG_makeOneCharOrLigature(ch, uni) {
+		if(!ch.charshapes.length) return '';
+
 		uni = uni.split('0x');
 		uni.forEach(function(el, i, arr){if(el) arr[i] = '&#x'+el+';';});
 		uni = uni.join('');
@@ -115,7 +130,7 @@
 		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+ch.charname+'" ';
 		con += 'unicode="'+uni+'" ';
-		con += 'horiz-adv-x="'+ch.charwidth+'" ';
+		con += 'horiz-adv-x="'+ch.getTotalWidth()+'" ';
 		con += 'd="'+pathdata+'" />\n';
 		return con;
 	}
@@ -128,8 +143,8 @@
 
 		for(var k in kp){ if (kp.hasOwnProperty(k)){
 			con += t+'<hkern ';
-			con += 'g1="'+ioSVG_convertKernGroup(kp[k].leftgroup)+'" ';
-			con += 'g2="'+ioSVG_convertKernGroup(kp[k].rightgroup)+'" ';
+			con += 'u1="'+ioSVG_convertKernGroup(kp[k].leftgroup)+'" ';
+			con += 'u2="'+ioSVG_convertKernGroup(kp[k].rightgroup)+'" ';
 			con += 'k="'+kp[k].value+'" />\n';
 		}}
 
