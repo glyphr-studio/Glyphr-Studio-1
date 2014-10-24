@@ -15,7 +15,7 @@
 		timeoutput = timeoutput.join(' at ');
 
 		var con = '<?xml version="1.0" standalone="no"?>\n'+
-			'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >'+
+			'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >\n'+
 			'<svg width="100%" height="100%">\n'+
 			'   <metadata>\n\n'+
 			'      Project: ' + ps.name + '\n'+
@@ -61,10 +61,23 @@
 
 	function ioSVG_makeFontFace() {
 		debug('\n ioSVG_makeFontFace - START');
+		calcFontMaxes();
 		var t = '            ';
 		var md = _GP.metadata;
+		var ps = _GP.projectsettings;
+		var fm = _UI.fontmetrics;
 		var con = '';
 
+		// Project properties
+		con += t+'units-per-em="'+ps.upm+'"\n';
+		con += t+'cap-height="'+ps.capheight+'"\n';
+		con += t+'x-height="'+ps.xheight+'"\n';
+		con += t+'ascent="'+ps.ascent+'"\n';
+		con += t+'descent="'+(ps.ascent - ps.upm)+'"\n';
+		con += t+'bbox="'+fm.maxes.xmin+', '+fm.maxes.ymin+', '+fm.maxes.xmax+', '+fm.maxes.ymax+'"\n';
+		con += t+'unicode-range="U+20-'+fm.maxchar+'"\n';
+
+		// Metadata properties
 		for(var d in md){if(md.hasOwnProperty(d)){
 			con += t;
 			con += d.replace(/_/g, '-');
@@ -86,7 +99,7 @@
 		var gw = round(gh * 0.618);
 		var gt = round(gh/100);
 
-		con += '<missing-glyph horiz-adv-x="1536" ';
+		con += '<missing-glyph horiz-adv-x="'+gw+'" ';
 		con += 'd="M0,0 v'+gh+' h'+gw+' v-'+gh+' h-'+gw+'z ';
 		con += 'M'+gt+','+gt+' v'+(gh-(gt*2))+' h'+(gw-(gt*2))+' v-'+(gh-(gt*2))+' h-'+(gw-(gt*2))+'z';
 		con += '" />';
@@ -129,7 +142,7 @@
 		var pathdata = ch.makeSVGpathData();
 
 		var con = '         ';
-		con += '<glyph glyph-name="'+ch.charname+'" ';
+		con += '<glyph glyph-name="'+ch.charname.replace(/ /g, '_')+'" ';
 		con += 'unicode="'+uni+'" ';
 		con += 'horiz-adv-x="'+ch.getTotalWidth()+'" ';
 		con += 'd="'+pathdata+'" />\n';

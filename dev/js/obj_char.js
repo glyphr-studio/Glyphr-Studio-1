@@ -210,6 +210,7 @@
 
 				//debug('\t making SVG of char ' + this.charname);
 				pathdata += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
+				if(j < sl.length-1) pathdata += ' ';
 				//if(j < sl.length-1) pathdata += '\n';
 			}
 		}

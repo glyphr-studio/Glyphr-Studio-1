@@ -133,6 +133,18 @@
 		'importrange': {
 			'begin': 0x0020,
 			'end': 0x024F
+		},
+
+		// page: export font
+		'fontmetrics': {
+			'numchars': 0,
+			'maxchar': 0x20,
+			'maxes': {
+				'xmax': -999999,
+				'xmin': 999999,
+				'ymax': -999999,
+				'ymin': 999999
+			}
 		}
 	};
 

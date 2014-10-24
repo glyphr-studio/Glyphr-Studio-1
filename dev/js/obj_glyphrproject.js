@@ -52,25 +52,25 @@
 		};
 
 		this.metadata = {
+			// 'units_per_em': 0,
+			// 'accent_height': 0,
+			// 'ascent': 0,
+			// 'cap_height': 0,
+			// 'x_height': 0,
+			// 'descent': 0,
+			// 'bbox': 0,
+			// 'unicode_range': 0,
 			'font_family': 'My Font',
 			'font_style': 'normal',
 			'font_variant': 'normal',
 			'font_weight': 'normal',	// Default to 400
 			'font_stretch': 'normal',
-			// 'font_size': 'all',
-			// 'unicode_range': 0,
-			// 'units_per_em': 0,
 			'panose_1': '0 0 0 0 0 0 0 0 0 0',
 			'stemv': 0,
 			'stemh': 0,
 			'slope': 0,
-			// 'cap_height': 0,
-			// 'x_height': 0,
-			// 'accent_height': 0,
-			// 'ascent': 0,
-			// 'descent': 0,
+			// 'font_size': 'all',
 			// 'widths': 0,
-			// 'bbox': 0,
 			// 'ideographic': 0,
 			// 'alphabetic': 0,
 			// 'mathematical': 0,
@@ -183,24 +183,26 @@
 
 	function calcFontMaxes(){
 		var fm = _UI.fontmetrics;
-		_UI.fontmetrics.numchars = 0;
+		fm.numchars = 0;
+		fm.maxchar = 0x20;
 
 		charIterator(function(hex){
-			_UI.fontmetrics.numchars++;
+			fm.numchars++;
+			fm.maxchar = Math.max(fm.maxchar, hex);
 			var cm = _GP.fontchars[hex];
 			if(cm){
 				cm = cm.maxes;
-				fm.xmax = Math.max(cm.xmax, fm.xmax);
-				fm.xmin = Math.min(cm.xmin, fm.xmin);
-				fm.ymax = Math.max(cm.ymax, fm.ymax);
-				fm.ymin = Math.min(cm.ymin, fm.ymin);
+				fm.maxes.xmax = Math.max(cm.xmax, fm.maxes.xmax);
+				fm.maxes.xmin = Math.min(cm.xmin, fm.maxes.xmin);
+				fm.maxes.ymax = Math.max(cm.ymax, fm.maxes.ymax);
+				fm.maxes.ymin = Math.min(cm.ymin, fm.maxes.ymin);
 			}
 		});
 
-		var proportion = (fm.ymax / (fm.ymax-fm.ymin));
-		var total = fm.ymax + Math.abs(fm.ymin) + _GP.projectsettings.linegap;
-		fm.hhea_ascent = round(total*proportion);
-		fm.hhea_descent = (fm.hhea_ascent - total);
+		// var proportion = (fm.ymax / (fm.ymax-fm.ymin));
+		// var total = fm.ymax + Math.abs(fm.ymin) + _GP.projectsettings.linegap;
+		// fm.hhea_ascent = round(total*proportion);
+		// fm.hhea_descent = (fm.hhea_ascent - total);
 
 		// debug('CALCFONTMAXES - numchars ' + _UI.fontmetrics.numchars);
 	}

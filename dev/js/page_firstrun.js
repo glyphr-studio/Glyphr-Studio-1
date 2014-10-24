@@ -223,8 +223,8 @@
 			_GP.projectsettings.charrange.custom = data.projectsettings.charrange.custom || [];
 		}
 
-		debug('\t merged projectsettings');
-		debug(_GP.projectsettings);
+		// debug('\t merged projectsettings');
+		// debug(_GP.projectsettings);
 
 		// Guides
 		// Import all gudes
