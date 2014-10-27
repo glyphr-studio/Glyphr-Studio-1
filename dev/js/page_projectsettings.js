@@ -5,10 +5,9 @@
 		var ps = _GP.projectsettings;
 
 		var content = "<h1 class='pagetitle'>Project Settings</h1><div class='pagecontent textpage'>";
-		content += "These project and interface settings will be saved with your Glyphr project file.<br><br>";
 
 		content += "<h2>Project Name</h2>"+
-					"The Font Name and the Project name can be different, but they start out the same.  The Font Name details can be changed on the Font Settings page."+
+					"The Font Name and the Project name can be different, but they start out the same.  The Font Name can be changed on the Font Settings page."+
 					"<table class='settingstable'>"+
 					"<tr><td>Project Name:</td><td><input type='text' style='width:100%' value='" + ps.name + "' onchange='_GP.projectsettings.name = this.value;' /></td></tr>"+
 					"</table><br>";

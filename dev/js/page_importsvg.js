@@ -7,6 +7,8 @@
 		"<h2 id='importsvgselecttitle'>Target character: "+chname+"</h2>"+
 
 		"<table style='margin-top:16px;'><tr><td style='width:50%;'>"+
+			"<h3>scaling and moving</h3>"+
+
 			"<table><tr><td>"+
 				checkUI("_UI.importsvg.scale") +
 			"</td><td style='padding:0px 0px 8px 5px;'>"+
@@ -16,17 +18,20 @@
 			"</td><td style='padding:0px 0px 8px 5px;'>"+
 				"<label for='move'>Move the imported SVG outlines</label>"+
 			"</td></tr></table>"+
-		"</td><td style='width:50%; padding-top:4px;'>"+
-			"Enter the height metrics for this character:<br>"+
+		"</td><td style='width:50%;'>"+
+			"<h3>height metrics</h3>"+
 
 			"<table style='margin-top:10px;'><tr>"+
 			"<td style='width:20px; padding-top:10px;'>"+
 				checkUI("_UI.importsvg.ascender")+
+				"<br>"+
+				checkUI("_UI.importsvg.capheight")+
 			"</td><td class='svgscaleoption'>"+
-				"<label for='ascender'>Ascender</label>"+
+				"<label for='ascender'>Ascender</label><br>"+
+				"<label for='capheight'>Cap Height</label>"+
 			"</td><td style='padding-left:30px;' rowspan='3'>"+
 
-				"<table><tr><td colspan='2'>"+
+				"<table><tr><td colspan='2' style='padding-bottom:8px;'>"+
 					"For rounded characters:"+
 				"</td></tr><tr><td>"+
 					checkUI("_UI.importsvg.overshoot_top")+
@@ -70,14 +75,31 @@
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		//importSVG_selectChar("0x0061");
 
-		getEditDocument().getElementById("droptarget").addEventListener('dragover', handleDragOver, false);
+		getEditDocument().getElementById("droptarget").addEventListener('dragover', importSVG_handleDragOver, false);
+		getEditDocument().getElementById("droptarget").addEventListener('dragleave', importSVG_handleDragLeave, false);
 		getEditDocument().getElementById("droptarget").addEventListener('drop', importSVG_handleDrop, false);
 	}
 
 	function importSVG_codeAreaChange() {
-		document.getElementById("droptarget").innerHTML = "drop a .svg file here, or paste code below";
+		document.getElementById("droptarget").innerHTML = "Drop a .svg file here, or paste code below";
 		_UI.importsvg.svgcode = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_CODEAREACHANGE - code: " + _UI.importsvg.svgcode);
+	}
+
+	function importSVG_handleDragOver(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'move';
+
+		importSVG_clearCode();
+		document.getElementById('droptarget').innerHTML = 'Drop it!';
+	}
+
+	function importSVG_handleDragLeave(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		importSVG_clearCode();
 	}
 
 	function importSVG_handleDrop(evt){
@@ -104,9 +126,8 @@
 		reader.readAsText(f);
 	}
 
-
 	function importSVG_clearCode() {
-		document.getElementById('droptarget').innerHTML = 'drop a .svg file here, or paste code below';
+		document.getElementById('droptarget').innerHTML = 'Drop a .svg file here, or paste code below';
 		document.getElementById('svgcode').value = '';
 		document.getElementById('svgcode').focus();
 		_UI.importsvg.svgcode = false;
@@ -137,19 +158,22 @@
 		//debug("IMPORTSVG_IMPORTCODE - scale / move " + so.scale + " / " + so.move);
 
 		if(so.scale || so.move){
-			var totalheight = (so.ascender? gp.ascent : gp.xheight)*1;
-			var finaltop = (so.ascender? gp.ascent : gp.xheight)*1;
+			var chartop = gp.xheight*1;
+			if(so.capheight) chartop = gp.capheight*1;
+			if(so.ascender) chartop = gp.ascent*1;
+
+			var totalheight = chartop;
 			var ovs = gp.overshoot*1;
 
 			if(so.descender) totalheight += (gp.upm - gp.ascent)*1;
 			if(so.overshoot_bottom) totalheight += ovs;
 			if(so.overshoot_top){
 				totalheight += ovs;
-				finaltop += ovs;
+				chartop += ovs;
 			}
 
 			if(so.scale) tempchar.setCharSize(false, totalheight, true);
-			if(so.move) tempchar.setCharPosition(0, finaltop);
+			if(so.move) tempchar.setCharPosition(0, chartop);
 		}
 
 		// Add new Char Shapes

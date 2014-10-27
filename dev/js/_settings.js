@@ -9,10 +9,10 @@
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'font settings',	// navigate straight to a page
+		'devnav': 'import svg',	// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
-		
+
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
@@ -21,7 +21,7 @@
 		'projectsaved': true,
 		'icons': {},
 		'colors': {
-			
+
 			// ACCENT BLUE
 			'accent_95': 'rgb(225,245,255)',
 			'accent_85': 'rgb(155,221,255)',
@@ -37,13 +37,13 @@
 			// COOL GRAYSCALE
 			'offwhite':	'rgb(250,252,255)',	// Off White
 			'gray_90':	'rgb(229,234,239)',	// LIGHTER
-			'gray_80':	'rgb(204,209,214)',	// 
-			'gray_70':	'rgb(178,183,188)',	// 
-			'gray_60':	'rgb(153,158,163)',	// 
-			'gray_50':	'rgb(127,134,137)',	// 
-			'gray_40':	'rgb(102,107,112)',	// 
-			'gray_30':	'rgb(76,81,86)',	// 
-			'gray_20':	'rgb(51,56,61)',	// 
+			'gray_80':	'rgb(204,209,214)',	//
+			'gray_70':	'rgb(178,183,188)',	//
+			'gray_60':	'rgb(153,158,163)',	//
+			'gray_50':	'rgb(127,134,137)',	//
+			'gray_40':	'rgb(102,107,112)',	//
+			'gray_30':	'rgb(76,81,86)',	//
+			'gray_20':	'rgb(51,56,61)',	//
 			'gray_10':	'rgb(25,30,35)',	// DARKER
 
 			// RED FOR ERROR
@@ -52,7 +52,7 @@
 			'error_dark':	'rgb(105,45,55)',	// os red warning color dark
 		},
 
-		// Shared edit pages 
+		// Shared edit pages
 		'popout': false,
 		'selectedtool': 'pathedit',	// pathedit, shaperesize, pan, newrect, newoval, newpath
 		'redrawing': false,
@@ -121,6 +121,7 @@
 			'scale': false,
 			'move': false,
 			'ascender': false,
+			'capheight': false,
 			'descender': false,
 			'overshoot_top': false,
 			'overshoot_bottom': false,

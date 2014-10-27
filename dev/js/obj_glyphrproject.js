@@ -19,8 +19,8 @@
 			'italicangle': 0,		// slant of characters, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
 			'griddivisions': 10,	// how many squares of grid per emsize
 			'overshoot': 10,		// overshoot for round glyphs
-			'defaultlsb': 10,		// default left side bearing
-			'defaultrsb': 10,		// default right side bearing
+			'defaultlsb': 20,		// default left side bearing
+			'defaultrsb': 20,		// default right side bearing
 			'charrange': {			// canned and custom Unicode ranges
 				'basiclatin': true,
 				'latinsuppliment': false,
