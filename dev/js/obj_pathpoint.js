@@ -370,7 +370,8 @@
 		this.H1.x = this.P.x - Math.cos(angle1)*length;
 		this.H1.y = this.P.y - Math.sin(angle1)*length;
 		//debug('MAKEPOINTEDTO - after H1x/y ' + this.H1.x + ' ' + this.H1.y);
-		this.makeFlat('H1');
+		if(this.type === 'corner') this.makeFlat('H1');
+		else this.makeSymmetric('H1');
 		//debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
 
 		//this.roundAll();
@@ -378,9 +379,9 @@
 
 	PathPoint.prototype.resetHandles = function(){
 		this.type = 'flat';
-		this.H2.x = this.P.x - 200;
+		this.H2.x = this.P.x - 300;
 		this.H2.y = this.P.y;
-		this.H1.x = this.P.x + 200;
+		this.H1.x = this.P.x + 300;
 		this.H1.y = this.P.y;
 	};
 
