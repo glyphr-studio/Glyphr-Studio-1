@@ -8,29 +8,30 @@
 		// debug('\n ioSVG_exportSVGfont - Start');
 		var ps = _GP.projectsettings;
 		var md = _GP.metadata;
+		var family = md.font_family;
 		var timestamp = genDateStampSuffix();
 		var timeoutput = timestamp.split('-');
 		timeoutput[0] = timeoutput[0].replace(/\./g, '-');
 		timeoutput[1] = timeoutput[1].replace(/\./g, ':');
 		timeoutput = timeoutput.join(' at ');
 
-		var con = '<?xml version="1.0" standalone="no"?>\n'+
-			'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >\n'+
-			'<svg width="100%" height="100%">\n'+
-			'   <metadata>\n\n'+
-			'      Project: ' + ps.name + '\n'+
-			'      Font exported on ' + timeoutput + '\n\n'+
-			'      Created with Glyphr Studio - the free, web-based font editor\n'+
-			'      Version: ' + _UI.thisGlyphrStudioVersion + '\n\n'+
-			'      Find out more at www.glyphrstudio.com\n\n'+
-			'   </metadata>\n'+
-			'   <defs>\n'+
-			'      <font id="'+md.font_family.replace(/ /g, '_')+'" horiz-adv-x="'+ps.upm+'">\n'+
-			'         <font-face\n'+ ioSVG_makeFontFace()+'\n'+
-			'            <font-face-src>\n'+
-			'               <font-face-name name="'+md.font_family+'" />\n'+
-			'            </font-face-src>\n'+
-			'         </font-face>\n';
+		var con = '<?xml version="1.0"?>\n'+
+			// '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >\n'+
+			'<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'+
+			'\t<metadata>\n\n'+
+			'\t\tProject: ' + ps.name + '\n'+
+			'\t\tFont exported on ' + timeoutput + '\n\n'+
+			'\t\tCreated with Glyphr Studio - the free, web-based font editor\n'+
+			'\t\tVersion: ' + _UI.thisGlyphrStudioVersion + '\n\n'+
+			'\t\tFind out more at www.glyphrstudio.com\n\n'+
+			'\t</metadata>\n'+
+			'\t<defs>\n'+
+			'\t\t<font id="'+family.replace(/ /g, '_')+'" horiz-adv-x="'+ps.upm+'">\n'+
+			'\t\t\t<font-face\n'+ ioSVG_makeFontFace()+'\n'+
+			'\t\t\t\t<font-face-src>\n'+
+			'\t\t\t\t\t<font-face-name name="'+family+'" />\n'+
+			'\t\t\t\t</font-face-src>\n'+
+			'\t\t\t</font-face>\n';
 
 		con += '\n';
 		con += ioSVG_makeMissingGlyph();
@@ -40,16 +41,15 @@
 		con += ioSVG_makeAllKernPairs();
 		con += '\n';
 
-		con += '      </font>\n'+
-			'   </defs>\n';
+		con += '\t\t</font>\n'+
+			'\t</defs>\n';
 
-		con += '   <text x="100" y="150" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">'+md.font_family+'</text>\n';
-		con += '   <text x="100" y="220" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>\n';
-		con += '   <text x="100" y="290" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">abcdefghijklmnopqrstuvwxyz</text>\n';
-		con += '   <text x="100" y="360" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">1234567890</text>\n';
-		con += '   <text x="100" y="430" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">!\"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</text>\n';
-		// con += '   <text x="100" y="430" style="font-size:48px; font-family:\''+md.font_family+'\', monospace;">! \" # $ % &amp; \' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \\ ] ^ _ ` { | } ~</text>\n';
-
+		con += '\t<text x="100" y="150" style="font-size:48px; font-family:\''+family+'\', monospace;">'+family+'</text>\n';
+		con += '\t<text x="100" y="220" style="font-size:48px; font-family:\''+family+'\', monospace;">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>\n';
+		con += '\t<text x="100" y="290" style="font-size:48px; font-family:\''+family+'\', monospace;">abcdefghijklmnopqrstuvwxyz</text>\n';
+		con += '\t<text x="100" y="360" style="font-size:48px; font-family:\''+family+'\', monospace;">1234567890</text>\n';
+		con += '\t<text x="100" y="430" style="font-size:48px; font-family:\''+family+'\', monospace;">!\"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</text>\n';
+	
 		con += '</svg>';
 
 		var filename = ps.name + ' - SVG Font - ' + timestamp + '.svg';
@@ -62,7 +62,7 @@
 	function ioSVG_makeFontFace() {
 		debug('\n ioSVG_makeFontFace - START');
 		calcFontMaxes();
-		var t = '            ';
+		var t = '\t\t\t\t';
 		var md = _GP.metadata;
 		var ps = _GP.projectsettings;
 		var fm = _UI.fontmetrics;
@@ -99,7 +99,7 @@
 		var gw = round(gh * 0.618);
 		var gt = round(gh/100);
 
-		con += '<missing-glyph horiz-adv-x="'+gw+'" ';
+		con += '\t<missing-glyph horiz-adv-x="'+gw+'" ';
 		con += 'd="M0,0 v'+gh+' h'+gw+' v-'+gh+' h-'+gw+'z ';
 		con += 'M'+gt+','+gt+' v'+(gh-(gt*2))+' h'+(gw-(gt*2))+' v-'+(gh-(gt*2))+' h-'+(gw-(gt*2))+'z';
 		con += '" />';
@@ -116,15 +116,16 @@
 		var fc = _GP.fontchars;
 		var con = '';
 
+		sortLigatures();
 		var li = _GP.ligatures;
-		con += '         <!-- Ligatures -->\n';
+		con += '\t\t\t<!-- Ligatures -->\n';
 		for(var l in li){ if (li.hasOwnProperty(l)){
 			con += ioSVG_makeOneCharOrLigature(li[l], l);
 		}}
 
 		con += '\n';
 
-		con += '         <!-- Characters -->\n';
+		con += '\t\t\t<!-- Characters -->\n';
 		for(var c in fc){ if (fc.hasOwnProperty(c)){
 			con += ioSVG_makeOneCharOrLigature(fc[c], c);
 		}}
@@ -141,7 +142,7 @@
 		uni = uni.join('');
 		var pathdata = ch.makeSVGpathData();
 
-		var con = '         ';
+		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+ch.charname.replace(/ /g, '_')+'" ';
 		con += 'unicode="'+uni+'" ';
 		con += 'horiz-adv-x="'+ch.getTotalWidth()+'" ';
@@ -151,29 +152,22 @@
 
 	function ioSVG_makeAllKernPairs() {
 		debug('\n ioSVG_makeAllKernPairs - START');
-		var t = '         ';
 		var kp = _GP.kerning;
-		var con = t+'<!-- Kern Pairs -->\n';
+		var con = '\t\t\t<!-- Kern Pairs -->\n';
 
 		for(var k in kp){ if (kp.hasOwnProperty(k)){
-			con += t+'<hkern ';
-			con += 'u1="'+ioSVG_convertKernGroup(kp[k].leftgroup)+'" ';
-			con += 'u2="'+ioSVG_convertKernGroup(kp[k].rightgroup)+'" ';
-			con += 'k="'+kp[k].value+'" />\n';
+			for(var lg=0; lg<kp[k].leftgroup.length; lg++){
+				for(var rg=0; rg<kp[k].rightgroup.length; rg++){
+					con += '\t\t\t<hkern ';
+					con += 'u1="'+hexToUnicodeHex(kp[k].leftgroup[lg])+'" ';
+					con += 'u2="'+hexToUnicodeHex(kp[k].rightgroup[rg])+'" ';
+					con += 'k="'+kp[k].value+'" />\n';
+				}
+			}
 		}}
 
 		debug(' ioSVG_makeAllKernPairs - END\n');
 		return con;
-	}
-
-	function ioSVG_convertKernGroup (kgarr) {
-		var re = clone(kgarr);
-		re.forEach(function(el, i, arr){
-			arr[i] = arr[i].replace(/0x/, '&#x');
-			arr[i] += ';';
-		});
-
-		return re.join(',');
 	}
 
 // end of file

@@ -47,6 +47,10 @@
 		return result;
 	}
 
+	function hexToUnicodeHex(h){
+		return (h.replace(/0x/, '&#x') + ';');
+	}
+
 	function parseUnicodeInput(str) {
 		// takes any kind or number of input
 		// Unicode, Hex, or character
