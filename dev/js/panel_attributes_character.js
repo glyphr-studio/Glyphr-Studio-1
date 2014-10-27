@@ -141,58 +141,62 @@
 
 
 		// LEFT SIDE BEARING
-		content += "<tr><td colspan=2><h3> left side bearing </h3></td></tr>";
+		if(sc.isautowide){
+			content += "<tr><td colspan=2><h3> left side bearing </h3></td></tr>";
 
-		content += "<tr>"+
-			"<td> use default </td>"+
-			"<td>"+checkUI("getSelectedChar().leftsidebearing", true, true)+"</td>"+
-		"</tr>";
+			content += "<tr>"+
+				"<td> use default </td>"+
+				"<td>"+checkUI("getSelectedChar().leftsidebearing", true, true)+"</td>"+
+			"</tr>";
 
-		if(sc.leftsidebearing){
-			if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
-			content += "<tr>"+
-				"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
-				"<td>"+
-					"<input type='number' value='"+
-					sc.leftsidebearing + "' onchange='getSelectedChar().leftsidebearing = (this.value*1); redraw(\"charDetails\");'>"+
-				"</td>"+
-			"</tr>";
-		} else {
-			content += "<tr>"+
-				"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
-				"<td>"+
-					"<input type='number' disabled='disabled' value='"+
-					round(_GP.projectsettings.defaultlsb, 3) + "'/>"+
-				"</td>"+
-			"</tr>";
+			if(sc.leftsidebearing){
+				if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
+				content += "<tr>"+
+					"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
+					"<td>"+
+						"<input type='number' value='"+
+						sc.leftsidebearing + "' onchange='getSelectedChar().leftsidebearing = (this.value*1); redraw(\"charDetails\");'>"+
+					"</td>"+
+				"</tr>";
+			} else {
+				content += "<tr>"+
+					"<td>left side bearing <span class='unit'>(em units)</span> </td>"+
+					"<td>"+
+						"<input type='number' disabled='disabled' value='"+
+						round(_GP.projectsettings.defaultlsb, 3) + "'/>"+
+					"</td>"+
+				"</tr>";
+			}
 		}
 
 
 		// RIGHT SIDE BEARING
-		content += "<tr><td colspan=2><h3> right side bearing </h3></td></tr>";
+		if(sc.isautowide){
+			content += "<tr><td colspan=2><h3> right side bearing </h3></td></tr>";
 
-		content += "<tr>"+
-			"<td> use default </td>"+
-			"<td>"+checkUI("getSelectedChar().rightsidebearing", true, true)+"</td>"+
-		"</tr>";
+			content += "<tr>"+
+				"<td> use default </td>"+
+				"<td>"+checkUI("getSelectedChar().rightsidebearing", true, true)+"</td>"+
+			"</tr>";
 
-		if(sc.rightsidebearing){
-			if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
-			content += "<tr>"+
-				"<td>right side bearing <span class='unit'>(em units)</span> </td>"+
-				"<td>"+
-					"<input type='number' value='"+
-					sc.rightsidebearing + "' onchange='getSelectedChar().rightsidebearing = (this.value*1); redraw(\"charDetails\");'>"+
-				"</td>"+
-			"</tr>";
-		} else {
-			content += "<tr>"+
-				"<td>right side bearing <span class='unit'>(em units)</span> </td>"+
-				"<td>"+
-					"<input type='number' disabled='disabled' value='"+
-					round(_GP.projectsettings.defaultrsb, 3) + "'/>"+
-				"</td>"+
-			"</tr>";
+			if(sc.rightsidebearing){
+				if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
+				content += "<tr>"+
+					"<td>right side bearing <span class='unit'>(em units)</span> </td>"+
+					"<td>"+
+						"<input type='number' value='"+
+						sc.rightsidebearing + "' onchange='getSelectedChar().rightsidebearing = (this.value*1); redraw(\"charDetails\");'>"+
+					"</td>"+
+				"</tr>";
+			} else {
+				content += "<tr>"+
+					"<td>right side bearing <span class='unit'>(em units)</span> </td>"+
+					"<td>"+
+						"<input type='number' disabled='disabled' value='"+
+						round(_GP.projectsettings.defaultrsb, 3) + "'/>"+
+					"</td>"+
+				"</tr>";
+			}
 		}
 
 		return content;

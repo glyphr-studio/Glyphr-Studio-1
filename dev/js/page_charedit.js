@@ -13,6 +13,7 @@
 
 		_UI.selectedtool = 'pathedit';
 		
+		
 		_UI.selectedshape = -1;
 		if(_UI.devselectedshape){
 			_UI.selectedshape = _UI.devselectedshape;
@@ -34,6 +35,8 @@
 		_UI.redrawing = true;
 
 		var sc = getSelectedChar();
+		sc.calcCharMaxes();
+		
 		drawGrid();
 		drawGuides();
 

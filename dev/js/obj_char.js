@@ -102,7 +102,8 @@
 
 	Char.prototype.getTotalWidth = function() {
 		this.calcCharWidth();
-		return this.charwidth + this.getLSB() + this.getRSB();
+		if(!this.isautowide) return this.charwidth;
+		else return this.charwidth + this.getLSB() + this.getRSB();
 	};
 
 	Char.prototype.getLSB = function() {
@@ -457,6 +458,7 @@
 		var sc = getSelectedChar();
 		if(!sc) return 0;
 		if(sc.objtype === 'linkedshape') return 0;
+		if(!sc.isautowide) return 0;
 		return sc.leftsidebearing || _GP.projectsettings.defaultlsb;
 	}
 
@@ -465,6 +467,7 @@
 		var sc = getSelectedChar();
 		if(!sc) return 0;
 		if(sc.objtype === 'linkedshape') return 0;
+		if(!sc.isautowide) return 0;
 		return sc.rightsidebearing || _GP.projectsettings.defaultrsb;
 	}
 
