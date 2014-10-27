@@ -65,7 +65,7 @@
 			'font_variant': 'normal',
 			'font_weight': 'normal',	// Default to 400
 			'font_stretch': 'normal',
-			'panose_1': '0 0 0 0 0 0 0 0 0 0',
+			'panose_1': '2 0 0 0 0 0 0 0 0 0',
 			'stemv': 0,
 			'stemh': 0,
 			'slope': 0,

@@ -1315,6 +1315,11 @@
 		vertical-align:middle;
 	}
 
+	.metadatatable td {
+		padding:0px 10px 20px 0px;
+		vertical-align: top;
+	}
+
 	.charrangepreview {
 		background-color: white;
 		border: 1px solid rgb(229,234,239);

@@ -156,9 +156,6 @@
 				if(adv){
 					if(!isNaN(adv) && adv > 0){
 						isautowide = false;
-						/*
-							GLYPHR charwidth !== horiz-adv-x
-						*/
 					}
 				} else adv = false;
 

@@ -21,24 +21,18 @@
 					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td>Total Units per Em: </td><td><input type='number' disabled='disabled' value='"+ps.upm+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
-
-		content += "<h3>Overshoot</h3>"+
-					"Round letters usually extend a little above the x height line and below the baseline. " +
-					"A light guideline will show this overshoot distance.<br>" +
-					"<table class='settingstable'>"+
-					"<tr><td>Overshoot:</td><td><input type='number' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
-					"</table><br>";
-
+/*
 		content += "<h3>Line Gap</h3>" +
 					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
 					"<table class='settingstable'>"+
 					"<tr><td>Line Gap: </td><td><input type='number' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
-
-		content += "<h3>Default Left Side Bearing</h3>" +
-					"This is the amount of blank space that is added to the left of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
+*/
+		content += "<h3>Default Side Bearings</h3>" +
+					"Side Bearings are the amount of blank space that is added to the left or right of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
 					"<table class='settingstable'>"+
-					"<tr><td>Left Side Bearing: </td><td><input type='number' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Left Side Bearing: </td><td><input type='number' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = Math.abs(Math.parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
+					"<tr><td>Right Side Bearing: </td><td><input type='number' value='"+ps.defaultrsb+"' onchange='_GP.projectsettings.rsb = Math.abs(Math.parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 
@@ -51,6 +45,13 @@
 					"<tr><td>Units per Em:</td><td><input type='number' disabled='disabled' value='" + ps.upm + "'/></td><td><span class='unit'>(total)</span></td></tr>"+
 					"<tr><td>Grid Divisions</td><td><input type='number' value='"+ps.griddivisions+"' onchange='updateGridDivisions(this.value);'/></td><td><span class='unit'>(number)</span></td></tr>"+
 					"<tr><td>Grid Square Size:</td><td><input type='number' id='metirc-ssize' disabled='disabled' value='" + (ps.upm/ps.griddivisions) + "'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"</table><br>";
+
+		content += "<h3>Overshoot</h3>"+
+					"Round letters usually extend a little above the x height line and below the baseline. " +
+					"A light guideline will show this overshoot distance.<br>" +
+					"<table class='settingstable'>"+
+					"<tr><td>Overshoot:</td><td><input type='number' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
 
@@ -111,15 +112,14 @@
 			"<p style='margin-bottom:20px;'>These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>.";
 
 
-		content += "<table class='settingstable'>";
-		for(var m in meta){
-			if(meta.hasOwnProperty(m) && m!== 'font_family'){
-				content += "<tr>";
-				content += "<td class='propname' style='width:200px'>" + m.replace(/_/g, '-') + "</td>";
-				content += "<td><input type='text' value='"+meta[m]+"' onchange=''/></td>";
-				content += "</tr>";
-			}
-		}
+		content += "<table class='settingstable metadatatable'>";
+		for(var m in meta){ if(meta.hasOwnProperty(m) && m!== 'font_family'){
+			content += "<tr>";
+			content += "<td class='propname' style='width:200px'>" + m.replace(/_/g, '-') + "</td>";
+			content += "<td><input type='text' value='"+meta[m]+"' onchange='_GP."+m+" = this.value;'/></td>";
+			content += "<td>"+_UI.metadatahelp[m]+"</td>";
+			content += "</tr>";
+		}}
 		content += "</table>";
 
 

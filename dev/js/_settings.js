@@ -9,7 +9,7 @@
 		// Internal Dev Stuff
 		'debug': true,			// global debug console switch
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'export font',	// navigate straight to a page
+		'devnav': 'font settings',	// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		
@@ -145,6 +145,25 @@
 				'ymax': -999999,
 				'ymin': 999999
 			}
+		},
+
+		// page: font settings
+		'metadatahelp': {
+			'font_family': '',
+			'font_style': 'normal, italic, oblique',
+			'font_variant': 'normal, small-caps',
+			'font_weight': 'normal, bold, or a number 100-900',
+			'font_stretch': 'normal, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded',
+			'panose_1': 'Uses ten digits to describe the font\'s visual style.  A good overview can be found here: <a href="http://www.monotype.com/services/pan2" target=_new>monotype.com/services/pan2</a>.',
+			'stemv': 'Average measurement of vertical stems.',
+			'stemh': 'Average measurement of horizontal stems.',
+			'slope': 'If italic, this is the slant angle, measured counterclockwise from vertical. Or zero for non-italic fonts.',
+			'underline_position': '',
+			'underline_thickness': '',
+			'strikethrough_position': '',
+			'strikethrough_thickness': '',
+			'overline_position': '',
+			'overline_thickness': ''
 		}
 	};
 
