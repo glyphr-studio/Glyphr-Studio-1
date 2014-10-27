@@ -377,9 +377,12 @@
 		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
 		newsub += '</button></div>';
 
+		// Bottom Left
+		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';
+
 		// Debug Dumps
 		if(_UI.debug){
-			newsub += '<div style="position:absolute; bottom:20px; left:0px; width:70px; text-align:center; color:slategray; cursor:pointer;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';
+			newsub += '<div style="color:slategray; text-align:center;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';
 			newsub += '<div id="devtools" style="display:none; margin-top:20px; width:70px; text-align:center;">';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_UI);">UI</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
@@ -389,8 +392,12 @@
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.linkedshapes);">LS</button><br><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="console.clear();">clear</button><br>';
-			newsub += '</div></div>';
+			newsub += '</div></div><br><br>';
 		}
+
+		// Contribute!
+		newsub += '<a href="#" style="color:'+_UI.colors.accent_55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
+		newsub += '</div>';
 
 		return newsub;
 	}

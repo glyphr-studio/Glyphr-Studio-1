@@ -661,6 +661,16 @@
 		padding:4px 12px;
 	}
 
+	#dialogRightContent input[type=image] {
+		background-color: transparent;
+		padding-left:0px;
+	}
+
+	#dialogRightContent p,
+	#dialogRightContent ul {
+		width:600px;
+	}
+
 	#dialogRightContent .subnavunit {
 		margin:10px 0px 0px 0px;
 		width:400px;
