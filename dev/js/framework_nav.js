@@ -421,6 +421,7 @@
 			'help',
 			'about',
 			'_',
+			'feature',
 			'bug',
 			'issue'
 		];
@@ -440,6 +441,8 @@
 
 			if(navarr[i]==='_'){
 				newsub += '<div style="height:10px;"></div>';
+			} else if (navarr[i] === 'feature'){
+				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target=_new>suggest a feature or improvement</a><br>');
 			} else if (navarr[i] === 'bug'){
 				newsub += ('<a href="mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body='+genEmailContent()+'" class="navpanellink">email the glyphr studio team</a><br>');
 			} else if (navarr[i] === 'issue'){
