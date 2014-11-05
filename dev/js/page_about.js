@@ -6,11 +6,12 @@
 		makeGlyphrStudioLogo({"width":376, "fill":_UI.colors.accent_55}) +
 		"<h2 style='margin-bottom:12px; margin-top:8px;'>"+_UI.thisGlyphrStudioVersion+"</h2>" +
 		"<table>"+
-		"<tr><td><i>Website: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a> for all the info.</td></tr>" +
+		"<tr><td><i>Website: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='http://www.glyphrstudio.com' target=_new>glyphrstudio.com</a> for all the info.</td></tr>" +
 		"<tr><td><i>Email: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='mailto:mail@glyphrstudio.com'>mail@glyphrstudio.com</a> with any questions, and we'd be happy to help out.</td></tr>" +
 		"<tr><td><i>Twitter: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://twitter.com/glyphrstudio' target=_new>@glyphrstudio</a> for short updates and announcements.</td></tr>" +
 		"<tr><td><i>Blog: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='http://www.glyphrstudio.com/blog/' target=_new>glyphrstudio.com/blog</a> for verbose updates and announcements.</td></tr>" +
-		"<tr><td><i>GitHub: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://github.com/mattlag/Glyphr-Studio/' target=_new>github.com/mattlag/Glyphr-Studio/</a> for dev and code related stuff.</td></tr>" +
+		"<tr><td><i>GitHub: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://github.com/mattlag/Glyphr-Studio/' target=_new>github.com/mattlag/Glyphr-Studio</a> for dev and code related stuff.</td></tr>" +
+		"<tr><td><i>Feedback: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://glyphrstudio.uservoice.com' target=_new>glyphrstudio.uservoice.com</a> to suggest improvements or new feature ideas.</td></tr>" +
 		"</table>"+
 
 		"<br>"+
