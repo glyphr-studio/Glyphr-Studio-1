@@ -447,11 +447,6 @@
 	.pagecontent h2 { margin-top:8px; }
 	.pagecontent h3 { margin-top:6px; }
 
-	.btt {
-		font-style:normal;
-		margin-left:20px;
-	}
-
 	.pagecontent br {
 		height:15px;
 		display:block;
@@ -729,8 +724,10 @@
 /* -----------------*/
 
 .btt {
-	margin:8px 0px 0px 0px;
+	margin:8px 0px 20px 0px;
+	display: inline-block;
 }
+
 .btt a {
 	font-size:.8em;
 }
@@ -930,16 +927,14 @@
 		background-color: rgb(229,234,239);
 	}
 
-	.keycallout,
-	.keycallout_help {
+	.keycallout {
 		padding:2px 8px 4px 8px;
 		background-color: rgb(250,252,255);
 		border-radius: 2px;
 		margin-right: 4px;
 	}
 
-	.arrow,
-	.arrow_help {
+	.arrow {
 		padding:2px 4px;
 		background-color: rgb(250,252,255);
 		border-radius: 2px;
@@ -947,8 +942,8 @@
 		height:18px;
 	}
 
-	.keycallout_help,
-	.arrow_help {
+	.textpage .keycallout,
+	.textpage .arrow {
 		background-color: rgb(229,234,239);
 	}
 
