@@ -6,9 +6,9 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			'version': 'Beta 5 - 0.5.working',	// project version
-			'versionnum': '0.5.0',				// project number version
-
+			'version': 'Beta 5 - 0.5.0',	// project version
+			'versionnum': '0.5.0',			// project number version
+			
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)
 			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are

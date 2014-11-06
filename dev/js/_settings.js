@@ -16,7 +16,7 @@
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Beta 5 - 0.5.0.working',
+		'thisGlyphrStudioVersion': 'Beta 5 - 0.5.0',
 		'thisGlyphrStudioVersionNum': '0.5.0',
 		'projectsaved': true,
 		'icons': {},
