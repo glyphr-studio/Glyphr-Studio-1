@@ -473,7 +473,7 @@
 			nP = new Coord({'x':x1234, 'y':y1234});
 			nH1 = new Coord({'x':x123, 'y':y123});
 			nH2 = new Coord({'x':x234, 'y':y234});
-			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat'});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true});
 
 			// Update P1
 			if(pp1.type === 'symmetric') pp1.type = 'flat';

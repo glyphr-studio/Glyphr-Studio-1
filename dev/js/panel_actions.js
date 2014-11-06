@@ -356,7 +356,7 @@
 		var content = "<h1>Link to Character</h1><table style='width:900px'><tr><td>";
 		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the character you would like to link to this linked shape:<br><br></td></tr>";
-		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
+		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:500px;'>";
 		content += makeGenericCharChooserContent("insertLinkedShapeToChar", true);
 		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";

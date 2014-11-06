@@ -1400,6 +1400,7 @@
 		width:100%;
 		overflow-y:auto;
 		overflow-x:hidden;
+		margin-top:10px;
 	}
 
 	.ssthumbcontainer table {

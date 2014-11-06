@@ -211,7 +211,7 @@
 		content += "<tr>"+
 			"<td>name</td>"+
 			"<td>"+
-				"<input style='width:100%;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'>"+
+				"<input style='width:210px;' type='text' value='" + s.name + "' onchange='ss().changeShapeName(this.value);'>"+
 			"</td>"+
 		"</tr>";
 
