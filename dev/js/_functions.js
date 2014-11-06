@@ -145,12 +145,11 @@
 	}
 
 	function showErrorMessageBox(msg) {
-		console.error("Error - " + msg);
 		var msgcon = document.getElementById('errormessagecontent');
 		var msgbox = document.getElementById('errormessagebox');
 		msgcon.innerHTML = msg;
 		msgbox.style.display = 'block';
-		console.warn(msgcon);
+		console.warn(msg);
 	}
 
 	function closeErrorMessageBox(){

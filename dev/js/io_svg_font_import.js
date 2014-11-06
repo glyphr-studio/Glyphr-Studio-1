@@ -39,7 +39,8 @@
 			try {
 				jsondata = convertXMLtoJSON(svgdata);
 			} catch (e){
-				showErrorMessageBox(e.message);
+				loadPage_firstrun();
+				showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
 				return;
 			}
 
