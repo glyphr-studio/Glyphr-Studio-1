@@ -13,6 +13,12 @@
 		this.value = oa.value || 0;
 	}
 
+	HKern.prototype.getName = function() {
+		var left = hexToChar(this.leftgroup.join(''));
+		var right = hexToChar(this.rightgroup.join(''));
+		return '' + left + ' | ' + right;
+	};
+
 	function getSelectedKern() {
 		var re = _GP.kerning[_UI.selectedkern];
 		return re || _GP.kerning[getFirstID(_GP.kerning)] || false;
@@ -23,7 +29,4 @@
 		return _UI.selectedkern;
 	}
 
-	function getSelectedKernName() {
-		var k = getSelectedKern();
-		return 'kern ' + k.leftgroup.join('') + ' | ' + k.rightgroup.join('');
-	}
+// end of file

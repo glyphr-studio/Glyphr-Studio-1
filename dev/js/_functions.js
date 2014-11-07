@@ -77,6 +77,9 @@
 			if(sc){
 				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
 				content += (sc.charname || sc.charhtml || sc.shape.name || '[no shape outline yet]');
+			} else if (_UI.navhere === 'kerning'){
+				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+				content += getSelectedKern().getName();
 			}
 			content += "</h1>";
 		}

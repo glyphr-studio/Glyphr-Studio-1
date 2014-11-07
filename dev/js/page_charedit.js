@@ -35,7 +35,7 @@
 		_UI.redrawing = true;
 
 		var sc = getSelectedChar();
-		sc.calcCharMaxes();
+		if(sc) sc.calcCharMaxes();
 		
 		drawGrid();
 		drawGuides();

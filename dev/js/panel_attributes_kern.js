@@ -55,14 +55,18 @@
 	}
 
 	function updateKernValue(id, val) {
-		_GP.kerning[id].value = val;
-		redraw();
+		var k = _GP.kerning[id];
+		k.value = val;
+		selectKern(id);
+		history_put(k.getName() + ' value: ' + val);
 	}
 
 	function updateKernGroup(id, side, val){
-		if(side === 'left') _GP.kerning[id].leftgroup = parseKernGroupInput(val);
-		else if(side === 'right') _GP.kerning[id].rightgroup = parseKernGroupInput(val);
+		var k = _GP.kerning[id];
+		if(side === 'left') k.leftgroup = parseKernGroupInput(val);
+		else if(side === 'right') k.rightgroup = parseKernGroupInput(val);
 		selectKern(id);
+		history_put('Updated Members: ' + k.getName());
 	}
 
 	function selectKern(id) {
@@ -118,9 +122,7 @@
 		var k = _GP.kerning[id];
 		var con = '<h1>Delete Kern Pair</h1>';
 		con += 'Are you sure you want to remove the kern pair:<br><br>';
-		con += k.leftgroup.join('');
-		con += '<span style="color:'+_UI.colors.gray_80+'">&ensp;|&ensp;</span>';
-		con += k.rightgroup.join('');
+		con += k.getName();
 		con += '<br><br>';
 		con += '<button class="buttonsel" onclick="delete _GP.kerning[\''+id+'\']; _UI.selectedkern = getFirstID(_GP.kerning); closeDialog(); redraw();">Delete Kern Pair</button>';
 		con += '<button onclick="closeDialog();">Cancel</button>';

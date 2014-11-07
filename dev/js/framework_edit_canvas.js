@@ -331,7 +331,7 @@
 			case 'ligatures':
 				return 'ligature ' + getSelectedCharName();
 			case 'kerning':
-				return getSelectedKernName();
+				return getSelectedKern().getName();
 		}
 
 		return 'no working object';
