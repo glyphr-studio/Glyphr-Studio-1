@@ -54,12 +54,24 @@
 	
 	// Global Accessor Functions
 	function history_put(dsc){
-		var queue = _UI.navhere === 'import svg'? 'character edit' : _UI.navhere;
-		_UI.history[queue].put(dsc);
+		if(onCanvasEditPage()){
+			var queue = _UI.navhere === 'import svg'? 'character edit' : _UI.navhere;
+			_UI.history[queue].put(dsc);
+		}
 	}
 
-	function history_pull(){ _UI.history[_UI.navhere].pull(); }
+	function history_pull(){
+		if(onCanvasEditPage()){ 
+			_UI.history[_UI.navhere].pull(); 
+		}
+	}
 	
-	function history_length() { return _UI.history[_UI.navhere].queue.length || 0; }
+	function history_length() {
+		if(onCanvasEditPage()){ 
+			return _UI.history[_UI.navhere].queue.length || 0; 
+		}
+
+		return 0;
+	}
 
 // end of file

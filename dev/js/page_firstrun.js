@@ -251,20 +251,6 @@
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
 
-		// Ligatures
-		for (var lig in data.ligatures) {
-			if(data.ligatures.hasOwnProperty(lig)){
-				_GP.ligatures[lig] = new Char(data.ligatures[lig]);
-			}
-		}
-
-		// Kerning
-		for (var pair in data.kerning){
-			if(data.kerning.hasOwnProperty(pair)){
-				_GP.kerning[pair] = new HKern(data.kerning[pair]);
-			}
-		}
-
 		// Linked Shapes
 		for (var lsid in data.linkedshapes) {
 			if(data.linkedshapes.hasOwnProperty(lsid)){
@@ -276,6 +262,20 @@
 		for (var ch in data.fontchars) {
 			if(data.fontchars.hasOwnProperty(ch)){
 				_GP.fontchars[ch] = new Char(data.fontchars[ch]);
+			}
+		}
+
+		// Ligatures
+		for (var lig in data.ligatures) {
+			if(data.ligatures.hasOwnProperty(lig)){
+				_GP.ligatures[lig] = new Char(data.ligatures[lig]);
+			}
+		}
+
+		// Kerning
+		for (var pair in data.kerning){
+			if(data.kerning.hasOwnProperty(pair)){
+				_GP.kerning[pair] = new HKern(data.kerning[pair]);
 			}
 		}
 

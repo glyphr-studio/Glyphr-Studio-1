@@ -99,14 +99,14 @@
 	}
 
 	function calculateKernOffset(c1, c2) {
-		// debug('\n calculateKernOffset - START');
-		// debug('\t passed: ' + c1 + ' and ' + c2);
+		debug('\n calculateKernOffset - START');
+		debug('\t passed: ' + c1 + ' and ' + c2);
 
 		if(!c1 || !c2) return 0;
 
 		c1 = parseUnicodeInput(c1)[0];
 		c2 = parseUnicodeInput(c2)[0];
-		// debug('\t converted: ' + c1 + ' and ' + c2);
+		debug('\t converted: ' + c1 + ' and ' + c2);
 
 		var k = _GP.kerning;
 		var tlc, trc, re;
@@ -114,14 +114,14 @@
 		for(var p in k){ if(k.hasOwnProperty(p)){
 			for(var l=0; l<k[p].leftgroup.length; l++){
 				tlc = k[p].leftgroup[l];
-				// debug('\t checking leftgroup ' + tlc + ' against ' + c1);
+				debug('\t checking leftgroup ' + tlc + ' against ' + c1);
 				if(parseUnicodeInput(tlc)[0] === c1){
-					// debug('\t LEFTGROUP MATCH! for ' + c1);
+					debug('\t LEFTGROUP MATCH! for ' + c1);
 					for(var r=0; r<k[p].rightgroup.length; r++){
 						trc = k[p].rightgroup[r];
 						if(parseUnicodeInput(trc)[0] === c2){
 							re = (k[p].value*-1);
-							// debug('\t FOUND MATCH! returning ' + re);
+							debug('\t FOUND MATCH! returning ' + re);
 							return re;
 						}
 					}
@@ -129,7 +129,7 @@
 			}
 		}}
 
-		// debug(' calculateKernOffset - END\n');
+		debug(' calculateKernOffset - END\n');
 		return 0;
 	}
 
@@ -141,7 +141,8 @@
 
 		var ligchars, carrot;
 		for(var c=0; c<carr.length; c++){
-			for(var g=ligs.length-1; g>-1; g--){
+			// for(var g=ligs.length-1; g>-1; g--){
+			for(var g=0; g<ligs.length; g++){
 				ligchars = hexToChar(ligs[g].id);
 				// debug('\t checking ' + ligchars);
 				carrot = carr.slice(c, (c+ligchars.length)).join('');

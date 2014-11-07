@@ -53,6 +53,8 @@
 	function update_ToolsArea(){
 		// debug('\n update_ToolsArea - START');
 
+		if(!onCanvasEditPage()) return;
+		
 		if(!isWorkItemSelected()){
 			getEditDocument().getElementById("toolsarea").innerHTML = '';
 			return;
