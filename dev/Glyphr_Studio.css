@@ -51,6 +51,7 @@
 		text-align: right;
 		width:70px;
 		border:1px solid white;
+		cursor: default;
 	}
 
 	input[type=text][disabled='disabled'],
