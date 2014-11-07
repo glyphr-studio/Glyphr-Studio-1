@@ -104,8 +104,8 @@
 
 		if(!c1 || !c2) return 0;
 
-		c1 = parseUnicodeInput(c1)[0];
-		c2 = parseUnicodeInput(c2)[0];
+		c1 = parseUnicodeInput(c1).join('');
+		c2 = parseUnicodeInput(c2).join('');
 		debug('\t converted: ' + c1 + ' and ' + c2);
 
 		var k = _GP.kerning;
