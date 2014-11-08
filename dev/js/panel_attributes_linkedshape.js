@@ -73,7 +73,7 @@
 	function goToEditLinkedShape(lsid){
 		_UI.selectedlinkedshape = lsid;
 		_UI.navhere = 'linked shapes';
-		navigate();
+		navigate('npAttributes');
 	}
 
 	function clickSelectLinkedShape(x,y){

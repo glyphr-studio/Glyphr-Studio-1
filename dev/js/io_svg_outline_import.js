@@ -116,7 +116,7 @@
 						tpp = data[co].split(',');
 						if(tpp.length === 2){
 							tcoord = new Coord({'x':tpp[0], 'y':tpp[1]});
-							pparr[co] = new PathPoint({'P':tcoord, 'H1':tcoord, 'H2':tcoord, 'useh1':false, 'useh2':false});
+							pparr.push(new PathPoint({'P':tcoord, 'H1':tcoord, 'H2':tcoord, 'useh1':false, 'useh2':false}));
 						}
 					}
 					// debug(json(pparr));
