@@ -134,8 +134,10 @@
 				// debug('\t Character has path data ' + data);
 				if(data){
 					// Compound Paths are treated as different Glyphr Shapes
-					data.replace(/Z/g,'z');
+					data = data.replace(/Z/gi,'z');
 					data = data.split('z');
+
+					// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
 
 					// debug('\t data.length (shapes) = ' + data.length);
 					for(var d=0; d<data.length; d++){

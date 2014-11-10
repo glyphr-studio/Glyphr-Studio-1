@@ -43,8 +43,9 @@
 				// if(ioSVG_checkForIgnored(data)) error = true;
 
 				// Compound Paths are treated as different Glyphr Shapes
-				data.replace(/Z/gi,'z');
+				data = data.replace(/Z/gi,'z');
 				data = data.split('z');
+				// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
