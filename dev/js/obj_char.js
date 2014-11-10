@@ -322,6 +322,9 @@
 		var destination = getChar(chid, true);
 		destination.charshapes = clone(destination.charshapes.concat(this.charshapes));
 		destination.calcCharMaxes();
+		for(var c=0; c<this.charshapes.length; c++){
+			if(this.charshapes[c].link) addToUsedIn(this.charshapes[c].link, chid);
+		}
 	};
 
 
