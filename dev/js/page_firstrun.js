@@ -22,6 +22,7 @@
 		document.getElementById("firstruntableleft").addEventListener('dragover', handleDragOver, false);
 		document.getElementById("firstruntableleft").addEventListener('drop', handleDrop, false);
 		document.getElementById("firstruntableleft").addEventListener('dragleave', handleDragLeave, false);
+		window.addEventListener('message', handleMessage, false);
 
 
 		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
@@ -80,6 +81,11 @@
 
 		reader.readAsText(f);
 
+	}
+
+	function handleMessage(evt) {
+		_UI.droppedFileContent = evt.data;
+		ioSVG_importSVGfont(false);
 	}
 
 	function handleDragOver(evt) {
