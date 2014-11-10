@@ -393,7 +393,7 @@
 			'class="lockui" '+
 			'style="background-color:'+(currbool? _UI.colors.gray_80 : 'white')+'" '+
 			'onclick="' +
-				'debug(\'Clicked on checkbox '+varname+'\'); ' +
+				// 'debug(\'Clicked on checkbox '+varname+'\'); ' +
 				'toggle(\''+varname+'\'); ' +
 				//'history_put(\'Toggled '+idname+': '+!currbool+'\'); '+
 				'redraw(\'checkbox '+idname+'\'); ' +
