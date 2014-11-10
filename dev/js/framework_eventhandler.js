@@ -731,7 +731,7 @@
 
 	function keypress(event){
 
-		if(!onCanvasEditPage()) return;
+		if(!onCanvasEditPage() || _UI.navhere === 'kerning') return;
 		if(event.type !== 'keydown') return;
 
 		var s = ss('keypress event');
