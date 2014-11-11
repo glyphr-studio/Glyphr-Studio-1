@@ -23,6 +23,9 @@
 		document.getElementById("firstruntableleft").addEventListener('drop', handleDrop, false);
 		document.getElementById("firstruntableleft").addEventListener('dragleave', handleDragLeave, false);
 		window.addEventListener('message', handleMessage, false);
+		if ( window.opener ) {
+			window.opener.postMessage('ready', '*');
+		}
 
 
 		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
