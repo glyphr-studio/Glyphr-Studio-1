@@ -82,8 +82,8 @@
 				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
 				content += name;
 			} else if (_UI.navhere === 'kerning'){
-				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
-				content += getSelectedKern().getName();
+				name = getSelectedKern();
+				content += name? "<span class='supertitleseperator'>&#x276F;&#x276F;</span>" + name.getName() : '';
 			}
 			content += "</h1>";
 		}
