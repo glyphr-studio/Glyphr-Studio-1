@@ -185,7 +185,7 @@
 			newrange.end = decToHex(newrange.end);
 
 			return newrange;
-		}	
+		}
 	}
 
 	function updateCustomRangeTable(){

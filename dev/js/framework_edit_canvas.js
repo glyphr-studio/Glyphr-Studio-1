@@ -1,5 +1,5 @@
 // start of file
-	
+
 //-------------------
 // Common Edit Page
 //-------------------
@@ -54,7 +54,7 @@
 		// debug('\n update_ToolsArea - START');
 
 		if(!onCanvasEditPage()) return;
-		
+
 		if(!isWorkItemSelected()){
 			getEditDocument().getElementById("toolsarea").innerHTML = '';
 			return;
@@ -307,7 +307,7 @@
 		if(_GP.projectsettings.upm > 2000){
 			_UI.defaultview = {'dx':200, 'dy':550, 'dz':0.3};
 			_UI.defaultkernview = {'dx':400, 'dy':400, 'dz':0.2};
-		}			
+		}
 	}
 
 

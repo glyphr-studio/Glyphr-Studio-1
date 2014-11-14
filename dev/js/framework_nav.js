@@ -128,7 +128,7 @@
 		if(ontd) document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
 		else if (onkern) document.getElementById('popout_attributes').innerHTML = makePanel_KerningAttributes();
 		else document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
-		
+
 		updateSaveIcon();
 	}
 
@@ -428,14 +428,14 @@
 
 		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
 		newsub += '<div class="panel_section">';
-		
+
 		var iconname, bc;
 
 		for(var i=0; i<navarr.length; i++){
 			bc = 'navtargetbutton';
 			iconcolor = _UI.colors.accent_25;
-			if(navarr[i] === _UI.navhere) { 
-				bc = 'navtargetbuttonsel'; 
+			if(navarr[i] === _UI.navhere) {
+				bc = 'navtargetbuttonsel';
 				iconcolor = _UI.colors.accent_55;
 			}
 

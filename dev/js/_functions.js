@@ -64,7 +64,7 @@
 		};
 	}
 
-		
+
 //-------------------
 // Common Panel Title
 //-------------------
@@ -132,7 +132,7 @@
 		document.body.focus();
 		var dc = document.getElementById('dialogRightContent');
 		dc.innerHTML = content;
-		
+
 		if(dc.style.height > 800) dc.style.height = 800;
 		else dc.style.width = 'auto';
 
@@ -265,7 +265,7 @@ function saveTextFile(fname, json) {
 
 	// removes begining and trailing whitespace, and any breaking or tab chars
 	function trim(text) {
-		try { 
+		try {
 			text = text.replace(/^\s+|\s+$/g, '');
 			return text.replace(/(\r\n|\n|\r|\t)/gm, '');
 		} catch(e) { return ''; }
@@ -282,7 +282,7 @@ function saveTextFile(fname, json) {
 	}
 
 
-	
+
 //-------------------
 // Object ID Stuff
 //-------------------
@@ -306,7 +306,7 @@ function saveTextFile(fname, json) {
 
 		return id;
 	}
-	
+
 	// returns the length of an associative array
 	function getLength(obj){
 		var len = 0;

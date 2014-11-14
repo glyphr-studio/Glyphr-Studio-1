@@ -66,13 +66,13 @@
 			var bx = that.imgData.data[ipx+2];
 			var rgbx = 'rgb('+rx+','+gx+','+bx+')';
 			var reox = {r:rx, g:gx, b:bx};
-			
+
 			// console.log('\t ipx: ' + ipx + '\t = ' + rgbx);
 
 			that.clickCallbackArgs.colorobject = reox;
 			that.clickCallbackArgs.colorstring = rgbx;
 			that.clickCallback(that.clickCallbackArgs);
-		};	
+		};
 	}
 
 	SatChooser.prototype.getDiscreetWidth = function(w) {
