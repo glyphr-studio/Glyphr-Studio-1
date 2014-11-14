@@ -1,4 +1,4 @@
-// start of file
+ // start of file
 
 //	---------------------------------
 //	LINKED SHAPE ATTRIBUTES

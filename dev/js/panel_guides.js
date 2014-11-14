@@ -44,7 +44,7 @@
 			content += user;
 			content += '<br><button onclick="newGuide();">new guide</button>';
 		}
-		
+
 		content += '</div>';
 
 		return content;

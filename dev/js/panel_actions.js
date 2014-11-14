@@ -6,7 +6,7 @@
 	function makePanel_Actions(){
 		var s = ss("Update Actions");
 		var pop = _UI.popout;
-		
+
 		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";
 		content += "<h1 class='paneltitle'>actions</h1>";
@@ -267,7 +267,7 @@
 		if(s && !s.link) ispointsel = s.path.sp(false);
 		if(_UI.selectedtool !== "pathedit") ispointsel = false;
 		if(ispointsel) {
-			if(pop) content += pointactions; 
+			if(pop) content += pointactions;
 			else content += '<td>'+pointactions+'</td>';
 		}
 		else { if(!pop) content += "<td><h3>&nbsp;</h3></td>"; }

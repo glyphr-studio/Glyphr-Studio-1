@@ -49,7 +49,7 @@
 		content +=  "<br><br>" + updateLayerActions();
 
 		content += "</div>";
-		
+
 		return content;
 	}
 
