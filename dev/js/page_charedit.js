@@ -15,7 +15,7 @@
 
 
 		_UI.selectedshape = -1;
-		if(_UI.devselectedshape){
+		if(isval(_UI.devselectedshape)){
 			_UI.selectedshape = _UI.devselectedshape;
 			_UI.devselectedshape = false;
 		}

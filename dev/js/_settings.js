@@ -8,10 +8,10 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'debug': false,			// global debug console switch
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': false,	// navigate straight to a page
-		'devnavprimary': false, // navigate straight to a panel
-		'devselectedshape': false, // automatically select a shape
+		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
+		'devnav': 'character edit',	// navigate straight to a page
+		'devnavprimary': 'npAttributes', // navigate straight to a panel
+		'devselectedshape': 0, // automatically select a shape
 
 		// all pages
 		'navhere': 'firstrun',
@@ -84,7 +84,7 @@
 		'history': {},
 
 		// page: charedit
-		'selectedchar': '0x0061',
+		'selectedchar': '0x0066',
 		'selectedshape': -1,
 		'shapelayers': [],
 

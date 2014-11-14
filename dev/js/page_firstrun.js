@@ -347,7 +347,7 @@
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
-		_UI.selectedchar = getFirstCharID();
+		_UI.selectedchar = _UI.selectedchar || getFirstCharID();
 		_UI.selectedlinkedshape = getFirstID(_GP.linkedshapes);
 		_UI.selectedkern = getFirstID(_GP.kerning);
 
