@@ -32,7 +32,7 @@
 		// debug('\n History.pull - START');
 		// debug('\t queue.length ' + this.queue.length);
 
-		var top = this.queue.length? this.queue.pop().state : this.initialstate;		
+		var top = this.queue.length? this.queue.pop().state : this.initialstate;
 		_GP[this.parentname] = clone(top);
 		this.currstate = clone(top);
 		if (_UI.navhere === 'import svg') update_NavPanels();
@@ -51,7 +51,7 @@
 
 		// debug(' History.pull - END\n');
 	};
-	
+
 	// Global Accessor Functions
 	function history_put(dsc){
 		if(onCanvasEditPage()){
@@ -61,14 +61,14 @@
 	}
 
 	function history_pull(){
-		if(onCanvasEditPage()){ 
-			_UI.history[_UI.navhere].pull(); 
+		if(onCanvasEditPage()){
+			_UI.history[_UI.navhere].pull();
 		}
 	}
-	
+
 	function history_length() {
-		if(onCanvasEditPage()){ 
-			return _UI.history[_UI.navhere].queue.length || 0; 
+		if(onCanvasEditPage()){
+			return _UI.history[_UI.navhere].queue.length || 0;
 		}
 
 		return 0;

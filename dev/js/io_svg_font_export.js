@@ -49,7 +49,7 @@
 		con += '\t<text x="100" y="290" style="font-size:48px; font-family:\''+family+'\', monospace;">abcdefghijklmnopqrstuvwxyz</text>\n';
 		con += '\t<text x="100" y="360" style="font-size:48px; font-family:\''+family+'\', monospace;">1234567890</text>\n';
 		con += '\t<text x="100" y="430" style="font-size:48px; font-family:\''+family+'\', monospace;">!\"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</text>\n';
-	
+
 		con += '</svg>';
 
 		var filename = ps.name + ' - SVG Font - ' + timestamp + '.svg';

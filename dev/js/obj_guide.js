@@ -21,7 +21,7 @@
 		// debug('\t name: ' + this.name);
 		// debug('\t delta: ' + delta);
 		if(!this.visible) return;
-		
+
 		delta = delta*1;
 		var ctx = _UI.chareditctx;
 		var cansize = _UI.chareditcanvassize;
@@ -85,7 +85,7 @@
 				arr[1] = 0;
 				arr[2] = 255;
 				break;
-			case 1: 
+			case 1:
 				arr[0] = 0;
 				arr[2] = 255;
 				break;

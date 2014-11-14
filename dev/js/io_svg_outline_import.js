@@ -314,7 +314,7 @@
 			C c		Bezier (can be chained)
 			S s		Smooth Bezier
 			Q q		Quadratic Bezier (can be chained)
-			T t		Smooth Quadratic 
+			T t		Smooth Quadratic
 			Z z		Close Path
 
 			Possibly fail gracefully for these by moving to the final point
@@ -384,7 +384,7 @@
 			var q = false;
 			if(iscmd('Qq')) {
 				q = new Coord({'x':chunk.data[0], 'y':chunk.data[1]});
-				
+
 				if(cmd === 'q') chunk.data = convertQuadraticToCubic(chunk.data, 0, 0);
 				else chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
 
@@ -400,9 +400,9 @@
 
 				chunk.data.unshift(qh.y);
 				chunk.data.unshift(qh.x);
-				
+
 				// debug('\t Tt - chunk.data unshifted to ' + chunk.data);
-				
+
 				if(cmd === 't') {
 					chunk.data[0] -= prevx;
 					chunk.data[1] -= prevy;
@@ -412,7 +412,7 @@
 					q = new Coord({'x':chunk.data[0], 'y':chunk.data[1]});
 					chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
 				}
-				
+
 				// debug('\t Tt - chunk.data converted to ' + chunk.data);
 			}
 
@@ -420,7 +420,7 @@
 			// relative bezier curve to
 				// The three subsiquent x/y points are relative to the last command's x/y point
 				// relative x/y point (n) is NOT relative to (n-1)
-			
+
 			var currdata = [];
 			// Loop through (potentially) PolyBeziers
 			while(chunk.data.length){
@@ -471,7 +471,7 @@
 			p = new Coord({'x': chunk.data[2], 'y': chunk.data[3]});
 
 			// debug('\t point: ' + json(p, true));
-			
+
 			if (iscmd('s')){
 				// Relative offset for st
 				h1.x += prevx;

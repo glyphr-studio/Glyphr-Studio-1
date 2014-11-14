@@ -189,7 +189,7 @@
 				var prev = sep-1;
 				if (prev === -1) prev = pp.length-1;
 				pp[prev].drawHandles(false, true);
-				
+
 				// debugging SVG Import
 				//pp[sep].drawQuadraticHandle(pp[prev].P);
 

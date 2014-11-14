@@ -387,7 +387,7 @@
 			// debug('\t not passed an ID, returning false');
 			return false;
 		}
-		
+
 		// known unicode names
 		var un = getUnicodeName(ch);
 		if(un !== '[name not found]'){
