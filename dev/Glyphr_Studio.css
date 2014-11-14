@@ -30,7 +30,7 @@
 	}
 
 	input,
-	textarea	{
+	textarea {
 		border:none;
 		padding:0px 0px 0px 4px;
 		height:24px;
@@ -77,6 +77,7 @@
 
 	a,
 	a:focus,
+	a:visited,
 	a:active {
 		color:rgb(0,170,225);
 		text-decoration:none;
@@ -1113,7 +1114,7 @@
 		padding:0px 0px 12px 0px;
 		width:126px;
 	}
-	
+
 	.actionsgrid button {
 		width:123px;
 		text-transform: lowercase;
