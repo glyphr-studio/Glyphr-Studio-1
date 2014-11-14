@@ -157,7 +157,7 @@
 		// debug(' findAndMergeLigatures - END\n');
 		return carr;
 	}
-	
+
 	function drawLine(y){
 		// debug('TESTDRIVE - Drawing h line at ' + y);
 		y = y.makeCrisp();

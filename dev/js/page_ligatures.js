@@ -1,4 +1,4 @@
-// start of file
+ // start of file
 
 //-------------------
 // UBER FUCNTIONS
@@ -42,10 +42,10 @@
 		lid = parseUnicodeInput(lid);
 		if(lid) lid = lid.join('');
 		else {
-			showErrorMessageBox('Ligatures must be at least two characters.'); 
+			showErrorMessageBox('Ligatures must be at least two characters.');
 			return;
 		}
-			
+
 
 		// debug('\t parsed ' + lid);
 

@@ -12,7 +12,7 @@
 		content += "<input type='text' style='width:300px; padding:8px; font-size:1.2em; margin-bottom:20px;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value;'/><br>";
 
 		content += "<h2>Character Proportions</h2>";
-		
+
 		content += "<h3>Key Metrics</h3>"+
 					"<table class='settingstable'>"+
 					"<tr><td>Ascent height: </td><td><input type='number' value='"+ps.ascent+"' onchange='updateAscender(this.value);'></td><td><span class='unit'>(em units)</span></td></tr>" +

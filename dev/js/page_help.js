@@ -1,5 +1,5 @@
 // start of file
-	
+
 	function loadPage_help(){
 		// debug("LOADING PAGE >> loadPage_help");
 		var content = "<a name='top' style='height:0px;'></a><h1 class='pagetitle'>Help</h1><div class='textpage pagecontent'>";

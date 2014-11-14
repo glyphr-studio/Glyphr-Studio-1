@@ -71,7 +71,7 @@
 
 		makeErrorMessageBox() +
 		"<br><br></div>";
-		
+
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		//importSVG_selectChar("0x0061");
 
@@ -149,7 +149,7 @@
 		var tempchar = ioSVG_convertTagsToChar(svgin);
 
 		if(!tempchar) return;
-		
+
 		// Flip and Scale
 		tempchar.flipNS();
 		var so = _UI.importsvg;
