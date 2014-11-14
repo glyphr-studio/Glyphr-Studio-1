@@ -34,5 +34,4 @@ module.exports = function(grunt) {
 
 	// Tasks
 	grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
-
 };

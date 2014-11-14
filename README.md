@@ -1,18 +1,9 @@
 # Welcome to Glyphr Studio!
-Glyphr Studio is a free, web based font editor, focusing on font design hobbyists.  
+Glyphr Studio is a free, web based font designer, focusing on font design hobbyists.  
 More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - and/or follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
 
-## Beta 4 is out!
-On the Fourth of July, Glyphr Studio Beta 4 was released!  Major new features are Importing SVG Outlines, Two Screen Edit Mode, and Full Unicode Support.  Lots of little features, too – a full breakdown of new features can be found at [the Glyphr Studio Blog](http://www.glyphrstudio.com/blog) or at the [Beta 4 GitHub Release Page](https://github.com/mattlag/Glyphr-Studio/releases/tag/v0.4.0).
-
-## Beta 5 is in the works!
-The big work items for Beta 5 have been set - thanks to all the community folks who submitted ideas and feedback!
-- **Import & Export SVG Font** - importing single outlines in Beta 4 was just a stepping stone for this big goal.
-- **Ligatures** - 'cuz, you know, fonts have ligatures
-- **Kerning** - 'cuz, you know, fonts have kerning
-- **Deprecated TTX Support** - Glyphr Studio has a need for a text-based file format.  TTX seemed promising and powerful, but in the end it has been too hard to debug, and too hard for end users to install.  We are shifting gears to SVG as our somewhat 'native' text file format.
-
-There will also be a smattering of smaller and medium sized features, like Custom Guides (in development now).
+## Beta 5 has been released!
+Just in time for the 2014 holiday season, Glyphr Beta 5 is here!  Major new features are Importing and Exporting SVG Fonts, Ligatures, and Kerning.  Lots of little features, too – a full breakdown of new features can be found at [the Glyphr Studio Blog](http://www.glyphrstudio.com/blog) or at the [Beta 5 GitHub Release Page](https://github.com/mattlag/Glyphr-Studio/releases/tag/v0.5.0).
 
 As always, there is kind of a running list of feature ideas over at the [Issues List]( https://github.com/mattlag/Glyphr-Studio/issues?labels=&page=1&state=open).
 
