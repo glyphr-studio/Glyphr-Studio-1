@@ -6,8 +6,8 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			'version': 'Beta 5 - 0.5.0',	// project version
-			'versionnum': '0.5.0',			// project number version
+			'version': 'Beta 6 - 0.6.0',	// project version
+			'versionnum': '0.6.0',			// project number version
 
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)
@@ -34,7 +34,7 @@
 			'pointsize': 5,					// path point square size
 			'spinnervaluechange': 1,		// how much spinner controls change a value
 			'showkeyboardtipsicon': true,	// button for keyboard tips on edit canvas
-			'stoppagenavigation': true,		// asks to save on window close or refresh
+			'stoppagenavigation': false,		// asks to save on window close or refresh
 			'formatsavefile': true,		// makes the JSON save file readable
 			'showoutline': false,			// outline shapes when drawing
 			'showfill': true,				// fill shapes when drawing
