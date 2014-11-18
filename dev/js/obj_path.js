@@ -445,29 +445,50 @@
 		this.calcMaxes();
 	};
 
-	Path.prototype.insertPathPoint = function() {
-		// http://antigrain.com/research/adaptive_bezier/index.html
+	Path.prototype.insertPathPoint = function(split) {
+		/*
+			Input Bézier curve defined by P0, P1, P2, P3
+
+			P0_1 = (1-t)*P0 + t*P1
+			P1_2 = (1-t)*P1 + t*P2
+			P2_3 = (1-t)*P2 + t*P3
+
+			P01_12 = (1-t)*P0_1 + t*P1_2
+			P12_23 = (1-t)*P1_2 + t*P2_3
+
+			P0112_1223 = (1-t)*P01_12 + t*P12_23
+
+			First Bézier will be defined by: P_0, P0_1, P01_12, P0112_1223; 
+			Second Bézier is defined by: P0112_1223, P12_23, P2_3, P3.
+		*/
 
 		var pp1i = this.sp(true, 'insert path point');
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
 		var pp2 = this.pathpoints[pp2i];
 		var nP, nH1, nH2, ppn;
+		var fs = split || 0.75;
+		var rs = (1-fs);
 
 		if(this.pathpoints.length > 1){
 			// Do some math
-			var x12 = (pp1.P.x + pp1.getH2x()) / 2;
-			var y12 = (pp1.P.y + pp1.getH2y()) / 2;
-			var x23 = (pp1.getH2x() + pp2.getH1x()) / 2;
-			var y23 = (pp1.getH2y() + pp2.getH1y()) / 2;
-			var x34 = (pp2.getH1x() + pp2.P.x) / 2;
-			var y34 = (pp2.getH1y() + pp2.P.y) / 2;
-			var x123 = (x12 + x23) / 2;
-			var y123 = (y12 + y23) / 2;
-			var x234 = (x23 + x34) / 2;
-			var y234 = (y23 + y34) / 2;
-			var x1234 = (x123 + x234) / 2;
-			var y1234 = (y123 + y234) / 2;
+			var x12 = (pp1.P.x * rs) + (pp1.getH2x() * fs);
+			var y12 = (pp1.P.y * rs) + (pp1.getH2y() * fs);
+
+			var x23 = (pp1.getH2x() * rs) + (pp2.getH1x() * fs);
+			var y23 = (pp1.getH2y() * rs) + (pp2.getH1y() * fs);
+
+			var x34 = (pp2.getH1x() * rs) + (pp2.P.x * fs);
+			var y34 = (pp2.getH1y() * rs) + (pp2.P.y * fs);
+
+			var x123 = (x12 * rs) + (x23 * fs);
+			var y123 = (y12 * rs) + (y23 * fs);
+
+			var x234 = (x23 * rs) + (x34 * fs);
+			var y234 = (y23 * rs) + (y34 * fs);
+
+			var x1234 = (x123 * rs) + (x234 * fs);
+			var y1234 = (y123 * rs) + (y234 * fs);
 
 			// New Point
 			nP = new Coord({'x':x1234, 'y':y1234});
