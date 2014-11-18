@@ -445,7 +445,7 @@
 		this.calcMaxes();
 	};
 
-	Path.prototype.insertPathPoint = function(split) {
+	Path.prototype.insertPathPoint = function(split, pointnum) {
 		/*
 			Input Bézier curve defined by P0, P1, P2, P3
 
@@ -460,14 +460,17 @@
 
 			First Bézier will be defined by: P_0, P0_1, P01_12, P0112_1223; 
 			Second Bézier is defined by: P0112_1223, P12_23, P2_3, P3.
+
+			Diagrams here:
+			http://antigrain.com/research/adaptive_bezier/index.html
 		*/
 
-		var pp1i = this.sp(true, 'insert path point');
+		var pp1i = pointnum || this.sp(true, 'insert path point');
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
 		var pp2 = this.pathpoints[pp2i];
 		var nP, nH1, nH2, ppn;
-		var fs = split || 0.75;
+		var fs = split || 0.5;
 		var rs = (1-fs);
 
 		if(this.pathpoints.length > 1){
@@ -519,6 +522,63 @@
 		this.selectPathPoint(pp2i);
 
 		this.calcMaxes();
+	};
+
+	Path.prototype.getClosestOnCurvePoint = function(coord) {
+		var grains = 100;
+		var result = {'point':0, 'split':0.5, 'x':0, 'y':0};
+		var mindistance = 999999999;
+		var check, d;
+
+		for(var pp=0; pp<this.pathpoints.length; pp++){
+			for(var t=0; t<1; t+=(1/grains)){
+				check = this.getCoordFromSplit(t, pp);
+				d = Math.sqrt( ((check.x-coord.x)*(check.x-coord.x)) + ((check.y-coord.y)*(check.y-coord.y)) );
+				if(d < mindistance){
+					mindistance = d;
+					result = {
+						'point' : pp,
+						'split' : t,
+						'x' : check.x,
+						'y' : check.y
+					};
+				}
+			}
+		}
+
+		return result;
+	};
+
+	Path.prototype.getCoordFromSplit = function(split, pointnum) {
+		if(this.pathpoints.length > 1){
+			var pp1 = this.pathpoints[pointnum];
+			var pp2 = this.pathpoints[(pointnum+1)%this.pathpoints.length];
+			var fs = split || 0.5;
+			var rs = (1-fs);
+
+			// Do some math
+			var x12 = (pp1.P.x * rs) + (pp1.getH2x() * fs);
+			var y12 = (pp1.P.y * rs) + (pp1.getH2y() * fs);
+
+			var x23 = (pp1.getH2x() * rs) + (pp2.getH1x() * fs);
+			var y23 = (pp1.getH2y() * rs) + (pp2.getH1y() * fs);
+
+			var x34 = (pp2.getH1x() * rs) + (pp2.P.x * fs);
+			var y34 = (pp2.getH1y() * rs) + (pp2.P.y * fs);
+
+			var x123 = (x12 * rs) + (x23 * fs);
+			var y123 = (y12 * rs) + (y23 * fs);
+
+			var x234 = (x23 * rs) + (x34 * fs);
+			var y234 = (y23 * rs) + (y34 * fs);
+
+			var x1234 = (x123 * rs) + (x234 * fs);
+			var y1234 = (y123 * rs) + (y234 * fs);
+
+			return {'x':x1234, 'y':y1234};
+		} else {
+			return this.pathpoints[0].P;
+		}
 	};
 
 	Path.prototype.deletePathPoint = function(){

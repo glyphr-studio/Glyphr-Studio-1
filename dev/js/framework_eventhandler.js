@@ -312,8 +312,8 @@
 		};
 
 		this.mousemove = function (ev) {
+			var s = ss('Path Edit - Mouse Move');
 			if (this.moving) {
-				var s = ss('Path Edit - Mouse Move');
 				var sp = s.path.sp();
 				if(_UI.eventhandlers.toolhandoff){
 					sp.H2.x = cx_sx(_UI.eventhandlers.mousex);
@@ -345,6 +345,12 @@
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw('Event Handler Tool_PathEdit mousemove');
+			} else {
+				var pt = s.path.getClosestOnCurvePoint({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
+				var ptx = sx_cx(pt.x) - 2;
+				var pty = sy_cy(pt.y) - 2;
+				_UI.chareditctx.fillStyle = 'lime';
+				_UI.chareditctx.fillRect(ptx, pty, 4, 4);
 			}
 		};
 
