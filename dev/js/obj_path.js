@@ -524,8 +524,8 @@
 		this.calcMaxes();
 	};
 
-	Path.prototype.getClosestOnCurvePoint = function(coord) {
-		var grains = 100;
+	Path.prototype.getClosestPointOnCurve = function(coord) {
+		var grains = 1000;
 		var result = {'point':0, 'split':0.5, 'x':0, 'y':0};
 		var mindistance = 999999999;
 		var check, d;
