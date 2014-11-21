@@ -166,7 +166,7 @@
 			_UI.chareditctx.strokeRect(x,y,w,h);
 			if(_UI.selectedtool==='shaperesize'){ this.draw8points(onlycenter);}
 
-		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')){
+		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
 			// Draw Path Points
 			var sep = this.path.sp(true, 'DRAWSELECTOUTLINE');
 			var pp = this.path.pathpoints;

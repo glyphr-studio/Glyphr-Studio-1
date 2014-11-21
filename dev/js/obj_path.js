@@ -526,7 +526,7 @@
 
 	Path.prototype.getClosestPointOnCurve = function(coord) {
 		var grains = 1000;
-		var result = {'point':0, 'split':0.5, 'x':0, 'y':0};
+		var result = false;
 		var mindistance = 999999999;
 		var check, d;
 
@@ -539,6 +539,7 @@
 					result = {
 						'point' : pp,
 						'split' : t,
+						'distance' : d,
 						'x' : check.x,
 						'y' : check.y
 					};

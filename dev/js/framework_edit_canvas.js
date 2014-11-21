@@ -105,6 +105,9 @@
 		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
 		zoom += "<br>";
 		zoom += "<button title='zoom level' class='tool zoomreadout'>" + round(getView("updatetools").dz*100, 2) + "%</button>";
+		zoom += "<br>";
+		// Pan
+		zoom += "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
 		zoom += "<div style='height:5px;'>&nbsp;</div>";
 
 		// New Shape
@@ -114,13 +117,11 @@
 		newshape += "<button title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";
 		newshape += "<br>";
 
-		// Pan
-		var pan = "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
-
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
-		edittools += "<button title='move & resize shape' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
+		edittools += "<button title='path edit' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
+		edittools += "<button title='add path point' class='" + (st==='pathaddpoint'? "buttonsel " : " ") + "tool' " + "onclick='clickTool(\"pathaddpoint\");'/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint')})+"</button>";
+		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 
 		if(_UI.selectedtool === 'newpath'){
 			edittools += "<div style='height:5px;'>&nbsp;</div>";
@@ -139,8 +140,6 @@
 		if(onchar || onlig) content += newshape;
 		var sls = getSelectedChar();
 		if(onlink && sls && !sls.shape) content += newshape;
-
-		content += pan;
 
 		if(onchar || onlink || onlig) content += edittools;
 

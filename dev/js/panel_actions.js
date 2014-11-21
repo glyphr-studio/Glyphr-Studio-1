@@ -28,7 +28,7 @@
 		shapeactions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
-		if(s.link){
+		if(s && s.link){
 			shapeactions += "<button onclick='turnLinkedShapeIntoAShape();redraw(\"turnLinkedShapeIntoAShape\");'>unlink this linked shape</button><br>";
 		} else {
 			shapeactions += "<button onclick='turnSelectedShapeIntoALinkedShape();redraw(\"turnSelectedShapeIntoALinkedShape\");'>turn into a linked shape</button><br>";

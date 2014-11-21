@@ -212,19 +212,37 @@
 	// path add point - adds points to an existing path
 	// ---------------------------------------------------------
 	function Tool_PathAddPoint(){
+		this.addpoint = false;
 
 		this.mousedown = function (ev) {
+			if(this.addpoint){
+				var s = ss();
+				if(s && s.path){
+					s.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+				}
+			} else {
+				clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			}
+			redraw();
 		};
 
 		this.mousemove = function (ev) {
 			var s = ss();
 			if(s){
-				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
-				var ptx = sx_cx(pt.x) - 2;
-				var pty = sy_cy(pt.y) - 2;
 				redraw();
-				_UI.chareditctx.fillStyle = 'lime';
-				_UI.chareditctx.fillRect(ptx, pty, 4, 4);
+				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
+				if(pt && pt.distance < 20){
+					this.addpoint = pt;
+					var ptsize = _GP.projectsettings.pointsize;
+					var ptx = (sx_cx(pt.x) - (ptsize/2)).makeCrisp();
+					var pty = (sy_cy(pt.y) - (ptsize/2)).makeCrisp();
+					_UI.chareditctx.fillStyle = _UI.colors.accent_75;
+					_UI.chareditctx.strokeRect(ptx, pty, ptsize, ptsize);
+				} else {
+					this.addpoint = false;
+				}
+			} else {
+				this.addpoint = false;
 			}
 		};
 
