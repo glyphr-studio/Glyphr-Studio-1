@@ -201,8 +201,9 @@
 				//debug('DRAWSELECTOUTLINE() - Drawing Point ' + s + ' - selected: ' + pp[s].selected);
 				var c = _UI.colors.accent_65;
 				if(this.path.sp(false) && pp[s].selected){ c = 'white'; }
-				if(s === pp.length-1) pp[s].drawDirectionalityPoint(c, pp[0]);
-				else pp[s].drawDirectionalityPoint(c, pp[s+1]);
+
+				if(s===0) pp[s].drawDirectionalityPoint(c, pp[(s+1)%pp.length]);
+				else pp[s].drawPoint(c, pp[(s+1)%pp.length]);
 
 			}
 
@@ -507,8 +508,9 @@
 			return clickSelectLinkedShape(x,y);
 		}
 		var ts;
-		for(var j=(getSelectedCharShapes().length-1); j>=0; j--){
-			ts = getSelectedCharShapes()[j];
+		var scs = getSelectedCharShapes();
+		for(var j=(scs.length-1); j>=0; j--){
+			ts = scs[j];
 			//debug('CLICKSELECTShape() - Checking shape ' + j);
 
 			if(ts.isHere(x,y)){
@@ -529,6 +531,14 @@
 		}
 		_UI.selectedshape = -1;
 		//debug('CLICKSELECTShape() - deselecting, setting to -1');
+		return false;
+	}
+
+	function isOverShape(x,y) {
+		var scs = getSelectedCharShapes();
+		for(var j=(scs.length-1); j>=0; j--){
+			if(scs[j].isHere(x,y)) return true;
+		}
 		return false;
 	}
 
@@ -627,7 +637,7 @@
 		}
 
 		//debug('ISOVERHANDLE() - Returning FALSE');
-		getEditDocument().body.style.cursor = 'default';
+		updateCursor();
 		return false;
 	};
 

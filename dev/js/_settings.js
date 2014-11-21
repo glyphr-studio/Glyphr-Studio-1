@@ -7,7 +7,7 @@
 
 	var _UI = {
 		// Internal Dev Stuff
-		'debug': false,			// global debug console switch
+		'debug': true,			// global debug console switch
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'character edit',	// navigate straight to a page
 		'devnavprimary': 'npAttributes', // navigate straight to a panel
@@ -20,6 +20,7 @@
 		'thisGlyphrStudioVersionNum': '0.6.0',
 		'projectsaved': true,
 		'icons': {},
+		'cursors': {},
 		'colors': {
 
 			// ACCENT BLUE
@@ -47,14 +48,14 @@
 			'gray_10':	'rgb(25,30,35)',	// DARKER
 
 			// RED FOR ERROR
-			'error':		'rgb(240,15,54)',	// os red warning color
+			'error':		'rgb(240,15,54 )',	// os red warning color
 			'error_light':	'rgb(240,210,215)',	// os red warning color light
 			'error_dark':	'rgb(105,45,55)',	// os red warning color dark
 		},
 
 		// Shared edit pages
 		'popout': false,
-		'selectedtool': 'pathedit',	// pathedit, shaperesize, pan, newrect, newoval, newpath
+		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'redrawing': false,
 		'thumbsize': 50,
 		'thumbgutter': 5,

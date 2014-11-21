@@ -286,20 +286,20 @@
 		return re;
 	};
 
-	Path.prototype.isOverControlPoint = function(x, y){
+	Path.prototype.isOverControlPoint = function(x, y, dontselect){
 		var a = this.pathpoints;
 		var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
 
 		for(var k=a.length-1; k>=0; k--){
 			if( ((a[k].P.x+hp) > x) && ((a[k].P.x-hp) < x) && ((a[k].P.y+hp) > y) && ((a[k].P.y-hp) < y) ){
-				this.selectPathPoint(k);
+				if(!dontselect) this.selectPathPoint(k);
 				//debug('ISOVERCONTROLPOINT() - Returning P1, selectedpoint: ' + k);
 				return 'P';
 			}
 
 			if(a[k].useh1){
 				if( ((a[k].H1.x+hp) > x) && ((a[k].H1.x-hp) < x) && ((a[k].H1.y+hp) > y) && ((a[k].H1.y-hp) < y) ){
-					this.selectPathPoint(k);
+					if(!dontselect) this.selectPathPoint(k);
 					//debug('ISOVERCONTROLPOINT() - Returning H1, selectedpoint: ' + k);
 					return 'H1';
 				}
@@ -307,14 +307,14 @@
 
 			if(a[k].useh2){
 				if( ((a[k].H2.x+hp) > x) && ((a[k].H2.x-hp) < x) && ((a[k].H2.y+hp) > y) && ((a[k].H2.y-hp) < y) ){
-					this.selectPathPoint(k);
+					if(!dontselect) this.selectPathPoint(k);
 					//debug('ISOVERCONTROLPOINT() - Returning H2, selectedpoint: ' + k);
 					return 'H2';
 				}
 			}
 		}
 
-		this.selectPathPoint(0);
+		if(!dontselect) this.selectPathPoint(0);
 		//debug('ISOVERCONTROLPOINT() - Returning FALSE');
 		return false;
 	};

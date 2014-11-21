@@ -20,6 +20,7 @@
 			makeLayout_PopIn(nap);
 		}
 
+		updateCursor();
 		loadPageContent();
 		document.body.focus();
 		// debug('>>> NAVIGATED - to ' + _UI.navhere);

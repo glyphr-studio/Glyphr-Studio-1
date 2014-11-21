@@ -12,22 +12,18 @@
 		'firstx' : -100,
 		'firsty' : -100,
 		'uqhaschanged' : false,
-		'eh_shapesel' : false,
-		'eh_shaperesize' : false,
-		'eh_pantool' : false,
-		'eh_addpath' : false,
 		'lastTool' : 'pathedit',
 		'isSpaceDown' : false
 	};
 
 	function initEventHandlers() {
 		var tool = new Tool_PathEdit();
-		_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
-		_UI.eventhandlers.eh_shapesel = new Tool_PathEdit();
-		_UI.eventhandlers.eh_shaperesize = new Tool_ShapeResize();
 		_UI.eventhandlers.eh_pantool = new Tool_Pan();
-		_UI.eventhandlers.eh_addpath = new Tool_NewPath();
 		_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
+		_UI.eventhandlers.eh_shapeedit = new Tool_ShapeResize();
+		_UI.eventhandlers.eh_addpath = new Tool_NewPath();
+		_UI.eventhandlers.eh_pathedit = new Tool_PathEdit();
+		_UI.eventhandlers.eh_pathaddpoint = new Tool_PathAddPoint();
 		_UI.eventhandlers.eh_kern = new Tool_Kern();
 
 		// Mouse Event Listeners
@@ -69,32 +65,32 @@
 
 			//debug('EV_CANVAS offsetx / offsety / layerx / layery: ' +  ev.offsetX + ' ' + ev.offsetY + ' ' + ev.layerX + ' ' + ev.layerY);
 
-			resetCursor();
+			updateCursor();
 
 			// Switch Tool function
 			switch(_UI.selectedtool){
 				case 'pathedit' :
-					tool = _UI.eventhandlers.eh_shapesel;
+					tool = _UI.eventhandlers.eh_pathedit;
 					break;
 				case 'shaperesize' :
-					tool = _UI.eventhandlers.eh_shaperesize;
+					tool = _UI.eventhandlers.eh_shapeedit;
 					break;
 				case 'pan' :
-					getEditDocument().body.style.cursor = 'move';
 					tool = _UI.eventhandlers.eh_pantool;
 					break;
+				case 'pathaddpoint' :
+					tool = _UI.eventhandlers.eh_pathaddpoint;
+					break;
 				case 'newpath' :
-					// getEditDocument().body.style.cursor = 'crosshair';
-					getEditDocument().body.style.cursor = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDE0IDc5LjE1Njc5NywgMjAxNC8wOC8yMC0wOTo1MzowMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjIzRDc1NkI4NkY4QTExRTQ4RkUwRTAxQjgxRDBEQTYwIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjIzRDc1NkI5NkY4QTExRTQ4RkUwRTAxQjgxRDBEQTYwIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MjNENzU2QjY2RjhBMTFFNDhGRTBFMDFCODFEMERBNjAiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MjNENzU2Qjc2RjhBMTFFNDhGRTBFMDFCODFEMERBNjAiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7p6HEPAAAEUklEQVR42qxWWUijVxQ+SdRxDa40bqjDIPqi2LqLqLhABZfJ0FKC9EWDGvrgi8uDRqHMk9Dqk+DuOKK2rg+OiqJUQxXFUWtRi7Zi6ooLxjVqTXrOLb8kGptkZj64+ZM//z3f/c757rk/T6vVAqGsrCz77u5OXVpa2mZrawufGnz6wOARkZGRNVZWVm+zsrKUFRUVxUql8pMS8XJycoTHx8fzfn5+zzMyMuD09BQmJydhc3PzzN/fv3l1dbWqs7Pzr48lEqSnpxdZWFiIh4eHgdIYHBwMnp6e4O3t/czOzi7i5OTku4mJiaCurq6ttLS0vz+UyALHL0gGW1tb0NfXx25mZmYCn8+Ho6MjiI+PF2g0mlfLy8uvCgoKpng83muFQvFudnZWa5YiHEpM0bdRUVFOU1NTsLi4yP4ICgoCVApqtZqRuru7g6+vrzeqlKBZMsbHx4+LiopW8/LyTCIUbGxsQG9vr3NAQEAc1gmWlpYYGa6cpdHS0hKurq7YbxpIBPicCNP7lYODw9ejo6Oq2NjY3wQCgXHXoRneYHq0IpEIpFIpCIVCImeDAjs7Oz9eIQaOiIgIRPLW4uLidJPsXV1d/efCwsKv9vb2QCM3N1ePjO4ZIiMgGWAqX5pEREB3tVBNaLNS4Pz8fEbW09Nzr8zFxQUepojmqFQqcUJCgrtJRPPz8z9h4dVcV6DAMpmMkXV3d0NJSQlzoYeHB6ubLsLCwoRonnpMv3Gi/v5+1fT0dB+pIZfpkl1eXsLe3h6srKz8N4nP1wvi6uoK29vbqXK5XGqUiHB9ff2GI+BACgMDA5kSUkd4uHJyI+1F3PQ/iMXi5wZbENdUCbRnME27Xl5eop2dHRaAVq97fXiPU0dX2vC4iEk0VvzMzIzmSUXW1tawvr7+lgpM381FSkoKYPpjU1NTX7e0tMD5+blhIsL+/n4rXalW5oJSLpFIoK6urgQVatvb28/Ly8t/PDg40E8dh6qqqvfh4eEh1P+4GpiSOkJDQwMkJydDTEwMUzQ0NETXn/mGVra7uyubm5t77+bmxpQZay+cQerr6xlJdHQ0nJ2dsZrHxcXRHn1hUBE3EQ/AbxwdHb/HhvuCJlHPQ2c+UkTPNjc365HQcxQb00iObX2SiAPJr6yslOFekeMp/Bke9ywQkRIJzScSMgIu6F4Joba2FpycnN7h4ZlmlEjHJFBTUyP38fEpxC5gT8GoU5C7kpKS9NJFMSmNmPYxPB1SxsbG7kwm4rC2tgZtbW3VISEh+UhimZiYyApPrwCcEkqXjY2NAmudMDIy8s+jDWsOsrOz50JDQz+n7q2rhFyH+3AODRA9ODh4o3uUfxDwVL4kEuzc90oaGxuJ7HdUF6NL8lFE+GqmIQU3NzfMdU1NTXB7e/sHujF8YGDg+n+bqjlAJYrDw0PWufENiTr8BqbsC+x3V0abqrkoLCz8Eosuvbi4eIbHhKSjo0P11LP/CjAAL2UkyOd9nnoAAAAASUVORK5CYII=') 0 0, crosshair";
 					tool = _UI.eventhandlers.eh_addpath;
 					break;
 				case 'newrect' :
+					tool = _UI.eventhandlers.eh_addrectoval;
+					break;
 				case 'newoval' :
-					getEditDocument().body.style.cursor = 'crosshair';
 					tool = _UI.eventhandlers.eh_addrectoval;
 					break;
 				case 'kern':
-					getEditDocument().body.style.cursor = 'col-resize';
 					tool = _UI.eventhandlers.eh_kern;
 					break;
 			}
@@ -143,8 +139,8 @@
 						//clicked on an existing control point in this path
 						//if first point - close the path
 						_UI.selectedtool = 'pathedit';
-						_UI.eventhandlers.eh_shapesel.moving = true;
-						_UI.eventhandlers.eh_shapesel.controlpoint = 'H2';
+						_UI.eventhandlers.eh_pathedit.moving = true;
+						_UI.eventhandlers.eh_pathedit.controlpoint = 'H2';
 						_UI.eventhandlers.toolhandoff = true;
 						this.dragging = false;
 						this.firstmove = false;
@@ -166,25 +162,6 @@
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 
 			//debug('Tool_NewPath MOUSEDOWN - end of function, this.currpt:\n' + JSON.stringify(newpoint));
-		};
-
-		this.mouseup = function () {
-			//debug('Tool_NewPath MOUSEUP');
-			var currpath = ss('Event Handler New Path').path;
-			currpath.winding = currpath.findWinding();
-			this.dragging = false;
-			this.firstmove = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
-
-			if(_UI.eventhandlers.uqhaschanged){
-				currpath.calcMaxes();
-				updateCurrentCharWidth();
-				// For new shape tools, mouse up always adds to the undo-queue
-				history_put('New Path tool');
-				_UI.eventhandlers.uqhaschanged = false;
-				redraw('Event Handler Tool_NewPath mouseup');
-			}
 		};
 
 		this.mousemove = function (ev) {
@@ -209,7 +186,52 @@
 				redraw('Event Handler Tool_NewPath mousemove');
 			}
 		};
+
+		this.mouseup = function () {
+			//debug('Tool_NewPath MOUSEUP');
+			var currpath = ss('Event Handler New Path').path;
+			currpath.winding = currpath.findWinding();
+			this.dragging = false;
+			this.firstmove = false;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
+
+			if(_UI.eventhandlers.uqhaschanged){
+				currpath.calcMaxes();
+				updateCurrentCharWidth();
+				// For new shape tools, mouse up always adds to the undo-queue
+				history_put('New Path tool');
+				_UI.eventhandlers.uqhaschanged = false;
+				redraw('Event Handler Tool_NewPath mouseup');
+			}
+		};
 	}
+
+
+	// ---------------------------------------------------------
+	// path add point - adds points to an existing path
+	// ---------------------------------------------------------
+	function Tool_PathAddPoint(){
+
+		this.mousedown = function (ev) {
+		};
+
+		this.mousemove = function (ev) {
+			var s = ss();
+			if(s){
+				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
+				var ptx = sx_cx(pt.x) - 2;
+				var pty = sy_cy(pt.y) - 2;
+				redraw();
+				_UI.chareditctx.fillStyle = 'lime';
+				_UI.chareditctx.fillRect(ptx, pty, 4, 4);
+			}
+		};
+
+		this.mouseup = function () {
+		};
+	}
+
 
 
 	// ---------------------------------------------------------
@@ -346,12 +368,12 @@
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw('Event Handler Tool_PathEdit mousemove');
-			} else {
-				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
-				var ptx = sx_cx(pt.x) - 2;
-				var pty = sy_cy(pt.y) - 2;
-				_UI.chareditctx.fillStyle = 'lime';
-				_UI.chareditctx.fillRect(ptx, pty, 4, 4);
+			}
+
+			if(s){
+				var cp = s.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey), true);
+				if(cp === 'P') getEditDocument().body.style.cursor = _UI.cursors.penSquare;
+				if(cp === 'H1' || cp === 'H2') getEditDocument().body.style.cursor = _UI.cursors.penCircle;
 			}
 		};
 
@@ -414,9 +436,9 @@
 					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
-					resetCursor();
+					updateCursor();
 				}
-			} else {
+			} else if (s){
 				//debug('\tTool_ShapeResize dragging normal shape');
 				if (this.dragging) {
 					// Moving shapes if mousedown
@@ -425,7 +447,7 @@
 					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
 					s.path.updatePathPosition(dx, dy);
-					resetCursor();
+					updateCursor();
 					didstuff = true;
 				} else if (this.resizing){
 					// Resizing shapes if mousedown over handle
@@ -436,6 +458,10 @@
 
 				//Translation fidelity, passing raw canvas values
 				if(s) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			}
+
+			if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+				getEditDocument().body.style.cursor = _UI.cursors.pointerSquare;
 			}
 
 			if(didstuff){
@@ -449,7 +475,7 @@
 
 		this.mouseup = function () {
 			//debug('Mouse Up');
-			resetCursor();
+			updateCursor();
 			var s = ss('eventHandler - mouseup');
 			if(_UI.eventhandlers.tempnewbasicshape){
 				_UI.eventhandlers.tempnewbasicshape = false;
@@ -710,6 +736,7 @@
 		_UI.eventhandlers.ismouseovercec = true;
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () { return false; };
+		updateCursor();
 	}
 
 	function mouseoutcec() {
@@ -717,7 +744,7 @@
 		_UI.eventhandlers.ismouseovercec = false;
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () {};
-		resetCursor();
+		updateCursor();
 	}
 
 	function keyup(event){
@@ -731,7 +758,7 @@
 		if(kc=== 'space' && eh.ismouseovercec){
 			_UI.selectedtool = eh.lastTool;
 			eh.isSpaceDown = false;
-			resetCursor();
+			updateCursor();
 			redraw('Event Handler - Keyup Spacebar for pan toggle');
 		}
 	}

@@ -119,8 +119,8 @@
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pathEdit', 'selected':(st==='pathedit')})+"</button>";
-		edittools += "<button title='move & resize shape' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_shapeResize', 'selected':(st==='shaperesize')})+"</button>";
+		edittools += "<button title='edit path' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
+		edittools += "<button title='move & resize shape' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 
 		if(_UI.selectedtool === 'newpath'){
 			edittools += "<div style='height:5px;'>&nbsp;</div>";
@@ -165,21 +165,70 @@
 
 		//debug("CLICKTOOL - was passed: " + ctool + " and _UI.selectedtool now is: " + _UI.selectedtool);
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
-		if((ctool === "newrect")||(ctool === "newoval")){
+
+		if(ctool === "newrect"){
+			getEditDocument().body.style.cursor = _UI.cursors.crosshairsSquare;
+			_UI.selectedshape = -1;
+		} else if (ctool === "newoval"){
+			getEditDocument().body.style.cursor = _UI.cursors.crosshairsCircle;
 			_UI.selectedshape = -1;
 		} else if (ctool === "newpath"){
+			getEditDocument().body.style.cursor = _UI.cursors.penPlus;
 			_UI.selectedshape = -1;
 		} else if(ctool === "pathedit"){
+			getEditDocument().body.style.cursor = _UI.cursors.pen;
 			if(s && s.path) {s.path.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
+			getEditDocument().body.style.cursor = _UI.cursors.pointer;
 			if(s && s.path){ s.path.calcMaxes(); }
 		}
 
+		updateCursor();
 		redraw("clicktool");
 	}
 
-	function toggleKeyboardTips() {
+	function updateCursor(tool){
+		tool = tool || _UI.selectedtool;
+
+		// debug('\n updateCursor - START');
+		// debug('\t tool = ' + tool);
+
+		if(_UI.eventhandlers.ismouseovercec){
+			if(tool === 'newrect'){
+				// debug('\t setting cursor to crosshairsSquare');
+				getEditDocument().body.style.cursor = _UI.cursors.crosshairsSquare;
+			} else if (tool === 'newoval'){
+				// debug('\t setting cursor to crosshairsCircle');
+				getEditDocument().body.style.cursor = _UI.cursors.crosshairsCircle;
+			} else if (tool === 'newpath'){
+				// debug('\t setting cursor to penPlus');
+				getEditDocument().body.style.cursor = _UI.cursors.penPlus;
+			} else if (tool === 'pathedit'){
+				// debug('\t setting cursor to pen');
+				getEditDocument().body.style.cursor = _UI.cursors.pen;
+			} else if (tool === 'pathaddpoint'){
+				// debug('\t setting cursor to pen');
+				getEditDocument().body.style.cursor = _UI.cursors.pen;
+			} else if (tool === 'pan'){
+				// debug('\t setting cursor to move');
+				getEditDocument().body.style.cursor = 'move';
+			} else if (tool === 'kern'){
+				// debug('\t setting cursor to col-resize');
+				getEditDocument().body.style.cursor = 'col-resize';
+			} else {
+				// debug('\t defaulting cursor to pointer');
+				getEditDocument().body.style.cursor = _UI.cursors.pointer;
+			}
+		} else {
+			// debug('\t NOT ON EDIT CANVS setting cursor to default');
+			getEditDocument().body.style.cursor = 'default';
+		}
+
+		// debug(' updateCursor - END\n');
+	}
+
+	function toggleKeyboardTips(){
 
 		if(document.getElementById('dialog_box').style.display==='block'){
 			closeDialog();
@@ -530,7 +579,5 @@
 		_UI.chareditcanvas.onmouseout = mouseoutcec;
 		_UI.chareditcanvas.onmouseover = mouseovercec;
 	}
-
-	function resetCursor() { getEditDocument().body.style.cursor = 'default'; }
 
 // end of file
