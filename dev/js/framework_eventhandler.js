@@ -238,11 +238,14 @@
 					var pty = (sy_cy(pt.y) - (ptsize/2)).makeCrisp();
 					_UI.chareditctx.fillStyle = _UI.colors.accent_75;
 					_UI.chareditctx.strokeRect(ptx, pty, ptsize, ptsize);
+					openNotation(('x: ' + round(pt.x, 3) + '<br>y: ' + round(pt.y, 3)), sx_cx(pt.x), sy_cy(pt.y));
 				} else {
 					this.addpoint = false;
+					closeNotation();
 				}
 			} else {
 				this.addpoint = false;
+				closeNotation();
 			}
 		};
 

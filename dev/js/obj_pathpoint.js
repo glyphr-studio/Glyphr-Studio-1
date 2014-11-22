@@ -534,8 +534,8 @@
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.yllock || false;
 
-		this.x = parseInt(this.x);
-		this.y = parseInt(this.y);
+		this.x = parseFloat(this.x);
+		this.y = parseFloat(this.y);
 	}
 
 // end of file

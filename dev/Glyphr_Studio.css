@@ -680,6 +680,20 @@
 		color:rgb(76,81,86);
 	}
 
+	#notation {
+		display:none;
+		position:absolute;
+		left:900px;
+		top:400px;
+		width:auto;
+		height:auto;
+		padding:2px;
+		z-index:1000;
+		background-color:rgb(229,234,239);
+		border:5px solid rgb(229,234,239);
+		border-radius:3px;
+	}
+	
 	#errormessagebox {
 		display:none;
 		height:auto;

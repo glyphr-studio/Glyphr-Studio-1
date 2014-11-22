@@ -60,8 +60,9 @@
 			return;
 		}
 
-		var pointselectclass = '';
-		var pointselectclickable = true;
+		var patheditclass = '';
+		var pathaddpointclass = '';
+		var penclickable = true;
 		var onchar = (_UI.navhere === 'character edit');
 		var onlink = (_UI.navhere === 'linked shapes');
 		var onlig = (_UI.navhere === 'ligatures');
@@ -74,12 +75,17 @@
 		}
 
 		if(_UI.selectedtool === 'pathedit'){
-			pointselectclass = 'buttonsel tool';
-		} else if (s.link && _UI.navhere !== 'linked shapes'){
-			pointselectclass = 'buttondis tool';
-			pointselectclickable = false;
-		} else {
-			pointselectclass = 'tool';
+			patheditclass = 'buttonsel';
+		} else if (s && s.link && _UI.navhere !== 'linked shapes'){
+			patheditclass = 'buttondis';
+			penclickable = false;
+		}
+
+		if(_UI.selectedtool === 'pathaddpoint'){
+			pathaddpointclass = 'buttonsel';
+		} else if (s && s.link && _UI.navhere !== 'linked shapes'){
+			pathaddpointclass = 'buttondis';
+			penclickable = false;
 		}
 
 		var st = _UI.selectedtool;
@@ -119,8 +125,8 @@
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='path edit' class='" + pointselectclass + "' " + (pointselectclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
-		edittools += "<button title='add path point' class='" + (st==='pathaddpoint'? "buttonsel " : " ") + "tool' " + "onclick='clickTool(\"pathaddpoint\");'/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint')})+"</button>";
+		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
+		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint')})+"</button>";
 		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 
 		if(_UI.selectedtool === 'newpath'){

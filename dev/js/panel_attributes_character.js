@@ -11,7 +11,7 @@
 
 		var ispointsel = false;
 		if(s && !s.link) ispointsel = s.path.sp(false);
-		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
+		if(!(_UI.selectedtool === 'pathedit' || _UI.selectedtool === 'pathaddpoint')) ispointsel = false;
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();

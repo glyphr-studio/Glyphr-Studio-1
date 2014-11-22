@@ -45,14 +45,16 @@
 		'</tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
 
+		var notation = '<div id="notation"></div>';
 
 		var ihgc = '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
 		var cec = '<canvas id="chareditcanvas" height=10 width=10 ></canvas>';
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
-		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += ihgc;
 		document.body.innerHTML += cec;
+		document.body.innerHTML += notation;
+		document.body.innerHTML += dialogbox;
 
 
 		window.onbeforeunload = function() {
@@ -118,9 +120,9 @@
 	}
 
 
-//-------------------
-// Dialog Box
-//-------------------
+//--------------------------------------
+// Dialog Box, Error Box, Notation
+//--------------------------------------
 	function closeDialog(){
 		document.getElementById('dialog_box').style.display='none';
 		document.getElementById('dialog_bg').style.display='none';
@@ -138,6 +140,21 @@
 
 		document.getElementById('dialog_box').style.display='block';
 		document.getElementById('dialog_bg').style.display='block';
+	}
+
+	function openNotation(content, x, y){
+		document.body.focus();
+		var n = document.getElementById('notation');
+		n.innerHTML = content;
+		n.style.top = (round(y)+'px');
+		n.style.left = (round(x+500)+'px');
+		n.style.display='block';
+	}
+
+	function closeNotation(){
+		document.getElementById('notation').style.display='none';
+		document.getElementById('notation').innerHTML = "<b>Error: unspecified notation content.</b>";
+		document.body.focus();
 	}
 
 	function makeErrorMessageBox() {
