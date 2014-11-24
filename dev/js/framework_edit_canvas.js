@@ -172,20 +172,20 @@
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
 
 		if(ctool === "newrect"){
-			getEditDocument().body.style.cursor = _UI.cursors.crosshairsSquare;
+			setCursor('crosshairsSquare');
 			_UI.selectedshape = -1;
 		} else if (ctool === "newoval"){
-			getEditDocument().body.style.cursor = _UI.cursors.crosshairsCircle;
+			setCursor('crosshairsCircle');
 			_UI.selectedshape = -1;
 		} else if (ctool === "newpath"){
-			getEditDocument().body.style.cursor = _UI.cursors.penPlus;
+			setCursor('penPlus');
 			_UI.selectedshape = -1;
 		} else if(ctool === "pathedit"){
-			getEditDocument().body.style.cursor = _UI.cursors.pen;
+			setCursor('pen');
 			if(s && s.path) {s.path.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
-			getEditDocument().body.style.cursor = _UI.cursors.pointer;
+			setCursor('pointer');
 			if(s && s.path){ s.path.calcMaxes(); }
 		}
 
@@ -202,35 +202,46 @@
 		if(_UI.eventhandlers.ismouseovercec){
 			if(tool === 'newrect'){
 				// debug('\t setting cursor to crosshairsSquare');
-				getEditDocument().body.style.cursor = _UI.cursors.crosshairsSquare;
+				setCursor('crosshairsSquare');
 			} else if (tool === 'newoval'){
 				// debug('\t setting cursor to crosshairsCircle');
-				getEditDocument().body.style.cursor = _UI.cursors.crosshairsCircle;
+				setCursor('crosshairsCircle');
 			} else if (tool === 'newpath'){
 				// debug('\t setting cursor to penPlus');
-				getEditDocument().body.style.cursor = _UI.cursors.penPlus;
+				setCursor('penPlus');
 			} else if (tool === 'pathedit'){
 				// debug('\t setting cursor to pen');
-				getEditDocument().body.style.cursor = _UI.cursors.pen;
+				setCursor('pen');
 			} else if (tool === 'pathaddpoint'){
 				// debug('\t setting cursor to pen');
-				getEditDocument().body.style.cursor = _UI.cursors.pen;
+				setCursor('penPlus');
 			} else if (tool === 'pan'){
 				// debug('\t setting cursor to move');
-				getEditDocument().body.style.cursor = 'move';
+				setCursor('move');
 			} else if (tool === 'kern'){
 				// debug('\t setting cursor to col-resize');
-				getEditDocument().body.style.cursor = 'col-resize';
+				setCursor('col-resize');
 			} else {
 				// debug('\t defaulting cursor to pointer');
-				getEditDocument().body.style.cursor = _UI.cursors.pointer;
+				setCursor('pointer');
 			}
 		} else {
 			// debug('\t NOT ON EDIT CANVS setting cursor to default');
-			getEditDocument().body.style.cursor = 'default';
+			setCursor('default');
 		}
 
 		// debug(' updateCursor - END\n');
+	}
+
+	function setCursor(name) {
+		var cur = ['auto','default','none','context-menu','help','pointer','progress','wait','cell','crosshair','text','vertical-text','alias','copy','move','no-drop','not-allowed','e-resize','n-resize','ne-resize','nw-resize','s-resize','se-resize','sw-resize','w-resize','ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize','all-scroll','zoom-in','zoom-out','grab','grabbing'];
+		if(_UI.cursors[name]){
+			getEditDocument().body.style.cursor = _UI.cursors[name];
+		} else if (cur.indexOf(name) > -1) {
+			getEditDocument().body.style.cursor = name;
+		} else {
+			getEditDocument().body.style.cursor = 'auto';
+		}
 	}
 
 	function toggleKeyboardTips(){

@@ -567,7 +567,7 @@
 		// upper left
 		if(canResize('nw')){
 			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'nw-resize';
+				setCursor('nw-resize');
 				//debug('ISOVERHANDLE() -  upper left');
 				return 'nw';
 			}
@@ -576,7 +576,7 @@
 		// top
 		if(canResize('n')){
 			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'n-resize';
+				setCursor('n-resize');
 				//debug('ISOVERHANDLE() -  top');
 				return 'n';
 			}
@@ -585,7 +585,7 @@
 		// upper right
 		if(canResize('ne')){
 			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'ne-resize';
+				setCursor('ne-resize');
 				//debug('ISOVERHANDLE() - upper right');
 				return 'ne';
 			}
@@ -594,7 +594,7 @@
 		// right
 		if(canResize('e')){
 			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'e-resize';
+				setCursor('e-resize');
 				//debug('ISOVERHANDLE() - right');
 				return 'e';
 			}
@@ -603,7 +603,7 @@
 		// lower right
 		if(canResize('se')){
 				if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'se-resize';
+				setCursor('se-resize');
 				//debug('ISOVERHANDLE() - lower right');
 				return 'se';
 			}
@@ -612,7 +612,7 @@
 		// bottom
 		if(canResize('s')){
 			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 's-resize';
+				setCursor('s-resize');
 				//debug('ISOVERHANDLE() - bottom');
 				return 's';
 			}
@@ -621,7 +621,7 @@
 		// lower left
 		if(canResize('sw')){
 			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'sw-resize';
+				setCursor('sw-resize');
 				//debug('ISOVERHANDLE() - lower left');
 				return 'sw';
 			}
@@ -630,7 +630,7 @@
 		// left
 		if(canResize('w')){
 			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
-				getEditDocument().body.style.cursor = 'w-resize';
+				setCursor('w-resize');
 					//debug('ISOVERHANDLE() - left');
 				return 'w';
 			}

@@ -69,30 +69,14 @@
 
 			// Switch Tool function
 			switch(_UI.selectedtool){
-				case 'pathedit' :
-					tool = _UI.eventhandlers.eh_pathedit;
-					break;
-				case 'shaperesize' :
-					tool = _UI.eventhandlers.eh_shapeedit;
-					break;
-				case 'pan' :
-					tool = _UI.eventhandlers.eh_pantool;
-					break;
-				case 'pathaddpoint' :
-					tool = _UI.eventhandlers.eh_pathaddpoint;
-					break;
-				case 'newpath' :
-					tool = _UI.eventhandlers.eh_addpath;
-					break;
-				case 'newrect' :
-					tool = _UI.eventhandlers.eh_addrectoval;
-					break;
-				case 'newoval' :
-					tool = _UI.eventhandlers.eh_addrectoval;
-					break;
-				case 'kern':
-					tool = _UI.eventhandlers.eh_kern;
-					break;
+				case 'pathedit' : tool = _UI.eventhandlers.eh_pathedit; break;
+				case 'shaperesize' : tool = _UI.eventhandlers.eh_shapeedit; break;
+				case 'pan' : tool = _UI.eventhandlers.eh_pantool; break;
+				case 'pathaddpoint' : tool = _UI.eventhandlers.eh_pathaddpoint; break;
+				case 'newpath' : tool = _UI.eventhandlers.eh_addpath; break;
+				case 'newrect' : tool = _UI.eventhandlers.eh_addrectoval; break;
+				case 'newoval' : tool = _UI.eventhandlers.eh_addrectoval; break;
+				case 'kern': tool = _UI.eventhandlers.eh_kern; break;
 			}
 
 			// Call the event handler of the tool.
@@ -254,7 +238,6 @@
 	}
 
 
-
 	// ---------------------------------------------------------
 	// new basic shape - adds many points to a new path
 	// ---------------------------------------------------------
@@ -344,6 +327,7 @@
 				this.moving = true;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				this.controlpoint === 'P'? setCursor('penSquare') : setCursor('penCircle');
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				//clickSelectShape checks to switch the tool if need be.
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -372,14 +356,17 @@
 					case 'P':
 						if(!sp.P.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
 						if(!sp.P.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
+						setCursor('penSquare');
 						break;
 					case 'H1':
 						if(!sp.H1.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
 						if(!sp.H1.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
+						setCursor('penCircle');
 						break;
 					case 'H2':
 						if(!sp.H2.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
 						if(!sp.H2.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
+						setCursor('penCircle');
 						break;
 				}
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
@@ -393,8 +380,8 @@
 
 			if(s){
 				var cp = s.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey), true);
-				if(cp === 'P') getEditDocument().body.style.cursor = _UI.cursors.penSquare;
-				if(cp === 'H1' || cp === 'H2') getEditDocument().body.style.cursor = _UI.cursors.penCircle;
+				if(cp === 'P') setCursor('penSquare');
+				if(cp === 'H1' || cp === 'H2') setCursor('penCircle');
 			}
 		};
 
@@ -482,7 +469,7 @@
 			}
 
 			if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				getEditDocument().body.style.cursor = _UI.cursors.pointerSquare;
+				setCursor('pointerSquare');
 			}
 
 			if(didstuff){
@@ -803,7 +790,7 @@
 				eh.lastTool = _UI.selectedtool;
 				_UI.selectedtool = 'pan';
 				eh.isSpaceDown = true;
-				getEditDocument().body.style.cursor = 'move';
+				setCursor('move');
 				redraw('Event Handler - Keydown Spacebar for pan toggle');
 			}
 		}
