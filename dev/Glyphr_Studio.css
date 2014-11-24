@@ -687,7 +687,7 @@
 		top:400px;
 		width:auto;
 		height:auto;
-		padding:2px;
+		padding:2px 4px 4px 4px;
 		z-index:1000;
 		background-color:rgb(229,234,239);
 		border:5px solid rgb(229,234,239);
@@ -905,21 +905,31 @@
 		z-index:10;
 	}
 
+	#viewarea {
+		position:fixed;
+		right:15px;
+		top:15px;
+		z-index:10;
+	}
+
     #secondaryScreenLayout #toolsarea,
     #secondaryScreenLayout #keyboardtips {
         left: 15px;
     }
 
-	#toolsarea div {
+	#toolsarea div,
+	#viewarea div {
 		margin-right:0px;
 		word-spacing: 10px;
 	}
 
-	#toolsarea button {
+	#toolsarea button,
+	#viewarea button {
 		background-color: rgb(76,81,86);
 	}
 
-	#toolsarea .buttonsel {
+	#toolsarea .buttonsel,
+	#viewarea .buttonsel {
 		background-color: rgb(80,196,255);
 	}
 

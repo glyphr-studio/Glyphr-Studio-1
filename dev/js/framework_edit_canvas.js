@@ -5,9 +5,12 @@
 //-------------------
 
 	function editPage_Content(){
-		return '<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
+		return ''+
+			'<div id="notation"> [ERROR: Uninitialized content] </div>' +
+			'<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
 			'<div id="toolsarea"> [ERROR: Uninitialized content] </div>' +
-			makeFloatLogo();
+			'<div id="viewarea"> [ERROR: Uninitialized content] </div>' +
+			makeFloatLogo();  
 	}
 
 //-------------------
@@ -94,27 +97,25 @@
 		// Pop In/Out
 		var pop = '';
 		if(onCanvasEditPage()){
+			pop += "<span style='width:15px; display:inline-block;'>&nbsp;</span>";
 			if(_UI.popout){
 				pop += "<button title='one screen mode' class='tool' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
 			} else {
 				pop += "<button title='two screen mode' class='tool' onclick='popOut();'>"+makeToolButton({'name':'tool_popOut'})+"</button>";
 			}
-			pop += "<div style='height:5px;'>&nbsp;</div>";
 		}
 
-		// Zoom
 		var zoom = '';
-		zoom += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
-		zoom += "<button title='zoom: full em' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
-		zoom += "<br>";
-		zoom += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
-		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
-		zoom += "<br>";
-		zoom += "<button title='zoom level' class='tool zoomreadout'>" + round(getView("updatetools").dz*100, 2) + "%</button>";
-		zoom += "<br>";
 		// Pan
 		zoom += "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
-		zoom += "<div style='height:5px;'>&nbsp;</div>";
+		zoom += "<span style='width:15px; display:inline-block;'>&nbsp;</span>";
+		// Zoom
+		zoom += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
+		zoom += "<button title='zoom: full em' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
+		zoom += "<button title='zoom level' class='tool zoomreadout'>" + round(getView("updatetools").dz*100, 2) + "%</button>";
+		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
+		zoom += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
+
 
 		// New Shape
 		var newshape = '';
@@ -125,8 +126,8 @@
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
 		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint')})+"</button>";
+		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
 		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 
 		if(_UI.selectedtool === 'newpath'){
@@ -139,28 +140,25 @@
 
 
 		// Put it all together
-		var content = '';
-		content += pop;
-		content += zoom;
+		var toolcontent = '';
+		var viewcontent = '';
 
-		if(onchar || onlig) content += newshape;
+		viewcontent += zoom;
+		viewcontent += pop;
+
+		if(onchar || onlig) toolcontent += newshape;
 		var sls = getSelectedChar();
-		if(onlink && sls && !sls.shape) content += newshape;
+		if(onlink && sls && !sls.shape) toolcontent += newshape;
 
-		if(onchar || onlink || onlig) content += edittools;
+		if(onchar || onlink || onlig) toolcontent += edittools;
 
-		if(onkern) content += kern;
+		if(onkern) toolcontent += kern;
 
-		if(_GP.projectsettings.showkeyboardtipsicon) content += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
+		if(_GP.projectsettings.showkeyboardtipsicon) toolcontent += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
 
-		// debug('\t trying to add to document...');
-		try {
-			getEditDocument().getElementById("toolsarea").innerHTML = content;
-			// debug('\t ...success!');
-		} catch(err) {
-			console.error('\t ...failure! update_ToolsArea div could not be found.');
-		}
-		// debug(' update_ToolsArea - END\n');
+		getEditDocument().getElementById("toolsarea").innerHTML = toolcontent;
+		getEditDocument().getElementById("viewarea").innerHTML = viewcontent;
+
 	}
 
 	function clickTool(ctool){

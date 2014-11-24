@@ -13,7 +13,6 @@
 
 		_UI.selectedtool = 'pathedit';
 
-
 		_UI.selectedshape = -1;
 		if(isval(_UI.devselectedshape)){
 			_UI.selectedshape = _UI.devselectedshape;

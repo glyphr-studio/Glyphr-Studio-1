@@ -11,9 +11,7 @@
 
 		// Initialize Stuff
 		insertGlobalDOMElements();
-		setupEditCanvas();
 		setupGhostCanvas();
-		initEventHandlers();
 
 		// Navigate
 		if(_UI.devnav){
@@ -45,15 +43,8 @@
 		'</tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
 
-		var notation = '<div id="notation"></div>';
-
-		var ihgc = '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
-		var cec = '<canvas id="chareditcanvas" height=10 width=10 ></canvas>';
-
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
-		document.body.innerHTML += ihgc;
-		document.body.innerHTML += cec;
-		document.body.innerHTML += notation;
+		document.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
 		document.body.innerHTML += dialogbox;
 
 
@@ -143,18 +134,18 @@
 	}
 
 	function openNotation(content, x, y){
-		document.body.focus();
-		var n = document.getElementById('notation');
+		getEditDocument().body.focus();
+		var n = getEditDocument().getElementById('notation');
 		n.innerHTML = content;
 		n.style.top = (round(y)+'px');
-		n.style.left = (round(x+500)+'px');
+		n.style.left = (round(x+50)+'px');
 		n.style.display='block';
 	}
 
 	function closeNotation(){
-		document.getElementById('notation').style.display='none';
-		document.getElementById('notation').innerHTML = "<b>Error: unspecified notation content.</b>";
-		document.body.focus();
+		getEditDocument().getElementById('notation').style.display='none';
+		getEditDocument().getElementById('notation').innerHTML = " [ERROR: Uninitialized content] ";
+		getEditDocument().body.focus();
 	}
 
 	function makeErrorMessageBox() {

@@ -1,7 +1,7 @@
 // start of file
 
 //-------------------
-// History Panel
+// Guides Panel
 //-------------------
 	function makePanel_Guides(){
 

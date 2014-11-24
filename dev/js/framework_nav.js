@@ -62,7 +62,6 @@
 			'</head>'+
 			'<body>'+
 				'<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
-				'<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>'+
 			'</body>'+
 			'</html>');
 
