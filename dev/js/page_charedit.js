@@ -30,9 +30,8 @@
 //-------------------
 	function redraw_CharacterEdit(){
 		// debug('\n redraw_CharacterEdit - START');
-
 		_UI.redrawing = true;
-
+		
 		var sc = getSelectedChar();
 		if(sc) sc.calcCharMaxes();
 
@@ -52,7 +51,7 @@
 				_UI.selectedtool = 'shaperesize';
 			}
 		}
-
+		
 		_UI.redrawing = false;
 	}
 

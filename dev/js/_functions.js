@@ -144,7 +144,7 @@
 
 	function closeNotation(){
 		getEditDocument().getElementById('notation').style.display='none';
-		getEditDocument().getElementById('notation').innerHTML = " [ERROR: Uninitialized content] ";
+		getEditDocument().getElementById('notation').innerHTML = " [ Loading... ] ";
 		getEditDocument().body.focus();
 	}
 

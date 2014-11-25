@@ -21,7 +21,6 @@
 	function redraw_LinkedShapes(calledby){
 		// debug('\n redraw_LinkedShapes - START');
 		// debug('\t Called By: ' + calledby + ' - Shown Linked Shape: ' + _UI.selectedlinkedshape + ' - Selected Shape: ' + _UI.selectedshape);
-
 		_UI.redrawing = true;
 
 		drawGrid();
@@ -36,7 +35,6 @@
 		}
 
 		_UI.redrawing = false;
-
 		// debug(' redraw_LinkedShapes - END\n');
 	}
 

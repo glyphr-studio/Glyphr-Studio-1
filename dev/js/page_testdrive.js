@@ -39,6 +39,8 @@
 
 	function redraw_TestDrive(){
 		// debug("\n redraw_TestDrive - START");
+		_UI.redrawing = true;
+
 		var td = _UI.testdrive;
 		var ps = _GP.projectsettings;
 
@@ -96,6 +98,8 @@
 				}
 			}
 		}
+
+		_UI.redrawing = false;
 	}
 
 	function calculateKernOffset(c1, c2) {

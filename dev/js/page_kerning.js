@@ -32,7 +32,6 @@
 		// debug('\n redraw_Kerning - START');
 		// debug('\t kerning: ');
 		// debug(_GP.kerning);
-
 		_UI.redrawing = true;
 
 		drawGrid();
