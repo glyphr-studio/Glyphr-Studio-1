@@ -144,19 +144,18 @@
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-
 			// if(lctx == _UI.chareditctx)	{
 			//	debug('  point ' + cp);
 			//	debug('\n  pp\n' + JSON.stringify(pp));
 			//	debug('  np\n' + JSON.stringify(np));
 			// }
 
-			this.validate('DRAW PATH');
+			// this.validate('DRAW PATH');
 
 			if(pp.type === 'symmetric') { pp.makeSymmetric('H1'); }
 			else if (pp.type === 'flat') { pp.makeFlat('H1'); }
 
-			this.validate('DRAW PATH');
+			// this.validate('DRAW PATH');
 
 			pph2x = sx_cx(pp.getH2x());
 			pph2y = sy_cy(pp.getH2y());
@@ -170,6 +169,24 @@
 		}
 	};
 
+	Path.prototype.drawPathToArea = function(lctx, view, dx){
+		// debug('\n Path.drawPathToArea - START');
+		// debug('\t passed dx ' + dx);
+		// var tempv = clone(getView('Path.drawPathToArea'));
+		var tempv = getView('Path.drawPathToArea');
+
+		setView(view);
+		if(dx){
+			var tp = clone(this);
+			tp.updatePathPosition(dx, 0, true);
+			tp.drawPath(lctx);
+		} else {
+			this.drawPath(lctx);
+		}
+
+		setView(tempv);
+		// debug(' Path.drawPathToArea - END\n');
+	};
 
 	Path.prototype.validate = function(calledby){
 		var tp;
@@ -202,20 +219,6 @@
 
 			tp.roundAll();
 		}
-	};
-
-	Path.prototype.drawPathToArea = function(lctx, view, dx){
-		// debug('\n Path.drawPathToArea - START');
-		// debug('\t passed dx ' + dx);
-		var tempv = clone(getView('Path.drawPathToArea'));
-		var drawpath = clone(this);
-
-		if(dx) drawpath.updatePathPosition(dx, 0, true);
-		setView(view);
-		drawpath.drawPath(lctx);
-
-		setView(tempv);
-		// debug(' Path.drawPathToArea - END\n');
 	};
 
 	Path.prototype.genPathPostScript = function(lastx, lasty){

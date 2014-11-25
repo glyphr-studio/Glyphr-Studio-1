@@ -1,6 +1,7 @@
 // start of file
 
 	_UI.eventhandlers = {
+		'currtool': false,
 		'tempnewbasicshape' : false,
 		'mousex' : 0,
 		'mousey' : 0,
@@ -17,10 +18,9 @@
 	};
 
 	function initEventHandlers() {
-		var tool = new Tool_PathEdit();
 		_UI.eventhandlers.eh_pantool = new Tool_Pan();
 		_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
-		_UI.eventhandlers.eh_shapeedit = new Tool_ShapeResize();
+		_UI.eventhandlers.eh_shapeedit = new Tool_ShapeEdit();
 		_UI.eventhandlers.eh_addpath = new Tool_NewPath();
 		_UI.eventhandlers.eh_pathedit = new Tool_PathEdit();
 		_UI.eventhandlers.eh_pathaddpoint = new Tool_PathAddPoint();
@@ -51,16 +51,15 @@
 			// Fixes a Chrome cursor problem
 			document.onselectstart = function () { return false; };
 
-			if (ev.layerX || ev.layerX) {
-				// Firefox
-				_UI.eventhandlers.mousex = ev.layerX;
-				_UI.eventhandlers.mousey = ev.layerY;
-			}
 
 			if (ev.offsetX || ev.offsetX) {
 				// IE, Chrome, (Opera?)
 				_UI.eventhandlers.mousex = ev.offsetX;
 				_UI.eventhandlers.mousey = ev.offsetY;
+			} else if (ev.layerX || ev.layerX) {
+				// Firefox
+				_UI.eventhandlers.mousex = ev.layerX;
+				_UI.eventhandlers.mousey = ev.layerY;
 			}
 
 			//debug('EV_CANVAS offsetx / offsety / layerx / layery: ' +  ev.offsetX + ' ' + ev.offsetY + ' ' + ev.layerX + ' ' + ev.layerY);
@@ -68,19 +67,21 @@
 			updateCursor();
 
 			// Switch Tool function
+
 			switch(_UI.selectedtool){
-				case 'pathedit' : tool = _UI.eventhandlers.eh_pathedit; break;
-				case 'shaperesize' : tool = _UI.eventhandlers.eh_shapeedit; break;
-				case 'pan' : tool = _UI.eventhandlers.eh_pantool; break;
-				case 'pathaddpoint' : tool = _UI.eventhandlers.eh_pathaddpoint; break;
-				case 'newpath' : tool = _UI.eventhandlers.eh_addpath; break;
-				case 'newrect' : tool = _UI.eventhandlers.eh_addrectoval; break;
-				case 'newoval' : tool = _UI.eventhandlers.eh_addrectoval; break;
-				case 'kern': tool = _UI.eventhandlers.eh_kern; break;
+				case 'pathedit' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pathedit; break;
+				case 'shaperesize' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_shapeedit; break;
+				case 'pan' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pantool; break;
+				case 'pathaddpoint' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pathaddpoint; break;
+				case 'newpath' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_addpath; break;
+				case 'newrect' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_addrectoval; break;
+				case 'newoval' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_addrectoval; break;
+				case 'kern': _UI.eventhandlers.currtool = _UI.eventhandlers.eh_kern; break;
+				case _UI.selectedtool: _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pathedit;
 			}
 
-			// Call the event handler of the tool.
-			tool[ev.type](ev);
+			// Call the event handler of the _UI.eventhandlers.currtool.
+			_UI.eventhandlers.currtool[ev.type](ev);
 		}
 	}
 
@@ -123,7 +124,7 @@
 						//clicked on an existing control point in this path
 						//if first point - close the path
 						_UI.selectedtool = 'pathedit';
-						_UI.eventhandlers.eh_pathedit.moving = true;
+						_UI.eventhandlers.eh_pathedit.dragging = true;
 						_UI.eventhandlers.eh_pathedit.controlpoint = 'H2';
 						_UI.eventhandlers.toolhandoff = true;
 						this.dragging = false;
@@ -242,6 +243,7 @@
 	// new basic shape - adds many points to a new path
 	// ---------------------------------------------------------
 	function Tool_NewBasicShape(){
+		this.dragging = false;
 
 		this.mousedown = function (ev) {
 			_UI.eventhandlers.tempnewbasicshape = {
@@ -257,6 +259,8 @@
 
 			_UI.eventhandlers.firstx = cx_sx(_UI.eventhandlers.mousex);
 			_UI.eventhandlers.firsty = cy_sy(_UI.eventhandlers.mousey);
+
+			this.dragging = true;
 
 			redraw('Event Handler Tool_NewBasicShape mousedown');
 			//debug('Tool_NewBasicShape MOUSEDOWN - after REDRAW');
@@ -307,6 +311,8 @@
 			history_put('New Basic Shape tool');
 			_UI.eventhandlers.uqhaschanged = false;
 
+			this.dragging = false;
+
 			clickTool('pathedit');
 		};
 	}
@@ -316,7 +322,7 @@
 	// Path Edit - selects points and moves points and handles
 	// ---------------------------------------------------------
 	function Tool_PathEdit(){
-		this.moving = false;
+		this.dragging = false;
 		this.controlpoint = false;
 
 		this.mousedown = function (ev) {
@@ -324,7 +330,7 @@
 			var s = ss('Path Edit - Mouse Down');
 			this.controlpoint = s? s.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey)) : false;
 			if(this.controlpoint){
-				this.moving = true;
+				this.dragging = true;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				this.controlpoint === 'P'? setCursor('penSquare') : setCursor('penCircle');
@@ -341,7 +347,7 @@
 
 		this.mousemove = function (ev) {
 			var s = ss('Path Edit - Mouse Move');
-			if (this.moving) {
+			if (this.dragging) {
 				var sp = s.path.sp();
 				if(_UI.eventhandlers.toolhandoff){
 					sp.H2.x = cx_sx(_UI.eventhandlers.mousex);
@@ -386,7 +392,7 @@
 		};
 
 		this.mouseup = function () {
-			this.moving = false;
+			this.dragging = false;
 			_UI.eventhandlers.lastx = -100;
 			_UI.eventhandlers.lasty = -100;
 
@@ -405,13 +411,13 @@
 	// --------------------------------------------------
 	// Shape Resize - resizes whole shapes
 	// --------------------------------------------------
-	function Tool_ShapeResize(){
+	function Tool_ShapeEdit(){
 		this.dragging = false;
 		this.resizing = false;
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
-			//debug('\nTool_ShapeResize TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			//debug('\nTool_ShapeEdit TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 			var s = ss('eventHandler - mousedown');
 			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -420,46 +426,48 @@
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 
 			if (_UI.eventhandlers.corner){
-				//debug('Tool_ShapeResize TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				//debug('Tool_ShapeEdit TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				this.dragging = true;
 				this.resizing = false;
-				redraw('Event Handler Tool_ShapeResize mousedown');
+				setCursor('pointerSquare');
+				redraw('Event Handler Tool_ShapeEdit mousedown');
 			} else {
 				clickEmptySpace();
 			}
 		};
 
 		this.mousemove = function (ev) {
-			var s = ss('eventHandler - Tool_ShapeResize mousemove');
-			//debug('\nTool_ShapeResize TOOL - ss returned s.link: ' + s.link);
+			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
+			//debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
 			var didstuff = false;
-			var dz = getView('Event Handler Tool_ShapeResize mousemove').dz;
+			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			if(s.link){
-				//debug('\tTool_ShapeResize dragging linked shape');
+				//debug('\tTool_ShapeEdit dragging linked shape');
 				if(this.dragging && !s.uselinkedshapexy){
-					//debug('Tool_ShapeResize, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
+					//debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
 					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
-					updateCursor();
+					setCursor('pointerSquare');
 				}
 			} else if (s){
-				//debug('\tTool_ShapeResize dragging normal shape');
+				//debug('\tTool_ShapeEdit dragging normal shape');
 				if (this.dragging) {
 					// Moving shapes if mousedown
-					//debug('\tTool_ShapeResize - Moving Shape on Drag');
+					//debug('\tTool_ShapeEdit - Moving Shape on Drag');
 					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
 					s.path.updatePathPosition(dx, dy);
 					updateCursor();
 					didstuff = true;
+					setCursor('pointerSquare');
 				} else if (this.resizing){
 					// Resizing shapes if mousedown over handle
-					//debug('\tTool_ShapeResize - Resizing Shape over handle');
+					//debug('\tTool_ShapeEdit - Resizing Shape over handle');
 					evHanShapeResize(s, _UI.eventhandlers.corner);
 					didstuff = true;
 				}
@@ -467,16 +475,14 @@
 				//Translation fidelity, passing raw canvas values
 				if(s) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 			}
-
-			if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				setCursor('pointerSquare');
-			}
-
+			
 			if(didstuff){
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
-				redraw('Event Handler Tool_ShapeResize mousemove');
+				redraw('Event Handler Tool_ShapeEdit mousemove');
+			} else if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+				setCursor('pointerSquare');
 			}
 		};
 
@@ -504,8 +510,8 @@
 			_UI.eventhandlers.firsty = -100;
 			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
 			_UI.eventhandlers.uqhaschanged = false;
-			redraw('Event Handler Tool_ShapeResize mouseup');
-			//debug('EVENTHANDLER - after Tool_ShapeResize Mouse Up REDRAW');
+			redraw('Event Handler Tool_ShapeEdit mouseup');
+			//debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
 		};
 	}
 

@@ -121,8 +121,7 @@
 		// debug('\t ' + this.charname);
 		var sl = this.charshapes;
 		var sh = {};
-		var lsb = uselsb ? this.getLSB() : 0;
-		// debug('\t uselsb: ' + uselsb + ' calculated lsb: ' + lsb);
+		var lsb = uselsb? this.getLSB() : 0;
 
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {

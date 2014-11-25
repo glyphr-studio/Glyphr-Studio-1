@@ -242,7 +242,8 @@ function saveTextFile(fname, json) {
 			if (cobj[i] && typeof cobj[i] === 'object') {
 				newObj[i] = clone(cobj[i]);
 			} else newObj[i] = cobj[i];
-		} return newObj;
+		} 
+		return newObj;
 	}
 
 	// rounds a number to include a .5 so it draws nicely on canvas

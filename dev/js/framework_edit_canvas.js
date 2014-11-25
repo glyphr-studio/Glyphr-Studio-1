@@ -41,7 +41,7 @@
 			case 'test drive': redraw_TestDrive(); break;
 		}
 
-		update_ToolsArea();
+		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
 		update_NavPanels();
 
 		_UI.redrawing = false;
