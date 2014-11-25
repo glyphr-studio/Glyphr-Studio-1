@@ -34,15 +34,15 @@
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 
 		switch (_UI.navhere){
-			case 'character edit': redraw_CharacterEdit(); break;
-			case 'linked shapes': redraw_LinkedShapes(); break;
-			case 'ligatures': redraw_CharacterEdit(); break;
-			case 'kerning': redraw_Kerning(); break;
-			case 'test drive': redraw_TestDrive(); break;
+			case 'character edit': window.requestAnimationFrame(redraw_CharacterEdit); break;
+			case 'linked shapes': window.requestAnimationFrame(redraw_LinkedShapes); break;
+			case 'ligatures': window.requestAnimationFrame(redraw_CharacterEdit); break;
+			case 'kerning': window.requestAnimationFrame(redraw_Kerning); break;
+			case 'test drive': window.requestAnimationFrame(redraw_TestDrive); break;
 		}
 
-		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
-		update_NavPanels();
+		if(!_UI.eventhandlers.currtool.dragging) window.requestAnimationFrame(update_ToolsArea);
+		window.requestAnimationFrame(update_NavPanels);
 
 		_UI.redrawing = false;
 
