@@ -1088,10 +1088,13 @@
 		color:rgb(127,134,137);
 	}
 
+	.lockwrapper {
+		display: inline-block;
+	}
+
 	.lockui {
 		width:24px;
 		height:24px;
-		margin:2px -1px 0px 0px;
 		vertical-align: top;
 		background-color: white;
 		display: inline-block;
