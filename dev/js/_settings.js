@@ -7,17 +7,17 @@
 
 	var _UI = {
 		// Internal Dev Stuff
-		'debug': true,			// global debug console switch
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'character edit',	// navigate straight to a page
-		'devnavprimary': 'npAttributes', // navigate straight to a panel
+		'debug': false,			// global debug console switch
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'devnav': false,	// navigate straight to a page
+		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': 0, // automatically select a shape
 
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Beta 6 - 0.6.0',
-		'thisGlyphrStudioVersionNum': '0.6.0',
+		'thisGlyphrStudioVersion': 'Beta 5.1 - 0.5.1',
+		'thisGlyphrStudioVersionNum': '0.5.1',
 		'projectsaved': true,
 		'icons': {},
 		'cursors': {},
