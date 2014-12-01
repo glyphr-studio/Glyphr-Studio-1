@@ -31,24 +31,27 @@
 
 		_UI.redrawing = false;
 
-		window.requestAnimationFrame(function(){
-			_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
-
-			switch (_UI.navhere){
-				case 'character edit': redraw_CharacterEdit(); break;
-				case 'linked shapes': redraw_LinkedShapes(); break;
-				case 'ligatures': redraw_CharacterEdit(); break;
-				case 'kerning': redraw_Kerning(); break;
-				case 'test drive': redraw_TestDrive(); break;
-			}
-
-			if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
-			update_NavPanels();
-		});
+		if(window.requestAnimationFrame) window.requestAnimationFrame(redrawUnit);
+		else redrawUnit();
 
 		_UI.redrawing = false;
 
 		// debug(' REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
+	}
+
+	function redrawUnit() {
+		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
+
+		switch (_UI.navhere){
+			case 'character edit': redraw_CharacterEdit(); break;
+			case 'linked shapes': redraw_LinkedShapes(); break;
+			case 'ligatures': redraw_CharacterEdit(); break;
+			case 'kerning': redraw_Kerning(); break;
+			case 'test drive': redraw_TestDrive(); break;
+		}
+
+		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
+		update_NavPanels();		
 	}
 
 
