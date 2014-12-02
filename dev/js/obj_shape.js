@@ -637,7 +637,7 @@
 		}
 
 		//debug('ISOVERHANDLE() - Returning FALSE');
-		updateCursor();
+		// updateCursor();
 		return false;
 	};
 

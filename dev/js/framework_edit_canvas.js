@@ -212,27 +212,39 @@
 			if(tool === 'newrect'){
 				// debug('\t setting cursor to crosshairsSquare');
 				setCursor('crosshairsSquare');
+
 			} else if (tool === 'newoval'){
 				// debug('\t setting cursor to crosshairsCircle');
 				setCursor('crosshairsCircle');
+
+			} else if (tool === 'shaperesize'){
+				// debug('\t not setting cursor');
+				// Handled by eventHandler
+							
 			} else if (tool === 'newpath'){
 				// debug('\t setting cursor to penPlus');
 				setCursor('penPlus');
+
 			} else if (tool === 'pathedit'){
 				// debug('\t setting cursor to pen');
 				setCursor('pen');
+
 			} else if (tool === 'pathaddpoint'){
 				// debug('\t setting cursor to pen');
 				setCursor('penPlus');
+
 			} else if (tool === 'pan'){
 				// debug('\t setting cursor to move');
 				setCursor('move');
+
 			} else if (tool === 'kern'){
 				// debug('\t setting cursor to col-resize');
 				setCursor('col-resize');
+
 			} else {
 				// debug('\t defaulting cursor to pointer');
 				setCursor('pointer');
+
 			}
 		} else {
 			// debug('\t NOT ON EDIT CANVS setting cursor to default');
@@ -243,14 +255,22 @@
 	}
 
 	function setCursor(name) {
+		// debug('\n setCursor - START');
+		// debug('\t passed ' + name);
 		var cur = ['auto','default','none','context-menu','help','pointer','progress','wait','cell','crosshair','text','vertical-text','alias','copy','move','no-drop','not-allowed','e-resize','n-resize','ne-resize','nw-resize','s-resize','se-resize','sw-resize','w-resize','ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize','all-scroll','zoom-in','zoom-out','grab','grabbing'];
+		
 		if(_UI.cursors[name]){
+			// debug('\t FOUND CUSTOM CURSOR');
 			getEditDocument().body.style.cursor = _UI.cursors[name];
 		} else if (cur.indexOf(name) > -1) {
+			// debug('\t FOUND BUILT-IN CURSOR');
 			getEditDocument().body.style.cursor = name;
 		} else {
+			// debug('\t DEFAULT TO auto');
 			getEditDocument().body.style.cursor = 'auto';
 		}
+
+		// debug(' setCursor - END\n');
 	}
 
 	function toggleKeyboardTips(){

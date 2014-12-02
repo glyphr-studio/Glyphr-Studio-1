@@ -64,7 +64,7 @@
 
 			//debug('EV_CANVAS offsetx / offsety / layerx / layery: ' +  ev.offsetX + ' ' + ev.offsetY + ' ' + ev.layerX + ' ' + ev.layerY);
 
-			updateCursor();
+			// updateCursor();
 
 			// Switch Tool function
 
@@ -417,7 +417,7 @@
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
-			//debug('\nTool_ShapeEdit TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			// debug('\nTool_ShapeEdit TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 			var s = ss('eventHandler - mousedown');
 			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -426,7 +426,7 @@
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 
 			if (_UI.eventhandlers.corner){
-				//debug('Tool_ShapeEdit TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				// debug('Tool_ShapeEdit TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
@@ -441,39 +441,40 @@
 
 		this.mousemove = function (ev) {
 			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
-			//debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
+			// debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			if(s.link){
-				//debug('\tTool_ShapeEdit dragging linked shape');
+				// debug('\tTool_ShapeEdit dragging linked shape');
 				if(this.dragging && !s.uselinkedshapexy){
-					//debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
+					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
 					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
 					setCursor('pointerSquare');
 				}
 			} else if (s){
-				//debug('\tTool_ShapeEdit dragging normal shape');
+				// debug('\tTool_ShapeEdit dragging normal shape');
 				if (this.dragging) {
 					// Moving shapes if mousedown
-					//debug('\tTool_ShapeEdit - Moving Shape on Drag');
+					// debug('\tTool_ShapeEdit - Moving Shape on Drag');
 					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
 					s.path.updatePathPosition(dx, dy);
-					updateCursor();
 					didstuff = true;
 					setCursor('pointerSquare');
 				} else if (this.resizing){
 					// Resizing shapes if mousedown over handle
-					//debug('\tTool_ShapeEdit - Resizing Shape over handle');
+					// debug('\tTool_ShapeEdit - Resizing Shape over handle');
 					evHanShapeResize(s, _UI.eventhandlers.corner);
 					didstuff = true;
+				} else {
+					setCursor('pointer');
 				}
 
 				//Translation fidelity, passing raw canvas values
-				if(s) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+				if(s && !this.resizing) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 			}
 			
 			if(didstuff){
@@ -488,8 +489,8 @@
 
 
 		this.mouseup = function () {
-			//debug('Mouse Up');
-			updateCursor();
+			// debug('Mouse Up');
+			setCursor('pointer');
 			var s = ss('eventHandler - mouseup');
 			if(_UI.eventhandlers.tempnewbasicshape){
 				_UI.eventhandlers.tempnewbasicshape = false;
@@ -511,7 +512,7 @@
 			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
 			_UI.eventhandlers.uqhaschanged = false;
 			redraw('Event Handler Tool_ShapeEdit mouseup');
-			//debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
+			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
 		};
 	}
 
@@ -611,7 +612,7 @@
 	}
 
 	function evHanShapeResize(s, pcorner){
-		//debug('EVHANSHAPERESIZE - ' + s.name + ' handle ' + pcorner);
+		// debug('EVHANSHAPERESIZE - ' + s.name + ' handle ' + pcorner);
 		var mx = cx_sx(_UI.eventhandlers.mousex);
 		var my = cy_sy(_UI.eventhandlers.mousey);
 		var lx = cx_sx(_UI.eventhandlers.lastx);
@@ -626,6 +627,7 @@
 
 			case 'n':
 				if(canResize('n')){
+					setCursor('n-resize');
 					dw = 0;
 					dh*=-1;
 					if(rl) dw = dh;
@@ -636,6 +638,7 @@
 
 			case 'ne':
 				if(canResize('ne')){
+					setCursor('ne-resize');
 					dw*=-1;
 					dh*=-1;
 					if(rl) dh = dw = getRatioLockValue(dh,dw);
@@ -646,6 +649,7 @@
 
 			case 'e':
 				if(canResize('e')){
+					setCursor('e-resize');
 					dh = 0;
 					dw*=-1;
 					if(rl) dh = dw;
@@ -656,6 +660,7 @@
 
 			case 'se':
 				if(canResize('se')){
+					setCursor('se-resize');
 					dw*=-1;
 					//dh*=-1;
 					if(rl) dh = dw = getRatioLockValue(dh,dw);
@@ -666,6 +671,7 @@
 
 			case 's':
 				if(canResize('s')){
+					setCursor('s-resize');
 					dw = 0;
 					if(rl) dw = dh;
 					s.path.updatePathSize(dw, dh);
@@ -675,6 +681,7 @@
 
 			case 'sw':
 				if(canResize('sw')){
+					setCursor('sw-resize');
 					if(rl) dh = dw = getRatioLockValue(dh,dw);
 					s.path.updatePathSize(dw, dh);
 					s.path.setPathPosition(ox-dw, oy);
@@ -683,6 +690,7 @@
 
 			case 'w':
 				if(canResize('w')){
+					setCursor('w-resize');
 					dh = 0;
 					if(rl) dh = dw;
 					s.path.updatePathSize(dw, dh);
@@ -692,6 +700,7 @@
 
 			case 'nw':
 				if(canResize('nw')){
+					setCursor('nw-resize');
 					dh*=-1;
 					if(rl) dh = dw = getRatioLockValue(dh,dw);
 					s.path.updatePathSize(dw, dh);
@@ -818,7 +827,7 @@
 		}
 
 		// del
-		if(kc==='del'){
+		if(kc==='del' || kc==='backspace'){
 			event.preventDefault();
 			deleteShape();
 			history_put('Delete Shape');
