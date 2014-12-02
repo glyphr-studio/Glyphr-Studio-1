@@ -175,7 +175,6 @@
 		cursor:pointer;
 		border: none;
 		outline: none;
-		background-color:rgb(76,81,86);
 		background-color: rgb(102,107,112);
 		color:rgb(204,209,214);
 	}
@@ -183,6 +182,12 @@
 	button:hover {
 		color:white;
 		border-radius: 3px;
+	}
+
+	button:focus {
+		outline-style: solid;
+		outline-width: 2px;
+		outline-color: rgb(80,196,255);
 	}
 
 	button[disabled],
