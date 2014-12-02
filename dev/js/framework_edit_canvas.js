@@ -10,7 +10,7 @@
 			'<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
 			'<div id="toolsarea"> [ Loading... ] </div>' +
 			'<div id="viewarea"> [ Loading... ] </div>' +
-			makeFloatLogo();  
+			makeFloatLogo();
 	}
 
 //-------------------
@@ -36,7 +36,7 @@
 
 		_UI.redrawing = false;
 
-		// debug(' REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n');
+		// debug('REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
 	}
 
 	function redrawUnit() {
@@ -51,7 +51,13 @@
 		}
 
 		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
-		update_NavPanels();		
+		update_NavPanels();
+
+		if(_UI.focuselement) {
+			var fe = document.getElementById(_UI.focuselement);
+			if(fe) fe.focus();
+		}
+		_UI.focuselement = false;
 	}
 
 

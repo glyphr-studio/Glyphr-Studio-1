@@ -5,7 +5,7 @@
 //-------------------
 
 	function navigate(nap){
-		// debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
+		debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
 
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
@@ -23,7 +23,7 @@
 		updateCursor();
 		loadPageContent();
 		document.body.focus();
-		// debug('>>> NAVIGATED - to ' + _UI.navhere);
+		debug('>>> NAVIGATED - to ' + _UI.navhere);
 	}
 
 

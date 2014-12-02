@@ -57,13 +57,14 @@
 
 	function linkedShapeInstanceDetails(s){
 		//debug("LINKEDSHAPEINSTANCEDETAILS - start of function");
+		var svc = (_GP.projectsettings.spinnervaluechange || 1);
 		content = '<tr><td colspan=3><h3>linked shape</h3></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px;"> name </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input style="width:90%;" type="text" value="' + s.name + '" onchange="ss().name = this.value; history_put(\'shape name\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td> use linked shape position</td><td>'+checkUI('ss().uselinkedshapexy', true)+'</td></tr>';
 		if(!s.uselinkedshapexy){
 		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163);">x & y values are relative to the linked shape position</h3></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" value="' + round(s.xpos, 3) + '" onchange="ss().xpos = (this.value*1); history_put(\'linkedshape xpos\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" value="' + round(s.ypos, 3) + '" onchange="ss().ypos = (this.value*1); history_put(\'linkedshape ypos\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.xpos, 3) + '" onchange="ss().xpos = (this.value*1); history_put(\'linkedshape xpos\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.ypos, 3) + '" onchange="ss().ypos = (this.value*1); history_put(\'linkedshape ypos\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
 		}
 		content += '<tr><td class="leftcol">&nbsp;</td><td> linked shape name </td><td>' + _GP.linkedshapes[s.link].shape.name + '</td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><button onclick="goToEditLinkedShape(\''+s.link+'\');">edit this linked shape</button></td></tr>';

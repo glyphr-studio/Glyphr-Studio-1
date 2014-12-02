@@ -30,10 +30,10 @@
 
 					"<tr><td colspan='2' style='font-size:4px;'>&nbsp;</td></tr>"+
 
-					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.spinnervaluechange)+"' onchange='var r=Math.round(parseInt(this.value)); r=r|1; _GP.projectsettings.spinnervaluechange=r; this.value=r;' style='width:25px;'/></td>"+
+					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.spinnervaluechange)+"' onchange='var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.spinnervaluechange=r; this.value=r;' style='width:25px;'/></td>"+
 					"<td>Spinner Button and Keyboard Nudge increment or decrement value.</td></tr>"+
 
-					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.pointsize)+"' onchange='var r=Math.round(parseInt(this.value)); r=r|1; _GP.projectsettings.pointsize=r; this.value=r;' style='width:25px;'/></td>"+
+					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.pointsize)+"' onchange='var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.pointsize=r; this.value=r;' style='width:25px;'/></td>"+
 					"<td>Path Point and Handle size.</td></tr>"+
 
 					"</table><br>";

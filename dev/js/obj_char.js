@@ -223,6 +223,8 @@
 
 	Char.prototype.setCharPosition = function(nx, ny, force){
 		// debug('SETCHARPOSITION nx/ny/force: ' + nx + ' ' + ny + ' ' + force);
+		if(nx !== false) nx = parseFloat(nx);
+		if(ny !== false) ny = parseFloat(ny);
 		var dx = (nx)? (nx - this.maxes.xmin) : 0;
 		var dy = (ny)? (ny - this.maxes.ymax) : 0;
 		this.updateCharPosition(dx, dy, force);
@@ -230,6 +232,8 @@
 
 	Char.prototype.updateCharPosition = function(dx, dy, force){
 		// debug('UPDATECHARPOSITION dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
+		if(dx !== false) dx = parseFloat(dx);
+		if(dy !== false) dy = parseFloat(dy);
 		var cs = this.charshapes;
 		for(var i=0; i<cs.length; i++){
 			if(!this.charshapes[i].link){
@@ -242,6 +246,8 @@
 	Char.prototype.setCharSize = function(nw, nh, ratiolock){
 		// debug('SET CHARSIZE ---- nw/nh/ra:\t' + nw + '\t ' + nh + '\t ' + ratiolock);
 		// debug('\t maxes: ' + json(this.maxes));
+		if(nw !== false) nw = parseFloat(nw);
+		if(nh !== false) nh = parseFloat(nh);
 		var ch = (this.maxes.ymax - this.maxes.ymin);
 		var cw = (this.maxes.xmax - this.maxes.xmin);
 		var dw = (nw)? (nw - cw) : 0;
@@ -256,7 +262,8 @@
 
 	Char.prototype.updateCharSize = function(dw, dh, ratiolock){
 		// debug('UPDATE CHARSIZE - dw/dh/ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
-
+		if(dw !== false) dw = parseFloat(dw);
+		if(dh !== false) dh = parseFloat(dh);
 		var oldw = this.maxes.xmax - this.maxes.xmin;
 		var oldh = this.maxes.ymax - this.maxes.ymin;
 		var neww = Math.max((oldw + dw), 1);

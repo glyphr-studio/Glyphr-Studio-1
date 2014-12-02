@@ -80,7 +80,7 @@
 		re += '</td>';
 
 		re += '<td>';
-		re += '<input '+(sys? 'disabled':'')+' type="number" class="guidelocation" value="' + guide.location + '" onchange="updateGuide(\''+id+'\', \'location\', (1*this.value));"/>';
+		re += '<input '+(sys? 'disabled':'')+' type="number" id="'+id+'" class="guidelocation" value="' + guide.location + '" onchange="_UI.focuselement=this.id; updateGuide(\''+id+'\', \'location\', (1*this.value));"/>';
 		re += '</td>';
 
 		if(!sys){

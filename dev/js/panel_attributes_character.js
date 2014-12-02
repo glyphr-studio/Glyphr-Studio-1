@@ -60,8 +60,8 @@
 	}
 
 	function charDetails(s){
-
 		var sc = getSelectedChar();
+		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		sc.calcCharMaxes();
 		var content = '';
 		var numshapes = getSelectedCharShapes().length;
@@ -72,12 +72,12 @@
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
-					'<input type="number" '+
-					'onchange="if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); history_put("Character X Position : "+this.value); redraw("Character Details - X Position");}"'+
+					'<input type="number" id="charx" step="'+svc+'" '+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); history_put(\'Character X Position : \'+this.value); redraw(\'Character Details - X Position\');}"'+
 					' value="' + round(sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
-					'<input type="number" '+
-					'onchange="if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); history_put("Character Y Position : "+this.value); redraw("Character Details - Y Position");}"'+
+					'<input type="number" id="chary" step="'+svc+'" '+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); history_put(\'Character Y Position : \'+this.value); redraw(\'Character Details - Y Position\');}"'+
 					' value="' + round(sc.maxes.ymax, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -85,12 +85,12 @@
 			content += '<tr>'+
 				'<td>width'+dimSplit()+'height</td>'+
 				'<td>'+
-					'<input type="number" '+
-					'onchange="if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,'+sc.ratiolock+'); history_put(\'Character Width : \'+this.value); redraw(\'Character Details - Width\');}"'+
+					'<input type="number" id="charw" step="'+svc+'" '+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,'+sc.ratiolock+'); history_put(\'Character Width : \'+this.value); redraw(\'Character Details - Width\');}"'+
 					' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
-					'<input type="number" '+
-					'onchange="if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,'+sc.ratiolock+'); history_put(\'Character Height : \'+this.value); redraw(\'Character Details - Height\');}"'+
+					'<input type="number" id="charh" step="'+svc+'" '+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,'+sc.ratiolock+'); history_put(\'Character Height : \'+this.value); redraw(\'Character Details - Height\');}"'+
 					' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -102,8 +102,8 @@
 
 			content += '<tr><td colspan=2>'+
 				'<table class="actionsgrid"><tr><td>'+
-				'<button onclick="getSelectedChar().flipNS(); history_put("Flip Character : Horizontal"); redraw("Character Details - FlipNS");">Flip Vertical</button>'+
-				'<button onclick="getSelectedChar().flipEW(); history_put("Flip Character : Vertical"); redraw("Character Details - FlipEW");">Flip Horizontal</button>'+
+				'<button onclick="getSelectedChar().flipNS(); history_put(\'Flip Character : Horizontal\'); redraw(\'Character Details - FlipNS\');">Flip Vertical</button>'+
+				'<button onclick="getSelectedChar().flipEW(); history_put(\'Flip Character : Vertical\'); redraw(\'Character Details - FlipEW\');">Flip Horizontal</button>'+
 				'</td></tr></table>'+
 			'</td></tr>';
 		} else {
@@ -125,16 +125,17 @@
 			content += '<tr>'+
 				'<td> character width <span class="unit">(em units)</span> </td>'+
 				'<td>'+
-					'<input type="number" value="'+
-					round(sc.charwidth, 3) + '" onchange="getSelectedChar().charwidth = (this.value*1); redraw(\'charDetails\');">'+
+					'<input type="number" id="charaw" step="'+svc+'" '+
+					'value="' + round(sc.charwidth, 3) + '" '+
+					'onchange="_UI.focuselement=this.id; getSelectedChar().charwidth = (this.value*1); redraw(\'charDetails\');">'+
 				'</td>'+
 			'</tr>';
 		} else {
 			content += '<tr>'+
 				'<td> character width <span class="unit">(em units)</span> </td>'+
 				'<td>'+
-					'<input type="number" disabled="disabled" value="'+
-					round(sc.charwidth, 3) + '"/>'+
+					'<input type="number" disabled="disabled" '+
+					'value="'+ round(sc.charwidth, 3) + '"/>'+
 				'</td>'+
 			'</tr>';
 		}
@@ -154,16 +155,17 @@
 				content += '<tr>'+
 					'<td>left side bearing <span class="unit">(em units)</span> </td>'+
 					'<td>'+
-						'<input type="number" value="'+
-						sc.leftsidebearing + '" onchange="getSelectedChar().leftsidebearing = (this.value*1); redraw(\'charDetails\');">'+
+						'<input type="number" id="charlsb" step="'+svc+'" '+
+						'value="' + sc.leftsidebearing + '" '+
+						'onchange="_UI.focuselement=this.id; getSelectedChar().leftsidebearing = (this.value*1); redraw(\'charDetails\');">'+
 					'</td>'+
 				'</tr>';
 			} else {
 				content += '<tr>'+
 					'<td>left side bearing <span class="unit">(em units)</span> </td>'+
 					'<td>'+
-						'<input type="number" disabled="disabled" value="'+
-						round(_GP.projectsettings.defaultlsb, 3) + '"/>'+
+						'<input type="number" disabled="disabled" '+
+						'value="'+ round(_GP.projectsettings.defaultlsb, 3) + '"/>'+
 					'</td>'+
 				'</tr>';
 			}
@@ -184,16 +186,17 @@
 				content += '<tr>'+
 					'<td>right side bearing <span class="unit">(em units)</span> </td>'+
 					'<td>'+
-						'<input type="number" value="'+
-						sc.rightsidebearing + '" onchange="getSelectedChar().rightsidebearing = (this.value*1); redraw(\'charDetails\');">'+
+						'<input type="number" id="charrsb" step="'+svc+'" '+
+						'value="' + sc.rightsidebearing + '" '+
+						'onchange="_UI.focuselement=this.id; getSelectedChar().rightsidebearing = (this.value*1); redraw(\'charDetails\');">'+
 					'</td>'+
 				'</tr>';
 			} else {
 				content += '<tr>'+
 					'<td>right side bearing <span class="unit">(em units)</span> </td>'+
 					'<td>'+
-						'<input type="number" disabled="disabled" value="'+
-						round(_GP.projectsettings.defaultrsb, 3) + '"/>'+
+						'<input type="number" disabled="disabled" '+
+						'value="'+round(_GP.projectsettings.defaultrsb, 3) + '"/>'+
 					'</td>'+
 				'</tr>';
 			}
@@ -203,8 +206,8 @@
 	}
 
 	function shapeDetails(s){
-
 		//debug("SHAPEDETAILS - Drawing Shape Details");
+		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
 		content += '<tr><td colspan=2><h3 style="margin:0px;">shape</h3></td></tr>';
 
@@ -234,13 +237,15 @@
 			'<td>'+
 				'<div class="lockwrapper">'+
 					lockUI('ss().xlock')+
-					'<input type="number" '+(s.xlock? 'disabled="disabled"' : 'onchange="if(!_UI.redrawing){ss().path.setPathPosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw(\'shapeDetails - X Position\');}"')+
+					'<input type="number" id="shapex" step="'+svc+'" '+
+					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){ss().path.setPathPosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw(\'shapeDetails - X Position\');}"')+
 					' value="' + xval + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('ss().ylock')+
-					'<input type="number" '+(s.ylock? 'disabled="disabled"' : 'onchange="if(!_UI.redrawing){ss().path.setPathPosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw(\'shapeDetails - Y Position\');}"')+
+					'<input type="number" id="shapey" step="'+svc+'" '+
+					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){ss().path.setPathPosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw(\'shapeDetails - Y Position\');}"')+
 					' value="' + yval + '" >'+
 				'</div>'+
 			'</td>'+
@@ -251,13 +256,15 @@
 			'<td>'+
 				'<div class="lockwrapper">'+
 					lockUI('ss().wlock',true)+
-					'<input type="number" '+(s.wlock? 'disabled="disabled"' : 'onchange="if(!_UI.redrawing){ss().path.setPathSize(this.value,false,ss().ratiolock); history_put(\'Shape Width : \'+this.value); redraw(\'shapeDetails - Width\');}"')+
+					'<input type="number" id="shapew" step="'+svc+'" '+
+					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){ss().path.setPathSize(this.value,false,ss().ratiolock); history_put(\'Shape Width : \'+this.value); redraw(\'shapeDetails - Width\');}"')+
 					' value="' + wval + '" >'+
 				"</div>"+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI("ss().hlock",true)+
-					'<input type="number" '+(s.hlock? 'disabled="disabled"' : 'onchange="if(!_UI.redrawing){ss().path.setPathSize(false,this.value,ss().ratiolock); history_put(\'Shape Height : \'+this.value); redraw(\'shapeDetails - Height\');}"')+
+					'<input type="number" id="shapeh" step="'+svc+'" '+
+					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){ss().path.setPathSize(false,this.value,ss().ratiolock); history_put(\'Shape Height : \'+this.value); redraw(\'shapeDetails - Height\');}"')+
 					' value="' + hval + '" ></td>'+
 				'</div>'+
 			'</td>'+
@@ -300,12 +307,15 @@
 
 	function pointDetails(s){
 		var tp = s.path.sp();
+		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
+
+		// POINT
 		content += '<tr><td colspan=2><h3>path point</h3></td></tr>';
 
 		content += '<tr>'+
 			'<td> selected point </td>'+
-			'<td><input type="number" class="lockpad" value="' + s.path.sp(true) + '" onchange="ss().path.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
+			'<td><input type="number" id="pointnum" class="lockpad" value="' + s.path.sp(true) + '" onchange="_UI.focuselement=this.id; ss().path.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
 		'</tr>';
 
 		content += '<tr><td> point type </td><td>';
@@ -319,13 +329,15 @@
 			'<td>'+
 				'<div class="lockwrapper">'+
 					lockUI('ss().path.sp().P.xlock')+
-					'<input type="number" ' + (tp.P.xlock? 'disabled="disabled"' : 'onchange="ss().path.sp().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
+					'<input type="number" id="pointx" step="'+svc+'" '+
+					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; ss().path.sp().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
 					' value="' + round(tp.P.x, 3) + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('ss().path.sp().P.ylock')+
-					'<input type="number" ' + (tp.P.ylock? 'disabled="disabled"' : 'onchange="ss().path.sp().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
+					'<input type="number" id="pointy" step="'+svc+'" '+
+					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; ss().path.sp().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
 					' value="' + round(tp.P.y, 3) + '" >'+
 				'</div>'+
 			'</td>'+
@@ -343,13 +355,15 @@
 				'<td>'+
 					'<div class="lockwrapper">'+
 						lockUI('ss().path.sp().H1.xlock')+
-						'<input type="number" ' + (tp.H1.xlock? 'disabled="disabled"' : 'onchange="ss().path.sp().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						'<input type="number" id="handle1x" step="'+svc+'" '+
+						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; ss().path.sp().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H1.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
 						lockUI('ss().path.sp().H1.ylock')+
-						'<input type="number" ' + (tp.H1.ylock? 'disabled="disabled"' : 'onchange="ss().path.sp().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						'<input type="number" id="handle1y" step="'+svc+'" '+
+						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; ss().path.sp().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H1.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+
@@ -370,13 +384,15 @@
 				'<td>'+
 					'<div class="lockwrapper">'+
 						lockUI('ss().path.sp().H2.xlock')+
-						'<input type="number" ' + (tp.H2.xlock? 'disabled="disabled"' : 'onchange="ss().path.sp().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						'<input type="number" id="handle2x" step="'+svc+'" '+
+						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; ss().path.sp().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H2.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
 						lockUI('ss().path.sp().H2.ylock')+
-						'<input type="number" ' + (tp.H2.ylock? 'disabled="disabled"' : 'onchange="ss().path.sp().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						'<input type="number" id="handle2y" step="'+svc+'" '+
+						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; ss().path.sp().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H2.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+

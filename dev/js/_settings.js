@@ -7,10 +7,10 @@
 
 	var _UI = {
 		// Internal Dev Stuff
-		'debug': false,			// global debug console switch
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': false,	// navigate straight to a page
-		'devnavprimary': false, // navigate straight to a panel
+		'debug': true,			// global debug console switch
+		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
+		'devnav': 'character edit',	// navigate straight to a page
+		'devnavprimary': 'npAttributes', // navigate straight to a panel
 		'devselectedshape': 0, // automatically select a shape
 
 		// all pages
@@ -56,6 +56,7 @@
 		// Shared edit pages
 		'popout': false,
 		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
+		'focuselement': false,
 		'redrawing': false,
 		'thumbsize': 50,
 		'thumbgutter': 5,

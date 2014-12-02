@@ -38,6 +38,8 @@
 
 	// SIZE
 	Path.prototype.setPathSize = function(nw, nh, ratiolock){
+		if(nw !== false) nw = parseFloat(nw);
+		if(nh !== false) nh = parseFloat(nh);
 		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
 		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
 		this.updatePathSize(dw, dh, ratiolock);
@@ -45,6 +47,8 @@
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
 		//debug('UPDATEPATHSIZE - dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
+		if(dw !== false) dw = parseFloat(dw);
+		if(dh !== false) dh = parseFloat(dh);
 
 		var s = ss('updatePathSize');
 		dw = s.wlock? 0 : dw;
@@ -89,6 +93,8 @@
 	Path.prototype.setPathPosition = function(nx, ny, force){
 		//debug('SETPATHPOSITION - nx/ny/force:\t ' + nx + '\t ' + ny + '\t ' + force);
 		//debug('SETPATHPOSITION - this.maxes.ymax: ' + this.maxes.ymax);
+		if(nx !== false) nx = parseFloat(nx);
+		if(ny !== false) ny = parseFloat(ny);
 		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;
 		//debug('SETPATHPOSITION - dx/dy: ' + dx + ' ' + dy);
@@ -97,6 +103,8 @@
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
+		if(dx !== false) dx = parseFloat(dx);
+		if(dy !== false) dy = parseFloat(dy);
 		//debug('UPDATEPATHPOSITION - dx,dy,f\t'+dx+' , '+dy+' , '+force);
 
 		for(var d=0; d<this.pathpoints.length; d++){
@@ -671,7 +679,7 @@
 
 		if(cx1<bounds.minx || cx1>bounds.maxx || cx2<bounds.minx || cx2>bounds.maxx) {
 			// X bounds
-			if(dcx0+dcx2 != 2*dcx1) { dcx1+=0.01; }
+			if(dcx0+dcx2 !== 2*dcx1) { dcx1+=0.01; }
 			numerator = 2*(dcx0 - dcx1);
 			denominator = 2*(dcx0 - 2*dcx1 + dcx2);
 			quadroot = (2*dcx1-2*dcx0)*(2*dcx1-2*dcx0) - 2*dcx0*denominator;
@@ -684,7 +692,7 @@
 
 		// Y bounds
 		if(cy1<bounds.miny || cy1>bounds.maxy || cy2<bounds.miny || cy2>bounds.maxy) {
-			if(dcy0+dcy2 != 2*dcy1) { dcy1+=0.01; }
+			if(dcy0+dcy2 !== 2*dcy1) { dcy1+=0.01; }
 			numerator = 2*(dcy0 - dcy1);
 			denominator = 2*(dcy0 - 2*dcy1 + dcy2);
 			quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;

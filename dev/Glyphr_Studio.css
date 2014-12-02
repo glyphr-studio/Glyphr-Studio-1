@@ -44,6 +44,11 @@
 		user-select:text;
 	}
 
+	input:focus,
+	textarea:focus {
+		outline-color:rgb(0,140,210);
+	}
+
 	input[type=image]{
 		height:auto;
 		width:auto;
@@ -57,6 +62,7 @@
 		border:1px solid white;
 		cursor: default;
 	}
+
 
 	input[type=text][disabled='disabled'],
 	input[type=number][disabled='disabled']{

@@ -38,6 +38,8 @@
 	PathPoint.prototype.setPathPointPosition = function(controlpoint, nx, ny){
 		var dx = 0;
 		var dy = 0;
+		if(nx !== false) nx = parseFloat(nx);
+		if(ny !== false) ny = parseFloat(ny);
 		var changed = false;
 
 		switch(controlpoint){
@@ -90,6 +92,8 @@
 
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
 		//debug('UPDATEPOINTPOSITION - cp / dx / dy / force: ' + controlpoint + ' / ' + dx + ' / ' + dy + ' / ' + force);
+		if(dx !== false) dx = parseFloat(dx);
+		if(dy !== false) dy = parseFloat(dy);
 		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
 		var locky = (_UI.selectedtool==='pathedit'? this.P.ylock : false);
 
@@ -528,14 +532,10 @@
 
 	function Coord(oa){
 		this.objtype = 'coord';
-
-		this.x = oa.x || 0;
-		this.y = oa.y || 0;
+		this.x = parseFloat(oa.x) || 0;
+		this.y = parseFloat(oa.y) || 0;
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.yllock || false;
-
-		this.x = parseFloat(this.x);
-		this.y = parseFloat(this.y);
 	}
 
 // end of file
