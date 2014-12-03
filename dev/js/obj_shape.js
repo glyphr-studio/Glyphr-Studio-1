@@ -122,21 +122,6 @@
 		}
 	};
 
-	//convert stored x-y coord to canvas x-y
-	function sx_cx(sx){
-		var v = getView('sx_cx');
-		var canvasx = v.dx;
-		canvasx += (sx*v.dz);
-		return canvasx || v.dx;
-	}
-
-	function sy_cy(sy){
-		var v = getView('sy_cy');
-		var canvasy = v.dy;
-		canvasy -= (sy*v.dz);
-		return canvasy || v.dy;
-	}
-
 	Shape.prototype.drawSelectOutline = function(onlycenter){
 		//debug('DRAWSELECTOUTLINE - onlycenter: ' + onlycenter);
 

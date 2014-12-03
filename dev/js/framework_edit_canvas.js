@@ -405,6 +405,38 @@
 	}
 
 
+
+//	-----------------------------------------------
+//	Convert between Saved values and Canvas values
+//	-----------------------------------------------
+	//convert stored x-y coord to canvas x-y
+	function sx_cx(sx){
+		var v = getView('sx_cx');
+		var canvasx = v.dx;
+		canvasx += (sx*v.dz);
+		return canvasx || v.dx;
+	}
+
+	function sy_cy(sy){
+		var v = getView('sy_cy');
+		var canvasy = v.dy;
+		canvasy -= (sy*v.dz);
+		return canvasy || v.dy;
+	}
+
+	//convert canvas x-y inputs to saved shape x-y
+	function cx_sx(cx){
+		var v = getView('cx_sx');
+		return ((cx-v.dx)/(v.dz));
+	}
+
+	function cy_sy(cy){
+		var v = getView('cy_sy');
+		return ((v.dy-cy)/(v.dz));
+	}
+
+
+
 //	-------------------------
 //	Global Get Selected Char and Shape
 //	-------------------------

@@ -591,17 +591,6 @@
 
 	// Helper Functions
 
-	//convert canvas x-y inputs to saved shape x-y
-	function cx_sx(cx){
-		var v = getView('cx_sx');
-		return ((cx-v.dx)/(v.dz));
-	}
-
-	function cy_sy(cy){
-		var v = getView('cy_sy');
-		return ((v.dy-cy)/(v.dz));
-	}
-
 	function clickEmptySpace(){
 		var s = ss('Click Empty Space');
 		if(s) {
