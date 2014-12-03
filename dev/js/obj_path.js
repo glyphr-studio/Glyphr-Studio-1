@@ -40,28 +40,34 @@
 	Path.prototype.setPathSize = function(nw, nh, ratiolock){
 		if(nw !== false) nw = parseFloat(nw);
 		if(nh !== false) nh = parseFloat(nh);
-		var dw = nw? (nw - (this.maxes.xmax - this.maxes.xmin)) : 0;
-		var dh = nh? (nh - (this.maxes.ymax - this.maxes.ymin)) : 0;
+		var dw = nw? (nw - this.getWidth()) : 0;
+		var dh = nh? (nh - this.getHeight()) : 0;
 		this.updatePathSize(dw, dh, ratiolock);
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
 		//debug('UPDATEPATHSIZE - dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
-		if(dw !== false) dw = parseFloat(dw);
-		if(dh !== false) dh = parseFloat(dh);
 
 		var s = ss('updatePathSize');
-		dw = s.wlock? 0 : dw;
-		dh = s.hlock? 0 : dh;
+		dw = s.wlock? 0 : parseFloat(dw) || 0;
+		dh = s.hlock? 0 : parseFloat(dh) || 0;
 
 		if(s.wlock && s.hlock) return;
 
+		// Lock Aspect Ratio
 		if(!s.wlock && !s.hlock && ratiolock){
-			dw = dh = getRatioLockValue(dw, dh);
+			if(dw !== dh){
+				var ratio = this.getWidth() / this.getHeight();
+				if(Math.abs(dw) > Math.abs(dh)){
+					dh = dw / ratio;
+				} else {
+					dw = dh * ratio;
+				}
+			}
 		}
 
-		var oldw = this.maxes.xmax - this.maxes.xmin;
-		var oldh = this.maxes.ymax - this.maxes.ymin;
+		var oldw = this.getWidth();
+		var oldh = this.getHeight();
 		var neww = Math.max((oldw + dw), 1);
 		var newh = Math.max((oldh + dh), 1);
 		var ratiodh = (newh/oldh);
@@ -81,13 +87,6 @@
 		this.calcMaxes();
 	};
 
-	function getRatioLockValue(v1,v2){
-		var re = 0;
-		if (Math.abs(v1) === Math.abs(v2)) re = (v1 > v2)? v1 : v2;
-		else re = (Math.abs(v1) > Math.abs(v2))? v1 : v2;
-		//debug('GETRATIOLOCKVALUE ' + v1 + ' || ' + v2 + ' = ' + re);
-		return re;
-	}
 
 	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
@@ -114,6 +113,17 @@
 		}
 
 		this.calcMaxes();
+	};
+
+	Path.prototype.getHeight = function() {
+		var h = this.maxes.ymax - this.maxes.ymin;
+		return Math.max(h, 0);
+	};
+
+	
+	Path.prototype.getWidth = function() {
+		var w = this.maxes.xmax - this.maxes.xmin;
+		return Math.max(w, 0);
 	};
 
 
@@ -378,7 +388,7 @@
 	Path.prototype.flipNS = function(mid){
 		var ly = this.maxes.ymax;
 
-		if(!mid) mid = ((this.maxes.ymax - this.maxes.ymin)/2)+this.maxes.ymin;
+		if(!mid) mid = (this.getHeight()/2)+this.maxes.ymin;
 		//debug('FLIPNS - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.ymin +','+ this.maxes.ymax + ','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
@@ -395,7 +405,7 @@
 	Path.prototype.flipEW = function(mid){
 		var lx = this.maxes.xmin;
 
-		if(!mid) mid = ((this.maxes.xmax - this.maxes.xmin)/2)+this.maxes.xmin;
+		if(!mid) mid = (this.getWidth()/2)+this.maxes.xmin;
 		//debug('flipEW - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.xmax +','+ this.maxes.xmin +','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){

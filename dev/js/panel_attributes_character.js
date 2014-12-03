@@ -223,8 +223,8 @@
 		if(!_UI.eventhandlers.tempnewbasicshape){
 			xval = round(s.path.maxes.xmin, 3);
 			yval = round(s.path.maxes.ymax, 3);
-			wval = round(s.path.maxes.xmax-s.path.maxes.xmin, 3);
-			hval = round(s.path.maxes.ymax-s.path.maxes.ymin, 3);
+			wval = round(s.path.getWidth(), 3);
+			hval = round(s.path.getHeight(), 3);
 		} else {
 			xval = round(_UI.eventhandlers.tempnewbasicshape.xmin, 3);
 			yval = round(_UI.eventhandlers.tempnewbasicshape.ymax, 3);

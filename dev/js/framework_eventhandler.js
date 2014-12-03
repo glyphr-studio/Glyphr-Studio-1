@@ -618,9 +618,8 @@
 				if(canResize('n')){
 					setCursor('n-resize');
 					dw = 0;
-					dh*=-1;
-					if(rl) dw = dh;
-					s.path.updatePathSize(dw, dh);
+					dh*=-1;					
+					s.path.updatePathSize(dw, dh, rl);
 					//s.path.setPathSize(false, false);
 				}
 				break;
@@ -629,9 +628,8 @@
 				if(canResize('ne')){
 					setCursor('ne-resize');
 					dw*=-1;
-					dh*=-1;
-					if(rl) dh = dw = getRatioLockValue(dh,dw);
-					s.path.updatePathSize(dw, dh);
+					dh*=-1;					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(false, oy+dh);
 				}
 				break;
@@ -640,9 +638,8 @@
 				if(canResize('e')){
 					setCursor('e-resize');
 					dh = 0;
-					dw*=-1;
-					if(rl) dh = dw;
-					s.path.updatePathSize(dw, dh);
+					dw*=-1;					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(false, oy+dh);
 				}
 				break;
@@ -651,9 +648,8 @@
 				if(canResize('se')){
 					setCursor('se-resize');
 					dw*=-1;
-					//dh*=-1;
-					if(rl) dh = dw = getRatioLockValue(dh,dw);
-					s.path.updatePathSize(dw, dh);
+					//dh*=-1;					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox, oy);
 				}
 				break;
@@ -661,18 +657,16 @@
 			case 's':
 				if(canResize('s')){
 					setCursor('s-resize');
-					dw = 0;
-					if(rl) dw = dh;
-					s.path.updatePathSize(dw, dh);
+					dw = 0;					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox, oy);
 				}
 				break;
 
 			case 'sw':
 				if(canResize('sw')){
-					setCursor('sw-resize');
-					if(rl) dh = dw = getRatioLockValue(dh,dw);
-					s.path.updatePathSize(dw, dh);
+					setCursor('sw-resize');					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox-dw, oy);
 				}
 				break;
@@ -680,9 +674,8 @@
 			case 'w':
 				if(canResize('w')){
 					setCursor('w-resize');
-					dh = 0;
-					if(rl) dh = dw;
-					s.path.updatePathSize(dw, dh);
+					dh = 0;					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox-dw, oy+dh);
 				}
 				break;
@@ -690,9 +683,8 @@
 			case 'nw':
 				if(canResize('nw')){
 					setCursor('nw-resize');
-					dh*=-1;
-					if(rl) dh = dw = getRatioLockValue(dh,dw);
-					s.path.updatePathSize(dw, dh);
+					dh*=-1;					
+					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox-dw, oy+dh);
 				}
 				break;
