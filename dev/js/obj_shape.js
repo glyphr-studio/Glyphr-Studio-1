@@ -122,12 +122,12 @@
 		}
 	};
 
-	Shape.prototype.drawSelectOutline = function(onlycenter){
+	Shape.prototype.drawSelectOutline = function(onlycenter, accent){
 		//debug('DRAWSELECTOUTLINE - onlycenter: ' + onlycenter);
-
+		accent = accent || _UI.colors.accent_65;
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.chareditctx.lineWidth = 1;
-		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+		_UI.chareditctx.strokeStyle = accent;
 
 		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
 			_UI.chareditctx.fillStyle = 'transparent';
@@ -147,7 +147,7 @@
 			var w = (rx-lx);
 			var h = (by-ty);
 
-			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+			_UI.chareditctx.strokeStyle = accent;
 			_UI.chareditctx.strokeRect(x,y,w,h);
 			if(_UI.selectedtool==='shaperesize'){ this.draw8points(onlycenter);}
 
@@ -158,7 +158,7 @@
 
 			// Draw path selection outline
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+			_UI.chareditctx.strokeStyle = accent;
 
 			_UI.chareditctx.beginPath();
 			this.path.drawPath(_UI.chareditctx);
@@ -168,27 +168,26 @@
 			if(sep !== false){
 				// Draw Handles
 				//debug('DRAWSELECTOUTLINE - new path added, sep=' + sep + ' pathpoints: ' + JSON.stringify(this.path.pathpoints))
-				pp[sep].drawHandles(true, true);
+				pp[sep].drawHandles(true, true, accent);
 
 				// Draw prev/next handles
 				var prev = sep-1;
 				if (prev === -1) prev = pp.length-1;
-				pp[prev].drawHandles(false, true);
+				pp[prev].drawHandles(false, true, accent);
 
 				// debugging SVG Import
 				//pp[sep].drawQuadraticHandle(pp[prev].P);
 
-				pp[(sep+1) % pp.length].drawHandles(true, false);
+				pp[(sep+1) % pp.length].drawHandles(true, false, accent);
 			}
 
 			// Draw points
 			for(var s=0; s<pp.length; s++){
 				//debug('DRAWSELECTOUTLINE() - Drawing Point ' + s + ' - selected: ' + pp[s].selected);
-				var c = _UI.colors.accent_65;
-				if(this.path.sp(false) && pp[s].selected){ c = 'white'; }
+				var sel = (this.path.sp(false) && pp[s].selected);
 
-				if(s===0) pp[s].drawDirectionalityPoint(c, pp[(s+1)%pp.length]);
-				else pp[s].drawPoint(c, pp[(s+1)%pp.length]);
+				if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
+				else pp[s].drawPoint(sel, pp[(s+1)%pp.length], accent);
 
 			}
 
@@ -307,7 +306,7 @@
 		//if(this.link) { return; }
 		//debug('DRAW8POINTS - onlycenter: ' + onlycenter);
 
-		var ps = _GP.projectsettings.pointsize+1;
+		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
 
 		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmin)		: sx_cx(this.path.maxes.xmin);

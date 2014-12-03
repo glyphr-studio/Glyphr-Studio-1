@@ -35,6 +35,10 @@
 			'accent_15': 'rgb(0,43,65)',
 			'accent_05': 'rgb(0,20,30)',
 
+			// ACCENT GREEN
+			'accent2_85': 'lightgreen',
+			'accent2_65': 'lime',
+
 			// COOL GRAYSCALE
 			'offwhite':	'rgb(250,252,255)',	// Off White
 			'gray_90':	'rgb(229,234,239)',	// LIGHTER

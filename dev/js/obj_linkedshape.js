@@ -18,7 +18,7 @@
 	};
 
 	LinkedShape.prototype.drawShape_Single = function(ctx) {
-		if(this.shape) return this.shape.drawShape_Single(ctx);
+		if(this.shape) return this.shape.drawShape_Single(ctx, 'lime');
 		else return;
 	};
 
@@ -208,11 +208,11 @@
 		//_GP.linkedshapes[this.link].shape.drawSelectOutline();
 
 		if(this.uselinkedshapexy){
-			_GP.linkedshapes[this.link].shape.drawSelectOutline(onlycenter);
+			_GP.linkedshapes[this.link].shape.drawSelectOutline(onlycenter, 'lime');
 		} else {
 			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
-			ns.drawSelectOutline(onlycenter);
+			ns.drawSelectOutline(onlycenter, 'lime');
 		}
 	};
 

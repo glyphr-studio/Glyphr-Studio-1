@@ -86,6 +86,195 @@
 	}
 
 
+
+	// ---------------------------------------------------------
+	// new basic shape - adds many points to a new path
+	// ---------------------------------------------------------
+	function Tool_NewBasicShape(){
+		this.dragging = false;
+
+		this.mousedown = function (ev) {
+			_UI.eventhandlers.tempnewbasicshape = {
+				'xmax': cx_sx(_UI.eventhandlers.mousex),
+				'xmin': cx_sx(_UI.eventhandlers.mousex),
+				'ymax': cy_sy(_UI.eventhandlers.mousey),
+				'ymin': cy_sy(_UI.eventhandlers.mousey)
+			};
+
+			var newshape = new Shape({'visible':false, 'name':'...'});
+			newshape.path.maxes = _UI.eventhandlers.tempnewbasicshape;
+			newshape = addShape(newshape);
+
+			_UI.eventhandlers.firstx = cx_sx(_UI.eventhandlers.mousex);
+			_UI.eventhandlers.firsty = cy_sy(_UI.eventhandlers.mousey);
+
+			this.dragging = true;
+
+			redraw('Event Handler Tool_NewBasicShape mousedown');
+			//debug('Tool_NewBasicShape MOUSEDOWN - after REDRAW');
+		};
+
+		this.mousemove = function (ev) {
+			if(_UI.eventhandlers.tempnewbasicshape){
+				_UI.eventhandlers.tempnewbasicshape.xmax = Math.max(_UI.eventhandlers.firstx, cx_sx(_UI.eventhandlers.mousex));
+				_UI.eventhandlers.tempnewbasicshape.xmin = Math.min(_UI.eventhandlers.firstx, cx_sx(_UI.eventhandlers.mousex));
+				_UI.eventhandlers.tempnewbasicshape.ymax = Math.max(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
+				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
+
+				ss().path.maxes = _UI.eventhandlers.tempnewbasicshape;
+
+				_UI.eventhandlers.uqhaschanged = true;
+				redraw('Event Handler Tool_NewBasicShape mousemove');
+				//debug('Tool_NewBasicShape MOUSEMOVE past redraw');
+			}
+		};
+
+		this.mouseup = function () {
+			// prevent really small shapes
+			var newshape = ss('NEWSHAPE MOUSEUP');
+			var tnbs = _UI.eventhandlers.tempnewbasicshape;
+
+			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
+				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
+
+				var count = (_UI.navhere === 'linked shapes')? (getLength(_GP.linkedshapes)) : getSelectedCharShapes().length;
+
+				if(_UI.selectedtool==='newrect'){
+					newshape.name = ('Rectangle ' + count);
+					newshape.path = rectPathFromMaxes(tnbs);
+				} else {
+					newshape.name = ('Oval ' + count);
+					newshape.path = ovalPathFromMaxes(tnbs);
+				}
+
+				newshape.visible = true;
+				//updateCurrentCharWidth();
+			} else {
+				deleteShape();
+			}
+
+			_UI.eventhandlers.firstx = -100;
+			_UI.eventhandlers.firsty = -100;
+			_UI.eventhandlers.tempnewbasicshape = false;
+			history_put('New Basic Shape tool');
+			_UI.eventhandlers.uqhaschanged = false;
+
+			this.dragging = false;
+
+			clickTool('pathedit');
+		};
+	}
+
+
+	// ---------------------------------------------------------
+	// Shape Resize - resizes whole shapes
+	// ---------------------------------------------------------
+	function Tool_ShapeEdit(){
+		this.dragging = false;
+		this.resizing = false;
+		_UI.eventhandlers.corner = false;
+
+		this.mousedown = function (ev) {
+			// debug('\nTool_ShapeEdit TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			var s = ss('eventHandler - mousedown');
+			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
+			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
+
+			if (_UI.eventhandlers.corner){
+				// debug('Tool_ShapeEdit TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				this.resizing = true;
+				this.dragging = false;
+			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+				this.dragging = true;
+				this.resizing = false;
+				setCursor('pointerSquare');
+				redraw('Event Handler Tool_ShapeEdit mousedown');
+			} else {
+				clickEmptySpace();
+			}
+		};
+
+		this.mousemove = function (ev) {
+			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
+			// debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
+			var didstuff = false;
+			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
+			if(s.link){
+				// debug('\tTool_ShapeEdit dragging linked shape');
+				if(this.dragging && !s.uselinkedshapexy){
+					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
+					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+					didstuff = true;
+					setCursor('pointerSquare');
+				}
+			} else if (s){
+				// debug('\tTool_ShapeEdit dragging normal shape');
+				if (this.dragging) {
+					// Moving shapes if mousedown
+					// debug('\tTool_ShapeEdit - Moving Shape on Drag');
+					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+
+					s.path.updatePathPosition(dx, dy);
+					didstuff = true;
+					setCursor('pointerSquare');
+				} else if (this.resizing){
+					// Resizing shapes if mousedown over handle
+					// debug('\tTool_ShapeEdit - Resizing Shape over handle');
+					evHanShapeResize(s, _UI.eventhandlers.corner);
+					didstuff = true;
+				} else {
+					setCursor('pointer');
+				}
+
+				//Translation fidelity, passing raw canvas values
+				if(s && !this.resizing) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			}
+			
+			if(didstuff){
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
+				redraw('Event Handler Tool_ShapeEdit mousemove');
+			} else if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+				setCursor('pointerSquare');
+			}
+		};
+
+
+		this.mouseup = function () {
+			// debug('Mouse Up');
+			setCursor('pointer');
+			var s = ss('eventHandler - mouseup');
+			if(_UI.eventhandlers.tempnewbasicshape){
+				_UI.eventhandlers.tempnewbasicshape = false;
+				s.hidden = false;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
+				evHanShapeResize(s, _UI.eventhandlers.corner);
+			}
+
+			if(this.resizing) s.path.calcMaxes();
+			updateCurrentCharWidth();
+
+			this.dragging = false;
+			this.resizing = false;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
+			_UI.eventhandlers.firstx = -100;
+			_UI.eventhandlers.firsty = -100;
+			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
+			_UI.eventhandlers.uqhaschanged = false;
+			redraw('Event Handler Tool_ShapeEdit mouseup');
+			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
+		};
+	}
+
+
 	// ---------------------------------------------------------
 	// new path - adds many points to a new path
 	// ---------------------------------------------------------
@@ -194,131 +383,6 @@
 
 
 	// ---------------------------------------------------------
-	// path add point - adds points to an existing path
-	// ---------------------------------------------------------
-	function Tool_PathAddPoint(){
-		this.addpoint = false;
-
-		this.mousedown = function (ev) {
-			if(this.addpoint){
-				var s = ss();
-				if(s && s.path){
-					s.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
-				}
-			} else {
-				clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
-			}
-			redraw();
-		};
-
-		this.mousemove = function (ev) {
-			var s = ss();
-			if(s){
-				redraw();
-				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
-				if(pt && pt.distance < 20){
-					this.addpoint = pt;
-					var ptsize = _GP.projectsettings.pointsize;
-					var ptx = (sx_cx(pt.x) - (ptsize/2)).makeCrisp();
-					var pty = (sy_cy(pt.y) - (ptsize/2)).makeCrisp();
-					_UI.chareditctx.fillStyle = _UI.colors.accent_75;
-					_UI.chareditctx.strokeRect(ptx, pty, ptsize, ptsize);
-					openNotation(('x: ' + round(pt.x, 3) + '<br>y: ' + round(pt.y, 3)), sx_cx(pt.x), sy_cy(pt.y));
-				} else {
-					this.addpoint = false;
-					closeNotation();
-				}
-			} else {
-				this.addpoint = false;
-				closeNotation();
-			}
-		};
-
-		this.mouseup = function () {
-		};
-	}
-
-
-	// ---------------------------------------------------------
-	// new basic shape - adds many points to a new path
-	// ---------------------------------------------------------
-	function Tool_NewBasicShape(){
-		this.dragging = false;
-
-		this.mousedown = function (ev) {
-			_UI.eventhandlers.tempnewbasicshape = {
-				'xmax': cx_sx(_UI.eventhandlers.mousex),
-				'xmin': cx_sx(_UI.eventhandlers.mousex),
-				'ymax': cy_sy(_UI.eventhandlers.mousey),
-				'ymin': cy_sy(_UI.eventhandlers.mousey)
-			};
-
-			var newshape = new Shape({'visible':false, 'name':'...'});
-			newshape.path.maxes = _UI.eventhandlers.tempnewbasicshape;
-			newshape = addShape(newshape);
-
-			_UI.eventhandlers.firstx = cx_sx(_UI.eventhandlers.mousex);
-			_UI.eventhandlers.firsty = cy_sy(_UI.eventhandlers.mousey);
-
-			this.dragging = true;
-
-			redraw('Event Handler Tool_NewBasicShape mousedown');
-			//debug('Tool_NewBasicShape MOUSEDOWN - after REDRAW');
-		};
-
-		this.mousemove = function (ev) {
-			if(_UI.eventhandlers.tempnewbasicshape){
-				_UI.eventhandlers.tempnewbasicshape.xmax = Math.max(_UI.eventhandlers.firstx, cx_sx(_UI.eventhandlers.mousex));
-				_UI.eventhandlers.tempnewbasicshape.xmin = Math.min(_UI.eventhandlers.firstx, cx_sx(_UI.eventhandlers.mousex));
-				_UI.eventhandlers.tempnewbasicshape.ymax = Math.max(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
-				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
-
-				ss().path.maxes = _UI.eventhandlers.tempnewbasicshape;
-
-				_UI.eventhandlers.uqhaschanged = true;
-				redraw('Event Handler Tool_NewBasicShape mousemove');
-				//debug('Tool_NewBasicShape MOUSEMOVE past redraw');
-			}
-		};
-
-		this.mouseup = function () {
-			// prevent really small shapes
-			var newshape = ss('NEWSHAPE MOUSEUP');
-			var tnbs = _UI.eventhandlers.tempnewbasicshape;
-
-			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
-				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
-
-				var count = (_UI.navhere === 'linked shapes')? (getLength(_GP.linkedshapes)) : getSelectedCharShapes().length;
-
-				if(_UI.selectedtool==='newrect'){
-					newshape.name = ('Rectangle ' + count);
-					newshape.path = rectPathFromMaxes(tnbs);
-				} else {
-					newshape.name = ('Oval ' + count);
-					newshape.path = ovalPathFromMaxes(tnbs);
-				}
-
-				newshape.visible = true;
-				//updateCurrentCharWidth();
-			} else {
-				deleteShape();
-			}
-
-			_UI.eventhandlers.firstx = -100;
-			_UI.eventhandlers.firsty = -100;
-			_UI.eventhandlers.tempnewbasicshape = false;
-			history_put('New Basic Shape tool');
-			_UI.eventhandlers.uqhaschanged = false;
-
-			this.dragging = false;
-
-			clickTool('pathedit');
-		};
-	}
-
-
-	// ---------------------------------------------------------
 	// Path Edit - selects points and moves points and handles
 	// ---------------------------------------------------------
 	function Tool_PathEdit(){
@@ -350,6 +414,7 @@
 			if (this.dragging) {
 				var sp = s.path.sp();
 				if(_UI.eventhandlers.toolhandoff){
+					sp.useh2 = true;
 					sp.H2.x = cx_sx(_UI.eventhandlers.mousex);
 					sp.H2.y = cy_sy(_UI.eventhandlers.mousey);
 					_UI.eventhandlers.toolhandoff = false;
@@ -404,122 +469,66 @@
 				redraw('Event Handler Tool_PathEdit mouseup');
 			}
 		};
-
 	}
 
 
-	// --------------------------------------------------
-	// Shape Resize - resizes whole shapes
-	// --------------------------------------------------
-	function Tool_ShapeEdit(){
-		this.dragging = false;
-		this.resizing = false;
-		_UI.eventhandlers.corner = false;
+	// ---------------------------------------------------------
+	// path add point - adds points to an existing path
+	// ---------------------------------------------------------
+	function Tool_PathAddPoint(){
+		this.addpoint = false;
 
 		this.mousedown = function (ev) {
-			// debug('\nTool_ShapeEdit TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
-			var s = ss('eventHandler - mousedown');
-			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
-			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
-
-			if (_UI.eventhandlers.corner){
-				// debug('Tool_ShapeEdit TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
-				this.resizing = true;
-				this.dragging = false;
+			if(this.addpoint){
+				var s = ss();
+				if(s && s.path){
+					s.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+				}
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				this.dragging = true;
-				this.resizing = false;
-				setCursor('pointerSquare');
-				redraw('Event Handler Tool_ShapeEdit mousedown');
+				// selected the shape
 			} else {
-				clickEmptySpace();
+				_UI.selectedtool = 'newpath';
+				_UI.eventhandlers.currtool = _UI.eventhandlers.eh_addpath;
+				_UI.eventhandlers.currtool.dragging = true;
+				_UI.eventhandlers.currtool.firstpoint = true;
+				_UI.eventhandlers.currtool.mousedown(ev);
 			}
+
+			redraw();
 		};
 
 		this.mousemove = function (ev) {
-			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
-			// debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
-			var didstuff = false;
-			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-			if(s.link){
-				// debug('\tTool_ShapeEdit dragging linked shape');
-				if(this.dragging && !s.uselinkedshapexy){
-					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
-					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
-					didstuff = true;
-					setCursor('pointerSquare');
-				}
-			} else if (s){
-				// debug('\tTool_ShapeEdit dragging normal shape');
-				if (this.dragging) {
-					// Moving shapes if mousedown
-					// debug('\tTool_ShapeEdit - Moving Shape on Drag');
-					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
-
-					s.path.updatePathPosition(dx, dy);
-					didstuff = true;
-					setCursor('pointerSquare');
-				} else if (this.resizing){
-					// Resizing shapes if mousedown over handle
-					// debug('\tTool_ShapeEdit - Resizing Shape over handle');
-					evHanShapeResize(s, _UI.eventhandlers.corner);
-					didstuff = true;
+			var s = ss();
+			if(s){
+				redraw();
+				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
+				if(pt && pt.distance < 20){
+					this.addpoint = pt;
+					var ptsize = _GP.projectsettings.pointsize;
+					var ptx = (sx_cx(pt.x) - (ptsize/2)).makeCrisp();
+					var pty = (sy_cy(pt.y) - (ptsize/2)).makeCrisp();
+					openNotation(('x: ' + round(pt.x, 3) + '<br>y: ' + round(pt.y, 3)), sx_cx(pt.x), sy_cy(pt.y));
+					_UI.chareditctx.fillStyle = _UI.colors.accent_75;
+					_UI.chareditctx.fillRect(ptx, pty, ptsize, ptsize);
+					debug('\t DREW ADDPOINT ' + ptx + '\t' + pty + '\t' + ptsize);
 				} else {
-					setCursor('pointer');
+					this.addpoint = false;
+					closeNotation();
 				}
-
-				//Translation fidelity, passing raw canvas values
-				if(s && !this.resizing) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
-			}
-			
-			if(didstuff){
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				_UI.eventhandlers.uqhaschanged = true;
-				redraw('Event Handler Tool_ShapeEdit mousemove');
-			} else if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				setCursor('pointerSquare');
+			} else {
+				this.addpoint = false;
+				closeNotation();
 			}
 		};
 
-
 		this.mouseup = function () {
-			// debug('Mouse Up');
-			setCursor('pointer');
-			var s = ss('eventHandler - mouseup');
-			if(_UI.eventhandlers.tempnewbasicshape){
-				_UI.eventhandlers.tempnewbasicshape = false;
-				s.hidden = false;
-				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
-				evHanShapeResize(s, _UI.eventhandlers.corner);
-			}
-
-			if(this.resizing) s.path.calcMaxes();
-			updateCurrentCharWidth();
-
-			this.dragging = false;
-			this.resizing = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
-			_UI.eventhandlers.firstx = -100;
-			_UI.eventhandlers.firsty = -100;
-			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
-			_UI.eventhandlers.uqhaschanged = false;
-			redraw('Event Handler Tool_ShapeEdit mouseup');
-			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
 		};
 	}
 
 
-	// --------------------------------------------------
+	// ---------------------------------------------------------
 	// Pan - moves the canvas view
-	// --------------------------------------------------
+	// ---------------------------------------------------------
 	function Tool_Pan(){
 		this.dragging = false;
 		this.deltax = 0;
@@ -550,9 +559,9 @@
 	}
 
 
-	// --------------------------------------------------
+	// ---------------------------------------------------------
 	// Kern - moves the left kern group
-	// --------------------------------------------------
+	// ---------------------------------------------------------
 	function Tool_Kern(){
 		this.dragging = false;
 		this.deltax = 0;

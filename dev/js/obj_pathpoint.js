@@ -398,18 +398,20 @@
 		this.H2.y = round(this.H2.y, 9);
 	};
 
-	PathPoint.prototype.drawPoint = function(c) {
-		var ps = _GP.projectsettings.pointsize+2;
+	PathPoint.prototype.drawPoint = function(sel, accent) {
+		accent = accent || _UI.colors.accent_65;
+		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
-		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent_65;
+		_UI.chareditctx.fillStyle = sel? 'white' : accent;
 
 		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 	};
 
-	PathPoint.prototype.drawDirectionalityPoint = function(c, next){
-		_UI.chareditctx.fillStyle = c? c : _UI.colors.accent_65;
-		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+	PathPoint.prototype.drawDirectionalityPoint = function(sel, next, accent){
+		accent = accent || _UI.colors.accent_65;
+		_UI.chareditctx.fillStyle = sel? 'white' : accent;
+		_UI.chareditctx.strokeStyle = accent;
 		_UI.chareditctx.lineWidth = 1;
 		var begin = {'x':this.P.x, 'y':this.P.y};
 		var end = {'x':this.H2.x, 'y':this.H2.y};
@@ -418,7 +420,7 @@
 			end = {'x':next.P.x, 'y':next.P.y};
 		}
 
-		var ps = (_GP.projectsettings.pointsize*0.75);
+		var ps = (_GP.projectsettings.pointsize*0.5);
 		var arrow = [
 			[(ps*3), 0],
 			[ps, ps],
@@ -462,9 +464,10 @@
 
 	};
 
-	PathPoint.prototype.drawHandles = function(drawH1, drawH2) {
-		_UI.chareditctx.fillStyle = _UI.colors.accent_65;
-		_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
+		accent = accent || _UI.colors.accent_65;
+		_UI.chareditctx.fillStyle = accent;
+		_UI.chareditctx.strokeStyle = accent;
 		_UI.chareditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 
