@@ -124,7 +124,7 @@
 
 	Shape.prototype.drawSelectOutline = function(onlycenter, accent){
 		//debug('DRAWSELECTOUTLINE - onlycenter: ' + onlycenter);
-		accent = accent || _UI.colors.accent_65;
+		accent = accent || _UI.colors.blue.l65;
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.chareditctx.lineWidth = 1;
 		_UI.chareditctx.strokeStyle = accent;
@@ -137,19 +137,12 @@
 			var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(this.path.maxes.xmax);
 			var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(this.path.maxes.ymax);
 			var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(this.path.maxes.ymin);
-
-			// var x = (lx).makeCrisp(true);
-			// var y = (ty).makeCrisp(true);
-			// var w = Math.ceil(rx-lx);
-			// var h = Math.ceil(by-ty);
-			var x = (lx);
-			var y = (ty);
 			var w = (rx-lx);
 			var h = (by-ty);
 
 			_UI.chareditctx.strokeStyle = accent;
-			_UI.chareditctx.strokeRect(x,y,w,h);
-			if(_UI.selectedtool==='shaperesize'){ this.draw8points(onlycenter);}
+			_UI.chareditctx.strokeRect(lx,ty,w,h);
+			if(_UI.selectedtool==='shaperesize'){ this.draw8points(onlycenter, accent);}
 
 		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
 			// Draw Path Points
@@ -192,11 +185,11 @@
 			}
 
 		} else if ((_UI.selectedtool==='newoval')){
-			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+			_UI.chareditctx.strokeStyle = _UI.colors.blue.l65;
 			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _UI.colors.accent_65;
+			_UI.chareditctx.strokeStyle = _UI.colors.blue.l65;
 
 			_UI.chareditctx.beginPath();
 			tpdso.drawPath(_UI.chareditctx);
@@ -302,10 +295,10 @@
 		return new Path({'pathpoints':patharr});
 	}
 
-	Shape.prototype.draw8points = function(onlycenter){
+	Shape.prototype.draw8points = function(onlycenter, accent){
 		//if(this.link) { return; }
 		//debug('DRAW8POINTS - onlycenter: ' + onlycenter);
-
+		accent = accent || _UI.colors.blue.l65;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
 
@@ -321,7 +314,8 @@
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
 		var bbottomy = (by-hp).makeCrisp(true);
 
-		_UI.chareditctx.fillStyle = onlycenter?  _UI.colors.accent_65 : 'white';
+		_UI.chareditctx.fillStyle = onlycenter? accent : 'white';
+		_UI.chareditctx.strokeStyle = accent;
 
 		if(!onlycenter){
 			//upper left

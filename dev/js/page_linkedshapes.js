@@ -31,7 +31,7 @@
 		if(sc) sc.drawShape_Single(_UI.chareditctx);
 
 		if(_GP.linkedshapes[_UI.selectedshape]) {
-			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline(false, 'lime');
+			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline(false, _UI.colors.green.l65);
 		}
 
 		_UI.redrawing = false;

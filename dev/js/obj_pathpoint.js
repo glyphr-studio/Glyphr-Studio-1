@@ -399,17 +399,18 @@
 	};
 
 	PathPoint.prototype.drawPoint = function(sel, accent) {
-		accent = accent || _UI.colors.accent_65;
+		accent = accent || _UI.colors.blue.l65;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
 		_UI.chareditctx.fillStyle = sel? 'white' : accent;
+		_UI.chareditctx.strokeStyle = accent;
 
 		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(sel, next, accent){
-		accent = accent || _UI.colors.accent_65;
+		accent = accent || _UI.colors.blue.l65;
 		_UI.chareditctx.fillStyle = sel? 'white' : accent;
 		_UI.chareditctx.strokeStyle = accent;
 		_UI.chareditctx.lineWidth = 1;
@@ -459,13 +460,13 @@
 		_UI.chareditctx.stroke();
 
 		// Exact Middle Point
-		_UI.chareditctx.fillStyle = _UI.colors.accent_65;
+		_UI.chareditctx.fillStyle = accent;
 		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 
 	};
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
-		accent = accent || _UI.colors.accent_65;
+		accent = accent || _UI.colors.blue.l65;
 		_UI.chareditctx.fillStyle = accent;
 		_UI.chareditctx.strokeStyle = accent;
 		_UI.chareditctx.lineWidth = 1;
@@ -500,8 +501,8 @@
 
 	PathPoint.prototype.drawQuadraticHandle = function(prevP) {
 		// Draw Quadratic handle point from imported SVG
-		_UI.chareditctx.fillStyle = _UI.colors.error;
-		_UI.chareditctx.strokeStyle = _UI.colors.error;
+		_UI.chareditctx.fillStyle = _UI.colors.error.medium;
+		_UI.chareditctx.strokeStyle = _UI.colors.error.medium;
 		_UI.chareditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 

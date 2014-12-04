@@ -407,6 +407,6 @@
 		return content;
 	}
 
-	function dimSplit() { return '<span style="color:'+_UI.colors.gray_60+'; width:20px; height:26px; text-align:center; display:inline-block; font-size:1.4em; vertical-align:-2px;">&#x2044;</span>';	}
+	function dimSplit() { return '<span style="color:'+_UI.colors.gray.l60+'; width:20px; height:26px; text-align:center; display:inline-block; font-size:1.4em; vertical-align:-2px;">&#x2044;</span>';	}
 
 // end of file

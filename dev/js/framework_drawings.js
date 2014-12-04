@@ -198,7 +198,7 @@
 
 		function makeGlyphrStudioLogo(oa){
 			oa = oa || {};
-			var fill = oa.fill || _UI.colors.accent_65;
+			var fill = oa.fill || _UI.colors.blue.l65;
 			var width = oa.width || 184;
 			var height = width * (55/184);	// dimensions of the native logo
 
@@ -221,7 +221,7 @@
 		}
 
 		function makeFloatLogo() {
-			return '<div id="floatlogo">'+makeGlyphrStudioLogo({'fill': _UI.colors.accent_55})+'</div>';
+			return '<div id="floatlogo">'+makeGlyphrStudioLogo({'fill': _UI.colors.blue.l55})+'</div>';
 		}
 
 
@@ -252,12 +252,15 @@
 	function makeToolButton(oa) {
 		//debug("MAKETOOLBUTTON - oa: " + json(oa));
 
-		var color_outline = _UI.colors.accent_65;
-		var color_fill = 'transparent';
+		var color_outline = _UI.colors.blue.l75;
+		var color_fill = _UI.colors.gray.l40;
 
 		if(oa.selected){
 			color_outline = 'black';
 			color_fill = 'white';
+		} else if (oa.disabled){
+			color_outline = _UI.colors.gray.l40;
+			color_fill = _UI.colors.gray.l30;
 		}
 
 		var re = '<svg version="1.1" ';
@@ -265,7 +268,7 @@
 		re += 'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20"> ';
 
 		var ic = _UI.icons[oa.name];
-		if(ic.fill && oa.selected){
+		if(ic.fill){
 			re += '<g pointer-events="none" fill="'+color_fill+'">';
 			re += ic.fill;
 			re += '</g>';
@@ -348,12 +351,12 @@
 //	--------------------
 
 	function makePointButton(type, selected) {
-		var color = _UI.colors.gray_40;
+		var color = _UI.colors.gray.l40;
 		var bgcolor = 'transparent';
 
 		if(selected){
-			color = _UI.colors.accent_65;
-			bgcolor = _UI.colors.offwhite;
+			color = _UI.colors.blue.l65;
+			bgcolor = _UI.colors.gray.offwhite;
 		}
 
 		//debug("MAKEPOINTBUTTON - " + type + " selected: " + selected + " color: " + color);
@@ -417,15 +420,15 @@
 		var idname = varname.split("()");
 		idname = idname[idname.length-1];
 		var currbool = eval(varname);
-		var restcolor = _UI.colors.gray_90;
-		var selcolor = _UI.colors.accent_65;
+		var restcolor = _UI.colors.gray.l90;
+		var selcolor = _UI.colors.blue.l65;
 
 		var re = '<svg '+
 			'version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" '+
 			'x="0px" y="0px" width="26px" height="26px" viewBox="0 0 26 26" enable-background="new 0 0 26 26" '+
 			'id='+idname+' '+
 			'class="lockui" '+
-			'style="background-color:'+(currbool? _UI.colors.gray_80 : 'white')+'" '+
+			'style="background-color:'+(currbool? _UI.colors.gray.l80 : 'white')+'" '+
 			'onclick="' +
 				// 'debug(\'Clicked on checkbox '+varname+'\'); ' +
 				'toggle(\''+varname+'\'); ' +
@@ -466,9 +469,9 @@
 		'<svg version="1.1" '+
 		'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '+
 		'x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20">'+
-			'<circle fill="'+_UI.colors.gray_80+'" cx="9" cy="9" r="9"/>'+
-			'<path fill="'+_UI.colors.gray_90+'" d="M8,12v-1c0-0.8,0.4-1.2,0.7-1.7C9,9,9.5,8.5,10.2,7.9c0.5-0.4,0.8-0.7,1-1c0.2-0.3,0.2-0.5,0.2-0.8c0-0.6-0.2-1.1-0.7-1.5C10.2,4.2,9.7,4,9.1,4C8.4,4,7.9,4.1,7.4,4.5C7,4.9,6.7,5.5,6.6,6.3L5,6.1C5.2,5,5.6,4.2,6.3,3.6S7.9,2.8,9,2.8c1.1,0,2.1,0.3,2.8,0.9S13,5,13,5.9c0,0.5-0.1,1-0.4,1.4c-0.2,0.4-0.7,0.9-1.5,1.5c-0.6,0.5-1,0.9-1.2,1.2c-0.2,0.3-0.2,0.2-0.3,0.9L8,12z"/>'+
-			'<ellipse fill="'+_UI.colors.gray_90+'" cx="8.8" cy="14.5" rx="1.4" ry="1.2"/>'+
+			'<circle fill="'+_UI.colors.gray.l80+'" cx="9" cy="9" r="9"/>'+
+			'<path fill="'+_UI.colors.gray.l90+'" d="M8,12v-1c0-0.8,0.4-1.2,0.7-1.7C9,9,9.5,8.5,10.2,7.9c0.5-0.4,0.8-0.7,1-1c0.2-0.3,0.2-0.5,0.2-0.8c0-0.6-0.2-1.1-0.7-1.5C10.2,4.2,9.7,4,9.1,4C8.4,4,7.9,4.1,7.4,4.5C7,4.9,6.7,5.5,6.6,6.3L5,6.1C5.2,5,5.6,4.2,6.3,3.6S7.9,2.8,9,2.8c1.1,0,2.1,0.3,2.8,0.9S13,5,13,5.9c0,0.5-0.1,1-0.4,1.4c-0.2,0.4-0.7,0.9-1.5,1.5c-0.6,0.5-1,0.9-1.2,1.2c-0.2,0.3-0.2,0.2-0.3,0.9L8,12z"/>'+
+			'<ellipse fill="'+_UI.colors.gray.l90+'" cx="8.8" cy="14.5" rx="1.4" ry="1.2"/>'+
 		'</svg></button>';
 
 		//debug("HELPUI - output:\n"+re);

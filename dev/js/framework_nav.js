@@ -284,7 +284,7 @@
 	}
 
 	function updateSaveIcon(){
-		var fill = (onNoNavPage()? _UI.colors.offwhite : _UI.colors.gray_90);
+		var fill = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
 		if(!_UI.projectsaved) fill = 'white';
 		document.getElementById('npSave').innerHTML = makeIcon({'name': 'button_npSave', 'color': fill, 'hovercolor':'white'});
 	}
@@ -339,32 +339,32 @@
 		var newsub = '';
 
 		// defaults for logo
-		var nfill = _UI.colors.accent_85;
-		var nhover = _UI.colors.offwhite;
+		var nfill = _UI.colors.blue.l85;
+		var nhover = _UI.colors.gray.offwhite;
 
 		if(_UI.navprimaryhere === 'npNav'){
-			nfill = _UI.colors.accent_35;
-			nhover = _UI.colors.accent_35;
-			document.getElementById('navarea_tabs').style.backgroundColor = _UI.colors.gray_90;
+			nfill = _UI.colors.blue.l35;
+			nhover = _UI.colors.blue.l35;
+			document.getElementById('navarea_tabs').style.backgroundColor = _UI.colors.gray.l90;
 		} else {
-			document.getElementById('navarea_tabs').style.backgroundColor = _UI.colors.gray_80;
+			document.getElementById('navarea_tabs').style.backgroundColor = _UI.colors.gray.l80;
 		}
 
 		// Start putting together the tabs
 		if(_UI.navprimaryhere === 'npNav'){
 			newsub += '<div class="navarea_header"></div>';
 		} else {
-			newsub += '<div class="navarea_header" style="background-color:'+_UI.colors.accent_45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
+			newsub += '<div class="navarea_header" style="background-color:'+_UI.colors.blue.l45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
 			newsub += '</button></div>';
 		}
 
 		for(var i=1; i<navarr.length; i++){
 			if(_UI.navprimaryhere === navarr[i]){
-				nfill = _UI.colors.accent_55;
-				nhover = _UI.colors.accent_55;
+				nfill = _UI.colors.blue.l55;
+				nhover = _UI.colors.blue.l55;
 			} else {
-				nfill = _UI.colors.gray_90;
+				nfill = _UI.colors.gray.l90;
 				nhover = 'white';
 			}
 			newsub += '<div class="panel_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
@@ -372,7 +372,7 @@
 			newsub += '</button></div>';
 		}
 
-		var savecolor = (onNoNavPage()? _UI.colors.offwhite : _UI.colors.gray_90);
+		var savecolor = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
 		newsub += '<div class="panel_section"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
 		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
 		newsub += '</button></div>';
@@ -397,7 +397,7 @@
 		}
 
 		// Contribute!
-		newsub += '<a href="#" style="color:'+_UI.colors.accent_55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
+		newsub += '<a href="#" style="color:'+_UI.colors.blue.l55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
 		newsub += '</div>';
 
 		return newsub;
@@ -433,10 +433,10 @@
 
 		for(var i=0; i<navarr.length; i++){
 			bc = 'navtargetbutton';
-			iconcolor = _UI.colors.accent_25;
+			iconcolor = _UI.colors.blue.l25;
 			if(navarr[i] === _UI.navhere) {
 				bc = 'navtargetbuttonsel';
-				iconcolor = _UI.colors.accent_55;
+				iconcolor = _UI.colors.blue.l55;
 			}
 
 			if(navarr[i]==='_'){

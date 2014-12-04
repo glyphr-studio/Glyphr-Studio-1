@@ -28,7 +28,7 @@
 
 	function makeOneKernPairRow(k, id) {
 		var selstyle = '';
-		if(getSelectedKernID() === id) selstyle = ('style="background-color:'+_UI.colors.accent_55+'; ');
+		if(getSelectedKernID() === id) selstyle = ('style="background-color:'+_UI.colors.blue.l55+'; ');
 
 		var re = '<table class="kernrow"><tr>';
 		re += '<td class="selkern" '+selstyle+'onclick="selectKern(\''+id+'\');"></td>';

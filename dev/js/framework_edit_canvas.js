@@ -137,8 +137,8 @@
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint')})+"</button>";
-		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit')})+"</button>";
+		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penclickable})+"</button>";
+		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+"</button>";
 		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 
 		if(_UI.selectedtool === 'newpath'){

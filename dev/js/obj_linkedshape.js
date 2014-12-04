@@ -18,7 +18,7 @@
 	};
 
 	LinkedShape.prototype.drawShape_Single = function(ctx) {
-		if(this.shape) return this.shape.drawShape_Single(ctx, 'lime');
+		if(this.shape) return this.shape.drawShape_Single(ctx, _UI.colors.green.l65);
 		else return;
 	};
 
@@ -208,16 +208,16 @@
 		//_GP.linkedshapes[this.link].shape.drawSelectOutline();
 
 		if(this.uselinkedshapexy){
-			_GP.linkedshapes[this.link].shape.drawSelectOutline(onlycenter, 'lime');
+			_GP.linkedshapes[this.link].shape.drawSelectOutline(onlycenter, _UI.colors.green.l65);
 		} else {
 			var ns = clone(_GP.linkedshapes[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos);
-			ns.drawSelectOutline(onlycenter, 'lime');
+			ns.drawSelectOutline(onlycenter, _UI.colors.green.l65);
 		}
 	};
 
 	LinkedShapeInstance.prototype.draw8points = function(onlycenter){
-		//_GP.linkedshapes[this.link].shape.draw8points(onlycenter);
+		_GP.linkedshapes[this.link].shape.draw8points(onlycenter, _UI.colors.green.l65);
 	};
 
 	LinkedShapeInstance.prototype.isHere = function(x,y){

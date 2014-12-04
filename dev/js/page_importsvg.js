@@ -47,7 +47,7 @@
 			"</tr><tr><td style='padding-top:10px;'>"+
 				"<input type='checkbox' disabled checked/>"+
 			"</td><td class='svgscaleoption'>"+
-				"<span style='color:"+_UI.colors.gray_40+";'>X Height</span>"+
+				"<span style='color:"+_UI.colors.gray.l40+";'>X Height</span>"+
 			"</td></tr><tr><td style='padding-top:10px;'>"+
 				checkUI("_UI.importsvg.descender")+
 			"</td><td class='svgscaleoption'>"+

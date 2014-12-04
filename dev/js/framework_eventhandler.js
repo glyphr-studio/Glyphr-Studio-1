@@ -508,7 +508,7 @@
 					var ptx = (sx_cx(pt.x) - (ptsize/2)).makeCrisp();
 					var pty = (sy_cy(pt.y) - (ptsize/2)).makeCrisp();
 					openNotation(('x: ' + round(pt.x, 3) + '<br>y: ' + round(pt.y, 3)), sx_cx(pt.x), sy_cy(pt.y));
-					_UI.chareditctx.fillStyle = _UI.colors.accent_75;
+					_UI.chareditctx.fillStyle = _UI.colors.blue.l75;
 					_UI.chareditctx.fillRect(ptx, pty, ptsize, ptsize);
 					debug('\t DREW ADDPOINT ' + ptx + '\t' + pty + '\t' + ptsize);
 				} else {

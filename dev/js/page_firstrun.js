@@ -45,7 +45,7 @@
 
 	function handleDrop(evt) {
 		document.getElementById("droptarget").innerHTML = "Loading File...";
-		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.offwhite;
+		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 
 		evt.stopPropagation();
 		evt.preventDefault();
@@ -72,7 +72,7 @@
 					con = 'Could not read .' + fname + ' file type.';
 					con += '<br>Try loading another .svg or .txt file...';
 					document.getElementById('droptarget').innerHTML = con;
-					document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.offwhite;
+					document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 				}
 
 				debug(' reader.onload - END\n');
@@ -93,7 +93,7 @@
 		evt.preventDefault();
 		evt.dataTransfer.dropEffect = 'move';
 
-		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.accent_95;
+		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.blue.l95;
 		document.getElementById('droptarget').innerHTML = 'Drop it!';
 	}
 
@@ -101,7 +101,7 @@
 		evt.stopPropagation();
 		evt.preventDefault();
 
-		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.offwhite;
+		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 		document.getElementById('droptarget').innerHTML = 'Glyphr Project File (.txt)<br>SVG Font File (.svg)';
 	}
 

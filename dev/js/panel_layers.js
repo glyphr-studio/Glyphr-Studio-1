@@ -14,25 +14,27 @@
 		content += "</div><div class='panel_section'>";
 
 		var scs = getSelectedCharShapes();
+		var ts;
 
 		if(scs.length > 0){
 			content += "<table class='layertable'>";
 			for(var i=(scs.length-1); i>=0; i--){
+				ts = scs[i];
 
-				if(i===_UI.selectedshape){
-					content += "<tr class='layersel'";
-				} else {
-					content += "<tr class='layer'";
-				}
+				if(i===_UI.selectedshape) {
+					if(ts.link)	content += "<tr class='lslayersel'";
+					else content += "<tr class='layersel'";
+				} else content += "<tr class='layer'";
+				
 				content += " onclick='_UI.selectedshape = " + i + "; redraw(\"updatelayers\");'>";
 
-				if(scs[i].link) {
-					content += "<td class='layerthumb'>"+_GP.linkedshapes[scs[i].link].shape.makeSVG()+"</td>";
-					content += "<td class='layername'>" +scs[i].name;
-					content += "<span class='layernote'>[linked to "+_GP.linkedshapes[scs[i].link].shape.name+"]</span>";
+				if(ts.link) {
+					content += "<td class='layerthumb'>"+_GP.linkedshapes[ts.link].shape.makeSVG()+"</td>";
+					content += "<td class='layername'>" +ts.name;
+					content += "<span class='layernote'>[linked to "+_GP.linkedshapes[ts.link].shape.name+"]</span>";
 				} else {
-					content += "<td class='layerthumb'>"+scs[i].makeSVG()+"</td>";
-					content += "<td class='layername'>" + scs[i].name ;
+					content += "<td class='layerthumb'>"+ts.makeSVG()+"</td>";
+					content += "<td class='layername'>" + ts.name ;
 				}
 
 				content += "</td></tr>";

@@ -39,17 +39,13 @@
 		drawGuides();
 
 		// load char info
-		if(sc){
-			sc.drawCharToArea(_UI.chareditctx, getView('Redraw'));
-		}
+		if(sc) sc.drawCharToArea(_UI.chareditctx, getView('Redraw'));
 
 		// Finish up
 		var s = ss('Redraw');
 		if(s) {
+			if(s.link) _UI.selectedtool = 'shaperesize';
 			s.drawSelectOutline(s.link !== false);
-			if(s.link){
-				_UI.selectedtool = 'shaperesize';
-			}
 		}
 		
 		_UI.redrawing = false;

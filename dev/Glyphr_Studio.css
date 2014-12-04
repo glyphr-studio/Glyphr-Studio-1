@@ -1027,7 +1027,8 @@
 	}
 
 	.layer,
-	.layersel	{
+	.layersel,
+	.lslayersel	{
 		width:100%;
 		border-bottom:6px solid rgb(229, 234, 239);
 		background-color: rgb(178,183,188);
@@ -1045,6 +1046,11 @@
 		color: rgb(155,221,255);
 	}
 
+	.lslayersel .layername {
+		background-color: rgb(0,180,105);
+		color: rgb(185,255,226);
+	}
+
 	.layername{
 		padding:6px 0px 6px 10px;
 		height: 45px;
@@ -1054,7 +1060,8 @@
 
 	.layernote {
 		font-size: .4em;
-		color:white;
+		color:rgb(185,255,226);
+		color:rgb(0,125,73);
 		display: block;
 		margin-top:4px;
 		clear: both;
