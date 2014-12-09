@@ -252,7 +252,7 @@
 		'</tr>';
 
 		content += '<tr>'+
-			'<td>wdith'+dimSplit()+'height &emsp;</td>'+
+			'<td>width'+dimSplit()+'height &emsp;</td>'+
 			'<td>'+
 				'<div class="lockwrapper">'+
 					lockUI('ss().wlock',true)+

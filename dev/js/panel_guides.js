@@ -26,7 +26,7 @@
 		}}
 
 		content += '<h3 style="margin-top:0px; margin-bottom:10px;">options</h3>';
-		content += '<table style="wdith:100%;">'+
+		content += '<table style="width:100%;">'+
 			'<tr><td style="width:20px">' + checkUI('_UI.showgrid', true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
 			'<tr><td style="width:20px">' + checkUI('_UI.showguides', true) + '</td>' +
