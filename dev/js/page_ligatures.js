@@ -94,12 +94,14 @@
 		}}
 
 		sortarr.sort(function(a,b){
-			if(a.id.length === b.id.length){
-				if (a.id > b.id) return 1;
-				if (a.id < b.id) return -1;
-			} else {
-				return b.id.length - a.id.length;
-			}
+			if(a.id && b.id){
+				if(a.id.length === b.id.length){
+					if (a.id > b.id) return 1;
+					if (a.id < b.id) return -1;
+				} else {
+					return b.id.length - a.id.length;
+				}
+			} else return 0;
 		});
 
 		_GP.ligatures = {};

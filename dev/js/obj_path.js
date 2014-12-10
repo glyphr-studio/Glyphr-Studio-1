@@ -309,6 +309,7 @@
 
 	Path.prototype.isOverControlPoint = function(x, y, dontselect){
 		var a = this.pathpoints;
+		a = a || [];
 		var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
 
 		for(var k=a.length-1; k>=0; k--){

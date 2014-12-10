@@ -383,14 +383,14 @@
 		// Debug Dumps
 		if(_UI.debug){
 			newsub += '<div id="devtools" style="display:none; margin-top:20px; width:70px; text-align:center;">';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_UI);">UI</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.metadata);">META</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.fontchars);">CHAR</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="debug(_GP.linkedshapes);">LS</button><br><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px; 4px;" onclick="console.clear();">clear</button><br><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_UI);">UI</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.metadata);">META</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.fontchars);">CHAR</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.linkedshapes);">LS</button><br><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="console.clear();">clear</button><br><br>';
 			newsub += '</div>';
 			newsub += '<div style="color:slategray; text-align:center;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';
 			newsub += '</div><br><br>';
