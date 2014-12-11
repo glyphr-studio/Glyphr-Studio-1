@@ -47,6 +47,12 @@
 			if(s.link) _UI.selectedtool = 'shaperesize';
 			s.drawSelectOutline(s.link !== false);
 		}
+
+		if(_UI.eventhandlers.hoverpoint){
+			var hp = _UI.eventhandlers.hoverpoint;
+			_UI.chareditctx.fillStyle = hp.fill;
+			_UI.chareditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
+		}
 		
 		_UI.redrawing = false;
 	}

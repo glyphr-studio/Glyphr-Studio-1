@@ -14,7 +14,8 @@
 		'firsty' : -100,
 		'uqhaschanged' : false,
 		'lastTool' : 'pathedit',
-		'isSpaceDown' : false
+		'isSpaceDown' : false,
+		'hoverpoint' : false
 	};
 
 	function initEventHandlers() {
@@ -397,7 +398,8 @@
 				this.dragging = true;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				this.controlpoint === 'P'? setCursor('penSquare') : setCursor('penCircle');
+				if(this.controlpoint === 'P') setCursor('penSquare');
+				else setCursor('penCircle');
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				//clickSelectShape checks to switch the tool if need be.
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -478,7 +480,7 @@
 	function Tool_PathAddPoint(){
 		this.addpoint = false;
 
-		this.mousedown = function (ev) {
+		this.mousedown = function(ev) {
 			if(this.addpoint){
 				var s = ss();
 				if(s && s.path){
@@ -494,35 +496,36 @@
 				_UI.eventhandlers.currtool.mousedown(ev);
 			}
 
-			redraw();
+			_UI.eventhandlers.hoverpoint = false;
+			redraw('Tool_PathAddPoint.mousedown');
 		};
 
-		this.mousemove = function (ev) {
+		this.mousemove = function(ev) {
 			var s = ss();
 			if(s){
-				redraw();
 				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
 				if(pt && pt.distance < 20){
 					this.addpoint = pt;
 					var ptsize = _GP.projectsettings.pointsize;
 					var ptx = (sx_cx(pt.x) - (ptsize/2)).makeCrisp();
 					var pty = (sy_cy(pt.y) - (ptsize/2)).makeCrisp();
-					openNotation(('x: ' + round(pt.x, 3) + '<br>y: ' + round(pt.y, 3)), sx_cx(pt.x), sy_cy(pt.y));
-					_UI.chareditctx.fillStyle = _UI.colors.blue.l75;
-					_UI.chareditctx.fillRect(ptx, pty, ptsize, ptsize);
-					debug('\t DREW ADDPOINT ' + ptx + '\t' + pty + '\t' + ptsize);
+					openNotation(('x: ' + round(pt.x, 3) + '<br>y: ' + round(pt.y, 3)), ptx, pty);
+					_UI.eventhandlers.hoverpoint = {'fill':_UI.colors.blue.l75, 'x':ptx, 'y':pty, 'size':ptsize};
 				} else {
 					this.addpoint = false;
+					_UI.eventhandlers.hoverpoint = false;
 					closeNotation();
 				}
 			} else {
 				this.addpoint = false;
+				_UI.eventhandlers.hoverpoint = false;
 				closeNotation();
 			}
+			
+			redraw('Tool_PathAddPoint.mousemove');
 		};
 
-		this.mouseup = function () {
-		};
+		this.mouseup = function() {};
 	}
 
 
