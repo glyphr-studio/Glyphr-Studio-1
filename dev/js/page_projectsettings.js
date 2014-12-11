@@ -36,11 +36,22 @@
 					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.pointsize)+"' onchange='var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.pointsize=r; this.value=r;' style='width:25px;'/></td>"+
 					"<td>Path Point and Handle size.</td></tr>"+
 
+					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.colors.gridlightness || 95)+"' onchange='var r=Math.max(1, Math.min(99, Math.round(parseInt(this.value)))); r=r||95; this.value=r; updateGridLightness(r);' style='width:25px;'/></td>"+
+					"<td>% Grid lightness on the edit canvas.</td></tr>"+
+
 					"</table><br>";
 
 		content += "</div>";
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
+	}
+
+	function updateGridLightness(l) {
+		l = l || 95;
+		_GP.projectsettings.colors.gridlightness = l;
+
+		l = Math.floor(l / 100 * 255);
+		_GP.projectsettings.colors.grid = ('rgb('+l+','+l+','+l+')');
 	}
 
 	function updateGridDivisions(val){

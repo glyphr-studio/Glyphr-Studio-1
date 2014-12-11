@@ -44,7 +44,8 @@
 			'colors': {
 				'glyphfill': 'rgb(0,0,0)',			// shape base color
 				'glyphoutline': 'rgb(0,0,0)',		// shape outline color
-				'grid': 'rgb(230,230,230)',			// grid base color
+				'grid': 'rgb(240,240,240)',			// grid base color
+				'gridlightness': 95,				// grid base color for settings page
 				'guide_dark': 'rgb(204,81,0)',		// Dark OS Guideline
 				'guide_med': 'rgb(255,132,51)',		// Medium OS Guideline
 				'guide_light': 'rgb(255,193,153)',	// Light OS Guideline

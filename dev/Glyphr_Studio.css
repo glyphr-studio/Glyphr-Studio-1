@@ -1008,13 +1008,14 @@
 	.zoomreadout:focus,
 	.zoomreadout:hover {
 		background-color:rgb(204,209,214) !important;
+		border-width: 0px !important;
+		border-color:rgb(204,209,214) !important;
 		color:rgb(51,56,61);
-		height: 30px;
-		cursor:default;
-		width:62px;
-		text-align: center;
-		vertical-align: top;
 		margin:1px;
+		height: 30px;
+		width: 50px !important;
+		cursor:default;
+		vertical-align: top;
 		border-radius: 0px;
 	}
 

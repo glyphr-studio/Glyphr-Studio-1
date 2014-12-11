@@ -122,11 +122,10 @@
 		zoom += "<span style='width:15px; display:inline-block;'>&nbsp;</span>";
 		// Zoom
 		zoom += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
-		zoom += "<button title='zoom: full em' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
-		zoom += "<button title='zoom level' class='tool zoomreadout'>" + round(getView("updatetools").dz*100, 2) + "%</button>";
+		zoom += "<button title='zoom: fit to screen' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
+		zoom += "<input type='number' title='zoom level' class='zoomreadout' value='" + round(getView("updatetools").dz*100, 2) + "' onchange='setViewZoom(this.value);'/>";
 		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
 		zoom += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
-
 
 		// New Shape
 		var newshape = '';
@@ -371,17 +370,30 @@
 	}
 
 	function viewZoom(zfactor){
-
-		var v = getView(),
-			deltax = (_UI.eventhandlers.mousex-v.dx),
-			deltay = (_UI.eventhandlers.mousey-v.dy);
+		var v = getView();
+		var deltax = (_UI.eventhandlers.mousex-v.dx);
+		var deltay = (_UI.eventhandlers.mousey-v.dy);
 
 		setView({
-			'dz' : round(getView('viewZoom').dz*=zfactor, 2),
+			'dz' : round(v.dz*=zfactor, 2),
 			'dx' : (_UI.eventhandlers.mousex-(deltax*zfactor)),
 			'dy' : (_UI.eventhandlers.mousey-(deltay*zfactor))
 		});
+
 		redraw('viewZoom');
+	}
+
+	function setViewZoom(zoom){
+		zoom /= 100;
+		var v = getView();
+
+		setView({
+			'dz' : round(zoom, 2),
+			'dx' : v.dx,
+			'dy' : v.dy
+		});
+		
+		redraw('setViewZoom');
 	}
 
 	function resetThumbView(){
@@ -522,7 +534,7 @@
 
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _GP.projectsettings.colors.grid || ((new GlyphrProject()).projectsettings.colors.grid);
+			_UI.chareditctx.strokeStyle = _GP.projectsettings.colors.grid;
 			//debug('GRID - gridsize set as: ' + gsize);
 
 			var horizontal = function(y){
