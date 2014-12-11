@@ -123,8 +123,10 @@
 	};
 
 	Shape.prototype.drawSelectOutline = function(onlycenter, accent){
-		//debug('DRAWSELECTOUTLINE - onlycenter: ' + onlycenter);
+		// debug('\n Shape.drawSelectOutline - START');
 		accent = accent || _UI.colors.blue.l65;
+		// debug('\t accent = ' + json(accent));
+		
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.chareditctx.lineWidth = 1;
 		_UI.chareditctx.strokeStyle = accent;
@@ -176,12 +178,11 @@
 
 			// Draw points
 			for(var s=0; s<pp.length; s++){
-				//debug('DRAWSELECTOUTLINE() - Drawing Point ' + s + ' - selected: ' + pp[s].selected);
+				// debug('\n\t draw point ' + s + ' path.sp=' + this.path.sp(false) + ' pp.selected=' + pp[s].selected);
 				var sel = (this.path.sp(false) && pp[s].selected);
 
 				if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
-				else pp[s].drawPoint(sel, pp[(s+1)%pp.length], accent);
-
+				else pp[s].drawPoint(sel, accent);
 			}
 
 		} else if ((_UI.selectedtool==='newoval')){
@@ -196,6 +197,7 @@
 			_UI.chareditctx.closePath();
 			_UI.chareditctx.stroke();
 		}
+		// debug(' Shape.drawSelectOutline - END\n');
 	};
 
 	function rectPathFromMaxes(maxes){

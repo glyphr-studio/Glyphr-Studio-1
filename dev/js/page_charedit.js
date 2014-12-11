@@ -45,7 +45,7 @@
 		var s = ss('Redraw');
 		if(s) {
 			if(s.link) _UI.selectedtool = 'shaperesize';
-			s.drawSelectOutline(s.link !== false);
+			s.drawSelectOutline((s.link !== false), false);
 		}
 
 		if(_UI.eventhandlers.hoverpoint){

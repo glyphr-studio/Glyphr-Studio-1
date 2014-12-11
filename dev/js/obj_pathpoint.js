@@ -399,6 +399,9 @@
 	};
 
 	PathPoint.prototype.drawPoint = function(sel, accent) {
+		// debug('\n PathPoint.drawPoint - START');
+		// debug('\t sel='+sel+' accent='+json(accent));
+
 		accent = accent || _UI.colors.blue.l65;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
@@ -407,6 +410,7 @@
 
 		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+		// debug(' PathPoint.drawPoint - END\n');
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(sel, next, accent){

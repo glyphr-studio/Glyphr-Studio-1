@@ -822,9 +822,17 @@
 		// del
 		if(kc==='del' || kc==='backspace'){
 			event.preventDefault();
-			deleteShape();
-			history_put('Delete Shape');
-			redraw('Keypress DEL');
+			var sp = s.path.sp(false);
+
+			if(sp){
+				s.path.deletePathPoint();
+				history_put('Delete Path Point');
+				redraw('Keypress DEL or BACKSPACE');
+			} else if (s){
+				deleteShape();
+				history_put('Delete Shape');
+				redraw('Keypress DEL or BACKSPACE');
+			}
 		}
 
 		// c
