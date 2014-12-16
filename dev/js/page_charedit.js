@@ -5,7 +5,7 @@
 //-------------------
 
 	function loadPage_charedit(){
-		// debug("LOADING PAGE >> loadPage_charedit");
+		debug('\n loadPage_charedit - START');
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
@@ -22,6 +22,8 @@
 		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstCharID();
 
 		redraw("loadPage_charedit");
+		
+		debug(' loadPage_charedit - END\n');
 	}
 
 

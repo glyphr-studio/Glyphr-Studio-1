@@ -17,9 +17,9 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		// debug('\n::::::::::::::::::::::\n REDRAW \t START');
+		debug('\n::::::::::::::::::::::\n REDRAW \t START');
 		// debug('\t navhere: ' + _UI.navhere);
-		// debug('\t called By: ' + calledby);
+		debug('\t called By: ' + calledby);
 		// debug('\t selected char: ' + _UI.selectedchar);
 		var start = Date.now();
 
@@ -30,13 +30,20 @@
 		}
 
 		_UI.redrawing = false;
-
-		if(window.requestAnimationFrame) window.requestAnimationFrame(redrawUnit);
-		else redrawUnit();
-
+		reqAniFrame(redrawUnit);
 		_UI.redrawing = false;
 
-		// debug('REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
+		debug('REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
+	}
+
+	function reqAniFrame(fun) {
+		if(_UI.popout){
+			if(_UI.popout.requestAnimationFrame) _UI.popout.requestAnimationFrame(fun);
+			else fun();
+		} else {
+			if(window.requestAnimationFrame) window.requestAnimationFrame(fun);
+			else fun();
+		}
 	}
 
 	function redrawUnit() {

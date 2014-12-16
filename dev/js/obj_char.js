@@ -186,30 +186,27 @@
 		// debug('\t sl.length = ' + sl.length);
 		// Make Pathdata
 		for(var j=0; j<sl.length; j++) {
-			sh = clone(sl[j]);
+			sh = sl[j];
+			ns = false;
 			// debug('\t loop ' + j);
+
 			if(sh.visible) {
 				// debug('\t\t is visible');
 				if(sh.link){
-					if(sh.uselinkedshapexy){
-						sh = _GP.linkedshapes[sh.link].shape;
-						//debug('\t uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
-					} else {
-						ns = clone(_GP.linkedshapes[sh.link].shape);
+					ns = new Shape(JSON.parse(JSON.stringify(_GP.linkedshapes[sh.link].shape)));
+					if(!sh.uselinkedshapexy){
 						//debug('\t !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
 						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						//debug('\t !uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
-						sh = ns;
 					}
+				} else {
+					ns = new Shape(JSON.parse(JSON.stringify(sh)));
 				}
 
 				// Add Left Side Bearing to overall path width
-				ns = clone(sh);
 				ns.path.updatePathPosition(lsb, 0, true);
-				sh = ns;
 
 				//debug('\t making SVG of char ' + this.charname);
-				pathdata += sh.path.makeSVGpathData('Char ' + this.name + ' Shape ' + sh.name);
+				pathdata += ns.path.makeSVGpathData('Char ' + this.name + ' Shape ' + ns.name);
 				if(j < sl.length-1) pathdata += ' ';
 				//if(j < sl.length-1) pathdata += '\n';
 			}

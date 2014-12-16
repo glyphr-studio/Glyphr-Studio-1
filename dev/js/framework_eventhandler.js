@@ -19,6 +19,8 @@
 	};
 
 	function initEventHandlers() {
+		debug('\n initEventHandlers - START');
+		
 		_UI.eventhandlers.eh_pantool = new Tool_Pan();
 		_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
 		_UI.eventhandlers.eh_shapeedit = new Tool_ShapeEdit();
@@ -200,6 +202,8 @@
 
 		this.mousemove = function (ev) {
 			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
+			if(!s) return;
+
 			// debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;

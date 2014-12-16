@@ -22,7 +22,7 @@
 
 		updateCursor();
 		loadPageContent();
-		document.body.focus();
+		getEditDocument().body.focus();
 		debug('>>> NAVIGATED - to ' + _UI.navhere);
 	}
 
@@ -46,15 +46,13 @@
 //-------------------
 
 	function popOut(){
+		debug('\n popOut - START');
 		_UI.popout = window.open('', 'glyphr_popout');
-		//debug('POPOUT - opened window, _UI.popout is ' + _UI.popout);
-		var pop = _UI.popout;
-		var popdoc = _UI.popout.document;
-
-		//debug('POPOUT - getting css:\n' + document.styleSheets[0]);
+		// debug('POPOUT - opened window, _UI.popout is ' + _UI.popout);
+		// debug('POPOUT - getting css:\n' + document.styleSheets[0]);
 
 		// Init window properties
-        popdoc.write('<!doctype html>'+
+        _UI.popout.document.write('<!doctype html>'+
 			'<html>'+
 			'<head>'+
 				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
@@ -70,19 +68,23 @@
         document.body.classList.add('poppedOut');
 
         // Second Screen
-        popdoc.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
-		pop.onBeforeUnload = popIn;
-        pop.clickTool = clickTool;
-        pop.viewZoom = viewZoom;
-        pop.setView = setView;
-        pop.popIn = popIn;
-        pop.toggleKeyboardTips = toggleKeyboardTips;
-		popdoc.getElementById('mainwrapper').style.overflowY = 'hidden';
+        _UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
+		_UI.popout.onBeforeUnload = popIn;
+		_UI.popout.document.getElementById('mainwrapper').style.overflowY = 'hidden';
+
+		// Paridy Functions
+		for(var f in window){ if(window.hasOwnProperty(f) && !_UI.popout[f]){
+			_UI.popout[f] = window[f];
+			// debug('\t added ' + json(f));
+		}}
+
 		navigate();
+
+		debug(' popOut - END\n');
 	}
 
 	function makeLayout_PopOut(){
-		//debug('MAKELAYOUT_POPOUT - start');
+		debug('\n makeLayout_PopOut - START');
 		var onls = _UI.navhere === 'linked shapes';
 		var onkern = _UI.navhere === 'kerning';
 
@@ -99,21 +101,23 @@
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
 		//debug('MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		make_NavPanels_PopOut();
-		//debug('MAKELAYOUT_POPOUT - end');
+		
+		debug(' makeLayout_PopOut - END\n');
 	}
 
 	function make_NavPanels_PopOut(){
-		//debug('make_NavPanels_PopOut');
+		debug('\n make_NavPanels_PopOut - START');
 		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		var onls = _UI.navhere === 'linked shapes';
 		var once = _UI.navhere === 'character edit';
 		var onlig = _UI.navhere === 'ligatures';
 		var ontd = _UI.navhere === 'test drive';
 		var onkern = _UI.navhere === 'kerning';
+		var evmove = _UI.eventhandlers.currtool.dragging || _UI.eventhandlers.currtool.resizing;
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(once) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
+		if(once && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
 		else if(onls) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
 		else if (onlig) document.getElementById('popout_charchooser').innerHTML = makePanel_LigatureChooser();
 
@@ -130,6 +134,7 @@
 		else document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
 
 		updateSaveIcon();
+		debug('make_NavPanels_PopOut - END\n');
 	}
 
 
