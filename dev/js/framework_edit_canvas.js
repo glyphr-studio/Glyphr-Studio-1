@@ -17,9 +17,9 @@
 // REDRAW
 //-------------------
 	function redraw(calledby){
-		debug('\n::::::::::::::::::::::\n REDRAW \t START');
+		// debug('\n::::::::::::::::::::::\n REDRAW \t START');
 		// debug('\t navhere: ' + _UI.navhere);
-		debug('\t called By: ' + calledby);
+		// debug('\t called By: ' + calledby);
 		// debug('\t selected char: ' + _UI.selectedchar);
 		var start = Date.now();
 
@@ -33,7 +33,7 @@
 		reqAniFrame(redrawUnit);
 		_UI.redrawing = false;
 
-		debug('REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
+		// debug('REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
 	}
 
 	function reqAniFrame(fun) {

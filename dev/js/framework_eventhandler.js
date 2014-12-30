@@ -19,8 +19,8 @@
 	};
 
 	function initEventHandlers() {
-		debug('\n initEventHandlers - START');
-		
+		// debug('\n initEventHandlers - START');
+
 		_UI.eventhandlers.eh_pantool = new Tool_Pan();
 		_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
 		_UI.eventhandlers.eh_shapeedit = new Tool_ShapeEdit();
@@ -239,7 +239,7 @@
 				//Translation fidelity, passing raw canvas values
 				if(s && !this.resizing) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 			}
-			
+
 			if(didstuff){
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -525,7 +525,7 @@
 				_UI.eventhandlers.hoverpoint = false;
 				closeNotation();
 			}
-			
+
 			redraw('Tool_PathAddPoint.mousemove');
 		};
 
@@ -634,7 +634,7 @@
 				if(canResize('n')){
 					setCursor('n-resize');
 					dw = 0;
-					dh*=-1;					
+					dh*=-1;
 					s.path.updatePathSize(dw, dh, rl);
 					//s.path.setPathSize(false, false);
 				}
@@ -644,7 +644,7 @@
 				if(canResize('ne')){
 					setCursor('ne-resize');
 					dw*=-1;
-					dh*=-1;					
+					dh*=-1;
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(false, oy+dh);
 				}
@@ -654,7 +654,7 @@
 				if(canResize('e')){
 					setCursor('e-resize');
 					dh = 0;
-					dw*=-1;					
+					dw*=-1;
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(false, oy+dh);
 				}
@@ -664,7 +664,7 @@
 				if(canResize('se')){
 					setCursor('se-resize');
 					dw*=-1;
-					//dh*=-1;					
+					//dh*=-1;
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox, oy);
 				}
@@ -673,7 +673,7 @@
 			case 's':
 				if(canResize('s')){
 					setCursor('s-resize');
-					dw = 0;					
+					dw = 0;
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox, oy);
 				}
@@ -681,7 +681,7 @@
 
 			case 'sw':
 				if(canResize('sw')){
-					setCursor('sw-resize');					
+					setCursor('sw-resize');
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox-dw, oy);
 				}
@@ -690,7 +690,7 @@
 			case 'w':
 				if(canResize('w')){
 					setCursor('w-resize');
-					dh = 0;					
+					dh = 0;
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox-dw, oy+dh);
 				}
@@ -699,7 +699,7 @@
 			case 'nw':
 				if(canResize('nw')){
 					setCursor('nw-resize');
-					dh*=-1;					
+					dh*=-1;
 					s.path.updatePathSize(dw, dh, rl);
 					s.path.setPathPosition(ox-dw, oy+dh);
 				}
@@ -738,8 +738,7 @@
 		var delta = (event.deltaY*-1);
 		//debug('MOUSEWHEEL - deltaY: ' + event.deltaY);
 
-		var canzoom = ((_UI.navhere === 'character edit') || (_UI.navhere === 'linked shapes'));
-		canzoom = canzoom && (document.getElementById('dialog_box').style.display !== 'block');
+		var canzoom = onCanvasEditPage() && (document.getElementById('dialog_box').style.display !== 'block');
 
 		if(canzoom){
 			if(event.ctrlKey){
@@ -785,7 +784,7 @@
 
 	function keypress(event){
 
-		if(!onCanvasEditPage() || _UI.navhere === 'kerning') return;
+		if(!onCanvasEditPage()) return;
 		if(event.type !== 'keydown') return;
 
 		var s = ss('keypress event');
@@ -823,6 +822,61 @@
 			history_pull();
 		}
 
+		// s
+		if(event.ctrlKey && kc==='s'){
+			event.preventDefault();
+			saveGlyphrProjectFile();
+		}
+
+		// plus
+		if(event.ctrlKey && kc==='plus'){
+			event.preventDefault();
+			viewZoom(1.1);
+			redraw('Zoom Keyboard Shortcut');
+		}
+
+		// minus
+		if(event.ctrlKey && kc==='minus'){
+			event.preventDefault();
+			viewZoom(0.9);
+			redraw('Zoom Keyboard Shortcut');
+		}
+
+		// 0
+		if(event.ctrlKey && kc==='0'){
+			event.preventDefault();
+			setView(clone(_UI.defaultview));
+			redraw('Zoom Keyboard Shortcut');
+		}
+
+		// left
+		if(kc==='left'){
+			event.preventDefault();
+			nudge(-1,0);
+		}
+
+		// right
+		if(kc==='right'){
+			event.preventDefault();
+			nudge(1,0);
+		}
+
+		// up
+		if(kc==='up'){
+			event.preventDefault();
+			nudge(0,1);
+		}
+
+		// down
+		if(kc==='down'){
+			event.preventDefault();
+			nudge(0,-1);
+		}
+
+
+		// Only allow above stuff on Kerning page
+		if(_UI.navhere === 'kerning') return;
+
 		// del
 		if(kc==='del' || kc==='backspace'){
 			event.preventDefault();
@@ -853,56 +907,7 @@
 			redraw('Paste Shape');
 		}
 
-		// s
-		if(event.ctrlKey && kc==='s'){
-			event.preventDefault();
-			saveGlyphrProjectFile();
-		}
 
-		// plus
-		if(event.ctrlKey && kc==='plus'){
-			event.preventDefault();
-			viewZoom(1.1);
-			redraw('Zoom Keyboard Shortcut');
-		}
-
-		// minus
-		if(event.ctrlKey && kc==='minus'){
-			event.preventDefault();
-			viewZoom(0.9);
-			redraw('Zoom Keyboard Shortcut');
-		}
-
-		// 0
-		if(event.ctrlKey && kc==='0'){
-			event.preventDefault();
-			setView(clone(_UI.defaultview));
-			redraw('Zoom Keyboard Shortcut');
-		}
-
-		// up
-		if(kc==='up'){
-			event.preventDefault();
-			nudge(0,1);
-		}
-
-		// down
-		if(kc==='down'){
-			event.preventDefault();
-			nudge(0,-1);
-		}
-
-		// left
-		if(kc==='left'){
-			event.preventDefault();
-			nudge(-1,0);
-		}
-
-		// right
-		if(kc==='right'){
-			event.preventDefault();
-			nudge(1,0);
-		}
 	}
 
 	function getKeyFromEvent (event) {
@@ -915,11 +920,15 @@
 
 	function nudge(dx, dy) {
 		var s = ss('Nudge');
-		var sp, mx, my;
-		if(s){
-			mx = (dx * _GP.projectsettings.spinnervaluechange);
-			my = (dy * _GP.projectsettings.spinnervaluechange);
-			sp = s.path.sp();
+		var mx = (dx * _GP.projectsettings.spinnervaluechange);
+		var my = (dy * _GP.projectsettings.spinnervaluechange);
+
+		if(_UI.navhere === 'kerning'){
+			s = getSelectedKern();
+			s.value += (mx || my);
+			redraw('Nudge');
+		} else if(s){
+			var sp = s.path.sp();
 			if(sp){
 				sp.updatePathPointPosition('P', mx, my);
 			} else {
