@@ -424,12 +424,17 @@
 			'export font',
 			'_',
 			'help',
-			'about',
-			'_',
-			'feature',
-			'bug',
-			'issue'
+			'about'
 		];
+
+		if(!_UI.popout){
+			navarr = navarr.concat([
+							'_',
+							'feature',
+							'bug',
+							'issue'
+						]);
+		}
 
 		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
 		newsub += '<div class="panel_section">';
@@ -460,6 +465,8 @@
 				'</button>';
 			}
 		}
+		
+		newsub += '<div style="height:40px;"></div>';
 
 		if(_UI.popout) {
 			newsub += '<div class="popoutsave">';

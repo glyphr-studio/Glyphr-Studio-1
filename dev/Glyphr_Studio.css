@@ -244,14 +244,17 @@
 /* -----------------*/
 	#primaryScreenLayout,
 	#secondaryScreenLayout {
-		overflow: hidden;
 		width: 100%;
 		height: 100%;
+		overflow: hidden;
+        position: absolute;
+        top:0px;
+        left:0px;
 	}
 
     .poppedOut #primaryScreenLayout {
-        overflow: auto;
-        position: absolute;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
 
 	#navarea_tabs {
@@ -343,6 +346,14 @@
 	.popout_table {
 		width:2372px;
 		height:100%;
+		overflow-y:hidden;
+		display:block;
+	}
+
+	.popout_table > tbody,
+	.popout_table > tbody > tr {
+		display:block;
+		height:100%;
 	}
 
 	#popout_pagenav,
@@ -405,7 +416,7 @@
 		border-bottom:5px solid rgb(204,209,214);
 		width:230px;
 		position:absolute;
-		bottom:0px;
+		bottom:-10px;
 		left:-10px;
 	}
 
