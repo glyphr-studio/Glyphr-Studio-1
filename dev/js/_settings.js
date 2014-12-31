@@ -7,7 +7,7 @@
 
 	var _UI = {
 		// Internal Dev Stuff
-		'debug': true,			// global debug console switch
+		'debug': false,			// global debug console switch
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'character edit',	// navigate straight to a page
 		'devnavprimary': 'npAttributes', // navigate straight to a panel
@@ -16,7 +16,7 @@
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Beta 5.1 - 0.5.1',
+		'thisGlyphrStudioVersion': 'Beta 5.1 - 0.5.1.sandbox',
 		'thisGlyphrStudioVersionNum': '0.5.1',
 		'projectsaved': true,
 		'icons': {},
