@@ -12,6 +12,7 @@
 		'devnav': false,	// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
+		// SelectedChar
 
 		// all pages
 		'navhere': 'firstrun',
@@ -106,7 +107,7 @@
 		'history': {},
 
 		// page: charedit
-		'selectedchar': '0x0066',
+		'selectedchar': false,	// f is 0x0066
 		'selectedshape': -1,
 		'shapelayers': [],
 
