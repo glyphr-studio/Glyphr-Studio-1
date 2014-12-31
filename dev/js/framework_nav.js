@@ -5,7 +5,7 @@
 //-------------------
 
 	function navigate(nap){
-		debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
+		// debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
 
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
@@ -23,7 +23,7 @@
 		updateCursor();
 		loadPageContent();
 		getEditDocument().body.focus();
-		debug('>>> NAVIGATED - to ' + _UI.navhere);
+		// debug('>>> NAVIGATED - to ' + _UI.navhere);
 	}
 
 
@@ -46,7 +46,7 @@
 //-------------------
 
 	function popOut(){
-		debug('\n popOut - START');
+		// debug('\n popOut - START');
 		_UI.popout = window.open('', 'glyphr_popout');
 		// debug('POPOUT - opened window, _UI.popout is ' + _UI.popout);
 		// debug('POPOUT - getting css:\n' + document.styleSheets[0]);
@@ -80,11 +80,11 @@
 
 		navigate();
 
-		debug(' popOut - END\n');
+		// debug(' popOut - END\n');
 	}
 
 	function makeLayout_PopOut(){
-		debug('\n makeLayout_PopOut - START');
+		// debug('\n makeLayout_PopOut - START');
 		var onls = _UI.navhere === 'linked shapes';
 		var onkern = _UI.navhere === 'kerning';
 
@@ -102,11 +102,11 @@
 		//debug('MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		make_NavPanels_PopOut();
 		
-		debug(' makeLayout_PopOut - END\n');
+		// debug(' makeLayout_PopOut - END\n');
 	}
 
 	function make_NavPanels_PopOut(){
-		debug('\n make_NavPanels_PopOut - START');
+		// debug('\n make_NavPanels_PopOut - START');
 		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		var onls = _UI.navhere === 'linked shapes';
 		var once = _UI.navhere === 'character edit';
@@ -134,7 +134,7 @@
 		else document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
 
 		updateSaveIcon();
-		debug('make_NavPanels_PopOut - END\n');
+		// debug('make_NavPanels_PopOut - END\n');
 	}
 
 

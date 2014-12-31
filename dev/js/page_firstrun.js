@@ -56,8 +56,8 @@
 		// Closure to capture the file information.
 		reader.onload = (function() {
 			return function(e) {
-				debug('\n reader.onload - START');
-				debug('\t filename: ' + f.name);
+				// debug('\n reader.onload - START');
+				// debug('\t filename: ' + f.name);
 				var fname = f.name.split('.');
 				fname = fname[fname.length-1].toLowerCase();
 				var con;
@@ -75,7 +75,7 @@
 					document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 				}
 
-				debug(' reader.onload - END\n');
+				// debug(' reader.onload - END\n');
 			};
 		})(f);
 

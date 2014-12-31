@@ -60,7 +60,7 @@
 	}
 
 	function ioSVG_makeFontFace() {
-		debug('\n ioSVG_makeFontFace - START');
+		// debug('\n ioSVG_makeFontFace - START');
 		calcFontMaxes();
 		var t = '\t\t\t\t';
 		var md = _GP.metadata;
@@ -88,12 +88,12 @@
 		con = con.substring(0, con.length-1);
 		con += '>';
 
-		debug(' ioSVG_makeFontFace - END\n');
+		// debug(' ioSVG_makeFontFace - END\n');
 		return con;
 	}
 
 	function ioSVG_makeMissingGlyph() {
-		debug('\n ioSVG_makeMissingGlyph - START');
+		// debug('\n ioSVG_makeMissingGlyph - START');
 		var con = '         ';
 		var gh = _GP.projectsettings.ascent;
 		var gw = round(gh * 0.618);
@@ -104,12 +104,12 @@
 		con += 'M'+gt+','+gt+' v'+(gh-(gt*2))+' h'+(gw-(gt*2))+' v-'+(gh-(gt*2))+' h-'+(gw-(gt*2))+'z';
 		con += '" />';
 
-		debug(' ioSVG_makeMissingGlyph - END\n');
+		// debug(' ioSVG_makeMissingGlyph - END\n');
 		return con;
 	}
 
 	function ioSVG_makeAllCharsAndLigatures() {
-		debug('\n ioSVG_makeAllCharsAndLigatures - START');
+		// debug('\n ioSVG_makeAllCharsAndLigatures - START');
 
 		//<glyph glyph-name="uniFEDF_uniFEE0_uniFBAB.liga" unicode="&#xfedf;&#xfee0;&#xfbab;" horiz-adv-x="1262" d="M1224 5
 
@@ -130,7 +130,7 @@
 			con += ioSVG_makeOneCharOrLigature(fc[c], c);
 		}}
 
-		debug(' ioSVG_makeAllCharsAndLigatures - END\n');
+		// debug(' ioSVG_makeAllCharsAndLigatures - END\n');
 		return con;
 	}
 
@@ -151,7 +151,7 @@
 	}
 
 	function ioSVG_makeAllKernPairs() {
-		debug('\n ioSVG_makeAllKernPairs - START');
+		// debug('\n ioSVG_makeAllKernPairs - START');
 		var kp = _GP.kerning;
 		var con = '\t\t\t<!-- Kern Pairs -->\n';
 
@@ -166,7 +166,7 @@
 			}
 		}}
 
-		debug(' ioSVG_makeAllKernPairs - END\n');
+		// debug(' ioSVG_makeAllKernPairs - END\n');
 		return con;
 	}
 

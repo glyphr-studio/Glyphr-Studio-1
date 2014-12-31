@@ -5,7 +5,7 @@
 //-------------------
 
 	function loadPage_charedit(){
-		debug('\n loadPage_charedit - START');
+		// debug('\n loadPage_charedit - START');
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
@@ -23,7 +23,7 @@
 
 		redraw("loadPage_charedit");
 		
-		debug(' loadPage_charedit - END\n');
+		// debug(' loadPage_charedit - END\n');
 	}
 
 
