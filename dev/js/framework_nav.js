@@ -359,7 +359,7 @@
 		if(_UI.navprimaryhere === 'npNav'){
 			newsub += '<div class="navarea_header"></div>';
 		} else {
-			newsub += '<div class="navarea_header" style="background-color:'+_UI.colors.blue.l45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
+			newsub += '<div class="navarea_header" title="Navigate" style="background-color:'+_UI.colors.blue.l45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
 			newsub += '</button></div>';
 		}
@@ -372,13 +372,13 @@
 				nfill = _UI.colors.gray.l90;
 				nhover = 'white';
 			}
-			newsub += '<div class="panel_section"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
+			newsub += '<div class="panel_section" title="'+navarr[i].substr(2)+'"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
 			newsub += '</button></div>';
 		}
 
 		var savecolor = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
-		newsub += '<div class="panel_section"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
+		newsub += '<div class="panel_section" title="Save Glyphr Project File"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
 		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
 		newsub += '</button></div>';
 
