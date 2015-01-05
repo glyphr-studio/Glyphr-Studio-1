@@ -340,6 +340,7 @@
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 
+			redraw('Event Handler Tool_NewPath mousedown');	
 			//debug('Tool_NewPath MOUSEDOWN - end of function, this.currpt:\n' + JSON.stringify(newpoint));
 		};
 
