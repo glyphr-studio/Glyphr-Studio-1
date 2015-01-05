@@ -2,10 +2,12 @@
 Glyphr Studio is a free, web based font designer, focusing on font design hobbyists.  
 More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - and/or follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
 
-## Beta 5 and 5.1 have been released!
+## Beta 5 has been released!
 Just in time for the 2014 holiday season, Glyphr Beta 5 was released!  Major new features are Importing and Exporting SVG Fonts, Ligatures, and Kerning.  Lots of little features, too – a full breakdown of new features can be found at [the Glyphr Studio Blog](http://www.glyphrstudio.com/blog) or at the [Beta 5 GitHub Release Page](https://github.com/mattlag/Glyphr-Studio/releases/tag/v0.5.0).
 
 And just in time for New Year's Day, Beta 5.1 was released - with bug fixes, performance enhancements, and a new Pen Tool!
+
+Beta 5.2 is just some bug fixes, which is kind of boring, but necessary.
 
 As always, there is kind of a running list of feature ideas over at the [Issues List]( https://github.com/mattlag/Glyphr-Studio/issues?labels=&page=1&state=open).
 
