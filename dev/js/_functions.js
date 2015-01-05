@@ -264,7 +264,7 @@ function saveTextFile(fname, json) {
 	function round(num, dec){
 		if(!num) return 0;
 		dec = isval(dec)? dec : 0;
-		return Number(Math.round(num+'e'+dec)+'e-'+dec);
+		return Number(Math.round(num+'e'+dec)+'e-'+dec) || 0;
 	}
 
 	// removes illegal file name chars

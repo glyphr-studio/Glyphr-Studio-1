@@ -243,7 +243,12 @@
 			}
 		}
 
+		// Clean up negative numbers, and scientific notation numbers
+		data = data.replace(/e-/g, '~~~');
 		data = data.replace(/-/g, ',-');
+		data = data.replace(/~~~/g, 'e-');
+
+		// Clean up commas and whitespace
 		if(data.charAt(0) === ' ') data = data.slice(1);
 		data = data.replace(/,+/g,',');
 		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
