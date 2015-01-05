@@ -6,8 +6,8 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			'version': 'Beta 5 - 0.5.1',	// project version
-			'versionnum': '0.5.1',			// project number version
+			'version': 'Beta 5 - 0.5.2',	// project version
+			'versionnum': '0.5.2',			// project number version
 
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)

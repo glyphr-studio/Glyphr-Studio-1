@@ -56,16 +56,18 @@
 		// Closure to capture the file information.
 		reader.onload = (function() {
 			return function(e) {
-				// debug('\n reader.onload - START');
-				// debug('\t filename: ' + f.name);
+				debug('\n reader.onload - START');
+				debug('\t filename: ' + f.name);
 				var fname = f.name.split('.');
 				fname = fname[fname.length-1].toLowerCase();
 				var con;
 
 				if(fname === 'svg') {
+					debug('\t File = .svg');
 					_UI.droppedFileContent = reader.result;
 					ioSVG_importSVGfont(false);
 				} else if(fname === 'txt') {
+					debug('\t File = .txt');
 					importGlyphrProjectFromText(reader.result);
 					navigate();
 				} else {
@@ -75,7 +77,7 @@
 					document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 				}
 
-				// debug(' reader.onload - END\n');
+				debug(' reader.onload - END\n');
 			};
 		})(f);
 
@@ -112,9 +114,15 @@
 	function importGlyphrProjectFromText(textcontent){
 		// debug("IMPORTGLYPHRPROJECTFROMTEXT");
 
-		var fcontent = JSON.parse(textcontent);
-		var vn = fcontent.projectsettings.versionnum;
-		var v = fcontent.projectsettings.version;
+		var fcontent;
+		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
+
+		var vn = false;
+		var v = false;
+		if(fcontent.projectsettings){
+			vn = fcontent.projectsettings.versionnum;
+			v = fcontent.projectsettings.version;
+		}
 
 		// debug(fcontent);
 

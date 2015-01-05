@@ -201,14 +201,25 @@
 	}
 
 	function ioSVG_getFirstTagInstance(obj, tagname) {
+		// debug('\n ioSVG_getFirstTagInstance - START');
+		// debug('\t finding ' + tagname + ' in:');
+		// debug(obj);
+
 		if(tagname === obj.name){
+			// debug(' ioSVG_getFirstTagInstance - tagname === obj.name - END\n');
 			return obj;
 		} else if (obj.content){
 			for(var c=0; c<obj.content.length; c++){
 				var sub = ioSVG_getFirstTagInstance(obj.content[c], tagname);
-				if(sub) return sub;
+				if(sub){
+					// debug(' ioSVG_getFirstTagInstance - looked through obj and found it - END\n');
+					return sub;
+				}
 			}
-		} else return false;
+		} else {
+			// debug(' ioSVG_getFirstTagInstance - NO obj.content FOUND - END\n');
+			return false;
+		}
 	}
 
 	function ioSVG_convertPathTag(data) {
@@ -581,6 +592,7 @@
 
 		function tag_getContent(parent) {
 			var kids = parent.childNodes;
+			// debug('\n tag_getContent - START');
 			// debug('\nTAG: ' + parent.nodeName + '\t' + parent.childNodes.length);
 
 			if(kids.length === 0) return trim(parent.nodeValue);
@@ -592,7 +604,14 @@
 				tagresult = {};
 				node = kids[k];
 				// debug('\n\t>>START kid ' + k + ' ' + node.nodeName);
-				if(node.nodeName === '#comment') break;
+/*				
+				if(node.nodeName === '#comment') {
+					debug('\t Found a #comment, breaking...');
+					break;
+				}
+*/
+				// debug('\t tag content: ');
+				// debug(tagcontent);
 
 				tagcontent = tag_getContent(node);
 				tagattributes = tag_getAttributes(node.attributes);
@@ -610,6 +629,7 @@
 				// debug('\t>>END kid ' + k);
 			}
 
+			// debug(' tag_getContent - END\n');
 			return result;
 		}
 
