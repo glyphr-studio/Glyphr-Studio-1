@@ -1,28 +1,60 @@
 module.exports = function(grunt) {
 
+	var versionnum = 'v1.00.00.working';
+
+	// Grab HTML parts
+	var apphtml = grunt.file.read('dev/Glyphr_Studio.html');
+	apphtml = apphtml.split('<!--template_split-->');
+	apphtml[0] += '\n<script>\n';
+	apphtml[2] = '\n</style>\n' + apphtml[2];
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		concat: {
-			build: {
+			merge: {
 				src: ['dev/js/*.js'],
-				dest: 'current_build/Glyphr_Studio.min.js'
+				dest: 'build/Glyphr_Studio.min.js'
+			},
+			dist: {
+				options: {
+					banner: apphtml[0],
+					footer: apphtml[2],
+					separator: '\n</script>\n\n<style>\n'
+				},
+				files: {
+					src: ['build/Glyphr_Studio.min.js', 'build/Glyphr_Studio.min.css'],
+					dest: ('Glyphr_Studio_-_'+versionnum+'.html')
+				}
+			},
+			build: {
+				options: {
+					banner: apphtml[0],
+					footer: apphtml[2],
+					separator: '\n<link rel="stylesheet" type="text/css" href="Glyphr_Studio.min.css" />\n<script src="Glyphr_Studio.min.js"></script>\n'
+				},
+				files: {
+					src: ['build/Glyphr_Studio.min.js', 'build/Glyphr_Studio.min.css'],
+					dest: ('Glyphr_Studio_-_'+versionnum+'.build.html')
+				}
 			}
 		},
 		uglify: {
-			options: {
-				preserveComments: false,
-				mangle: true
-			},
-			build: {
-				src: 'current_build/Glyphr_Studio.min.js',
-				dest: 'current_build/Glyphr_Studio.min.js'
+			minimize: {
+				options: {
+					preserveComments: false,
+					mangle: true
+				},
+				files: {
+					src: 'build/Glyphr_Studio.min.js',
+					dest: 'build/Glyphr_Studio.min.js'
+				}
 			}
 		},
 		cssmin: {
-			build:{
+			minimize:{
 				src: 'dev/Glyphr_Studio.css',
-				dest: 'current_build/Glyphr_Studio.min.css'
+				dest: 'build/Glyphr_Studio.min.css'
 			}
 		}
 	});
@@ -33,5 +65,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	// Tasks
-	grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
+	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:build', 'concat:dist']);
 };

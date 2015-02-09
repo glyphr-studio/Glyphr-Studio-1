@@ -16,6 +16,12 @@
 //-------------------
 // REDRAW
 //-------------------
+	/*
+		redraw
+		This can be called globally to trigger a redraw of whatever page is currently active.
+		It takes an optional 'calledby' variable, which is any string to identify what triggered
+		the redraw, for debugging purposes.
+	*/
 	function redraw(calledby){
 		// debug('\n::::::::::::::::::::::\n REDRAW \t START');
 		// debug('\t navhere: ' + _UI.navhere);

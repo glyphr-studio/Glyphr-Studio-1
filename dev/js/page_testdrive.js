@@ -1,5 +1,10 @@
 // start of file
 
+	/*
+		loadPage_testdrive
+		This function is called by the overall Navigate function, and populates 
+		page-level HTML.
+	*/
 	function loadPage_testdrive(){
 		// debug("LOADING PAGE >> loadPage_testdrive");
 
@@ -21,6 +26,11 @@
 		redraw_TestDrive();
 	}
 
+	/*
+		makePanel_TestDriveAttributes
+		This function is called by the overall Redraw function, and it loads content to
+		the left panel - usually options for the Edit Canvas.
+	*/
 	function makePanel_TestDriveAttributes(){
 		if(_UI.navprimaryhere !== 'npAttributes') return;
 
@@ -37,6 +47,12 @@
 		return content;
 	}
 
+
+	/* 
+		readraw_TestDrive
+		This function is called by the overall Redraw to update the canvas, or whatever
+		content is in the main Content Area
+	*/
 	function redraw_TestDrive(){
 		// debug("\n redraw_TestDrive - START");
 		_UI.redrawing = true;
@@ -102,6 +118,13 @@
 		_UI.redrawing = false;
 	}
 
+	/*
+		calculateKernOffset
+		Takes two characters as arguments, and determines the number of Em units of
+		offset between them.  First checks to see if there are custom kern values
+		for the pair, and if not, returns 0. Left Side Bearing and Right Side Bearing
+		are not returned, only kern values.
+	*/
 	function calculateKernOffset(c1, c2) {
 		// debug('\n calculateKernOffset - START');
 		// debug('\t passed: ' + c1 + ' and ' + c2);
@@ -137,6 +160,11 @@
 		return 0;
 	}
 
+	/*
+		findAndMergeLigatures
+		Takes an array of characters as an argument, and looks for character sequences
+		that merge to ligatures.  Returns an array with merged results.
+	*/
 	function findAndMergeLigatures(carr) {
 		// debug('\n findAndMergeLigatures - START');
 		var ligs = sortLigatures();

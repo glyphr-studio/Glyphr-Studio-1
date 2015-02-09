@@ -79,7 +79,7 @@
 
 				// if(ioSVG_checkForIgnored(shapetags.rect[r])) error = true;
 
-				data = shapetags.rect.attributes;
+				data = shapetags.rect.attributes || {};
 
 				if(data.x) rectmaxes.xmin = data.x*1;
 				if(data.y) rectmaxes.ymin = data.y*1;
