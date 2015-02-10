@@ -4,7 +4,8 @@
 		// debug("LOADING PAGE >> loadPage_about");
 		var content = "<div class='pagecontent textpage aboutpage' style='margin-top:18px;'>" +
 		makeGlyphrStudioLogo({"width":376, "fill":_UI.colors.blue.l55}) +
-		"<h2 style='margin-bottom:12px; margin-top:8px;'>"+_UI.thisGlyphrStudioVersion+"</h2>" +
+		"<h2 style='margin-bottom:8px; margin-top:8px;'>"+_UI.thisGlyphrStudioVersion+"</h2>" +
+		"<div style='margin-bottom:18px;'>"+_UI.thisGlyphrStudioVersionNum+"</div>" +
 		"<table>"+
 		"<tr><td><i>Website: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='http://www.glyphrstudio.com' target=_new>glyphrstudio.com</a> for all the info.</td></tr>" +
 		"<tr><td><i>Email: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='mailto:mail@glyphrstudio.com'>mail@glyphrstudio.com</a> with any questions, and we'd be happy to help out.</td></tr>" +

@@ -5,11 +5,12 @@
 
 		var ct = "<table style='height:100%; width:100%;'><tr>"+
 		"<td id='firstruntableleft' vertical-align='middle'><div id='splashscreenlogo'></div>"+
-			"<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br><br>"+
+			"<div class='splashver'>"+_UI.thisGlyphrStudioVersion+"<br>"+
+			"<div class='splashver'>"+_UI.thisGlyphrStudioVersionNum+"<br></div>"+
 			"For more informaiton visit <a href='http://www.glyphrstudio.com' target=_new>www.glyphrstudio.com</a><br>"+
 			"Glyphr Studio is licensed under a <a href='https://www.gnu.org/licenses/gpl.html' target='_new'>GNU General Public License</a>.<br>" +
 			"Which is a free / open source 'copyleft' license. You are free to use, distribute, and modify Glyphr Studio as long as " +
-			"this license and its freeness stays intact.</td>"+
+			"this license and its freeness stays intact.</div></td>"+
 		"<td id='firstruntableright' vertical-align='middle'>" + make_ImportOrCreateNew() + "</td>"+
 		"</tr></table>";
 
