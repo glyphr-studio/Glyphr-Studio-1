@@ -386,7 +386,7 @@
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';
 
 		// Debug Dumps
-		if(_UI.debug){
+		if(_UI.devmode){
 			newsub += '<div id="devtools" style="display:none; margin-top:20px; width:70px; text-align:center;">';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_UI);">UI</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';

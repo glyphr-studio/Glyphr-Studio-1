@@ -14,7 +14,7 @@
 		setupGhostCanvas();
 
 		// Navigate
-		if(_UI.devnav){
+		if(_UI.devmode && _UI.devnav){
 			debug('\t >>> DEV NAV - to ' + _UI.devnav);
 
 			if(_UI.loadsampleproject && _UI.sampleproject){
@@ -29,7 +29,8 @@
 			_UI.navhere = _UI.devnav;
 		}
 
-		navigate(_UI.devnavprimary);
+		var navto = _UI.devmode? _UI.devnavprimary : false;
+		navigate(navto);
 
 		debug(' MAIN SETUP - END\n');
 	};
@@ -49,7 +50,7 @@
 
 
 		window.onbeforeunload = function() {
-			if(_GP.projectsettings.stoppagenavigation && !_UI.debug){
+			if(_GP.projectsettings.stoppagenavigation && !_UI.devmode){
 				return '\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n';
 			} else {
 				return;
@@ -92,6 +93,8 @@
 //-------------------
 
 	function debug(message, force){
+		if(!_UI.devmode) return;
+
 		if(_UI.debug || force){
 			if(typeof message === 'string'){
 				message = message.replace(/&lt;/gi, '<');
