@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!--
-    Copyright (C) 2015 Matthew LaGrandeur
+    Copyright (C) 2010 - 2015 Matthew LaGrandeur
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,64 +18,65 @@
 
 -->
 <head>
-    <title>Glyphr Studio</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Glyphr Studio</title>
 
-    <link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUhJREFUeNpiZACBVQ8NgGQ9EDsAsQADfvABiA8AcSNDmPwFRqjm/egaDQTYgJgVzL7w4TcQ/8JmkCML1GYBZI3zTYXANDIAGZB4+h2yQSA99SAXvIcZoMDNwnDeVQIsW3jhPcOGp9/B7ABpToZ+A0Ew23D3C4YHX//AXcGEbHu9Fj9c0YIHXxk+/P4HxiA2SAxZDcwVTMg8kE0gxUg2wAFIDCQHUoMMUAwQYGVi+Ai0ERcAyYHU4DQA5Fx9fjacBmCTQzFg4u3PYCeutxIF0yDbQBhZDB2wIHMarn4E0/mqvBiKQa4DRSF69KIY8D9UDkwzrn7E4CDKgaLwwOsfDA3a/PgNANkCiwGQBmxh8AEtkJmgSRIeBiAbQP5FdgGIDQsDkBpkO1mgGSOAmDBovPYRrgbmM5yZCWQrcmbC4iVwZmKkNDsDBBgAPeaW5sdU9+kAAAAASUVORK5CYII=">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <!--template_split-->
-    <link rel="stylesheet" type="text/css" href="Glyphr_Studio.css" />
+<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUhJREFUeNpiZACBVQ8NgGQ9EDsAsQADfvABiA8AcSNDmPwFRqjm/egaDQTYgJgVzL7w4TcQ/8JmkCML1GYBZI3zTYXANDIAGZB4+h2yQSA99SAXvIcZoMDNwnDeVQIsW3jhPcOGp9/B7ABpToZ+A0Ew23D3C4YHX//AXcGEbHu9Fj9c0YIHXxk+/P4HxiA2SAxZDcwVTMg8kE0gxUg2wAFIDCQHUoMMUAwQYGVi+Ai0ERcAyYHU4DQA5Fx9fjacBmCTQzFg4u3PYCeutxIF0yDbQBhZDB2wIHMarn4E0/mqvBiKQa4DRSF69KIY8D9UDkwzrn7E4CDKgaLwwOsfDA3a/PgNANkCiwGQBmxh8AEtkJmgSRIeBiAbQP5FdgGIDQsDkBpkO1mgGSOAmDBovPYRrgbmM5yZCWQrcmbC4iVwZmKkNDsDBBgAPeaW5sdU9+kAAAAASUVORK5CYII=">
 
-    <script src="js/_settings.js"></script>
-    <script src="js/_settings_sample.js"></script>
-    <script src="js/_functions.js"></script>
+<!--template_split-->
+<link rel="stylesheet" type="text/css" href="Glyphr_Studio.css" />
 
-    <script src="js/framework_nav.js"></script>
-    <script src="js/framework_edit_canvas.js"></script>
-    <script src="js/framework_satchooser.js"></script>
-    <script src="js/framework_unicode.js"></script>
-    <script src="js/framework_unicode_names.js"></script>
-    <script src="js/framework_eventhandler.js"></script>
-    <script src="js/framework_drawings.js"></script>
+<script src="js/_settings.js"></script>
+<script src="js/_settings_sample.js"></script>
+<script src="js/_functions.js"></script>
 
-    <script src="js/obj_glyphrproject.js"></script>
-    <script src="js/obj_history.js"></script>
-    <script src="js/obj_pathpoint.js"></script>
-    <script src="js/obj_path.js"></script>
-    <script src="js/obj_shape.js"></script>
-    <script src="js/obj_linkedshape.js"></script>
-    <script src="js/obj_char.js"></script>
-    <script src="js/obj_guide.js"></script>
-    <script src="js/obj_hkern.js"></script>
+<script src="js/framework_nav.js"></script>
+<script src="js/framework_edit_canvas.js"></script>
+<script src="js/framework_satchooser.js"></script>
+<script src="js/framework_unicode.js"></script>
+<script src="js/framework_unicode_names.js"></script>
+<script src="js/framework_eventhandler.js"></script>
+<script src="js/framework_drawings.js"></script>
 
-    <script src="js/page_charedit.js"></script>
-    <script src="js/page_linkedshapes.js"></script>
-    <script src="js/page_ligatures.js"></script>
-    <script src="js/page_kerning.js"></script>
-    <script src="js/page_testdrive.js"></script>
+<script src="js/obj_glyphrproject.js"></script>
+<script src="js/obj_history.js"></script>
+<script src="js/obj_pathpoint.js"></script>
+<script src="js/obj_path.js"></script>
+<script src="js/obj_shape.js"></script>
+<script src="js/obj_linkedshape.js"></script>
+<script src="js/obj_char.js"></script>
+<script src="js/obj_guide.js"></script>
+<script src="js/obj_hkern.js"></script>
 
-    <script src="js/panel_attributes_character.js"></script>
-    <script src="js/panel_attributes_linkedshape.js"></script>
-    <script src="js/panel_attributes_kern.js"></script>
-    <script src="js/panel_chooser.js"></script>
-    <script src="js/panel_layers.js"></script>
-    <script src="js/panel_guides.js"></script>
-    <script src="js/panel_history.js"></script>
-    <script src="js/panel_actions.js"></script>
+<script src="js/page_charedit.js"></script>
+<script src="js/page_linkedshapes.js"></script>
+<script src="js/page_ligatures.js"></script>
+<script src="js/page_kerning.js"></script>
+<script src="js/page_testdrive.js"></script>
 
-    <script src="js/page_fontsettings.js"></script>
-    <script src="js/page_projectsettings.js"></script>
-    <script src="js/page_firstrun.js"></script>
-    <script src="js/page_importsvg.js"></script>
-    <script src="js/page_exportfont.js"></script>
-    <script src="js/page_help.js"></script>
-    <script src="js/page_about.js"></script>
+<script src="js/panel_attributes_character.js"></script>
+<script src="js/panel_attributes_linkedshape.js"></script>
+<script src="js/panel_attributes_kern.js"></script>
+<script src="js/panel_chooser.js"></script>
+<script src="js/panel_layers.js"></script>
+<script src="js/panel_guides.js"></script>
+<script src="js/panel_history.js"></script>
+<script src="js/panel_actions.js"></script>
 
-    <script src="js/io_svg_outline_import.js"></script>
-    <script src="js/io_svg_font_import.js"></script>
-    <script src="js/io_svg_font_export.js"></script>
-    <!--template_split-->
+<script src="js/page_fontsettings.js"></script>
+<script src="js/page_projectsettings.js"></script>
+<script src="js/page_firstrun.js"></script>
+<script src="js/page_importsvg.js"></script>
+<script src="js/page_exportfont.js"></script>
+<script src="js/page_help.js"></script>
+<script src="js/page_about.js"></script>
+
+<script src="js/io_svg_outline_import.js"></script>
+<script src="js/io_svg_font_import.js"></script>
+<script src="js/io_svg_font_export.js"></script>
+<!--template_split-->
     
 </head>
 

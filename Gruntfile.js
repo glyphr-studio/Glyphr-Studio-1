@@ -1,42 +1,41 @@
 module.exports = function(grunt) {
 
-	var versionnum = 'v1.00.00.working';
-
 	// Grab HTML parts
 	var apphtml = grunt.file.read('dev/Glyphr_Studio.html');
 	apphtml = apphtml.split('<!--template_split-->');
-	apphtml[0] += '\n<script>\n';
-	apphtml[2] = '\n</style>\n' + apphtml[2];
+
+	var ver = grunt.file.read('dev/js/_settings.js');
+	ver = ver.split("'thisGlyphrStudioVersionNum': '")[1];
+	ver = ver.split("',")[0];
+	ver = ver || '0.0.0';
 
 	// Project configuration.
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+		pkg: {version: ver},
 		concat: {
 			merge: {
 				src: ['dev/js/*.js'],
 				dest: 'build/Glyphr_Studio.min.js'
 			},
+			test: {
+				options: {
+					stripbanners: true,
+					banner: apphtml[0] + 
+						'<link rel="stylesheet" type="text/css" href="Glyphr_Studio.min.css" />\n\n' + 
+						'<script src="Glyphr_Studio.min.js"></script>' +
+						apphtml[2]
+				},
+				src: 'nothing',
+				dest: 'build/Glyphr_Studio_-_test.html'
+			},
 			dist: {
 				options: {
-					banner: apphtml[0],
-					footer: apphtml[2],
-					separator: '\n</script>\n\n<style>\n'
+					banner: apphtml[0] + '<style>\n',
+					footer: '\n</script>' + apphtml[2],
+					separator: '\n</style>\n\n<script>\n'
 				},
-				files: {
-					src: ['build/Glyphr_Studio.min.js', 'build/Glyphr_Studio.min.css'],
-					dest: ('Glyphr_Studio_-_'+versionnum+'.html')
-				}
-			},
-			build: {
-				options: {
-					banner: apphtml[0],
-					footer: apphtml[2],
-					separator: '\n<link rel="stylesheet" type="text/css" href="Glyphr_Studio.min.css" />\n<script src="Glyphr_Studio.min.js"></script>\n'
-				},
-				files: {
-					src: ['build/Glyphr_Studio.min.js', 'build/Glyphr_Studio.min.css'],
-					dest: ('Glyphr_Studio_-_'+versionnum+'.build.html')
-				}
+				src: ['build/Glyphr_Studio.min.css', 'build/Glyphr_Studio.min.js'],
+				dest: 'dist/Glyphr_Studio_-_<%= pkg.version %>.html'
 			}
 		},
 		uglify: {
@@ -45,10 +44,8 @@ module.exports = function(grunt) {
 					preserveComments: false,
 					mangle: true
 				},
-				files: {
-					src: 'build/Glyphr_Studio.min.js',
-					dest: 'build/Glyphr_Studio.min.js'
-				}
+				src: 'build/Glyphr_Studio.min.js',
+				dest: 'build/Glyphr_Studio.min.js'
 			}
 		},
 		cssmin: {
@@ -65,5 +62,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	// Tasks
-	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:build', 'concat:dist']);
+	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist']);
 };

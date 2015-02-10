@@ -17,8 +17,8 @@
 		// all pages
 		'navhere': 'firstrun',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Beta 5.2 - 0.5.2',
-		'thisGlyphrStudioVersionNum': '0.5.2',
+		'thisGlyphrStudioVersion': 'Version 1 (pre-release)',
+		'thisGlyphrStudioVersionNum': '1.00.00-alpha',
 		'projectsaved': true,
 		'icons': {},
 		'cursors': {},
