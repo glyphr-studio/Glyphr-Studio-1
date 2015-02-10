@@ -6,8 +6,8 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			'version': 'Beta 5 - 0.5.2',	// project version
-			'versionnum': '0.5.2',			// project number version
+			'version': _UI.thisGlyphrStudioVersion,			// project version
+			'versionnum': _UI.thisGlyphrStudioVersionNum,	// project number version
 
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)
@@ -112,7 +112,7 @@
 		// debug('\t ' + _GP.projectsettings.formatsavefile);
 		var jsonString;
 
-		if(_GP.projectsettings.formatsavefile)jsonString = json(_GP);
+		if(_GP.projectsettings.formatsavefile) jsonString = json(_GP);
 		else jsonString = JSON.stringify(_GP);
 
 		//debug('saveGlyphrProjectFile - \n'+jsonString);

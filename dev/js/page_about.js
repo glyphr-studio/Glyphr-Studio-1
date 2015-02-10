@@ -18,7 +18,9 @@
 		"<br>"+
 		"<h1>This Glyphr Project</h1>"+
 		"<p>"+
-		"The currently opened project was created with: <span style='font-weight:bold; color:rgb(102, 107, 112);'>" + _GP.projectsettings.version + " </span><br>" +
+		"The currently opened project was created with: "+
+		"<span style='font-weight:bold; color:rgb(102, 107, 112);'>" + _GP.projectsettings.version + " </span> "+
+		"<span style='font-size:.8em;'>version " + _GP.projectsettings.versionnum + "</span><br>" +
 		"</p>"+
 		"Glyphr Projects may be incompatible with different Beta versions of Glyphr Studio." +
 

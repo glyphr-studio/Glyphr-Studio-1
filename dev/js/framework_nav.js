@@ -278,7 +278,6 @@
 			case 'project settings':	loadPage_projectsettings();	break;
 			case 'export font':			loadPage_exportfont();		break;
 			case 'import svg':			loadPage_importsvg();		break;
-			case 'help':				loadPage_help();			break;
 			case 'about':				loadPage_about();			break;
 			case 'test drive':			loadPage_testdrive();		break;
 			case 'linked shapes':		loadPage_linkedshapes();	break;
@@ -429,11 +428,11 @@
 
 		if(!_UI.popout){
 			navarr = navarr.concat([
-							'_',
-							'feature',
-							'bug',
-							'issue'
-						]);
+				'_',
+				'feature',
+				'email',
+				'issue'
+			]);
 		}
 
 		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
@@ -451,9 +450,13 @@
 
 			if(navarr[i]==='_'){
 				newsub += '<div style="height:10px;"></div>';
+			} else if (navarr[i] === 'help'){
+				newsub += '<a href="http://www.glyphrstudio.com/help" style="text-decoration:none;" target=_new class="navtargetbutton">'+
+					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':24})+'</div>'+
+					'help</a>';
 			} else if (navarr[i] === 'feature'){
 				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target=_new>suggest a feature or improvement</a><br>');
-			} else if (navarr[i] === 'bug'){
+			} else if (navarr[i] === 'email'){
 				newsub += ('<a href="mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body='+genEmailContent()+'" class="navpanellink">email the glyphr studio team</a><br>');
 			} else if (navarr[i] === 'issue'){
 				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target=_new class="navpanellink">create a new issue on github</a><br>');
@@ -461,8 +464,7 @@
 				iconname = 'nav_'+navarr[i].replace(' ','');
 				newsub += '<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; _UI.selectedshape=-1; navigate();">'+
 					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':24})+'</div>'+
-					navarr[i]+
-				'</button>';
+					navarr[i]+'</button>';
 			}
 		}
 		

@@ -162,6 +162,10 @@
 					// debug("\t _GP after hydrate:");
 					// debug(_GP);
 				}
+				
+				// Update the project version				
+				_GP.projectsettings.version = _UI.thisGlyphrStudioVersion;
+				_GP.projectsettings.versionnum = _UI.thisGlyphrStudioVersionNum;
 
 				if(minor > 5) {
 					/* Minor Version greater than 0.5 */

@@ -578,6 +578,7 @@
 		font-size:1.5em;
 		display:block;
 		text-transform:lowercase;
+		text-decoration: none;
 		padding:8px 2px 8px 11px;
 		background-color:transparent;
 		color: rgb(51, 56, 61);
@@ -761,18 +762,6 @@
 /*				PAGES
 /*	============================= */
 
-/* ------------------ */
-/* Page - Help		 */
-/* -----------------*/
-
-.btt {
-	margin:8px 0px 20px 0px;
-	display: inline-block;
-}
-
-.btt a {
-	font-size:.8em;
-}
 
 /* ------------------ */
 /* Page - About		 */
