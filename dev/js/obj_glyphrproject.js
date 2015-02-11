@@ -53,6 +53,7 @@
 		};
 
 		this.metadata = {
+			/* SVG PROPERTIES */
 			// 'units_per_em': 0,
 			// 'accent_height': 0,
 			// 'ascent': 0,
@@ -85,7 +86,19 @@
 			'strikethrough_position': 300,
 			'strikethrough_thickness': 10,
 			'overline_position': 750,
-			'overline_thickness': 10
+			'overline_thickness': 10,
+
+			/* OTF Properties */
+			'designer': ' ',
+			'designerURL': ' ',
+			'manufacturer': ' ',
+			'manufacturerURL': ' ',
+			'license': ' ',
+			'licenseURL': ' ',
+			'version': 'Version 0.1',
+			'description': ' ',
+			'copyright': ' ',
+			'trademark': ' '
 		};
 
 		this.projectsettings.guides = {

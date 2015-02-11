@@ -307,6 +307,34 @@
 		return re;
 	};
 
+	Path.prototype.makeOpenTypeJSpath = function(re) {
+
+		if(!this.pathpoints) return re;
+
+		re = re || new opentype.Path();
+		var p1, p2;
+
+		re.moveTo(this.pathpoints[0].P.x, this.pathpoints[0].P.y);
+
+		// debug('GENPATHPOSTSCRIPT:\n\t ' + re);
+
+		for(var cp = 0; cp < this.pathpoints.length; cp++){
+			p1 = this.pathpoints[cp];
+			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			re.curveTo(
+				round(p1.getH2x(), 9),
+				round(p1.getH2y(), 9),
+				round(p2.getH1x(), 9),
+				round(p2.getH1y(), 9),
+				round(p2.P.x, 9),
+				round(p2.P.y, 9)
+			);
+		}
+
+		re.close();
+		return re;
+	};
+
 	Path.prototype.isOverControlPoint = function(x, y, dontselect){
 		var a = this.pathpoints;
 		a = a || [];
