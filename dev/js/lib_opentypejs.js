@@ -513,20 +513,27 @@ Font.prototype.download = function () {
     var buffer = this.toBuffer();
 
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+    console.log('window.requestFileSystem is: ' + window.requestFileSystem);
     window.requestFileSystem(window.TEMPORARY, buffer.byteLength, function (fs) {
         fs.root.getFile(fileName, {create: true}, function (fileEntry) {
+            console.log('fs.root.getFile - function start');
             fileEntry.createWriter(function (writer) {
+                console.log('fileEntry.createWriter - function start');
                 var dataView = new DataView(buffer);
                 var blob = new Blob([dataView], {type: 'font/opentype'});
+                console.log('fileEntry.createWriter - before write');
                 writer.write(blob);
+                console.log('fileEntry.createWriter - after write');
 
                  writer.addEventListener('writeend', function () {
+                    console.log('writer.writeend - function start');
                     // Navigating to the file will download it.
                     location.href = fileEntry.toURL();
                  }, false);
             });
         });
     }, function (err) {
+        console.log(err);
         throw err;
     });
 };
