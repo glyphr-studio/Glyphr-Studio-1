@@ -308,8 +308,8 @@
 	};
 
 	Path.prototype.makeOpenTypeJSpath = function(re) {
-		debug('\n Path.makeOpenTypeJSpath - START');
-		debug('\t re: ' + json(re));
+		// debug('\n Path.makeOpenTypeJSpath - START');
+		// debug('\t re: ' + json(re));
 
 		re = re || new opentype.Path();
 		var p1, p2;
@@ -336,8 +336,8 @@
 
 		re.close();
 
-		debug('\t returning path ' + json(re));
-		debug(' Path.makeOpenTypeJSpath - END\n');
+		// debug('\t returning path ' + json(re));
+		// debug(' Path.makeOpenTypeJSpath - END\n');
 		return re;
 	};
 
