@@ -131,7 +131,7 @@
 		//debug('saveGlyphrProjectFile - \n'+jsonString);
 		var fname =  _GP.projectsettings.name + ' - Glyphr Project - ' + genDateStampSuffix() + '.txt';
 
-		saveTextFile(fname, jsonString);
+		saveFile(fname, jsonString);
 
 		setProjectAsSaved();
 	}

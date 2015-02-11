@@ -210,8 +210,8 @@
 // File Savr
 //-------------------
 
-function saveTextFile(fname, json) {
-	var fblob = new Blob([json], {'type':'text/plain;charset=utf-8', 'endings':'native'});
+function saveFile(fname, buffer) {
+	var fblob = new Blob([buffer], {'type':'text/plain;charset=utf-8', 'endings':'native'});
 
 	try {
 		// IE

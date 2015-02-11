@@ -511,13 +511,14 @@ Font.prototype.toBuffer = function () {
 Font.prototype.download = function () {
     var fileName = this.familyName.replace(/\s/g, '') + '-' + this.styleName + '.otf';
     var buffer = this.toBuffer();
+    var blob;
 
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
     window.requestFileSystem(window.TEMPORARY, buffer.byteLength, function (fs) {
         fs.root.getFile(fileName, {create: true}, function (fileEntry) {
             fileEntry.createWriter(function (writer) {
                 var dataView = new DataView(buffer);
-                var blob = new Blob([dataView], {type: 'font/opentype'});
+                blob = new Blob([dataView], {type: 'font/opentype'});
                 writer.write(blob);
 
                  writer.addEventListener('writeend', function () {
@@ -527,6 +528,8 @@ Font.prototype.download = function () {
             });
         });
     }, function (err) {
+        console.log('requestFileSystem writer failed, falling back to Glyphr Studio file writer.');
+        saveFile(fileName, blob);
         throw err;
     });
 };

@@ -54,7 +54,7 @@
 
 		var filename = ps.name + ' - SVG Font - ' + timestamp + '.svg';
 
-		saveTextFile(filename, con);
+		saveFile(filename, con);
 
 		// debug(' ioSVG_exportSVGfont - END\n');
 	}
