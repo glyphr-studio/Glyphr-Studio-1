@@ -529,7 +529,7 @@ Font.prototype.download = function () {
         });
     }, function (err) {
         console.log('requestFileSystem writer failed, falling back to Glyphr Studio file writer.');
-        saveFile(fileName, blob);
+        saveFile(fileName, blob, 'font/opentype');
         throw err;
     });
 };

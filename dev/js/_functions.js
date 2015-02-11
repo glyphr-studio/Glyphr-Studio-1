@@ -210,8 +210,9 @@
 // File Savr
 //-------------------
 
-function saveFile(fname, buffer) {
-	var fblob = new Blob([buffer], {'type':'text/plain;charset=utf-8', 'endings':'native'});
+function saveFile(fname, buffer, ftype) {
+	ftype = ftype || 'text/plain;charset=utf-8';
+	var fblob = new Blob([buffer], {'type':ftype, 'endings':'native'});
 
 	try {
 		// IE

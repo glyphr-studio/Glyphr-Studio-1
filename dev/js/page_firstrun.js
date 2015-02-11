@@ -138,8 +138,8 @@
 			var major = vn[0]*1;
 			var minor = vn[1]*1;
 
-			/* Major Version 0 */
 			if(major === 0){
+				/* Major Version 0 */
 				// debug("\t Major Version = 0");
 				// Start rolling upgrades
 				if(minor === 3){
@@ -158,6 +158,7 @@
 
 				if(minor === 5){
 					// debug("\t Minor Version === 5");
+					// fcontent = migrateFromBetaFiveToVersionOne(fcontent);
 					hydrateGlyphrProject(fcontent);
 					// debug("\t _GP after hydrate:");
 					// debug(_GP);
@@ -172,8 +173,12 @@
 					document.getElementById("droptarget").innerHTML = "drop file here...";
 					alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
 				}
+			} else if(major === 1){
+				/* Major Version 1 */
+				hydrateGlyphrProject(fcontent);
+
 			} else {
-				/* Major Version greater than 0 */
+				/* Major Version greater than 1 */
 				document.getElementById("droptarget").innerHTML = "drop file here...";
 				alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
 			}

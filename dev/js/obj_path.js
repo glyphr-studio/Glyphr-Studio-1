@@ -308,15 +308,18 @@
 	};
 
 	Path.prototype.makeOpenTypeJSpath = function(re) {
-
-		if(!this.pathpoints) return re;
+		debug('\n Path.makeOpenTypeJSpath - START');
+		debug('\t re: ' + json(re));
 
 		re = re || new opentype.Path();
 		var p1, p2;
 
-		re.moveTo(this.pathpoints[0].P.x, this.pathpoints[0].P.y);
+		if(!this.pathpoints) {
+			re.close();
+			return re;
+		}
 
-		// debug('GENPATHPOSTSCRIPT:\n\t ' + re);
+		re.moveTo(this.pathpoints[0].P.x, this.pathpoints[0].P.y);
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
@@ -332,6 +335,9 @@
 		}
 
 		re.close();
+
+		debug('\t returning path ' + json(re));
+		debug(' Path.makeOpenTypeJSpath - END\n');
 		return re;
 	};
 
