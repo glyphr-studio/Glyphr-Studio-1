@@ -51,20 +51,7 @@
 		var tc, tcpath;
 		var count = 0;
 
-		for(var c in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(c)){ 
-		if(	c!== '0x0072' &&	//r
-			c!== '0x0063' &&	//c
-			c!== '0x006A' &&	//j
-			c!== '0x0065' &&	//e
-			c!== '0x0052'		//R
-		){
-			if(count > 60) {
-				debug('\t stopped on:' + c + '\t' +  _GP.fontchars[c].charname);
-				break;
-			} else {
-				debug('\t adding : ' + c + ' \t ' + _GP.fontchars[c].charname);
-			}
-
+		for(var c in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(c)){
 			tc = _GP.fontchars[c];
 			tc.calcCharMaxes();
 			tcpath = new opentype.Path();
@@ -105,7 +92,7 @@
 			}));
 
 			count++;
-		}}}
+		}}
 
 /*
 		// Manual T

@@ -319,18 +319,18 @@
 			return re;
 		}
 
-		re.moveTo(this.pathpoints[0].P.x, this.pathpoints[0].P.y);
+		re.moveTo(round(this.pathpoints[0].P.x), round(this.pathpoints[0].P.y));
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 			re.curveTo(
-				round(p1.getH2x(), 9),
-				round(p1.getH2y(), 9),
-				round(p2.getH1x(), 9),
-				round(p2.getH1y(), 9),
-				round(p2.P.x, 9),
-				round(p2.P.y, 9)
+				round(p1.getH2x()),
+				round(p1.getH2y()),
+				round(p2.getH1x()),
+				round(p2.getH1y()),
+				round(p2.P.x),
+				round(p2.P.y)
 			);
 		}
 
