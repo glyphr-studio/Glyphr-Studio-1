@@ -35,7 +35,9 @@
 			'spinnervaluechange': 1,		// how much spinner controls change a value
 			'showkeyboardtipsicon': true,	// button for keyboard tips on edit canvas
 			'stoppagenavigation': true,		// asks to save on window close or refresh
-			'formatsavefile': true,		// makes the JSON save file readable
+			'formatsavefile': true,			// makes the JSON save file readable
+			'showexportotf': true,			// show a export OTF button on the nav bar
+			'showexportsvg': false,			// show a export SVG button on the nav bar
 			'showoutline': false,			// outline shapes when drawing
 			'showfill': true,				// fill shapes when drawing
 			'guides': {},					// user-defined guidelines

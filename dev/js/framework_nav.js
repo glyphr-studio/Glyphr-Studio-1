@@ -376,10 +376,28 @@
 			newsub += '</button></div>';
 		}
 
+		newsub += '<div style="height:40px;">&nbsp;</div>';
+
+		// Save Button
 		var savecolor = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
 		newsub += '<div class="panel_section" title="Save Glyphr Project File"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
 		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
 		newsub += '</button></div>';
+
+		// Export OTF Button
+		if(_GP.projectsettings.showexportotf){
+			newsub += '<div class="panel_section" title="Export OTF File"><button class="primarynavbutton" id="npSave" onclick="ioOTF_exportOTFfont();">';
+			newsub += makeIcon({'name': 'nav_exportotf', 'size':40, 'color':_UI.colors.gray.l90, 'hovercolor':'white'});
+			newsub += '</button></div>';
+		}
+
+		// Export SVG Button
+		if(_GP.projectsettings.showexportsvg){
+			newsub += '<div class="panel_section" title="Export SVG Font File"><button class="primarynavbutton" id="npSave" onclick="ioSVG_exportSVGfont();">';
+			newsub += makeIcon({'name': 'nav_exportsvg', 'size':40, 'color':_UI.colors.gray.l90, 'hovercolor':'white'});
+			newsub += '</button></div>';
+		}
+
 
 		// Bottom Left
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';

@@ -28,6 +28,16 @@
 					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.formatsavefile')+"</td>"+
 					"<td><label for='formatsavefile'>Format the Glyphr Project text file for easy reading.  This may increase the file size by 2x.</label></td></tr>"+
 
+					"<tr><td colspan='2' style='font-size:8px;'>&nbsp;</td></tr>"+
+					
+					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.showexportotf')+"</td>"+
+					"<td><label for='showexportotf'>Show an Export OTF File button on the Nav Bar.</label></td></tr>"+
+
+					"<tr><td colspan='2' style='font-size:8px;'>&nbsp;</td></tr>"+
+					
+					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.showexportsvg')+"</td>"+
+					"<td><label for='showexportsvg'>Show an Export SVG File button on the Nav Bar.</label></td></tr>"+
+
 					"<tr><td colspan='2' style='font-size:4px;'>&nbsp;</td></tr>"+
 
 					"<tr><td style='text-align:right;'><input type='text' value='"+(_GP.projectsettings.spinnervaluechange)+"' onchange='var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.spinnervaluechange=r; this.value=r;' style='width:25px;'/></td>"+
