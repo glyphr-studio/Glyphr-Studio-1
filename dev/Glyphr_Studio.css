@@ -1350,8 +1350,11 @@
 	}
 
 	.propname {
-		padding:4px 0px 0px 0px;
-		width:20%;
+		padding:8px 0px 0px 0px;
+	}
+
+	.prophelp {
+		padding-top:8px;
 	}
 
 	.opentypepropertiestable input[type=text]{

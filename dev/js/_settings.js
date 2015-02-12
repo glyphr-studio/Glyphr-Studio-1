@@ -189,7 +189,17 @@
 			'strikethrough_position': '',
 			'strikethrough_thickness': '',
 			'overline_position': '',
-			'overline_thickness': ''
+			'overline_thickness': '',
+			'designer': 'You!',
+			'designerURL': 'Your website.',
+			'manufacturer': '',
+			'manufacturerURL': '',
+			'license': '',
+			'licenseURL': '',
+			'version': 'Like: Version 0.1',
+			'description': '',
+			'copyright': '',
+			'trademark': ''
 		}
 	};
 

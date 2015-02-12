@@ -108,17 +108,30 @@
 
 
 		// METADATA
-		content += "<br><h1>Font Metadata</h1>" +
-			"<p style='margin-bottom:20px;'>These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>.";
-
+		content += "<br><h1>Font Metadata</h1>";
 
 		content += "<table class='settingstable metadatatable'>";
 		for(var m in meta){ if(meta.hasOwnProperty(m) && m!== 'font_family'){
-			content += "<tr>";
-			content += "<td class='propname' style='width:200px'>" + m.replace(/_/g, '-') + "</td>";
-			content += "<td><input type='text' value='"+meta[m]+"' onchange='_GP."+m+" = this.value;'/></td>";
-			content += "<td>"+_UI.metadatahelp[m]+"</td>";
-			content += "</tr>";
+			if(meta[m] === '{{sectionbreak}}'){
+				content += "<tr><td colspan='3'><p style='margin-bottom:10px;'>";
+				if(m === 'shared'){
+					content += "<h2>Shared</h2>";
+					content += "These properties are shared between all font file formats.";
+				} else if (m === 'otf'){
+					content += "<h2>OTF</h2>";
+					content += "These properties will be saved with Open Type files when they are exported.";
+				} else if (m === 'svg'){
+					content += "<h2>SVG</h2>";
+					content += "These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>.";
+				}
+				content += "</p></td></tr>";
+			} else {
+				content += "<tr>";
+				content += "<td class='propname' style='padding-top:8px;'>" + m.replace(/_/g, '-') + "</td>";
+				content += "<td><input type='text' value='"+meta[m]+"' onchange='_GP."+m+" = this.value;'/></td>";
+				content += "<td class='prophelp' style='padding-top:8px;'>"+_UI.metadatahelp[m]+"</td>";
+				content += "</tr>";
+			}
 		}}
 		content += "</table>";
 

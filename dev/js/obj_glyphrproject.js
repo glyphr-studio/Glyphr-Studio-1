@@ -53,7 +53,26 @@
 		};
 
 		this.metadata = {
+			/* Shared Properties */
+			'shared': '{{sectionbreak}}',
+			'font_family': 'My Font',
+			'font_style': 'normal',
+
+			/* OTF Properties */
+			'otf': '{{sectionbreak}}',
+			'designer': '',
+			'designerURL': '',
+			'manufacturer': '',
+			'manufacturerURL': '',
+			'license': '',
+			'licenseURL': '',
+			'version': '',
+			'description': '',
+			'copyright': '',
+			'trademark': '',
+			
 			/* SVG PROPERTIES */
+			'svg': '{{sectionbreak}}',
 			// 'units_per_em': 0,
 			// 'accent_height': 0,
 			// 'ascent': 0,
@@ -62,8 +81,6 @@
 			// 'descent': 0,
 			// 'bbox': 0,
 			// 'unicode_range': 0,
-			'font_family': 'My Font',
-			'font_style': 'normal',
 			'font_variant': 'normal',
 			'font_weight': 'normal',	// Default to 400
 			'font_stretch': 'normal',
@@ -86,19 +103,7 @@
 			'strikethrough_position': 300,
 			'strikethrough_thickness': 10,
 			'overline_position': 750,
-			'overline_thickness': 10,
-
-			/* OTF Properties */
-			'designer': ' ',
-			'designerURL': ' ',
-			'manufacturer': ' ',
-			'manufacturerURL': ' ',
-			'license': ' ',
-			'licenseURL': ' ',
-			'version': 'Version 0.1',
-			'description': ' ',
-			'copyright': ' ',
-			'trademark': ' '
+			'overline_thickness': 10
 		};
 
 		this.projectsettings.guides = {
