@@ -53,21 +53,21 @@ module.exports = function(grunt) {
 				src: 'dev/Glyphr_Studio.css',
 				dest: 'build/Glyphr_Studio.min.css'
 			}
-		},
+		}/*,
 		copy: {
 			test:{
 				src: 'dist/Glyphr_Studio_-_<%= pkg.version %>.html',
-				dest: 'build/webtest/Glyphr_Studio_-_<%= pkg.version %>.html'
+				dest: 'build/index.html'
 			}
-		}
+		}*/
 	});
 
 	// Load the plugins
-	grunt.loadNpmTasks('grunt-contrib-copy');
+	// grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	// Tasks
-	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist', 'copy']);
+	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist']);
 };
