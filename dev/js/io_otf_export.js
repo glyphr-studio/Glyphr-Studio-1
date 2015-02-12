@@ -49,32 +49,29 @@
 
 		// Add Chars and Ligatures
 		var tc, tcpath;
-		var count = 0;
 
 		for(var c in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(c)){
 			tc = _GP.fontchars[c];
 			tc.calcCharMaxes();
 			tcpath = new opentype.Path();
 			var sl = tc.charshapes;
-			var sh, ns;
+			var sh;
 			var lsb = tc.getLSB();
 
 			// Go through each shape in the char, generate the OpenTypeJS path
 			for(var j=0; j<sl.length; j++) {
-				sh = sl[j];
+				sh = clone(sl[j]);
 				if(sh.link){
 					if(sh.uselinkedshapexy){
 						sh = clone(_GP.linkedshapes[sh.link].shape);
 					} else {
-						ns = clone(_GP.linkedshapes[sh.link].shape);
-						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						sh = ns;
+						sh = clone(_GP.linkedshapes[sh.link].shape);
+						sh.path.updatePathPosition(sh.xpos, sh.ypos, true);
 					}
-				} else {
-					ns = clone(sh);
-					ns.path.updatePathPosition(lsb, 0, true);
-					sh = ns;
 				}
+				
+				sh.path.updatePathPosition(lsb, 0, true);
+
 				// debug('\t drawing path of char ' + tc.charname);
 				tcpath = sh.path.makeOpenTypeJSpath(tcpath);
 			}
@@ -90,32 +87,14 @@
 				yMax: tc.maxes.ymax,
 				path: tcpath
 			}));
-
-			count++;
 		}}
 
-/*
-		// Manual T
-		var tPath = new opentype.Path();
-		tPath.moveTo(360, 666);
-		tPath.curveTo(545,666,696,520,696,339);
-		tPath.curveTo(696,158,545,12, 360,12);
-		tPath.curveTo(175,12, 24, 158,24, 339);
-		tPath.curveTo(24,520,175,666,360,666);
-		tPath.close();
-
-		options.glyphs.push(new opentype.Glyph({
-		    name: 'T',
-		    unicode: 84,
-		    advanceWidth: 750,
-		    path: tPath
-		}));
-*/
 		options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
 		
-		debug(options);
+
+		// Create Font
+		var font = new opentype.Font(options);
 
 		// Export
-		var font = new opentype.Font(options);
 		font.download();
 	}
