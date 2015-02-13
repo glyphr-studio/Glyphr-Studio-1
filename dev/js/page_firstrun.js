@@ -127,81 +127,82 @@
 
 		// debug(fcontent);
 
-		if(v){
-			/*
-				CHECK VERSION
-			*/
-			if(!vn) vn = '0.3.0';	// Glyphr Studio V3 did not have 'versionnum' property
-			vn = vn.split(".");
-			// debug("\t versionnum found " + vn);
+		// Check for non Glyphr Project Files
+		if(!v) { error_NoVersionFound(); return; }
 
-			var major = vn[0]*1;
-			var minor = vn[1]*1;
+		// Give pre-Beta-3 accurate version
+		if(!vn) vn = '0.3.0';
 
-			if(major === 0){
-				/* Major Version 0 */
-				// debug("\t Major Version = 0");
-				// Start rolling upgrades
-				if(minor === 3){
-					// debug("\t Minor Version === 3");
-					fcontent = migrateFromBetaThreeToFour(fcontent);
-					minor = 4;
-					// debug('\t migrated to 0.4');
-				}
+		vn = vn.split(".");
+		var major = vn[0]*1;
+		var minor = vn[1]*1;
+		var patch = vn[2]*1;
+		// debug("\t versionnum found " + vn);
 
-				if(minor === 4){
-					// debug("\t Minor Version === 4");
-					fcontent = migrateFromBetaFourToFive(fcontent);
-					minor = 5;
-					// debug('\t migrated to 0.5');
-				}
+		// Check for future versions
+		if(major > 1){ error_TimeTraveller(); return; }
 
-				if(minor === 5){
-					// debug("\t Minor Version === 5");
-					// fcontent = migrateFromBetaFiveToVersionOne(fcontent);
-					hydrateGlyphrProject(fcontent);
-					// debug("\t _GP after hydrate:");
-					// debug(_GP);
-				}
-				
-				// Update the project version				
-				_GP.projectsettings.version = _UI.thisGlyphrStudioVersion;
-				_GP.projectsettings.versionnum = _UI.thisGlyphrStudioVersionNum;
+		// Roll upgrades through Beta
+		if(major === 0) fcontent = migrate_0_5_to_1_00(fcontent, minor); 
 
-				if(minor > 5) {
-					/* Minor Version greater than 0.5 */
-					document.getElementById("droptarget").innerHTML = "drop file here...";
-					alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
-				}
-			} else if(major === 1){
-				/* Major Version 1 */
-				hydrateGlyphrProject(fcontent);
+		// Roll upgrades through v1
+		if(major === 1){
 
-			} else {
-				/* Major Version greater than 1 */
-				document.getElementById("droptarget").innerHTML = "drop file here...";
-				alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
+			// Check for future versions
+			if(minor > 0){ error_TimeTraveller(); return; }
+
+			// Roll through minor versions
+			switch (minor) {
+				case 0:	hydrateGlyphrProject(fcontent);
 			}
-
-		} else {
-			/* No version found */
-			document.getElementById("droptarget").innerHTML = "drop file here...";
-			alert("File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...");
 		}
 	}
 
-	function migrateFromBetaFourToFive(fc) {
+	function error_NoVersionFound(){
+		document.getElementById("droptarget").innerHTML = "drop file here...";
+		alert("File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...");
+	}
+
+	function error_TimeTraveller(){
+		document.getElementById("droptarget").innerHTML = "drop file here...";
+		alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
+	}
+
+	function migrate_0_5_to_1_00 (fcontent, minor) {
+		// Start rolling upgrades
+
+		switch (minor){
+			case 3:
+				// debug("\t Minor Version === 3");
+				fcontent = migrate_0_3_to_0_4(fcontent);
+				minor = 4;
+				// debug('\t migrated to 0.4');
+			case 4:
+				// debug("\t Minor Version === 4");
+				fcontent = migrate_0_4_to_0_5(fcontent);
+				minor = 5;
+				// debug('\t migrated to 0.5');
+			case 5:
+				// debug("\t Minor Version === 5");
+				// fcontent = migrateFromBetaFiveToVersionOne(fcontent);
+		}
+
+		return fcontent;
+	}
+
+	function migrate_0_4_to_0_5(fc) {
 		var tc;
 		for(var i=0; i<fc.fontchars.length; i++){
 			tc = fc.fontchars[i];
-			//debug("migrateFromBetaThreeToFour - fontchars " + i + " is " + tc);
+			//debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
 			tc.charwidth = tc.advancewidth || fc.projectsettings.upm || 1000;
 		}
 
 		return fc;
 	}
 
-	function migrateFromBetaThreeToFour(fc){
+
+	function migrate_0_3_to_0_4(fc){
 
 		newfc = new GlyphrProject();
 
@@ -209,12 +210,12 @@
 		for(var l in fc.linkedshapes){
 			if(fc.linkedshapes.hasOwnProperty(l)){
 				tls = fc.linkedshapes[l];
-				//debug("migrateFromBetaThreeToFour - usedin before " + tls.usedin);
+				//debug("migrate_0_3_to_0_4 - usedin before " + tls.usedin);
 				if(tls.usedin){
 					for(var u=0; u<tls.usedin.length; u++){
 						tls.usedin[u] = decToHex(tls.usedin[u]);
 					}
-					//debug("migrateFromBetaThreeToFour - usedin after " + tls.usedin);
+					//debug("migrate_0_3_to_0_4 - usedin after " + tls.usedin);
 				}
 			}
 		}
@@ -229,12 +230,12 @@
 		var tc, hex;
 		for(var i=0; i<fc.fontchars.length; i++){
 			tc = fc.fontchars[i];
-			//debug("migrateFromBetaThreeToFour - fontchars " + i + " is " + tc);
+			//debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
 			if(tc){
 				hex = "0x00"+tc.cmapcode.substr(2).toUpperCase();
 				newfc.fontchars[hex] = tc;
 				newfc.fontchars[hex].charhtml = hexToHTML(hex);
-				//debug("migrateFromBetaThreeToFour - newfc.fontchars[" + hex + "] is " + json(newfc.fontchars[hex]));
+				//debug("migrate_0_3_to_0_4 - newfc.fontchars[" + hex + "] is " + json(newfc.fontchars[hex]));
 			}
 		}
 

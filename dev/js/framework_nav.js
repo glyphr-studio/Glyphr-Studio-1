@@ -398,10 +398,9 @@
 			newsub += '</button></div>';
 		}
 
-
 		// Bottom Left
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';
-
+/*
 		// Debug Dumps
 		if(_UI.devmode){
 			newsub += '<div id="devtools" style="display:none; margin-top:20px; width:70px; text-align:center;">';
@@ -417,7 +416,7 @@
 			newsub += '<div style="color:slategray; text-align:center;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';
 			newsub += '</div><br><br>';
 		}
-
+*/
 		// Contribute!
 		newsub += '<a href="#" style="color:'+_UI.colors.blue.l55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
 		newsub += '</div>';
