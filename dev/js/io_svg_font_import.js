@@ -51,6 +51,14 @@
 			// debug('\t got font');
 			// debug(font);
 
+			// Check to see if it's actually a SVG Font
+			if(!font){
+				loadPage_firstrun();
+				firstrun_changeTab('load');
+				showErrorMessageBox('The SVG file you tried to load was not a SVG Font file. See Glyphr Studio help for more information.');
+				return;
+			}
+
 			// Get Kerns
 			kerns = ioSVG_getTags(font, 'hkern');
 			// debug('\t got kerns');
@@ -349,7 +357,7 @@
 	}
 
 	function make_ImportFilter(chars, kerns) {
-		var re = '<div class="firstrun_tile" style="width:500px;">'+
+		var re = '<div class="firstrun_tile" style="width:500px; height:auto;">'+
 			'<h2>Whoa, there...</h2><br>'+
 			'The font you\'re trying to import has <b>'+chars+' characters</b> and <b>'+kerns+' kern pairs</b>.  '+
 			'Glyphr Studio has a hard time with super-large fonts like this.  '+

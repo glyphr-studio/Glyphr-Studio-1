@@ -10,7 +10,9 @@
 			'For more informaiton visit <a href="http://www.glyphrstudio.com" target=_new>www.glyphrstudio.com</a><br>'+
 			'Glyphr Studio is licensed under a <a href="https://www.gnu.org/licenses/gpl.html" target="_new">GNU General Public License</a>.<br>' +
 			'Which is a free / open source "copyleft" license. You are free to use, distribute, and modify Glyphr Studio as long as ' +
-			'this license and its freeness stays intact.</div></td>'+
+			'this license and its freeness stays intact.</div>'+
+			'<input style="display:none;" type="file" id="filechooser"/>'+
+			'</td>'+
 		'<td id="firstruntableright" vertical-align="middle">' + make_ImportOrCreateNew() + '</td>'+
 		'</tr></table>';
 
@@ -46,8 +48,7 @@
 					'<button onclick="document.getElementById(\'filechooser\').click();" class="buttonsel">Browse for a File</button>&ensp; or Drag and Drop:'+
 					'<div id="droptarget">Glyphr Studio Project File &ensp;(.txt)<br>SVG Font File &ensp;(.svg)</div>'+
 					'<div style="width:335px;">'+ makeErrorMessageBox() + '</div>'+
-				'</div>'+
-				'<input style="display:none;" type="file" id="filechooser"/>';
+				'</div>';
 
 		// NEW
 		con += '<div class="firstrun_tile" id="new_content" style="display: none;">'+
@@ -87,7 +88,7 @@
 	}
 
 	function handleDrop(evt) {
-		document.getElementById('droptarget').innerHTML = 'Loading File...';
+		document.getElementById('firstruntableright').innerHTML = 'Loading File...';
 		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 
 		evt.stopPropagation();
@@ -111,14 +112,18 @@
 					// debug('\t File = .svg');
 					_UI.droppedFileContent = reader.result;
 					ioSVG_importSVGfont(false);
+				} else if(fname === 'otf' || fname === 'ttf'){
+					// debug('\t File = .otf / .ttf');
+
 				} else if(fname === 'txt') {
 					// debug('\t File = .txt');
 					importGlyphrProjectFromText(reader.result);
 					navigate();
 				} else {
-					con = 'Could not read .' + fname + ' file type.';
-					con += '<br>Try loading another .svg or .txt file...';
-					document.getElementById('droptarget').innerHTML = con;
+					con = '<h2>Could not read the file</h2>';
+					con += 'Glyphr Studio can\'t import .' + fname + ' files.<br>';
+					con += 'Try loading another .otf, .ttf, .svg or .txt file...';
+					document.getElementById('load_content').innerHTML = con;
 					document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 				}
 
@@ -138,20 +143,21 @@
 	function handleDragOver(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-		evt.dataTransfer.dropEffect = 'move';
+		evt.dataTransfer.dropEffect = 'copy';
 
-		firstrun_changeTab('load');
-
-		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.blue.l95;
-		document.getElementById('droptarget').innerHTML = 'Drop it!';
+		var frtr = document.getElementById('firstruntableright');
+		frtr.style.backgroundColor = _UI.colors.blue.l95;
+		frtr.innerHTML = 'Drop it!';
 	}
 
 	function handleDragLeave(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-
-		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
-		document.getElementById('droptarget').innerHTML = 'Glyphr Project File (.txt)<br>SVG Font File (.svg)';
+		
+		var frtr = document.getElementById('firstruntableright');
+		frtr.style.backgroundColor = _UI.colors.gray.offwhite;
+		frtr.innerHTML = make_ImportOrCreateNew();
+		firstrun_changeTab('load');
 	}
 
 	function firstrun_loadSample (usedefault) {

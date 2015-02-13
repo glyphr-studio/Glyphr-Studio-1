@@ -825,6 +825,8 @@
 	#firstruntableright {
 		vertical-align: middle;
 		padding:0px 0px 0px 50px;
+		font-size:40px;
+		color:rgb(0,140,210);
 	}
 
 	#splashscreenlogo {
