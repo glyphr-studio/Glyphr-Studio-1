@@ -32,7 +32,7 @@
 		var navto = _UI.devmode? _UI.devnavprimary : false;
 		navigate(navto);
 
-		debug(' MAIN SETUP - END\n');
+		debug('MAIN SETUP - END\n');
 	};
 
 	function insertGlobalDOMElements(){

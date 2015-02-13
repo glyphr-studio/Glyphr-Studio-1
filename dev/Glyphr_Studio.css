@@ -844,24 +844,36 @@
 		text-decoration:underline;
 	}
 
-	.newtile {
+	.firstrun_tile {
 		width:350px;
-		margin:20px 4px 20px 20px;
+		height:200px;
+		margin:20px 4px 0px 10px;
 		display:inline;
 		float:left;
 	}
 
-	.newtile h2 {
+	.firstrun_tile h2 {
 		display:block;
 	}
 
-	.newtile .buttonsel {
+	.firstrun_tile .buttonsel {
 		padding:8px 25px;
 	}
 
-	.newtile #customrangebegin,
-	.newtile #customrangeend {
+	.firstrun_tile #customrangebegin,
+	.firstrun_tile #customrangeend {
 		width:140px;
+	}
+
+	.firstrun_tabs {
+		margin-left:10px;
+	}
+
+	.firstrun_tabs button {
+		background-color: rgb(229,234,239);
+		padding:4px 12px;
+		margin-right: 8px;
+		color:rgb(0,140,210);
 	}
 
 	#newprojectname	{
@@ -874,12 +886,13 @@
 
 	#droptarget {
 		width: 90%;
-		height: 70px;
 		margin: 5px 0px 0px 0px;
 		background-color: white;
 		border:1px dashed rgb(127,134,137);
-		color: rgb(0,170,225);
-		padding: 20px 0px 20px 20px;
+		color: rgb(0,140,210);
+		font-weight: bold;
+		padding: 18px 0px 20px 20px;
+		line-height: 2em;
 	}
 
 	.checkcol {

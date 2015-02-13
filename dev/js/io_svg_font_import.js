@@ -332,7 +332,7 @@
 	function make_LoadingAnimation() {
 		// debug('\n make_LoadingAnimation - START');
 		var re = '';
-		re += '<div class="newtile">';
+		re += '<div class="firstrun_tile">';
 		re += '<h2>Importing Font</h2>';
 		re += '<div id="fontimportstatus">Reading font data...</div>';
 		re += '<br><div style="margin:0px; width:50px; height:50px; padding:0px; background-color:'+_UI.colors.blue.l65+';';
@@ -349,7 +349,7 @@
 	}
 
 	function make_ImportFilter(chars, kerns) {
-		var re = '<div class="newtile" style="width:500px;">'+
+		var re = '<div class="firstrun_tile" style="width:500px;">'+
 			'<h2>Whoa, there...</h2><br>'+
 			'The font you\'re trying to import has <b>'+chars+' characters</b> and <b>'+kerns+' kern pairs</b>.  '+
 			'Glyphr Studio has a hard time with super-large fonts like this.  '+
