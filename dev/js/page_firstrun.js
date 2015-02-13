@@ -59,8 +59,8 @@
 		// EXAMPLES
 		con += '<div class="firstrun_tile" id="examples_content" style="display: none;">'+
 					'<h2>Load an Example project</h2>'+
-					'<button onclick="" class="buttonsel">Modegg v3</button><br>'+
-					'<button onclick="" class="buttonsel">Merriweather Sans</button><br>'+
+					'<button onclick="firstrun_loadSample(true);" class="buttonsel">Modegg v3</button><br>'+
+					'<button onclick="firstrun_loadSample(false);" class="buttonsel">Merriweather Sans</button><br>'+
 				'</div>';
 
 		// RECENT
@@ -152,6 +152,16 @@
 
 		document.getElementById('firstruntableright').style.backgroundColor = _UI.colors.gray.offwhite;
 		document.getElementById('droptarget').innerHTML = 'Glyphr Project File (.txt)<br>SVG Font File (.svg)';
+	}
+
+	function firstrun_loadSample (usedefault) {
+		document.getElementById('examples_content').innerHTML = '<h2>Load an Example project</h2>Loading example project...';
+
+		setTimeout(function(){
+			var gp = usedefault? _UI.sampleproject : _UI.merriweathersans;
+			importGlyphrProjectFromText(gp);
+			navigate();
+		}, 5);
 	}
 
 // end of file
