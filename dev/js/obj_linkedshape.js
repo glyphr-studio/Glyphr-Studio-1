@@ -149,6 +149,14 @@
 //	---------------------------
 //	Linked Shape Paridy Functions
 //	---------------------------
+	
+	LinkedShapeInstance.prototype.getPath = function() {
+		var re = clone(_GP.linkedshapes[this.link].shape.path);
+		if(!this.uselinkedshapexy) re.updatePathPosition(this.xpos, this.ypos, true);
+
+		return re;
+	};
+
 	LinkedShapeInstance.prototype.drawShape_Stack = function(lctx){
 		//debug('DRAWLINKEDSHAPE on \n ' + JSON.stringify(this));
 		if(this.uselinkedshapexy){

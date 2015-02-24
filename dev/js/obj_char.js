@@ -117,37 +117,28 @@
 	};
 
 	Char.prototype.drawCharToArea = function(lctx, view, uselsb){
-		// debug('\n Char.drawCharToArea - START');
-		// debug('\t ' + this.charname);
+		debug('\n Char.drawCharToArea - START');
+		debug('\t drawing ' + this.charname);
+
 		var sl = this.charshapes;
-		var sh = {};
+		var shape, path;
 		var lsb = uselsb? this.getLSB() : 0;
 
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
-			sh = sl[j];
-			if(sh.visible) {
-				if(sh.link){
-					if(sh.uselinkedshapexy){
-						sh = _GP.linkedshapes[sh.link].shape;
-						// debug('\t uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
-					} else {
-						var ns = clone(_GP.linkedshapes[sh.link].shape);
-						// debug('\t !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
-						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-						// debug('\t !uselinkedshapexy, shape afters\n' + JSON.stringify(sh));
-						sh = ns;
-					}
-				}
-				// debug('\t drawing path of char ' + this.charname);
-				sh.path.drawPathToArea(lctx, view, lsb);
+			shape = sl[j];
+			if(shape.visible) {
+				debug('\t drawing shape ' + j);
+				path = shape.getPath();
+				path.drawPathToArea(lctx, view, lsb);
 			}
 		}
+
 		lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
 		lctx.closePath();
 		lctx.fill('nonzero');
 
-		// debug('Char.drawCharToArea - END\n');
+		debug(' Char.drawCharToArea - END\n');
 		return (this.getTotalWidth()*view.dz);
 	};
 
@@ -182,38 +173,19 @@
 		var sl = this.charshapes;
 		var pathdata = '';
 		var lsb = this.getLSB();
-		var sh, ns;
-		// debug('\t sl.length = ' + sl.length);
+		var shape, path;
+
 		// Make Pathdata
 		for(var j=0; j<sl.length; j++) {
-			sh = sl[j];
-			ns = false;
-			// debug('\t loop ' + j);
-
-			if(sh.visible) {
-				// debug('\t\t is visible');
-				if(sh.link){
-					ns = new Shape(JSON.parse(JSON.stringify(_GP.linkedshapes[sh.link].shape)));
-					if(!sh.uselinkedshapexy){
-						//debug('\t !uselinkedshapexy, shape before\n' + JSON.stringify(ns));
-						ns.path.updatePathPosition(sh.xpos, sh.ypos, true);
-					}
-				} else {
-					ns = new Shape(JSON.parse(JSON.stringify(sh)));
-				}
-
-				// Add Left Side Bearing to overall path width
-				ns.path.updatePathPosition(lsb, 0, true);
-
-				//debug('\t making SVG of char ' + this.charname);
-				pathdata += ns.path.makeSVGpathData('Char ' + this.name + ' Shape ' + ns.name);
+			shape = sl[j];
+			if(shape.visible) {
+				path = shape.getPath();
+				path.updatePathPosition(lsb, 0, true);
+				pathdata += path.makeSVGpathData('Char ' + this.name + ' Shape ' + shape.name);
 				if(j < sl.length-1) pathdata += ' ';
-				//if(j < sl.length-1) pathdata += '\n';
 			}
 		}
 		if(trim(pathdata) === '') pathdata = 'M0,0Z';
-
-		// debug('\t pathdata = ' + pathdata);
 
 		return pathdata;
 	};

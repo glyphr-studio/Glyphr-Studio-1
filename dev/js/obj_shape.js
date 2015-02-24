@@ -106,6 +106,8 @@
 		return re;
 	};
 
+	Shape.prototype.getPath = function() { return clone(this.path); };
+
 	Shape.prototype.checkPath = function() {
 		// debug('CHECKPATH - checking ' + this.name + '\n' + JSON.stringify(this.path));
 
