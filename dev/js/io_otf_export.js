@@ -5,6 +5,7 @@
 //	--------------------------
 
 	function ioOTF_exportOTFfont() {
+		debug('\n ioOTF_exportOTFfont - START');
 		var options = {};
 		
 		// Add metadata
@@ -25,6 +26,9 @@
 		options.copyright = md.copyright || ' ';
 		options.trademark = md.trademark || ' ';
 		options.glyphs = [];
+
+		debug('\t NEW options ARG BEFORE CHARS');
+		debug(options);
 
 		// Add Notdef
 		var ndchar = new Char(JSON.parse(_UI.notdefchar));
@@ -55,25 +59,17 @@
 			tc.calcCharMaxes();
 			tcpath = new opentype.Path();
 			var sl = tc.charshapes;
-			var sh;
+			var shape, path;
 			var lsb = tc.getLSB();
 
 			// Go through each shape in the char, generate the OpenTypeJS path
 			for(var j=0; j<sl.length; j++) {
-				sh = clone(sl[j]);
-				if(sh.link){
-					if(sh.uselinkedshapexy){
-						sh = clone(_GP.linkedshapes[sh.link].shape);
-					} else {
-						sh = clone(_GP.linkedshapes[sh.link].shape);
-						sh.path.updatePathPosition(sh.xpos, sh.ypos, true);
-					}
-				}
-				
-				sh.path.updatePathPosition(lsb, 0, true);
+				shape = sl[j];
+				path = shape.getPath();
+				path.updatePathPosition(lsb, 0, true);
 
 				// debug('\t drawing path of char ' + tc.charname);
-				tcpath = sh.path.makeOpenTypeJSpath(tcpath);
+				tcpath = path.makeOpenTypeJSpath(tcpath);
 			}
 
 			options.glyphs.push(new opentype.Glyph({
@@ -93,6 +89,8 @@
 		
 
 		// Create Font
+		debug('\t NEW options ARG TO FONT');
+		debug(options);
 		var font = new opentype.Font(options);
 
 		// Export

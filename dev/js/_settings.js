@@ -70,7 +70,7 @@
 			// RED FOR ERROR
 			'error': {
 				'light': 'rgb(240,210,215)',	// os red warning color light
-				'medium': 'rgb(240,15,54 )',	// os red warning color
+				'medium': 'rgb(240,15,54)',	// os red warning color
 				'dark': 'rgb(105,45,55)'	// os red warning color dark
 			}
 		},
