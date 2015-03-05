@@ -55,7 +55,7 @@
 	// Global Accessor Functions
 	function history_put(dsc){
 		if(onCanvasEditPage()){
-			var queue = _UI.navhere === 'import svg'? 'character edit' : _UI.navhere;
+			var queue = _UI.navhere === 'import svg'? 'glyph edit' : _UI.navhere;
 			_UI.history[queue].put(dsc);
 		}
 	}

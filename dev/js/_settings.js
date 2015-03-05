@@ -112,7 +112,7 @@
 		'selectedshape': -1,
 		'shapelayers': [],
 
-		// page: linked shapes
+		// page: components
 		'selectedlinkedshape': false,
 
 		// page: kerning

@@ -20,7 +20,7 @@
 
 	function redraw_LinkedShapes(calledby){
 		// debug('\n redraw_LinkedShapes - START');
-		// debug('\t Called By: ' + calledby + ' - Shown Linked Shape: ' + _UI.selectedlinkedshape + ' - Selected Shape: ' + _UI.selectedshape);
+		// debug('\t Called By: ' + calledby + ' - Shown Component: ' + _UI.selectedlinkedshape + ' - Selected Shape: ' + _UI.selectedshape);
 		_UI.redrawing = true;
 
 		drawGrid();
@@ -30,8 +30,8 @@
 
 		if(sc) sc.drawShape_Single(_UI.chareditctx);
 
-		if(_GP.linkedshapes[_UI.selectedshape]) {
-			_GP.linkedshapes[_UI.selectedshape].shape.drawSelectOutline(false, _UI.colors.green.l65);
+		if(_GP.components[_UI.selectedshape]) {
+			_GP.components[_UI.selectedshape].shape.drawSelectOutline(false, _UI.colors.green.l65);
 		}
 
 		_UI.redrawing = false;

@@ -30,7 +30,7 @@
 
 			_GP = new GlyphrProject();
 
-			// Convert unicode characters to decimal values
+			// Convert unicode glyphs to decimal values
 			// DOM Parser does not return unicode values as text strings
 			// Kern groups containing '&#x' will get fuck'd
 			svgdata = svgdata.replace(/&#x/g, '0x');
@@ -81,7 +81,7 @@
 
 		function startFontImport() {
 			// debug('\n startFontImport - START');
-			importStatus('Importing Character 1 of ' + chars.length);
+			importStatus('Importing Glyph 1 of ' + chars.length);
 			setTimeout(importOneChar, 4);
 			// debug(' startFontImport - END\n');
 		}
@@ -102,7 +102,7 @@
 
 		var c=0;
 		function importOneChar(){
-			importStatus('Importing Character ' + c + ' of ' + chars.length);
+			importStatus('Importing Glyph ' + c + ' of ' + chars.length);
 
 			if(c >= chars.length) {
 				setTimeout(importOneKern, 1);
@@ -134,7 +134,7 @@
 				// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + json(uni) + '\t attributes: ' + json(tca));
 				/*
 				*
-				*	CHARACTER OR LIGATURE IMPORT
+				*	GLYPH OR LIGATURE IMPORT
 				*
 				*/
 				newshapes = [];
@@ -142,7 +142,7 @@
 
 				// Import Path Data
 				data = tca.d;
-				// debug('\t Character has path data ' + data);
+				// debug('\t Glyph has path data ' + data);
 				if(data){
 					// Compound Paths are treated as different Glyphr Shapes
 					data = data.replace(/Z/gi,'z');
@@ -300,7 +300,7 @@
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
-			_GP.fontchars = fc;
+			_GP.glyphs = fc;
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
 
@@ -359,20 +359,20 @@
 	function make_ImportFilter(chars, kerns) {
 		var re = '<div class="firstrun_tile" style="width:500px; height:auto;">'+
 			'<h2>Whoa, there...</h2><br>'+
-			'The font you\'re trying to import has <b>'+chars+' characters</b> and <b>'+kerns+' kern pairs</b>.  '+
+			'The font you\'re trying to import has <b>'+chars+' glyphs</b> and <b>'+kerns+' kern pairs</b>.  '+
 			'Glyphr Studio has a hard time with super-large fonts like this.  '+
 			'We recommend pairing it down a little:<br><br>';
 
 		re += '<table>';
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'basic\');" id="basic" checked/></td><td>';
-		re += '<h3>Only import Latin characters</h3>'+
+		re += '<h3>Only import Latin glyphs</h3>'+
 			'This includes Latin and Latin Extended Unicode ranges<br>(0x0020 - 0x024F).<br><br>';
 		re += '</td></tr>';
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
-		re += '<h3>Import a custom range of characters</h3>'+
-			'A nice overview of character ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
+		re += '<h3>Import a custom range of glyphs</h3>'+
+			'A nice overview of glyph ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
 			'<table class="settingstable"><tr>'+
 			'<td>begin:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
 			'<td>end:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
@@ -383,7 +383,7 @@
 		re += '</td></tr>';
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'everything\');" id="everything"/></td><td>';
-		re += '<h3>Import all the characters</h3>'+
+		re += '<h3>Import all the glyphs</h3>'+
 			'Don\'t say we did\'t try to warn you.';
 		re += '</td></tr>';
 
@@ -432,7 +432,7 @@
 		if(names){
 			names = names.split(',');
 
-			// Check all the character names
+			// Check all the glyph names
 			for(var n=0; n<names.length; n++){
 
 				// Check all the chars

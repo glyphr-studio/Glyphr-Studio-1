@@ -1,19 +1,19 @@
  // start of file
 
 //	---------------------------------
-//	LINKED SHAPE ATTRIBUTES
+//	COMPONENT ATTRIBUTES
 //	---------------------------------
 	function linkedShapeCharDetails(){
 		var con = '';
 		var sls = getSelectedChar();
 		if(!sls) return '';
 
-		con += '<h3'+((sls.shape)? '' : ' style="margin-top:0px;"')+'>characters that use this linked shape</h3>';
+		con += '<h3'+((sls.shape)? '' : ' style="margin-top:0px;"')+'>glyphs that use this component</h3>';
 		if(sls.usedin.length > 0){
 			con += makeUsedInThumbs();
 		} else {
-			con += '<br><i>this linked shape is not currently being used by any characters. ';
-			con += '<a href="#" onclick="showAddSSToCharDialog();">add this linked shape to a character now</a>.</i>';
+			con += '<br><i>this component is not currently being used by any glyphs. ';
+			con += '<a href="#" onclick="showAddSSToCharDialog();">add this component to a glyph now</a>.</i>';
 		}
 
 		//debug("LINKEDSHAPECHARDETAILS - returning html:\n" + con);
@@ -44,7 +44,7 @@
 		//debug("GOTOEDITCHAR - " + chid);
 		_UI.selectedshape = -1;
 		_UI.selectedchar = chid;
-		if(chid.length === 6) _UI.navhere = "character edit";
+		if(chid.length === 6) _UI.navhere = "glyph edit";
 		else if (chid.length > 6) _UI.navhere = 'ligatures';
 		else debug('\n goToEditChar - BAD CHID CAN\'T NAVIGATE TO ' + chid);
 		_UI.navprimaryhere = "npAttributes";
@@ -52,28 +52,28 @@
 	}
 
 //	---------------------------------
-//	LINKED SHAPE INSTANCE ATTRIBUTES
+//	COMPONENT INSTANCE ATTRIBUTES
 //	---------------------------------
 
 	function linkedShapeInstanceDetails(s){
 		//debug("LINKEDSHAPEINSTANCEDETAILS - start of function");
 		var svc = (_GP.projectsettings.spinnervaluechange || 1);
-		content = '<tr><td colspan=3><h3>linked shape</h3></td></tr>';
+		content = '<tr><td colspan=3><h3>component</h3></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px;"> name </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input style="width:90%;" type="text" value="' + s.name + '" onchange="ss().name = this.value; history_put(\'shape name\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td> use linked shape position</td><td>'+checkUI('ss().uselinkedshapexy', true)+'</td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td> use component position</td><td>'+checkUI('ss().uselinkedshapexy', true)+'</td></tr>';
 		if(!s.uselinkedshapexy){
-		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163);">x & y values are relative to the linked shape position</h3></td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163);">x & y values are relative to the component position</h3></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.xpos, 3) + '" onchange="ss().xpos = (this.value*1); history_put(\'linkedshape xpos\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.ypos, 3) + '" onchange="ss().ypos = (this.value*1); history_put(\'linkedshape ypos\'); redraw(\'linkedShapeInstanceDetails\');"></td></tr>';
 		}
-		content += '<tr><td class="leftcol">&nbsp;</td><td> linked shape name </td><td>' + _GP.linkedshapes[s.link].shape.name + '</td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><button onclick="goToEditLinkedShape(\''+s.link+'\');">edit this linked shape</button></td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td> component name </td><td>' + _GP.components[s.link].shape.name + '</td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><button onclick="goToEditLinkedShape(\''+s.link+'\');">edit this component</button></td></tr>';
 		return content;
 	}
 
 	function goToEditLinkedShape(lsid){
 		_UI.selectedlinkedshape = lsid;
-		_UI.navhere = 'linked shapes';
+		_UI.navhere = 'components';
 		navigate('npAttributes');
 	}
 

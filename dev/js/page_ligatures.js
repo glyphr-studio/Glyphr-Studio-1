@@ -21,9 +21,9 @@
 	function showNewLigatureDialog() {
 		var con = '<h1>New Ligature</h1>';
 		con += '<div style="width:500px;">';
-		con += 'Create a new ligature by specifying two or more individual characters that will make up the ligature (like ff).<br><br>';
-		con += 'Ligature characters can also be specified in Unicode format (like U+0066U+0066) or hexadecimal format (like 0x00660x0066). ';
-		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
+		con += 'Create a new ligature by specifying two or more individual glyphs that will make up the ligature (like ff).<br><br>';
+		con += 'Ligature glyphs can also be specified in Unicode format (like U+0066U+0066) or hexadecimal format (like 0x00660x0066). ';
+		con += 'Hexadecimal, Unicode, and regular glyph formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Ligature Characters</h3>';
 		con += '<input type="text" id="newligatureinput" style="font-size:24px; padding:8px;"/><br>';
 		con += makeErrorMessageBox();
@@ -42,7 +42,7 @@
 		lid = parseUnicodeInput(lid);
 		if(lid) lid = lid.join('');
 		else {
-			showErrorMessageBox('Ligatures must be at least two characters.');
+			showErrorMessageBox('Ligatures must be at least two glyphs.');
 			return;
 		}
 
@@ -54,7 +54,7 @@
 		if(lig[lid]){
 			showErrorMessageBox('Ligature allready exists.');
 		} else if (lig === false || lid.length < 2){
-			showErrorMessageBox('Ligatures must be at least two characters.');
+			showErrorMessageBox('Ligatures must be at least two glyphs.');
 		} else {
 			lig[lid] = new Char({'charhex':lid, 'charname':('Ligature ' + inlig)});
 			sortLigatures();

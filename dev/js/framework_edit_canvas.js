@@ -56,8 +56,8 @@
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 
 		switch (_UI.navhere){
-			case 'character edit': redraw_CharacterEdit(); break;
-			case 'linked shapes': redraw_LinkedShapes(); break;
+			case 'glyph edit': redraw_CharacterEdit(); break;
+			case 'components': redraw_LinkedShapes(); break;
 			case 'ligatures': redraw_CharacterEdit(); break;
 			case 'kerning': redraw_Kerning(); break;
 			case 'test drive': redraw_TestDrive(); break;
@@ -90,27 +90,27 @@
 		var patheditclass = '';
 		var pathaddpointclass = '';
 		var penclickable = true;
-		var onchar = (_UI.navhere === 'character edit');
-		var onlink = (_UI.navhere === 'linked shapes');
+		var onchar = (_UI.navhere === 'glyph edit');
+		var onlink = (_UI.navhere === 'components');
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 
 		var s = ss('Charedit: UpdateTools');
 
 		if(onlink) {
-			if(!_GP.linkedshapes[_UI.selectedshape]) { s = false; }
+			if(!_GP.components[_UI.selectedshape]) { s = false; }
 		}
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
-		} else if (s && s.link && _UI.navhere !== 'linked shapes'){
+		} else if (s && s.link && _UI.navhere !== 'components'){
 			patheditclass = 'buttondis';
 			penclickable = false;
 		}
 
 		if(_UI.selectedtool === 'pathaddpoint'){
 			pathaddpointclass = 'buttonsel';
-		} else if (s && s.link && _UI.navhere !== 'linked shapes'){
+		} else if (s && s.link && _UI.navhere !== 'components'){
 			pathaddpointclass = 'buttondis';
 			penclickable = false;
 		}
@@ -467,8 +467,8 @@
 //	-------------------------
 	function isWorkItemSelected() {
 		switch(_UI.navhere){
-			case 'character edit': return true;
-			case 'linked shapes': return _UI.selectedlinkedshape;
+			case 'glyph edit': return true;
+			case 'components': return _UI.selectedlinkedshape;
 			case 'ligatures': return _UI.selectedchar;
 			case 'kerning': return _UI.selectedkern;
 		}
@@ -478,8 +478,8 @@
 
 	function getCurrentWorkItemName() {
 		switch(_UI.navhere){
-			case 'character edit':
-			case 'linked shapes':
+			case 'glyph edit':
+			case 'components':
 				return getSelectedCharName();
 			case 'ligatures':
 				return 'ligature ' + getSelectedCharName();
@@ -498,8 +498,8 @@
 
 		var scs = getSelectedCharShapes();
 
-		if(_UI.navhere === 'linked shapes'){
-			// debug('\t LINKED SHAPES returning selectedlinkedshape: ' + _UI.selectedlinkedshape);
+		if(_UI.navhere === 'components'){
+			// debug('\t COMPONENTS returning selectedlinkedshape: ' + _UI.selectedlinkedshape);
 			return scs[0] || false;
 		}
 
@@ -585,7 +585,7 @@
 		if(!isWorkItemSelected()) return;
 
 		var ps = _GP.projectsettings;
-		var oncharedit = (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures');
+		var oncharedit = (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 		// debug('\t ps.guides: ');
 		// debug(ps.guides);

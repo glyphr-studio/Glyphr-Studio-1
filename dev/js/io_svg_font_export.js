@@ -113,7 +113,7 @@
 
 		//<glyph glyph-name="uniFEDF_uniFEE0_uniFBAB.liga" unicode="&#xfedf;&#xfee0;&#xfbab;" horiz-adv-x="1262" d="M1224 5
 
-		var fc = _GP.fontchars;
+		var fc = _GP.glyphs;
 		var con = '';
 
 		sortLigatures();

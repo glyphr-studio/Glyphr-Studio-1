@@ -53,7 +53,7 @@
 
 	function parseUnicodeInput(str) {
 		// takes any kind or number of input
-		// Unicode, Hex, or character
+		// Unicode, Hex, or glyph
 		// and returns an array of padded hex values
 
 		// debug('\n parseUnicodeInput - START');
@@ -127,8 +127,8 @@
 
 	function unicodeInputHelp() {
 		var re = '<h1>Using Unicode Values</h1>'+
-			'Unicode is a format used by fonts that assigns an ID number to every character.<br>'+
-			'Glyphr Studio uses this format for importing fonts, and for identifying characters,<br>kern pairs, and ligatures.<br><br>'+
+			'Unicode is a format used by fonts that assigns an ID number to every glyph.<br>'+
+			'Glyphr Studio uses this format for importing fonts, and for identifying glyphs,<br>kern pairs, and ligatures.<br><br>'+
 			'Glyphr Studio accepts three flavors of this ID number:<br>'+
 			'<ul>'+
 				'<li><b>Decimal Numbers</b> - for example, the number 78 corresponds to capital N.</li>'+
@@ -193,7 +193,7 @@
 		//debug('UPDATECUSTOMRANGETABLE - \n\t custom is ' + JSON.stringify(cr));
 		var content = '';
 		if(cr.length){
-			content += 'Existing custom character ranges:<br><table style="margin-top:8px;">';
+			content += 'Existing custom glyph ranges:<br><table style="margin-top:8px;">';
 			for(var c=0; c<cr.length; c++){
 				content += '<tr><td class="customrangeline">';
 				content += cr[c].begin + '&nbsp;&nbsp;through&nbsp;&nbsp;' + cr[c].end + '&nbsp;&nbsp;';
@@ -202,7 +202,7 @@
 				content += '</td></tr>';
 			}
 			content += '</table><br>';
-			content += 'Note, removing a custom range will not delete character data from your Glyphr Project.  ';
+			content += 'Note, removing a custom range will not delete glyph data from your Glyphr Project.  ';
 			content += 'Custom ranges only determine what is shown in the UI, and what is exported to fonts.';
 		}
 		document.getElementById('customrangetable').innerHTML = content;

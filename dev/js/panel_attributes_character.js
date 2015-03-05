@@ -1,7 +1,7 @@
  // start of file
 
 //---------------------
-// Character Attributes
+// Glyph Attributes
 //---------------------
 
 	function makePanel_CharAttributes(){
@@ -22,12 +22,12 @@
 		content += '<div class="panel_section">';
 
 		//debug("UPDATEDETAILS - _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
-		if (_UI.navhere === 'character edit' || _UI.navhere === 'ligatures'){
+		if (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures'){
 			content += '<table class="detail">';
-			//debug("UPDATEDETAILS - detected navhere = character edit");
+			//debug("UPDATEDETAILS - detected navhere = glyph edit");
 			if(s && s.link){
-				// linked shape selected
-				//debug("UPDATEDETAILS: linked shape selected");
+				// component selected
+				//debug("UPDATEDETAILS: component selected");
 				content += linkedShapeInstanceDetails(s);
 			} else if (s){
 				// regular shape selected
@@ -41,8 +41,8 @@
 			}
 			content += '</table><br>';
 
-		} else if (_UI.navhere === 'linked shapes'){
-			//debug("UPDATEDETAILS - detected navhere = linked shapes");
+		} else if (_UI.navhere === 'components'){
+			//debug("UPDATEDETAILS - detected navhere = components");
 			if (s){
 				content += '<table class="detail">';
 				content += shapeDetails(s);
@@ -66,18 +66,18 @@
 		var content = '';
 		var numshapes = getSelectedCharShapes().length;
 
-		content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform character shapes </h3></td></tr>';
+		content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform glyph shapes </h3></td></tr>';
 
 		if(numshapes > 1){
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<input type="number" id="charx" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); history_put(\'Character X Position : \'+this.value); redraw(\'Character Details - X Position\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
 					' value="' + round(sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="chary" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); history_put(\'Character Y Position : \'+this.value); redraw(\'Character Details - Y Position\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
 					' value="' + round(sc.maxes.ymax, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -86,11 +86,11 @@
 				'<td>width'+dimSplit()+'height</td>'+
 				'<td>'+
 					'<input type="number" id="charw" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,'+sc.ratiolock+'); history_put(\'Character Width : \'+this.value); redraw(\'Character Details - Width\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
 					' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="charh" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,'+sc.ratiolock+'); history_put(\'Character Height : \'+this.value); redraw(\'Character Details - Height\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
 					' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -102,19 +102,19 @@
 
 			content += '<tr><td colspan=2>'+
 				'<table class="actionsgrid"><tr><td>'+
-				'<button onclick="getSelectedChar().flipNS(); history_put(\'Flip Character : Horizontal\'); redraw(\'Character Details - FlipNS\');">Flip Vertical</button>'+
-				'<button onclick="getSelectedChar().flipEW(); history_put(\'Flip Character : Vertical\'); redraw(\'Character Details - FlipEW\');">Flip Horizontal</button>'+
+				'<button onclick="getSelectedChar().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
+				'<button onclick="getSelectedChar().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
 				'</td></tr></table>'+
 			'</td></tr>';
 		} else {
 			content += '<tr>'+
-				'<td colspan=2><i>This character needs to have at least two shapes in order to bulk-transform.</i></td>'+
+				'<td colspan=2><i>This glyph needs to have at least two shapes in order to bulk-transform.</i></td>'+
 			'</tr>';
 		}
 
 
 		// AUTO CHAR WIDTH
-		content += '<tr><td colspan=2><h3> character width </h3></td></tr>';
+		content += '<tr><td colspan=2><h3> glyph width </h3></td></tr>';
 
 		content += '<tr>'+
 				'<td> automatically calculate </td>'+
@@ -123,7 +123,7 @@
 
 		if(!sc.isautowide){
 			content += '<tr>'+
-				'<td> character width <span class="unit">(em units)</span> </td>'+
+				'<td> glyph width <span class="unit">(em units)</span> </td>'+
 				'<td>'+
 					'<input type="number" id="charaw" step="'+svc+'" '+
 					'value="' + round(sc.charwidth, 3) + '" '+
@@ -132,7 +132,7 @@
 			'</tr>';
 		} else {
 			content += '<tr>'+
-				'<td> character width <span class="unit">(em units)</span> </td>'+
+				'<td> glyph width <span class="unit">(em units)</span> </td>'+
 				'<td>'+
 					'<input type="number" disabled="disabled" '+
 					'value="'+ round(sc.charwidth, 3) + '"/>'+
@@ -274,7 +274,7 @@
 			"The Path Points that make up a shape outline have either a clockwise or counter-clockwise direction. "+
 			"This path direction is also known as a path&rsquo;s &ldquo;winding&rdquo;. "+
 			"Shapes with the same winding will combine, opposite windings will cut-out.<br><br>"+
-			"For example, to create the character &lsquo;o&rsquo;, draw two overlapping oval shapes. "+
+			"For example, to create the glyph &lsquo;o&rsquo;, draw two overlapping oval shapes. "+
 			"If the outside oval has a clockwise winding, select the inside oval and change it&rsquo;s winding to counter-clockwise. "+
 			"This will result in the inside oval appearing in reverse (or cutting out) in relation to the outside oval.</div><br><br>"+
 			"<table style=\\&apos;width:350px;\\&apos;><tr><td style=\\&apos;text-align:center;\\&apos;><span style=\\&apos;font-size:1.2em;\\&apos;>Same Winding</span><br></td><td style=\\&apos;text-align:center;\\&apos;><span style=\\&apos;font-size:1.2em;\\&apos;>Different Winding</span><br></td></tr>"+

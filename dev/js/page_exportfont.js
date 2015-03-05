@@ -8,8 +8,8 @@
 			'Not all Glyphr Studio Project features are available in exported font file formats. '+
 			'Exported files will not contain the following information:<br>'+
 			'<ul>'+
-			'<li><b>Linked Shapes</b> will be unlinked and converted to stand-alone outlines.</li>'+
-			'<li><b>Kern Groups</b> will be split apart into single-character pairs.</li>'+
+			'<li><b>Components</b> will be unlinked and converted to stand-alone outlines.</li>'+
+			'<li><b>Kern Groups</b> will be split apart into single-glyph pairs.</li>'+
 			'<li><b>Glyphr Studio Project Settings</b>, like grid preferences, will be lost.</li>'+
 			'</ul>'+
 			'If you want to retain these features, be sure to also save a Glyphr Studio Project File.<br><br>';

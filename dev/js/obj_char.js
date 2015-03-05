@@ -57,8 +57,8 @@
 				sh = this.charshapes[jj];
 
 				if(sh.link){
-					// Linked Shape
-					tss = _GP.linkedshapes[sh.link].shape;
+					// Component
+					tss = _GP.components[sh.link].shape;
 					if(sh.uselinkedshapexy) {
 						txmax = tss.path.maxes.xmax;
 						txmin = tss.path.maxes.xmin;
@@ -333,19 +333,19 @@
 				return _GP.ligatures[ch];
 			}
 		} else if(ch.indexOf('0x') > -1){
-			rechar = _GP.fontchars[ch];
-			// debug('\t retrieved ' + rechar + ' from fontchars.');
+			rechar = _GP.glyphs[ch];
+			// debug('\t retrieved ' + rechar + ' from glyphs.');
 			if(rechar){
 				return rechar;
 			} else if(create){
 				// debug('\t create was true, returning a new char.');
-				_GP.fontchars[ch] = new Char({'charhex':ch});
-				return _GP.fontchars[ch];
+				_GP.glyphs[ch] = new Char({'charhex':ch});
+				return _GP.glyphs[ch];
 			}
 		} else {
-			// debug('\t linked shape, retrieved');
-			// debug(_GP.linkedshapes[ch]);
-			return _GP.linkedshapes[ch] || false;
+			// debug('\t component, retrieved');
+			// debug(_GP.components[ch]);
+			return _GP.components[ch] || false;
 		}
 
 		// debug('getChar - returning FALSE\n');
@@ -372,8 +372,8 @@
 
 		var cobj = getChar(ch);
 		if(cobj && cobj.shape) {
-			// linked shape
-			// debug('\t linked shape - returning ' + cobj.shape.name);
+			// component
+			// debug('\t component - returning ' + cobj.shape.name);
 			return cobj.shape.name;
 		} else if(ch.indexOf('0x',2) > -1){
 			// ligature
@@ -388,8 +388,8 @@
 	}
 
 	function getFirstCharID() {
-		if(_GP.fontchars['0x0041']) return '0x0041';
-		else return getFirstID(_GP.fontchars);
+		if(_GP.glyphs['0x0041']) return '0x0041';
+		else return getFirstID(_GP.glyphs);
 	}
 
 	// GET SELECTED
@@ -397,15 +397,15 @@
 		// debug('\n getSelectedChar - START');
 		// debug('\t selectedchar: ' + _UI.selectedchar);
 		var re;
-		if(_UI.navhere === 'linked shapes') {
+		if(_UI.navhere === 'components') {
 			re = getChar(_UI.selectedlinkedshape);
-			// debug('\t case linked shapes, returning ' + re.charname);
+			// debug('\t case components, returning ' + re.charname);
 			return re;
 		} else if (_UI.navhere === 'firstrun'){
 			return false;
 		} else if(_UI.navhere !== 'kerning'){
 			re = getChar(_UI.selectedchar, true);
-			// debug('\t case character edit, returning ' + re.charname);
+			// debug('\t case glyph edit, returning ' + re.charname);
 			return re;
 		} else {
 			return false;
@@ -414,13 +414,13 @@
 
 	function getSelectedCharID(){
 		//debug('GETSELECTEDCHARID');
-		if(_UI.navhere === 'linked shapes') return _UI.selectedlinkedshape;
+		if(_UI.navhere === 'components') return _UI.selectedlinkedshape;
 		else return _UI.selectedchar;
 	}
 
 	function getSelectedCharName() {
 		//debug('GETSELECTEDCHARNAME - _UI.selectedchar: ' + _UI.selectedchar);
-		if(_UI.navhere === 'linked shapes') return getCharName(_UI.selectedlinkedshape);
+		if(_UI.navhere === 'components') return getCharName(_UI.selectedlinkedshape);
 		else return getCharName(_UI.selectedchar);
 	}
 
@@ -457,16 +457,16 @@
 
 		//debug('SELECTCHAR: shapelayers is now ' + JSON.stringify(getSelectedCharShapes()));
 		if(!dontnavigate){
-			//debug('SELECTCHAR: selecting ' + _GP.fontchars[c].charhtml + ' and navigating.');
+			//debug('SELECTCHAR: selecting ' + _GP.glyphs[c].charhtml + ' and navigating.');
 			navigate('npAttributes');
 		}
 	}
 
 	function updateCurrentCharWidth() {
 		var sc = getSelectedChar();
-		if(_UI.navhere === 'character edit'){
+		if(_UI.navhere === 'glyph edit'){
 			sc.calcCharMaxes();
-		} else if (_UI.navhere === 'linked shapes' && sc) {
+		} else if (_UI.navhere === 'components' && sc) {
 			var lsarr = sc.usedin;
 			if(lsarr) for(var c=0; c<lsarr.length; c++) getChar(lsarr[c]).calcCharMaxes();
 		}

@@ -77,10 +77,10 @@
 	function showNewKernPairDialog() {
 		var con = '<h1>New Kern Pair</h1>';
 		con += '<div style="width:500px;">';
-		con += 'Create a new kern pair by specifying a character for the left and right sides. ';
-		con += 'Each side of the kern pair can also be a group of characters.  When any character from the left side is displayed before any character in the right side, the pair will be kerned.<br><br>';
+		con += 'Create a new kern pair by specifying a glyph for the left and right sides. ';
+		con += 'Each side of the kern pair can also be a group of glyphs.  When any glyph from the left side is displayed before any glyph in the right side, the pair will be kerned.<br><br>';
 		con += 'Characters can also be specified in Unicode format (like U+0066) or hexadecimal format (like 0x0066). ';
-		con += 'Hexadecimal, Unicode, and regular character formats cannot be mixed - choose one type!<br><br>';
+		con += 'Hexadecimal, Unicode, and regular glyph formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Kern Pair Characters</h3>';
 		con += '<input type="text" id="leftgroup" style="font-size:24px; width:45%; padding:8px; text-align:right;"/>';
 		con += '<input type="text" id="rightgroup" style="font-size:24px; width:45%; padding:8px;"/><br>';

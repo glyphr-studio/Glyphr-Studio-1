@@ -60,7 +60,7 @@
 		//debug('DRAWSHAPE_STACK');
 		if(this.visible){
 			if(this.link){
-				_GP.linkedshapes[this.link].shape.drawShape_Stack(lctx);
+				_GP.components[this.link].shape.drawShape_Stack(lctx);
 				return;
 			}
 
@@ -402,7 +402,7 @@
 
 		var sc = getSelectedChar();
 
-		if(_UI.navhere === 'linked shapes' ){
+		if(_UI.navhere === 'components'){
 			_UI.selectedshape = getSelectedCharID();
 			sc.shape = newshape;
 		} else {
@@ -445,7 +445,7 @@
 		newshape.path = new Path({'pathpoints':parr});
 		newshape.name = (shapetype + getSelectedCharShapes().length+1);
 
-		if(_UI.navhere === 'character edit') { _UI.selectedshape = getSelectedCharShapes().length; }
+		if(_UI.navhere === 'glyph edit') { _UI.selectedshape = getSelectedCharShapes().length; }
 		getSelectedCharShapes().push(newshape);
 		updateCurrentCharWidth();
 	}
@@ -476,7 +476,7 @@
 	function turnSelectedShapeIntoALinkedShape(){
 		var newls = clone(ss());
 		deleteShape();
-		newls.name = ('Linked Shape from ' + newls.name);
+		newls.name = ('Component from ' + newls.name);
 		var newid = addLinkedShape(newls);
 		insertLinkedShape(newid, getSelectedCharID());
 		_UI.selectedshape = getSelectedCharShapes().length-1;
@@ -486,7 +486,7 @@
 	function clickSelectShape(x,y){
 		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
 
-		if(_UI.navhere === 'linked shapes'){
+		if(_UI.navhere === 'components'){
 			return clickSelectLinkedShape(x,y);
 		}
 		var ts;
@@ -630,7 +630,7 @@
 			this.name = sn;
 			history_put('shape name');
 		} else {
-			openDialog('<h1>Invalid shape name</h1><br>Shape names must only contain alphanumeric characters or spaces.<br>');
+			openDialog('<h1>Invalid shape name</h1><br>Shape names must only contain alphanumeric glyphs or spaces.<br>');
 		}
 
 		redraw('Shape Name');

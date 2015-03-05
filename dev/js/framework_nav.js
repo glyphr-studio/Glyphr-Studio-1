@@ -5,7 +5,7 @@
 //-------------------
 
 	function navigate(nap){
-		// debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
+		debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
 
 		if(_UI.navhere === 'firstrun'){
 			makeLayout_Firstrun();
@@ -23,7 +23,7 @@
 		updateCursor();
 		loadPageContent();
 		getEditDocument().body.focus();
-		// debug('>>> NAVIGATED - to ' + _UI.navhere);
+		debug('>>> NAVIGATED - to ' + _UI.navhere);
 	}
 
 
@@ -85,7 +85,7 @@
 
 	function makeLayout_PopOut(){
 		// debug('\n makeLayout_PopOut - START');
-		var onls = _UI.navhere === 'linked shapes';
+		var onls = _UI.navhere === 'components';
 		var onkern = _UI.navhere === 'kerning';
 
 		var pol = '<table class="popout_table"><tr>';
@@ -108,8 +108,8 @@
 	function make_NavPanels_PopOut(){
 		// debug('\n make_NavPanels_PopOut - START');
 		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
-		var onls = _UI.navhere === 'linked shapes';
-		var once = _UI.navhere === 'character edit';
+		var oncom = _UI.navhere === 'components';
+		var onge = _UI.navhere === 'glyph edit';
 		var onlig = _UI.navhere === 'ligatures';
 		var ontd = _UI.navhere === 'test drive';
 		var onkern = _UI.navhere === 'kerning';
@@ -117,13 +117,13 @@
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(once && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
-		else if(onls) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
+		if(onge && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
+		else if(oncom) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
 		else if (onlig) document.getElementById('popout_charchooser').innerHTML = makePanel_LigatureChooser();
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 
-		if(!onls && !onkern) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
+		if(!oncom && !onkern) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 
 		if(!onkern)document.getElementById('popout_actions').innerHTML = makePanel_Actions();
 
@@ -167,8 +167,8 @@
 		} else {
 			switch(nh){
 				// case 'firstrun':  _UI.navprimaryhere = '';break;
- 				case 'character edit': 	_UI.navprimaryhere = 'npChooser'; break;
-				case 'linked shapes': 	_UI.navprimaryhere = 'npChooser'; break;
+ 				case 'glyph edit': 	_UI.navprimaryhere = 'npChooser'; break;
+				case 'components': 	_UI.navprimaryhere = 'npChooser'; break;
 				case 'ligatures': 		_UI.navprimaryhere = 'npChooser'; break;
 				case 'kerning': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'test drive': 		_UI.navprimaryhere = 'npAttributes'; break;
@@ -192,8 +192,8 @@
 
 	function onCanvasEditPage() {
 		var nh = _UI.navhere;
-		return ( nh==='character edit' ||
-					nh==='linked shapes' ||
+		return ( nh==='glyph edit' ||
+					nh==='components' ||
 					nh==='kerning' ||
 					nh==='ligatures');
 	}
@@ -226,9 +226,9 @@
 			case 'npChooser':
 				// debug('\t case ' + npChooser);
 				switch(_UI.navhere){
-					case 'character edit': np.innerHTML = makePanel_CharChooser('selectChar'); break;
+					case 'glyph edit': np.innerHTML = makePanel_CharChooser('selectChar'); break;
 					case 'import svg': np.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
-					case 'linked shapes': np.innerHTML = makePanel_LinkedShapeChooser(); break;
+					case 'components': np.innerHTML = makePanel_LinkedShapeChooser(); break;
 					case 'ligatures': np.innerHTML = makePanel_LigatureChooser(); break;
 				}
 				break;
@@ -236,8 +236,8 @@
 			case 'npAttributes':
 				// debug('\t case ' + npAttributes);
 				switch (_UI.navhere){
-					case 'character edit':
-					case 'linked shapes':
+					case 'glyph edit':
+					case 'components':
 					case 'ligatures':
 						np.innerHTML = makePanel_CharAttributes();
 						np.innerHTML += makePanel_Actions();
@@ -280,8 +280,8 @@
 			case 'import svg':			loadPage_importsvg();		break;
 			case 'about':				loadPage_about();			break;
 			case 'test drive':			loadPage_testdrive();		break;
-			case 'linked shapes':		loadPage_linkedshapes();	break;
-			case 'character edit':		loadPage_charedit();		break;
+			case 'components':		loadPage_linkedshapes();	break;
+			case 'glyph edit':		loadPage_charedit();		break;
 			case 'kerning':				loadPage_kerning();			break;
 			case 'ligatures':			loadPage_ligatures();		break;
 		}
@@ -301,7 +301,7 @@
 
 		if(_UI.navprimaryhere !== 'npNav'){
 			switch(_UI.navhere){
-				case 'character edit':
+				case 'glyph edit':
 				navarr.push('npChooser');
 				navarr.push('npLayers');
 				navarr.push('npAttributes');
@@ -309,7 +309,7 @@
 				navarr.push('npGuides');
 				break;
 
-				case 'linked shapes':
+				case 'components':
 				navarr.push('npChooser');
 				if(wi) navarr.push('npAttributes');
 				if(wi) navarr.push('npHistory');
@@ -407,10 +407,10 @@
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_UI);">UI</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.metadata);">META</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.fontchars);">CHAR</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.glyphs);">CHAR</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.linkedshapes);">LS</button><br><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.components);">LS</button><br><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="console.clear();">clear</button><br><br>';
 			newsub += '</div>';
 			newsub += '<div style="color:slategray; text-align:center;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';
@@ -427,8 +427,8 @@
 
 	function makePanel_PageNav(){
 		var navarr = [
-			'character edit',
-			'linked shapes',
+			'glyph edit',
+			'components',
 			'ligatures',
 			'kerning',
 			'test drive',

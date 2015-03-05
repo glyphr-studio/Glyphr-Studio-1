@@ -4,7 +4,7 @@
 		// debug("LOADING PAGE >> loadpage_importsvg");
 		var chname = getSelectedCharName();
 		var content = "<h1 class='pagetitle'>Import SVG</h1><div class='pagecontent textpage'>" +
-		"<h2 id='importsvgselecttitle'>Target character: "+chname+"</h2>"+
+		"<h2 id='importsvgselecttitle'>Target glyph: "+chname+"</h2>"+
 
 		"<table style='margin-top:16px;'><tr><td style='width:50%;'>"+
 			"<h3>scaling and moving</h3>"+
@@ -32,7 +32,7 @@
 			"</td><td style='padding-left:30px;' rowspan='3'>"+
 
 				"<table><tr><td colspan='2' style='padding-bottom:8px;'>"+
-					"For rounded characters:"+
+					"For rounded glyphs:"+
 				"</td></tr><tr><td>"+
 					checkUI("_UI.importsvg.overshoot_top")+
 				"</td><td style='padding:0px 0px 8px 8px;'>"+
@@ -65,7 +65,7 @@
 		"</textarea><br><br>"+
 
 		"<button class='buttonsel' style='display:inline; padding-left:60px; padding-right:60px;' onclick='importSVG_importCode();'>Import SVG</button>"+
-		"<button style='display:inline; margin-left:60px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"character edit\"; navigate();'>go to character edit</button>"+
+		"<button style='display:inline; margin-left:60px; padding-left:20px; padding-right:20px;' onclick='_UI.navhere=\"glyph edit\"; navigate();'>go to glyph edit</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='history_pull();'>undo</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>clear code</button>"+
 
@@ -137,7 +137,7 @@
 	function importSVG_selectChar(cid){
 		//debug("IMPORTSVG_SELECTCHAR - selecting " + cid);
 		selectChar(cid, true);
-		document.getElementById('importsvgselecttitle').innerHTML = "Target character: "+getSelectedCharName();
+		document.getElementById('importsvgselecttitle').innerHTML = "Target glyph: "+getSelectedCharName();
 		update_NavPanels();
 	}
 
@@ -178,7 +178,7 @@
 
 		// Add new Char Shapes
 		tempchar.sendShapesTo(getSelectedCharID());
-		history_put("Imported Paths from SVG to character "+getSelectedCharName());
+		history_put("Imported Paths from SVG to glyph "+getSelectedCharName());
 
 		update_NavPanels();
 	}

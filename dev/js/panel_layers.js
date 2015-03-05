@@ -29,9 +29,9 @@
 				content += " onclick='_UI.selectedshape = " + i + "; redraw(\"updatelayers\");'>";
 
 				if(ts.link) {
-					content += "<td class='layerthumb'>"+_GP.linkedshapes[ts.link].shape.makeSVG()+"</td>";
+					content += "<td class='layerthumb'>"+_GP.components[ts.link].shape.makeSVG()+"</td>";
 					content += "<td class='layername'>" +ts.name;
-					content += "<span class='layernote'>[linked to "+_GP.linkedshapes[ts.link].shape.name+"]</span>";
+					content += "<span class='layernote'>[linked to "+_GP.components[ts.link].shape.name+"]</span>";
 				} else {
 					content += "<td class='layerthumb'>"+ts.makeSVG()+"</td>";
 					content += "<td class='layername'>" + ts.name ;

@@ -236,7 +236,7 @@
 				curr++;
 			}
 			if(curr > 99999) {
-				showErrorMessageBox('Data longer than 100,000 characters is super uncool.');
+				showErrorMessageBox('Data longer than 100,000 glyphs is super uncool.');
 				return;
 			} else {
 				curr++;

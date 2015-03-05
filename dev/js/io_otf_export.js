@@ -54,8 +54,8 @@
 		// Add Chars and Ligatures
 		var tc, tcpath;
 
-		for(var c in _GP.fontchars){ if(_GP.fontchars.hasOwnProperty(c)){
-			tc = _GP.fontchars[c];
+		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
+			tc = _GP.glyphs[c];
 			tc.calcCharMaxes();
 			tcpath = new opentype.Path();
 			var sl = tc.charshapes;

@@ -140,7 +140,7 @@
 			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
-				var count = (_UI.navhere === 'linked shapes')? (getLength(_GP.linkedshapes)) : getSelectedCharShapes().length;
+				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedCharShapes().length;
 
 				if(_UI.selectedtool==='newrect'){
 					newshape.name = ('Rectangle ' + count);
@@ -208,7 +208,7 @@
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			if(s.link){
-				// debug('\tTool_ShapeEdit dragging linked shape');
+				// debug('\tTool_ShapeEdit dragging component');
 				if(this.dragging && !s.uselinkedshapexy){
 					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
 					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
@@ -301,7 +301,7 @@
 				//debug('Tool_NewPath MOUSEDOWN - after new path is made.');
 
 				// make a new shape with the new path
-				var count = (_UI.navhere === 'linked shapes')? (getLength(_GP.linkedshapes)) : getSelectedCharShapes().length;
+				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedCharShapes().length;
 				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
 				newshape.path.selectPathPoint(0);
 				//debug('Tool_NewPath MOUSEDOWN - end of firstpoint, new shape added with new path with single point.');

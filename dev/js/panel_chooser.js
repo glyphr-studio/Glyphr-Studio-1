@@ -1,13 +1,13 @@
  // start of file
 
 //-------------------
-// Character Chooser
+// Glyph Chooser
 //-------------------
 	function makePanel_CharChooser(fname){
 		var content = '<div class="navarea_header">';
 
 		content += makePanelSuperTitle();
-		content += '<h1 class="paneltitle">characters</h1>';
+		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
 		content += '<div class="panel_section">';
@@ -82,11 +82,11 @@
 		// debug('\t constructed function: ' + onc);
 		var rv = '<table class="charselectbuttontable" onclick="'+onc+'" title="'+getCharName(index)+'"><tr><td>';
 		var issel = (index === _UI.selectedchar);
-		issel = (issel && (_UI.navhere !== 'linked shapes'));
+		issel = (issel && (_UI.navhere !== 'components'));
 		var chtml = hexToHTML(index);
 		if(index === '0x0020') chtml = 'space';
 
-		if((_GP.fontchars[index] && _GP.fontchars[index].charshapes[0]) ||
+		if((_GP.glyphs[index] && _GP.glyphs[index].charshapes[0]) ||
 			(_GP.ligatures[index] && _GP.ligatures[index].charshapes[0])) {
 			var extra = '';
 			if(issel) {extra = ' charselectthumbsel';}
@@ -111,21 +111,21 @@
 
 
 //-------------------------
-// Linked Shape Chooser
+// Component Chooser
 //-------------------------
 	function makePanel_LinkedShapeChooser(){
 
-		var lslen = getLength(_GP.linkedshapes);
+		var lslen = getLength(_GP.components);
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
-		content += '<h1 class="paneltitle">linked shapes</h1>';
+		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
 		content += '<div class="panel_section">';
 		content += '<table class="layertable">';
-		var layers = lslen? '' : '<tr><td>No linked shapes exist yet.  Press the "add new linked shape" button below to get started.</td></tr>';
-		for(var lsid in _GP.linkedshapes){ if(_GP.linkedshapes.hasOwnProperty(lsid)){
+		var layers = lslen? '' : '<tr><td>No components exist yet.  Press the "add new component" button below to get started.</td></tr>';
+		for(var lsid in _GP.components){ if(_GP.components.hasOwnProperty(lsid)){
 			//debug('LINKEDSHAPES_SUBNAV - making button for ' + lsid);
 			layers += makeLinkedShapeSubNavButton(lsid);
 		}}
@@ -134,8 +134,8 @@
 		content += '</div>';
 
 		content += '<div class="panel_section">';
-		content += '<button onclick="addLinkedShape();history_put(\'Create New Linked Shape\');navigate();">add new linked shape</button><br>';
-		if(lslen) content += '<button onclick="deleteLinkedShapeConfirm();">delete linked shape</button><br>';
+		content += '<button onclick="addLinkedShape();history_put(\'Create New Component\');navigate();">add new component</button><br>';
+		if(lslen) content += '<button onclick="deleteLinkedShapeConfirm();">delete component</button><br>';
 		content += '</div>';
 
 
@@ -180,7 +180,7 @@
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
-		content += '<h1 class="paneltitle">characters</h1>';
+		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
 		content += '<div class="panel_section">';

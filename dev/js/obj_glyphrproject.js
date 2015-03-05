@@ -16,7 +16,7 @@
 			'capheight': 675,		// capital letter height
 			'xheight': 400,			// lowercase letter height
 			'linegap': 250,			// distance between lines
-			'italicangle': 0,		// slant of characters, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
+			'italicangle': 0,		// slant of glyphs, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
 			'griddivisions': 10,	// how many squares of grid per emsize
 			'overshoot': 10,		// overshoot for round glyphs
 			'defaultlsb': 20,		// default left side bearing
@@ -118,13 +118,13 @@
 			'rightside': new Guide({name:'rightside', type:'vertical', location:this.projectsettings.upm, editable:false, color:this.projectsettings.colors.guide_light})
 		};
 
-		this.fontchars = {};
+		this.glyphs = {};
 
 		this.ligatures = {};
 
 		this.kerning = {};
 
-		this.linkedshapes = {};
+		this.components = {};
 	}
 
 	function saveGlyphrProjectFile(){
@@ -210,7 +210,7 @@
 		charIterator(function(hex){
 			fm.numchars++;
 			fm.maxchar = Math.max(fm.maxchar, hex);
-			var cm = _GP.fontchars[hex];
+			var cm = _GP.glyphs[hex];
 			if(cm){
 				cm = cm.maxes;
 				fm.maxes.xmax = Math.max(cm.xmax, fm.maxes.xmax);

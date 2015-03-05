@@ -5,7 +5,7 @@
 //	-------------------------------
 
 	function importGlyphrProjectFromText(textcontent){
-		// debug("IMPORTGLYPHRPROJECTFROMTEXT");
+		debug('\n importGlyphrProjectFromText - START');
 
 		var fcontent;
 		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
@@ -39,6 +39,8 @@
 			fcontent = migrate_beta_to_1_00(fcontent, minor);
 			major = 1;
 			minor = 0;
+			debug('\t migrate done to v1:');
+			debug(fcontent);
 		}
 
 		// Roll upgrades through v1
@@ -71,6 +73,10 @@
 		alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
 	}
 
+//	------------------------
+//	MIGRATE
+//	------------------------
+
 	function migrate_beta_to_1_00 (fcontent, minor) {
 		debug('\n migrate_beta_to_1_00 - START');
 		// Start rolling upgrades
@@ -88,12 +94,21 @@
 				debug('\t migrated to 0.5');
 			case 5:
 				debug("\t Minor Version === 5");
-				// fcontent = migrateFromBetaFiveToVersionOne(fcontent);
+				fcontent = migrate_0_5_to_1_0(fcontent);
+
 				debug('\t migrated to 1.0');
 		}
 
 		debug(' migrate_beta_to_1_00 - END\n');
 		return fcontent;
+	}
+
+	function migrate_0_5_to_1_0 (fc) {
+		fc.glyphs = clone(fc.fontchars);
+		fc.components = clone(fc.linkedshapes);
+		delete fc.fontchars;
+		delete fc.linkedshapes;
+		return fc;
 	}
 
 	function migrate_0_4_to_0_5(fc) {
@@ -147,6 +162,11 @@
 		return newfc;
 	}
 
+
+//	-------------------------------
+//	HYDRATE
+//	-------------------------------
+
 	function hydrateGlyphrProject(data) {
 		// debug("\n hydrateGlyphrProject - START");
 		// debug("\t passed: ");
@@ -182,16 +202,16 @@
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
 
 		// Linked Shapes
-		for (var lsid in data.linkedshapes) {
-			if(data.linkedshapes.hasOwnProperty(lsid)){
-				_GP.linkedshapes[lsid] = new LinkedShape(data.linkedshapes[lsid]);
+		for (var cid in data.components) {
+			if(data.components.hasOwnProperty(cid)){
+				_GP.components[cid] = new LinkedShape(data.components[cid]);
 			}
 		}
 
-		// Characters
-		for (var ch in data.fontchars) {
-			if(data.fontchars.hasOwnProperty(ch)){
-				_GP.fontchars[ch] = new Char(data.fontchars[ch]);
+		// Glyphs
+		for (var gl in data.glyphs) {
+			if(data.glyphs.hasOwnProperty(gl)){
+				_GP.glyphs[gl] = new Char(data.glyphs[gl]);
 			}
 		}
 
@@ -263,8 +283,8 @@
 		// debug("\nfinalizeGlyphrProject \t START");
 
 		// UI Defaults
-		_UI.history['character edit'] = new History('fontchars');
-		_UI.history['linked shapes'] = new History('linkedshapes');
+		_UI.history['glyph edit'] = new History('glyphs');
+		_UI.history.components = new History('components');
 		_UI.history.ligatures = new History('ligatures');
 		_UI.history.kerning = new History('kerning');
 
@@ -272,13 +292,13 @@
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
 		_UI.selectedchar = _UI.selectedchar || getFirstCharID();
-		_UI.selectedlinkedshape = getFirstID(_GP.linkedshapes);
+		_UI.selectedlinkedshape = getFirstID(_GP.components);
 		_UI.selectedkern = getFirstID(_GP.kerning);
 
 		calculateDefaultView();
 		resetThumbView();
 
-		_UI.navhere = "character edit";
+		_UI.navhere = "glyph edit";
 
 
 		// debug("finalizeGlyphrProject \t END\n");

@@ -11,7 +11,7 @@
 		content += "<h2>Font Name</h2>";
 		content += "<input type='text' style='width:300px; padding:8px; font-size:1.2em; margin-bottom:20px;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value;'/><br>";
 
-		content += "<h2>Character Proportions</h2>";
+		content += "<h2>Glyph Proportions</h2>";
 
 		content += "<h3>Key Metrics</h3>"+
 					"<table class='settingstable'>"+
@@ -23,13 +23,13 @@
 					"</table><br>";
 /*
 		content += "<h3>Line Gap</h3>" +
-					"This is the amount of vertical space between characters on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
+					"This is the amount of vertical space between glyphs on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
 					"<table class='settingstable'>"+
 					"<tr><td>Line Gap: </td><td><input type='number' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 */
 		content += "<h3>Default Side Bearings</h3>" +
-					"Side Bearings are the amount of blank space that is added to the left or right of characters when they are displayed.  This metric can be set individually per character, but will default to this value if not set. "+
+					"Side Bearings are the amount of blank space that is added to the left or right of glyphs when they are displayed.  This metric can be set individually per glyph, but will default to this value if not set. "+
 					"<table class='settingstable'>"+
 					"<tr><td>Left Side Bearing: </td><td><input type='number' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.lsb = Math.abs(Math.parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"<tr><td>Right Side Bearing: </td><td><input type='number' value='"+ps.defaultrsb+"' onchange='_GP.projectsettings.rsb = Math.abs(Math.parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
@@ -38,7 +38,7 @@
 
 		content += "<h2>Grids and Guides</h2>";
 		content += "<h3>Grid System</h3>";
-		content += "Defining a grid system to use while editing characters in this font makes stuff a whole " +
+		content += "Defining a grid system to use while editing glyphs in this font makes stuff a whole " +
 					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " +
 					"divide evenly into the Units per Em.<br>" +
 					"<table class='settingstable'>"+
@@ -57,15 +57,15 @@
 
 
 		// CHARACTERS
-		content += "<h1>Character Ranges</h1>"+
-					"Character ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible characters in a font. ";
+		content += "<h1>Glyph Ranges</h1>"+
+					"Glyph ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible glyphs in a font. ";
 
-		content += "<br><br><h3>Standard Character Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
-					"The most common character sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
+		content += "<br><br><h3>Standard Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
+					"The most common glyph sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
 
 		content += "<table class='settingstable'><tr>"+
 					"<td>"+checkUI("_GP.projectsettings.charrange.basiclatin")+"</td>"+
-					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode characters 0x0020 through 0x007E</label></td></tr>"+
+					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode glyphs 0x0020 through 0x007E</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					var bl = _UI.basiclatinorder;
 					for(var t=0; t<bl.length; t++){ content += (hexToChar(bl[t]) + " "); }
@@ -73,14 +73,14 @@
 
 		content += "<table class='settingstable'><tr>"+
 					"<td style='vertical-align:top;'>"+checkUI("_GP.projectsettings.charrange.latinsuppliment")+"</td>"+
-					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode characters 0x0080 through 0x00FF<br>Note: characters 0x0080 - 0x00A0 are printing control codes, which fonts may use as other characters.</label></td></tr>"+
+					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode glyphs 0x0080 through 0x00FF<br>Note: glyphs 0x0080 - 0x00A0 are printing control codes, which fonts may use as other glyphs.</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
 					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendeda")+"</td>"+
-					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode characters 0x0100 through 0x017F</label></td></tr>"+
+					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode glyphs 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
 		content += "</div></td></tr></table>";
@@ -88,15 +88,15 @@
 
 		content += "<table class='settingstable'><tr>"+
 					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendedb")+"</td>"+
-					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode characters 0x0180 through 0x024F</label></td></tr>"+
+					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode glyphs 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
 		content += "</div></td></tr></table>";
 
-		content += "<br><h3>Custom Character Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
-					"Additional character ranges above 0x024F can be included here. "+
-					"A nice overview of character ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target=_new>Wikipedia's Unicode Block page</a>.<br>" +
-					"Custom character ranges are inclusive, must be unique (non-overlapping), must be greater than 0x024F and less than 0xFFFF.<br><br>"+
+		content += "<br><h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
+					"Additional glyph ranges above 0x024F can be included here. "+
+					"A nice overview of glyph ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target=_new>Wikipedia's Unicode Block page</a>.<br>" +
+					"Custom glyph ranges are inclusive, must be unique (non-overlapping), must be greater than 0x024F and less than 0xFFFF.<br><br>"+
 					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.charrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+

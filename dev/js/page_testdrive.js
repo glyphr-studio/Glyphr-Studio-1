@@ -120,7 +120,7 @@
 
 	/*
 		calculateKernOffset
-		Takes two characters as arguments, and determines the number of Em units of
+		Takes two glyphs as arguments, and determines the number of Em units of
 		offset between them.  First checks to see if there are custom kern values
 		for the pair, and if not, returns 0. Left Side Bearing and Right Side Bearing
 		are not returned, only kern values.
@@ -162,7 +162,7 @@
 
 	/*
 		findAndMergeLigatures
-		Takes an array of characters as an argument, and looks for character sequences
+		Takes an array of glyphs as an argument, and looks for glyph sequences
 		that merge to ligatures.  Returns an array with merged results.
 	*/
 	function findAndMergeLigatures(carr) {
@@ -209,7 +209,7 @@
 		content += makeTDButton('the quick brown fox jumps over a lazy dog');
 		content += makeTDButton('amazingly few discotheques provide jukeboxes');
 		content += makeTDButton('quick enemy movement will<br>jeopardize six of the gunboats');
-		content += '<br><h3>character sets</h3>';
+		content += '<br><h3>glyph sets</h3>';
 		content += makeTDButton('abcdefghijklmnopqrstuvwxyz');
 		content += makeTDButton('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 		content += makeTDButton('0123456789');
@@ -235,8 +235,8 @@
 		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input type="number" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td><input type="number" disabled="disabled" id="roughptsize" valu="75"/></td></tr>';
 		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.linegap+'" onchange="_UI.testdrive.linegap=this.value*1; redraw_TestDrive();"></td></tr>';
-		content += '<tr><td> character spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
-		content += '<tr><td> <label for="showcharbox">show character boxes</label> </td><td>' + checkUI("_UI.testdrive.showcharbox",true) + "</td></tr>";
+		content += '<tr><td> glyph spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
+		content += '<tr><td> <label for="showcharbox">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showcharbox",true) + "</td></tr>";
 		content += '<tr><td> <label for="showhorizontals">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showhorizontals",true) + "</td></tr>";
 
 		content += '<tr><td colspan=2><button onclick="createimg();">generate png file</button></td></tr>';
