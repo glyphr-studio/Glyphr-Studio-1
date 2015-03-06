@@ -113,7 +113,7 @@
 //-------------------------
 // Component Chooser
 //-------------------------
-	function makePanel_LinkedShapeChooser(){
+	function makePanel_ComponentChooser(){
 
 		var lslen = getLength(_GP.components);
 
@@ -125,50 +125,50 @@
 		content += '<div class="panel_section">';
 		content += '<table class="layertable">';
 		var layers = lslen? '' : '<tr><td>No components exist yet.  Press the "add new component" button below to get started.</td></tr>';
-		for(var lsid in _GP.components){ if(_GP.components.hasOwnProperty(lsid)){
-			//debug('LINKEDSHAPES_SUBNAV - making button for ' + lsid);
-			layers += makeLinkedShapeSubNavButton(lsid);
+		for(var com in _GP.components){ if(_GP.components.hasOwnProperty(com)){
+			//debug('COMPONENTS_SUBNAV - making button for ' + com);
+			layers += makeComponentSubNavButton(com);
 		}}
 		content += layers;
 		content += '</table>';
 		content += '</div>';
 
 		content += '<div class="panel_section">';
-		content += '<button onclick="addLinkedShape();history_put(\'Create New Component\');navigate();">add new component</button><br>';
-		if(lslen) content += '<button onclick="deleteLinkedShapeConfirm();">delete component</button><br>';
+		content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate();">add new component</button><br>';
+		if(lslen) content += '<button onclick="deleteComponentConfirm();">delete component</button><br>';
 		content += '</div>';
 
 
 		return content;
 	}
 
-	function makeLinkedShapeSubNavButton(lsid){
-		// debug('makeLinkedShapeSubNavButton \t Start');
-		// debug('\t passed lsid:' + lsid);
+	function makeComponentSubNavButton(com){
+		// debug('makeComponentSubNavButton \t Start');
+		// debug('\t passed com:' + com);
 
 		var re = '';
-		var ls = getChar(lsid);
-		// debug("\t getChar for lsid: " );
-		// debug(ls);
+		var tcom = getChar(com);
+		// debug("\t getChar for com: " );
+		// debug(tcom);
 
-		if(lsid === _UI.selectedlinkedshape){
+		if(com === _UI.selectedcomponent){
 			re += '<tr class="layersel"';
 		} else {
 			re += '<tr class="layer"';
 		}
-		re += ' onclick="selectLinkedShape(\'' + lsid + '\');">';
+		re += ' onclick="selectComponent(\'' + com + '\');">';
 		re += '<td class="layerthumb">';
-		if(ls.shape) re += ls.shape.makeSVG();
+		if(tcom.shape) re += tcom.shape.makeSVG();
 		re += '</td>';
-		re += '<td class="layername">' + (ls.shape.name || '[no shape outline yet]') + '</td></tr>';
+		re += '<td class="layername">' + (tcom.shape.name || '[no shape outline yet]') + '</td></tr>';
 
 		return re;
 	}
 
-	function selectLinkedShape(lsid){
-		//debug("selectLinkedShape - lsid: " + lsid);
-		_UI.selectedlinkedshape = lsid;
-		_UI.selectedshape = lsid;
+	function selectComponent(com){
+		//debug("selectComponent - com: " + com);
+		_UI.selectedcomponent = com;
+		_UI.selectedshape = com;
 		navigate('npAttributes');
 	}
 

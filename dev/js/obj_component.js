@@ -4,20 +4,20 @@
 // COMPONENT OBJECT
 //-------------------------------------------------------
 
-	function LinkedShape(oa){
-		this.objtype = 'linkedshape';
+	function Component(oa){
+		this.objtype = 'component';
 
 		// this.shape = (oa && oa.shape)? new Shape(oa.shape) : new Shape({'name':'Component'});
 		this.shape = (oa && oa.shape)? new Shape(oa.shape) : false;
 		this.usedin = oa.usedin || [];
 	}
 
-	LinkedShape.prototype.drawShapeToArea = function(ctx, view) {
+	Component.prototype.drawShapeToArea = function(ctx, view) {
 		if(this.shape) return this.shape.drawShapeToArea(ctx, view);
 		else return;
 	};
 
-	LinkedShape.prototype.drawShape_Single = function(ctx) {
+	Component.prototype.drawShape_Single = function(ctx) {
 		if(this.shape) return this.shape.drawShape_Single(ctx, _UI.colors.green.l65);
 		else return;
 	};
@@ -27,11 +27,11 @@
 // COMPONENT INSTANCE OBJECT
 //-------------------------------------------------------
 
-	function LinkedShapeInstance(oa){
-		this.objtype = 'linkedshapeinstance';
+	function ComponentInstance(oa){
+		this.objtype = 'componentinstance';
 
 		this.link = oa.link || getFirstID(_GP.components);
-		this.uselinkedshapexy = (isval(oa.uselinkedshapexy)? oa.uselinkedshapexy : true);
+		this.usecomponentxy = (isval(oa.usecomponentxy)? oa.usecomponentxy : true);
 
 		this.name = oa.name || 'Component Instance';
 		this.xpos = oa.xpos || 0;
@@ -40,12 +40,12 @@
 		this.ylock = isval(oa.ylock)? oa.ylock : false;
 		this.visible = isval(oa.visible)? oa.visible : true;
 
-		// shape settings that don't apply to linkedshapeinstance
+		// shape settings that don't apply to componentinstance
 		this.path = false;
 		this.hlock = false;
 		this.wlock = false;
 
-		//debug('LINKEDSHAPEINSTANCE - end');
+		//debug('COMPONENTINSTANCE - end');
 	}
 
 
@@ -56,8 +56,8 @@
 
 
 //	Insert Component
-	function insertLinkedShapeDialog(){
-		var thumbs = makeLinkedShapeThumbs();
+	function insertComponentDialog(){
+		var thumbs = makeComponentThumbs();
 		if(thumbs){
 			var content = '<h1>Add Component</h1>Choose a Component to insert as a layer in this glyph:<br><br>';
 			content += thumbs;
@@ -68,23 +68,23 @@
 		}
 	}
 
-	function insertLinkedShape(lsid, tochar){
-		//debug("INSERTLINKEDSHAPE - adding component: " + lsid + " to char: " + _UI.selectedchar);
-		var ns = new LinkedShapeInstance({'link':lsid, 'xpos':100, 'ypos':100});
+	function insertComponent(com, tochar){
+		//debug("INSERTCOMPONENT - adding component: " + com + " to char: " + _UI.selectedchar);
+		var ns = new ComponentInstance({'link':com, 'xpos':100, 'ypos':100});
 
 		//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(ns));
 		var ch = getChar(tochar, true);
 		ch.charshapes.push(ns);
 		ch.calcCharMaxes();
 
-		addToUsedIn(lsid, tochar);
+		addToUsedIn(com, tochar);
 
 		closeDialog();
 		history_put('insert component from charedit');
-		redraw('insertLinkedShape');
+		redraw('insertComponent');
 	}
 
-	function turnLinkedShapeIntoAShape(){
+	function turnComponentIntoAShape(){
 		var selshape = ss();
 		var rastershape = clone(_GP.components[selshape.link].shape);
 
@@ -99,26 +99,25 @@
 		deleteShape();
 		addShape(rastershape);
 
-		//debug('TURNLINKEDSHAPEINTOASHAPE - newshape \n'+json(newshape));
-		redraw('turnLinkedShapeIntoAShape');
+		//debug('TURNCOMPONENTINTOASHAPE - newshape \n'+json(newshape));
+		redraw('turnComponentIntoAShape');
 	}
 
-	function makeLinkedShapeThumbs(){
+	function makeComponentThumbs(){
 		var re = '';
 		var tochar = getSelectedCharID();
-		var ls = _GP.components;
-		var tls;
+		var tcom;
 
-		for(var lsid in ls){if(ls.hasOwnProperty(lsid)){
-			tls = getChar(lsid);
-			if(tls.shape){
+		for(var com in _GP.components){if(_GP.components.hasOwnProperty(com)){
+			tcom = getChar(com);
+			if(tcom.shape){
 				re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-				re += '<div class="charselectthumb" onclick="insertLinkedShape(\''+lsid+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
-				re += getChar(lsid).shape.makeSVG();
+				re += '<div class="charselectthumb" onclick="insertComponent(\''+com+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
+				re += getChar(com).shape.makeSVG();
 				re += '</div></td></tr><tr><td>';
-				re += getCharName(lsid);
+				re += getCharName(com);
 				re += '</td></tr></table>';
-				//debug('makeLinkedShapeThumbs - created canvas thumb'+lsid);
+				//debug('makeComponentThumbs - created canvas thumb'+com);
 			}
 		}}
 
@@ -127,17 +126,17 @@
 	}
 
 //	UsedIn Array Stuff
-	function addToUsedIn(lsid, charid){
-		//debug('ADDTOUSEDIN - lsid/charid ' + lsid + '/' + charid);
-		var uia = _GP.components[lsid].usedin;
+	function addToUsedIn(com, charid){
+		//debug('ADDTOUSEDIN - com/charid ' + com + '/' + charid);
+		var uia = _GP.components[com].usedin;
 		uia.push(''+charid);
 		// sort numerically as opposed to alpha
 		uia.sort(function(a,b){return a-b;});
 	}
 
-	function removeFromUsedIn(lsid, charid){
-		//debug("REMOVEFROMUSEDIN - lsid/charid " + lsid + "/" + charid);
-		var uia = _GP.components[lsid].usedin;
+	function removeFromUsedIn(com, charid){
+		//debug("REMOVEFROMUSEDIN - com/charid " + com + "/" + charid);
+		var uia = _GP.components[com].usedin;
 		var charindex = uia.indexOf(''+charid);
 		if(charindex !== -1){
 			uia.splice(charindex, 1);
@@ -150,20 +149,20 @@
 //	Component Paridy Functions
 //	---------------------------
 	
-	LinkedShapeInstance.prototype.getPath = function() {
+	ComponentInstance.prototype.getPath = function() {
 		var re = clone(_GP.components[this.link].shape.path);
-		if(!this.uselinkedshapexy) re.updatePathPosition(this.xpos, this.ypos, true);
+		if(!this.usecomponentxy) re.updatePathPosition(this.xpos, this.ypos, true);
 
 		return re;
 	};
 
-	LinkedShapeInstance.prototype.drawShape_Stack = function(lctx){
-		//debug('DRAWLINKEDSHAPE on \n ' + JSON.stringify(this));
-		if(this.uselinkedshapexy){
-			//debug('------------- uselinkedshapexy=true, calling components[this.link].shape.drawShape');
+	ComponentInstance.prototype.drawShape_Stack = function(lctx){
+		//debug('DRAWCOMPONENT on \n ' + JSON.stringify(this));
+		if(this.usecomponentxy){
+			//debug('------------- usecomponentxy=true, calling components[this.link].shape.drawShape');
 			_GP.components[this.link].shape.drawShape_Stack(lctx);
 		} else {
-			//debug('------------- does not uselinkedshapexy, calling FORCE=true updatepathposition');
+			//debug('------------- does not usecomponentxy, calling FORCE=true updatepathposition');
 			//debug('------------- this.link: ' + this.link);
 			var ns = clone(_GP.components[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
@@ -171,13 +170,13 @@
 		}
 	};
 
-	LinkedShapeInstance.prototype.drawShape_Single = function(lctx){
-		//debug('DRAWLINKEDSHAPE');
-		if(this.uselinkedshapexy){
-			//debug('------------- uselinkedshapexy=true, calling components[this.link].shape.drawShape');
+	ComponentInstance.prototype.drawShape_Single = function(lctx){
+		//debug('DRAWCOMPONENT');
+		if(this.usecomponentxy){
+			//debug('------------- usecomponentxy=true, calling components[this.link].shape.drawShape');
 			_GP.components[this.link].shape.drawShape_Single(lctx);
 		} else {
-			//debug('------------- does not uselinkedshapexy, calling FORCE=true updatepathposition');
+			//debug('------------- does not usecomponentxy, calling FORCE=true updatepathposition');
 			//debug('------------- this.link: ' + this.link);
 			var ns = clone(_GP.components[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
@@ -185,26 +184,26 @@
 		}
 	};
 
-	LinkedShapeInstance.prototype.genPostScript = function(lastx, lasty){
+	ComponentInstance.prototype.genPostScript = function(lastx, lasty){
 		//debug('GENLINKEDPOSTSCRIPT');
-		if(this.uselinkedshapexy){
-			//debug('------------- uselinkedshapexy=true, calling components[this.link].shape.drawShape');
+		if(this.usecomponentxy){
+			//debug('------------- usecomponentxy=true, calling components[this.link].shape.drawShape');
 			return _GP.components[this.link].shape.path.genPathPostScript(lastx, lasty);
 		} else {
-			//debug('------------- does not uselinkedshapexy, calling FORCE=true updatepathposition');
+			//debug('------------- does not usecomponentxy, calling FORCE=true updatepathposition');
 			var ns = clone(_GP.components[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			return ns.path.genPathPostScript(lastx, lasty);
 		}
 	};
 
-	LinkedShapeInstance.prototype.drawShapeToArea = function(lctx, view){
-		//debug('DRAWLINKEDSHAPETOAREA - size/offsetx/offsety: ' + size +'/'+ offsetX +'/'+ offsetY);
-		if(this.uselinkedshapexy){
-			//debug('--------------------- uselinkedshapexy=true, calling drawShapeToArea for linkedshape.');
+	ComponentInstance.prototype.drawShapeToArea = function(lctx, view){
+		//debug('DRAWCOMPONENTTOAREA - size/offsetx/offsety: ' + size +'/'+ offsetX +'/'+ offsetY);
+		if(this.usecomponentxy){
+			//debug('--------------------- usecomponentxy=true, calling drawShapeToArea for component.');
 			_GP.components[this.link].shape.drawShapeToArea(lctx, view);
 		} else {
-			//debug('--------------------- uselinkedshapexy=false, calling updatepathposition with FORCE.');
+			//debug('--------------------- usecomponentxy=false, calling updatepathposition with FORCE.');
 			var ns = clone(_GP.components[this.link].shape);
 			ns.path.updatePathPosition(this.xpos, this.ypos, true);
 			ns.name += ' HAS BEEN MOVED';
@@ -212,10 +211,10 @@
 		}
 	};
 
-	LinkedShapeInstance.prototype.drawSelectOutline = function(onlycenter){
+	ComponentInstance.prototype.drawSelectOutline = function(onlycenter){
 		//_GP.components[this.link].shape.drawSelectOutline();
 
-		if(this.uselinkedshapexy){
+		if(this.usecomponentxy){
 			_GP.components[this.link].shape.drawSelectOutline(onlycenter, _UI.colors.green.l65);
 		} else {
 			var ns = clone(_GP.components[this.link].shape);
@@ -224,13 +223,13 @@
 		}
 	};
 
-	LinkedShapeInstance.prototype.draw8points = function(onlycenter){
+	ComponentInstance.prototype.draw8points = function(onlycenter){
 		_GP.components[this.link].shape.draw8points(onlycenter, _UI.colors.green.l65);
 	};
 
-	LinkedShapeInstance.prototype.isHere = function(x,y){
-		//debug('ISLINKEDSHAPEHERE - checking ' + x + ',' + y);
-		if(this.uselinkedshapexy){
+	ComponentInstance.prototype.isHere = function(x,y){
+		//debug('ISCOMPONENTHERE - checking ' + x + ',' + y);
+		if(this.usecomponentxy){
 			return _GP.components[this.link].shape.isHere(x,y);
 		} else {
 			var ns = clone(_GP.components[this.link].shape);
@@ -239,6 +238,6 @@
 		}
 	};
 
-	LinkedShapeInstance.prototype.isOverHandle = function(){ return false; };
+	ComponentInstance.prototype.isOverHandle = function(){ return false; };
 
 // end of file

@@ -21,7 +21,7 @@
 
 		// not settable defaults
 		this.link = false;
-		this.uselinkedshapexy = false;
+		this.usecomponentxy = false;
 
 		//debug('Just created a SHAPE: ' + JSON.stringify(this));
 	}
@@ -467,27 +467,27 @@
 		}
 
 		if((_UI.selectedshape >= 0) && (scs[_UI.selectedshape].link)){
-			//debug('DELETESHAPE - newly selected shape is linkedshape, changing tool');
+			//debug('DELETESHAPE - newly selected shape is component, changing tool');
 			_UI.selectedtool = 'shaperesize';
 		}
 		updateCurrentCharWidth();
 	}
 
-	function turnSelectedShapeIntoALinkedShape(){
+	function turnSelectedShapeIntoAComponent(){
 		var newls = clone(ss());
 		deleteShape();
 		newls.name = ('Component from ' + newls.name);
-		var newid = addLinkedShape(newls);
-		insertLinkedShape(newid, getSelectedCharID());
+		var newid = addComponent(newls);
+		insertComponent(newid, getSelectedCharID());
 		_UI.selectedshape = getSelectedCharShapes().length-1;
-		redraw('turnSelectedShapeIntoALinkedShape');
+		redraw('turnSelectedShapeIntoAComponent');
 	}
 
 	function clickSelectShape(x,y){
 		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
 
 		if(_UI.navhere === 'components'){
-			return clickSelectLinkedShape(x,y);
+			return clickSelectComponent(x,y);
 		}
 		var ts;
 		var scs = getSelectedCharShapes();

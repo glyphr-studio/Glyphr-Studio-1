@@ -118,7 +118,7 @@
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
 		if(onge && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
-		else if(oncom) document.getElementById('popout_charchooser').innerHTML = makePanel_LinkedShapeChooser();
+		else if(oncom) document.getElementById('popout_charchooser').innerHTML = makePanel_ComponentChooser();
 		else if (onlig) document.getElementById('popout_charchooser').innerHTML = makePanel_LigatureChooser();
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
@@ -228,7 +228,7 @@
 				switch(_UI.navhere){
 					case 'glyph edit': np.innerHTML = makePanel_CharChooser('selectChar'); break;
 					case 'import svg': np.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
-					case 'components': np.innerHTML = makePanel_LinkedShapeChooser(); break;
+					case 'components': np.innerHTML = makePanel_ComponentChooser(); break;
 					case 'ligatures': np.innerHTML = makePanel_LigatureChooser(); break;
 				}
 				break;
@@ -280,7 +280,7 @@
 			case 'import svg':			loadPage_importsvg();		break;
 			case 'about':				loadPage_about();			break;
 			case 'test drive':			loadPage_testdrive();		break;
-			case 'components':		loadPage_linkedshapes();	break;
+			case 'components':		loadPage_components();	break;
 			case 'glyph edit':		loadPage_charedit();		break;
 			case 'kerning':				loadPage_kerning();			break;
 			case 'ligatures':			loadPage_ligatures();		break;
@@ -410,7 +410,7 @@
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.glyphs);">CHAR</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.components);">LS</button><br><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.components);">COM</button><br><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="console.clear();">clear</button><br><br>';
 			newsub += '</div>';
 			newsub += '<div style="color:slategray; text-align:center;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';

@@ -57,7 +57,7 @@
 
 		switch (_UI.navhere){
 			case 'glyph edit': redraw_CharacterEdit(); break;
-			case 'components': redraw_LinkedShapes(); break;
+			case 'components': redraw_Components(); break;
 			case 'ligatures': redraw_CharacterEdit(); break;
 			case 'kerning': redraw_Kerning(); break;
 			case 'test drive': redraw_TestDrive(); break;
@@ -468,7 +468,7 @@
 	function isWorkItemSelected() {
 		switch(_UI.navhere){
 			case 'glyph edit': return true;
-			case 'components': return _UI.selectedlinkedshape;
+			case 'components': return _UI.selectedcomponent;
 			case 'ligatures': return _UI.selectedchar;
 			case 'kerning': return _UI.selectedkern;
 		}
@@ -499,7 +499,7 @@
 		var scs = getSelectedCharShapes();
 
 		if(_UI.navhere === 'components'){
-			// debug('\t COMPONENTS returning selectedlinkedshape: ' + _UI.selectedlinkedshape);
+			// debug('\t COMPONENTS returning selectedcomponent: ' + _UI.selectedcomponent);
 			return scs[0] || false;
 		}
 

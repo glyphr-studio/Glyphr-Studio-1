@@ -97,7 +97,7 @@
 			'dy': 500,		// Y offset for the canvas origin
 			'dz': 0.5,		// Zoom or scale of the canvas
 		},
-		'views': {},		// Holds the unique views per char & linkedshape
+		'views': {},		// Holds the unique views per char & component
 		'thumbview': {},
 		'mins': {
 			'xmax': -999999,
@@ -113,7 +113,7 @@
 		'shapelayers': [],
 
 		// page: components
-		'selectedlinkedshape': false,
+		'selectedcomponent': false,
 
 		// page: kerning
 		'selectedkern': 'kern0',
@@ -171,7 +171,7 @@
 				'ymin': 999999
 			}
 		},
-		'notdefchar': '{"objtype":"char","charname":"Notdef","charwidth":414,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0},"charshapes":[{"objtype":"shape","name":"Outer","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":670,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":670,"xlock":false,"ylock":false},"type":"corner","selected":false,"useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0}},"link":false,"uselinkedshapexy":false},{"objtype":"shape","name":"Inner","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":364,"xmin":50,"ymax":620,"ymin":50}},"link":false,"uselinkedshapexy":false}]}',
+		'notdefchar': '{"objtype":"char","charname":"Notdef","charwidth":414,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0},"charshapes":[{"objtype":"shape","name":"Outer","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":670,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":670,"xlock":false,"ylock":false},"type":"corner","selected":false,"useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0}},"link":false,"usecomponentxy":false},{"objtype":"shape","name":"Inner","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":364,"xmin":50,"ymax":620,"ymin":50}},"link":false,"usecomponentxy":false}]}',
 
 		// page: font settings
 		'metadatahelp': {

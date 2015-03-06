@@ -9,6 +9,8 @@
 
 		var fcontent;
 		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
+		debug('\t !!!!!!!!!!!!! TOP OF FUNCTION');
+		debug('\t L linked shape: ' + fcontent.fontchars['0x004C'].charshapes[0].uselinkedshapexy);
 
 		var vn = false;
 		var v = false;
@@ -36,11 +38,12 @@
 
 		// Roll upgrades through Beta
 		if(major === 0) {
-			fcontent = migrate_beta_to_1_00(fcontent, minor);
+			debug('\t !!!!!!!!!!!!!!!!!!! JUST BEFORE migrate_betas_to_v1');
+		debug('\t L linked shape: ' + fcontent.fontchars['0x004C'].charshapes[0].uselinkedshapexy);
+
+			fcontent = migrate_betas_to_v1(fcontent, minor);
 			major = 1;
 			minor = 0;
-			debug('\t migrate done to v1:');
-			debug(fcontent);
 		}
 
 		// Roll upgrades through v1
@@ -77,8 +80,9 @@
 //	MIGRATE
 //	------------------------
 
-	function migrate_beta_to_1_00 (fcontent, minor) {
-		debug('\n migrate_beta_to_1_00 - START');
+	function migrate_betas_to_v1 (fcontent, minor) {
+		debug('\n migrate_betas_to_v1 - START');
+		debug(fcontent);
 		// Start rolling upgrades
 
 		switch (minor){
@@ -99,32 +103,51 @@
 				debug('\t migrated to 1.0');
 		}
 
-		debug(' migrate_beta_to_1_00 - END\n');
+		debug(' migrate_betas_to_v1 - END\n');
 		return fcontent;
 	}
 
 	function migrate_0_5_to_1_0 (fc) {
+		debug('\n migrate_0_5_to_1_0 - START');
 		fc.glyphs = clone(fc.fontchars);
 		fc.components = clone(fc.linkedshapes);
 		delete fc.fontchars;
 		delete fc.linkedshapes;
+
+		var cs;
+		for(var g in fc.glyphs){ if(fc.glyphs.hasOwnProperty(g)){
+			cs = fc.glyphs[g].charshapes || [];
+			// debug('\t Glyph ' + fc.glyphs[g].charname);
+			for(var c=0; c<cs.length; c++){
+				if(cs[c].uselinkedshapexy){
+					// debug('\t\t shape ' + cs[c].name + ' uselsxy: ' + cs[c].uselinkedshapexy);
+					cs[c].usecomponentxy = cs[c].uselinkedshapexy;
+					delete cs[c].uselinkedshapexy;
+					// debug('\t\t now usecomxy: ' + cs[c].usecomponentxy);
+				}
+			}
+		}}
+		debug(fc);
+		debug(' migrate_0_5_to_1_0 - END\n');
 		return fc;
 	}
 
 	function migrate_0_4_to_0_5(fc) {
+		debug('\n migrate_0_4_to_0_5 - START');
 		var tc;
 		for(var i=0; i<fc.fontchars.length; i++){
 			tc = fc.fontchars[i];
 			//debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
 			tc.charwidth = tc.advancewidth || fc.projectsettings.upm || 1000;
 		}
-
+		debug(fc);
+		debug(' migrate_0_4_to_0_5 - END\n');
 		return fc;
 	}
 
 	function migrate_0_3_to_0_4(fc){
-
-		newfc = new GlyphrProject();
+		debug('\n migrate_0_3_to_0_4 - START');
+		newgp = new GlyphrProject();
 
 		var tls;
 		for(var l in fc.linkedshapes){
@@ -139,13 +162,14 @@
 				}
 			}
 		}
-		newfc.linkedshapes = fc.linkedshapes;
 
+		var newps = newgp.projectsettings;
 		for(var e in fc.projectsettings){
-			if(newfc.projectsettings.hasOwnProperty(e)){
-				newfc.projectsettings[e] = fc.projectsettings[e];
+			if(newps.hasOwnProperty(e)){
+				newps[e] = fc.projectsettings[e];
 			}
 		}
+		fc.projectsettings = newps;
 
 		var tc, hex;
 		for(var i=0; i<fc.fontchars.length; i++){
@@ -153,13 +177,14 @@
 			//debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
 			if(tc){
 				hex = "0x00"+tc.cmapcode.substr(2).toUpperCase();
-				newfc.fontchars[hex] = tc;
-				newfc.fontchars[hex].charhtml = hexToHTML(hex);
-				//debug("migrate_0_3_to_0_4 - newfc.fontchars[" + hex + "] is " + json(newfc.fontchars[hex]));
+				fc.fontchars[hex] = tc;
+				fc.fontchars[hex].charhtml = hexToHTML(hex);
+				//debug("migrate_0_3_to_0_4 - fc.fontchars[" + hex + "] is " + json(fc.fontchars[hex]));
 			}
 		}
-
-		return newfc;
+		debug(fc);
+		debug(' migrate_0_3_to_0_4 - END\n');
+		return fc;
 	}
 
 
@@ -202,9 +227,9 @@
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
 
 		// Linked Shapes
-		for (var cid in data.components) {
-			if(data.components.hasOwnProperty(cid)){
-				_GP.components[cid] = new LinkedShape(data.components[cid]);
+		for (var com in data.components) {
+			if(data.components.hasOwnProperty(com)){
+				_GP.components[com] = new Component(data.components[com]);
 			}
 		}
 
@@ -292,7 +317,7 @@
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
 		_UI.selectedchar = _UI.selectedchar || getFirstCharID();
-		_UI.selectedlinkedshape = getFirstID(_GP.components);
+		_UI.selectedcomponent = getFirstID(_GP.components);
 		_UI.selectedkern = getFirstID(_GP.kerning);
 
 		calculateDefaultView();

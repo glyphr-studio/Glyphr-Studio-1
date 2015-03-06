@@ -13,13 +13,13 @@
 		if(pop) content += "</div><div class='panel_section'>";
 
 		// Generate Sections
-		if(_UI.navhere==='components') return linkedShapeActions();
+		if(_UI.navhere==='components') return componentActions();
 
 		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
 		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
 		allactions += "<button class='"+(history_length()? "": "buttondis")+"' onclick='history_pull()'>undo" + (history_length()? (" ("+history_length()+")") : "") + "</button><br>";
 		allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
-		allactions += "<button onclick='insertLinkedShapeDialog();'>add component</button><br>";
+		allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
 		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
@@ -29,9 +29,9 @@
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
 		if(s && s.link){
-			shapeactions += "<button onclick='turnLinkedShapeIntoAShape();redraw(\"turnLinkedShapeIntoAShape\");'>unlink this component</button><br>";
+			shapeactions += "<button onclick='turnComponentIntoAShape();redraw(\"turnComponentIntoAShape\");'>unlink this component</button><br>";
 		} else {
-			shapeactions += "<button onclick='turnSelectedShapeIntoALinkedShape();redraw(\"turnSelectedShapeIntoALinkedShape\");'>turn into a component</button><br>";
+			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
 		}
 
 		var layeractions = "<h3>layer</h3>";
@@ -83,7 +83,7 @@
 		var s = ss("Update Actions");
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
-			allactions += "<button onclick='insertLinkedShapeDialog();'>add component</button><br>";
+			allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
 			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
 
 		var shapeactions = "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
@@ -113,7 +113,7 @@
 		if(_UI.navhere === 'components'){
 			_UI.clipboardshape = {
 				's':getSelectedChar().shape,
-				'c':_UI.selectedlinkedshape
+				'c':_UI.selectedcomponent
 			};
 		} else if (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures'){
 			var s = ss('copy shape');
@@ -169,7 +169,7 @@
 
 			if(newshape.link){
 				addToUsedIn(newshape.link, _UI.selectedchar);
-				//debug("PASTESHAPE - pasted a linkedshape, added " + _UI.selectedchar + " to usedin array.");
+				//debug("PASTESHAPE - pasted a component, added " + _UI.selectedchar + " to usedin array.");
 			}
 
 			addShape(newshape);
@@ -228,7 +228,7 @@
 //-------------------
 // COMPONENT Actions
 //-------------------
-	function linkedShapeActions(){
+	function componentActions(){
 		var pop = _UI.popout;
 		var content = '<div class="panel_section">';
 		if(pop) content = '<div class="navarea_header">';
@@ -240,18 +240,18 @@
 
 		var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">component</h3>";
 			if(s) ls1actions += "<button onclick='showAddSSToCharDialog();'>link to glyph</button><br>";
-			ls1actions += "<button onclick='addLinkedShape();history_put(\"Create New Component\");navigate();'>create new</button><br>";
-			if(s) ls1actions += "<button onclick='deleteLinkedShapeConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
+			ls1actions += "<button onclick='addComponent();history_put(\"Create New Component\");navigate();'>create new</button><br>";
+			if(s) ls1actions += "<button onclick='deleteComponentConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
 
 		var	ls2actions = "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
 			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
-			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updatelinkedshapeactions\");'>flip horizontal</button><br>";
-			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updatelinkedshapeactions\");'>flip vertical</button><br>";
+			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updatecomponentactions\");'>flip horizontal</button><br>";
+			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updatecomponentactions\");'>flip vertical</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
-			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatelinkedshapeactions\");'>insert</button><br>";
-			pointactions += "<button onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatelinkedshapeactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
-			pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatelinkedshapeactions\");'>reset handles</button><br>";
+			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatecomponentactions\");'>insert</button><br>";
+			pointactions += "<button onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatecomponentactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
+			pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatecomponentactions\");'>reset handles</button><br>";
 
 
 		// Put it all together
@@ -277,15 +277,15 @@
 		return content;
 	}
 
-	function addLinkedShape(pshape){
-		var newid = generateNewID(_GP.components, 'ls');
+	function addComponent(pshape){
+		var newid = generateNewID(_GP.components, 'com');
 		var newls;
-		_UI.selectedlinkedshape = newid;
+		_UI.selectedcomponent = newid;
 
 		if(pshape){
-			newls = new LinkedShape({"shape":pshape});
+			newls = new Component({"shape":pshape});
 		} else {
-			newls = new LinkedShape({"name":("linkedshape " + (getLength(_GP.components)+1))});
+			newls = new Component({"name":("component " + (getLength(_GP.components)+1))});
 		}
 
 		if(_UI.navhere === 'components') _UI.selectedshape = newid;
@@ -296,7 +296,7 @@
 		return newid;
 	}
 
-	function deleteLinkedShapeConfirm(){
+	function deleteComponentConfirm(){
 		var content = "<h1>Delete Component</h1>Are you sure you want to delete this component?<br>";
 		var uia = getSelectedChar().usedin;
 		if(uia.length > 0){
@@ -309,13 +309,13 @@
 		}
 
 		content += "<br>Warning: This action cannot be undone!<br>";
-		content += "<br><button onclick='deleteLinkedShape();'>permanently delete this component</button> &nbsp; <button onclick='closeDialog();'>cancel</button>";
+		content += "<br><button onclick='deleteComponent();'>permanently delete this component</button> &nbsp; <button onclick='closeDialog();'>cancel</button>";
 
 		openDialog(content);
 	}
 
-	function deleteLinkedShape(){
-		//debug("DELETELINKEDSHAPE - deleting " + _UI.selectedlinkedshape);
+	function deleteComponent(){
+		//debug("DELETECOMPONENT - deleting " + _UI.selectedcomponent);
 		closeDialog();
 		var sls = getSelectedChar();
 		if(sls){
@@ -325,8 +325,8 @@
 				var tc = _GP.glyphs[sls.usedin[cui]].charshapes;
 				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedCharShapes() " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
-					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.selectedlinkedshape);
-					if(tc[sl].link === _UI.selectedlinkedshape){
+					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.selectedcomponent);
+					if(tc[sl].link === _UI.selectedcomponent){
 						//debug("----------------- they are =, deleting index " + sl + " from array.");
 						//debug("----------------- (befor): " + tc);
 						tc.splice(sl, 1);
@@ -335,17 +335,17 @@
 				}
 			}
 
-			// delete linkedshape and switch selection
-			delete _GP.components[_UI.selectedlinkedshape];
-			_UI.selectedlinkedshape = getFirstID(_GP.components);
-			_UI.selectedshape = _UI.selectedlinkedshape;
-			//debug("DELETELINKEDSHAPE - delete complete, new selectedlinkedshape = " + selectedlinkedshape);
+			// delete component and switch selection
+			delete _GP.components[_UI.selectedcomponent];
+			_UI.selectedcomponent = getFirstID(_GP.components);
+			_UI.selectedshape = _UI.selectedcomponent;
+			//debug("DELETECOMPONENT - delete complete, new selectedcomponent = " + selectedcomponent);
 
 			navigate();
 		}
 	}
 
-	function pasteLinkedShape(){
+	function pasteComponent(){
 		if(_UI.clipboardshape){
 			getSelectedChar().shape = _UI.clipboardshape;
 		}
@@ -357,16 +357,16 @@
 		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the glyph you would like to link to this component:<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:500px;'>";
-		content += makeGenericCharChooserContent("insertLinkedShapeToChar", true);
+		content += makeGenericCharChooserContent("insertComponentToChar", true);
 		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
 		openDialog(content);
 	}
 
-	function insertLinkedShapeToChar(chid){
-		insertLinkedShape(_UI.selectedlinkedshape, chid);
+	function insertComponentToChar(chid){
+		insertComponent(_UI.selectedcomponent, chid);
 		history_put("Insert Component to Glyph");
 		closeDialog();
-		showAddSSToCharDialog("The LinkedShape '" + getSelectedChar().shape.name + "' was successfully inserted into glyph " + getCharName(chid) + ".<br><br>");
+		showAddSSToCharDialog("The Component '" + getSelectedChar().shape.name + "' was successfully inserted into glyph " + getCharName(chid) + ".<br><br>");
 	}
 // end of file

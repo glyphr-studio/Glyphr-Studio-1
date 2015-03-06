@@ -209,8 +209,8 @@
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			if(s.link){
 				// debug('\tTool_ShapeEdit dragging component');
-				if(this.dragging && !s.uselinkedshapexy){
-					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.uselinkedshapexy=' + !s.uselinkedshapexy);
+				if(this.dragging && !s.usecomponentxy){
+					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.usecomponentxy=' + !s.usecomponentxy);
 					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;

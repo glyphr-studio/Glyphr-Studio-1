@@ -23,7 +23,7 @@
 			for(var i=0; i<oa.charshapes.length; i++) {
 				if(oa.charshapes[i].link){
 					//debug('CHAR - hydrating ' + oa.charshapes[i].name);
-					this.charshapes[i] = new LinkedShapeInstance(oa.charshapes[i]);
+					this.charshapes[i] = new ComponentInstance(oa.charshapes[i]);
 					lc++;
 				} else {
 					//debug('CHAR - hydrating ' + oa.charshapes[i].name);
@@ -59,7 +59,7 @@
 				if(sh.link){
 					// Component
 					tss = _GP.components[sh.link].shape;
-					if(sh.uselinkedshapexy) {
+					if(sh.usecomponentxy) {
 						txmax = tss.path.maxes.xmax;
 						txmin = tss.path.maxes.xmin;
 						tymax = tss.path.maxes.ymax;
@@ -398,7 +398,7 @@
 		// debug('\t selectedchar: ' + _UI.selectedchar);
 		var re;
 		if(_UI.navhere === 'components') {
-			re = getChar(_UI.selectedlinkedshape);
+			re = getChar(_UI.selectedcomponent);
 			// debug('\t case components, returning ' + re.charname);
 			return re;
 		} else if (_UI.navhere === 'firstrun'){
@@ -414,20 +414,20 @@
 
 	function getSelectedCharID(){
 		//debug('GETSELECTEDCHARID');
-		if(_UI.navhere === 'components') return _UI.selectedlinkedshape;
+		if(_UI.navhere === 'components') return _UI.selectedcomponent;
 		else return _UI.selectedchar;
 	}
 
 	function getSelectedCharName() {
 		//debug('GETSELECTEDCHARNAME - _UI.selectedchar: ' + _UI.selectedchar);
-		if(_UI.navhere === 'components') return getCharName(_UI.selectedlinkedshape);
+		if(_UI.navhere === 'components') return getCharName(_UI.selectedcomponent);
 		else return getCharName(_UI.selectedchar);
 	}
 
 	function getSelectedCharShapes(){
 		//debug('GETSELECTEDCHARSHAPES');
 		var rechar = getSelectedChar();
-		if(rechar && rechar.objtype === 'linkedshape') return [rechar.shape];
+		if(rechar && rechar.objtype === 'component') return [rechar.shape];
 		return rechar? rechar.charshapes : [];
 	}
 
@@ -435,7 +435,7 @@
 		//debug('getSelectedCharLeftSideBearing');
 		var sc = getSelectedChar();
 		if(!sc) return 0;
-		if(sc.objtype === 'linkedshape') return 0;
+		if(sc.objtype === 'component') return 0;
 		if(!sc.isautowide) return 0;
 		return sc.leftsidebearing || _GP.projectsettings.defaultlsb;
 	}
@@ -444,7 +444,7 @@
 		//debug('getSelectedCharLeftSideBearing');
 		var sc = getSelectedChar();
 		if(!sc) return 0;
-		if(sc.objtype === 'linkedshape') return 0;
+		if(sc.objtype === 'component') return 0;
 		if(!sc.isautowide) return 0;
 		return sc.rightsidebearing || _GP.projectsettings.defaultrsb;
 	}

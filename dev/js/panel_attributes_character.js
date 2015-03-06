@@ -28,7 +28,7 @@
 			if(s && s.link){
 				// component selected
 				//debug("UPDATEDETAILS: component selected");
-				content += linkedShapeInstanceDetails(s);
+				content += componentInstanceDetails(s);
 			} else if (s){
 				// regular shape selected
 				//debug("UPDATEDETAILS: regular shape selected");
@@ -51,7 +51,7 @@
 				}
 			content += '</table><br>';
 			}
-			content += linkedShapeCharDetails();
+			content += componentCharDetails();
 		}
 
 		content += '</div>';

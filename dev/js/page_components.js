@@ -1,7 +1,7 @@
 // start of file
 
-	function loadPage_linkedshapes(){
-		// debug("LOADING PAGE >> loadPage_linkedshapes");
+	function loadPage_components(){
+		// debug("LOADING PAGE >> loadPage_components");
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
@@ -10,7 +10,7 @@
 		_UI.selectedshape = -1;
 		_UI.selectedtool = 'pathedit';
 
-		redraw("loadPage_linkedshapes");
+		redraw("loadPage_components");
 	}
 
 
@@ -18,9 +18,9 @@
 // REDRAW
 //-------------------
 
-	function redraw_LinkedShapes(calledby){
-		// debug('\n redraw_LinkedShapes - START');
-		// debug('\t Called By: ' + calledby + ' - Shown Component: ' + _UI.selectedlinkedshape + ' - Selected Shape: ' + _UI.selectedshape);
+	function redraw_Components(calledby){
+		// debug('\n redraw_Components - START');
+		// debug('\t Called By: ' + calledby + ' - Shown Component: ' + _UI.selectedcomponent + ' - Selected Shape: ' + _UI.selectedshape);
 		_UI.redrawing = true;
 
 		drawGrid();
@@ -35,7 +35,7 @@
 		}
 
 		_UI.redrawing = false;
-		// debug(' redraw_LinkedShapes - END\n');
+		// debug(' redraw_Components - END\n');
 	}
 
 // end of file
