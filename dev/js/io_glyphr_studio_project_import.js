@@ -9,8 +9,6 @@
 
 		var fcontent;
 		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
-		debug('\t !!!!!!!!!!!!! TOP OF FUNCTION');
-		debug('\t L linked shape: ' + fcontent.fontchars['0x004C'].charshapes[0].uselinkedshapexy);
 
 		var vn = false;
 		var v = false;
@@ -38,9 +36,6 @@
 
 		// Roll upgrades through Beta
 		if(major === 0) {
-			debug('\t !!!!!!!!!!!!!!!!!!! JUST BEFORE migrate_betas_to_v1');
-		debug('\t L linked shape: ' + fcontent.fontchars['0x004C'].charshapes[0].uselinkedshapexy);
-
 			fcontent = migrate_betas_to_v1(fcontent, minor);
 			major = 1;
 			minor = 0;
@@ -119,8 +114,8 @@
 			cs = fc.glyphs[g].charshapes || [];
 			// debug('\t Glyph ' + fc.glyphs[g].charname);
 			for(var c=0; c<cs.length; c++){
-				if(cs[c].uselinkedshapexy){
-					// debug('\t\t shape ' + cs[c].name + ' uselsxy: ' + cs[c].uselinkedshapexy);
+				if(isval(cs[c].uselinkedshapexy)){
+					// debug('\t\t shape ' + cs[c].name + ' uselsxy: ' + typeof cs[c].uselinkedshapexy + ' ' + cs[c].uselinkedshapexy);
 					cs[c].usecomponentxy = cs[c].uselinkedshapexy;
 					delete cs[c].uselinkedshapexy;
 					// debug('\t\t now usecomxy: ' + cs[c].usecomponentxy);

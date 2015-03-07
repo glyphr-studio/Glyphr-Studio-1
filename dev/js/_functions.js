@@ -147,7 +147,7 @@
 
 	function closeNotation(){
 		getEditDocument().getElementById('notation').style.display='none';
-		getEditDocument().getElementById('notation').innerHTML = " [ Loading... ] ";
+		getEditDocument().getElementById('notation').innerHTML = "&#x20E2;";
 		getEditDocument().body.focus();
 	}
 

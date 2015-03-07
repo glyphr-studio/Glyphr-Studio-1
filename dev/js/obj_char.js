@@ -117,8 +117,8 @@
 	};
 
 	Char.prototype.drawCharToArea = function(lctx, view, uselsb){
-		debug('\n Char.drawCharToArea - START');
-		debug('\t drawing ' + this.charname);
+		// debug('\n Char.drawCharToArea - START');
+		// debug('\t drawing ' + this.charname);
 
 		var sl = this.charshapes;
 		var shape, path;
@@ -128,7 +128,7 @@
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
-				debug('\t drawing shape ' + j);
+				// debug('\t drawing shape ' + j);
 				path = shape.getPath();
 				path.drawPathToArea(lctx, view, lsb);
 			}
@@ -138,7 +138,7 @@
 		lctx.closePath();
 		lctx.fill('nonzero');
 
-		debug(' Char.drawCharToArea - END\n');
+		// debug(' Char.drawCharToArea - END\n');
 		return (this.getTotalWidth()*view.dz);
 	};
 

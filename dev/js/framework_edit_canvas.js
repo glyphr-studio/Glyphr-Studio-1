@@ -6,10 +6,10 @@
 
 	function editPage_Content(){
 		return ''+
-			'<div id="notation"> [ Loading... ] </div>' +
+			'<div id="notation">&#x20E2;</div>' +
 			'<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
-			'<div id="toolsarea"> [ Loading... ] </div>' +
-			'<div id="viewarea"> [ Loading... ] </div>' +
+			'<div id="toolsarea">&#x20E2;</div>' +
+			'<div id="viewarea">&#x20E2;</div>' +
 			makeFloatLogo();
 	}
 
@@ -90,14 +90,14 @@
 		var patheditclass = '';
 		var pathaddpointclass = '';
 		var penclickable = true;
-		var onchar = (_UI.navhere === 'glyph edit');
-		var onlink = (_UI.navhere === 'components');
+		var onglyph = (_UI.navhere === 'glyph edit');
+		var oncom = (_UI.navhere === 'components');
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 
 		var s = ss('Charedit: UpdateTools');
 
-		if(onlink) {
+		if(oncom) {
 			if(!_GP.components[_UI.selectedshape]) { s = false; }
 		}
 
@@ -169,11 +169,11 @@
 		viewcontent += zoom;
 		viewcontent += pop;
 
-		if(onchar || onlig) toolcontent += newshape;
+		if(onglyph || onlig) toolcontent += newshape;
 		var sls = getSelectedChar();
-		if(onlink && sls && !sls.shape) toolcontent += newshape;
+		if(oncom && sls && !sls.shape) toolcontent += newshape;
 
-		if(onchar || onlink || onlig) toolcontent += edittools;
+		if(onglyph || oncom || onlig) toolcontent += edittools;
 
 		if(onkern) toolcontent += kern;
 
