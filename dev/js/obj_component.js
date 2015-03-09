@@ -73,9 +73,9 @@
 		var ns = new ComponentInstance({'link':com, 'xpos':100, 'ypos':100});
 
 		//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(ns));
-		var ch = getChar(tochar, true);
+		var ch = getGlyph(tochar, true);
 		ch.charshapes.push(ns);
-		ch.calcCharMaxes();
+		ch.calcGlyphMaxes();
 
 		addToUsedIn(com, tochar);
 
@@ -105,17 +105,17 @@
 
 	function makeComponentThumbs(){
 		var re = '';
-		var tochar = getSelectedCharID();
+		var tochar = getSelectedGlyphID();
 		var tcom;
 
 		for(var com in _GP.components){if(_GP.components.hasOwnProperty(com)){
-			tcom = getChar(com);
+			tcom = getGlyph(com);
 			if(tcom.shape){
 				re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
 				re += '<div class="charselectthumb" onclick="insertComponent(\''+com+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
-				re += getChar(com).shape.makeSVG();
+				re += getGlyph(com).shape.makeSVG();
 				re += '</div></td></tr><tr><td>';
-				re += getCharName(com);
+				re += getGlyphName(com);
 				re += '</td></tr></table>';
 				//debug('makeComponentThumbs - created canvas thumb'+com);
 			}

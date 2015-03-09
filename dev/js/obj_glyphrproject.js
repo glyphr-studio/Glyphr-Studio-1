@@ -197,7 +197,7 @@
 			}
 		}
 
-		//debug('CHARITERATOR - count returned ' + count);
+		//debug('GLYPHITERATOR - count returned ' + count);
 
 		return ccon;
 	}

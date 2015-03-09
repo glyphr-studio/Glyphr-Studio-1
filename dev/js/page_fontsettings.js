@@ -56,7 +56,7 @@
 
 
 
-		// CHARACTERS
+		// GLYPHS
 		content += "<h1>Glyph Ranges</h1>"+
 					"Glyph ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible glyphs in a font. ";
 
@@ -68,7 +68,7 @@
 					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode glyphs 0x0020 through 0x007E</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
 					var bl = _UI.basiclatinorder;
-					for(var t=0; t<bl.length; t++){ content += (hexToChar(bl[t]) + " "); }
+					for(var t=0; t<bl.length; t++){ content += (hexToGlyph(bl[t]) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
@@ -82,7 +82,7 @@
 					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendeda")+"</td>"+
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode glyphs 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToChar(a) + " "); }
+					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToGlyph(a) + " "); }
 		content += "</div></td></tr></table>";
 
 
@@ -90,7 +90,7 @@
 					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendedb")+"</td>"+
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode glyphs 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToChar(b) + " "); }
+					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToGlyph(b) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<br><h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
@@ -101,7 +101,7 @@
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+
-					"<td><br><button onclick='addCustomCharacterRange();'>Add Range</button></td>"+
+					"<td><br><button onclick='addCustomGlyphRange();'>Add Range</button></td>"+
 					"<td><br><div id='customrangeerror'>bad range input</div></td>"+
 					"</tr></table>"+
 					"<div id='customrangetable'></div><br><br>";

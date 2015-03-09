@@ -56,9 +56,9 @@
 		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
 
 		switch (_UI.navhere){
-			case 'glyph edit': redraw_CharacterEdit(); break;
+			case 'glyph edit': redraw_GlyphEdit(); break;
 			case 'components': redraw_Components(); break;
-			case 'ligatures': redraw_CharacterEdit(); break;
+			case 'ligatures': redraw_GlyphEdit(); break;
 			case 'kerning': redraw_Kerning(); break;
 			case 'test drive': redraw_TestDrive(); break;
 		}
@@ -95,7 +95,7 @@
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 
-		var s = ss('Charedit: UpdateTools');
+		var s = ss('Glyphedit: UpdateTools');
 
 		if(oncom) {
 			if(!_GP.components[_UI.selectedshape]) { s = false; }
@@ -170,7 +170,7 @@
 		viewcontent += pop;
 
 		if(onglyph || onlig) toolcontent += newshape;
-		var sls = getSelectedChar();
+		var sls = getSelectedGlyph();
 		if(oncom && sls && !sls.shape) toolcontent += newshape;
 
 		if(onglyph || oncom || onlig) toolcontent += edittools;
@@ -350,7 +350,7 @@
 
 	function setView(oa){
 
-		var sc = (_UI.navhere === 'kerning')? getSelectedKernID() : getSelectedCharID();
+		var sc = (_UI.navhere === 'kerning')? getSelectedKernID() : getSelectedGlyphID();
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
@@ -370,7 +370,7 @@
 	function getView(calledby){
 		//debug('GETVIEW - called by ' + calledby);
 		var onkern = (_UI.navhere === 'kerning');
-		var sc = onkern? getSelectedKernID() : getSelectedCharID();
+		var sc = onkern? getSelectedKernID() : getSelectedGlyphID();
 		var v = _UI.views;
 
 		if(isval(v[sc])){
@@ -463,7 +463,7 @@
 
 
 //	-------------------------
-//	Global Get Selected Char and Shape
+//	Global Get Selected Glyph and Shape
 //	-------------------------
 	function isWorkItemSelected() {
 		switch(_UI.navhere){
@@ -480,9 +480,9 @@
 		switch(_UI.navhere){
 			case 'glyph edit':
 			case 'components':
-				return getSelectedCharName();
+				return getSelectedGlyphName();
 			case 'ligatures':
-				return 'ligature ' + getSelectedCharName();
+				return 'ligature ' + getSelectedGlyphName();
 			case 'kerning':
 				return getSelectedKern().getName();
 		}
@@ -496,7 +496,7 @@
 		// debug('\t Requested by: ' + req);
 		// debug('\t selectedshape: ' + _UI.selectedshape);
 
-		var scs = getSelectedCharShapes();
+		var scs = getSelectedGlyphShapes();
 
 		if(_UI.navhere === 'components'){
 			// debug('\t COMPONENTS returning selectedcomponent: ' + _UI.selectedcomponent);
@@ -505,7 +505,7 @@
 
 		if(_UI.selectedshape !== -1){
 			if((_UI.selectedshape >= 0) && (_UI.selectedshape < scs.length)) {
-				// Charedit Selected Shape
+				// Glyphedit Selected Shape
 				// debug('SS - returning shape object for position ' + _UI.selectedshape);
 				return scs[_UI.selectedshape];
 			} else {
@@ -618,15 +618,15 @@
 				ps.guides.descent.draw(os);
 			}
 
-			// Char Width or Kerning
-			var sc = getSelectedChar();
+			// Glyph Width or Kerning
+			var sc = getSelectedGlyph();
 			if(oncharedit){
-				ps.guides.leftside.draw(getSelectedCharLeftSideBearing()*-1);
+				ps.guides.leftside.draw(getSelectedGlyphLeftSideBearing()*-1);
 
 				var rhl = sc.charwidth;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
 				ps.guides.rightside.location = rhl;
-				ps.guides.rightside.draw(getSelectedCharRightSideBearing());
+				ps.guides.rightside.draw(getSelectedGlyphRightSideBearing());
 				ps.guides.rightside.draw();
 			} else if (onkern){
 				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;

@@ -63,7 +63,7 @@
 			kerns = ioSVG_getTags(font, 'hkern');
 			// debug('\t got kerns');
 
-			// Get Chars
+			// Get Glyphs
 			chars = ioSVG_getTags(font, 'glyph');
 			// debug('\t got chars');
 			// debug(chars);
@@ -82,13 +82,13 @@
 		function startFontImport() {
 			// debug('\n startFontImport - START');
 			importStatus('Importing Glyph 1 of ' + chars.length);
-			setTimeout(importOneChar, 4);
+			setTimeout(importOneGlyph, 4);
 			// debug(' startFontImport - END\n');
 		}
 
 		/*
 		*
-		*	CHAR IMPORT
+		*	GLYPH IMPORT
 		*
 		*/
 		var tca, data, uni, ns, cname, chtml, adv, isautowide;
@@ -101,7 +101,7 @@
 		var fl = {};
 
 		var c=0;
-		function importOneChar(){
+		function importOneGlyph(){
 			importStatus('Importing Glyph ' + c + ' of ' + chars.length);
 
 			if(c >= chars.length) {
@@ -109,11 +109,11 @@
 				return;
 			}
 
-			// One Char or Ligature in the font
+			// One Glyph or Ligature in the font
 			tca = chars[c].attributes;
 
 			// Get the appropriate unicode decimal for this char
-			// debug('\n importOneChar - START');
+			// debug('\n importOneGlyph - START');
 			// debug('\t starting  unicode \t' + tca.unicode + ' \t ' + tca['glyph-name']);
 
 			uni = parseUnicodeInput(tca.unicode);
@@ -175,20 +175,20 @@
 
 
 				if(uni.length === 1){
-					// It's a CHAR
+					// It's a GLYPH
 					// Get some range data
 					uni = uni[0];
 					minchar = Math.min(minchar, uni);
 					maxchar = Math.max(maxchar, uni);
 					if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni);
 
-					fc[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
+					fc[uni] = new Glyph({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 					if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.charrange.filternoncharpoints = false;
 
 				} else {
 					// It's a LIGATURE
 					uni = uni.join('');
-					fl[uni] = new Char({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
+					fl[uni] = new Glyph({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 				}
 
 				// Successfull loop, advance c
@@ -196,9 +196,9 @@
 			}
 
 			// finish loop
-			setTimeout(importOneChar, 1);
+			setTimeout(importOneGlyph, 1);
 
-			// debug(' importOneChar - END\n');
+			// debug(' importOneGlyph - END\n');
 		}
 
 		function isOutOfBounds(uni) {
@@ -283,7 +283,7 @@
 					rstart = 1*_UI.charrange[r].begin;
 					rend = 1*_UI.charrange[r].end+1;
 					for(var t=rstart; t<rend; t++){
-						if(getChar(t)){
+						if(getGlyph(t)){
 							_GP.projectsettings.charrange[r] = true;
 							break;
 						}

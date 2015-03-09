@@ -19,14 +19,14 @@
 		return result;
 	}
 
-	function hexToChar(u) {
+	function hexToGlyph(u) {
 		if(String(u).charAt(1) !== 'x') u = String(decToHex(u));
-		// debug('\n hexToChar - START');
+		// debug('\n hexToGlyph - START');
 		// debug('\t passed ' + u + ' which is a ' + typeof u);
 		u = u.split('0x');
 		var result = '';
 		for(var i=0; i<u.length; i++){ if(u[i] !== ''){
-			u[i] = String.fromCharCode('0x'+u[i]);
+			u[i] = String.fromGlyphCode('0x'+u[i]);
 			// debug('\t added ' + u[i]);
 			if(u[i]) result += u[i];
 		}}
@@ -78,7 +78,7 @@
 			str = str.replace(/0X/g, '0x');
 			entries = str.split('0x');
 		} else {
-			// if(str === 'u')	debug('\t CALLING CHARTOHEXARRAY');
+			// if(str === 'u')	debug('\t CALLING GLYPHTOHEXARRAY');
 			return charToHexArray(str);
 		}
 
@@ -144,7 +144,7 @@
 //	--------------------
 //	Range functions
 //	--------------------
-	function addCustomCharacterRange(){
+	function addCustomGlyphRange(){
 		var newrange = getCustomRange(true);
 		if(newrange){
 			_GP.projectsettings.charrange.custom.unshift(newrange);
@@ -198,7 +198,7 @@
 				content += '<tr><td class="customrangeline">';
 				content += cr[c].begin + '&nbsp;&nbsp;through&nbsp;&nbsp;' + cr[c].end + '&nbsp;&nbsp;';
 				content += '</td><td>';
-				content += '<button onclick="removeCustomCharacterRange('+c+');">remove</button>';
+				content += '<button onclick="removeCustomGlyphRange('+c+');">remove</button>';
 				content += '</td></tr>';
 			}
 			content += '</table><br>';
@@ -208,17 +208,17 @@
 		document.getElementById('customrangetable').innerHTML = content;
 	}
 
-	function removeCustomCharacterRange(i){
+	function removeCustomGlyphRange(i){
 		var cr = _GP.projectsettings.charrange.custom;
-		//debug('REMOVECUSTOMCHARACTERRANGE - called on index ' + i + '\n\t custom is ' + JSON.stringify(cr));
+		//debug('REMOVECUSTOMGLYPHRANGE - called on index ' + i + '\n\t custom is ' + JSON.stringify(cr));
 		cr.splice(i,1);
 		updateCustomRangeTable();
-		//debug('REMOVECUSTOMCHARACTERRANGE - \n\t custom is ' + JSON.stringify(cr));
+		//debug('REMOVECUSTOMGLYPHRANGE - \n\t custom is ' + JSON.stringify(cr));
 	}
 
 
 //	-----------------
-//	Char Name Wrapper
+//	Glyph Name Wrapper
 //	-----------------
 
 	function getUnicodeName(ch) {

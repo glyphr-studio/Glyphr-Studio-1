@@ -95,10 +95,10 @@
 
 		content += allactions;
 
-		if(getSelectedCharShapes().length > 0){ content += shapeactions; }
+		if(getSelectedGlyphShapes().length > 0){ content += shapeactions; }
 		content += "</td>";
 
-		if(getSelectedCharShapes().length > 1){ content += layeractions; }
+		if(getSelectedGlyphShapes().length > 1){ content += layeractions; }
 
 		content += "<td> &nbsp; </td></tr></table>";
 
@@ -112,7 +112,7 @@
 
 		if(_UI.navhere === 'components'){
 			_UI.clipboardshape = {
-				's':getSelectedChar().shape,
+				's':getSelectedGlyph().shape,
 				'c':_UI.selectedcomponent
 			};
 		} else if (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures'){
@@ -181,7 +181,7 @@
 		content += msg? msg : "<br>";
 		content += "Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
-		content += makeGenericCharChooserContent("pasteShapesFrom", true);
+		content += makeGenericGlyphChooserContent("pasteShapesFrom", true);
 		content += "</div></td></tr>";
 		content += "<tr><td><br>";
 		content += "<button style='width:100px;' onclick='closeDialog();'>done</button>";
@@ -190,11 +190,11 @@
 	}
 
 	function pasteShapesFrom(chid) {
-		getChar(chid).sendShapesTo(getSelectedCharID());
+		getGlyph(chid).sendShapesTo(getSelectedGlyphID());
 		redraw();
 		history_put("Pasted Shapes to Glyph");
 		closeDialog();
-		showGetShapesDialog("The shapes from '" + getCharName(chid) + "' were successfully pasted to glyph " + getSelectedCharName() + ".<br>");
+		showGetShapesDialog("The shapes from '" + getGlyphName(chid) + "' were successfully pasted to glyph " + getSelectedGlyphName() + ".<br>");
 	}
 
 //-------------------
@@ -203,10 +203,10 @@
 	function moveupShape(){
 		var s = ss("Move Up Shape");
 
-		if(s && (_UI.selectedshape < (getSelectedCharShapes().length-1))){
-			var tempshape = getSelectedCharShapes()[_UI.selectedshape+1];
-			getSelectedCharShapes()[_UI.selectedshape+1] = getSelectedCharShapes()[_UI.selectedshape];
-			getSelectedCharShapes()[_UI.selectedshape] = tempshape;
+		if(s && (_UI.selectedshape < (getSelectedGlyphShapes().length-1))){
+			var tempshape = getSelectedGlyphShapes()[_UI.selectedshape+1];
+			getSelectedGlyphShapes()[_UI.selectedshape+1] = getSelectedGlyphShapes()[_UI.selectedshape];
+			getSelectedGlyphShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape++;
 			redraw("moveupShape");
 		}
@@ -216,9 +216,9 @@
 		var s = ss("Move Down Shape");
 
 		if(s && (_UI.selectedshape > 0)){
-			var tempshape = getSelectedCharShapes()[_UI.selectedshape-1];
-			getSelectedCharShapes()[_UI.selectedshape-1] = getSelectedCharShapes()[_UI.selectedshape];
-			getSelectedCharShapes()[_UI.selectedshape] = tempshape;
+			var tempshape = getSelectedGlyphShapes()[_UI.selectedshape-1];
+			getSelectedGlyphShapes()[_UI.selectedshape-1] = getSelectedGlyphShapes()[_UI.selectedshape];
+			getSelectedGlyphShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape--;
 			redraw("movedownShape");
 		}
@@ -233,13 +233,13 @@
 		var content = '<div class="panel_section">';
 		if(pop) content = '<div class="navarea_header">';
 		content += '<h1 class="paneltitle">actions</h1>';
-		if(!getSelectedChar()) return content + '</div>';
+		if(!getSelectedGlyph()) return content + '</div>';
 		if(pop) content += '</div><div class="panel_section">';
 
 		var s = ss('Update Actions');
 
 		var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">component</h3>";
-			if(s) ls1actions += "<button onclick='showAddSSToCharDialog();'>link to glyph</button><br>";
+			if(s) ls1actions += "<button onclick='showAddSSToGlyphDialog();'>link to glyph</button><br>";
 			ls1actions += "<button onclick='addComponent();history_put(\"Create New Component\");navigate();'>create new</button><br>";
 			if(s) ls1actions += "<button onclick='deleteComponentConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
 
@@ -298,7 +298,7 @@
 
 	function deleteComponentConfirm(){
 		var content = "<h1>Delete Component</h1>Are you sure you want to delete this component?<br>";
-		var uia = getSelectedChar().usedin;
+		var uia = getSelectedGlyph().usedin;
 		if(uia.length > 0){
 			content += "If you do, the component instances will also be removed from the following glyphs:<br><br>";
 			for(var ssu=0; ssu<uia.length; ssu++){
@@ -317,13 +317,13 @@
 	function deleteComponent(){
 		//debug("DELETECOMPONENT - deleting " + _UI.selectedcomponent);
 		closeDialog();
-		var sls = getSelectedChar();
+		var sls = getSelectedGlyph();
 		if(sls){
 			// find & delete all component instances
 			//debug("----------------- starting to go through sls.usedin: " + sls.usedin);
 			for(var cui=0; cui<sls.usedin.length; cui++){
 				var tc = _GP.glyphs[sls.usedin[cui]].charshapes;
-				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedCharShapes() " + tc.length);
+				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedGlyphShapes() " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.selectedcomponent);
 					if(tc[sl].link === _UI.selectedcomponent){
@@ -347,26 +347,26 @@
 
 	function pasteComponent(){
 		if(_UI.clipboardshape){
-			getSelectedChar().shape = _UI.clipboardshape;
+			getSelectedGlyph().shape = _UI.clipboardshape;
 		}
 	}
 
-	function showAddSSToCharDialog(msg){
-		var sls = getSelectedChar();
+	function showAddSSToGlyphDialog(msg){
+		var sls = getSelectedGlyph();
 		var content = "<h1>Link to Glyph</h1><table style='width:900px'><tr><td>";
 		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the glyph you would like to link to this component:<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:500px;'>";
-		content += makeGenericCharChooserContent("insertComponentToChar", true);
+		content += makeGenericGlyphChooserContent("insertComponentToGlyph", true);
 		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
 		openDialog(content);
 	}
 
-	function insertComponentToChar(chid){
+	function insertComponentToGlyph(chid){
 		insertComponent(_UI.selectedcomponent, chid);
 		history_put("Insert Component to Glyph");
 		closeDialog();
-		showAddSSToCharDialog("The Component '" + getSelectedChar().shape.name + "' was successfully inserted into glyph " + getCharName(chid) + ".<br><br>");
+		showAddSSToGlyphDialog("The Component '" + getSelectedGlyph().shape.name + "' was successfully inserted into glyph " + getGlyphName(chid) + ".<br><br>");
 	}
 // end of file

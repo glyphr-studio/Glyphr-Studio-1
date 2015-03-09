@@ -13,7 +13,7 @@
 		'devnav':false,		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
-		// SelectedChar
+		// SelectedGlyph
 
 		// all pages
 		'navhere': 'firstrun',

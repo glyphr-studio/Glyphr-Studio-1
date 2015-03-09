@@ -13,7 +13,7 @@
 
 		content += "</div><div class='panel_section'>";
 
-		var scs = getSelectedCharShapes();
+		var scs = getSelectedGlyphShapes();
 		var ts;
 
 		if(scs.length > 0){

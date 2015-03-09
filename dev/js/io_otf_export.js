@@ -27,14 +27,14 @@
 		options.trademark = md.trademark || ' ';
 		options.glyphs = [];
 
-		debug('\t NEW options ARG BEFORE CHARS');
+		debug('\t NEW options ARG BEFORE GLYPHS');
 		debug(options);
 
 		// Add Notdef
-		var ndchar = new Char(JSON.parse(_UI.notdefchar));
+		var ndchar = new Glyph(JSON.parse(_UI.notdefchar));
 		if(_GP.upm !== 1000){
 			var delta = _GP.upm / 1000;
-			ndchar.updateCharSize(delta, delta, true);
+			ndchar.updateGlyphSize(delta, delta, true);
 		}
 		var ndpath = ndchar.charshapes[0].path.makeOpenTypeJSpath();
 		ndpath = ndchar.charshapes[1].path.makeOpenTypeJSpath(ndpath);
@@ -51,12 +51,12 @@
 			path: ndpath
 		}));
 
-		// Add Chars and Ligatures
+		// Add Glyphs and Ligatures
 		var tc, tcpath;
 
 		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 			tc = _GP.glyphs[c];
-			tc.calcCharMaxes();
+			tc.calcGlyphMaxes();
 			tcpath = new opentype.Path();
 			var sl = tc.charshapes;
 			var shape, path;

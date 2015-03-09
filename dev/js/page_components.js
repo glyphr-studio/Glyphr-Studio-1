@@ -26,7 +26,7 @@
 		drawGrid();
 		drawGuides();
 
-		var sc = getSelectedChar();
+		var sc = getSelectedGlyph();
 
 		if(sc) sc.drawShape_Single(_UI.chareditctx);
 

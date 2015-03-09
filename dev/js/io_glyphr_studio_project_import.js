@@ -231,14 +231,14 @@
 		// Glyphs
 		for (var gl in data.glyphs) {
 			if(data.glyphs.hasOwnProperty(gl)){
-				_GP.glyphs[gl] = new Char(data.glyphs[gl]);
+				_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);
 			}
 		}
 
 		// Ligatures
 		for (var lig in data.ligatures) {
 			if(data.ligatures.hasOwnProperty(lig)){
-				_GP.ligatures[lig] = new Char(data.ligatures[lig]);
+				_GP.ligatures[lig] = new Glyph(data.ligatures[lig]);
 			}
 		}
 
@@ -290,9 +290,9 @@
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;
 
-		getChar('0x0020', true).isautowide = false;
-		getChar('0x0020', true).charwidth = _GP.projectsettings.upm/2;
-		getChar('0x0041', true);
+		getGlyph('0x0020', true).isautowide = false;
+		getGlyph('0x0020', true).charwidth = _GP.projectsettings.upm/2;
+		getGlyph('0x0041', true);
 
 		finalizeGlyphrProject();
 		//navigate();
@@ -311,7 +311,7 @@
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
-		_UI.selectedchar = _UI.selectedchar || getFirstCharID();
+		_UI.selectedchar = _UI.selectedchar || getFirstGlyphID();
 		_UI.selectedcomponent = getFirstID(_GP.components);
 		_UI.selectedkern = getFirstID(_GP.kerning);
 

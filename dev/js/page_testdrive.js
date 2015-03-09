@@ -90,7 +90,7 @@
 				// draw baseline
 				if(td.showhorizontals) drawLine(curry);
 			} else {
-				cc = getChar(charToHex(contentarray[k]));
+				cc = getGlyph(charToHex(contentarray[k]));
 				if(cc){
 					if(td.showcharbox){
 						tctx.fillStyle = 'transparent';
@@ -107,7 +107,7 @@
 
 					// debug('\t starting drawing ' + cc.charname);
 					// debug(cc);
-					currx += cc.drawCharToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+					currx += cc.drawGlyphToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
 					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
 					// debug('\t done drawing ' + cc.charname);
@@ -175,7 +175,7 @@
 		for(var c=0; c<carr.length; c++){
 			// for(var g=ligs.length-1; g>-1; g--){
 			for(var g=0; g<ligs.length; g++){
-				ligchars = hexToChar(ligs[g].id);
+				ligchars = hexToGlyph(ligs[g].id);
 				// debug('\t checking ' + ligchars);
 				carrot = carr.slice(c, (c+ligchars.length)).join('');
 				// debug('\t against ' + carrot);

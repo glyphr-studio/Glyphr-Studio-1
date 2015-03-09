@@ -277,7 +277,7 @@
 	Path.prototype.makeSVGpathData = function(charname) {
 		charname = charname || 'not specified';
 		// debug('\n Path.makeSVGpathData - START');
-		// debug('\t Char ' + charname);
+		// debug('\t Glyph ' + charname);
 		// debug('\t this.pathpoints: ' + json(this.pathpoints, true));
 
 		if(!this.pathpoints) return '';
@@ -701,7 +701,7 @@
 			this.maxes.ymin = Math.min(this.maxes.ymin, tbounds.miny);
 		}
 
-		updateCurrentCharWidth();
+		updateCurrentGlyphWidth();
 		//console.timeEnd('CalcMaxes_NEW');
 	};
 

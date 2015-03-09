@@ -3,7 +3,7 @@
 //-------------------
 // Glyph Chooser
 //-------------------
-	function makePanel_CharChooser(fname){
+	function makePanel_GlyphChooser(fname){
 		var content = '<div class="navarea_header">';
 
 		content += makePanelSuperTitle();
@@ -11,40 +11,40 @@
 		content += '</div>';
 
 		content += '<div class="panel_section">';
-		content += makeGenericCharChooserContent(fname);
+		content += makeGenericGlyphChooserContent(fname);
 		content += '</div>';
 
 		return content;
 	}
 
-	function makeGenericCharChooserContent(fname, includeligatures) {
-		// debug('\n makeGenericCharChooserContent - START');
+	function makeGenericGlyphChooserContent(fname, includeligatures) {
+		// debug('\n makeGenericGlyphChooserContent - START');
 		// debug('\t passed fname ' + fname);
 
 		var ccon = '<div class="charchooserwrapper">';
-		fname = fname? fname : 'selectChar';
+		fname = fname? fname : 'selectGlyph';
 		var cr = _GP.projectsettings.charrange;
 		var showtitles = (includeligatures || !cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 
 		if(cr.basiclatin){
 			var bl = _UI.basiclatinorder;
 			if(showtitles) ccon += '<h3>basic latin</h3>';
-			for(var i=0; i<bl.length; i++){ ccon += makeCharChooserButton(bl[i], fname); }
+			for(var i=0; i<bl.length; i++){ ccon += makeGlyphChooserButton(bl[i], fname); }
 		}
 
 		if(cr.latinsuppliment){
 			if(showtitles) ccon += '<h3>latin suppliment</h3>';
-			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ ccon += makeCharChooserButton(decToHex(s), fname); }
+			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname); }
 		}
 
 		if(cr.latinextendeda){
 			if(showtitles) ccon += '<h3>latin extended-a</h3>';
-			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ ccon += makeCharChooserButton(decToHex(a), fname); }
+			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname); }
 		}
 
 		if(cr.latinextendedb){
 			if(showtitles) ccon += '<h3>latin extended-b</h3>';
-			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ ccon += makeCharChooserButton(decToHex(b), fname); }
+			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname); }
 		}
 
 		var cn;
@@ -55,9 +55,9 @@
 				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 					cn = decToHex(range);
 					if(_GP.projectsettings.charrange.filternoncharpoints){
-						if(getUnicodeName(cn) !== '[name not found]') ccon += makeCharChooserButton(cn, fname);
+						if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname);
 					} else {
-						ccon += makeCharChooserButton(cn, fname);
+						ccon += makeGlyphChooserButton(cn, fname);
 					}
 				}
 			}
@@ -67,20 +67,20 @@
 			if(showtitles) ccon += '<h3>ligatures</h3>';
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
-				ccon += makeCharChooserButton(l, fname);
+				ccon += makeGlyphChooserButton(l, fname);
 			}}
 		}
 
 		ccon += '</div>';
-		// debug('makeGenericCharChooserContent - END\n');
+		// debug('makeGenericGlyphChooserContent - END\n');
 		return ccon;
 	}
 
-	function makeCharChooserButton(index, fname){
-		// debug('\n makeCharChooserButton - START');
+	function makeGlyphChooserButton(index, fname){
+		// debug('\n makeGlyphChooserButton - START');
 		var onc = (fname + '(\'' + index + '\');');
 		// debug('\t constructed function: ' + onc);
-		var rv = '<table class="charselectbuttontable" onclick="'+onc+'" title="'+getCharName(index)+'"><tr><td>';
+		var rv = '<table class="charselectbuttontable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
 		var issel = (index === _UI.selectedchar);
 		issel = (issel && (_UI.navhere !== 'components'));
 		var chtml = hexToHTML(index);
@@ -90,7 +90,7 @@
 			(_GP.ligatures[index] && _GP.ligatures[index].charshapes[0])) {
 			var extra = '';
 			if(issel) {extra = ' charselectthumbsel';}
-			rv += '<div class="charselectthumb'+extra+'">'+getChar(index).makeSVG()+'</div>';
+			rv += '<div class="charselectthumb'+extra+'">'+getGlyph(index).makeSVG()+'</div>';
 		} else {
 			if(issel) {rv += '<div class="charselectbuttonsel"';}
 			else {rv += '<div class="charselectbutton"';}
@@ -147,8 +147,8 @@
 		// debug('\t passed com:' + com);
 
 		var re = '';
-		var tcom = getChar(com);
-		// debug("\t getChar for com: " );
+		var tcom = getGlyph(com);
+		// debug("\t getGlyph for com: " );
 		// debug(tcom);
 
 		if(com === _UI.selectedcomponent){
@@ -201,11 +201,11 @@
 		// debug('\t passed fname ' + fname);
 
 		var content = '';
-		fname = fname? fname : 'selectChar';
+		fname = fname? fname : 'selectGlyph';
 
 		var lig = _GP.ligatures;
 		for(var l in lig){ if(lig.hasOwnProperty(l)){
-			content += makeCharChooserButton(l, fname);
+			content += makeGlyphChooserButton(l, fname);
 		}}
 
 		if(content === '') content = 'No ligatures exist yet.  You can create a new one, or add a few common ligatures to get started.';
@@ -223,11 +223,11 @@
 		var ffi = parseUnicodeInput('ffi').join('');
 		var ffl = parseUnicodeInput('ffl').join('');
 
-		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Char({'charhex':ff});
-		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Char({'charhex':fi});
-		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Char({'charhex':fl});
-		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Char({'charhex':ffi});
-		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Char({'charhex':ffl});
+		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'charhex':ff});
+		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'charhex':fi});
+		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'charhex':fl});
+		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'charhex':ffi});
+		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'charhex':ffl});
 
 		_UI.selectedchar = getFirstID(_GP.ligatures);
 		redraw();

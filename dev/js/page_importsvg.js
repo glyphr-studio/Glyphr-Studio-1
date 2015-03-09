@@ -2,7 +2,7 @@
 
 	function loadPage_importsvg(){
 		// debug("LOADING PAGE >> loadpage_importsvg");
-		var chname = getSelectedCharName();
+		var chname = getSelectedGlyphName();
 		var content = "<h1 class='pagetitle'>Import SVG</h1><div class='pagecontent textpage'>" +
 		"<h2 id='importsvgselecttitle'>Target glyph: "+chname+"</h2>"+
 
@@ -73,7 +73,7 @@
 		"<br><br></div>";
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
-		//importSVG_selectChar("0x0061");
+		//importSVG_selectGlyph("0x0061");
 
 		getEditDocument().getElementById("droptarget").addEventListener('dragover', importSVG_handleDragOver, false);
 		getEditDocument().getElementById("droptarget").addEventListener('dragleave', importSVG_handleDragLeave, false);
@@ -134,10 +134,10 @@
 		closeErrorMessageBox();
 	}
 
-	function importSVG_selectChar(cid){
-		//debug("IMPORTSVG_SELECTCHAR - selecting " + cid);
-		selectChar(cid, true);
-		document.getElementById('importsvgselecttitle').innerHTML = "Target glyph: "+getSelectedCharName();
+	function importSVG_selectGlyph(cid){
+		//debug("IMPORTSVG_SELECTGLYPH - selecting " + cid);
+		selectGlyph(cid, true);
+		document.getElementById('importsvgselecttitle').innerHTML = "Target glyph: "+getSelectedGlyphName();
 		update_NavPanels();
 	}
 
@@ -146,7 +146,7 @@
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
 		closeErrorMessageBox();
 
-		var tempchar = ioSVG_convertTagsToChar(svgin);
+		var tempchar = ioSVG_convertTagsToGlyph(svgin);
 
 		if(!tempchar) return;
 
@@ -172,13 +172,13 @@
 				chartop += ovs;
 			}
 
-			if(so.scale) tempchar.setCharSize(false, totalheight, true);
-			if(so.move) tempchar.setCharPosition(0, chartop);
+			if(so.scale) tempchar.setGlyphSize(false, totalheight, true);
+			if(so.move) tempchar.setGlyphPosition(0, chartop);
 		}
 
-		// Add new Char Shapes
-		tempchar.sendShapesTo(getSelectedCharID());
-		history_put("Imported Paths from SVG to glyph "+getSelectedCharName());
+		// Add new Glyph Shapes
+		tempchar.sendShapesTo(getSelectedGlyphID());
+		history_put("Imported Paths from SVG to glyph "+getSelectedGlyphName());
 
 		update_NavPanels();
 	}

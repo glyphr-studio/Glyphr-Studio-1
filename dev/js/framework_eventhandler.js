@@ -140,7 +140,7 @@
 			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
-				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedCharShapes().length;
+				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedGlyphShapes().length;
 
 				if(_UI.selectedtool==='newrect'){
 					newshape.name = ('Rectangle ' + count);
@@ -151,7 +151,7 @@
 				}
 
 				newshape.visible = true;
-				//updateCurrentCharWidth();
+				//updateCurrentGlyphWidth();
 			} else {
 				deleteShape();
 			}
@@ -264,7 +264,7 @@
 			}
 
 			if(this.resizing) s.path.calcMaxes();
-			updateCurrentCharWidth();
+			updateCurrentGlyphWidth();
 
 			this.dragging = false;
 			this.resizing = false;
@@ -301,7 +301,7 @@
 				//debug('Tool_NewPath MOUSEDOWN - after new path is made.');
 
 				// make a new shape with the new path
-				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedCharShapes().length;
+				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedGlyphShapes().length;
 				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
 				newshape.path.selectPathPoint(0);
 				//debug('Tool_NewPath MOUSEDOWN - end of firstpoint, new shape added with new path with single point.');
@@ -378,7 +378,7 @@
 
 			if(_UI.eventhandlers.uqhaschanged){
 				currpath.calcMaxes();
-				updateCurrentCharWidth();
+				updateCurrentGlyphWidth();
 				// For new shape tools, mouse up always adds to the undo-queue
 				history_put('New Path tool');
 				_UI.eventhandlers.uqhaschanged = false;
@@ -470,7 +470,7 @@
 
 			if(_UI.eventhandlers.uqhaschanged) {
 				ss('Path Edit - Mouse Up').path.calcMaxes();
-				updateCurrentCharWidth();
+				updateCurrentGlyphWidth();
 				history_put('Path Edit tool');
 				_UI.eventhandlers.uqhaschanged = false;
 				redraw('Event Handler Tool_PathEdit mouseup');
@@ -913,10 +913,10 @@
 
 	function getKeyFromEvent (event) {
 		//debug('GETKEYFROMEVENT - keyCode:' + event.keyCode + '\twhich:' + event.which);
-		var specialChars = {
+		var specialGlyphs = {
 			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 187:'plus', 189:'minus', 224:'meta'
 		};
-		return specialChars[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();
+		return specialGlyphs[parseInt(event.which)] || String.fromGlyphCode(event.which).toLowerCase();
 	}
 
 	function nudge(dx, dy) {

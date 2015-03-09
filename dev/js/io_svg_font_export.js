@@ -36,7 +36,7 @@
 		con += '\n';
 		con += ioSVG_makeMissingGlyph();
 		con += '\n\n';
-		con += ioSVG_makeAllCharsAndLigatures();
+		con += ioSVG_makeAllGlyphsAndLigatures();
 		con += '\n';
 		con += ioSVG_makeAllKernPairs();
 		con += '\n';
@@ -108,8 +108,8 @@
 		return con;
 	}
 
-	function ioSVG_makeAllCharsAndLigatures() {
-		// debug('\n ioSVG_makeAllCharsAndLigatures - START');
+	function ioSVG_makeAllGlyphsAndLigatures() {
+		// debug('\n ioSVG_makeAllGlyphsAndLigatures - START');
 
 		//<glyph glyph-name="uniFEDF_uniFEE0_uniFBAB.liga" unicode="&#xfedf;&#xfee0;&#xfbab;" horiz-adv-x="1262" d="M1224 5
 
@@ -120,21 +120,21 @@
 		var li = _GP.ligatures;
 		con += '\t\t\t<!-- Ligatures -->\n';
 		for(var l in li){ if (li.hasOwnProperty(l)){
-			con += ioSVG_makeOneCharOrLigature(li[l], l);
+			con += ioSVG_makeOneGlyphOrLigature(li[l], l);
 		}}
 
 		con += '\n';
 
-		con += '\t\t\t<!-- Characters -->\n';
+		con += '\t\t\t<!-- Glyphs -->\n';
 		for(var c in fc){ if (fc.hasOwnProperty(c)){
-			con += ioSVG_makeOneCharOrLigature(fc[c], c);
+			con += ioSVG_makeOneGlyphOrLigature(fc[c], c);
 		}}
 
-		// debug(' ioSVG_makeAllCharsAndLigatures - END\n');
+		// debug(' ioSVG_makeAllGlyphsAndLigatures - END\n');
 		return con;
 	}
 
-	function ioSVG_makeOneCharOrLigature(ch, uni) {
+	function ioSVG_makeOneGlyphOrLigature(ch, uni) {
 		if(!ch.charshapes.length) return '';
 
 		uni = uni.split('0x');

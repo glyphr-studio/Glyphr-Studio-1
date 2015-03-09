@@ -4,9 +4,9 @@
 // Glyph Attributes
 //---------------------
 
-	function makePanel_CharAttributes(){
-		//debug("UPDATECHAREDITDETAILS");
-		var sc = getSelectedChar();
+	function makePanel_GlyphAttributes(){
+		//debug("UPDATEGLYPHEDITDETAILS");
+		var sc = getSelectedGlyph();
 		var s = ss('update details');
 
 		var ispointsel = false;
@@ -51,7 +51,7 @@
 				}
 			content += '</table><br>';
 			}
-			content += componentCharDetails();
+			content += componentGlyphDetails();
 		}
 
 		content += '</div>';
@@ -60,11 +60,11 @@
 	}
 
 	function charDetails(s){
-		var sc = getSelectedChar();
+		var sc = getSelectedGlyph();
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
-		sc.calcCharMaxes();
+		sc.calcGlyphMaxes();
 		var content = '';
-		var numshapes = getSelectedCharShapes().length;
+		var numshapes = getSelectedGlyphShapes().length;
 
 		content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform glyph shapes </h3></td></tr>';
 
@@ -73,11 +73,11 @@
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<input type="number" id="charx" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedGlyph().setGlyphPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
 					' value="' + round(sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="chary" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedGlyph().setGlyphPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
 					' value="' + round(sc.maxes.ymax, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -86,24 +86,24 @@
 				'<td>width'+dimSplit()+'height</td>'+
 				'<td>'+
 					'<input type="number" id="charw" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedGlyph().setGlyphSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
 					' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="charh" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedChar().setCharSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedGlyph().setGlyphSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
 					' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 				'</td>'+
 			'</tr>';
 
 			content += '<tr>'+
 				'<td> lock aspect ratio </td>'+
-				'<td>'+checkUI('getSelectedChar().ratiolock')+'</td>'+
+				'<td>'+checkUI('getSelectedGlyph().ratiolock')+'</td>'+
 			'</tr>';
 
 			content += '<tr><td colspan=2>'+
 				'<table class="actionsgrid"><tr><td>'+
-				'<button onclick="getSelectedChar().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
-				'<button onclick="getSelectedChar().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
+				'<button onclick="getSelectedGlyph().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
+				'<button onclick="getSelectedGlyph().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
 				'</td></tr></table>'+
 			'</td></tr>';
 		} else {
@@ -113,12 +113,12 @@
 		}
 
 
-		// AUTO CHAR WIDTH
+		// AUTO GLYPH WIDTH
 		content += '<tr><td colspan=2><h3> glyph width </h3></td></tr>';
 
 		content += '<tr>'+
 				'<td> automatically calculate </td>'+
-				'<td>'+checkUI('getSelectedChar().isautowide',true)+'</td>'+
+				'<td>'+checkUI('getSelectedGlyph().isautowide',true)+'</td>'+
 			'</tr>';
 
 		if(!sc.isautowide){
@@ -127,7 +127,7 @@
 				'<td>'+
 					'<input type="number" id="charaw" step="'+svc+'" '+
 					'value="' + round(sc.charwidth, 3) + '" '+
-					'onchange="_UI.focuselement=this.id; getSelectedChar().charwidth = (this.value*1); redraw(\'charDetails\');">'+
+					'onchange="_UI.focuselement=this.id; getSelectedGlyph().charwidth = (this.value*1); redraw(\'charDetails\');">'+
 				'</td>'+
 			'</tr>';
 		} else {
@@ -147,7 +147,7 @@
 
 			content += '<tr>'+
 				'<td> use default </td>'+
-				'<td>'+checkUI('getSelectedChar().leftsidebearing', true, true)+'</td>'+
+				'<td>'+checkUI('getSelectedGlyph().leftsidebearing', true, true)+'</td>'+
 			'</tr>';
 
 			if(sc.leftsidebearing){
@@ -157,7 +157,7 @@
 					'<td>'+
 						'<input type="number" id="charlsb" step="'+svc+'" '+
 						'value="' + sc.leftsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedChar().leftsidebearing = (this.value*1); redraw(\'charDetails\');">'+
+						'onchange="_UI.focuselement=this.id; getSelectedGlyph().leftsidebearing = (this.value*1); redraw(\'charDetails\');">'+
 					'</td>'+
 				'</tr>';
 			} else {
@@ -178,7 +178,7 @@
 
 			content += '<tr>'+
 				'<td> use default </td>'+
-				'<td>'+checkUI('getSelectedChar().rightsidebearing', true, true)+'</td>'+
+				'<td>'+checkUI('getSelectedGlyph().rightsidebearing', true, true)+'</td>'+
 			'</tr>';
 
 			if(sc.rightsidebearing){
@@ -188,7 +188,7 @@
 					'<td>'+
 						'<input type="number" id="charrsb" step="'+svc+'" '+
 						'value="' + sc.rightsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedChar().rightsidebearing = (this.value*1); redraw(\'charDetails\');">'+
+						'onchange="_UI.focuselement=this.id; getSelectedGlyph().rightsidebearing = (this.value*1); redraw(\'charDetails\');">'+
 					'</td>'+
 				'</tr>';
 			} else {

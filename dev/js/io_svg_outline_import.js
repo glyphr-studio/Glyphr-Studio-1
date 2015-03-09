@@ -3,8 +3,8 @@
 //	--------------------------
 //	Import SVG Outlines
 //	--------------------------
-	function ioSVG_convertTagsToChar(svgdata){
-		// debug('\n ioSVG_convertTagsToChar \t Start');
+	function ioSVG_convertTagsToGlyph(svgdata){
+		// debug('\n ioSVG_convertTagsToGlyph \t Start');
 
 		var newshapes = [];
 		var data = {};
@@ -173,8 +173,8 @@
 			showErrorMessageBox('A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.');
 		}
 
-		// debug('ioSVG_convertTagsToChar \t End \n');
-		return new Char({'charshapes':newshapes});
+		// debug('ioSVG_convertTagsToGlyph \t End \n');
+		return new Glyph({'charshapes':newshapes});
 	}
 
 	function ioSVG_getTags(obj, grabtags) {

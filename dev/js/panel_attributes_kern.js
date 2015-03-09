@@ -32,8 +32,8 @@
 
 		var re = '<table class="kernrow"><tr>';
 		re += '<td class="selkern" '+selstyle+'onclick="selectKern(\''+id+'\');"></td>';
-		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToChar(k.leftgroup.join('')) + '"></td>';
-		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToChar(k.rightgroup.join('')) + '"></td>';
+		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToGlyph(k.leftgroup.join('')) + '"></td>';
+		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToGlyph(k.rightgroup.join('')) + '"></td>';
 		re += '<td><input class="kernvalue" type="number" id="'+id+'" value="' + k.value + '" onchange="_UI.focuselement=this.id; updateKernValue(\''+id+'\', this.value);"></td>';
 		re += '<td><button class="guideremove" onclick="deleteKernPairConfirm(\''+id+'\');">&times</button></td>';
 
@@ -79,9 +79,9 @@
 		con += '<div style="width:500px;">';
 		con += 'Create a new kern pair by specifying a glyph for the left and right sides. ';
 		con += 'Each side of the kern pair can also be a group of glyphs.  When any glyph from the left side is displayed before any glyph in the right side, the pair will be kerned.<br><br>';
-		con += 'Characters can also be specified in Unicode format (like U+0066) or hexadecimal format (like 0x0066). ';
+		con += 'Glyphs can also be specified in Unicode format (like U+0066) or hexadecimal format (like 0x0066). ';
 		con += 'Hexadecimal, Unicode, and regular glyph formats cannot be mixed - choose one type!<br><br>';
-		con += '<h3>Kern Pair Characters</h3>';
+		con += '<h3>Kern Pair Glyphs</h3>';
 		con += '<input type="text" id="leftgroup" style="font-size:24px; width:45%; padding:8px; text-align:right;"/>';
 		con += '<input type="text" id="rightgroup" style="font-size:24px; width:45%; padding:8px;"/><br>';
 		con += makeErrorMessageBox();

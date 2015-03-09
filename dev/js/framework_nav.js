@@ -117,7 +117,7 @@
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(onge && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_CharChooser();
+		if(onge && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_GlyphChooser();
 		else if(oncom) document.getElementById('popout_charchooser').innerHTML = makePanel_ComponentChooser();
 		else if (onlig) document.getElementById('popout_charchooser').innerHTML = makePanel_LigatureChooser();
 
@@ -131,7 +131,7 @@
 
 		if(ontd) document.getElementById('popout_attributes').innerHTML = makePanel_TestDriveAttributes();
 		else if (onkern) document.getElementById('popout_attributes').innerHTML = makePanel_KerningAttributes();
-		else document.getElementById('popout_attributes').innerHTML = makePanel_CharAttributes();
+		else document.getElementById('popout_attributes').innerHTML = makePanel_GlyphAttributes();
 
 		updateSaveIcon();
 		// debug('make_NavPanels_PopOut - END\n');
@@ -226,8 +226,8 @@
 			case 'npChooser':
 				// debug('\t case ' + npChooser);
 				switch(_UI.navhere){
-					case 'glyph edit': np.innerHTML = makePanel_CharChooser('selectChar'); break;
-					case 'import svg': np.innerHTML = makePanel_CharChooser('importSVG_selectChar'); break;
+					case 'glyph edit': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
+					case 'import svg': np.innerHTML = makePanel_GlyphChooser('importSVG_selectGlyph'); break;
 					case 'components': np.innerHTML = makePanel_ComponentChooser(); break;
 					case 'ligatures': np.innerHTML = makePanel_LigatureChooser(); break;
 				}
@@ -239,7 +239,7 @@
 					case 'glyph edit':
 					case 'components':
 					case 'ligatures':
-						np.innerHTML = makePanel_CharAttributes();
+						np.innerHTML = makePanel_GlyphAttributes();
 						np.innerHTML += makePanel_Actions();
 					break;
 					case 'kerning': np.innerHTML = makePanel_KerningAttributes(); break;
@@ -407,7 +407,7 @@
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_UI);">UI</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.metadata);">META</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.glyphs);">CHAR</button><br>';
+			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.glyphs);">GLYPH</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
 			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.components);">COM</button><br><br>';

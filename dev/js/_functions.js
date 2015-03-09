@@ -66,7 +66,7 @@
 		// debug('\n makePanelSuperTitle - START');
 		var content = "";
 		if(!_UI.popout) {
-			var sc = getSelectedChar();
+			var sc = getSelectedGlyph();
 			var name;
 
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();

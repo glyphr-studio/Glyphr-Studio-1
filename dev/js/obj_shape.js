@@ -397,18 +397,18 @@
 		} else {
 			//debug('ADDSHAPE - passed null, creating new shape.');
 			newshape = new Shape({});
-			newshape.name = ('Rectangle ' + ((getSelectedCharShapes().length*1)+1));
+			newshape.name = ('Rectangle ' + ((getSelectedGlyphShapes().length*1)+1));
 		}
 
-		var sc = getSelectedChar();
+		var sc = getSelectedGlyph();
 
 		if(_UI.navhere === 'components'){
-			_UI.selectedshape = getSelectedCharID();
+			_UI.selectedshape = getSelectedGlyphID();
 			sc.shape = newshape;
 		} else {
 			_UI.selectedshape = sc.charshapes.length;
 			sc.charshapes.push(newshape);
-			updateCurrentCharWidth();
+			updateCurrentGlyphWidth();
 		}
 
 		_UI.navprimaryhere = 'npAttributes';
@@ -443,15 +443,15 @@
 		}
 
 		newshape.path = new Path({'pathpoints':parr});
-		newshape.name = (shapetype + getSelectedCharShapes().length+1);
+		newshape.name = (shapetype + getSelectedGlyphShapes().length+1);
 
-		if(_UI.navhere === 'glyph edit') { _UI.selectedshape = getSelectedCharShapes().length; }
-		getSelectedCharShapes().push(newshape);
-		updateCurrentCharWidth();
+		if(_UI.navhere === 'glyph edit') { _UI.selectedshape = getSelectedGlyphShapes().length; }
+		getSelectedGlyphShapes().push(newshape);
+		updateCurrentGlyphWidth();
 	}
 
 	function deleteShape(){
-		var scs = getSelectedCharShapes();
+		var scs = getSelectedGlyphShapes();
 
 		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].link){
 			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedchar);
@@ -470,7 +470,7 @@
 			//debug('DELETESHAPE - newly selected shape is component, changing tool');
 			_UI.selectedtool = 'shaperesize';
 		}
-		updateCurrentCharWidth();
+		updateCurrentGlyphWidth();
 	}
 
 	function turnSelectedShapeIntoAComponent(){
@@ -478,8 +478,8 @@
 		deleteShape();
 		newls.name = ('Component from ' + newls.name);
 		var newid = addComponent(newls);
-		insertComponent(newid, getSelectedCharID());
-		_UI.selectedshape = getSelectedCharShapes().length-1;
+		insertComponent(newid, getSelectedGlyphID());
+		_UI.selectedshape = getSelectedGlyphShapes().length-1;
 		redraw('turnSelectedShapeIntoAComponent');
 	}
 
@@ -490,7 +490,7 @@
 			return clickSelectComponent(x,y);
 		}
 		var ts;
-		var scs = getSelectedCharShapes();
+		var scs = getSelectedGlyphShapes();
 		for(var j=(scs.length-1); j>=0; j--){
 			ts = scs[j];
 			//debug('CLICKSELECTShape() - Checking shape ' + j);
@@ -517,7 +517,7 @@
 	}
 
 	function isOverShape(x,y) {
-		var scs = getSelectedCharShapes();
+		var scs = getSelectedGlyphShapes();
 		for(var j=(scs.length-1); j>=0; j--){
 			if(scs[j].isHere(x,y)) return true;
 		}

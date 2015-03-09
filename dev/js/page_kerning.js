@@ -47,19 +47,19 @@
 
 			// DRAW ALL RIGHT HAND GROUP
 			for(var i=0; i<selkern.rightgroup.length; i++){
-				ch = getChar(selkern.rightgroup[i], true);
+				ch = getGlyph(selkern.rightgroup[i], true);
 				// debug('\t got rightgroup char ' + ch.charname);
-				ch.drawCharToArea(ctx, v, true);
+				ch.drawGlyphToArea(ctx, v, true);
 			}
 
 			// DRAW ALL LEFT HAND GROUP
 			for(var j=0; j<selkern.leftgroup.length; j++){
 				v = getView();
-				ch = getChar(selkern.leftgroup[j], true);
+				ch = getGlyph(selkern.leftgroup[j], true);
 				// debug('\t got leftgroup char ' + ch.charname);
 				v.dx -= (ch.getTotalWidth()*v.dz);
 				v.dx += (selkern.value*v.dz);
-				ch.drawCharToArea(ctx, v, true);
+				ch.drawGlyphToArea(ctx, v, true);
 			}
 		}
 

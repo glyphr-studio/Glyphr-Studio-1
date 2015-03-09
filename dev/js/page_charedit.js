@@ -19,7 +19,7 @@
 			_UI.devselectedshape = false;
 		}
 
-		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstCharID();
+		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstGlyphID();
 
 		redraw("loadPage_charedit");
 		
@@ -30,18 +30,18 @@
 //-------------------
 // Redraw
 //-------------------
-	function redraw_CharacterEdit(){
-		// debug('\n redraw_CharacterEdit - START');
+	function redraw_GlyphEdit(){
+		// debug('\n redraw_GlyphEdit - START');
 		_UI.redrawing = true;
 		
-		var sc = getSelectedChar();
-		if(sc) sc.calcCharMaxes();
+		var sc = getSelectedGlyph();
+		if(sc) sc.calcGlyphMaxes();
 
 		drawGrid();
 		drawGuides();
 
 		// load char info
-		if(sc) sc.drawCharToArea(_UI.chareditctx, getView('Redraw'));
+		if(sc) sc.drawGlyphToArea(_UI.chareditctx, getView('Redraw'));
 
 		// Finish up
 		var s = ss('Redraw');

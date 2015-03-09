@@ -24,7 +24,7 @@
 		con += 'Create a new ligature by specifying two or more individual glyphs that will make up the ligature (like ff).<br><br>';
 		con += 'Ligature glyphs can also be specified in Unicode format (like U+0066U+0066) or hexadecimal format (like 0x00660x0066). ';
 		con += 'Hexadecimal, Unicode, and regular glyph formats cannot be mixed - choose one type!<br><br>';
-		con += '<h3>Ligature Characters</h3>';
+		con += '<h3>Ligature Glyphs</h3>';
 		con += '<input type="text" id="newligatureinput" style="font-size:24px; padding:8px;"/><br>';
 		con += makeErrorMessageBox();
 		con += '<br>';
@@ -56,7 +56,7 @@
 		} else if (lig === false || lid.length < 2){
 			showErrorMessageBox('Ligatures must be at least two glyphs.');
 		} else {
-			lig[lid] = new Char({'charhex':lid, 'charname':('Ligature ' + inlig)});
+			lig[lid] = new Glyph({'charhex':lid, 'charname':('Ligature ' + inlig)});
 			sortLigatures();
 			_UI.selectedchar = lid;
 			navigate();
