@@ -105,12 +105,12 @@
 						);
 					}
 
-					// debug('\t starting drawing ' + cc.charname);
+					// debug('\t starting drawing ' + cc.glyphname);
 					// debug(cc);
 					currx += cc.drawGlyphToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
 					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
-					// debug('\t done drawing ' + cc.charname);
+					// debug('\t done drawing ' + cc.glyphname);
 				}
 			}
 		}

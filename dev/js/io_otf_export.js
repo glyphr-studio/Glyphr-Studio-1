@@ -36,8 +36,8 @@
 			var delta = _GP.upm / 1000;
 			ndchar.updateGlyphSize(delta, delta, true);
 		}
-		var ndpath = ndchar.charshapes[0].path.makeOpenTypeJSpath();
-		ndpath = ndchar.charshapes[1].path.makeOpenTypeJSpath(ndpath);
+		var ndpath = ndchar.shapes[0].path.makeOpenTypeJSpath();
+		ndpath = ndchar.shapes[1].path.makeOpenTypeJSpath(ndpath);
 
 		options.glyphs.push(new opentype.Glyph({
 			name: '.notdef',
@@ -58,7 +58,7 @@
 			tc = _GP.glyphs[c];
 			tc.calcGlyphMaxes();
 			tcpath = new opentype.Path();
-			var sl = tc.charshapes;
+			var sl = tc.shapes;
 			var shape, path;
 			var lsb = tc.getLSB();
 
@@ -68,12 +68,12 @@
 				path = shape.getPath();
 				path.updatePathPosition(lsb, 0, true);
 
-				// debug('\t drawing path of char ' + tc.charname);
+				// debug('\t drawing path of char ' + tc.glyphname);
 				tcpath = path.makeOpenTypeJSpath(tcpath);
 			}
 
 			options.glyphs.push(new opentype.Glyph({
-				name: tc.charname,
+				name: tc.glyphname,
 				unicode: parseInt(c),
 				index: parseInt(c),
 				advanceWidth: tc.getTotalWidth(),

@@ -302,7 +302,7 @@
 		if(uia.length > 0){
 			content += "If you do, the component instances will also be removed from the following glyphs:<br><br>";
 			for(var ssu=0; ssu<uia.length; ssu++){
-				content += ("&nbsp; &nbsp; " + _GP.glyphs[uia[ssu]].charname.replace(/LATIN /gi,"") + "<br>");
+				content += ("&nbsp; &nbsp; " + _GP.glyphs[uia[ssu]].glyphname.replace(/LATIN /gi,"") + "<br>");
 			}
 		} else {
 			content += "This component is not currently being used by any glyphs.<br>";
@@ -322,7 +322,7 @@
 			// find & delete all component instances
 			//debug("----------------- starting to go through sls.usedin: " + sls.usedin);
 			for(var cui=0; cui<sls.usedin.length; cui++){
-				var tc = _GP.glyphs[sls.usedin[cui]].charshapes;
+				var tc = _GP.glyphs[sls.usedin[cui]].shapes;
 				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedGlyphShapes() " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.selectedcomponent);

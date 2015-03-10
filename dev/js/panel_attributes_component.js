@@ -32,7 +32,7 @@
 			re += "<div class='ssusedinthumb' onclick='goToEditGlyph(\""+(unique[k])+"\");'>";
 			re += getGlyph(unique[k]).makeSVG();
 			re += "</div></td></tr><tr><td>";
-			re += (cname === 'Space')? cname : getGlyph(unique[k]).charhtml;
+			re += (cname === 'Space')? cname : getGlyph(unique[k]).glyphhtml;
 			re += "</td></tr></table>";
 			//debug("makeUsedInThumbs - created canvas 'thumb"+unique[k]+"'");
 		}

@@ -104,22 +104,57 @@
 
 	function migrate_0_5_to_1_0 (fc) {
 		debug('\n migrate_0_5_to_1_0 - START');
+
+		// Update new top level objects
 		fc.glyphs = clone(fc.fontchars);
 		fc.components = clone(fc.linkedshapes);
 		delete fc.fontchars;
 		delete fc.linkedshapes;
 
-		var cs;
+		// Upgrade Linked Shapes to full Glyphs
+		var com,sh,ui,gn;
+		for(var c in fc.components){ if(fc.components.hasOwnProperty(c)){
+			com = fc.components[c];
+			if(com.shape){
+				sh = [com.shape];
+				gn = com.shape.name || 'Shape';
+			} else {
+				sh = [];
+				gn = 'Shape';
+			}
+			ui = com.usedin? com.usedin : [];
+			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'glyphname':gn, 'glyphhtml':'&nbsp;'});
+		}}
+
+		// Switch from Char to Glyph names
+		// Update Glyphs to use Components not Linked Shapes
+		var gl, gshapes, dx, dy;
 		for(var g in fc.glyphs){ if(fc.glyphs.hasOwnProperty(g)){
-			cs = fc.glyphs[g].charshapes || [];
-			// debug('\t Glyph ' + fc.glyphs[g].charname);
-			for(var c=0; c<cs.length; c++){
-				if(isval(cs[c].uselinkedshapexy)){
-					// debug('\t\t shape ' + cs[c].name + ' uselsxy: ' + typeof cs[c].uselinkedshapexy + ' ' + cs[c].uselinkedshapexy);
-					cs[c].usecomponentxy = cs[c].uselinkedshapexy;
-					delete cs[c].uselinkedshapexy;
-					// debug('\t\t now usecomxy: ' + cs[c].usecomponentxy);
+			gl = fc.glyphs[g];
+			gl.shapes = gl.charshapes || [];
+			gl.glyphname = gl.charname || false;
+			gl.glyphhtml = gl.charhtml || false;
+			delete gl.charshapes;
+			delete gl.charname;
+			delete gl.charhtml;
+
+			gshapes = gl.shapes;
+			// debug('\t Glyph ' + gl.charname);
+			for(var s=0; s<gshapes.length; s++){
+				sh = gshapes[s];
+				if(sh.objtype === 'linkedshapeinstance'){
+					dx = sh.uselinkedshapexy? 0 : sh.xpos;
+					dy = sh.uselinkedshapexy? 0 : sh.ypos;
+					gshapes[s] = new ComponentInstance({'name':sh.name, 'link':sh.link, 'translatex':dx, 'translatey':dy, 'xlock':sh.xlock, 'ylock':sh.ylock});
 				}
+
+				/*
+				if(isval(gshapes[s].uselinkedshapexy)){
+					// debug('\t\t shape ' + gshapes[s].name + ' uselsxy: ' + typeof gshapes[s].uselinkedshapexy + ' ' + gshapes[s].uselinkedshapexy);
+					gshapes[s].usecomponentxy = gshapes[s].uselinkedshapexy;
+					delete gshapes[s].uselinkedshapexy;
+					// debug('\t\t now usecomxy: ' + gshapes[s].usecomponentxy);
+				}*/
 			}
 		}}
 		debug(fc);
@@ -224,7 +259,7 @@
 		// Linked Shapes
 		for (var com in data.components) {
 			if(data.components.hasOwnProperty(com)){
-				_GP.components[com] = new Component(data.components[com]);
+				_GP.components[com] = new Glyph(data.components[com]);
 			}
 		}
 

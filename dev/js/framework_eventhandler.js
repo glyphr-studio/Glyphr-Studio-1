@@ -207,12 +207,12 @@
 			// debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-			if(s.link){
+			if(s.objtype === 'componentinstance'){
 				// debug('\tTool_ShapeEdit dragging component');
-				if(this.dragging && !s.usecomponentxy){
-					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging + ' && !s.usecomponentxy=' + !s.usecomponentxy);
-					s.xpos += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					s.ypos += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+				if(this.dragging){
+					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging);
+					s.translatex += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+					s.translatey += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 					didstuff = true;
 					setCursor('pointerSquare');
 				}

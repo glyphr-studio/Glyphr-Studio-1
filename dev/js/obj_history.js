@@ -15,7 +15,7 @@
 		// debug('\n History.put - START');
 
 		this.queue.push({
-			'charname': getCurrentWorkItemName(),
+			'glyphname': getCurrentWorkItemName(),
 			'description': des,
 			'date': new Date().getTime(),
 			'state': clone(this.currstate)

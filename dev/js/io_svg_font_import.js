@@ -182,13 +182,13 @@
 					maxchar = Math.max(maxchar, uni);
 					if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni);
 
-					fc[uni] = new Glyph({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
+					fc[uni] = new Glyph({'shapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 					if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.charrange.filternoncharpoints = false;
 
 				} else {
 					// It's a LIGATURE
 					uni = uni.join('');
-					fl[uni] = new Glyph({'charshapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
+					fl[uni] = new Glyph({'shapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
 				}
 
 				// Successfull loop, advance c

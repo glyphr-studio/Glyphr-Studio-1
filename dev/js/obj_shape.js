@@ -19,10 +19,6 @@
 		this.hlock = oa.hlock || false;
 		this.ratiolock = oa.ratiolock || false;
 
-		// not settable defaults
-		this.link = false;
-		this.usecomponentxy = false;
-
 		//debug('Just created a SHAPE: ' + JSON.stringify(this));
 	}
 
@@ -35,7 +31,7 @@
 //-------------------------------------------------------
 
 
-//	-----`
+//	-----
 //	Draw
 //	-----
 
@@ -132,21 +128,11 @@
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.chareditctx.lineWidth = 1;
 		_UI.chareditctx.strokeStyle = accent;
+		_UI.chareditctx.fillStyle = 'transparent';
 
 		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
-			_UI.chareditctx.fillStyle = 'transparent';
-
-			//draw bounding box and 8points
-			var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmin) : sx_cx(this.path.maxes.xmin);
-			var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(this.path.maxes.xmax);
-			var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(this.path.maxes.ymax);
-			var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(this.path.maxes.ymin);
-			var w = (rx-lx);
-			var h = (by-ty);
-
-			_UI.chareditctx.strokeStyle = accent;
-			_UI.chareditctx.strokeRect(lx,ty,w,h);
-			if(_UI.selectedtool==='shaperesize'){ this.draw8points(onlycenter, accent);}
+			this.drawBoundingBox(this.path.maxes, accent);
+			if(_UI.selectedtool==='shaperesize'){ this.drawBoundingBoxHandles(onlycenter);}
 
 		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
 			// Draw Path Points
@@ -299,82 +285,15 @@
 		return new Path({'pathpoints':patharr});
 	}
 
-	Shape.prototype.draw8points = function(onlycenter, accent){
-		//if(this.link) { return; }
+	Shape.prototype.drawBoundingBox = function(accent) {
+		accent = accent || _UI.colors.blue.l65;
+		drawBoundingBox(this.path.maxes, accent);
+	};
+
+	Shape.prototype.drawBoundingBoxHandles = function(onlycenter, accent){
 		//debug('DRAW8POINTS - onlycenter: ' + onlycenter);
 		accent = accent || _UI.colors.blue.l65;
-		var ps = _GP.projectsettings.pointsize;
-		var hp = ps/2;
-
-		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmin)		: sx_cx(this.path.maxes.xmin);
-		var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmax)		: sx_cx(this.path.maxes.xmax);
-		var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymax)		: sy_cy(this.path.maxes.ymax);
-		var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymin)	: sy_cy(this.path.maxes.ymin);
-
-		var bleftx = (lx-hp).makeCrisp(true);
-		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
-		var brightx = (rx-hp).makeCrisp(true);
-		var btopy = (ty-hp).makeCrisp(true);
-		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
-		var bbottomy = (by-hp).makeCrisp(true);
-
-		_UI.chareditctx.fillStyle = onlycenter? accent : 'white';
-		_UI.chareditctx.strokeStyle = accent;
-
-		if(!onlycenter){
-			//upper left
-			if(canResize('nw')){
-				_UI.chareditctx.fillRect(bleftx, btopy, ps, ps);
-				_UI.chareditctx.strokeRect(bleftx, btopy, ps, ps);
-			}
-
-			//top
-			if(canResize('n')){
-				_UI.chareditctx.fillRect(bmidx, btopy, ps, ps);
-				_UI.chareditctx.strokeRect(bmidx, btopy, ps, ps);
-			}
-
-			//upper right
-			if(canResize('ne')){
-				_UI.chareditctx.fillRect(brightx, btopy, ps, ps);
-				_UI.chareditctx.strokeRect(brightx, btopy, ps, ps);
-			}
-
-			// right
-			if(canResize('e')){
-				_UI.chareditctx.fillRect(brightx, bmidy, ps, ps);
-				_UI.chareditctx.strokeRect(brightx, bmidy, ps, ps);
-			}
-
-			//lower right
-			if(canResize('se')){
-				_UI.chareditctx.fillRect(brightx, bbottomy, ps, ps);
-				_UI.chareditctx.strokeRect(brightx, bbottomy, ps, ps);
-			}
-
-			//bottom
-			if(canResize('s')){
-				_UI.chareditctx.fillRect(bmidx, bbottomy, ps, ps);
-				_UI.chareditctx.strokeRect(bmidx, bbottomy, ps, ps);
-			}
-
-			//lower left
-			if(canResize('sw')){
-				_UI.chareditctx.fillRect(bleftx, bbottomy, ps, ps);
-				_UI.chareditctx.strokeRect(bleftx, bbottomy, ps, ps);
-			}
-
-			//left
-			if(canResize('w')){
-				_UI.chareditctx.fillRect(bleftx, bmidy, ps, ps);
-				_UI.chareditctx.strokeRect(bleftx, bmidy, ps, ps);
-			}
-
-		}
-
-		//Center Dot
-		_UI.chareditctx.fillRect(bmidx, bmidy, ps, ps);
-		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);
+		drawBoundingBoxHandles(this.path.maxes, accent, onlycenter);
 	};
 
 	Shape.prototype.genPostScript = function(lastx, lasty){
@@ -406,8 +325,8 @@
 			_UI.selectedshape = getSelectedGlyphID();
 			sc.shape = newshape;
 		} else {
-			_UI.selectedshape = sc.charshapes.length;
-			sc.charshapes.push(newshape);
+			_UI.selectedshape = sc.shapes.length;
+			sc.shapes.push(newshape);
 			updateCurrentGlyphWidth();
 		}
 

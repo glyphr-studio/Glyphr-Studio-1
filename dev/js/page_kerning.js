@@ -48,7 +48,7 @@
 			// DRAW ALL RIGHT HAND GROUP
 			for(var i=0; i<selkern.rightgroup.length; i++){
 				ch = getGlyph(selkern.rightgroup[i], true);
-				// debug('\t got rightgroup char ' + ch.charname);
+				// debug('\t got rightgroup char ' + ch.glyphname);
 				ch.drawGlyphToArea(ctx, v, true);
 			}
 
@@ -56,7 +56,7 @@
 			for(var j=0; j<selkern.leftgroup.length; j++){
 				v = getView();
 				ch = getGlyph(selkern.leftgroup[j], true);
-				// debug('\t got leftgroup char ' + ch.charname);
+				// debug('\t got leftgroup char ' + ch.glyphname);
 				v.dx -= (ch.getTotalWidth()*v.dz);
 				v.dx += (selkern.value*v.dz);
 				ch.drawGlyphToArea(ctx, v, true);

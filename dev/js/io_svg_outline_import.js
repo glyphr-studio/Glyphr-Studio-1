@@ -174,7 +174,7 @@
 		}
 
 		// debug('ioSVG_convertTagsToGlyph \t End \n');
-		return new Glyph({'charshapes':newshapes});
+		return new Glyph({'shapes':newshapes});
 	}
 
 	function ioSVG_getTags(obj, grabtags) {

@@ -71,8 +71,8 @@
 
 			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
 			if(sc){
-				name = (sc.charname || sc.charhtml || sc.shape.name || '[no shape outline yet]');
-				if(sc.charname) name = name.replace(/latin /i, '');
+				name = (sc.glyphname || sc.glyphhtml || sc.shape.name || '[no shape outline yet]');
+				if(sc.glyphname) name = name.replace(/latin /i, '');
 				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
 				content += name;
 			} else if (_UI.navhere === 'kerning'){

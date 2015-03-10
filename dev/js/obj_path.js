@@ -274,10 +274,10 @@
 		};
 	};
 
-	Path.prototype.makeSVGpathData = function(charname) {
-		charname = charname || 'not specified';
+	Path.prototype.makeSVGpathData = function(glyphname) {
+		glyphname = glyphname || 'not specified';
 		// debug('\n Path.makeSVGpathData - START');
-		// debug('\t Glyph ' + charname);
+		// debug('\t Glyph ' + glyphname);
 		// debug('\t this.pathpoints: ' + json(this.pathpoints, true));
 
 		if(!this.pathpoints) return '';
@@ -296,7 +296,7 @@
 			// debug('\t ' + trr);
 
 			if(trr.indexOf('NaN') > -1){
-				console.warn(charname + ' PathPoint ' + cp + ' has NaN: ' + trr);
+				console.warn(glyphname + ' PathPoint ' + cp + ' has NaN: ' + trr);
 			}
 			re += trr;
 		}

@@ -135,7 +135,7 @@
 	}
 
 	function ioSVG_makeOneGlyphOrLigature(ch, uni) {
-		if(!ch.charshapes.length) return '';
+		if(!ch.shapes.length) return '';
 
 		uni = uni.split('0x');
 		uni.forEach(function(el, i, arr){if(el) arr[i] = '&#x'+el+';';});
@@ -143,7 +143,7 @@
 		var pathdata = ch.makeSVGpathData();
 
 		var con = '\t\t\t';
-		con += '<glyph glyph-name="'+ch.charname.replace(/ /g, '_')+'" ';
+		con += '<glyph glyph-name="'+ch.glyphname.replace(/ /g, '_')+'" ';
 		con += 'unicode="'+uni+'" ';
 		con += 'horiz-adv-x="'+ch.getTotalWidth()+'" ';
 		con += 'd="'+pathdata+'" />\n';

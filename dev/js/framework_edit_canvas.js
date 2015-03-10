@@ -522,6 +522,100 @@
 	}
 
 
+//------------------------------
+// Drawing controls
+//------------------------------
+
+function drawBoundingBox(maxes, accent) {
+
+	//draw bounding box and 8points
+	var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmin) : sx_cx(maxes.xmin);
+	var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(maxes.xmax);
+	var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(maxes.ymax);
+	var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(maxes.ymin);
+	var w = (rx-lx);
+	var h = (by-ty);
+
+	_UI.chareditctx.fillStyle = 'transparent';
+	_UI.chareditctx.strokeStyle = accent;
+	_UI.chareditctx.strokeRect(lx,ty,w,h);
+}
+
+function drawBoundingBoxHandles(maxes, accent, onlycenter) {
+		var ps = _GP.projectsettings.pointsize;
+		var hp = ps/2;
+
+		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmin) : sx_cx(maxes.xmin);
+		var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmax) : sx_cx(maxes.xmax);
+		var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymax) : sy_cy(maxes.ymax);
+		var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymin) : sy_cy(maxes.ymin);
+
+		var bleftx = (lx-hp).makeCrisp(true);
+		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
+		var brightx = (rx-hp).makeCrisp(true);
+		var btopy = (ty-hp).makeCrisp(true);
+		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
+		var bbottomy = (by-hp).makeCrisp(true);
+
+		_UI.chareditctx.fillStyle = onlycenter? accent : 'white';
+		_UI.chareditctx.strokeStyle = accent;
+
+		if(!onlycenter){
+			//upper left
+			if(canResize('nw')){
+				_UI.chareditctx.fillRect(bleftx, btopy, ps, ps);
+				_UI.chareditctx.strokeRect(bleftx, btopy, ps, ps);
+			}
+
+			//top
+			if(canResize('n')){
+				_UI.chareditctx.fillRect(bmidx, btopy, ps, ps);
+				_UI.chareditctx.strokeRect(bmidx, btopy, ps, ps);
+			}
+
+			//upper right
+			if(canResize('ne')){
+				_UI.chareditctx.fillRect(brightx, btopy, ps, ps);
+				_UI.chareditctx.strokeRect(brightx, btopy, ps, ps);
+			}
+
+			// right
+			if(canResize('e')){
+				_UI.chareditctx.fillRect(brightx, bmidy, ps, ps);
+				_UI.chareditctx.strokeRect(brightx, bmidy, ps, ps);
+			}
+
+			//lower right
+			if(canResize('se')){
+				_UI.chareditctx.fillRect(brightx, bbottomy, ps, ps);
+				_UI.chareditctx.strokeRect(brightx, bbottomy, ps, ps);
+			}
+
+			//bottom
+			if(canResize('s')){
+				_UI.chareditctx.fillRect(bmidx, bbottomy, ps, ps);
+				_UI.chareditctx.strokeRect(bmidx, bbottomy, ps, ps);
+			}
+
+			//lower left
+			if(canResize('sw')){
+				_UI.chareditctx.fillRect(bleftx, bbottomy, ps, ps);
+				_UI.chareditctx.strokeRect(bleftx, bbottomy, ps, ps);
+			}
+
+			//left
+			if(canResize('w')){
+				_UI.chareditctx.fillRect(bleftx, bmidy, ps, ps);
+				_UI.chareditctx.strokeRect(bleftx, bmidy, ps, ps);
+			}
+
+		}
+
+		//Center Dot
+		_UI.chareditctx.fillRect(bmidx, bmidy, ps, ps);
+		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);
+}
+
 //-------------------
 // Drawing Grid
 //-------------------

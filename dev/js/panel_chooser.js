@@ -86,8 +86,8 @@
 		var chtml = hexToHTML(index);
 		if(index === '0x0020') chtml = 'space';
 
-		if((_GP.glyphs[index] && _GP.glyphs[index].charshapes[0]) ||
-			(_GP.ligatures[index] && _GP.ligatures[index].charshapes[0])) {
+		if((_GP.glyphs[index] && _GP.glyphs[index].shapes[0]) ||
+			(_GP.ligatures[index] && _GP.ligatures[index].shapes[0])) {
 			var extra = '';
 			if(issel) {extra = ' charselectthumbsel';}
 			rv += '<div class="charselectthumb'+extra+'">'+getGlyph(index).makeSVG()+'</div>';
