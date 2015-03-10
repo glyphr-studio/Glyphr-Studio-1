@@ -307,6 +307,13 @@
 		}
 	};
 
+	Glyph.prototype.isHere = function(x,y) {
+		for(var s=0; s < this.shapes.length; s++){
+			if(this.shapes[s].isHere(x,y)) return true;
+		}
+
+		return false;
+	};
 
 //-------------------------------------------------------
 // GLYPH FUNCTIONS

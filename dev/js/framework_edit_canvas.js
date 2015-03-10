@@ -57,7 +57,7 @@
 
 		switch (_UI.navhere){
 			case 'glyph edit': redraw_GlyphEdit(); break;
-			case 'components': redraw_Components(); break;
+			case 'components': redraw_GlyphEdit(); break;
 			case 'ligatures': redraw_GlyphEdit(); break;
 			case 'kerning': redraw_Kerning(); break;
 			case 'test drive': redraw_TestDrive(); break;
@@ -496,18 +496,13 @@
 		// debug('\t Requested by: ' + req);
 		// debug('\t selectedshape: ' + _UI.selectedshape);
 
-		var scs = getSelectedGlyphShapes();
-
-		if(_UI.navhere === 'components'){
-			// debug('\t COMPONENTS returning selectedcomponent: ' + _UI.selectedcomponent);
-			return scs[0] || false;
-		}
+		var shapes = getSelectedGlyphShapes();
 
 		if(_UI.selectedshape !== -1){
-			if((_UI.selectedshape >= 0) && (_UI.selectedshape < scs.length)) {
+			if((_UI.selectedshape >= 0) && (_UI.selectedshape < shapes.length)) {
 				// Glyphedit Selected Shape
 				// debug('SS - returning shape object for position ' + _UI.selectedshape);
-				return scs[_UI.selectedshape];
+				return shapes[_UI.selectedshape];
 			} else {
 				// Out of bounds Selected Shape
 				// debug('SS - returning false - Selected Shape outside of expected boundary');

@@ -280,8 +280,8 @@
 			case 'import svg':			loadPage_importsvg();		break;
 			case 'about':				loadPage_about();			break;
 			case 'test drive':			loadPage_testdrive();		break;
-			case 'components':		loadPage_components();	break;
-			case 'glyph edit':		loadPage_charedit();		break;
+			case 'components':			loadPage_components();	break;
+			case 'glyph edit':			loadPage_charedit();		break;
 			case 'kerning':				loadPage_kerning();			break;
 			case 'ligatures':			loadPage_ligatures();		break;
 		}

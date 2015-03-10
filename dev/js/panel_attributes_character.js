@@ -25,7 +25,7 @@
 		if (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures'){
 			content += '<table class="detail">';
 			//debug("UPDATEDETAILS - detected navhere = glyph edit");
-			if(s && s.link){
+			if(s && s.objtype === 'componentinstance'){
 				// component selected
 				//debug("UPDATEDETAILS: component selected");
 				content += componentInstanceDetails(s);

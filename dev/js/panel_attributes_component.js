@@ -57,16 +57,19 @@
 
 	function componentInstanceDetails(s){
 		//debug("COMPONENTINSTANCEDETAILS - start of function");
+		var com = getGlyph(s);
 		var svc = (_GP.projectsettings.spinnervaluechange || 1);
 		content = '<tr><td colspan=3><h3>component</h3></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px;"> name </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input style="width:90%;" type="text" value="' + s.name + '" onchange="ss().name = this.value; history_put(\'shape name\'); redraw(\'componentInstanceDetails\');"></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td> use component position</td><td>'+checkUI('ss().usecomponentxy', true)+'</td></tr>';
-		if(!s.usecomponentxy){
+
 		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163);">x & y values are relative to the component position</h3></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.xpos, 3) + '" onchange="ss().xpos = (this.value*1); history_put(\'component xpos\'); redraw(\'componentInstanceDetails\');"></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.ypos, 3) + '" onchange="ss().ypos = (this.value*1); history_put(\'component ypos\'); redraw(\'componentInstanceDetails\');"></td></tr>';
-		}
-		content += '<tr><td class="leftcol">&nbsp;</td><td> component name </td><td>' + _GP.components[s.link].shape.name + '</td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.translatex, 3) + '" onchange="ss().translatex = (this.value*1); history_put(\'component translatex\'); redraw(\'componentInstanceDetails\');"></td></tr>';
+		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.translatey, 3) + '" onchange="ss().translatey = (this.value*1); history_put(\'component translatey\'); redraw(\'componentInstanceDetails\');"></td></tr>';
+		// WIDTH
+		// HEIGHT
+
+		content += '<tr><td class="leftcol">&nbsp;</td><td> component name </td><td>' + s.name + '</td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><button onclick="goToEditComponent(\''+s.link+'\');">edit this component</button></td></tr>';
 		return content;
 	}
@@ -75,24 +78,6 @@
 		_UI.selectedcomponent = com;
 		_UI.navhere = 'components';
 		navigate('npAttributes');
-	}
-
-	function clickSelectComponent(x,y){
-		//debug('CLICKSELECTComponent() - checking x:' + x + ' y:' + y);
-
-		var sls = getSelectedGlyph();
-		if(sls.shape && sls.shape.isHere(x,y)){
-			_UI.selectedshape = _UI.selectedcomponent;
-			//debug('CLICKSELECTComponent() - selecting shape ' + _UI.selectedcomponent);
-
-			_UI.navprimaryhere = 'npAttributes';
-			return true;
-		}
-
-		_UI.selectedshape = -1;
-		//debug('CLICKSELECTComponent() - deselecting, setting to -1');
-
-		return false;
 	}
 
 // end of file

@@ -55,13 +55,7 @@
 	Shape.prototype.drawShape_Stack = function(lctx){
 		//debug('DRAWSHAPE_STACK');
 		if(this.visible){
-			if(this.link){
-				_GP.components[this.link].shape.drawShape_Stack(lctx);
-				return;
-			}
-
 			if((this.path.maxes.xmax === -1) && (lctx === _UI.chareditctx) && (_UI.selectedtool !== 'newpath')) this.path.calcMaxes();
-
 			this.path.drawPath(lctx);
 		}
 	};
@@ -405,9 +399,6 @@
 	function clickSelectShape(x,y){
 		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
 
-		if(_UI.navhere === 'components'){
-			return clickSelectComponent(x,y);
-		}
 		var ts;
 		var scs = getSelectedGlyphShapes();
 		for(var j=(scs.length-1); j>=0; j--){
@@ -419,11 +410,6 @@
 				if(j !== _UI.selectedshape){
 					//debug('CLICKSELECTShape() - selecting shape ' + j);
 					_UI.selectedshape = j;
-
-					if(ts.link){
-						//debug('CLICKSELECTSHAPE - detected this.link, setting _UI.selectedtool = shaperesize');
-						_UI.selectedtool = 'shaperesize';
-					}
 				}
 
 				_UI.navprimaryhere = 'npAttributes';
