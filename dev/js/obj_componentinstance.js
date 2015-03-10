@@ -45,7 +45,7 @@
 	}
 
 	function insertComponent(com, tochar){
-		//debug("INSERTCOMPONENT - adding component: " + com + " to char: " + _UI.selectedchar);
+		//debug("INSERTCOMPONENT - adding component: " + com + " to char: " + _UI.selectedglyph);
 		var ns = new ComponentInstance({'link':com});
 
 		//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(ns));
@@ -56,7 +56,7 @@
 		addToUsedIn(com, tochar);
 
 		closeDialog();
-		history_put('insert component from charedit');
+		history_put('insert component from glyphedit');
 		redraw('insertComponent');
 	}
 

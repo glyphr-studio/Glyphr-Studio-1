@@ -13,7 +13,7 @@
 		initEventHandlers();
 
 		_UI.selectedtool = "pathedit";
-		if(_UI.selectedchar.length < 7) _UI.selectedchar = getFirstID(_GP.ligatures);
+		if(_UI.selectedglyph.length < 7) _UI.selectedglyph = getFirstID(_GP.ligatures);
 
 		redraw("loadPage_ligatures");
 	}
@@ -56,9 +56,9 @@
 		} else if (lig === false || lid.length < 2){
 			showErrorMessageBox('Ligatures must be at least two glyphs.');
 		} else {
-			lig[lid] = new Glyph({'charhex':lid, 'glyphname':('Ligature ' + inlig)});
+			lig[lid] = new Glyph({'glyphhex':lid, 'glyphname':('Ligature ' + inlig)});
 			sortLigatures();
-			_UI.selectedchar = lid;
+			_UI.selectedglyph = lid;
 			navigate();
 			closeDialog();
 		}
@@ -74,11 +74,11 @@
 
 	function deleteLigature(){
 		// debug('\n deleteLigature - START');
-		// debug('\t deleting ' + _UI.selectedchar);
+		// debug('\t deleting ' + _UI.selectedglyph);
 
 		closeDialog();
-		delete _GP.ligatures[_UI.selectedchar];
-		_UI.selectedchar = getFirstID(_GP.ligatures);
+		delete _GP.ligatures[_UI.selectedglyph];
+		_UI.selectedglyph = getFirstID(_GP.ligatures);
 		navigate();
 
 		// debug('deleteLigature - END\n');

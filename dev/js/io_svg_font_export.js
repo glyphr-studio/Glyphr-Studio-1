@@ -75,7 +75,7 @@
 		con += t+'ascent="'+ps.ascent+'"\n';
 		con += t+'descent="'+(ps.ascent - ps.upm)+'"\n';
 		con += t+'bbox="'+fm.maxes.xmin+', '+fm.maxes.ymin+', '+fm.maxes.xmax+', '+fm.maxes.ymax+'"\n';
-		con += t+'unicode-range="U+20-'+fm.maxchar+'"\n';
+		con += t+'unicode-range="U+20-'+fm.maxglyph+'"\n';
 
 		// Metadata properties
 		for(var d in md){if(md.hasOwnProperty(d)){

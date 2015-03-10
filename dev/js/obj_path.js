@@ -151,7 +151,7 @@
 	};
 
 	Path.prototype.drawPath = function(lctx) {
-		//if(lctx == _UI.chareditctx)	debug('DRAWPATH');
+		//if(lctx == _UI.glypheditctx)	debug('DRAWPATH');
 
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
@@ -162,7 +162,7 @@
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
 
-			// if(lctx == _UI.chareditctx)	{
+			// if(lctx == _UI.glypheditctx)	{
 			//	debug('  point ' + cp);
 			//	debug('\n  pp\n' + JSON.stringify(pp));
 			//	debug('  np\n' + JSON.stringify(np));
@@ -182,7 +182,7 @@
 			nxppx = sx_cx(np.P.x);
 			nxppy = sy_cy(np.P.y);
 
-			//if(lctx == _UI.chareditctx)	debug('  curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
+			//if(lctx == _UI.glypheditctx)	debug('  curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
 		}
 	};
@@ -682,10 +682,10 @@
 	Path.prototype.calcMaxes = function(){
 		//console.time('CalcMaxes_NEW');
 
-		this.maxes.ymax = (_UI.chareditcanvassize*-1);
-		this.maxes.ymin = _UI.chareditcanvassize;
-		this.maxes.xmin = _UI.chareditcanvassize;
-		this.maxes.xmax = (_UI.chareditcanvassize*-1);
+		this.maxes.ymax = (_UI.glypheditcanvassize*-1);
+		this.maxes.ymin = _UI.glypheditcanvassize;
+		this.maxes.xmin = _UI.glypheditcanvassize;
+		this.maxes.xmax = (_UI.glypheditcanvassize*-1);
 
 		var pp1, pp2, tbounds;
 

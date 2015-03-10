@@ -21,7 +21,7 @@
 			'overshoot': 10,		// overshoot for round glyphs
 			'defaultlsb': 20,		// default left side bearing
 			'defaultrsb': 20,		// default right side bearing
-			'charrange': {			// canned and custom Unicode ranges
+			'glyphrange': {			// canned and custom Unicode ranges
 				'basiclatin': true,
 				'latinsuppliment': false,
 				'latinextendeda': false,
@@ -155,8 +155,8 @@
 		return (''+yr+'.'+mo+'.'+day+'-'+hr+'.'+min+'.'+sec);
 	}
 
-	function charIterator(fname) {
-		var cr = _GP.projectsettings.charrange;
+	function glyphIterator(fname) {
+		var cr = _GP.projectsettings.glyphrange;
 		var ccon = '';
 		//var count = 0;
 
@@ -168,21 +168,21 @@
 		}
 
 		if(cr.latinsuppliment){
-			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){
+			for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){
 				ccon += fname(decToHex(s));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendeda){
-			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){
+			for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){
 				ccon += fname(decToHex(a));
 				//count++;
 			}
 		}
 
 		if(cr.latinextendedb){
-			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){
+			for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){
 				ccon += fname(decToHex(b));
 				//count++;
 			}
@@ -204,12 +204,12 @@
 
 	function calcFontMaxes(){
 		var fm = _UI.fontmetrics;
-		fm.numchars = 0;
-		fm.maxchar = 0x20;
+		fm.numglyphs = 0;
+		fm.maxglyph = 0x20;
 
-		charIterator(function(hex){
-			fm.numchars++;
-			fm.maxchar = Math.max(fm.maxchar, hex);
+		glyphIterator(function(hex){
+			fm.numglyphs++;
+			fm.maxglyph = Math.max(fm.maxglyph, hex);
 			var cm = _GP.glyphs[hex];
 			if(cm){
 				cm = cm.maxes;
@@ -225,7 +225,7 @@
 		// fm.hhea_ascent = round(total*proportion);
 		// fm.hhea_descent = (fm.hhea_ascent - total);
 
-		// debug('CALCFONTMAXES - numchars ' + _UI.fontmetrics.numchars);
+		// debug('CALCFONTMAXES - numglyphs ' + _UI.fontmetrics.numglyphs);
 	}
 
 // end of file

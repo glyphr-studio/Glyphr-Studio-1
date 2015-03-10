@@ -23,7 +23,7 @@
 
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectGlyph';
-		var cr = _GP.projectsettings.charrange;
+		var cr = _GP.projectsettings.glyphrange;
 		var showtitles = (includeligatures || !cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 
 		if(cr.basiclatin){
@@ -34,17 +34,17 @@
 
 		if(cr.latinsuppliment){
 			if(showtitles) ccon += '<h3>latin suppliment</h3>';
-			for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname); }
+			for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname); }
 		}
 
 		if(cr.latinextendeda){
 			if(showtitles) ccon += '<h3>latin extended-a</h3>';
-			for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname); }
+			for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname); }
 		}
 
 		if(cr.latinextendedb){
 			if(showtitles) ccon += '<h3>latin extended-b</h3>';
-			for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname); }
+			for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname); }
 		}
 
 		var cn;
@@ -54,7 +54,7 @@
 				ccon += '<h3>custom range ' + (c+1) + '</h3>';
 				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 					cn = decToHex(range);
-					if(_GP.projectsettings.charrange.filternoncharpoints){
+					if(_GP.projectsettings.glyphrange.filternoncharpoints){
 						if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname);
 					} else {
 						ccon += makeGlyphChooserButton(cn, fname);
@@ -81,7 +81,7 @@
 		var onc = (fname + '(\'' + index + '\');');
 		// debug('\t constructed function: ' + onc);
 		var rv = '<table class="charselectbuttontable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
-		var issel = (index === _UI.selectedchar);
+		var issel = (index === _UI.selectedglyph);
 		issel = (issel && (_UI.navhere !== 'components'));
 		var chtml = hexToHTML(index);
 		if(index === '0x0020') chtml = 'space';
@@ -223,13 +223,13 @@
 		var ffi = parseUnicodeInput('ffi').join('');
 		var ffl = parseUnicodeInput('ffl').join('');
 
-		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'charhex':ff});
-		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'charhex':fi});
-		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'charhex':fl});
-		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'charhex':ffi});
-		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'charhex':ffl});
+		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'glyphhex':ff});
+		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'glyphhex':fi});
+		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'glyphhex':fl});
+		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'glyphhex':ffi});
+		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'glyphhex':ffl});
 
-		_UI.selectedchar = getFirstID(_GP.ligatures);
+		_UI.selectedglyph = getFirstID(_GP.ligatures);
 		redraw();
 	}
 

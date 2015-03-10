@@ -64,40 +64,40 @@
 					"The most common glyph sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.charrange.basiclatin")+"</td>"+
+					"<td>"+checkUI("_GP.projectsettings.glyphrange.basiclatin")+"</td>"+
 					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode glyphs 0x0020 through 0x007E</label></td></tr>"+
-					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					var bl = _UI.basiclatinorder;
 					for(var t=0; t<bl.length; t++){ content += (hexToGlyph(bl[t]) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td style='vertical-align:top;'>"+checkUI("_GP.projectsettings.charrange.latinsuppliment")+"</td>"+
+					"<td style='vertical-align:top;'>"+checkUI("_GP.projectsettings.glyphrange.latinsuppliment")+"</td>"+
 					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode glyphs 0x0080 through 0x00FF<br>Note: glyphs 0x0080 - 0x00A0 are printing control codes, which fonts may use as other glyphs.</label></td></tr>"+
-					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var s=_UI.charrange.latinsuppliment.begin; s<=_UI.charrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
+					for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendeda")+"</td>"+
+					"<td>"+checkUI("_GP.projectsettings.glyphrange.latinextendeda")+"</td>"+
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode glyphs 0x0100 through 0x017F</label></td></tr>"+
-					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var a=_UI.charrange.latinextendeda.begin; a<=_UI.charrange.latinextendeda.end; a++){ content += (hexToGlyph(a) + " "); }
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
+					for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ content += (hexToGlyph(a) + " "); }
 		content += "</div></td></tr></table>";
 
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.charrange.latinextendedb")+"</td>"+
+					"<td>"+checkUI("_GP.projectsettings.glyphrange.latinextendedb")+"</td>"+
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode glyphs 0x0180 through 0x024F</label></td></tr>"+
-					"<tr><td>&nbsp;</td><td colspan='2'><div class='charrangepreview'>";
-					for(var b=_UI.charrange.latinextendedb.begin; b<=_UI.charrange.latinextendedb.end; b++){ content += (hexToGlyph(b) + " "); }
+					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
+					for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ content += (hexToGlyph(b) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<br><h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
 					"Additional glyph ranges above 0x024F can be included here. "+
 					"A nice overview of glyph ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target=_new>Wikipedia's Unicode Block page</a>.<br>" +
 					"Custom glyph ranges are inclusive, must be unique (non-overlapping), must be greater than 0x024F and less than 0xFFFF.<br><br>"+
-					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.charrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
+					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.glyphrange.filternoncharpoints")+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+

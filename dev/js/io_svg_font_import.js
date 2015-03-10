@@ -92,9 +92,9 @@
 		*
 		*/
 		var tca, data, uni, ns, cname, chtml, adv, isautowide;
-		var maxchar = 0;
+		var maxglyph = 0;
 		var minchar = 0xffff;
-		var customcharrange = [];
+		var customglyphrange = [];
 		var shapecounter = 0;
 		var newshapes = [];
 		var fc = {};
@@ -179,16 +179,16 @@
 					// Get some range data
 					uni = uni[0];
 					minchar = Math.min(minchar, uni);
-					maxchar = Math.max(maxchar, uni);
-					if(1*uni > _UI.charrange.latinextendedb.end) customcharrange.push(uni);
+					maxglyph = Math.max(maxglyph, uni);
+					if(1*uni > _UI.glyphrange.latinextendedb.end) customglyphrange.push(uni);
 
-					fc[uni] = new Glyph({'shapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
-					if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.charrange.filternoncharpoints = false;
+					fc[uni] = new Glyph({'shapes':newshapes, 'glyphhex':uni, 'glyphwidth':adv, 'isautowide':isautowide});
+					if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.glyphrange.filternoncharpoints = false;
 
 				} else {
 					// It's a LIGATURE
 					uni = uni.join('');
-					fl[uni] = new Glyph({'shapes':newshapes, 'charhex':uni, 'charwidth':adv, 'isautowide':isautowide});
+					fl[uni] = new Glyph({'shapes':newshapes, 'glyphhex':uni, 'glyphwidth':adv, 'isautowide':isautowide});
 				}
 
 				// Successfull loop, advance c
@@ -238,14 +238,14 @@
 			// debug('\t Kern Attributes: ' + json(tk.attributes, true));
 
 			// Get members by name
-			leftgroup = getKernMembersByName(tk.attributes.g1, chars, leftgroup, _UI.charrange.latinextendedb.end);
-			rightgroup = getKernMembersByName(tk.attributes.g2, chars, rightgroup, _UI.charrange.latinextendedb.end);
+			leftgroup = getKernMembersByName(tk.attributes.g1, chars, leftgroup, _UI.glyphrange.latinextendedb.end);
+			rightgroup = getKernMembersByName(tk.attributes.g2, chars, rightgroup, _UI.glyphrange.latinextendedb.end);
 
 			// debug('\t kern groups by name ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
 
 			// Get members by Unicode
-			leftgroup = getKernMembersByUnicodeID(tk.attributes.u1, chars, leftgroup, _UI.charrange.latinextendedb.end);
-			rightgroup = getKernMembersByUnicodeID(tk.attributes.u2, chars, rightgroup, _UI.charrange.latinextendedb.end);
+			leftgroup = getKernMembersByUnicodeID(tk.attributes.u1, chars, leftgroup, _UI.glyphrange.latinextendedb.end);
+			rightgroup = getKernMembersByUnicodeID(tk.attributes.u2, chars, rightgroup, _UI.glyphrange.latinextendedb.end);
 
 			// debug('\t kern groups parsed as ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
 
@@ -278,13 +278,13 @@
 
 		function finalizeFontImport(){
 			// var rstart, rend;
-			for(var r in _UI.charrange){
-				if(_UI.charrange.hasOwnProperty(r)){
-					rstart = 1*_UI.charrange[r].begin;
-					rend = 1*_UI.charrange[r].end+1;
+			for(var r in _UI.glyphrange){
+				if(_UI.glyphrange.hasOwnProperty(r)){
+					rstart = 1*_UI.glyphrange[r].begin;
+					rend = 1*_UI.glyphrange[r].end+1;
 					for(var t=rstart; t<rend; t++){
 						if(getGlyph(t)){
-							_GP.projectsettings.charrange[r] = true;
+							_GP.projectsettings.glyphrange[r] = true;
 							break;
 						}
 					}
@@ -292,9 +292,9 @@
 			}
 
 			// Make a custom range for the rest
-			if(customcharrange.length){
-				customcharrange = customcharrange.sort();
-				_GP.projectsettings.charrange.custom.push({'begin':customcharrange[0], 'end':customcharrange[customcharrange.length-1]});
+			if(customglyphrange.length){
+				customglyphrange = customglyphrange.sort();
+				_GP.projectsettings.glyphrange.custom.push({'begin':customglyphrange[0], 'end':customglyphrange[customglyphrange.length-1]});
 			}
 
 			// Import Font Settings

@@ -405,19 +405,19 @@
 		accent = accent || _UI.colors.blue.l65;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
-		_UI.chareditctx.fillStyle = sel? 'white' : accent;
-		_UI.chareditctx.strokeStyle = accent;
+		_UI.glypheditctx.fillStyle = sel? 'white' : accent;
+		_UI.glypheditctx.strokeStyle = accent;
 
-		_UI.chareditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
-		_UI.chareditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+		_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		// debug(' PathPoint.drawPoint - END\n');
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(sel, next, accent){
 		accent = accent || _UI.colors.blue.l65;
-		_UI.chareditctx.fillStyle = sel? 'white' : accent;
-		_UI.chareditctx.strokeStyle = accent;
-		_UI.chareditctx.lineWidth = 1;
+		_UI.glypheditctx.fillStyle = sel? 'white' : accent;
+		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.lineWidth = 1;
 		var begin = {'x':this.P.x, 'y':this.P.y};
 		var end = {'x':this.H2.x, 'y':this.H2.y};
 
@@ -450,84 +450,84 @@
 
 		//debug('DRAWPOINT arrow = ' + JSON.stringify(arrow) + '  - rotatedarrow = ' + JSON.stringify(rotatedarrow));
 
-		_UI.chareditctx.beginPath();
-		_UI.chareditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
+		_UI.glypheditctx.beginPath();
+		_UI.glypheditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
 
 		for(var p in rotatedarrow){
 			if (p > 0) {
-				_UI.chareditctx.lineTo((rotatedarrow[p][0] + sx_cx(this.P.x)), (rotatedarrow[p][1] + sy_cy(this.P.y)));
+				_UI.glypheditctx.lineTo((rotatedarrow[p][0] + sx_cx(this.P.x)), (rotatedarrow[p][1] + sy_cy(this.P.y)));
 			}
 		}
 
-		_UI.chareditctx.lineTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
-		_UI.chareditctx.fill();
-		_UI.chareditctx.stroke();
+		_UI.glypheditctx.lineTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
+		_UI.glypheditctx.fill();
+		_UI.glypheditctx.stroke();
 
 		// Exact Middle Point
-		_UI.chareditctx.fillStyle = accent;
-		_UI.chareditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
+		_UI.glypheditctx.fillStyle = accent;
+		_UI.glypheditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 
 	};
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
 		accent = accent || _UI.colors.blue.l65;
-		_UI.chareditctx.fillStyle = accent;
-		_UI.chareditctx.strokeStyle = accent;
-		_UI.chareditctx.lineWidth = 1;
+		_UI.glypheditctx.fillStyle = accent;
+		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 
 		if(drawH1 && this.useh1){
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.fill();
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.fill();
 
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			_UI.chareditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y));
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.stroke();
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.glypheditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y));
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
 		}
 
 		if(drawH2 && this.useh2){
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.fill();
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.fill();
 
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			_UI.chareditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y));
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.stroke();
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.glypheditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y));
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
 		}
 	};
 
 	PathPoint.prototype.drawQuadraticHandle = function(prevP) {
 		// Draw Quadratic handle point from imported SVG
-		_UI.chareditctx.fillStyle = _UI.colors.error.medium;
-		_UI.chareditctx.strokeStyle = _UI.colors.error.medium;
-		_UI.chareditctx.lineWidth = 1;
+		_UI.glypheditctx.fillStyle = _UI.colors.error.medium;
+		_UI.glypheditctx.strokeStyle = _UI.colors.error.medium;
+		_UI.glypheditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 
 		if(this.Q){
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.arc(sx_cx(this.Q.x), sy_cy(this.Q.y), hp, 0, Math.PI*2, true);
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.fill();
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.arc(sx_cx(this.Q.x), sy_cy(this.Q.y), hp, 0, Math.PI*2, true);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.fill();
 
-			_UI.chareditctx.beginPath();
-			_UI.chareditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
-			_UI.chareditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.stroke();
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.glypheditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
 
 			if(prevP){
-				_UI.chareditctx.beginPath();
-				_UI.chareditctx.moveTo(sx_cx(prevP.x), sy_cy(prevP.y));
-				_UI.chareditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
-				_UI.chareditctx.closePath();
-				_UI.chareditctx.stroke();
+				_UI.glypheditctx.beginPath();
+				_UI.glypheditctx.moveTo(sx_cx(prevP.x), sy_cy(prevP.y));
+				_UI.glypheditctx.lineTo(sx_cx(this.Q.x), sy_cy(this.Q.y));
+				_UI.glypheditctx.closePath();
+				_UI.glypheditctx.stroke();
 			}
 		}
 

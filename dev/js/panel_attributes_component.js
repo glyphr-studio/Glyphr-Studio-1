@@ -43,7 +43,7 @@
 	function goToEditGlyph(chid){
 		//debug("GOTOEDITGLYPH - " + chid);
 		_UI.selectedshape = -1;
-		_UI.selectedchar = chid;
+		_UI.selectedglyph = chid;
 		if(chid.length === 6) _UI.navhere = "glyph edit";
 		else if (chid.length > 6) _UI.navhere = 'ligatures';
 		else debug('\n goToEditGlyph - BAD CHID CAN\'T NAVIGATE TO ' + chid);

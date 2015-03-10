@@ -30,12 +30,12 @@
 		_UI.eventhandlers.eh_kern = new Tool_Kern();
 
 		// Mouse Event Listeners
-		_UI.chareditcanvas.addEventListener('mousedown', ev_canvas, false);
-		_UI.chareditcanvas.addEventListener('mousemove', ev_canvas, false);
-		_UI.chareditcanvas.addEventListener('mouseup',   ev_canvas, false);
-		_UI.chareditcanvas.onmouseover = mouseovercec;
-		_UI.chareditcanvas.onmouseout = mouseoutcec;
-		_UI.chareditcanvas.addEventListener('wheel', mousewheel, false);
+		_UI.glypheditcanvas.addEventListener('mousedown', ev_canvas, false);
+		_UI.glypheditcanvas.addEventListener('mousemove', ev_canvas, false);
+		_UI.glypheditcanvas.addEventListener('mouseup',   ev_canvas, false);
+		_UI.glypheditcanvas.onmouseover = mouseovercec;
+		_UI.glypheditcanvas.onmouseout = mouseoutcec;
+		_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
 		if (document.getElementById('navarea_panel')) {
             document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
         }

@@ -20,7 +20,7 @@
 		allactions += "<button class='"+(history_length()? "": "buttondis")+"' onclick='history_pull()'>undo" + (history_length()? (" ("+history_length()+")") : "") + "</button><br>";
 		allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
 		allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
-		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
+		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another glyph</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
@@ -84,7 +84,7 @@
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
 			allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
-			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another char</button><br>";
+			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another glyph</button><br>";
 
 		var shapeactions = "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
 
@@ -121,7 +121,7 @@
 			if(s){
 				_UI.clipboardshape = {
 					's':s,
-					'c':_UI.selectedchar,
+					'c':_UI.selectedglyph,
 					'dx': 0,
 					'dy': 0
 				};
@@ -135,13 +135,13 @@
 		var cbs = _UI.clipboardshape;
 		if(cbs){
 			var newshape = clone(cbs.s);
-			//debug("PASTESHAPE checking if we've moved chars: " + cbs.c + " to " + _UI.selectedchar);
-			if(cbs.c === _UI.selectedchar) {
+			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
+			if(cbs.c === _UI.selectedglyph) {
 				cbs.dx += 20;
 				cbs.dy -= 20;
 				newshape.path.updatePathPosition(cbs.dx,cbs.dy,true);
 			} else {
-				cbs.c = _UI.selectedchar;
+				cbs.c = _UI.selectedglyph;
 				cbs.dx = 0;
 				cbs.dy = 0;
 			}
@@ -168,8 +168,8 @@
 			newshape.name = newname + newsuffix;
 
 			if(newshape.link){
-				addToUsedIn(newshape.link, _UI.selectedchar);
-				//debug("PASTESHAPE - pasted a component, added " + _UI.selectedchar + " to usedin array.");
+				addToUsedIn(newshape.link, _UI.selectedglyph);
+				//debug("PASTESHAPE - pasted a component, added " + _UI.selectedglyph + " to usedin array.");
 			}
 
 			addShape(newshape);

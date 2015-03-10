@@ -87,9 +87,9 @@
 		'showguidelabels': true,// display guide labels
 		'showovershoots': true,	// display overshoot guides
 		'clipboardshape': false,
-		'chareditcanvas': false,
-		'chareditcanvassize': 2000,	// How big the viewport canvas is
-		'chareditctx': false,
+		'glypheditcanvas': false,
+		'glypheditcanvassize': 2000,	// How big the viewport canvas is
+		'glypheditctx': false,
 		'ishereghostcanvas': false,
 		'ishereghostctx': false,
 		'defaultview': {
@@ -107,8 +107,8 @@
 		},
 		'history': {},
 
-		// page: charedit
-		'selectedchar': false,	// f is 0x0066
+		// page: glyphedit
+		'selectedglyph': false,	// f is 0x0066
 		'selectedshape': -1,
 		'shapelayers': [],
 
@@ -136,7 +136,7 @@
 			'fontsize': 100,
 			'linegap': false,
 			'padsize': 0,
-			'showcharbox': false,
+			'showglyphbox': false,
 			'showhorizontals': false
 		},
 
@@ -162,8 +162,8 @@
 
 		// page: export font
 		'fontmetrics': {
-			'numchars': 0,
-			'maxchar': 0x20,
+			'numglyphs': 0,
+			'maxglyph': 0x20,
 			'maxes': {
 				'xmax': -999999,
 				'xmin': 999999,
@@ -171,7 +171,7 @@
 				'ymin': 999999
 			}
 		},
-		'notdefchar': '{"objtype":"char","glyphname":"Notdef","charwidth":414,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0},"shapes":[{"objtype":"shape","name":"Outer","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":670,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":670,"xlock":false,"ylock":false},"type":"corner","selected":false,"useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0}},"link":false,"usecomponentxy":false},{"objtype":"shape","name":"Inner","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":364,"xmin":50,"ymax":620,"ymin":50}},"link":false,"usecomponentxy":false}]}',
+		'notdefglyph': '{"objtype":"glyph","glyphname":"Notdef","glyphwidth":414,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0},"shapes":[{"objtype":"shape","name":"Outer","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":670,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":670,"xlock":false,"ylock":false},"type":"corner","selected":false,"useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0}},"link":false,"usecomponentxy":false},{"objtype":"shape","name":"Inner","xpos":0,"ypos":400,"path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":364,"xmin":50,"ymax":620,"ymin":50}},"link":false,"usecomponentxy":false}]}',
 
 		// page: font settings
 		'metadatahelp': {

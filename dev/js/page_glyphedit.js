@@ -4,8 +4,8 @@
 // UBER FUCNTIONS
 //-------------------
 
-	function loadPage_charedit(){
-		// debug('\n loadPage_charedit - START');
+	function loadPage_glyphedit(){
+		// debug('\n loadPage_glyphedit - START');
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
@@ -19,11 +19,11 @@
 			_UI.devselectedshape = false;
 		}
 
-		if(_UI.selectedchar.length > 6) _UI.selectedchar = getFirstGlyphID();
+		if(_UI.selectedglyph.length > 6) _UI.selectedglyph = getFirstGlyphID();
 
-		redraw("loadPage_charedit");
+		redraw("loadPage_glyphedit");
 		
-		// debug(' loadPage_charedit - END\n');
+		// debug(' loadPage_glyphedit - END\n');
 	}
 
 
@@ -41,7 +41,7 @@
 		drawGuides();
 
 		// load char info
-		if(sc) sc.drawGlyphToArea(_UI.chareditctx, getView('Redraw'));
+		if(sc) sc.drawGlyphToArea(_UI.glypheditctx, getView('Redraw'));
 
 		// Finish up
 		var s = ss('Redraw');
@@ -52,8 +52,8 @@
 
 		if(_UI.eventhandlers.hoverpoint){
 			var hp = _UI.eventhandlers.hoverpoint;
-			_UI.chareditctx.fillStyle = hp.fill;
-			_UI.chareditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
+			_UI.glypheditctx.fillStyle = hp.fill;
+			_UI.glypheditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
 		}
 		
 		_UI.redrawing = false;

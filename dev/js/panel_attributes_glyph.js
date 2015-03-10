@@ -37,7 +37,7 @@
 			} else {
 				// no shape selected
 				//debug("UPDATEDETAILS: no shape selected");
-				content += charDetails();
+				content += glyphDetails();
 			}
 			content += '</table><br>';
 
@@ -59,7 +59,7 @@
 		return content;
 	}
 
-	function charDetails(s){
+	function glyphDetails(s){
 		var sc = getSelectedGlyph();
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		sc.calcGlyphMaxes();
@@ -126,8 +126,8 @@
 				'<td> glyph width <span class="unit">(em units)</span> </td>'+
 				'<td>'+
 					'<input type="number" id="charaw" step="'+svc+'" '+
-					'value="' + round(sc.charwidth, 3) + '" '+
-					'onchange="_UI.focuselement=this.id; getSelectedGlyph().charwidth = (this.value*1); redraw(\'charDetails\');">'+
+					'value="' + round(sc.glyphwidth, 3) + '" '+
+					'onchange="_UI.focuselement=this.id; getSelectedGlyph().glyphwidth = (this.value*1); redraw(\'glyphDetails\');">'+
 				'</td>'+
 			'</tr>';
 		} else {
@@ -135,7 +135,7 @@
 				'<td> glyph width <span class="unit">(em units)</span> </td>'+
 				'<td>'+
 					'<input type="number" disabled="disabled" '+
-					'value="'+ round(sc.charwidth, 3) + '"/>'+
+					'value="'+ round(sc.glyphwidth, 3) + '"/>'+
 				'</td>'+
 			'</tr>';
 		}
@@ -157,7 +157,7 @@
 					'<td>'+
 						'<input type="number" id="charlsb" step="'+svc+'" '+
 						'value="' + sc.leftsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedGlyph().leftsidebearing = (this.value*1); redraw(\'charDetails\');">'+
+						'onchange="_UI.focuselement=this.id; getSelectedGlyph().leftsidebearing = (this.value*1); redraw(\'glyphDetails\');">'+
 					'</td>'+
 				'</tr>';
 			} else {
@@ -188,7 +188,7 @@
 					'<td>'+
 						'<input type="number" id="charrsb" step="'+svc+'" '+
 						'value="' + sc.rightsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedGlyph().rightsidebearing = (this.value*1); redraw(\'charDetails\');">'+
+						'onchange="_UI.focuselement=this.id; getSelectedGlyph().rightsidebearing = (this.value*1); redraw(\'glyphDetails\');">'+
 					'</td>'+
 				'</tr>';
 			} else {

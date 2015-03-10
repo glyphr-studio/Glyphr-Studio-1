@@ -15,13 +15,13 @@
 	}
 
 	function setupKerningEditCanvas(){
-		_UI.chareditcanvas = getEditDocument().getElementById("chareditcanvas");
-		_UI.chareditcanvas.height = _UI.chareditcanvassize;
-		_UI.chareditcanvas.width = _UI.chareditcanvassize;
-		_UI.chareditctx = _UI.chareditcanvas.getContext("2d");
-		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.chareditcanvas.onmouseout = mouseoutcec;
-		_UI.chareditcanvas.onmouseover = mouseovercec;
+		_UI.glypheditcanvas = getEditDocument().getElementById("glypheditcanvas");
+		_UI.glypheditcanvas.height = _UI.glypheditcanvassize;
+		_UI.glypheditcanvas.width = _UI.glypheditcanvassize;
+		_UI.glypheditctx = _UI.glypheditcanvas.getContext("2d");
+		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
+		_UI.glypheditcanvas.onmouseout = mouseoutcec;
+		_UI.glypheditcanvas.onmouseover = mouseovercec;
 	}
 
 
@@ -41,7 +41,7 @@
 		if(selkern){
 			drawGuides();
 			var ch;
-			var ctx = _UI.chareditctx;
+			var ctx = _UI.glypheditctx;
 			var v = getView();
 			// debug('\t Kern Pair ' + selkern.leftgroup[0] + ' | ' + selkern.rightgroup[0]);
 

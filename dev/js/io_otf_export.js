@@ -31,7 +31,7 @@
 		debug(options);
 
 		// Add Notdef
-		var ndchar = new Glyph(JSON.parse(_UI.notdefchar));
+		var ndchar = new Glyph(JSON.parse(_UI.notdefglyph));
 		if(_GP.upm !== 1000){
 			var delta = _GP.upm / 1000;
 			ndchar.updateGlyphSize(delta, delta, true);

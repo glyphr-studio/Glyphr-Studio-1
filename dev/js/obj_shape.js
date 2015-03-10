@@ -55,7 +55,7 @@
 	Shape.prototype.drawShape_Stack = function(lctx){
 		//debug('DRAWSHAPE_STACK');
 		if(this.visible){
-			if((this.path.maxes.xmax === -1) && (lctx === _UI.chareditctx) && (_UI.selectedtool !== 'newpath')) this.path.calcMaxes();
+			if((this.path.maxes.xmax === -1) && (lctx === _UI.glypheditctx) && (_UI.selectedtool !== 'newpath')) this.path.calcMaxes();
 			this.path.drawPath(lctx);
 		}
 	};
@@ -120,9 +120,9 @@
 		// debug('\t accent = ' + json(accent));
 		
 		var hp = (_GP.projectsettings.pointsize/2);
-		_UI.chareditctx.lineWidth = 1;
-		_UI.chareditctx.strokeStyle = accent;
-		_UI.chareditctx.fillStyle = 'transparent';
+		_UI.glypheditctx.lineWidth = 1;
+		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.fillStyle = 'transparent';
 
 		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
 			this.drawBoundingBox(this.path.maxes, accent);
@@ -134,13 +134,13 @@
 			var pp = this.path.pathpoints;
 
 			// Draw path selection outline
-			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = accent;
+			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.strokeStyle = accent;
 
-			_UI.chareditctx.beginPath();
-			this.path.drawPath(_UI.chareditctx);
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.stroke();
+			_UI.glypheditctx.beginPath();
+			this.path.drawPath(_UI.glypheditctx);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
 
 			if(sep !== false){
 				// Draw Handles
@@ -168,16 +168,16 @@
 			}
 
 		} else if ((_UI.selectedtool==='newoval')){
-			_UI.chareditctx.strokeStyle = _UI.colors.blue.l65;
+			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
 			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 
-			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _UI.colors.blue.l65;
+			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
 
-			_UI.chareditctx.beginPath();
-			tpdso.drawPath(_UI.chareditctx);
-			_UI.chareditctx.closePath();
-			_UI.chareditctx.stroke();
+			_UI.glypheditctx.beginPath();
+			tpdso.drawPath(_UI.glypheditctx);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
 		}
 		// debug(' Shape.drawSelectOutline - END\n');
 	};
@@ -367,7 +367,7 @@
 		var scs = getSelectedGlyphShapes();
 
 		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].link){
-			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedchar);
+			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedglyph);
 		}
 
 		if((scs.length > 0) && (_UI.selectedshape >= 0)){
@@ -431,7 +431,7 @@
 
 	Shape.prototype.isHere = function(x,y){
 		var imageData;
-		_UI.ishereghostctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
+		_UI.ishereghostctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 		this.drawShape_Single(_UI.ishereghostctx);
 		imageData = _UI.ishereghostctx.getImageData(x, y, 1, 1);
 		//debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));

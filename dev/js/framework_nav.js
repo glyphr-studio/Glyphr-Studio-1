@@ -90,7 +90,7 @@
 
 		var pol = '<table class="popout_table"><tr>';
 		pol += '<td id="popout_pagenav"></td>';
-		if(!onkern) pol += '<td id="popout_charchooser"></td>';
+		if(!onkern) pol += '<td id="popout_glyphchooser"></td>';
 		pol += '<td id="popout_guides"></td>';
 		pol += '<td id="popout_history"></td>';
 		if(!onls && !onkern) pol += '<td id="popout_layerchooser"></td>';
@@ -117,9 +117,9 @@
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(onge && !evmove) document.getElementById('popout_charchooser').innerHTML = makePanel_GlyphChooser();
-		else if(oncom) document.getElementById('popout_charchooser').innerHTML = makePanel_ComponentChooser();
-		else if (onlig) document.getElementById('popout_charchooser').innerHTML = makePanel_LigatureChooser();
+		if(onge && !evmove) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser();
+		else if(oncom) document.getElementById('popout_glyphchooser').innerHTML = makePanel_ComponentChooser();
+		else if (onlig) document.getElementById('popout_glyphchooser').innerHTML = makePanel_LigatureChooser();
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 
@@ -281,7 +281,7 @@
 			case 'about':				loadPage_about();			break;
 			case 'test drive':			loadPage_testdrive();		break;
 			case 'components':			loadPage_components();	break;
-			case 'glyph edit':			loadPage_charedit();		break;
+			case 'glyph edit':			loadPage_glyphedit();		break;
 			case 'kerning':				loadPage_kerning();			break;
 			case 'ligatures':			loadPage_ligatures();		break;
 		}

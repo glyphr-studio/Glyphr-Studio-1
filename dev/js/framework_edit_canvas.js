@@ -7,7 +7,7 @@
 	function editPage_Content(){
 		return ''+
 			'<div id="notation">&#x20E2;</div>' +
-			'<canvas id="chareditcanvas" width=12 height=12 ></canvas>' +
+			'<canvas id="glypheditcanvas" width=12 height=12 ></canvas>' +
 			'<div id="toolsarea">&#x20E2;</div>' +
 			'<div id="viewarea">&#x20E2;</div>' +
 			makeFloatLogo();
@@ -26,7 +26,7 @@
 		// debug('\n::::::::::::::::::::::\n REDRAW \t START');
 		// debug('\t navhere: ' + _UI.navhere);
 		// debug('\t called By: ' + calledby);
-		// debug('\t selected char: ' + _UI.selectedchar);
+		// debug('\t selected char: ' + _UI.selectedglyph);
 		var start = Date.now();
 
 		if(_UI.redrawing){
@@ -53,7 +53,7 @@
 	}
 
 	function redrawUnit() {
-		_UI.chareditctx.clearRect(0,0,_UI.chareditcanvassize,_UI.chareditcanvassize);
+		_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 
 		switch (_UI.navhere){
 			case 'glyph edit': redraw_GlyphEdit(); break;
@@ -364,7 +364,7 @@
 		if(isval(oa.dy)){ v[sc].dy = oa.dy; }
 		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
 
-		//debug('SETVIEW - passed ' + JSON.stringify(oa) + ' selectedchar ' + _UI.selectedchar + ' VIEWS is\n' + JSON.stringify(_UI.views));
+		//debug('SETVIEW - passed ' + JSON.stringify(oa) + ' selectedglyph ' + _UI.selectedglyph + ' VIEWS is\n' + JSON.stringify(_UI.views));
 	}
 
 	function getView(calledby){
@@ -469,7 +469,7 @@
 		switch(_UI.navhere){
 			case 'glyph edit': return true;
 			case 'components': return _UI.selectedcomponent;
-			case 'ligatures': return _UI.selectedchar;
+			case 'ligatures': return _UI.selectedglyph;
 			case 'kerning': return _UI.selectedkern;
 		}
 
@@ -531,9 +531,9 @@ function drawBoundingBox(maxes, accent) {
 	var w = (rx-lx);
 	var h = (by-ty);
 
-	_UI.chareditctx.fillStyle = 'transparent';
-	_UI.chareditctx.strokeStyle = accent;
-	_UI.chareditctx.strokeRect(lx,ty,w,h);
+	_UI.glypheditctx.fillStyle = 'transparent';
+	_UI.glypheditctx.strokeStyle = accent;
+	_UI.glypheditctx.strokeRect(lx,ty,w,h);
 }
 
 function drawBoundingBoxHandles(maxes, accent, onlycenter) {
@@ -552,63 +552,63 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
 		var bbottomy = (by-hp).makeCrisp(true);
 
-		_UI.chareditctx.fillStyle = onlycenter? accent : 'white';
-		_UI.chareditctx.strokeStyle = accent;
+		_UI.glypheditctx.fillStyle = onlycenter? accent : 'white';
+		_UI.glypheditctx.strokeStyle = accent;
 
 		if(!onlycenter){
 			//upper left
 			if(canResize('nw')){
-				_UI.chareditctx.fillRect(bleftx, btopy, ps, ps);
-				_UI.chareditctx.strokeRect(bleftx, btopy, ps, ps);
+				_UI.glypheditctx.fillRect(bleftx, btopy, ps, ps);
+				_UI.glypheditctx.strokeRect(bleftx, btopy, ps, ps);
 			}
 
 			//top
 			if(canResize('n')){
-				_UI.chareditctx.fillRect(bmidx, btopy, ps, ps);
-				_UI.chareditctx.strokeRect(bmidx, btopy, ps, ps);
+				_UI.glypheditctx.fillRect(bmidx, btopy, ps, ps);
+				_UI.glypheditctx.strokeRect(bmidx, btopy, ps, ps);
 			}
 
 			//upper right
 			if(canResize('ne')){
-				_UI.chareditctx.fillRect(brightx, btopy, ps, ps);
-				_UI.chareditctx.strokeRect(brightx, btopy, ps, ps);
+				_UI.glypheditctx.fillRect(brightx, btopy, ps, ps);
+				_UI.glypheditctx.strokeRect(brightx, btopy, ps, ps);
 			}
 
 			// right
 			if(canResize('e')){
-				_UI.chareditctx.fillRect(brightx, bmidy, ps, ps);
-				_UI.chareditctx.strokeRect(brightx, bmidy, ps, ps);
+				_UI.glypheditctx.fillRect(brightx, bmidy, ps, ps);
+				_UI.glypheditctx.strokeRect(brightx, bmidy, ps, ps);
 			}
 
 			//lower right
 			if(canResize('se')){
-				_UI.chareditctx.fillRect(brightx, bbottomy, ps, ps);
-				_UI.chareditctx.strokeRect(brightx, bbottomy, ps, ps);
+				_UI.glypheditctx.fillRect(brightx, bbottomy, ps, ps);
+				_UI.glypheditctx.strokeRect(brightx, bbottomy, ps, ps);
 			}
 
 			//bottom
 			if(canResize('s')){
-				_UI.chareditctx.fillRect(bmidx, bbottomy, ps, ps);
-				_UI.chareditctx.strokeRect(bmidx, bbottomy, ps, ps);
+				_UI.glypheditctx.fillRect(bmidx, bbottomy, ps, ps);
+				_UI.glypheditctx.strokeRect(bmidx, bbottomy, ps, ps);
 			}
 
 			//lower left
 			if(canResize('sw')){
-				_UI.chareditctx.fillRect(bleftx, bbottomy, ps, ps);
-				_UI.chareditctx.strokeRect(bleftx, bbottomy, ps, ps);
+				_UI.glypheditctx.fillRect(bleftx, bbottomy, ps, ps);
+				_UI.glypheditctx.strokeRect(bleftx, bbottomy, ps, ps);
 			}
 
 			//left
 			if(canResize('w')){
-				_UI.chareditctx.fillRect(bleftx, bmidy, ps, ps);
-				_UI.chareditctx.strokeRect(bleftx, bmidy, ps, ps);
+				_UI.glypheditctx.fillRect(bleftx, bmidy, ps, ps);
+				_UI.glypheditctx.strokeRect(bleftx, bmidy, ps, ps);
 			}
 
 		}
 
 		//Center Dot
-		_UI.chareditctx.fillRect(bmidx, bmidy, ps, ps);
-		_UI.chareditctx.strokeRect(bmidx, bmidy, ps, ps);
+		_UI.glypheditctx.fillRect(bmidx, bmidy, ps, ps);
+		_UI.glypheditctx.strokeRect(bmidx, bmidy, ps, ps);
 }
 
 //-------------------
@@ -620,41 +620,41 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 			var ps = _GP.projectsettings;
 			var v = getView('grid');
 			// var zupm = (ps.upm * v.dz);
-			// var gutter = ((_UI.chareditcanvassize*v.dz) - zupm)/2;
+			// var gutter = ((_UI.glypheditcanvassize*v.dz) - zupm)/2;
 			// var zasc = (ps.ascent * v.dz);
 			var xs = {};
-			xs.xmax = _UI.chareditcanvassize;
+			xs.xmax = _UI.glypheditcanvassize;
 			xs.xmin = 0;
-			xs.ymax = _UI.chareditcanvassize;
+			xs.ymax = _UI.glypheditcanvassize;
 			xs.ymin = 0;
 			//debug('GRID: zupm:' + zupm + ' gutter:' + gutter + ' zasc:' + zasc + ' xs:' + JSON.stringify(xs));
 
 			// background white square
-			_UI.chareditctx.fillStyle = 'white';
-			_UI.chareditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
+			_UI.glypheditctx.fillStyle = 'white';
+			_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 			//debug('GRID:\nascent / xheight / descent = '+ ps.ascent+ '/' + ps.xheight+ '/' + (ps.ascent-ps.upm));
 
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
-			_UI.chareditctx.lineWidth = 1;
-			_UI.chareditctx.strokeStyle = _GP.projectsettings.colors.grid;
+			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.strokeStyle = _GP.projectsettings.colors.grid;
 			//debug('GRID - gridsize set as: ' + gsize);
 
 			var horizontal = function(y){
 				y = y.makeCrisp();
-				_UI.chareditctx.beginPath();
-				_UI.chareditctx.moveTo(xs.xmin,y);
-				_UI.chareditctx.lineTo(xs.xmax,y);
-				_UI.chareditctx.stroke();
-				_UI.chareditctx.closePath();
+				_UI.glypheditctx.beginPath();
+				_UI.glypheditctx.moveTo(xs.xmin,y);
+				_UI.glypheditctx.lineTo(xs.xmax,y);
+				_UI.glypheditctx.stroke();
+				_UI.glypheditctx.closePath();
 			};
 
 			var vertical = function(x){
 				x = x.makeCrisp();
-				_UI.chareditctx.beginPath();
-				_UI.chareditctx.moveTo(x,xs.ymin);
-				_UI.chareditctx.lineTo(x,xs.ymax+1);
-				_UI.chareditctx.stroke();
-				_UI.chareditctx.closePath();
+				_UI.glypheditctx.beginPath();
+				_UI.glypheditctx.moveTo(x,xs.ymin);
+				_UI.glypheditctx.lineTo(x,xs.ymax+1);
+				_UI.glypheditctx.stroke();
+				_UI.glypheditctx.closePath();
 			};
 
 			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ vertical(i); }
@@ -674,7 +674,7 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 		if(!isWorkItemSelected()) return;
 
 		var ps = _GP.projectsettings;
-		var oncharedit = (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures');
+		var onglyphedit = (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 		// debug('\t ps.guides: ');
 		// debug(ps.guides);
@@ -709,10 +709,10 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 
 			// Glyph Width or Kerning
 			var sc = getSelectedGlyph();
-			if(oncharedit){
+			if(onglyphedit){
 				ps.guides.leftside.draw(getSelectedGlyphLeftSideBearing()*-1);
 
-				var rhl = sc.charwidth;
+				var rhl = sc.glyphwidth;
 				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
 				ps.guides.rightside.location = rhl;
 				ps.guides.rightside.draw(getSelectedGlyphRightSideBearing());
@@ -734,13 +734,13 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 			// Out of bounds triangle
 			if(!onkern && (ps.guides.baseline.visible || ps.guides.leftside.visible)){
 				var v = getView('guides');
-				_UI.chareditctx.fillStyle = ps.guides.baseline.color;
-				_UI.chareditctx.beginPath();
-				_UI.chareditctx.moveTo(v.dx, v.dy);
-				_UI.chareditctx.lineTo(v.dx, v.dy+(ps.pointsize*2));
-				_UI.chareditctx.lineTo(v.dx-(ps.pointsize*2), v.dy);
-				_UI.chareditctx.closePath();
-				_UI.chareditctx.fill();
+				_UI.glypheditctx.fillStyle = ps.guides.baseline.color;
+				_UI.glypheditctx.beginPath();
+				_UI.glypheditctx.moveTo(v.dx, v.dy);
+				_UI.glypheditctx.lineTo(v.dx, v.dy+(ps.pointsize*2));
+				_UI.glypheditctx.lineTo(v.dx-(ps.pointsize*2), v.dy);
+				_UI.glypheditctx.closePath();
+				_UI.glypheditctx.fill();
 			}
 		}
 		// debug(' drawGuides - END\n');
@@ -753,8 +753,8 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 	function setupGhostCanvas(){
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');
-		_UI.ishereghostcanvas.height = _UI.chareditcanvassize;
-		_UI.ishereghostcanvas.width = _UI.chareditcanvassize;
+		_UI.ishereghostcanvas.height = _UI.glypheditcanvassize;
+		_UI.ishereghostcanvas.width = _UI.glypheditcanvassize;
 		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
 		_UI.ishereghostctx.fillStyle = 'cyan';
 		_UI.ishereghostctx.globalAlpha = 0.5;
@@ -762,13 +762,13 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 	}
 
 	function setupEditCanvas(){
-		_UI.chareditcanvas = getEditDocument().getElementById('chareditcanvas');
-		_UI.chareditcanvas.height = _UI.chareditcanvassize;
-		_UI.chareditcanvas.width = _UI.chareditcanvassize;
-		_UI.chareditctx = _UI.chareditcanvas.getContext('2d');
-		_UI.chareditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.chareditcanvas.onmouseout = mouseoutcec;
-		_UI.chareditcanvas.onmouseover = mouseovercec;
+		_UI.glypheditcanvas = getEditDocument().getElementById('glypheditcanvas');
+		_UI.glypheditcanvas.height = _UI.glypheditcanvassize;
+		_UI.glypheditcanvas.width = _UI.glypheditcanvassize;
+		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
+		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
+		_UI.glypheditcanvas.onmouseout = mouseoutcec;
+		_UI.glypheditcanvas.onmouseover = mouseovercec;
 	}
 
 // end of file

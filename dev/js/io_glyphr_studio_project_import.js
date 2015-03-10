@@ -108,8 +108,10 @@
 		// Update new top level objects
 		fc.glyphs = clone(fc.fontchars);
 		fc.components = clone(fc.linkedshapes);
+		fc.projectsettings.glyphrange = clone(fc.projectsettings.charrange);
 		delete fc.fontchars;
 		delete fc.linkedshapes;
+		delete fc.projectsettings.charrange;
 
 		// Upgrade Linked Shapes to full Glyphs
 		var com,sh,ui,gn;
@@ -134,9 +136,11 @@
 			gl.shapes = gl.charshapes || [];
 			gl.glyphname = gl.charname || false;
 			gl.glyphhtml = gl.charhtml || false;
+			gl.glyphwidth = gl.charwidth || false;
 			delete gl.charshapes;
 			delete gl.charname;
 			delete gl.charhtml;
+			delete gl.charwidth;
 
 			gshapes = gl.shapes;
 			// debug('\t Glyph ' + gl.charname);
@@ -236,7 +240,7 @@
 		var dataguides = clone(data.projectsettings.guides);
 		if(data.projectsettings) {
 			_GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
-			_GP.projectsettings.charrange.custom = data.projectsettings.charrange.custom || [];
+			_GP.projectsettings.glyphrange.custom = data.projectsettings.glyphrange.custom || [];
 		}
 
 		// debug('\t merged projectsettings');
