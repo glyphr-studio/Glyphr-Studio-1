@@ -31,12 +31,10 @@
 
 
 
-
 //  -----------------------------------
-//  PATH METHODS
+//  SIZE AND POSSITION
 //  -----------------------------------
 
-	// SIZE
 	Path.prototype.setPathSize = function(nw, nh, ratiolock){
 		if(nw !== false) nw = parseFloat(nw);
 		if(nh !== false) nh = parseFloat(nh);
@@ -87,8 +85,6 @@
 		this.calcMaxes();
 	};
 
-
-	// POSITION
 	Path.prototype.setPathPosition = function(nx, ny, force){
 		//debug('SETPATHPOSITION - nx/ny/force:\t ' + nx + '\t ' + ny + '\t ' + force);
 		//debug('SETPATHPOSITION - this.maxes.ymax: ' + this.maxes.ymax);
@@ -120,12 +116,16 @@
 		return Math.max(h, 0);
 	};
 
-	
 	Path.prototype.getWidth = function() {
 		var w = this.maxes.xmax - this.maxes.xmin;
 		return Math.max(w, 0);
 	};
 
+
+
+//  -----------------------------------
+//  GET ATTRIBUTES
+//  -----------------------------------
 
 	// Selected Point - returns the selected point object
 	Path.prototype.sp = function(wantindex, calledby){
@@ -149,6 +149,12 @@
 
 		return false;
 	};
+
+
+
+//  -----------------------------------
+//  DRAWING
+//  -----------------------------------
 
 	Path.prototype.drawPath = function(lctx) {
 		//if(lctx == _UI.glypheditctx)	debug('DRAWPATH');
@@ -206,38 +212,11 @@
 		// debug(' Path.drawPathToArea - END\n');
 	};
 
-	Path.prototype.validate = function(calledby){
-		var tp;
-		for(var pp=0; pp<this.pathpoints.length; pp++){
-			tp = this.pathpoints[pp];
-			if(!tp.P.x && tp.P.x !== 0){
-				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' P.x from ' + tp.P.x);
-				tp.P.x = 0;
-			}
-			if(!tp.P.y && tp.P.y !== 0){
-				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' P.y from ' + tp.P.y);
-				tp.P.y = 0;
-			}
-			if(!tp.H1.x && tp.H1.x !== 0){
-				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H1.x from ' + tp.H1.x);
-				tp.H1.x = 0;
-			}
-			if(!tp.H1.y && tp.H1.y !== 0){
-				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H1.y from ' + tp.H1.y);
-				tp.H1.y = 0;
-			}
-			if(!tp.H2.x && tp.H2.x !== 0){
-				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H2.x from ' + tp.H2.x);
-				tp.H2.x = 0;
-			}
-			if(!tp.H2.y && tp.H2.y !== 0){
-				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H2.y from ' + tp.H2.y);
-				tp.H2.y = 0;
-			}
 
-			tp.roundAll();
-		}
-	};
+
+//  -----------------------------------
+//  TRANSLATE TO OTHER LANGUAGES
+//  -----------------------------------
 
 	Path.prototype.genPathPostScript = function(lastx, lasty){
 		if(!this.pathpoints) return {'re':'', 'lastx':lastx, 'lasty':lasty};
@@ -340,6 +319,12 @@
 		// debug(' Path.makeOpenTypeJSpath - END\n');
 		return re;
 	};
+
+
+
+//  -----------------------------------
+//  CANVAS HELPER FUNCTIONS
+//  -----------------------------------
 
 	Path.prototype.isOverControlPoint = function(x, y, dontselect){
 		var a = this.pathpoints;
@@ -675,8 +660,10 @@
 		}
 	};
 
+
+
 //	----------------------------------
-//	Calc Maxes Stuff
+//	Calc Maxes 
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
@@ -765,5 +752,45 @@
 		var mt = (1-t);
 		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3);
 	}
+
+	
+
+
+//  -----------------------------------
+//  HELPER FUNCTIONS
+//  -----------------------------------
+
+	Path.prototype.validate = function(calledby){
+		var tp;
+		for(var pp=0; pp<this.pathpoints.length; pp++){
+			tp = this.pathpoints[pp];
+			if(!tp.P.x && tp.P.x !== 0){
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' P.x from ' + tp.P.x);
+				tp.P.x = 0;
+			}
+			if(!tp.P.y && tp.P.y !== 0){
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' P.y from ' + tp.P.y);
+				tp.P.y = 0;
+			}
+			if(!tp.H1.x && tp.H1.x !== 0){
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H1.x from ' + tp.H1.x);
+				tp.H1.x = 0;
+			}
+			if(!tp.H1.y && tp.H1.y !== 0){
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H1.y from ' + tp.H1.y);
+				tp.H1.y = 0;
+			}
+			if(!tp.H2.x && tp.H2.x !== 0){
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H2.x from ' + tp.H2.x);
+				tp.H2.x = 0;
+			}
+			if(!tp.H2.y && tp.H2.y !== 0){
+				//debug('VALIDATE PATH: '+calledby+' - resetting point '+pp+' H2.y from ' + tp.H2.y);
+				tp.H2.y = 0;
+			}
+
+			tp.roundAll();
+		}
+	};
 
 // end of file

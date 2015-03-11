@@ -28,7 +28,7 @@
 		shapeactions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
-		if(s && s.link){
+		if(s && s.objtype === 'componentinstance'){
 			shapeactions += "<button onclick='turnComponentIntoAShape();redraw(\"turnComponentIntoAShape\");'>unlink this component</button><br>";
 		} else {
 			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
@@ -56,7 +56,7 @@
 		if(!pop) content += "</td>";
 
 		var ispointsel = false;
-		if(s && !s.link) ispointsel = s.path.sp(false);
+		if(s && s.objtype !== 'componentinstance') ispointsel = s.path.sp(false);
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
@@ -109,26 +109,17 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
-
-		if(_UI.navhere === 'components'){
+		var s = ss('copy shape');
+		if(s){
 			_UI.clipboardshape = {
-				's':getSelectedGlyph().shape,
-				'c':_UI.selectedcomponent
+				's':s,
+				'c':_UI.selectedglyph,
+				'dx': 0,
+				'dy': 0
 			};
-		} else if (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures'){
-			var s = ss('copy shape');
-			if(s.link) s = _GP.components[s.link].shape;
-			if(s){
-				_UI.clipboardshape = {
-					's':s,
-					'c':_UI.selectedglyph,
-					'dx': 0,
-					'dy': 0
-				};
-				//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name);
-			}
-			redraw('copyShape');
+			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name);
 		}
+		redraw('copyShape');
 	}
 
 	function pasteShape(){
@@ -167,7 +158,7 @@
 			}
 			newshape.name = newname + newsuffix;
 
-			if(newshape.link){
+			if(newshape.objtype === 'componentinstance'){
 				addToUsedIn(newshape.link, _UI.selectedglyph);
 				//debug("PASTESHAPE - pasted a component, added " + _UI.selectedglyph + " to usedin array.");
 			}
@@ -181,7 +172,7 @@
 		content += msg? msg : "<br>";
 		content += "Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
-		content += makeGenericGlyphChooserContent("pasteShapesFrom", true);
+		content += makeGenericGlyphChooserContent("pasteShapesFrom", true, true, true);
 		content += "</div></td></tr>";
 		content += "<tr><td><br>";
 		content += "<button style='width:100px;' onclick='closeDialog();'>done</button>";
@@ -264,7 +255,7 @@
 		}
 
 		var ispointsel = false;
-		if(s && !s.link) ispointsel = s.path.sp(false);
+		if(s && s.objtype !== 'componentinstance') ispointsel = s.path.sp(false);
 		if(_UI.selectedtool !== "pathedit") ispointsel = false;
 		if(ispointsel) {
 			if(pop) content += pointactions;
@@ -357,7 +348,7 @@
 		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the glyph you would like to link to this component:<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:500px;'>";
-		content += makeGenericGlyphChooserContent("insertComponentToGlyph", true);
+		content += makeGenericGlyphChooserContent("insertComponentToGlyph", true, true, false);
 		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
 		openDialog(content);

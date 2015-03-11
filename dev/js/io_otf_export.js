@@ -36,8 +36,8 @@
 			var delta = _GP.upm / 1000;
 			ndchar.updateGlyphSize(delta, delta, true);
 		}
-		var ndpath = ndchar.shapes[0].path.makeOpenTypeJSpath();
-		ndpath = ndchar.shapes[1].path.makeOpenTypeJSpath(ndpath);
+		var ndpath = ndchar.shapes[0].makeOpenTypeJSpath();
+		ndpath = ndchar.shapes[1].makeOpenTypeJSpath(ndpath);
 
 		options.glyphs.push(new opentype.Glyph({
 			name: '.notdef',

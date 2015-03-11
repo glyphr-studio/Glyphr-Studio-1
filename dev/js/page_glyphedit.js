@@ -46,8 +46,12 @@
 		// Finish up
 		var s = ss('Redraw');
 		if(s) {
-			if(s.link) _UI.selectedtool = 'shaperesize';
-			s.drawSelectOutline((s.link !== false), false);
+			if(s.objtype === 'componentinstance'){
+				_UI.selectedtool = 'shaperesize';
+				s.drawSelectOutline(true, _UI.colors.green.l65);
+			} else {
+				s.drawSelectOutline();
+			}
 		}
 
 		if(_UI.eventhandlers.hoverpoint){

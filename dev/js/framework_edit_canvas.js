@@ -103,14 +103,14 @@
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
-		} else if (s && s.link && _UI.navhere !== 'components'){
+		} else if (s && s.objtype === 'componentinstance'){
 			patheditclass = 'buttondis';
 			penclickable = false;
 		}
 
 		if(_UI.selectedtool === 'pathaddpoint'){
 			pathaddpointclass = 'buttonsel';
-		} else if (s && s.link && _UI.navhere !== 'components'){
+		} else if (s && s.objtype === 'componentinstance'){
 			pathaddpointclass = 'buttondis';
 			penclickable = false;
 		}
@@ -203,11 +203,11 @@
 			_UI.selectedshape = -1;
 		} else if(ctool === "pathedit"){
 			setCursor('pen');
-			if(s && s.path) {s.path.selectPathPoint(0);}
+			if(s && s.path) {s.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
-			if(s && s.path){ s.path.calcMaxes(); }
+			if(s && s.path){ s.calcMaxes(); }
 		}
 
 		updateCursor();

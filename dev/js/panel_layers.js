@@ -22,16 +22,16 @@
 				ts = scs[i];
 
 				if(i===_UI.selectedshape) {
-					if(ts.link)	content += "<tr class='lslayersel'";
+					if(ts.objtype === 'componentinstance')	content += "<tr class='lslayersel'";
 					else content += "<tr class='layersel'";
 				} else content += "<tr class='layer'";
 				
 				content += " onclick='_UI.selectedshape = " + i + "; redraw(\"updatelayers\");'>";
 
-				if(ts.link) {
-					content += "<td class='layerthumb'>"+_GP.components[ts.link].shape.makeSVG()+"</td>";
+				if(ts.objtype === 'componentinstance') {
+					content += "<td class='layerthumb'>"+ts.getTransformedGlyph().makeSVG()+"</td>";
 					content += "<td class='layername'>" +ts.name;
-					content += "<span class='layernote'>[linked to component: "+_GP.components[ts.link].shape.name+"]</span>";
+					content += "<span class='layernote'>[linked to component: "+getGlyph(ts.link).name+"]</span>";
 				} else {
 					content += "<td class='layerthumb'>"+ts.makeSVG()+"</td>";
 					content += "<td class='layername'>" + ts.name ;

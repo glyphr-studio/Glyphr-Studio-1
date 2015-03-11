@@ -204,7 +204,6 @@
 			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
 			if(!s) return;
 
-			// debug('\nTool_ShapeEdit TOOL - ss returned s.link: ' + s.link);
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			if(s.objtype === 'componentinstance'){

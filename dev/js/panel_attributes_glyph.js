@@ -10,7 +10,7 @@
 		var s = ss('update details');
 
 		var ispointsel = false;
-		if(s && !s.link) ispointsel = s.path.sp(false);
+		if(s && s.objtype !== 'componentinstance') ispointsel = s.path.sp(false);
 		if(!(_UI.selectedtool === 'pathedit' || _UI.selectedtool === 'pathaddpoint')) ispointsel = false;
 
 		var content = '<div class="navarea_header">';

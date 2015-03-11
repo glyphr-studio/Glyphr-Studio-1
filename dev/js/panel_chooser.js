@@ -4,70 +4,101 @@
 // Glyph Chooser
 //-------------------
 	function makePanel_GlyphChooser(fname){
-		var content = '<div class="navarea_header">';
+		var onglyph = _UI.navhere === 'glyph edit';
+		var onlig = _UI.navhere === 'ligatures';
+		var oncom = _UI.navhere === 'components';
 
+		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
 		content += '<div class="panel_section">';
-		content += makeGenericGlyphChooserContent(fname);
+		content += makeGenericGlyphChooserContent(fname, onglyph, onlig, oncom);
 		content += '</div>';
+
+		if(onlig){
+			content += '<div class="panel_section">';
+			content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
+			if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
+			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
+			content += '</div>';
+		} else if(oncom){
+			content += '<div class="panel_section">';
+			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate();">add new component</button><br>';
+			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete component</button><br>';
+			content += '</div>';
+		}
 
 		return content;
 	}
 
-	function makeGenericGlyphChooserContent(fname, includeligatures) {
+	function makeGenericGlyphChooserContent(fname, showglyph, showlig, showcom) {
 		// debug('\n makeGenericGlyphChooserContent - START');
 		// debug('\t passed fname ' + fname);
 
 		var ccon = '<div class="charchooserwrapper">';
 		fname = fname? fname : 'selectGlyph';
 		var cr = _GP.projectsettings.glyphrange;
-		var showtitles = (includeligatures || !cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
-
-		if(cr.basiclatin){
-			var bl = _UI.basiclatinorder;
-			if(showtitles) ccon += '<h3>basic latin</h3>';
-			for(var i=0; i<bl.length; i++){ ccon += makeGlyphChooserButton(bl[i], fname); }
+		var showtitles = false;
+		if(showglyph && showlig || showglyph && showcom){
+			showtitles = true;
+		} else if (showglyph){
+			showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
 		}
 
-		if(cr.latinsuppliment){
-			if(showtitles) ccon += '<h3>latin suppliment</h3>';
-			for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname); }
-		}
+		if(showglyph){
+			if(cr.basiclatin){
+				var bl = _UI.basiclatinorder;
+				if(showtitles) ccon += '<h3>basic latin</h3>';
+				for(var i=0; i<bl.length; i++){ ccon += makeGlyphChooserButton(bl[i], fname); }
+			}
 
-		if(cr.latinextendeda){
-			if(showtitles) ccon += '<h3>latin extended-a</h3>';
-			for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname); }
-		}
+			if(cr.latinsuppliment){
+				if(showtitles) ccon += '<h3>latin suppliment</h3>';
+				for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname); }
+			}
 
-		if(cr.latinextendedb){
-			if(showtitles) ccon += '<h3>latin extended-b</h3>';
-			for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname); }
-		}
+			if(cr.latinextendeda){
+				if(showtitles) ccon += '<h3>latin extended-a</h3>';
+				for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname); }
+			}
 
-		var cn;
-		if(cr.custom.length){
-			// debug('\t custom ranges: ' + cr.custom.length);
-			for(var c=0; c<cr.custom.length; c++){
-				ccon += '<h3>custom range ' + (c+1) + '</h3>';
-				for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
-					cn = decToHex(range);
-					if(_GP.projectsettings.glyphrange.filternoncharpoints){
-						if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname);
-					} else {
-						ccon += makeGlyphChooserButton(cn, fname);
+			if(cr.latinextendedb){
+				if(showtitles) ccon += '<h3>latin extended-b</h3>';
+				for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname); }
+			}
+
+			var cn;
+			if(cr.custom.length){
+				// debug('\t custom ranges: ' + cr.custom.length);
+				for(var c=0; c<cr.custom.length; c++){
+					ccon += '<h3>custom range ' + (c+1) + '</h3>';
+					for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
+						cn = decToHex(range);
+						if(_GP.projectsettings.glyphrange.filternoncharpoints){
+							if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname);
+						} else {
+							ccon += makeGlyphChooserButton(cn, fname);
+						}
 					}
 				}
 			}
 		}
 
-		if(includeligatures && getFirstID(_GP.ligatures)){
+		if(showlig && getFirstID(_GP.ligatures)){
 			if(showtitles) ccon += '<h3>ligatures</h3>';
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
 				ccon += makeGlyphChooserButton(l, fname);
+			}}
+		}
+
+		if(showcom && getFirstID(_GP.components)){
+			if(showtitles) ccon += '<h3>components</h3>';
+			var com = _GP.components;
+			for(var d in com){ if(com.hasOwnProperty(d)){
+				ccon += makeGlyphChooserButton(d, fname);
 			}}
 		}
 
@@ -106,114 +137,6 @@
 		rv += '</td></tr></table>';
 
 		return rv;
-	}
-
-
-
-//-------------------------
-// Component Chooser
-//-------------------------
-	function makePanel_ComponentChooser(){
-
-		var lslen = getLength(_GP.components);
-
-		var content = '<div class="navarea_header">';
-		content += makePanelSuperTitle();
-		content += '<h1 class="paneltitle">chooser</h1>';
-		content += '</div>';
-
-		content += '<div class="panel_section">';
-		content += '<table class="layertable">';
-		var layers = lslen? '' : '<tr><td>No components exist yet.  Press the "add new component" button below to get started.</td></tr>';
-		for(var com in _GP.components){ if(_GP.components.hasOwnProperty(com)){
-			//debug('COMPONENTS_SUBNAV - making button for ' + com);
-			layers += makeComponentSubNavButton(com);
-		}}
-		content += layers;
-		content += '</table>';
-		content += '</div>';
-
-		content += '<div class="panel_section">';
-		content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate();">add new component</button><br>';
-		if(lslen) content += '<button onclick="deleteComponentConfirm();">delete component</button><br>';
-		content += '</div>';
-
-
-		return content;
-	}
-
-	function makeComponentSubNavButton(com){
-		// debug('makeComponentSubNavButton \t Start');
-		// debug('\t passed com:' + com);
-
-		var re = '';
-		var tcom = getGlyph(com);
-		// debug("\t getGlyph for com: " );
-		// debug(tcom);
-
-		if(com === _UI.selectedcomponent){
-			re += '<tr class="layersel"';
-		} else {
-			re += '<tr class="layer"';
-		}
-		re += ' onclick="selectComponent(\'' + com + '\');">';
-		re += '<td class="layerthumb">';
-		if(tcom.shape) re += tcom.shape.makeSVG();
-		re += '</td>';
-		re += '<td class="layername">' + (tcom.shape.name || '[no shape outline yet]') + '</td></tr>';
-
-		return re;
-	}
-
-	function selectComponent(com){
-		//debug("selectComponent - com: " + com);
-		_UI.selectedcomponent = com;
-		_UI.selectedshape = com;
-		navigate('npAttributes');
-	}
-
-
-//-------------------
-// Ligature Chooser
-//-------------------
-	function makePanel_LigatureChooser(fname){
-
-		var content = '<div class="navarea_header">';
-		content += makePanelSuperTitle();
-		content += '<h1 class="paneltitle">chooser</h1>';
-		content += '</div>';
-
-		content += '<div class="panel_section">';
-		content += makeGenericLigatureChooserContent(fname);
-		content += '</div>';
-
-		content += '<div class="panel_section">';
-		content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
-		if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
-		else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
-		content += '</div>';
-
-		return content;
-	}
-
-	function makeGenericLigatureChooserContent(fname) {
-		// debug('\n makeGenericLigatureChooserContent - START');
-		// debug('\t passed fname ' + fname);
-
-		var content = '';
-		fname = fname? fname : 'selectGlyph';
-
-		var lig = _GP.ligatures;
-		for(var l in lig){ if(lig.hasOwnProperty(l)){
-			content += makeGlyphChooserButton(l, fname);
-		}}
-
-		if(content === '') content = 'No ligatures exist yet.  You can create a new one, or add a few common ligatures to get started.';
-
-		content = '<div class="charchooserwrapper">'+content+'</div>';
-
-		// debug('makeGenericLigatureChooserContent - END\n');
-		return content;
 	}
 
 	function addCommonLigatures() {

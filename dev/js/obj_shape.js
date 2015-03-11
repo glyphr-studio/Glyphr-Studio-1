@@ -9,7 +9,7 @@
 
 		// common settings
 		this.name = oa.name || 'Shape';
-		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independend position & size
+		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independent position & size
 		this.ypos = isval(oa.ypos)? oa.ypos : 400;
 		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromMaxes(false);
 		this.visible = isval(oa.visible)? oa.visible : true;
@@ -26,14 +26,9 @@
 
 
 
-//-------------------------------------------------------
-// SHAPE METHODS
-//-------------------------------------------------------
-
-
-//	-----
-//	Draw
-//	-----
+//	-------------------------------------------------------
+//	DRAWING THE SHAPE
+//	-------------------------------------------------------
 
 	Shape.prototype.drawShape_Single = function(lctx){
 		//debug('DRAWSHAPE_SINGLE');
@@ -72,48 +67,11 @@
 		}
 	};
 
-	Shape.prototype.makeSVG = function(size, gutter) {
-		size = size || _UI.thumbsize;
-		gutter = gutter || _UI.thumbgutter;
-		var upm = _GP.projectsettings.upm;
-		var desc = upm - _GP.projectsettings.ascent;
-		var charscale = (size-(gutter*2)) / size;
-		var gutterscale = (gutter / size) * upm;
-		var vbsize = upm - (gutter*2);
 
-		var re = '<svg version="1.1" ';
-		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
-		re += 'width="'+size+'" height="'+size+'" viewBox="0,0,'+vbsize+','+vbsize+'">';
-		re += '<g transform="translate('+(gutterscale)+','+(upm-desc-(gutterscale/2))+') scale('+charscale+',-'+charscale+')">';
-		// re += '<rect x="0" y="-'+desc+'" height="'+desc+'" width="1000" fill="lime"/>';
-		// re += '<rect x="0" y="0" height="'+(upm-desc)+'" width="1000" fill="cyan"/>';
-		re += '<path d="';
-		re += this.path.makeSVGpathData();
-		re += '"/>';
-		re += '</g>';
-		re += '</svg>';
 
-		return re;
-	};
-
-	Shape.prototype.getPath = function() { return clone(this.path); };
-
-	Shape.prototype.checkPath = function() {
-		// debug('CHECKPATH - checking ' + this.name + '\n' + JSON.stringify(this.path));
-
-		for(var pp = 0; pp < this.path.pathpoints.length; pp++){
-			var tp = this.path.pathpoints[pp];
-			if(!(tp.P.x)) debug(this.name + ' p' + pp + '.P.x is ' + tp.P.x);
-			if(!(tp.P.y)) debug(this.name + ' p' + pp + '.P.y is ' + tp.P.y);
-
-			if(!(tp.H1.x)) debug(this.name + ' p' + pp + '.H1.x is ' + tp.H1.x);
-			if(!(tp.H1.y)) debug(this.name + ' p' + pp + '.H1.y is ' + tp.H1.y);
-
-			if(!(tp.H2.x)) debug(this.name + ' p' + pp + '.H2.x is ' + tp.H2.x);
-			if(!(tp.H2.y)) debug(this.name + ' p' + pp + '.H2.y is ' + tp.H2.y);
-		}
-	};
-
+//	-------------------------------------------------------
+//	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
+//	-------------------------------------------------------
 	Shape.prototype.drawSelectOutline = function(onlycenter, accent){
 		// debug('\n Shape.drawSelectOutline - START');
 		accent = accent || _UI.colors.blue.l65;
@@ -182,6 +140,81 @@
 		// debug(' Shape.drawSelectOutline - END\n');
 	};
 
+	Shape.prototype.drawBoundingBox = function(accent) {
+		accent = accent || _UI.colors.blue.l65;
+		drawBoundingBox(this.path.maxes, accent);
+	};
+
+	Shape.prototype.drawBoundingBoxHandles = function(onlycenter, accent){
+		//debug('DRAW8POINTS - onlycenter: ' + onlycenter);
+		accent = accent || _UI.colors.blue.l65;
+		drawBoundingBoxHandles(this.path.maxes, accent, onlycenter);
+	};
+
+
+//-------------------------------------------------------
+// TRANSLATE TO DIFFERENT LANGUAGES
+//-------------------------------------------------------
+	Shape.prototype.makeSVG = function(size, gutter) {
+		size = size || _UI.thumbsize;
+		gutter = gutter || _UI.thumbgutter;
+		var upm = _GP.projectsettings.upm;
+		var desc = upm - _GP.projectsettings.ascent;
+		var charscale = (size-(gutter*2)) / size;
+		var gutterscale = (gutter / size) * upm;
+		var vbsize = upm - (gutter*2);
+
+		var re = '<svg version="1.1" ';
+		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
+		re += 'width="'+size+'" height="'+size+'" viewBox="0,0,'+vbsize+','+vbsize+'">';
+		re += '<g transform="translate('+(gutterscale)+','+(upm-desc-(gutterscale/2))+') scale('+charscale+',-'+charscale+')">';
+		// re += '<rect x="0" y="-'+desc+'" height="'+desc+'" width="1000" fill="lime"/>';
+		// re += '<rect x="0" y="0" height="'+(upm-desc)+'" width="1000" fill="cyan"/>';
+		re += '<path d="';
+		re += this.path.makeSVGpathData();
+		re += '"/>';
+		re += '</g>';
+		re += '</svg>';
+
+		return re;
+	};
+
+	Shape.prototype.genPostScript = function(lastx, lasty){
+		return this.path? this.path.genPathPostScript(lastx, lasty) : {'re':'', 'lastx':lastx, 'lasty':lasty};
+	};
+
+	Shape.prototype.makeOpenTypeJSpath = function() { this.path.makeOpenTypeJSpath(); };
+
+
+//	-------------------------------------------------------
+//	PATH WRAPPER FUNCTIONS FOR COMPONENT INSTANCE PARIDY
+//	-------------------------------------------------------
+
+	Shape.prototype.updateShapePosition = function(dx, dy, force) { this.path.updatePathPosition(dx, dy, force); };
+
+	Shape.prototype.setShapePosition = function(nx, ny, force) { this.path.setPathPosition(nx, ny, force); };
+
+	Shape.prototype.updateShapeSize = function(dx, dy, force) { this.path.updatePathSize(dx, dy, force); };
+	
+	Shape.prototype.setShapeSize = function(nx, ny, force) { this.path.setPathSize(nx, ny, force); };
+
+	Shape.prototype.selectPathPoint = function(p) { this.path.selectPathPoint(p); };
+
+	Shape.prototype.flipEW = function(mid) { this.path.flip(mid); };
+
+	Shape.prototype.flipNS = function(mid) { this.path.flip(mid); };
+
+	Shape.prototype.getMaxes = function() { return this.path.maxes; };
+
+	Shape.prototype.getPath = function() { return clone(this.path); };
+
+	Shape.prototype.calcMaxes = function() { this.path.calcMaxes(); };
+
+
+
+//	-------------------------------------------------------
+//	NEW SHAPE FUNCTIONS
+//	-------------------------------------------------------
 	function rectPathFromMaxes(maxes){
 		//Default Shape size
 		var lx = 0;
@@ -279,20 +312,6 @@
 		return new Path({'pathpoints':patharr});
 	}
 
-	Shape.prototype.drawBoundingBox = function(accent) {
-		accent = accent || _UI.colors.blue.l65;
-		drawBoundingBox(this.path.maxes, accent);
-	};
-
-	Shape.prototype.drawBoundingBoxHandles = function(onlycenter, accent){
-		//debug('DRAW8POINTS - onlycenter: ' + onlycenter);
-		accent = accent || _UI.colors.blue.l65;
-		drawBoundingBoxHandles(this.path.maxes, accent, onlycenter);
-	};
-
-	Shape.prototype.genPostScript = function(lastx, lasty){
-		return this.path? this.path.genPathPostScript(lastx, lasty) : {'re':'', 'lastx':lastx, 'lasty':lasty};
-	};
 
 
 //	-----------------
@@ -301,7 +320,7 @@
 	function addShape(newshape){
 		//debug('ADDSHAPE - was passed:\n' + JSON.stringify(newshape));
 		if(newshape){
-			if(newshape.link){
+			if(newshape.objtype === 'componentinstance'){
 				_UI.selectedtool = 'shaperesize';
 			} else if(newshape.path && (_UI.selectedtool === 'shaperesize')) {
 				//debug('ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
@@ -366,7 +385,7 @@
 	function deleteShape(){
 		var scs = getSelectedGlyphShapes();
 
-		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].link){
+		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].objtype === 'componentinstance'){
 			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedglyph);
 		}
 
@@ -379,7 +398,7 @@
 			//debug('DELETESHAPES - no shapes left');
 		}
 
-		if((_UI.selectedshape >= 0) && (scs[_UI.selectedshape].link)){
+		if((_UI.selectedshape >= 0) && (scs[_UI.selectedshape].objtype === 'componentinstance')){
 			//debug('DELETESHAPE - newly selected shape is component, changing tool');
 			_UI.selectedtool = 'shaperesize';
 		}
@@ -406,7 +425,7 @@
 			//debug('CLICKSELECTShape() - Checking shape ' + j);
 
 			if(ts.isHere(x,y)){
-				if(!ts.link) ts.path.selectPathPoint(false);
+				ts.selectPathPoint(false);
 				if(j !== _UI.selectedshape){
 					//debug('CLICKSELECTShape() - selecting shape ' + j);
 					_UI.selectedshape = j;
@@ -429,6 +448,11 @@
 		return false;
 	}
 
+
+
+//	----------------------------------------------
+//	CANVAS HELPER FUNCTIONS
+//	----------------------------------------------
 	Shape.prototype.isHere = function(x,y){
 		var imageData;
 		_UI.ishereghostctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
@@ -539,6 +563,27 @@
 		}
 
 		redraw('Shape Name');
+	};
+
+
+//	-----------------------------------
+//	HELPER FUNCTIONS
+//	------------------------------------
+
+	Shape.prototype.checkPath = function() {
+		// debug('CHECKPATH - checking ' + this.name + '\n' + JSON.stringify(this.path));
+
+		for(var pp = 0; pp < this.path.pathpoints.length; pp++){
+			var tp = this.path.pathpoints[pp];
+			if(!(tp.P.x)) debug(this.name + ' p' + pp + '.P.x is ' + tp.P.x);
+			if(!(tp.P.y)) debug(this.name + ' p' + pp + '.P.y is ' + tp.P.y);
+
+			if(!(tp.H1.x)) debug(this.name + ' p' + pp + '.H1.x is ' + tp.H1.x);
+			if(!(tp.H1.y)) debug(this.name + ' p' + pp + '.H1.y is ' + tp.H1.y);
+
+			if(!(tp.H2.x)) debug(this.name + ' p' + pp + '.H2.x is ' + tp.H2.x);
+			if(!(tp.H2.y)) debug(this.name + ' p' + pp + '.H2.y is ' + tp.H2.y);
+		}
 	};
 
 // end of file

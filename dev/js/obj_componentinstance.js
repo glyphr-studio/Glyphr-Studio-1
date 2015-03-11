@@ -14,22 +14,163 @@
 		this.translatey = oa.translatey || 0;
 		this.scalew = oa.scalew || 0;
 		this.scaleh = oa.scaleh || 0;
+		this.flipew = oa.flipew || false;
+		this.flipns = oa.flipns || false;
 
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.ylock || false;
 		this.wlock = oa.wlock || false;
 		this.hlock = oa.hlock || false;
+		this.ratiolock = oa.ratiolock || false;
 		this.visible = isval(oa.visible)? oa.visible : true;
 
 		//debug('COMPONENTINSTANCE - end');
 	}
+
+	ComponentInstance.prototype.getTransformedGlyph = function() {
+		var g = clone(getGlyph(this.link));
+		if(g){
+			g.updateGlyphPosition(this.translatex, this.translatey, true);
+			g.updateGlyphSize(this.scalex, this.scaley);
+			if(this.flipew) g.flipEW();
+			if(this.flipns) g.flipNS();
+		}
+
+		return g;
+	};
+
+
+
+//	-------------------------------------
+//	Component to Shape Paridy Functions
+//	-------------------------------------
+
+	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
+		if(dx !== false) dx = parseFloat(dx);
+		if(dy !== false) dy = parseFloat(dy);
+		
+		this.translatex += dx;
+		this.translatey += dy;
+	};
+
+	ComponentInstance.prototype.setShapePosition = function(nx, ny, force) {
+		var og = getGlyph(this.link);
+		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;
+		var dy = ny? ((ny*1) - og.maxes.ymax) : 0;
+		
+		this.updateShapePosition(dx, dy, force);
+	};
+
+	ComponentInstance.prototype.updateShapeSize = function(dw, dh, force) {
+		if(dw !== false) dw = parseFloat(dw);
+		if(dh !== false) dh = parseFloat(dh);
+		
+		this.scalew += dw;
+		this.scaleh += dh;
+	};
+	
+	ComponentInstance.prototype.setShapeSize = function(nw, nh, force) {
+		var og = getGlyph(this.link);
+		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;
+		var dy = ny? ((ny*1) - og.maxes.ymax) : 0;
+		
+		this.updateShapePosition(dx, dy, force);
+	};
+
+	ComponentInstance.prototype.getWidth = function() {
+		var g = this.getTransformedGlyph();
+		return g.maxes.xmax - g.maxes.xmin;
+	};
+
+	ComponentInstance.prototype.getHeight = function(mid) {
+		var g = this.getTransformedGlyph();
+		return g.maxes.ymax - g.maxes.ymin;
+	};
+
+	ComponentInstance.prototype.flipEW = function(mid) { this.flipew = (1*mid); };
+
+	ComponentInstance.prototype.flipNS = function(mid) { this.flipns = (1*mid); };
+	
+	ComponentInstance.prototype.getMaxes = function() { return this.getTransformedGlyph().maxes; };
+
+	ComponentInstance.prototype.selectPathPoint = function() { return false; };
+	
+	ComponentInstance.prototype.drawShape_Stack = function(lctx){
+		var g = this.getTransformedGlyph();
+		for(var s=0; s<g.shapes.length; s++){
+			g.shapes[s].drawShape_Stack(lctx);
+		}
+	};
+
+	ComponentInstance.prototype.drawShape_Single = function(lctx){
+		var g = this.getTransformedGlyph();
+		for(var s=0; s<g.shapes.length; s++){
+			g.shapes[s].drawShape_Single(lctx);
+		}
+	};
+
+	ComponentInstance.prototype.genPostScript = function(lastx, lasty){
+		//debug('GENLINKEDPOSTSCRIPT');
+		var g = this.getTransformedGlyph();
+		var re, part;
+
+		for(var s=0; s<g.shapes.length; s++){
+			part = g.shapes[s].genPostScript(lastx, lasty);
+			lastx = part.lastx;
+			lasty = part.lasty;
+			re += part.re;
+		}
+
+		return {
+			're': re,
+			'lastx': lastx,
+			'lasty': lasty
+		};
+	};
+
+	ComponentInstance.prototype.makeOpenTypeJSpath = function(re) { 
+		var g = this.getTransformedGlyph();
+
+		for (var s=0; s<g.shapes.length; s++){
+ 			re += g.shapes[s].makeOpenTypeJSpath(re);
+ 		}
+
+ 		return re;
+	};
+
+	ComponentInstance.prototype.drawShapeToArea = function(lctx, view){
+		var g = this.getTransformedGlyph();
+		g.drawGlyphToArea(lctx, view);
+	};
+
+	ComponentInstance.prototype.drawSelectOutline = function(onlycenter){
+		var g = this.getTransformedGlyph();
+		for(var s=0; s<g.shapes.length; s++){
+			g.shapes[s].drawSelectOutline(true);
+		}
+	};
+
+	ComponentInstance.prototype.drawBoundingBox = function() {
+		drawBoundingBox(getGlyph(this.link).maxes, _UI.colors.green.l65);
+	};
+
+	ComponentInstance.prototype.drawBoundingBoxHandles = function(onlycenter){
+	 	drawBoundingBoxHandles(getGlyph(this.link).maxes, _UI.colors.green.l65, onlycenter);
+	};
+
+	ComponentInstance.prototype.isHere = function(x,y){
+		//debug('ISCOMPONENTHERE - checking ' + x + ',' + y);
+		var g = this.getTransformedGlyph();
+		return g? g.isHere(x,y) : false;
+	};
+
+	ComponentInstance.prototype.isOverHandle = function(){ return false; };
 
 
 
 //-------------------------------------------------------
 // COMPONENT INSTANCE METHODS
 //-------------------------------------------------------
-
 
 //	Insert Component
 	function insertComponentDialog(){
@@ -114,80 +255,5 @@
 		}
 
 	}
-
-
-//	---------------------------
-//	Component Paridy Functions
-//	---------------------------
-	ComponentInstance.prototype.getTransformedGlyph = function() {
-		var g = clone(getGlyph(this.link));
-		if(g){
-			g.updateGlyphPosition(this.translatex, this.translatey, true);
-			g.updateGlyphSize(this.scalex, this.scaley);
-		}
-
-		return g;
-	};
-
-	ComponentInstance.prototype.drawShape_Stack = function(lctx){
-		var g = this.getTransformedGlyph();
-		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawShape_Stack(lctx);
-		}
-	};
-
-	ComponentInstance.prototype.drawShape_Single = function(lctx){
-		var g = this.getTransformedGlyph();
-		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawShape_Single(lctx);
-		}
-	};
-
-	ComponentInstance.prototype.genPostScript = function(lastx, lasty){
-		//debug('GENLINKEDPOSTSCRIPT');
-		var g = this.getTransformedGlyph();
-		var re, part;
-
-		for(var s=0; s<g.shapes.length; s++){
-			part = g.shapes[s].genPostScript(lastx, lasty);
-			lastx = part.lastx;
-			lasty = part.lasty;
-			re += part.re;
-		}
-
-		return {
-			're': re,
-			'lastx': lastx,
-			'lasty': lasty
-		};
-	};
-
-	ComponentInstance.prototype.drawShapeToArea = function(lctx, view){
-		var g = this.getTransformedGlyph();
-		g.drawGlyphToArea(lctx, view);
-	};
-
-	ComponentInstance.prototype.drawSelectOutline = function(onlycenter){
-		var g = this.getTransformedGlyph();
-		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawSelectOutline(true);
-		}
-	};
-
-	ComponentInstance.prototype.drawBoundingBox = function() {
-		drawBoundingBox(getGlyph(this.link).maxes, _UI.colors.green.l65);
-	};
-
-	ComponentInstance.prototype.drawBoundingBoxHandles = function(onlycenter){
-	 	drawBoundingBoxHandles(getGlyph(this.link).maxes, _UI.colors.green.l65, onlycenter);
-	};
-
-	ComponentInstance.prototype.isHere = function(x,y){
-		//debug('ISCOMPONENTHERE - checking ' + x + ',' + y);
-		var g = this.getTransformedGlyph();
-		return g? g.isHere(x,y) : false;
-	};
-
-	ComponentInstance.prototype.isOverHandle = function(){ return false; };
 
 // end of file

@@ -228,8 +228,8 @@
 				switch(_UI.navhere){
 					case 'glyph edit': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
 					case 'import svg': np.innerHTML = makePanel_GlyphChooser('importSVG_selectGlyph'); break;
-					case 'components': np.innerHTML = makePanel_ComponentChooser(); break;
-					case 'ligatures': np.innerHTML = makePanel_LigatureChooser(); break;
+					case 'components': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
+					case 'ligatures': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
 				}
 				break;
 
