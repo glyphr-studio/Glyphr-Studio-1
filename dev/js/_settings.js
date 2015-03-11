@@ -16,7 +16,7 @@
 		// SelectedGlyph
 
 		// all pages
-		'navhere': 'firstrun',
+		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1 (pre-release)',
 		'thisGlyphrStudioVersionNum': '1.00.00-alpha',
@@ -152,7 +152,7 @@
 			'svgcode': false
 		},
 
-		// page: firstrun
+		// page: openproject
 		'droppedFileContent': false,
 		'spinning': true,
 		'importrange': {

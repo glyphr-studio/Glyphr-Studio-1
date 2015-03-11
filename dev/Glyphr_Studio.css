@@ -815,14 +815,14 @@
 /* Page - Open / New */
 /* -----------------*/
 
-	#firstruntableleft {
+	#openprojecttableleft {
 		background-color: rgb(0,170,225);
 		width:475px;
 		vertical-align: middle;
 		padding:0px 0px 0px 50px;
 	}
 
-	#firstruntableright {
+	#openprojecttableright {
 		vertical-align: middle;
 		padding:0px 0px 0px 50px;
 		font-size:40px;
@@ -834,19 +834,32 @@
 		margin:0px 20px 16px 0px;
 	}
 
-	.splashver {
-		font-size:.8em;
+	.splashvername,
+	.splashvernum,
+	.splashblurb,
+	.splashblurb a {
 		color:white;
 		width:350px;
 	}
 
-	.splashver a {
-		font-size:.9em;
-		color:white;
+	.splashvername {
+		font-size:1em;
+	}
+
+	.splashvernum {
+		font-size:.8em;
+	}
+
+	.splashblurb {
+		font-size:.6em;
+	}
+	
+	.splashblurb a {
+		font-size:1em;
 		text-decoration:underline;
 	}
 
-	.firstrun_tile {
+	.openproject_tile {
 		width:350px;
 		height:200px;
 		margin:20px 4px 0px 10px;
@@ -854,24 +867,24 @@
 		float:left;
 	}
 
-	.firstrun_tile h2 {
+	.openproject_tile h2 {
 		display:block;
 	}
 
-	.firstrun_tile .buttonsel {
+	.openproject_tile .buttonsel {
 		padding:8px 25px;
 	}
 
-	.firstrun_tile #customrangebegin,
-	.firstrun_tile #customrangeend {
+	.openproject_tile #customrangebegin,
+	.openproject_tile #customrangeend {
 		width:140px;
 	}
 
-	.firstrun_tabs {
+	.openproject_tabs {
 		margin-left:10px;
 	}
 
-	.firstrun_tabs button {
+	.openproject_tabs button {
 		background-color: rgb(229,234,239);
 		padding:4px 12px;
 		margin-right: 8px;

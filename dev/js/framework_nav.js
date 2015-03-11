@@ -7,8 +7,8 @@
 	function navigate(nap){
 		debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
 
-		if(_UI.navhere === 'firstrun'){
-			makeLayout_Firstrun();
+		if(_UI.navhere === 'openproject'){
+			makeLayout_OpenProject();
 		} else if (_UI.popout){
 			if(onCanvasEditPage()){
 				makeLayout_PopOut();
@@ -36,7 +36,7 @@
 //-------------------
 // Layout - First Run
 //-------------------
-	function makeLayout_Firstrun(){
+	function makeLayout_OpenProject(){
 		document.getElementById('primaryScreenLayout').innerHTML = '<div id="mainwrapper"></div>';
 	}
 
@@ -166,7 +166,7 @@
 			_UI.navprimaryhere = nap;
 		} else {
 			switch(nh){
-				// case 'firstrun':  _UI.navprimaryhere = '';break;
+				// case 'openproject':  _UI.navprimaryhere = '';break;
  				case 'glyph edit': 	_UI.navprimaryhere = 'npChooser'; break;
 				case 'components': 	_UI.navprimaryhere = 'npChooser'; break;
 				case 'ligatures': 		_UI.navprimaryhere = 'npChooser'; break;
@@ -273,7 +273,7 @@
 
 	function loadPageContent(){
 		switch(_UI.navhere){
-			case 'firstrun':			loadPage_firstrun();		break;
+			case 'openproject':			loadPage_openproject();		break;
 			case 'font settings':		loadPage_fontsettings();	break;
 			case 'project settings':	loadPage_projectsettings();	break;
 			case 'export font':			loadPage_exportfont();		break;

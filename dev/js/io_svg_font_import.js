@@ -7,7 +7,7 @@
 	function ioSVG_importSVGfont(filter) {
 		// debug('\n ioSVG_importSVGfont - Start');
 
-		document.getElementById('firstruntableright').innerHTML = make_LoadingAnimation(false);
+		document.getElementById('openprojecttableright').innerHTML = make_LoadingAnimation(false);
 
 		setTimeout(setupFontImport, 10);
 
@@ -39,7 +39,7 @@
 			try {
 				jsondata = convertXMLtoJSON(svgdata);
 			} catch (e){
-				loadPage_firstrun();
+				loadPage_openproject();
 				showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
 				return;
 			}
@@ -53,8 +53,8 @@
 
 			// Check to see if it's actually a SVG Font
 			if(!font){
-				loadPage_firstrun();
-				firstrun_changeTab('load');
+				loadPage_openproject();
+				openproject_changeTab('load');
 				showErrorMessageBox('The SVG file you tried to load was not a SVG Font file. See Glyphr Studio help for more information.');
 				return;
 			}
@@ -74,7 +74,7 @@
 				// Dump JSON
 				// saveFile('Parsed JSON', json(jsondata));
 			} else {
-				document.getElementById('firstruntableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
+				document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
 			}
 			// debug(' setupFontImport - END\n');
 		}
@@ -340,7 +340,7 @@
 	function make_LoadingAnimation() {
 		// debug('\n make_LoadingAnimation - START');
 		var re = '';
-		re += '<div class="firstrun_tile">';
+		re += '<div class="openproject_tile">';
 		re += '<h2>Importing Font</h2>';
 		re += '<div id="fontimportstatus">Reading font data...</div>';
 		re += '<br><div style="margin:0px; width:50px; height:50px; padding:0px; background-color:'+_UI.colors.blue.l65+';';
@@ -357,7 +357,7 @@
 	}
 
 	function make_ImportFilter(chars, kerns) {
-		var re = '<div class="firstrun_tile" style="width:500px; height:auto;">'+
+		var re = '<div class="openproject_tile" style="width:500px; height:auto;">'+
 			'<h2>Whoa, there...</h2><br>'+
 			'The font you\'re trying to import has <b>'+chars+' glyphs</b> and <b>'+kerns+' kern pairs</b>.  '+
 			'Glyphr Studio has a hard time with super-large fonts like this.  '+

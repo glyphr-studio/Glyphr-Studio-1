@@ -387,7 +387,7 @@
 			re = getGlyph(_UI.selectedcomponent);
 			// debug('\t case components, returning ' + re.glyphname);
 			return re;
-		} else if (_UI.navhere === 'firstrun'){
+		} else if (_UI.navhere === 'openproject'){
 			return false;
 		} else if(_UI.navhere !== 'kerning'){
 			re = getGlyph(_UI.selectedglyph, true);
