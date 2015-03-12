@@ -95,10 +95,10 @@
 
 		content += allactions;
 
-		if(getSelectedGlyphShapes().length > 0){ content += shapeactions; }
+		if(getSelectedWorkItemShapes().length > 0){ content += shapeactions; }
 		content += "</td>";
 
-		if(getSelectedGlyphShapes().length > 1){ content += layeractions; }
+		if(getSelectedWorkItemShapes().length > 1){ content += layeractions; }
 
 		content += "<td> &nbsp; </td></tr></table>";
 
@@ -181,11 +181,11 @@
 	}
 
 	function pasteShapesFrom(chid) {
-		getGlyph(chid).sendShapesTo(getSelectedGlyphID());
+		getGlyph(chid).sendShapesTo(getSelectedWorkItemID());
 		redraw();
 		history_put("Pasted Shapes to Glyph");
 		closeDialog();
-		showGetShapesDialog("The shapes from '" + getGlyphName(chid) + "' were successfully pasted to glyph " + getSelectedGlyphName() + ".<br>");
+		showGetShapesDialog("The shapes from '" + getGlyphName(chid) + "' were successfully pasted to glyph " + getSelectedWorkItemName() + ".<br>");
 	}
 
 //-------------------
@@ -194,10 +194,10 @@
 	function moveupShape(){
 		var s = ss("Move Up Shape");
 
-		if(s && (_UI.selectedshape < (getSelectedGlyphShapes().length-1))){
-			var tempshape = getSelectedGlyphShapes()[_UI.selectedshape+1];
-			getSelectedGlyphShapes()[_UI.selectedshape+1] = getSelectedGlyphShapes()[_UI.selectedshape];
-			getSelectedGlyphShapes()[_UI.selectedshape] = tempshape;
+		if(s && (_UI.selectedshape < (getSelectedWorkItemShapes().length-1))){
+			var tempshape = getSelectedWorkItemShapes()[_UI.selectedshape+1];
+			getSelectedWorkItemShapes()[_UI.selectedshape+1] = getSelectedWorkItemShapes()[_UI.selectedshape];
+			getSelectedWorkItemShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape++;
 			redraw("moveupShape");
 		}
@@ -207,9 +207,9 @@
 		var s = ss("Move Down Shape");
 
 		if(s && (_UI.selectedshape > 0)){
-			var tempshape = getSelectedGlyphShapes()[_UI.selectedshape-1];
-			getSelectedGlyphShapes()[_UI.selectedshape-1] = getSelectedGlyphShapes()[_UI.selectedshape];
-			getSelectedGlyphShapes()[_UI.selectedshape] = tempshape;
+			var tempshape = getSelectedWorkItemShapes()[_UI.selectedshape-1];
+			getSelectedWorkItemShapes()[_UI.selectedshape-1] = getSelectedWorkItemShapes()[_UI.selectedshape];
+			getSelectedWorkItemShapes()[_UI.selectedshape] = tempshape;
 			_UI.selectedshape--;
 			redraw("movedownShape");
 		}
@@ -224,7 +224,7 @@
 		var content = '<div class="panel_section">';
 		if(pop) content = '<div class="navarea_header">';
 		content += '<h1 class="paneltitle">actions</h1>';
-		if(!getSelectedGlyph()) return content + '</div>';
+		if(!getSelectedWorkItem()) return content + '</div>';
 		if(pop) content += '</div><div class="panel_section">';
 
 		var s = ss('Update Actions');
@@ -289,7 +289,7 @@
 
 	function deleteComponentConfirm(){
 		var content = "<h1>Delete Component</h1>Are you sure you want to delete this component?<br>";
-		var uia = getSelectedGlyph().usedin;
+		var uia = getSelectedWorkItem().usedin;
 		if(uia.length > 0){
 			content += "If you do, the component instances will also be removed from the following glyphs:<br><br>";
 			for(var ssu=0; ssu<uia.length; ssu++){
@@ -308,13 +308,13 @@
 	function deleteComponent(){
 		//debug("DELETECOMPONENT - deleting " + _UI.selectedcomponent);
 		closeDialog();
-		var sls = getSelectedGlyph();
+		var sls = getSelectedWorkItem();
 		if(sls){
 			// find & delete all component instances
 			//debug("----------------- starting to go through sls.usedin: " + sls.usedin);
 			for(var cui=0; cui<sls.usedin.length; cui++){
 				var tc = _GP.glyphs[sls.usedin[cui]].shapes;
-				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedGlyphShapes() " + tc.length);
+				//debug("----------------- sls.usedin step " + cui + " is " + sls.usedin[cui] + " and has #getSelectedWorkItemShapes() " + tc.length);
 				for(var sl=0; sl<tc.length; sl++){
 					//debug("----------------- shapelayer " + sl + " has .link " + tc[sl].link + " checking against " + _UI.selectedcomponent);
 					if(tc[sl].link === _UI.selectedcomponent){
@@ -338,12 +338,12 @@
 
 	function pasteComponent(){
 		if(_UI.clipboardshape){
-			getSelectedGlyph().shape = _UI.clipboardshape;
+			getSelectedWorkItem().shape = _UI.clipboardshape;
 		}
 	}
 
 	function showAddSSToGlyphDialog(msg){
-		var sls = getSelectedGlyph();
+		var sls = getSelectedWorkItem();
 		var content = "<h1>Link to Glyph</h1><table style='width:900px'><tr><td>";
 		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the glyph you would like to link to this component:<br><br></td></tr>";
@@ -358,6 +358,6 @@
 		insertComponent(_UI.selectedcomponent, chid);
 		history_put("Insert Component to Glyph");
 		closeDialog();
-		showAddSSToGlyphDialog("The Component '" + getSelectedGlyph().shape.name + "' was successfully inserted into glyph " + getGlyphName(chid) + ".<br><br>");
+		showAddSSToGlyphDialog("The Component '" + getSelectedWorkItem().shape.name + "' was successfully inserted into glyph " + getGlyphName(chid) + ".<br><br>");
 	}
 // end of file

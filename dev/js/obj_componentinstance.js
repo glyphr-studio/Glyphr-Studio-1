@@ -217,14 +217,14 @@
 
 	function makeComponentThumbs(){
 		var re = '';
-		var tochar = getSelectedGlyphID();
+		var tochar = getSelectedWorkItemID();
 		var tcom;
 
 		for(var com in _GP.components){if(_GP.components.hasOwnProperty(com)){
 			tcom = getGlyph(com);
 			if(tcom.shape){
 				re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-				re += '<div class="charselectthumb" onclick="insertComponent(\''+com+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
+				re += '<div class="glyphselectthumb" onclick="insertComponent(\''+com+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
 				re += getGlyph(com).shape.makeSVG();
 				re += '</div></td></tr><tr><td>';
 				re += getGlyphName(com);

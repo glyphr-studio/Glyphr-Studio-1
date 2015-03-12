@@ -5,6 +5,7 @@
 //-------------------------------------------------------
 
 	function Shape(oa){
+		// debug('\n SHAPE - START');
 		this.objtype = 'shape';
 
 		// common settings
@@ -19,7 +20,7 @@
 		this.hlock = oa.hlock || false;
 		this.ratiolock = oa.ratiolock || false;
 
-		//debug('Just created a SHAPE: ' + JSON.stringify(this));
+		// debug(' SHAPE - END\n');
 	}
 
 
@@ -204,7 +205,7 @@
 
 	Shape.prototype.flipNS = function(mid) { this.path.flip(mid); };
 
-	Shape.prototype.getMaxes = function() { return this.path.maxes; };
+	Shape.prototype.getMaxes = function() { return this.path.getMaxes(); };
 
 	Shape.prototype.getPath = function() { return clone(this.path); };
 
@@ -329,18 +330,18 @@
 		} else {
 			//debug('ADDSHAPE - passed null, creating new shape.');
 			newshape = new Shape({});
-			newshape.name = ('Rectangle ' + ((getSelectedGlyphShapes().length*1)+1));
+			newshape.name = ('Rectangle ' + ((getSelectedWorkItemShapes().length*1)+1));
 		}
 
-		var sc = getSelectedGlyph();
+		var sg = getSelectedWorkItem();
 
 		if(_UI.navhere === 'components'){
-			_UI.selectedshape = getSelectedGlyphID();
-			sc.shape = newshape;
+			_UI.selectedshape = getSelectedWorkItemID();
+			sg.shape = newshape;
 		} else {
-			_UI.selectedshape = sc.shapes.length;
-			sc.shapes.push(newshape);
-			updateCurrentGlyphWidth();
+			_UI.selectedshape = sg.shapes.length;
+			sg.shapes.push(newshape);
+			sg.calcGlyphMaxes();
 		}
 
 		_UI.navprimaryhere = 'npAttributes';
@@ -375,15 +376,15 @@
 		}
 
 		newshape.path = new Path({'pathpoints':parr});
-		newshape.name = (shapetype + getSelectedGlyphShapes().length+1);
+		newshape.name = (shapetype + getSelectedWorkItemShapes().length+1);
 
-		if(_UI.navhere === 'glyph edit') { _UI.selectedshape = getSelectedGlyphShapes().length; }
-		getSelectedGlyphShapes().push(newshape);
+		if(_UI.navhere === 'glyph edit') { _UI.selectedshape = getSelectedWorkItemShapes().length; }
+		getSelectedWorkItemShapes().push(newshape);
 		updateCurrentGlyphWidth();
 	}
 
 	function deleteShape(){
-		var scs = getSelectedGlyphShapes();
+		var scs = getSelectedWorkItemShapes();
 
 		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].objtype === 'componentinstance'){
 			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedglyph);
@@ -410,8 +411,8 @@
 		deleteShape();
 		newls.name = ('Component from ' + newls.name);
 		var newid = addComponent(newls);
-		insertComponent(newid, getSelectedGlyphID());
-		_UI.selectedshape = getSelectedGlyphShapes().length-1;
+		insertComponent(newid, getSelectedWorkItemID());
+		_UI.selectedshape = getSelectedWorkItemShapes().length-1;
 		redraw('turnSelectedShapeIntoAComponent');
 	}
 
@@ -419,7 +420,7 @@
 		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
 
 		var ts;
-		var scs = getSelectedGlyphShapes();
+		var scs = getSelectedWorkItemShapes();
 		for(var j=(scs.length-1); j>=0; j--){
 			ts = scs[j];
 			//debug('CLICKSELECTShape() - Checking shape ' + j);
@@ -441,7 +442,7 @@
 	}
 
 	function isOverShape(x,y) {
-		var scs = getSelectedGlyphShapes();
+		var scs = getSelectedWorkItemShapes();
 		for(var j=(scs.length-1); j>=0; j--){
 			if(scs[j].isHere(x,y)) return true;
 		}

@@ -5,9 +5,8 @@
 //  -----------------------------------
 
 	function Path(oa){
+		// debug('\n PATH - START');
 		this.objtype = 'path';
-
-		//debug('NEW PATH: oa = \n' + JSON.stringify(oa));
 
 		// declare attributes
 		this.pathpoints = false;
@@ -26,7 +25,7 @@
 		this.selectPathPoint(false);
 		if(this.pathpoints) this.calcMaxes();
 
-		//debug('Path() - created new path: ' + this.pathpoints);
+		// debug(' PATH - END\n');
 	}
 
 
@@ -121,6 +120,9 @@
 		return Math.max(w, 0);
 	};
 
+	Path.prototype.getMaxes = function() {
+		return clone(this.maxes);
+	};
 
 
 //  -----------------------------------
@@ -667,8 +669,6 @@
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
-		//console.time('CalcMaxes_NEW');
-
 		this.maxes.ymax = (_UI.glypheditcanvassize*-1);
 		this.maxes.ymin = _UI.glypheditcanvassize;
 		this.maxes.xmin = _UI.glypheditcanvassize;
@@ -687,9 +687,6 @@
 			this.maxes.xmin = Math.min(this.maxes.xmin, tbounds.minx);
 			this.maxes.ymin = Math.min(this.maxes.ymin, tbounds.miny);
 		}
-
-		updateCurrentGlyphWidth();
-		//console.timeEnd('CalcMaxes_NEW');
 	};
 
 	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){

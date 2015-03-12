@@ -34,7 +34,7 @@
 		// debug('\n redraw_GlyphEdit - START');
 		_UI.redrawing = true;
 		
-		var sc = getSelectedGlyph();
+		var sc = getSelectedWorkItem();
 		if(sc) sc.calcGlyphMaxes();
 
 		drawGrid();

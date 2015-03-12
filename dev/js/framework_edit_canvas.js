@@ -82,7 +82,7 @@
 
 		if(!onCanvasEditPage()) return;
 
-		if(!isWorkItemSelected()){
+		if(!getSelectedWorkItemID()){
 			getEditDocument().getElementById("toolsarea").innerHTML = '';
 			return;
 		}
@@ -170,7 +170,7 @@
 		viewcontent += pop;
 
 		if(onglyph || onlig) toolcontent += newshape;
-		var sls = getSelectedGlyph();
+		var sls = getSelectedWorkItem();
 		if(oncom && sls && !sls.shape) toolcontent += newshape;
 
 		if(onglyph || oncom || onlig) toolcontent += edittools;
@@ -350,7 +350,7 @@
 
 	function setView(oa){
 
-		var sc = (_UI.navhere === 'kerning')? getSelectedKernID() : getSelectedGlyphID();
+		var sc = (_UI.navhere === 'kerning')? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
@@ -370,7 +370,7 @@
 	function getView(calledby){
 		//debug('GETVIEW - called by ' + calledby);
 		var onkern = (_UI.navhere === 'kerning');
-		var sc = onkern? getSelectedKernID() : getSelectedGlyphID();
+		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
 		if(isval(v[sc])){
@@ -462,32 +462,57 @@
 
 
 
-//	-------------------------
+//	------------------------------------------
 //	Global Get Selected Glyph and Shape
-//	-------------------------
-	function isWorkItemSelected() {
+//	------------------------------------------
+
+	function getSelectedWorkItem(){
+		debug('\n getSelectedWorkItem - START');
+		debug('\t navhere: ' + _UI.navhere);
+		var re;
+
 		switch(_UI.navhere){
-			case 'glyph edit': return true;
-			case 'components': return _UI.selectedcomponent;
-			case 'ligatures': return _UI.selectedglyph;
-			case 'kerning': return _UI.selectedkern;
+			case 'glyph edit':
+				re = getGlyph(_UI.selectedglyph, true);
+				debug('\t case glyph edit, returning ' + re.glyphname);
+				return re;
+			case 'ligatures':
+				re = getGlyph(_UI.selectedligature, true);
+				debug('\t case glyph edit, returning ' + re.glyphname);
+				return re;
+			case 'components':
+				re = getGlyph(_UI.selectedcomponent, false);
+				debug('\t case components, returning ' + re.glyphname);
+				return re;
+			case 'kerning':
+				re = getGlyph(_UI.selectedkern, false);
+				debug('\t case glyph edit, returning ' + re.glyphname);
+				return re;
 		}
 
 		return false;
 	}
 
-	function getCurrentWorkItemName() {
+	function getSelectedWorkItemID(){
 		switch(_UI.navhere){
-			case 'glyph edit':
-			case 'components':
-				return getSelectedGlyphName();
-			case 'ligatures':
-				return 'ligature ' + getSelectedGlyphName();
-			case 'kerning':
-				return getSelectedKern().getName();
+			case 'glyph edit':	return _UI.selectedglyph;
+			case 'ligatures':	return _UI.selectedligature;
+			case 'components':	return _UI.selectedcomponent;
+			case 'kerning':	return _UI.selectedkern;
 		}
 
-		return 'no working object';
+		return false;
+	}
+
+	function getSelectedWorkItemName() {
+		var wi = getSelectedWorkItem();
+		return wi.glyphname || '[name not found]';
+	}
+
+	function getSelectedWorkItemShapes(){
+		//debug('GETSELECTEDGLYPHSHAPES');
+		var rechar = getSelectedWorkItem();
+		return rechar? rechar.shapes : [];
 	}
 
 	function ss(req){
@@ -496,7 +521,7 @@
 		// debug('\t Requested by: ' + req);
 		// debug('\t selectedshape: ' + _UI.selectedshape);
 
-		var shapes = getSelectedGlyphShapes();
+		var shapes = getSelectedWorkItemShapes();
 
 		if(_UI.selectedshape !== -1){
 			if((_UI.selectedshape >= 0) && (_UI.selectedshape < shapes.length)) {
@@ -516,6 +541,44 @@
 		}
 	}
 
+	function selectGlyph(c, dontnavigate){
+		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).glyphname + ' from value ' + c);
+
+		_UI.selectedglyph = c;
+		_UI.selectedshape = -1;
+
+		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
+		if(!dontnavigate){
+			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			navigate('npAttributes');
+		}
+	}
+
+	function selectComponent(c, dontnavigate){
+		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).glyphname + ' from value ' + c);
+
+		_UI.selectedcomponent = c;
+		_UI.selectedshape = -1;
+
+		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
+		if(!dontnavigate){
+			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			navigate('npAttributes');
+		}
+	}
+
+	function selectLigature(c, dontnavigate){
+		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).glyphname + ' from value ' + c);
+
+		_UI.selectedligature = c;
+		_UI.selectedshape = -1;
+
+		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
+		if(!dontnavigate){
+			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			navigate('npAttributes');
+		}
+	}
 
 //------------------------------
 // Drawing controls
@@ -671,7 +734,7 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 	function drawGuides() {
 		// debug('\n drawGuides - START');
 
-		if(!isWorkItemSelected()) return;
+		if(!getSelectedWorkItemID()) return;
 
 		var ps = _GP.projectsettings;
 		var onglyphedit = (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures');
@@ -708,7 +771,7 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 			}
 
 			// Glyph Width or Kerning
-			var sc = getSelectedGlyph();
+			var sc = getSelectedWorkItem();
 			if(onglyphedit){
 				ps.guides.leftside.draw(getSelectedGlyphLeftSideBearing()*-1);
 

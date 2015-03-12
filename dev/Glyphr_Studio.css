@@ -499,18 +499,18 @@
 		width: 100%;
 	}
 
-	.charselectbuttontable {
+	.glyphselectbuttontable {
 		display:inline;
 		float:left;
 		cursor:pointer;
 		margin:0px 10px 10px 0px;
 	}
 
-	.charselectbuttontable td {
+	.glyphselectbuttontable td {
 		color:rgb(127,134,137);
 	}
 
-	.charselectthumb {
+	.glyphselectthumb {
 		height:50px;
 		width:50px;
 		background-color:rgb(250,252,255);
@@ -520,8 +520,8 @@
 		cursor: pointer;
 	}
 
-	.charselectbuttonsel,
-	.charselectbutton {
+	.glyphselectbuttonsel,
+	.glyphselectbutton {
 		width:50px;
 		height:50px;
 		border:1px solid white;
@@ -535,8 +535,8 @@
 		clear:both;
 	}
 
-	.charselectthumbsel,
-	.charselectbuttonsel {
+	.glyphselectthumbsel,
+	.glyphselectbuttonsel {
 		background-color:rgb(80,196,255);
 		border:1px solid rgb(0,170,255);
 		color: rgb(0,170,255);

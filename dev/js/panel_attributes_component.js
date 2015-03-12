@@ -5,7 +5,7 @@
 //	---------------------------------
 	function componentGlyphDetails(){
 		var con = '';
-		var sls = getSelectedGlyph();
+		var sls = getSelectedWorkItem();
 		if(!sls) return '';
 
 		con += '<h3'+((sls.shape)? '' : ' style="margin-top:0px;"')+'>glyphs that use this component</h3>';
@@ -22,7 +22,7 @@
 
 	function makeUsedInThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
-		var ui = getSelectedGlyph().usedin;
+		var ui = getSelectedWorkItem().usedin;
 		var unique = ui.filter(function(elem, pos) { return ui.indexOf(elem) === pos;});
 		var cname;
 

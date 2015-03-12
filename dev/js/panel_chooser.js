@@ -33,14 +33,15 @@
 		return content;
 	}
 
-	function makeGenericGlyphChooserContent(fname, showglyph, showlig, showcom) {
+	function makeGenericGlyphChooserContent(funname, showglyph, showlig, showcom) {
 		// debug('\n makeGenericGlyphChooserContent - START');
 		// debug('\t passed fname ' + fname);
 
+		var selwi = getSelectedWorkItemID();
 		var ccon = '<div class="charchooserwrapper">';
-		fname = fname? fname : 'selectGlyph';
 		var cr = _GP.projectsettings.glyphrange;
 		var showtitles = false;
+		var fname;
 		if(showglyph && showlig || showglyph && showcom){
 			showtitles = true;
 		} else if (showglyph){
@@ -48,25 +49,26 @@
 		}
 
 		if(showglyph){
+			fname = funname? funname : 'selectGlyph';
 			if(cr.basiclatin){
 				var bl = _UI.basiclatinorder;
 				if(showtitles) ccon += '<h3>basic latin</h3>';
-				for(var i=0; i<bl.length; i++){ ccon += makeGlyphChooserButton(bl[i], fname); }
+				for(var i=0; i<bl.length; i++){ ccon += makeGlyphChooserButton(bl[i], fname, selwi); }
 			}
 
 			if(cr.latinsuppliment){
 				if(showtitles) ccon += '<h3>latin suppliment</h3>';
-				for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname); }
+				for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname, selwi); }
 			}
 
 			if(cr.latinextendeda){
 				if(showtitles) ccon += '<h3>latin extended-a</h3>';
-				for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname); }
+				for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname, selwi); }
 			}
 
 			if(cr.latinextendedb){
 				if(showtitles) ccon += '<h3>latin extended-b</h3>';
-				for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname); }
+				for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname, selwi); }
 			}
 
 			var cn;
@@ -77,9 +79,9 @@
 					for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 						cn = decToHex(range);
 						if(_GP.projectsettings.glyphrange.filternoncharpoints){
-							if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname);
+							if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname, selwi);
 						} else {
-							ccon += makeGlyphChooserButton(cn, fname);
+							ccon += makeGlyphChooserButton(cn, fname, selwi);
 						}
 					}
 				}
@@ -87,18 +89,20 @@
 		}
 
 		if(showlig && getFirstID(_GP.ligatures)){
+			fname = funname? funname : 'selectLigature';
 			if(showtitles) ccon += '<h3>ligatures</h3>';
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
-				ccon += makeGlyphChooserButton(l, fname);
+				ccon += makeGlyphChooserButton(l, fname, selwi) ;
 			}}
 		}
 
 		if(showcom && getFirstID(_GP.components)){
+			fname = funname? funname : 'selectComponent';
 			if(showtitles) ccon += '<h3>components</h3>';
 			var com = _GP.components;
 			for(var d in com){ if(com.hasOwnProperty(d)){
-				ccon += makeGlyphChooserButton(d, fname);
+				ccon += makeGlyphChooserButton(d, fname, selwi) ;
 			}}
 		}
 
@@ -107,33 +111,39 @@
 		return ccon;
 	}
 
-	function makeGlyphChooserButton(index, fname){
+	function makeGlyphChooserButton(index, fname, selid){
 		// debug('\n makeGlyphChooserButton - START');
 		var onc = (fname + '(\'' + index + '\');');
 		// debug('\t constructed function: ' + onc);
-		var rv = '<table class="charselectbuttontable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
-		var issel = (index === _UI.selectedglyph);
-		issel = (issel && (_UI.navhere !== 'components'));
-		var chtml = hexToHTML(index);
-		if(index === '0x0020') chtml = 'space';
+		
+		var rv = '<table class="glyphselectbuttontable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
+		
+		var wi = getGlyph(index);
+		debug('\t getGlyph returned');
+		debug(wi);
 
-		if((_GP.glyphs[index] && _GP.glyphs[index].shapes[0]) ||
-			(_GP.ligatures[index] && _GP.ligatures[index].shapes[0])) {
+		var issel = (index === selid);
+		
+		var gname = hexToHTML(index);
+		if(index === '0x0020') gname = 'space';
+		else if (!gname) gname = wi.glyphname;
+
+		if(wi && getSelectedWorkItemShapes().length) {
 			var extra = '';
-			if(issel) {extra = ' charselectthumbsel';}
-			rv += '<div class="charselectthumb'+extra+'">'+getGlyph(index).makeSVG()+'</div>';
+			if(issel) {extra = ' glyphselectthumbsel';}
+			rv += '<div class="glyphselectthumb'+extra+'">'+wi.makeSVG()+'</div>';
 		} else {
-			if(issel) {rv += '<div class="charselectbuttonsel"';}
-			else {rv += '<div class="charselectbutton"';}
+			if(issel) {rv += '<div class="glyphselectbuttonsel"';}
+			else {rv += '<div class="glyphselectbutton"';}
 
 			if(index === '0x0020'){
 				rv += ' style="font-size:13px; line-height:3.8em;"';	// SPACE needs to be smaller font size
 			}
 
-			rv += ('>'+chtml+'</div>');
+			rv += ('>'+gname+'</div>');
 		}
 
-		rv += '&nbsp;'+chtml;
+		rv += '&nbsp;'+gname;
 		rv += '</td></tr></table>';
 
 		return rv;

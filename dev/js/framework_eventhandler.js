@@ -140,7 +140,7 @@
 			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
-				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedGlyphShapes().length;
+				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 
 				if(_UI.selectedtool==='newrect'){
 					newshape.name = ('Rectangle ' + count);
@@ -300,7 +300,7 @@
 				//debug('Tool_NewPath MOUSEDOWN - after new path is made.');
 
 				// make a new shape with the new path
-				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedGlyphShapes().length;
+				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
 				newshape.path.selectPathPoint(0);
 				//debug('Tool_NewPath MOUSEDOWN - end of firstpoint, new shape added with new path with single point.');

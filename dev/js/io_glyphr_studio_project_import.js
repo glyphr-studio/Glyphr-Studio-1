@@ -77,7 +77,7 @@
 
 	function migrate_betas_to_v1 (fcontent, minor) {
 		debug('\n migrate_betas_to_v1 - START');
-		debug(fcontent);
+		// debug(fcontent);
 		// Start rolling upgrades
 
 		switch (minor){
@@ -112,6 +112,8 @@
 		delete fc.fontchars;
 		delete fc.linkedshapes;
 		delete fc.projectsettings.charrange;
+		debug('\t DONE tlo');
+
 
 		// Upgrade Linked Shapes to full Glyphs
 		var com,sh,ui,gn;
@@ -127,7 +129,9 @@
 			ui = com.usedin? com.usedin : [];
 			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'glyphname':gn, 'glyphhtml':'&nbsp;'});
 		}}
+		debug('\t DONE ls > glyph');
 
+		
 		// Switch from Char to Glyph names
 		// Update Glyphs to use Components not Linked Shapes
 		var gl, gshapes, dx, dy;
@@ -161,7 +165,7 @@
 				}*/
 			}
 		}}
-		debug(fc);
+		// debug(fc);
 		debug(' migrate_0_5_to_1_0 - END\n');
 		return fc;
 	}
@@ -260,7 +264,7 @@
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
 
-		// Linked Shapes
+		// Components
 		for (var com in data.components) {
 			if(data.components.hasOwnProperty(com)){
 				_GP.components[com] = new Glyph(data.components[com]);
@@ -270,7 +274,7 @@
 		// Glyphs
 		for (var gl in data.glyphs) {
 			if(data.glyphs.hasOwnProperty(gl)){
-				_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);
+				_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);				
 			}
 		}
 
@@ -350,10 +354,10 @@
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
-		_UI.selectedchar = _UI.selectedchar || getFirstGlyphID();
-		_UI.selectedcomponent = getFirstID(_GP.components);
-		_UI.selectedkern = getFirstID(_GP.kerning);
-
+		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
+		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);
+		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
+		
 		calculateDefaultView();
 		resetThumbView();
 

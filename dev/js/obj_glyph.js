@@ -4,7 +4,7 @@
 // GLYPH OBJECT
 //-------------------------------------------------------
 	function Glyph(oa){
-
+		// debug('\n GLYPH - START');
 		this.objtype = 'glyph';
 
 		this.glyphname = oa.glyphname || getGlyphName(oa.glyphhex) || 'ERROR_GLYPHNAME';
@@ -35,6 +35,7 @@
 		}
 
 		this.calcGlyphMaxes();
+		// debug(' GLYPH - END\n');
 	}
 
 
@@ -247,9 +248,9 @@
 
 			// move
 			if(dw === 0) pnx = false;
-			else pnx = (ratiodw * (ts.maxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
+			else pnx = (ratiodw * (tsmaxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
 			if(dh === 0) pny = false;
-			else pny = (ratiodh * (ts.maxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (ts.maxes.ymax - ts.maxes.ymin);
+			else pny = (ratiodh * (tsmaxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tsmaxes.ymax - tsmaxes.ymin);
 
 			ts.setShapePosition(pnx, pny, true);
 		}
@@ -295,46 +296,45 @@
 // GLYPH FUNCTIONS
 //-------------------------------------------------------
 	// GET
-	function getGlyph(ch, create) {
-		// debug('\n getGlyph - START');
-		// debug('\t passed ' + ch);
-		// debug('\t force create? ' + create);
+	function getGlyph(id, create) {
+		debug('\n getGlyph - START');
+		debug('\t passed: ' + id + ' create: ' + create);
 
-		if(!ch){
+		if(!id){
 			// debug('getGlyph - not passed an ID, returning false');
 			return false;
 		}
 
-		ch = ''+ch;
+		id = ''+id;
 		var rechar;
 
-		if (ch.indexOf('0x', 2) > -1){
-			rechar = _GP.ligatures[ch];
+		if (id.indexOf('0x', 2) > -1){
+			rechar = _GP.ligatures[id];
 			// debug('\t retrieved ' + rechar + ' from ligatures.');
 			if(rechar){
 				return rechar;
 			} else if(create){
 				// debug('\t create was true, returning a new ligature.');
-				_GP.ligatures[ch] = new Glyph({'glyphhex':ch});
-				return _GP.ligatures[ch];
+				_GP.ligatures[id] = new Glyph({'glyphhex':id});
+				return _GP.ligatures[id];
 			}
-		} else if(ch.indexOf('0x') > -1){
-			rechar = _GP.glyphs[ch];
+		} else if(id.indexOf('0x') > -1){
+			rechar = _GP.glyphs[id];
 			// debug('\t retrieved ' + rechar + ' from glyphs.');
 			if(rechar){
 				return rechar;
 			} else if(create){
 				// debug('\t create was true, returning a new char.');
-				_GP.glyphs[ch] = new Glyph({'glyphhex':ch});
-				return _GP.glyphs[ch];
+				_GP.glyphs[id] = new Glyph({'glyphhex':id});
+				return _GP.glyphs[id];
 			}
 		} else {
-			// debug('\t component, retrieved');
-			// debug(_GP.components[ch]);
-			return _GP.components[ch] || false;
+			debug('\t component, retrieved');
+			debug(_GP.components[id]);
+			return _GP.components[id] || false;
 		}
 
-		// debug('getGlyph - returning FALSE\n');
+		debug('getGlyph - returning FALSE\n');
 		return false;
 	}
 
@@ -357,17 +357,14 @@
 		}
 
 		var cobj = getGlyph(ch);
-		if(cobj && cobj.shape) {
-			// component
-			// debug('\t component - returning ' + cobj.shape.name);
-			return cobj.shape.name;
-		} else if(ch.indexOf('0x',2) > -1){
+		if(ch.indexOf('0x',2) > -1){
 			// ligature
 			// debug('\t ligature - returning ' + hexToHTML(ch));
 			return hexToHTML(ch);
 		} else {
+			// Component
 			// debug('getGlyphName - inexplicably fails, returning [name not found]\n');
-			return '[name not found]';
+			return cobj.glyphname || '[name not found]';
 		}
 
 		// debug(' getGlyphName - returning nothing - END\n');
@@ -379,46 +376,9 @@
 	}
 
 	// GET SELECTED
-	function getSelectedGlyph(){
-		// debug('\n getSelectedGlyph - START');
-		// debug('\t selectedglyph: ' + _UI.selectedglyph);
-		var re;
-		if(_UI.navhere === 'components') {
-			re = getGlyph(_UI.selectedcomponent);
-			// debug('\t case components, returning ' + re.glyphname);
-			return re;
-		} else if (_UI.navhere === 'openproject'){
-			return false;
-		} else if(_UI.navhere !== 'kerning'){
-			re = getGlyph(_UI.selectedglyph, true);
-			// debug('\t case glyph edit, returning ' + re.glyphname);
-			return re;
-		} else {
-			return false;
-		}
-	}
-
-	function getSelectedGlyphID(){
-		//debug('GETSELECTEDGLYPHID');
-		if(_UI.navhere === 'components') return _UI.selectedcomponent;
-		else return _UI.selectedglyph;
-	}
-
-	function getSelectedGlyphName() {
-		//debug('GETSELECTEDGLYPHNAME - _UI.selectedglyph: ' + _UI.selectedglyph);
-		if(_UI.navhere === 'components') return getGlyphName(_UI.selectedcomponent);
-		else return getGlyphName(_UI.selectedglyph);
-	}
-
-	function getSelectedGlyphShapes(){
-		//debug('GETSELECTEDGLYPHSHAPES');
-		var rechar = getSelectedGlyph();
-		return rechar? rechar.shapes : [];
-	}
-
 	function getSelectedGlyphLeftSideBearing(){
 		//debug('getSelectedGlyphLeftSideBearing');
-		var sc = getSelectedGlyph();
+		var sc = getSelectedWorkItem();
 		if(!sc) return 0;
 		if(sc.objtype === 'component') return 0;
 		if(!sc.isautowide) return 0;
@@ -427,28 +387,15 @@
 
 	function getSelectedGlyphRightSideBearing(){
 		//debug('getSelectedGlyphLeftSideBearing');
-		var sc = getSelectedGlyph();
+		var sc = getSelectedWorkItem();
 		if(!sc) return 0;
 		if(sc.objtype === 'component') return 0;
 		if(!sc.isautowide) return 0;
 		return sc.rightsidebearing || _GP.projectsettings.defaultrsb;
 	}
 
-	function selectGlyph(c, dontnavigate){
-		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).glyphname + ' from value ' + c);
-
-		_UI.selectedglyph = c;
-		_UI.selectedshape = -1;
-
-		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedGlyphShapes()));
-		if(!dontnavigate){
-			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
-			navigate('npAttributes');
-		}
-	}
-
 	function updateCurrentGlyphWidth() {
-		var sc = getSelectedGlyph();
+		var sc = getSelectedWorkItem();
 		if(!sc) return;
 		if(_UI.navhere === 'glyph edit'){
 			sc.calcGlyphMaxes();

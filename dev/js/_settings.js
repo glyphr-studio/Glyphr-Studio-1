@@ -112,6 +112,9 @@
 		'selectedshape': -1,
 		'shapelayers': [],
 
+		// page: ligatures
+		'selectedligature': false,
+		
 		// page: components
 		'selectedcomponent': false,
 

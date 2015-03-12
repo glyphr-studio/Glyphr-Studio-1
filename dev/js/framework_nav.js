@@ -167,8 +167,8 @@
 		} else {
 			switch(nh){
 				// case 'openproject':  _UI.navprimaryhere = '';break;
- 				case 'glyph edit': 	_UI.navprimaryhere = 'npChooser'; break;
-				case 'components': 	_UI.navprimaryhere = 'npChooser'; break;
+ 				case 'glyph edit': 		_UI.navprimaryhere = 'npChooser'; break;
+				case 'components': 		_UI.navprimaryhere = 'npChooser'; break;
 				case 'ligatures': 		_UI.navprimaryhere = 'npChooser'; break;
 				case 'kerning': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'test drive': 		_UI.navprimaryhere = 'npAttributes'; break;
@@ -228,8 +228,8 @@
 				switch(_UI.navhere){
 					case 'glyph edit': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
 					case 'import svg': np.innerHTML = makePanel_GlyphChooser('importSVG_selectGlyph'); break;
-					case 'components': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
-					case 'ligatures': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
+					case 'components': np.innerHTML = makePanel_GlyphChooser('selectComponent'); break;
+					case 'ligatures': np.innerHTML = makePanel_GlyphChooser('selectLigature'); break;
 				}
 				break;
 
@@ -280,7 +280,7 @@
 			case 'import svg':			loadPage_importsvg();		break;
 			case 'about':				loadPage_about();			break;
 			case 'test drive':			loadPage_testdrive();		break;
-			case 'components':			loadPage_components();	break;
+			case 'components':			loadPage_components();		break;
 			case 'glyph edit':			loadPage_glyphedit();		break;
 			case 'kerning':				loadPage_kerning();			break;
 			case 'ligatures':			loadPage_ligatures();		break;
@@ -297,7 +297,7 @@
 	function makePanel_NavTabs(){
 		var navarr = [];
 		navarr.push('npNav');
-		var wi = isWorkItemSelected();
+		var wi = getSelectedWorkItemID();
 
 		if(_UI.navprimaryhere !== 'npNav'){
 			switch(_UI.navhere){

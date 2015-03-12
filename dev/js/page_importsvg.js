@@ -2,7 +2,7 @@
 
 	function loadPage_importsvg(){
 		// debug("LOADING PAGE >> loadpage_importsvg");
-		var chname = getSelectedGlyphName();
+		var chname = getSelectedWorkItemName();
 		var content = "<h1 class='pagetitle'>Import SVG</h1><div class='pagecontent textpage'>" +
 		"<h2 id='importsvgselecttitle'>Target glyph: "+chname+"</h2>"+
 
@@ -137,7 +137,7 @@
 	function importSVG_selectGlyph(cid){
 		//debug("IMPORTSVG_SELECTGLYPH - selecting " + cid);
 		selectGlyph(cid, true);
-		document.getElementById('importsvgselecttitle').innerHTML = "Target glyph: "+getSelectedGlyphName();
+		document.getElementById('importsvgselecttitle').innerHTML = "Target glyph: "+getSelectedWorkItemName();
 		update_NavPanels();
 	}
 
@@ -177,8 +177,8 @@
 		}
 
 		// Add new Glyph Shapes
-		tempchar.sendShapesTo(getSelectedGlyphID());
-		history_put("Imported Paths from SVG to glyph "+getSelectedGlyphName());
+		tempchar.sendShapesTo(getSelectedWorkItemID());
+		history_put("Imported Paths from SVG to glyph "+getSelectedWorkItemName());
 
 		update_NavPanels();
 	}
