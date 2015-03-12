@@ -499,14 +499,20 @@
 		width: 100%;
 	}
 
-	.glyphselectbuttontable {
+	.glyphselecttable {
 		display:inline;
 		float:left;
 		cursor:pointer;
+		width:50px;
+		overflow: hidden;
 		margin:0px 10px 10px 0px;
 	}
 
-	.glyphselectbuttontable td {
+	.glyphselectname {
+		width: 500px;
+		height: 24px;
+		padding-top: 4px;
+		overflow: hidden;
 		color:rgb(127,134,137);
 	}
 

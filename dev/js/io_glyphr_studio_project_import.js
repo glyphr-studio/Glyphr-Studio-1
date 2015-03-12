@@ -127,7 +127,7 @@
 				gn = 'Shape';
 			}
 			ui = com.usedin? com.usedin : [];
-			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'glyphname':gn, 'glyphhtml':'&nbsp;'});
+			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'glyphname':gn, 'glyphhtml':''});
 		}}
 		debug('\t DONE ls > glyph');
 

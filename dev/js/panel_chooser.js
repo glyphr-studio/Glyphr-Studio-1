@@ -116,7 +116,7 @@
 		var onc = (fname + '(\'' + index + '\');');
 		// debug('\t constructed function: ' + onc);
 		
-		var rv = '<table class="glyphselectbuttontable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
+		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
 		
 		var wi = getGlyph(index);
 		debug('\t getGlyph returned');
@@ -143,7 +143,7 @@
 			rv += ('>'+gname+'</div>');
 		}
 
-		rv += '&nbsp;'+gname;
+		rv += '<div class="glyphselectname">'+gname+'</div>';
 		rv += '</td></tr></table>';
 
 		return rv;

@@ -16,6 +16,7 @@
 		this.scaleh = oa.scaleh || 0;
 		this.flipew = oa.flipew || false;
 		this.flipns = oa.flipns || false;
+		this.reversewinding = oa.reversewinding || false;
 
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.ylock || false;
