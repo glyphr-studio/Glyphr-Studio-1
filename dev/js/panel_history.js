@@ -25,12 +25,11 @@
 			te = q[e];
 
 			if(te.glyphname !== currname){
-				content += "<tr><td colspan=3 ><div class='history_char'>"+te.glyphname+"</div></td></tr>";
+				content += "<tr><td colspan=2 ><div class='history_char'>"+te.glyphname+"</div></td></tr>";
 				currname = te.glyphname;
 			}
 
 			content += "<tr>"+
-				"<td class='leftcol'>&nbsp;</td>"+
 				"<td class='history_action'>"+te.description+"</td>"+
 				"<td class='history_date'>"+new Date(te.date).toLocaleString()+"</td>"+
 				"</tr>";
