@@ -297,8 +297,8 @@
 //-------------------------------------------------------
 	// GET
 	function getGlyph(id, create) {
-		debug('\n getGlyph - START');
-		debug('\t passed: ' + id + ' create: ' + create);
+		// debug('\n getGlyph - START');
+		// debug('\t passed: ' + id + ' create: ' + create);
 
 		if(!id){
 			// debug('getGlyph - not passed an ID, returning false');
@@ -329,12 +329,12 @@
 				return _GP.glyphs[id];
 			}
 		} else {
-			debug('\t component, retrieved');
-			debug(_GP.components[id]);
+			// debug('\t component, retrieved');
+			// debug(_GP.components[id]);
 			return _GP.components[id] || false;
 		}
 
-		debug('getGlyph - returning FALSE\n');
+		// debug('getGlyph - returning FALSE\n');
 		return false;
 	}
 

@@ -59,16 +59,79 @@
 		//debug("COMPONENTINSTANCEDETAILS - start of function");
 		var com = getGlyph(s);
 		var svc = (_GP.projectsettings.spinnervaluechange || 1);
-		content = '<tr><td colspan=3><h3>component</h3></td></tr>';
+		content = '<tr><td colspan=3><h3>component instance</h3></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px;"> name </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input style="width:90%;" type="text" value="' + s.name + '" onchange="ss().name = this.value; history_put(\'shape name\'); redraw(\'componentInstanceDetails\');"></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td> use component position</td><td>'+checkUI('ss().usecomponentxy', true)+'</td></tr>';
 
-		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163);">x & y values are relative to the component position</h3></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.translatex, 3) + '" onchange="ss().translatex = (this.value*1); history_put(\'component translatex\'); redraw(\'componentInstanceDetails\');"></td></tr>';
-		content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.translatey, 3) + '" onchange="ss().translatey = (this.value*1); history_put(\'component translatey\'); redraw(\'componentInstanceDetails\');"></td></tr>';
+		content += '<tr><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163);">x, y, width, and height values are relative to the component position</h3></td></tr>';
+
+		content += '<tr>'+
+			'<td> &#916; x </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.translatex, 3) + 
+					'" onchange="ss().translatex = (this.value*1); history_put(\'component translatex\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> &#916; y </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.translatey, 3) + 
+					'" onchange="ss().translatey = (this.value*1); history_put(\'component translatey\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> &#916; width </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.scalew, 3) + 
+					'" onchange="ss().scalew = (this.value*1); history_put(\'component scalew\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> &#916; height </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.scaleh, 3) + 
+					'" onchange="ss().scaleh = (this.value*1); history_put(\'component scaleh\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+
+
+		// CHECKBOXES
+		content += '<tr>'+
+			'<td> flip horizontal </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.flipew, 3) + 
+					'" onchange="ss().flipew = (this.value*1); history_put(\'component flipew\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> flip vertical </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.flipns, 3) + 
+					'" onchange="ss().flipns = (this.value*1); history_put(\'component flipns\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> reverse winding </td>'+
+			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
+				'<input type="number" step="'+svc+'" value="' + round(s.reversewinding, 3) + 
+					'" onchange="ss().reversewinding = (this.value*1); history_put(\'component reversewinding\'); redraw(\'componentInstanceDetails\');">'+
+			'</td>'+
+		'</tr>';
+
+
+
+
+		// content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; x </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.translatex, 3) + '" onchange="ss().translatex = (this.value*1); history_put(\'component translatex\'); redraw(\'componentInstanceDetails\');"></td></tr>';
+		// content += '<tr><td class="leftcol">&nbsp;</td><td style="margin-top:0px; padding-top:0px; text-transform:none;">&#916; y </td><td style="margin-top:0px; padding-top:0px; padding-right:10px;"><input type="number" step="'+svc+'" value="' + round(s.translatey, 3) + '" onchange="ss().translatey = (this.value*1); history_put(\'component translatey\'); redraw(\'componentInstanceDetails\');"></td></tr>';
 		// WIDTH
 		// HEIGHT
 
+		content += '<tr><td colspan=3><h3>component</h3></td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td> component name </td><td>' + s.name + '</td></tr>';
 		content += '<tr><td class="leftcol">&nbsp;</td><td colspan=2><button onclick="goToEditComponent(\''+s.link+'\');">edit this component</button></td></tr>';
 		return content;

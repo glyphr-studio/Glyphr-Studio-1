@@ -467,26 +467,26 @@
 //	------------------------------------------
 
 	function getSelectedWorkItem(){
-		debug('\n getSelectedWorkItem - START');
-		debug('\t navhere: ' + _UI.navhere);
+		// debug('\n getSelectedWorkItem - START');
+		// debug('\t navhere: ' + _UI.navhere);
 		var re;
 
 		switch(_UI.navhere){
 			case 'glyph edit':
 				re = getGlyph(_UI.selectedglyph, true);
-				debug('\t case glyph edit, returning ' + re.glyphname);
+				// debug('\t case glyph edit, returning ' + re.glyphname);
 				return re;
 			case 'ligatures':
 				re = getGlyph(_UI.selectedligature, true);
-				debug('\t case glyph edit, returning ' + re.glyphname);
+				// debug('\t case glyph edit, returning ' + re.glyphname);
 				return re;
 			case 'components':
 				re = getGlyph(_UI.selectedcomponent, false);
-				debug('\t case components, returning ' + re.glyphname);
+				// debug('\t case components, returning ' + re.glyphname);
 				return re;
 			case 'kerning':
 				re = getGlyph(_UI.selectedkern, false);
-				debug('\t case glyph edit, returning ' + re.glyphname);
+				// debug('\t case glyph edit, returning ' + re.glyphname);
 				return re;
 		}
 
