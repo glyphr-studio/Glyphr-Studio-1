@@ -335,14 +335,9 @@
 
 		var sg = getSelectedWorkItem();
 
-		if(_UI.navhere === 'components'){
-			_UI.selectedshape = getSelectedWorkItemID();
-			sg.shape = newshape;
-		} else {
-			_UI.selectedshape = sg.shapes.length;
-			sg.shapes.push(newshape);
-			sg.calcGlyphMaxes();
-		}
+		_UI.selectedshape = sg.shapes.length;
+		sg.shapes.push(newshape);
+		sg.calcGlyphMaxes();
 
 		_UI.navprimaryhere = 'npAttributes';
 

@@ -123,7 +123,7 @@
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 
-		if(!oncom && !onkern) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
+		if(!onkern) document.getElementById('popout_layerchooser').innerHTML = makePanel_LayerChooser();
 
 		if(!onkern)document.getElementById('popout_actions').innerHTML = makePanel_Actions();
 
@@ -241,7 +241,7 @@
 					case 'ligatures':
 						np.innerHTML = makePanel_GlyphAttributes();
 						np.innerHTML += makePanel_Actions();
-					break;
+						break;
 					case 'kerning': np.innerHTML = makePanel_KerningAttributes(); break;
 					case 'test drive': np.innerHTML = makePanel_TestDriveAttributes(); break;
 				}
@@ -310,12 +310,6 @@
 				break;
 
 				case 'components':
-				navarr.push('npChooser');
-				if(wi) navarr.push('npAttributes');
-				if(wi) navarr.push('npHistory');
-				if(wi) navarr.push('npGuides');
-				break;
-
 				case 'ligatures':
 				navarr.push('npChooser');
 				if(wi) navarr.push('npLayers');

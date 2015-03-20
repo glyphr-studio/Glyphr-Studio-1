@@ -5,7 +5,7 @@
 //---------------------
 
 	function makePanel_GlyphAttributes(){
-		//debug("UPDATEGLYPHEDITDETAILS");
+		debug('\n makePanel_GlyphAttributes - START');
 		var sc = getSelectedWorkItem();
 		var s = ss('update details');
 
@@ -21,41 +21,47 @@
 
 		content += '<div class="panel_section">';
 
-		//debug("UPDATEDETAILS - _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
-		if (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures'){
-			content += '<table class="detail">';
-			//debug("UPDATEDETAILS - detected navhere = glyph edit");
-			if(s && s.objtype === 'componentinstance'){
-				// component selected
-				//debug("UPDATEDETAILS: component selected");
-				content += componentInstanceDetails(s);
-			} else if (s){
-				// regular shape selected
-				//debug("UPDATEDETAILS: regular shape selected");
-				content += shapeDetails(s);
-				if(ispointsel){ content += pointDetails(s); }
-			} else {
-				// no shape selected
-				//debug("UPDATEDETAILS: no shape selected");
-				content += glyphDetails();
-			}
-			content += '</table><br>';
+		debug(" \t  _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
 
-		} else if (_UI.navhere === 'components'){
-			//debug("UPDATEDETAILS - detected navhere = components");
-			if (s){
-				content += '<table class="detail">';
-				content += shapeDetails(s);
-				if(ispointsel){
-					content += pointDetails(s);
-				}
-			content += '</table><br>';
-			}
-			content += componentGlyphDetails();
+		content += '<table class="detail">';
+
+		if (_UI.navhere === 'components'){
+			debug(" \t  detected navhere = components");
+			content += '<tr><td colspan=2><h3>component</h3></td></tr>';
+			content += '<tr><td>name</td><td><input type="text" value="'+sc.name+'"/></td></tr>';
 		}
 
+		if(s && s.objtype === 'componentinstance'){
+			// component selected
+			debug(" \t component selected");
+			content += componentInstanceDetails(s);
+		} else if (s){
+			// regular shape selected
+			debug(" \t regular shape selected");
+			content += shapeDetails(s);
+			if(ispointsel){ content += pointDetails(s); }
+		} else {
+			// no shape selected
+			debug(" \t no shape selected");
+			content += glyphDetails();
+		}
+
+		if (_UI.navhere === 'components'){
+			content += '<tr><td colspan=2><h3>glyphs that use this component</h3></td></tr>';
+			content += '<tr><td colspan=2>';
+			if(sc.usedin.length > 0){
+				content += makeUsedInThumbs();
+			} else {
+				content += '<br><i>this component is not currently being used by any glyphs. ';
+				content += '<a href="#" onclick="showAddSSToGlyphDialog();">add this component to a glyph now</a>.</i>';
+			}
+			content += '</td></tr>';
+		}
+
+		content += '</table><br>';
 		content += '</div>';
 
+		debug(' makePanel_GlyphAttributes - END\n');
 		return content;
 	}
 
@@ -111,6 +117,8 @@
 				'<td colspan=2><i>This glyph needs to have at least two shapes in order to bulk-transform.</i></td>'+
 			'</tr>';
 		}
+
+		if (_UI.navhere === 'components') return content;
 
 
 		// AUTO GLYPH WIDTH

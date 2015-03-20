@@ -3,23 +3,6 @@
 //	---------------------------------
 //	COMPONENT ATTRIBUTES
 //	---------------------------------
-	function componentGlyphDetails(){
-		var con = '';
-		var sls = getSelectedWorkItem();
-		if(!sls) return '';
-
-		con += '<h3'+((sls.shape)? '' : ' style="margin-top:0px;"')+'>glyphs that use this component</h3>';
-		if(sls.usedin.length > 0){
-			con += makeUsedInThumbs();
-		} else {
-			con += '<br><i>this component is not currently being used by any glyphs. ';
-			con += '<a href="#" onclick="showAddSSToGlyphDialog();">add this component to a glyph now</a>.</i>';
-		}
-
-		//debug("COMPONENTGLYPHDETAILS - returning html:\n" + con);
-		return con;
-	}
-
 	function makeUsedInThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
 		var ui = getSelectedWorkItem().usedin;
@@ -57,7 +40,6 @@
 
 	function componentInstanceDetails(s){
 		//debug("COMPONENTINSTANCEDETAILS - start of function");
-		var com = getGlyph(s);
 		var svc = (_GP.projectsettings.spinnervaluechange || 1);
 		content = '<tr><td colspan=2><h3>component instance</h3></td></tr>';
 
@@ -79,13 +61,13 @@
 				'<div class="lockwrapper">'+
 					lockUI('ss().xlock')+
 					'<input type="number" id="comx" step="'+svc+'" value="' + round(s.translatex, 3) + '" '+
-						'onchange="updateComponentInstanceDetail(\'translatex\', this.value, this.id);">'+
+						(s.xlock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'translatex\', this.value, this.id);">')+
 				'</div>'+
 				dimSplit() +
 				'<div class="lockwrapper">'+
 					lockUI('ss().ylock')+
 					'<input type="number" id="comy" step="'+svc+'" value="' + round(s.translatey, 3) + '" '+
-						'onchange="updateComponentInstanceDetail(\'translatey\', this.value, this.id);">'+
+						(s.ylock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'translatey\', this.value, this.id);">')+
 				'</div>'+
 			'</td>'+
 		'</tr>';
@@ -96,13 +78,13 @@
 				'<div class="lockwrapper">'+
 					lockUI('ss().wlock')+
 					'<input type="number" id="comw" step="'+svc+'" value="' + round(s.scalew, 3) + '" '+
-						'onchange="updateComponentInstanceDetail(\'scalew\', this.value, this.id);">'+
+						(s.wlock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'scalew\', this.value, this.id);">')+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('ss().hlock')+
 					'<input type="number" id="comh" step="'+svc+'" value="' + round(s.scaleh, 3) + '" '+
-						'onchange="updateComponentInstanceDetail(\'scaleh\', this.value, this.id);">'+
+						(s.hlock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'scaleh\', this.value, this.id);">')+
 				'</div>'+
 			'</td>'+
 		'</tr>';
@@ -134,7 +116,7 @@
 
 		content += '<tr><td colspan=2><h3>root component</h3></td></tr>';
 		content += '<tr><td> root name </td><td>' + 
-			'<input type="text" disabled="disabled value="' + getGlyphName(s.link) + '">'+
+			'<input type="text" disabled="disabled" value="' + getGlyphName(s.link) + '">'+
 		'</td></tr>';
 		content += '<tr><td colspan=2><button onclick="goToEditComponent(\''+s.link+'\');">edit this component</button></td></tr>';
 		return content;

@@ -119,8 +119,8 @@
 		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
 		
 		var wi = getGlyph(index);
-		debug('\t getGlyph returned');
-		debug(wi);
+		// debug('\t getGlyph returned');
+		// debug(wi);
 
 		var issel = (index === selid);
 		

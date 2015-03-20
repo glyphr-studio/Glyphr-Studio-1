@@ -64,22 +64,26 @@
 //-------------------
 	function makePanelSuperTitle() {
 		// debug('\n makePanelSuperTitle - START');
-		var content = "";
+		var content = '';
 		if(!_UI.popout) {
 			var sc = getSelectedWorkItem();
 			var name;
 
-			content += "<h1 class='panelsupertitle'>"+_UI.navhere.toUpperCase();
+			content += '<h1 class="panelsupertitle">'+_UI.navhere.toUpperCase();
+			if (_UI.navprimaryhere === 'npChooser' ||
+				_UI.navprimaryhere === 'npGuides' ||
+				_UI.navprimaryhere === 'npHistory') return content + '</h1>';
+				
 			if(sc){
 				name = (sc.glyphname || sc.glyphhtml || sc.shape.name || '[no shape outline yet]');
 				if(sc.glyphname) name = name.replace(/latin /i, '');
-				content += "<span class='supertitleseperator'>&#x276F;&#x276F;</span>";
+				content += '<span class="supertitleseperator">&#x276F;&#x276F;</span>';
 				content += name;
 			} else if (_UI.navhere === 'kerning'){
 				name = getSelectedKern();
-				content += name? "<span class='supertitleseperator'>&#x276F;&#x276F;</span>" + name.getName() : '';
+				content += name? '<span class="supertitleseperator">&#x276F;&#x276F;</span>' + name.getName() : '';
 			}
-			content += "</h1>";
+			content += '</h1>';
 		}
 		// debug(' makePanelSuperTitle - returning\n' + content + '\n');
 		return content;
