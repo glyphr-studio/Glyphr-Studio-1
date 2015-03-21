@@ -26,7 +26,7 @@
 		u = u.split('0x');
 		var result = '';
 		for(var i=0; i<u.length; i++){ if(u[i] !== ''){
-			u[i] = String.fromGlyphCode('0x'+u[i]);
+			u[i] = String.fromCharCode('0x'+u[i]);
 			// debug('\t added ' + u[i]);
 			if(u[i]) result += u[i];
 		}}

@@ -144,10 +144,10 @@
 		g.drawGlyphToArea(lctx, view);
 	};
 
-	ComponentInstance.prototype.drawSelectOutline = function(onlycenter){
+	ComponentInstance.prototype.drawSelectOutline = function(){
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawSelectOutline(true);
+			drawSelectOutline(g.shapes[s], _UI.colors.green.l65);
 		}
 	};
 
@@ -155,8 +155,8 @@
 		drawBoundingBox(getGlyph(this.link).maxes, _UI.colors.green.l65);
 	};
 
-	ComponentInstance.prototype.drawBoundingBoxHandles = function(onlycenter){
-	 	drawBoundingBoxHandles(getGlyph(this.link).maxes, _UI.colors.green.l65, onlycenter);
+	ComponentInstance.prototype.drawBoundingBoxHandles = function(){
+	 	drawBoundingBoxHandles(getGlyph(this.link).maxes, _UI.colors.green.l65);
 	};
 
 	ComponentInstance.prototype.isHere = function(x,y){

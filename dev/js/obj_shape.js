@@ -73,83 +73,16 @@
 //	-------------------------------------------------------
 //	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
 //	-------------------------------------------------------
-	Shape.prototype.drawSelectOutline = function(onlycenter, accent){
-		// debug('\n Shape.drawSelectOutline - START');
-		accent = accent || _UI.colors.blue.l65;
-		// debug('\t accent = ' + json(accent));
-		
-		var hp = (_GP.projectsettings.pointsize/2);
-		_UI.glypheditctx.lineWidth = 1;
-		_UI.glypheditctx.strokeStyle = accent;
-		_UI.glypheditctx.fillStyle = 'transparent';
-
-		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
-			this.drawBoundingBox(this.path.maxes, accent);
-			if(_UI.selectedtool==='shaperesize'){ this.drawBoundingBoxHandles(onlycenter);}
-
-		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
-			// Draw Path Points
-			var sep = this.path.sp(true, 'DRAWSELECTOUTLINE');
-			var pp = this.path.pathpoints;
-
-			// Draw path selection outline
-			_UI.glypheditctx.lineWidth = 1;
-			_UI.glypheditctx.strokeStyle = accent;
-
-			_UI.glypheditctx.beginPath();
-			this.path.drawPath(_UI.glypheditctx);
-			_UI.glypheditctx.closePath();
-			_UI.glypheditctx.stroke();
-
-			if(sep !== false){
-				// Draw Handles
-				//debug('DRAWSELECTOUTLINE - new path added, sep=' + sep + ' pathpoints: ' + JSON.stringify(this.path.pathpoints))
-				pp[sep].drawHandles(true, true, accent);
-
-				// Draw prev/next handles
-				var prev = sep-1;
-				if (prev === -1) prev = pp.length-1;
-				pp[prev].drawHandles(false, true, accent);
-
-				// debugging SVG Import
-				//pp[sep].drawQuadraticHandle(pp[prev].P);
-
-				pp[(sep+1) % pp.length].drawHandles(true, false, accent);
-			}
-
-			// Draw points
-			for(var s=0; s<pp.length; s++){
-				// debug('\n\t draw point ' + s + ' path.sp=' + this.path.sp(false) + ' pp.selected=' + pp[s].selected);
-				var sel = (this.path.sp(false) && pp[s].selected);
-
-				if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
-				else pp[s].drawPoint(sel, accent);
-			}
-
-		} else if ((_UI.selectedtool==='newoval')){
-			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
-			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
-
-			_UI.glypheditctx.lineWidth = 1;
-			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
-
-			_UI.glypheditctx.beginPath();
-			tpdso.drawPath(_UI.glypheditctx);
-			_UI.glypheditctx.closePath();
-			_UI.glypheditctx.stroke();
-		}
-		// debug(' Shape.drawSelectOutline - END\n');
+	Shape.prototype.drawSelectOutline = function(){
+		drawSelectOutline(this, _UI.colors.blue.l65);
 	};
 
-	Shape.prototype.drawBoundingBox = function(accent) {
-		accent = accent || _UI.colors.blue.l65;
-		drawBoundingBox(this.path.maxes, accent);
+	Shape.prototype.drawBoundingBox = function() {
+		drawBoundingBox(this.path.maxes, _UI.colors.blue.l65);
 	};
 
-	Shape.prototype.drawBoundingBoxHandles = function(onlycenter, accent){
-		//debug('DRAW8POINTS - onlycenter: ' + onlycenter);
-		accent = accent || _UI.colors.blue.l65;
-		drawBoundingBoxHandles(this.path.maxes, accent, onlycenter);
+	Shape.prototype.drawBoundingBoxHandles = function(){
+		drawBoundingBoxHandles(this.path.maxes, _UI.colors.blue.l65);
 	};
 
 
@@ -415,9 +348,9 @@
 		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
 
 		var ts;
-		var scs = getSelectedWorkItemShapes();
-		for(var j=(scs.length-1); j>=0; j--){
-			ts = scs[j];
+		var sws = getSelectedWorkItemShapes();
+		for(var j=(sws.length-1); j>=0; j--){
+			ts = sws[j];
 			//debug('CLICKSELECTShape() - Checking shape ' + j);
 
 			if(ts.isHere(x,y)){
@@ -427,7 +360,10 @@
 					_UI.selectedshape = j;
 				}
 
+				if(ts.objtype === 'componentinstance') clickTool('shaperesize');
+
 				_UI.navprimaryhere = 'npAttributes';
+
 				return true;
 			}
 		}
@@ -437,9 +373,9 @@
 	}
 
 	function isOverShape(x,y) {
-		var scs = getSelectedWorkItemShapes();
-		for(var j=(scs.length-1); j>=0; j--){
-			if(scs[j].isHere(x,y)) return true;
+		var sws = getSelectedWorkItemShapes();
+		for(var j=(sws.length-1); j>=0; j--){
+			if(sws[j].isHere(x,y)) return true;
 		}
 		return false;
 	}

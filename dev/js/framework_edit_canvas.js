@@ -584,22 +584,87 @@
 // Drawing controls
 //------------------------------
 
-function drawBoundingBox(maxes, accent) {
 
-	//draw bounding box and 8points
-	var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmin) : sx_cx(maxes.xmin);
-	var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(maxes.xmax);
-	var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(maxes.ymax);
-	var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(maxes.ymin);
-	var w = (rx-lx);
-	var h = (by-ty);
+	function drawSelectOutline(sh, accent) {
+		var hp = (_GP.projectsettings.pointsize/2);
+		_UI.glypheditctx.lineWidth = 1;
+		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.fillStyle = 'transparent';
 
-	_UI.glypheditctx.fillStyle = 'transparent';
-	_UI.glypheditctx.strokeStyle = accent;
-	_UI.glypheditctx.strokeRect(lx,ty,w,h);
-}
+		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
+			sh.drawBoundingBox(sh.path.maxes, accent);
+			if(_UI.selectedtool==='shaperesize'){ sh.drawBoundingBoxHandles();}
 
-function drawBoundingBoxHandles(maxes, accent, onlycenter) {
+		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
+			// Draw Path Points
+			var sep = sh.path.sp(true, 'DRAWSELECTOUTLINE');
+			var pp = sh.path.pathpoints;
+
+			// Draw path selection outline
+			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.strokeStyle = accent;
+
+			_UI.glypheditctx.beginPath();
+			sh.path.drawPath(_UI.glypheditctx);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
+
+			if(sep !== false){
+				// Draw Handles
+				//debug('DRAWSELECTOUTLINE - new path added, sep=' + sep + ' pathpoints: ' + JSON.stringify(sh.path.pathpoints))
+				pp[sep].drawHandles(true, true, accent);
+
+				// Draw prev/next handles
+				var prev = sep-1;
+				if (prev === -1) prev = pp.length-1;
+				pp[prev].drawHandles(false, true, accent);
+
+				// debugging SVG Import
+				//pp[sep].drawQuadraticHandle(pp[prev].P);
+
+				pp[(sep+1) % pp.length].drawHandles(true, false, accent);
+			}
+
+			// Draw points
+			for(var s=0; s<pp.length; s++){
+				// debug('\n\t draw point ' + s + ' path.sp=' + sh.path.sp(false) + ' pp.selected=' + pp[s].selected);
+				var sel = (sh.path.sp(false) && pp[s].selected);
+
+				if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
+				else pp[s].drawPoint(sel, accent);
+			}
+
+		} else if ((_UI.selectedtool==='newoval')){
+			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
+			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
+
+			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
+
+			_UI.glypheditctx.beginPath();
+			tpdso.drawPath(_UI.glypheditctx);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
+		}
+		// debug(' Shape.drawSelectOutline - END\n');
+	}
+
+	function drawBoundingBox(maxes, accent) {
+
+		//draw bounding box and 8points
+		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmin) : sx_cx(maxes.xmin);
+		var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(maxes.xmax);
+		var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(maxes.ymax);
+		var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(maxes.ymin);
+		var w = (rx-lx);
+		var h = (by-ty);
+
+		_UI.glypheditctx.fillStyle = 'transparent';
+		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.strokeRect(lx,ty,w,h);
+	}
+
+	function drawBoundingBoxHandles(maxes, accent) {
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
 
@@ -615,64 +680,61 @@ function drawBoundingBoxHandles(maxes, accent, onlycenter) {
 		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
 		var bbottomy = (by-hp).makeCrisp(true);
 
-		_UI.glypheditctx.fillStyle = onlycenter? accent : 'white';
+		_UI.glypheditctx.fillStyle = 'white';
 		_UI.glypheditctx.strokeStyle = accent;
 
-		if(!onlycenter){
-			//upper left
-			if(canResize('nw')){
-				_UI.glypheditctx.fillRect(bleftx, btopy, ps, ps);
-				_UI.glypheditctx.strokeRect(bleftx, btopy, ps, ps);
-			}
+		//upper left
+		if(canResize('nw')){
+			_UI.glypheditctx.fillRect(bleftx, btopy, ps, ps);
+			_UI.glypheditctx.strokeRect(bleftx, btopy, ps, ps);
+		}
 
-			//top
-			if(canResize('n')){
-				_UI.glypheditctx.fillRect(bmidx, btopy, ps, ps);
-				_UI.glypheditctx.strokeRect(bmidx, btopy, ps, ps);
-			}
+		//top
+		if(canResize('n')){
+			_UI.glypheditctx.fillRect(bmidx, btopy, ps, ps);
+			_UI.glypheditctx.strokeRect(bmidx, btopy, ps, ps);
+		}
 
-			//upper right
-			if(canResize('ne')){
-				_UI.glypheditctx.fillRect(brightx, btopy, ps, ps);
-				_UI.glypheditctx.strokeRect(brightx, btopy, ps, ps);
-			}
+		//upper right
+		if(canResize('ne')){
+			_UI.glypheditctx.fillRect(brightx, btopy, ps, ps);
+			_UI.glypheditctx.strokeRect(brightx, btopy, ps, ps);
+		}
 
-			// right
-			if(canResize('e')){
-				_UI.glypheditctx.fillRect(brightx, bmidy, ps, ps);
-				_UI.glypheditctx.strokeRect(brightx, bmidy, ps, ps);
-			}
+		// right
+		if(canResize('e')){
+			_UI.glypheditctx.fillRect(brightx, bmidy, ps, ps);
+			_UI.glypheditctx.strokeRect(brightx, bmidy, ps, ps);
+		}
 
-			//lower right
-			if(canResize('se')){
-				_UI.glypheditctx.fillRect(brightx, bbottomy, ps, ps);
-				_UI.glypheditctx.strokeRect(brightx, bbottomy, ps, ps);
-			}
+		//lower right
+		if(canResize('se')){
+			_UI.glypheditctx.fillRect(brightx, bbottomy, ps, ps);
+			_UI.glypheditctx.strokeRect(brightx, bbottomy, ps, ps);
+		}
 
-			//bottom
-			if(canResize('s')){
-				_UI.glypheditctx.fillRect(bmidx, bbottomy, ps, ps);
-				_UI.glypheditctx.strokeRect(bmidx, bbottomy, ps, ps);
-			}
+		//bottom
+		if(canResize('s')){
+			_UI.glypheditctx.fillRect(bmidx, bbottomy, ps, ps);
+			_UI.glypheditctx.strokeRect(bmidx, bbottomy, ps, ps);
+		}
 
-			//lower left
-			if(canResize('sw')){
-				_UI.glypheditctx.fillRect(bleftx, bbottomy, ps, ps);
-				_UI.glypheditctx.strokeRect(bleftx, bbottomy, ps, ps);
-			}
+		//lower left
+		if(canResize('sw')){
+			_UI.glypheditctx.fillRect(bleftx, bbottomy, ps, ps);
+			_UI.glypheditctx.strokeRect(bleftx, bbottomy, ps, ps);
+		}
 
-			//left
-			if(canResize('w')){
-				_UI.glypheditctx.fillRect(bleftx, bmidy, ps, ps);
-				_UI.glypheditctx.strokeRect(bleftx, bmidy, ps, ps);
-			}
-
+		//left
+		if(canResize('w')){
+			_UI.glypheditctx.fillRect(bleftx, bmidy, ps, ps);
+			_UI.glypheditctx.strokeRect(bleftx, bmidy, ps, ps);
 		}
 
 		//Center Dot
 		_UI.glypheditctx.fillRect(bmidx, bmidy, ps, ps);
 		_UI.glypheditctx.strokeRect(bmidx, bmidy, ps, ps);
-}
+	}
 
 //-------------------
 // Drawing Grid
