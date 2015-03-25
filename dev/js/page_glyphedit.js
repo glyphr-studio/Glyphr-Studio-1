@@ -54,6 +54,7 @@
 		}
 		
 		_UI.redrawing = false;
+		// debug(' redraw_GlyphEdit - END\n');
 	}
 
 // end of file

@@ -402,11 +402,11 @@
 		// debug('\n PathPoint.drawPoint - START');
 		// debug('\t sel='+sel+' accent='+json(accent));
 
-		accent = accent || _UI.colors.blue.l65;
+		accent = accent || _UI.colors.blue;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
-		_UI.glypheditctx.fillStyle = sel? 'white' : accent;
-		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.fillStyle = sel? 'white' : accent.l65;
+		_UI.glypheditctx.strokeStyle = accent.l65;
 
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
@@ -414,9 +414,9 @@
 	};
 
 	PathPoint.prototype.drawDirectionalityPoint = function(sel, next, accent){
-		accent = accent || _UI.colors.blue.l65;
-		_UI.glypheditctx.fillStyle = sel? 'white' : accent;
-		_UI.glypheditctx.strokeStyle = accent;
+		accent = accent || _UI.colors.blue;
+		_UI.glypheditctx.fillStyle = sel? 'white' : accent.l65;
+		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.lineWidth = 1;
 		var begin = {'x':this.P.x, 'y':this.P.y};
 		var end = {'x':this.H2.x, 'y':this.H2.y};
@@ -464,15 +464,15 @@
 		_UI.glypheditctx.stroke();
 
 		// Exact Middle Point
-		_UI.glypheditctx.fillStyle = accent;
+		_UI.glypheditctx.fillStyle = accent.l65;
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
 
 	};
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
-		accent = accent || _UI.colors.blue.l65;
-		_UI.glypheditctx.fillStyle = accent;
-		_UI.glypheditctx.strokeStyle = accent;
+		accent = accent || _UI.colors.blue;
+		_UI.glypheditctx.fillStyle = accent.l65;
+		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.lineWidth = 1;
 		var hp = _GP.projectsettings.pointsize/2;
 

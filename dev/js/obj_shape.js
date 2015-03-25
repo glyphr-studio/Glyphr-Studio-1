@@ -74,15 +74,15 @@
 //	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
 //	-------------------------------------------------------
 	Shape.prototype.drawSelectOutline = function(){
-		drawSelectOutline(this, _UI.colors.blue.l65);
+		drawSelectOutline(this, _UI.colors.blue);
 	};
 
 	Shape.prototype.drawBoundingBox = function() {
-		drawBoundingBox(this.path.maxes, _UI.colors.blue.l65);
+		drawBoundingBox(this.path.maxes, _UI.colors.blue);
 	};
 
 	Shape.prototype.drawBoundingBoxHandles = function(){
-		drawBoundingBoxHandles(this.path.maxes, _UI.colors.blue.l65);
+		drawBoundingBoxHandles(this.path.maxes, _UI.colors.blue);
 	};
 
 
@@ -345,18 +345,19 @@
 	}
 
 	function clickSelectShape(x,y){
-		//debug('CLICKSELECTShape() - checking x:' + x + ' y:' + y);
+		// debug('\n clickSelectShape - START');
+		// debug('\t checking x:' + x + ' y:' + y);
 
 		var ts;
 		var sws = getSelectedWorkItemShapes();
 		for(var j=(sws.length-1); j>=0; j--){
 			ts = sws[j];
-			//debug('CLICKSELECTShape() - Checking shape ' + j);
+			// debug('\t Checking shape ' + j);
 
 			if(ts.isHere(x,y)){
 				ts.selectPathPoint(false);
 				if(j !== _UI.selectedshape){
-					//debug('CLICKSELECTShape() - selecting shape ' + j);
+					// debug('\t selecting shape ' + j);
 					_UI.selectedshape = j;
 				}
 
@@ -368,7 +369,8 @@
 			}
 		}
 		_UI.selectedshape = -1;
-		//debug('CLICKSELECTShape() - deselecting, setting to -1');
+		// debug('\t deselecting, setting to -1');
+		// debug(' clickSelectShape - END\n');
 		return false;
 	}
 

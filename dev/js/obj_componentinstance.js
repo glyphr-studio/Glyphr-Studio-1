@@ -147,16 +147,16 @@
 	ComponentInstance.prototype.drawSelectOutline = function(){
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
-			drawSelectOutline(g.shapes[s], _UI.colors.green.l65);
+			drawSelectOutline(g.shapes[s], _UI.colors.green);
 		}
 	};
 
 	ComponentInstance.prototype.drawBoundingBox = function() {
-		drawBoundingBox(getGlyph(this.link).maxes, _UI.colors.green.l65);
+		drawBoundingBox(getGlyph(this.link).maxes, _UI.colors.green);
 	};
 
 	ComponentInstance.prototype.drawBoundingBoxHandles = function(){
-	 	drawBoundingBoxHandles(getGlyph(this.link).maxes, _UI.colors.green.l65);
+	 	drawBoundingBoxHandles(getGlyph(this.link).maxes, _UI.colors.green);
 	};
 
 	ComponentInstance.prototype.isHere = function(x,y){

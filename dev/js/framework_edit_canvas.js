@@ -586,14 +586,18 @@
 
 
 	function drawSelectOutline(sh, accent) {
+		// debug('\n drawSelectOutline - START');
+		// debug('\t accent.l65 = ' + accent.l65);
+		// debug('\t selectedtool = ' + _UI.selectedtool);
+
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.glypheditctx.lineWidth = 1;
-		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.fillStyle = 'transparent';
 
 		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
-			sh.drawBoundingBox(sh.path.maxes, accent);
-			if(_UI.selectedtool==='shaperesize'){ sh.drawBoundingBoxHandles();}
+			drawBoundingBox(sh.getMaxes(), accent);
+			if(_UI.selectedtool==='shaperesize'){ drawBoundingBoxHandles(sh.getMaxes(), accent);}
 
 		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
 			// Draw Path Points
@@ -602,7 +606,7 @@
 
 			// Draw path selection outline
 			_UI.glypheditctx.lineWidth = 1;
-			_UI.glypheditctx.strokeStyle = accent;
+			_UI.glypheditctx.strokeStyle = accent.l65;
 
 			_UI.glypheditctx.beginPath();
 			sh.path.drawPath(_UI.glypheditctx);
@@ -660,7 +664,7 @@
 		var h = (by-ty);
 
 		_UI.glypheditctx.fillStyle = 'transparent';
-		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.strokeRect(lx,ty,w,h);
 	}
 
@@ -681,7 +685,7 @@
 		var bbottomy = (by-hp).makeCrisp(true);
 
 		_UI.glypheditctx.fillStyle = 'white';
-		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.strokeStyle = accent.l65;
 
 		//upper left
 		if(canResize('nw')){

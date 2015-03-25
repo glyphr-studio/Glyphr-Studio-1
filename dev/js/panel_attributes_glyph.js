@@ -5,7 +5,7 @@
 //---------------------
 
 	function makePanel_GlyphAttributes(){
-		debug('\n makePanel_GlyphAttributes - START');
+		// debug('\n makePanel_GlyphAttributes - START');
 		var sc = getSelectedWorkItem();
 		var s = ss('update details');
 
@@ -21,28 +21,28 @@
 
 		content += '<div class="panel_section">';
 
-		debug(" \t  _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
+		// debug(" \t  _UI.selectedshape: " + _UI.selectedshape + " - s.name: " + s.name + " - navhere: " + _UI.navhere);
 
 		content += '<table class="detail">';
 
 		if (_UI.navhere === 'components'){
-			debug(" \t  detected navhere = components");
+			// debug(" \t  detected navhere = components");
 			content += '<tr><td colspan=2><h3>component</h3></td></tr>';
 			content += '<tr><td>name</td><td><input type="text" value="'+sc.name+'"/></td></tr>';
 		}
 
 		if(s && s.objtype === 'componentinstance'){
 			// component selected
-			debug(" \t component selected");
+			// debug(" \t component selected");
 			content += componentInstanceDetails(s);
 		} else if (s){
 			// regular shape selected
-			debug(" \t regular shape selected");
+			// debug(" \t regular shape selected");
 			content += shapeDetails(s);
 			if(ispointsel){ content += pointDetails(s); }
 		} else {
 			// no shape selected
-			debug(" \t no shape selected");
+			// debug(" \t no shape selected");
 			content += glyphDetails();
 		}
 
@@ -61,7 +61,7 @@
 		content += '</table><br>';
 		content += '</div>';
 
-		debug(' makePanel_GlyphAttributes - END\n');
+		// debug(' makePanel_GlyphAttributes - END\n');
 		return content;
 	}
 

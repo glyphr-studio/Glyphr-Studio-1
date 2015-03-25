@@ -178,7 +178,8 @@
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
-			// debug('\nTool_ShapeEdit TOOL - mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			debug('\n Tool_ShapeEdit.mousedown - START');
+			debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 			var s = ss('eventHandler - mousedown');
 			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -187,15 +188,17 @@
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 
 			if (_UI.eventhandlers.corner){
-				// debug('Tool_ShapeEdit TOOL: clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+				debug('\t clicked on shape=true');
 				this.dragging = true;
 				this.resizing = false;
 				setCursor('pointerSquare');
 				redraw('Event Handler Tool_ShapeEdit mousedown');
 			} else {
+				debug('\t clicked on nothing');
 				clickEmptySpace();
 			}
 		};
