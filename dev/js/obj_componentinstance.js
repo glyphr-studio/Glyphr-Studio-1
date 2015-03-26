@@ -35,6 +35,7 @@
 			g.updateGlyphSize(this.scalex, this.scaley);
 			if(this.flipew) g.flipEW();
 			if(this.flipns) g.flipNS();
+			if(this.reversewinding) g.reverseWinding();
 		}
 
 		return g;

@@ -59,6 +59,7 @@
 
 		// Hydrate after all updates
 		hydrateGlyphrProject(fcontent);
+		debug(' importGlyphrProjectFromText - END\n');
 	}
 
 	function error_NoVersionFound(){
@@ -103,7 +104,7 @@
 	}
 
 	function migrate_0_5_to_1_0 (fc) {
-		debug('\n migrate_0_5_to_1_0 - START');
+		// debug('\n migrate_0_5_to_1_0 - START');
 
 		// Update new top level objects
 		fc.glyphs = clone(fc.fontchars);
@@ -112,7 +113,7 @@
 		delete fc.fontchars;
 		delete fc.linkedshapes;
 		delete fc.projectsettings.charrange;
-		debug('\t DONE tlo');
+		// debug('\t DONE tlo');
 
 
 		// Upgrade Linked Shapes to full Glyphs
@@ -129,7 +130,7 @@
 			ui = com.usedin? com.usedin : [];
 			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'glyphname':gn, 'glyphhtml':''});
 		}}
-		debug('\t DONE ls > glyph');
+		// debug('\t DONE ls > glyph');
 
 		
 		// Switch from Char to Glyph names
@@ -166,25 +167,25 @@
 			}
 		}}
 		// debug(fc);
-		debug(' migrate_0_5_to_1_0 - END\n');
+		// debug(' migrate_0_5_to_1_0 - END\n');
 		return fc;
 	}
 
 	function migrate_0_4_to_0_5(fc) {
-		debug('\n migrate_0_4_to_0_5 - START');
+		// debug('\n migrate_0_4_to_0_5 - START');
 		var tc;
 		for(var i=0; i<fc.fontchars.length; i++){
 			tc = fc.fontchars[i];
 			//debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
 			tc.charwidth = tc.advancewidth || fc.projectsettings.upm || 1000;
 		}
-		debug(fc);
-		debug(' migrate_0_4_to_0_5 - END\n');
+		// debug(fc);
+		// debug(' migrate_0_4_to_0_5 - END\n');
 		return fc;
 	}
 
 	function migrate_0_3_to_0_4(fc){
-		debug('\n migrate_0_3_to_0_4 - START');
+		// debug('\n migrate_0_3_to_0_4 - START');
 		newgp = new GlyphrProject();
 
 		var tls;
@@ -220,8 +221,8 @@
 				//debug("migrate_0_3_to_0_4 - fc.fontchars[" + hex + "] is " + json(fc.fontchars[hex]));
 			}
 		}
-		debug(fc);
-		debug(' migrate_0_3_to_0_4 - END\n');
+		// debug(fc);
+		// debug(' migrate_0_3_to_0_4 - END\n');
 		return fc;
 	}
 

@@ -272,6 +272,12 @@
 		}
 	};
 
+	Glyph.prototype.reverseWinding = function() {
+		for(var s=0; s<this.shapes.length; s++){
+			this.shapes[s].reverseWinding();
+		}
+	};
+
 	Glyph.prototype.sendShapesTo = function(chid) {
 		var destination = getGlyph(chid, true);
 		destination.shapes = clone(destination.shapes.concat(this.shapes));

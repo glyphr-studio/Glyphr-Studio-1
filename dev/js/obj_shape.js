@@ -138,6 +138,8 @@
 
 	Shape.prototype.flipNS = function(mid) { this.path.flip(mid); };
 
+	Shape.prototype.reverseWinding = function() {this.path.reverseWinding(); };
+
 	Shape.prototype.getMaxes = function() { return this.path.getMaxes(); };
 
 	Shape.prototype.getPath = function() { return clone(this.path); };

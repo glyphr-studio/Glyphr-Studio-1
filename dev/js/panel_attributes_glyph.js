@@ -295,7 +295,7 @@
 		content += '<tr>'+
 			'<td> overlap mode </td>'+
 			'<td>'+
-				'<button style="width:180px; height:26px; padding:0px;" onclick="ss().path.reversePath();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
+				'<button style="width:180px; height:26px; padding:0px;" onclick="ss().path.reverseWinding();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
 				(s.path.winding===0?'unknown':(s.path.winding>0?'counterclockwise&ensp;&#8634':'clockwise&ensp;&#8635'))+
 				'</button>'+
 				'&ensp;'+helpUI(overlaphelptext)+

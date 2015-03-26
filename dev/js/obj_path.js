@@ -387,8 +387,8 @@
 		return count;
 	};
 
-	Path.prototype.reversePath = function(){
-		// debug('\n Path.reversePath - START');
+	Path.prototype.reverseWinding = function(){
+		// debug('\n Path.reverseWinding - START');
 		var HT,pp;
 		if(this.pathpoints){
 			for (var i = 0; i < this.pathpoints.length; i++) {
@@ -404,7 +404,7 @@
 			this.pathpoints.reverse();
 			this.winding = this.findWinding();
 		}
-		// debug(' Path.reversePath - END\n');
+		// debug(' Path.reverseWinding - END\n');
 	};
 
 	Path.prototype.flipNS = function(mid){
@@ -421,7 +421,7 @@
 		}
 
 		this.setPathPosition(false, ly);
-		this.reversePath();
+		this.reverseWinding();
 	};
 
 	Path.prototype.flipEW = function(mid){
@@ -438,7 +438,7 @@
 		}
 
 		this.setPathPosition(lx, false);
-		this.reversePath();
+		this.reverseWinding();
 	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
