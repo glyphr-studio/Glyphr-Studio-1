@@ -84,14 +84,14 @@
 		return g.maxes.xmax - g.maxes.xmin;
 	};
 
-	ComponentInstance.prototype.getHeight = function(mid) {
+	ComponentInstance.prototype.getHeight = function() {
 		var g = this.getTransformedGlyph();
 		return g.maxes.ymax - g.maxes.ymin;
 	};
 
-	ComponentInstance.prototype.flipEW = function(mid) { this.flipew = (1*mid); };
+	ComponentInstance.prototype.flipEW = function() { this.flipew = !this.flipew; };
 
-	ComponentInstance.prototype.flipNS = function(mid) { this.flipns = (1*mid); };
+	ComponentInstance.prototype.flipNS = function() { this.flipns = !this.flipns; };
 	
 	ComponentInstance.prototype.getMaxes = function() { return this.getTransformedGlyph().maxes; };
 
@@ -187,34 +187,35 @@
 		}
 	}
 
-	function insertComponent(com, tochar){
-		//debug("INSERTCOMPONENT - adding component: " + com + " to char: " + _UI.selectedglyph);
-		var ns = new ComponentInstance({'link':com});
+	function insertComponentInstance(comid, tochar, name){
+		//debug("INSERTCOMPONENT - adding component: " + comid + " to char: " + _UI.selectedglyph);
+		name = name || 'Instance of ' + getGlyphName(comid);
+		var ns = new ComponentInstance({'link':comid, 'name':name});
 
 		//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(ns));
 		var ch = getGlyph(tochar, true);
 		ch.shapes.push(ns);
 		ch.calcGlyphMaxes();
 
-		addToUsedIn(com, tochar);
+		addToUsedIn(comid, tochar);
 
 		closeDialog();
 		history_put('insert component from glyphedit');
 		redraw('insertComponent');
 	}
 
-	function turnComponentIntoAShape(){
+	function turnComponentIntoShapes(){
 		var selshape = ss();
-		var shapes = selshape.getTransformedGlyph();
+		var shapes = selshape.getTransformedGlyph().shapes;
+		
+		deleteShape();
 
 		for(var s=0; s<shapes.length; s++){
 			addShape(shapes[s]);
 		}
 
-		deleteShape();
-
-		//debug('TURNCOMPONENTINTOASHAPE - newshape \n'+json(newshape));
-		redraw('turnComponentIntoAShape');
+		//debug('turnComponentIntoShapes - newshape \n'+json(newshape));
+		redraw('turnComponentIntoShapes');
 	}
 
 	function makeComponentThumbs(){
@@ -226,7 +227,7 @@
 			tcom = getGlyph(com);
 			if(tcom.shape){
 				re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-				re += '<div class="glyphselectthumb" onclick="insertComponent(\''+com+'\',\''+tochar+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
+				re += '<div class="glyphselectthumb" onclick="insertComponentInstance(\''+com+'\',\''+tochar+'\',\'Component from '+tcom.shape.name+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
 				re += getGlyph(com).shape.makeSVG();
 				re += '</div></td></tr><tr><td>';
 				re += getGlyphName(com);

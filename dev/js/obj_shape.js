@@ -134,9 +134,9 @@
 
 	Shape.prototype.selectPathPoint = function(p) { this.path.selectPathPoint(p); };
 
-	Shape.prototype.flipEW = function(mid) { this.path.flip(mid); };
+	Shape.prototype.flipEW = function() { this.path.flipEW(); };
 
-	Shape.prototype.flipNS = function(mid) { this.path.flip(mid); };
+	Shape.prototype.flipNS = function() { this.path.flipNS(); };
 
 	Shape.prototype.reverseWinding = function() {this.path.reverseWinding(); };
 
@@ -254,16 +254,16 @@
 //	Button Functions
 //	-----------------
 	function addShape(newshape){
-		//debug('ADDSHAPE - was passed:\n' + JSON.stringify(newshape));
+		// debug('ADDSHAPE - was passed:\n' + JSON.stringify(newshape));
 		if(newshape){
 			if(newshape.objtype === 'componentinstance'){
 				_UI.selectedtool = 'shaperesize';
 			} else if(newshape.path && (_UI.selectedtool === 'shaperesize')) {
-				//debug('ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
+				// debug('ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
 				//newshape.path.calcMaxes();
 			}
 		} else {
-			//debug('ADDSHAPE - passed null, creating new shape.');
+			// debug('ADDSHAPE - passed null, creating new shape.');
 			newshape = new Shape({});
 			newshape.name = ('Rectangle ' + ((getSelectedWorkItemShapes().length*1)+1));
 		}
@@ -276,7 +276,7 @@
 
 		_UI.navprimaryhere = 'npAttributes';
 
-		//debug('ADDSHAPE - returns:\n' + JSON.stringify(newshape));
+		// debug('ADDSHAPE - returns:\n' + JSON.stringify(newshape));
 		return newshape;
 	}
 
@@ -337,11 +337,11 @@
 	}
 
 	function turnSelectedShapeIntoAComponent(){
-		var newls = clone(ss());
+		var s = clone(ss());
 		deleteShape();
-		newls.name = ('Component from ' + newls.name);
-		var newid = addComponent(newls);
-		insertComponent(newid, getSelectedWorkItemID());
+		var newcom = new Glyph({'shapes':[s], 'glyphname':s.name});
+		var newid = addComponent(newcom);
+		insertComponentInstance(newid, getSelectedWorkItemID(), ('Component from ' + s.name));
 		_UI.selectedshape = getSelectedWorkItemShapes().length-1;
 		redraw('turnSelectedShapeIntoAComponent');
 	}

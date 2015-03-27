@@ -28,7 +28,7 @@
 		if (_UI.navhere === 'components'){
 			// debug(" \t  detected navhere = components");
 			content += '<tr><td colspan=2><h3>component</h3></td></tr>';
-			content += '<tr><td>name</td><td><input type="text" value="'+sc.name+'"/></td></tr>';
+			content += '<tr><td>name</td><td><input type="text" value="'+sc.glyphname+'" onchange="getSelectedWorkItem().glyphname = this.value;"/></td></tr>';
 		}
 
 		if(s && s.objtype === 'componentinstance'){
@@ -53,7 +53,7 @@
 				content += makeUsedInThumbs();
 			} else {
 				content += '<br><i>this component is not currently being used by any glyphs. ';
-				content += '<a href="#" onclick="showAddSSToGlyphDialog();">add this component to a glyph now</a>.</i>';
+				content += '<a href="#" onclick="showDialog_LinkComponentToGlyph();">add this component to a glyph now</a>.</i>';
 			}
 			content += '</td></tr>';
 		}

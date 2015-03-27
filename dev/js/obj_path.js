@@ -407,10 +407,10 @@
 		// debug(' Path.reverseWinding - END\n');
 	};
 
-	Path.prototype.flipNS = function(mid){
+	Path.prototype.flipNS = function(){
 		var ly = this.maxes.ymax;
 
-		if(!mid) mid = (this.getHeight()/2)+this.maxes.ymin;
+		var mid = (this.getHeight()/2)+this.maxes.ymin;
 		//debug('FLIPNS - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.ymin +','+ this.maxes.ymax + ','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
@@ -424,10 +424,10 @@
 		this.reverseWinding();
 	};
 
-	Path.prototype.flipEW = function(mid){
+	Path.prototype.flipEW = function(){
 		var lx = this.maxes.xmin;
 
-		if(!mid) mid = (this.getWidth()/2)+this.maxes.xmin;
+		var mid = (this.getWidth()/2)+this.maxes.xmin;
 		//debug('flipEW - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.xmax +','+ this.maxes.xmin +','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){

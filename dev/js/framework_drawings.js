@@ -419,7 +419,7 @@
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
 		var idname = varname.split("()");
 		idname = idname[idname.length-1];
-		var currbool = eval(varname);
+		var currbool = !!eval(varname);
 		var restcolor = _UI.colors.gray.l90;
 		var selcolor = _UI.colors.blue.l65;
 
@@ -444,7 +444,7 @@
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
 		var idname = varname.split('.');
 		idname = idname[idname.length-1];
-		var currbool = eval(varname);
+		var currbool = !!eval(varname);
 		if(invert) currbool = !currbool;
 
 		var re = '<input type="checkbox"';

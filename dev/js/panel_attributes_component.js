@@ -113,12 +113,24 @@
 			'<td>' + checkUI('ss().reversewinding', true) + '</td>'+
 		'</tr>';
 
+		// ROOT
+		var cr = getGlyph(s.link);
+		content += '<tr><td colspan=2><h3>root component</h3></td></tr></table>';
+		content += '<table class="layertable">';
+		content += '<tr class="layer" onclick="goToEditComponent(\''+s.link+'\');">';
+		content += '<td class="layerthumb">'+ cr.makeSVG() +'</td>';
+		content += '<td class="layername">' + cr.glyphname;
+		content += '<span class="layernote">edit this component</span>';
+		content += '</td></tr>';
+		content += '</table>';
 
-		content += '<tr><td colspan=2><h3>root component</h3></td></tr>';
-		content += '<tr><td> root name </td><td>' + 
-			'<input type="text" disabled="disabled" value="' + getGlyphName(s.link) + '">'+
-		'</td></tr>';
-		content += '<tr><td colspan=2><button onclick="goToEditComponent(\''+s.link+'\');">edit this component</button></td></tr>';
+		// content += '<tr><td> root name </td><td>' + 
+		// 	'<input type="text" disabled="disabled" value="' + getGlyphName(s.link) + '">'+
+		// '</td></tr>';
+		// content += '<tr><td colspan=2><button onclick="goToEditComponent(\''+s.link+'\');">edit this component</button>';
+
+		// content += '</td></tr>';
+
 		return content;
 	}
 

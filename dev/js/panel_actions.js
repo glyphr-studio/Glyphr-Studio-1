@@ -24,12 +24,12 @@
 
 		var shapeactions = "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
-		shapeactions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
-		shapeactions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
+		shapeactions += "<button onclick='ss().flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
+		shapeactions += "<button onclick='ss().flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
 		if(s && s.objtype === 'componentinstance'){
-			shapeactions += "<button onclick='turnComponentIntoAShape();redraw(\"turnComponentIntoAShape\");'>unlink this component</button><br>";
+			shapeactions += "<button onclick='turnComponentIntoShapes();redraw(\"turnComponentIntoShapes\");'>unlink this component</button><br>";
 		} else {
 			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
 		}
@@ -230,14 +230,14 @@
 		var s = ss('Update Actions');
 
 		var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">component</h3>";
-			if(s) ls1actions += "<button onclick='showAddSSToGlyphDialog();'>link to glyph</button><br>";
+			if(s) ls1actions += "<button onclick='showDialog_LinkComponentToGlyph();'>link to glyph</button><br>";
 			ls1actions += "<button onclick='addComponent();history_put(\"Create New Component\");navigate();'>create new</button><br>";
 			if(s) ls1actions += "<button onclick='deleteComponentConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
 
 		var	ls2actions = "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
 			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
-			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updatecomponentactions\");'>flip horizontal</button><br>";
-			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updatecomponentactions\");'>flip vertical</button><br>";
+			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Component Horizontal\");redraw(\"updatecomponentactions\");'>flip horizontal</button><br>";
+			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Component Vertical\");redraw(\"updatecomponentactions\");'>flip vertical</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
 			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatecomponentactions\");'>insert</button><br>";
@@ -268,19 +268,13 @@
 		return content;
 	}
 
-	function addComponent(pshape){
+	function addComponent(pglyph){
+		pglyph = pglyph || new Glyph({'name':'component ' + (getLength(_GP.components)+1)});
 		var newid = generateNewID(_GP.components, 'com');
-		var newls;
 		_UI.selectedcomponent = newid;
 
-		if(pshape){
-			newls = new Component({"shape":pshape});
-		} else {
-			newls = new Component({"name":("component " + (getLength(_GP.components)+1))});
-		}
-
 		if(_UI.navhere === 'components') _UI.selectedshape = newid;
-		_GP.components[newid] = newls;
+		_GP.components[newid] = pglyph;
 
 		//debug("Added New Component: " + newid + " JSON=" + json(_GP.components));
 
@@ -342,22 +336,22 @@
 		}
 	}
 
-	function showAddSSToGlyphDialog(msg){
+	function showDialog_LinkComponentToGlyph(msg){
 		var sls = getSelectedWorkItem();
 		var content = "<h1>Link to Glyph</h1><table style='width:900px'><tr><td>";
 		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
 		content += "Select the glyph you would like to link to this component:<br><br></td></tr>";
 		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:500px;'>";
-		content += makeGenericGlyphChooserContent("insertComponentToGlyph", true, true, false);
+		content += makeGenericGlyphChooserContent("linkComponentToGlyph", true, true, false);
 		content += "</div></td></tr>";
 		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
 		openDialog(content);
 	}
 
-	function insertComponentToGlyph(chid){
-		insertComponent(_UI.selectedcomponent, chid);
-		history_put("Insert Component to Glyph");
+	function linkComponentToGlyph(id){
+		insertComponentInstance(_UI.selectedcomponent, id);
+		history_put("Linked Component to Glyph");
 		closeDialog();
-		showAddSSToGlyphDialog("The Component '" + getSelectedWorkItem().shape.name + "' was successfully inserted into glyph " + getGlyphName(chid) + ".<br><br>");
+		showDialog_LinkComponentToGlyph("The Component '" + getSelectedWorkItem().shape.name + "' was successfully inserted into glyph " + getGlyphName(id) + ".<br><br>");
 	}
 // end of file
