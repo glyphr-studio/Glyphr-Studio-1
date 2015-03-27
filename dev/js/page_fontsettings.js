@@ -1,4 +1,9 @@
 // start of file
+/**
+	Page > Font Settings
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_fontsettings(){
 		// debug("LOADING PAGE >> loadPage_fontsettings");

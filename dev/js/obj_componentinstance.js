@@ -1,8 +1,15 @@
  // start of file
+/**
+	Object > Component Instance
+	Component Instances are a link to any other 
+	Glyph Object (Glyphs, Components, or Ligatures).
+	Additionally they hold transformation info about 
+	how they differ from their root component.
+	Component Instances surface *all* the same 
+	methods as a Shape, and are stored along side 
+	regular Shapes in a Glyph.
+**/
 
-//-------------------------------------------------------
-// COMPONENT INSTANCE OBJECT
-//-------------------------------------------------------
 
 	function ComponentInstance(oa){
 		this.objtype = 'componentinstance';

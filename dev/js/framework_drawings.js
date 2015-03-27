@@ -1,4 +1,10 @@
 // start of file
+/**
+	Framework > Drawings
+	Everything having to do with storing icon SVG
+	and drawing icons.
+**/
+
 
 //-------------------
 // 50px Icons

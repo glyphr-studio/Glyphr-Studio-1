@@ -1,8 +1,12 @@
  // start of file
+/**
+	Panel > Chooser
+	Shows a list of all the Glyphs to choose from 
+	for whatever the current page is.  Also has 
+	the logic for creating Glyph chooser dialogs.
+**/
 
-//-------------------
-// Glyph Chooser
-//-------------------
+
 	function makePanel_GlyphChooser(fname){
 		var onglyph = _UI.navhere === 'glyph edit';
 		var onlig = _UI.navhere === 'ligatures';

@@ -1,8 +1,11 @@
 // start of file
+/**
+	Guide
+	An object used by the UI for drawing guide 
+	lines on the edit canvas, and for saving 
+	custom guides to a Glyphr Studio Project.
+**/
 
-//-------------------------------------------------------
-// GUIDE OBJECT
-//-------------------------------------------------------
 
 	function Guide(oa){
 		this.objtype = 'guide';

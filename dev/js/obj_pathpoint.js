@@ -1,8 +1,17 @@
 // start of file
- 
-//-------------------------------------------------------
-// PATH POINT OBJECT
-//-------------------------------------------------------
+/**
+	Object > Path Point
+	A collection of these units make up a Path, 
+	they have position and handles (or control 
+	points). There are a few Path Point types, and 
+	individual handles can be shown or hidden.
+
+	(bottm of the file)
+	Object > Coordinate
+	A mini object that holds x/y position, as well 
+	as if that point is locked or not.
+**/
+
 
 	function PathPoint(oa){
 		this.objtype = 'pathpoint';

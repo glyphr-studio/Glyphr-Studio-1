@@ -1,4 +1,10 @@
 // start of file
+/**
+	Glyphr Studio Project
+	A default project in Object form for easy new 
+	project creation.
+**/
+
 
 	function GlyphrProject(){
 

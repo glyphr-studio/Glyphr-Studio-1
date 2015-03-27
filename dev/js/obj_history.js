@@ -1,8 +1,12 @@
 // start of file
+/**
+	History
+	An object that stores a Glyphr Studio Project
+	state, to enable undo.  History is saved per 
+	page... essentially, each page gets it's own 
+	undo queue.
+**/
 
-//-------------------
-// History Object
-//-------------------
 
 	function History(pn) {
 		this.queue = [];

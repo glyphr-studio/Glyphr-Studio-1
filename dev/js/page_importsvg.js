@@ -1,4 +1,9 @@
 // start of file
+/**
+	Page > Import SVG
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_importsvg(){
 		// debug("LOADING PAGE >> loadpage_importsvg");

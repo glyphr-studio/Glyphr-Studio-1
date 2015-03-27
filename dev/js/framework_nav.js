@@ -1,4 +1,12 @@
 // start of file
+/**
+	Framework > Navigation
+	This is all the logic around navigating around 
+	various pages of the framework.  It also 
+	handles the layouts for single screen mode and 
+	tearout / two screen mode.
+**/
+
 
 //-------------------
 // Navigation

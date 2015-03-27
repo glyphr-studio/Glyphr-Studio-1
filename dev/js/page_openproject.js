@@ -1,4 +1,10 @@
  // start of file
+/**
+	Page > Open Project
+	The first page you see when you open Glyphr Studio.
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_openproject(){
 		// debug("LOADING PAGE >> loadPage_openproject");

@@ -1,4 +1,9 @@
 // start of file
+/**
+	Page > Components
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_components(){
 		// debug("LOADING PAGE >> loadPage_components");

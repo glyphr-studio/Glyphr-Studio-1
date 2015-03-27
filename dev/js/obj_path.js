@@ -1,8 +1,16 @@
 // start of file
-
-//  -----------------------------------
-//  PATH OBJECT
-//  -----------------------------------
+/**
+	Object > Path
+	A Path is a collection of Path Points, plus 
+	a few properties like selected point, winding, 
+	and maxes.
+	Higher level objects should only have access to 
+	a Shape object, not direct access to a Shape's 
+	Path object. This is to enable Shape objects and 
+	Component Instance objects to be used
+	interchangeably, even though Component Instance
+	objects don't have a Path.
+**/
 
 	function Path(oa){
 		// debug('\n PATH - START');

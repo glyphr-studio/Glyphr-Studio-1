@@ -1,4 +1,12 @@
 // start of file
+/**
+	Framework > Edit Canvas
+	The Glyph Edit, Components, Ligatures, and to 
+	a certain extent, Kerning pages use a common 
+	HTML5 Canvas mechanism for interaction. 
+	Common functions around this can be found here.
+**/
+
 
 //-------------------
 // Common Edit Page

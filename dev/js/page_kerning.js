@@ -1,4 +1,9 @@
  // start of file
+/**
+	Page > Kerning
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_kerning(){
 

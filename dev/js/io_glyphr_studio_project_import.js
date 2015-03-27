@@ -1,4 +1,13 @@
 // start of file
+/**
+	IO > Import > Glyphr Studio Project
+	Handling backwards compatibility for old Glyphr 
+	Studio projects via rolling upgrades.  Once 
+	a project has the current format, they are 
+	'hydrated' from simple text / JSON to full 
+	Glyphr Studio Objects, and saved to the _GP
+	global variable.
+**/
 
 //	-------------------------------
 //	IMPORT FUNCTIONS

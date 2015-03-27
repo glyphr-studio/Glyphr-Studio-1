@@ -1,8 +1,11 @@
 // start of file
+/**
+	Panel > Guides
+	Shows a list of all the system and custom 
+	guide lines.
+**/
 
-//-------------------
-// Guides Panel
-//-------------------
+
 	function makePanel_Guides(){
 
 		var content = '<div class="navarea_header">';

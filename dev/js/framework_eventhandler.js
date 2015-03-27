@@ -1,4 +1,11 @@
 // start of file
+/**
+	Framework > Event Handlers
+	All the canvas interaction, tool events, and 
+	keyboard events for all pages can be found 
+	here.
+**/
+
 
 	_UI.eventhandlers = {
 		'currtool': false,

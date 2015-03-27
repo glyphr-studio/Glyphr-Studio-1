@@ -1,8 +1,9 @@
  // start of file
+/**
+	Panel > Kern
+	Shows a list of all the kern pairs.
+**/
 
-//	------------------------
-//	KERN ATTRIBUTES
-//	------------------------
 
 	function makePanel_KerningAttributes() {
 		var content = '<div class="navarea_header">';

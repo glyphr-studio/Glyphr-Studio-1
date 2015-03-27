@@ -1,4 +1,16 @@
 // start of file
+/**
+	Object > Glyph
+	A single collection of outlines that could 
+	either represent a character, or be used as 
+	part of another character through components. 
+	The following objects are stored as Glyph 
+	Objects:
+		Glyphs (Characters)
+		Ligatures
+		Components
+**/
+
 
 //-------------------------------------------------------
 // GLYPH OBJECT

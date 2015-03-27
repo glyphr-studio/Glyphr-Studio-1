@@ -1,8 +1,10 @@
 // start of file
+/**
+	IO > Export > SVG Font
+	Converting a Glyphr Studio Project to XML in 
+	a SVG Font format.
+**/
 
-//	--------------------------
-//	Export SVG Font
-//	--------------------------
 
 	function ioSVG_exportSVGfont() {
 		// debug('\n ioSVG_exportSVGfont - Start');

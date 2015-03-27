@@ -1,8 +1,11 @@
  // start of file
+/**
+	IO > Import > SVG Font
+	Reading XML Text and parsing it into Glyphr 
+	Studio Objects.  Relies heavily on 
+	IO > Import > SVG Outline
+**/
 
-//	--------------------------
-//	Import SVG Font
-//	--------------------------
 
 	function ioSVG_importSVGfont(filter) {
 		// debug('\n ioSVG_importSVGfont - Start');

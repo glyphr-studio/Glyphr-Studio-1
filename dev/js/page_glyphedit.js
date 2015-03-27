@@ -1,4 +1,9 @@
 // start of file
+/**
+	Page > Glyph Edit
+	HTML and associated functions for this page.
+**/
+
 
 //-------------------
 // UBER FUCNTIONS

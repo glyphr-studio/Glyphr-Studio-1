@@ -1,8 +1,11 @@
  // start of file
+/**
+	Horizontal Kern
+	An object for storing two groups of glyphs, and 
+	the kern value that applies to them.
+**/
 
-//-------------------------------------------------------
-// HORIZONTAL KERN OBJECT
-//-------------------------------------------------------
+
 	function HKern (oa) {
 		this.objtype = 'hkern';
 

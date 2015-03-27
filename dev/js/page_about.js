@@ -1,4 +1,9 @@
  // start of file
+/**
+	Page > About
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_about(){
 		// debug("LOADING PAGE >> loadPage_about");

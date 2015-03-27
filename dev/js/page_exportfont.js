@@ -1,4 +1,9 @@
- // start of file
+// start of file
+/**
+	Page > Export Font
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_exportfont(){
 		// debug("LOADING PAGE >> loadPage_exportfont");

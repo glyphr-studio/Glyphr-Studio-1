@@ -1,8 +1,10 @@
 // start of file
-
-//	-------------------------------
-//	MAIN FILE OF CONTROLORIZATION
-//	-------------------------------
+/**
+	Functions
+	This is an uber-bucket of high level and 
+	generic functions that don't fit well in other
+	files.
+**/
 
 	window.onload = function() {
 		//console.clear();

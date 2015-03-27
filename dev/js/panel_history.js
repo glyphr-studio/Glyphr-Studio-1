@@ -1,8 +1,11 @@
  // start of file
+/**
+	Panel > History
+	Shows a list of all the undo-able actions for
+	the current page.
+**/
 
-//-------------------
-// History Panel
-//-------------------
+
 	function makePanel_History(){
 
 		var content = "<div class='navarea_header'>";

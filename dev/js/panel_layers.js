@@ -1,8 +1,10 @@
 // start of file
+/**
+	Panel > Layers
+	Shows a list of all the shapes in a Glyph.
+**/
 
-//-------------------
-// Layers Panel
-//-------------------
+
 	function makePanel_LayerChooser(){
 
 		var content = '<div class="navarea_header">';

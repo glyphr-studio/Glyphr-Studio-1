@@ -1,8 +1,13 @@
  // start of file
+/**
+	Panel > Attributes > Component
+	Panel > Attributes > Component Instance
+	Builds attribute panels for Glyph objects on 
+	the components page, and also for Component 
+	Instance objects.
+**/
 
-//	---------------------------------
-//	COMPONENT ATTRIBUTES
-//	---------------------------------
+
 	function makeUsedInThumbs(){
 		var re = "<div class='ssthumbcontainer'>";
 		var ui = getSelectedWorkItem().usedin;

@@ -1,10 +1,16 @@
 // start of file
+/**
+	Settings
+	These are the two global variables, _UI for, 
+	well, UI stuff, and anything that is not going 
+	to be saved or personalized.  _GP is all 
+	Glyphr Project settings, including font stuff 
+	and personalized stuff.  There are additional 
+	_UI properties declared in the event handler 
+	file.
+**/
 
-//------------------------------
-// GLOBAL UI VARIABLES
-//------------------------------
 // These are NOT SAVED with the project
-
 	var _UI = {
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below

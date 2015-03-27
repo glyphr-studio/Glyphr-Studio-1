@@ -1,4 +1,11 @@
 // start of file
+/**
+	Framework > Unicode
+	Anything having to do with / working with 
+	Unicode values.  Also working with Unicode 
+	ranges, like basic latin.
+**/
+
 
 //	--------------------
 //	Conversion Functions

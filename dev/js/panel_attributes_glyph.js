@@ -1,8 +1,11 @@
  // start of file
+/**
+	Panel > Attributes > Glyph
+	Builds a panel of attributes for a Glyph, 
+	which changes based on Shape or Path Point 
+	selection.
+**/
 
-//---------------------
-// Glyph Attributes
-//---------------------
 
 	function makePanel_GlyphAttributes(){
 		// debug('\n makePanel_GlyphAttributes - START');

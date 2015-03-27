@@ -1,8 +1,13 @@
 // start of file
+/**
+	Object > Shape
+	The Shape object is the high level object that 
+	represents an outline.  The Glyph object treats 
+	Shape objects and Component Instance objects 
+	interchangeably - any method added to Shape 
+	should also be added to Component Instance.
+**/
 
-//-------------------------------------------------------
-// SHAPE OBJECT
-//-------------------------------------------------------
 
 	function Shape(oa){
 		// debug('\n SHAPE - START');

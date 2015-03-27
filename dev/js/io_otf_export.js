@@ -1,8 +1,10 @@
 // start of file
+/**
+	IO > Export > OpenType
+	Using OpenType.js to convert a Glyphr Studio 
+	Project into OpenType.js format for saving.
+**/
 
-//	--------------------------
-//	Export OTF TTF Font
-//	--------------------------
 
 	function ioOTF_exportOTFfont() {
 		debug('\n ioOTF_exportOTFfont - START');

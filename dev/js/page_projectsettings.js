@@ -1,4 +1,12 @@
  // start of file
+/**
+	Page > Project Settings
+	Project Settings are any settings that are 
+	specific to Glyphr Studio, and are not a part 
+	of any font metadata.
+	HTML and associated functions for this page.
+**/
+
 
 	function loadPage_projectsettings(){
 		// debug("LOADING PAGE >> loadPage_projectsettings");

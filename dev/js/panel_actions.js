@@ -1,8 +1,12 @@
 // start of file
+/**
+	Panel > Actions
+	Usually this is attached to the bottom of the 
+	Glyph Attributes panel.  In two screen mode, 
+	the Attributes panel get's its own column. 
+**/
 
-//-------------------
-// Actions Panel
-//-------------------
+
 	function makePanel_Actions(){
 		var s = ss("Update Actions");
 		var pop = _UI.popout;
