@@ -312,7 +312,7 @@
 
 		var newshape = new Shape({'path': new Path({'pathpoints':patharr})});
 		newshape.path.validate('IMPORTSVG');
-		newshape.path.calcMaxes();
+		newshape.calcMaxes();
 
 		// debug('\t unscaled shape:');
 		// debug(newshape);

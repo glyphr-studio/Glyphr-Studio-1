@@ -56,7 +56,11 @@
 	Shape.prototype.drawShape_Stack = function(lctx){
 		//debug('DRAWSHAPE_STACK');
 		if(this.visible){
-			if((this.path.maxes.xmax === -1) && (lctx === _UI.glypheditctx) && (_UI.selectedtool !== 'newpath')) this.path.calcMaxes();
+			if((this.path.maxes.xmax === -1) &&
+					(lctx === _UI.glypheditctx) &&
+					(_UI.selectedtool !== 'newpath')) {
+				this.calcMaxes();
+			}
 			this.path.drawPath(lctx);
 		}
 	};
@@ -79,14 +83,17 @@
 //	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
 //	-------------------------------------------------------
 	Shape.prototype.drawSelectOutline = function(){
+		debug('\n Shape.drawSelectOutline - START');
 		drawSelectOutline(this, _UI.colors.blue);
 	};
 
 	Shape.prototype.drawBoundingBox = function() {
+		debug('\n Shape.drawBoundingBox - START');
 		drawBoundingBox(this.path.maxes, _UI.colors.blue);
 	};
 
 	Shape.prototype.drawBoundingBoxHandles = function(){
+		debug('\n Shape.drawBoundingBoxHandles - START');
 		drawBoundingBoxHandles(this.path.maxes, _UI.colors.blue);
 	};
 
@@ -265,7 +272,7 @@
 				_UI.selectedtool = 'shaperesize';
 			} else if(newshape.path && (_UI.selectedtool === 'shaperesize')) {
 				// debug('ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
-				//newshape.path.calcMaxes();
+				//newshape.calcMaxes();
 			}
 		} else {
 			// debug('ADDSHAPE - passed null, creating new shape.');
@@ -403,94 +410,10 @@
 		return (imageData.data[3] > 0);
 	};
 
-	Shape.prototype.isOverHandle = function(px,py){
-		//debug('ISOVERHANDLE() - checking x:' + px + ' y:' + py);
-
-		// Translation Fidelity - converting passed canvas values to saved value system
-		var hp = _GP.projectsettings.pointsize/2;
-		var leftxb = sx_cx(this.path.maxes.xmin) -hp;
-		var midxb = Math.floor(sx_cx(this.path.maxes.xmin)+((sx_cx(this.path.maxes.xmax)-sx_cx(this.path.maxes.xmin))/2)-hp)+0.5;
-		var rightxb = sx_cx(this.path.maxes.xmax) -hp;
-
-		var topyb = sy_cy(this.path.maxes.ymax)-hp;
-		var midyb = Math.floor(sy_cy(this.path.maxes.ymax)+((sy_cy(this.path.maxes.ymin)-sy_cy(this.path.maxes.ymax))/2)-hp)+0.5;
-		var bottomyb = sy_cy(this.path.maxes.ymin) -hp;
-
-		// upper left
-		if(canResize('nw')){
-			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				setCursor('nw-resize');
-				//debug('ISOVERHANDLE() -  upper left');
-				return 'nw';
-			}
-		}
-
-		// top
-		if(canResize('n')){
-			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				setCursor('n-resize');
-				//debug('ISOVERHANDLE() -  top');
-				return 'n';
-			}
-		}
-
-		// upper right
-		if(canResize('ne')){
-			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > topyb) && (py < topyb+_GP.projectsettings.pointsize)) ){
-				setCursor('ne-resize');
-				//debug('ISOVERHANDLE() - upper right');
-				return 'ne';
-			}
-		}
-
-		// right
-		if(canResize('e')){
-			if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
-				setCursor('e-resize');
-				//debug('ISOVERHANDLE() - right');
-				return 'e';
-			}
-		}
-
-		// lower right
-		if(canResize('se')){
-				if( ((px > rightxb) && (px < rightxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				setCursor('se-resize');
-				//debug('ISOVERHANDLE() - lower right');
-				return 'se';
-			}
-		}
-
-		// bottom
-		if(canResize('s')){
-			if( ((px > midxb) && (px < midxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				setCursor('s-resize');
-				//debug('ISOVERHANDLE() - bottom');
-				return 's';
-			}
-		}
-
-		// lower left
-		if(canResize('sw')){
-			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > bottomyb) && (py < bottomyb+_GP.projectsettings.pointsize)) ){
-				setCursor('sw-resize');
-				//debug('ISOVERHANDLE() - lower left');
-				return 'sw';
-			}
-		}
-
-		// left
-		if(canResize('w')){
-			if( ((px > leftxb) && (px < leftxb+_GP.projectsettings.pointsize)) && ((py > midyb) && (py < midyb+_GP.projectsettings.pointsize)) ){
-				setCursor('w-resize');
-					//debug('ISOVERHANDLE() - left');
-				return 'w';
-			}
-		}
-
-		//debug('ISOVERHANDLE() - Returning FALSE');
-		// updateCursor();
-		return false;
+	Shape.prototype.isOverBoundingBoxCorner = function(px,py){
+		var c = isOverBoundingBoxCorner(px, py, this.maxes);
+		debug('\t Shape.isOverBoundingBoxCorner returning ' + c);
+		return c;
 	};
 
 	Shape.prototype.changeShapeName = function(sn){

@@ -36,7 +36,7 @@
 // Redraw
 //-------------------
 	function redraw_GlyphEdit(){
-		// debug('\n redraw_GlyphEdit - START');
+		debug('\n redraw_GlyphEdit - START');
 		_UI.redrawing = true;
 		
 		var sc = getSelectedWorkItem();
@@ -50,7 +50,13 @@
 
 		// Finish up
 		var s = ss('Redraw');
-		if(s) s.drawSelectOutline();
+		if(s) {
+			s.drawSelectOutline();
+			if(_UI.selectedtool === 'shaperesize'){
+				s.drawBoundingBox();
+				s.drawBoundingBoxHandles();
+			}
+		}
 
 		if(_UI.eventhandlers.hoverpoint){
 			var hp = _UI.eventhandlers.hoverpoint;
@@ -59,7 +65,7 @@
 		}
 		
 		_UI.redrawing = false;
-		// debug(' redraw_GlyphEdit - END\n');
+		debug(' redraw_GlyphEdit - END\n');
 	}
 
 // end of file

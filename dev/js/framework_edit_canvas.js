@@ -279,6 +279,10 @@
 		// debug('\t passed ' + name);
 		var cur = ['auto','default','none','context-menu','help','pointer','progress','wait','cell','crosshair','text','vertical-text','alias','copy','move','no-drop','not-allowed','e-resize','n-resize','ne-resize','nw-resize','s-resize','se-resize','sw-resize','w-resize','ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize','all-scroll','zoom-in','zoom-out','grab','grabbing'];
 		
+		if(cur.indexOf(name+'-resize') > -1){
+			if(canResize(name)) cur = name+'-resize';
+		}
+
 		if(_UI.cursors[name]){
 			// debug('\t FOUND CUSTOM CURSOR');
 			getEditDocument().body.style.cursor = _UI.cursors[name];
@@ -594,20 +598,17 @@
 
 
 	function drawSelectOutline(sh, accent) {
-		// debug('\n drawSelectOutline - START');
-		// debug('\t accent.l65 = ' + accent.l65);
-		// debug('\t selectedtool = ' + _UI.selectedtool);
+		debug('\n drawSelectOutline - START');
+		debug('\t shape name = ' + sh.name);
+		debug('\t accent.l65 = ' + accent.l65);
+		debug('\t selectedtool = ' + _UI.selectedtool);
 
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.glypheditctx.lineWidth = 1;
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.fillStyle = 'transparent';
 
-		if((_UI.selectedtool==='newrect')||(_UI.selectedtool==='shaperesize')){
-			drawBoundingBox(sh.getMaxes(), accent);
-			if(_UI.selectedtool==='shaperesize'){ drawBoundingBoxHandles(sh.getMaxes(), accent);}
-
-		} else if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
+		if ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')){
 			// Draw Path Points
 			var sep = sh.path.sp(true, 'DRAWSELECTOUTLINE');
 			var pp = sh.path.pathpoints;
@@ -646,44 +647,51 @@
 				else pp[s].drawPoint(sel, accent);
 			}
 
-		} else if ((_UI.selectedtool==='newoval')){
-			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
+		} else if(_UI.selectedtool==='newrect'){
+			drawBoundingBox(sh.getMaxes(), accent);
+
+		} else if (_UI.selectedtool==='newoval'){
+			_UI.glypheditctx.strokeStyle = accent.l65;
 			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 
 			_UI.glypheditctx.lineWidth = 1;
-			_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
+			_UI.glypheditctx.strokeStyle = accent.l65;
 
 			_UI.glypheditctx.beginPath();
 			tpdso.drawPath(_UI.glypheditctx);
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
 		}
-		// debug(' Shape.drawSelectOutline - END\n');
+		debug(' drawSelectOutline - END\n');
 	}
 
 	function drawBoundingBox(maxes, accent) {
-
+		debug('\n drawBoundingBox - START');
+		debug('\t accent: ' + accent.l65);
 		//draw bounding box and 8points
-		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmin) : sx_cx(maxes.xmin);
-		var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.xmax) : sx_cx(maxes.xmax);
-		var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymax) : sy_cy(maxes.ymax);
-		var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.ymin) : sy_cy(maxes.ymin);
+		var tnbs = _UI.eventhandlers.tempnewbasicshape;
+		var lx = tnbs? sx_cx(tnbs.xmin) : sx_cx(maxes.xmin);
+		var rx = tnbs? sx_cx(tnbs.xmax) : sx_cx(maxes.xmax);
+		var ty = tnbs? sy_cy(tnbs.ymax) : sy_cy(maxes.ymax);
+		var by = tnbs? sy_cy(tnbs.ymin) : sy_cy(maxes.ymin);
 		var w = (rx-lx);
 		var h = (by-ty);
 
 		_UI.glypheditctx.fillStyle = 'transparent';
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.strokeRect(lx,ty,w,h);
+		debug(' drawBoundingBox - END\n');
 	}
 
 	function drawBoundingBoxHandles(maxes, accent) {
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
 
-		var lx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmin) : sx_cx(maxes.xmin);
-		var rx = _UI.eventhandlers.tempnewbasicshape? sx_cx(_UI.eventhandlers.tempnewbasicshape.maxes.xmax) : sx_cx(maxes.xmax);
-		var ty = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymax) : sy_cy(maxes.ymax);
-		var by = _UI.eventhandlers.tempnewbasicshape? sy_cy(_UI.eventhandlers.tempnewbasicshape.maxes.ymin) : sy_cy(maxes.ymin);
+		var tnbs = _UI.eventhandlers.tempnewbasicshape;
+		var lx = tnbs? sx_cx(tnbs.maxes.xmin) : sx_cx(maxes.xmin);
+		var rx = tnbs? sx_cx(tnbs.maxes.xmax) : sx_cx(maxes.xmax);
+		var ty = tnbs? sy_cy(tnbs.maxes.ymax) : sy_cy(maxes.ymax);
+		var by = tnbs? sy_cy(tnbs.maxes.ymin) : sy_cy(maxes.ymin);
 
 		var bleftx = (lx-hp).makeCrisp(true);
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
@@ -747,6 +755,73 @@
 		_UI.glypheditctx.fillRect(bmidx, bmidy, ps, ps);
 		_UI.glypheditctx.strokeRect(bmidx, bmidy, ps, ps);
 	}
+
+	function isOverBoundingBoxCorner(px, py, maxes) {
+		if(!maxes) return false;
+		
+		// Translation Fidelity - converting passed canvas values to saved value system
+		var ps = _GP.projectsettings.pointsize;
+		var hp = ps/2;
+		var leftxb = sx_cx(maxes.xmin) -hp;
+		var midxb = Math.floor(sx_cx(maxes.xmin)+((sx_cx(maxes.xmax)-sx_cx(maxes.xmin))/2)-hp)+0.5;
+		var rightxb = sx_cx(maxes.xmax) -hp;
+
+		var topyb = sy_cy(maxes.ymax)-hp;
+		var midyb = Math.floor(sy_cy(maxes.ymax)+((sy_cy(maxes.ymin)-sy_cy(maxes.ymax))/2)-hp)+0.5;
+		var bottomyb = sy_cy(maxes.ymin) -hp;
+
+		// upper left
+		if( ((px > leftxb) && (px < leftxb+ps)) &&
+			((py > topyb) && (py < topyb+ps)) ){
+			return 'nw';
+		}
+		
+		// top
+		if( ((px > midxb) && (px < midxb+ps)) &&
+			((py > topyb) && (py < topyb+ps)) ){
+			return 'n';
+		}
+		
+		// upper right
+		if( ((px > rightxb) && (px < rightxb+ps)) &&
+			((py > topyb) && (py < topyb+ps)) ){
+			return 'ne';
+		}
+		
+		// right
+		if( ((px > rightxb) && (px < rightxb+ps)) &&
+			((py > midyb) && (py < midyb+ps)) ){
+			return 'e';
+		}
+		
+		// lower right
+		if( ((px > rightxb) && (px < rightxb+ps)) &&
+			((py > bottomyb) && (py < bottomyb+ps)) ){
+			return 'se';
+		}
+		
+		// bottom
+		if( ((px > midxb) && (px < midxb+ps)) &&
+			((py > bottomyb) && (py < bottomyb+ps)) ){
+			return 's';
+		}
+		
+		// lower left
+		if( ((px > leftxb) && (px < leftxb+ps)) &&
+			((py > bottomyb) && (py < bottomyb+ps)) ){
+			return 'sw';
+		}
+		
+		// left
+		if( ((px > leftxb) && (px < leftxb+ps)) &&
+			((py > midyb) && (py < midyb+ps)) ){
+			return 'w';
+		}
+		
+		return false;
+	}
+
+
 
 //-------------------
 // Drawing Grid

@@ -188,7 +188,7 @@
 			debug('\n Tool_ShapeEdit.mousedown - START');
 			debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 			var s = ss('eventHandler - mousedown');
-			_UI.eventhandlers.corner = s? s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
+			_UI.eventhandlers.corner = s? s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -196,10 +196,11 @@
 
 			if (_UI.eventhandlers.corner){
 				debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				setCursor(_UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				debug('\t clicked on shape=true');
+				debug('\t clicked on shape = true');
 				this.dragging = true;
 				this.resizing = false;
 				setCursor('pointerSquare');
@@ -233,7 +234,7 @@
 					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
 					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
-					s.path.updatePathPosition(dx, dy);
+					s.updateShapePosition(dx, dy);
 					didstuff = true;
 					setCursor('pointerSquare');
 				} else if (this.resizing){
@@ -246,7 +247,7 @@
 				}
 
 				//Translation fidelity, passing raw canvas values
-				if(s && !this.resizing) s.isOverHandle(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+				if(s && !this.resizing) s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 			}
 
 			if(didstuff){
@@ -272,7 +273,7 @@
 				evHanShapeResize(s, _UI.eventhandlers.corner);
 			}
 
-			if(this.resizing) s.path.calcMaxes();
+			if(s && this.resizing) s.calcMaxes();
 			updateCurrentGlyphWidth();
 
 			this.dragging = false;
@@ -419,7 +420,7 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			} else {
-				if(s){s.path.calcMaxes();}
+				if(s){s.calcMaxes();}
 				clickEmptySpace();
 			}
 			redraw('Event Handler Tool_PathEdit mousedown');
@@ -457,7 +458,7 @@
 						break;
 				}
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
-				s.path.calcMaxes();
+				s.calcMaxes();
 
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -478,7 +479,7 @@
 			_UI.eventhandlers.lasty = -100;
 
 			if(_UI.eventhandlers.uqhaschanged) {
-				ss('Path Edit - Mouse Up').path.calcMaxes();
+				ss('Path Edit - Mouse Up').calcMaxes();
 				updateCurrentGlyphWidth();
 				history_put('Path Edit tool');
 				_UI.eventhandlers.uqhaschanged = false;
@@ -621,7 +622,7 @@
 		var s = ss('Click Empty Space');
 		if(s) {
 			s.path.selectPathPoint(false);
-			s.path.calcMaxes();
+			s.calcMaxes();
 		}
 		_UI.selectedshape = -1;
 	}
@@ -716,7 +717,7 @@
 				break;
 		}
 
-		//if(!_UI.eventhandlers.tempnewbasicshape) s.path.calcMaxes();
+		//if(!_UI.eventhandlers.tempnewbasicshape) s.calcMaxes();
 
 		//debug('EVHANSHAPERESIZE - Done lx/rx/ty/by: ' + s.path.maxes.xmin + ',' + s.path.maxes.xmax + ',' + s.path.maxes.ymax + ',' + s.path.maxes.ymin);
 	}
