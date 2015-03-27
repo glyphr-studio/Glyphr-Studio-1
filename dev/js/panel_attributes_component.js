@@ -119,7 +119,7 @@
 		content += '<table class="layertable">';
 		content += '<tr class="layer" onclick="goToEditComponent(\''+s.link+'\');">';
 		content += '<td class="layerthumb">'+ cr.makeSVG() +'</td>';
-		content += '<td class="layername">' + cr.glyphname;
+		content += '<td class="layername">' + cr.name;
 		content += '<span class="layernote">edit this component</span>';
 		content += '</td></tr>';
 		content += '</table>';

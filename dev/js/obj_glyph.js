@@ -7,7 +7,7 @@
 		// debug('\n GLYPH - START');
 		this.objtype = 'glyph';
 
-		this.glyphname = oa.glyphname || getGlyphName(oa.glyphhex) || 'ERROR_GLYPHNAME';
+		this.name = oa.name || getGlyphName(oa.glyphhex) || 'ERROR_GLYPHNAME';
 		this.glyphhtml = oa.glyphhtml || hexToHTML(oa.glyphhex) || 'ERROR_GLYPHHTML';
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.glyphwidth = isval(oa.glyphwidth)? oa.glyphwidth : 0;
@@ -102,7 +102,7 @@
 
 	Glyph.prototype.drawGlyphToArea = function(lctx, view, uselsb){
 		// debug('\n Glyph.drawGlyphToArea - START');
-		// debug('\t drawing ' + this.glyphname);
+		// debug('\t drawing ' + this.name);
 
 		var sl = this.shapes;
 		var shape, path;
@@ -370,7 +370,7 @@
 		} else {
 			// Component
 			// debug('getGlyphName - inexplicably fails, returning [name not found]\n');
-			return cobj.glyphname || '[name not found]';
+			return cobj.name || '[name not found]';
 		}
 
 		// debug(' getGlyphName - returning nothing - END\n');

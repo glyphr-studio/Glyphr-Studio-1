@@ -24,9 +24,9 @@
 		for(var e=q.length-1; e>=0; e--){
 			te = q[e];
 
-			if(te.glyphname !== currname){
-				content += "<tr><td colspan=2 ><div class='history_char'>"+te.glyphname+"</div></td></tr>";
-				currname = te.glyphname;
+			if(te.name !== currname){
+				content += "<tr><td colspan=2 ><div class='history_char'>"+te.name+"</div></td></tr>";
+				currname = te.name;
 			}
 
 			content += "<tr>"+

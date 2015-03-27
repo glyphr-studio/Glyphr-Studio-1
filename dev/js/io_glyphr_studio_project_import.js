@@ -128,7 +128,7 @@
 				gn = 'Shape';
 			}
 			ui = com.usedin? com.usedin : [];
-			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'glyphname':gn, 'glyphhtml':''});
+			fc.components[c] = new Glyph({'shapes':sh, 'usedin':ui, 'name':gn, 'glyphhtml':''});
 		}}
 		// debug('\t DONE ls > glyph');
 
@@ -139,7 +139,7 @@
 		for(var g in fc.glyphs){ if(fc.glyphs.hasOwnProperty(g)){
 			gl = fc.glyphs[g];
 			gl.shapes = gl.charshapes || [];
-			gl.glyphname = gl.charname || false;
+			gl.name = gl.charname || false;
 			gl.glyphhtml = gl.charhtml || false;
 			gl.glyphwidth = gl.charwidth || false;
 			delete gl.charshapes;

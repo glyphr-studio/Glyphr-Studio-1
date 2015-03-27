@@ -143,7 +143,7 @@
 		var pathdata = ch.makeSVGpathData();
 
 		var con = '\t\t\t';
-		con += '<glyph glyph-name="'+ch.glyphname.replace(/ /g, '_')+'" ';
+		con += '<glyph glyph-name="'+ch.name.replace(/ /g, '_')+'" ';
 		con += 'unicode="'+uni+'" ';
 		con += 'horiz-adv-x="'+ch.getTotalWidth()+'" ';
 		con += 'd="'+pathdata+'" />\n';

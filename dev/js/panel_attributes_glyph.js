@@ -28,7 +28,7 @@
 		if (_UI.navhere === 'components'){
 			// debug(" \t  detected navhere = components");
 			content += '<tr><td colspan=2><h3>component</h3></td></tr>';
-			content += '<tr><td>name</td><td><input type="text" value="'+sc.glyphname+'" onchange="getSelectedWorkItem().glyphname = this.value;"/></td></tr>';
+			content += '<tr><td>name</td><td><input type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
 
 		if(s && s.objtype === 'componentinstance'){

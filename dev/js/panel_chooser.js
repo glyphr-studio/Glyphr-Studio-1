@@ -126,7 +126,7 @@
 		
 		var gname = hexToHTML(index);
 		if(index === '0x0020') gname = 'space';
-		else if (!gname) gname = wi.glyphname;
+		else if (!gname) gname = wi.name;
 
 		if(wi && getSelectedWorkItemShapes().length) {
 			var extra = '';

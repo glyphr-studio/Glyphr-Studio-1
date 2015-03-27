@@ -75,8 +75,8 @@
 				_UI.navprimaryhere === 'npHistory') return content + '</h1>';
 				
 			if(sc){
-				name = (sc.glyphname || sc.glyphhtml || sc.shape.name || '[no shape outline yet]');
-				if(sc.glyphname) name = name.replace(/latin /i, '');
+				name = (sc.name || sc.glyphhtml || sc.shape.name || '[no shape outline yet]');
+				if(sc.name) name = name.replace(/latin /i, '');
 				content += '<span class="supertitleseperator">&#x276F;&#x276F;</span>';
 				content += name;
 			} else if (_UI.navhere === 'kerning'){

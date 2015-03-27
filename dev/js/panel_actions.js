@@ -269,7 +269,7 @@
 	}
 
 	function addComponent(pglyph){
-		pglyph = pglyph || new Glyph({'name':'component ' + (getLength(_GP.components)+1)});
+		pglyph = pglyph || new Glyph({'glyphname':'component ' + (getLength(_GP.components)+1)});
 		var newid = generateNewID(_GP.components, 'com');
 		_UI.selectedcomponent = newid;
 
@@ -287,7 +287,7 @@
 		if(uia.length > 0){
 			content += "If you do, the component instances will also be removed from the following glyphs:<br><br>";
 			for(var ssu=0; ssu<uia.length; ssu++){
-				content += ("&nbsp; &nbsp; " + _GP.glyphs[uia[ssu]].glyphname.replace(/LATIN /gi,"") + "<br>");
+				content += ("&nbsp; &nbsp; " + _GP.glyphs[uia[ssu]].name.replace(/LATIN /gi,"") + "<br>");
 			}
 		} else {
 			content += "This component is not currently being used by any glyphs.<br>";

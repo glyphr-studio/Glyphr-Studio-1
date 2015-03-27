@@ -68,12 +68,12 @@
 				path = shape.getPath();
 				path.updatePathPosition(lsb, 0, true);
 
-				// debug('\t drawing path of char ' + tc.glyphname);
+				// debug('\t drawing path of char ' + tc.name);
 				tcpath = path.makeOpenTypeJSpath(tcpath);
 			}
 
 			options.glyphs.push(new opentype.Glyph({
-				name: tc.glyphname,
+				name: tc.name,
 				unicode: parseInt(c),
 				index: parseInt(c),
 				advanceWidth: tc.getTotalWidth(),
