@@ -1,5 +1,5 @@
 # Welcome to Glyphr Studio!
-Glyphr Studio is a free, web based font designer, focusing on font design hobbyists.  
+Glyphr Studio is a free, web based font designer, focusing on font design for hobbyists.
 More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - and/or follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
 
 ## Beta 5 has been released!
@@ -11,8 +11,12 @@ Beta 5.2 is just some bug fixes, which is kind of boring, but necessary.
 
 As always, there is kind of a running list of feature ideas over at the [Issues List]( https://github.com/mattlag/Glyphr-Studio/issues?labels=&page=1&state=open).
 
-## Version 1 is on the way
-There will be no Beta 6.  Currently we are integrating with OpenType.js to support OTF and TTF import and export.  That's cool!
+## New features to come as Version 1 is on the way!
+There are many new features to come before the release of and for the release of Version 1! Currently we are integrating with OpenType.js to support OTF and TTF import and export.
+
+With Version 1, we will happily be enabling Components (which is replacing Linked Shapes). Components will drastically change a lot of the underlying code and structure of Glyphr Studio.
+
+Some other new tools will include a Knife Tool, Measure Tool, Boolean Tools, and a Rotation tool! Isn't that awesome?!
 
 ## Contributing & Feedback
 I'm an interaction designer by trade, and have decided to use Glyphr Studio as a giant crash course in JavaScript and HTML5.  Since this is my first major HTML5/JS app, there are many opportunities for growth & improvement - for both code, and collaborative development styles.
