@@ -112,7 +112,7 @@
 
 					// debug('\t starting drawing ' + cc.name);
 					// debug(cc);
-					currx += cc.drawGlyphToArea(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+					currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					currx += (td.padsize*1*scale);
 					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
 					// debug('\t done drawing ' + cc.name);

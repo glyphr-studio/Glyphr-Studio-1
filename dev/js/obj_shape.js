@@ -36,47 +36,17 @@
 //	DRAWING THE SHAPE
 //	-------------------------------------------------------
 
-	Shape.prototype.drawShape_Single = function(lctx){
-		//debug('DRAWSHAPE_SINGLE');
-		//this.checkPath();
-
-		if(this.visible){
-			lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
-			if(lctx === _UI.ishereghostctx) { lctx.fillStyle = 'rgba(0,0,255,0.2)'; }
-
-			// Draw the appropriate stuff for each shape's fill & border
-			lctx.beginPath();
-			this.path.drawPath(lctx);
-			lctx.closePath();
-			lctx.fill();
-		}
-	};
-
-
-	Shape.prototype.drawShape_Stack = function(lctx){
-		//debug('DRAWSHAPE_STACK');
+	Shape.prototype.drawShape = function(lctx, view){
+		//debug('drawShape');
 		if(this.visible){
 			if((this.path.maxes.xmax === -1) &&
 					(lctx === _UI.glypheditctx) &&
 					(_UI.selectedtool !== 'newpath')) {
 				this.calcMaxes();
 			}
-			this.path.drawPath(lctx);
+			this.path.drawPath(lctx, view);
 		}
 	};
-
-	Shape.prototype.drawShapeToArea = function(lctx, view){
-		//debug('DRAWSHAPETOAREA');
-		if(this.visible){
-			//debug('drawShapeToArea for shape: ' + this.name + ' view=' + JSON.stringify(view));
-			lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
-			lctx.beginPath();
-			this.path.drawPathToArea(lctx, view);
-			lctx.closePath();
-			lctx.fill();
-		}
-	};
-
 
 
 //	-------------------------------------------------------
@@ -402,10 +372,16 @@
 //	CANVAS HELPER FUNCTIONS
 //	----------------------------------------------
 	Shape.prototype.isHere = function(x,y){
-		var imageData;
-		_UI.ishereghostctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
-		this.drawShape_Single(_UI.ishereghostctx);
-		imageData = _UI.ishereghostctx.getImageData(x, y, 1, 1);
+		var gctx = _UI.ishereghostctx;
+		
+		gctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
+		gctx.fillStyle = 'rgba(0,0,255,0.2)';
+		gctx.beginPath();
+		this.drawShape(gctx);
+		gctx.closePath();
+		gctx.fill();
+
+		var imageData = gctx.getImageData(x, y, 1, 1);
 		//debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);
 	};

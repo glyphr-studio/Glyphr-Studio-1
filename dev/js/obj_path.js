@@ -166,8 +166,12 @@
 //  DRAWING
 //  -----------------------------------
 
-	Path.prototype.drawPath = function(lctx) {
+	Path.prototype.drawPath = function(lctx, view) {
 		//if(lctx == _UI.glypheditctx)	debug('DRAWPATH');
+
+		var currview = getView('Path.drawPath');
+		view = view || clone(currview);
+		setView(view);
 
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
@@ -177,14 +181,6 @@
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			pp = this.pathpoints[cp];
 			np = this.pathpoints[(cp+1) % this.pathpoints.length];
-
-			// if(lctx == _UI.glypheditctx)	{
-			//	debug('  point ' + cp);
-			//	debug('\n  pp\n' + JSON.stringify(pp));
-			//	debug('  np\n' + JSON.stringify(np));
-			// }
-
-			// this.validate('DRAW PATH');
 
 			if(pp.type === 'symmetric') { pp.makeSymmetric('H1'); }
 			else if (pp.type === 'flat') { pp.makeFlat('H1'); }
@@ -201,27 +197,9 @@
 			//if(lctx == _UI.glypheditctx)	debug('  curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
 		}
+
+		setView(currview);
 	};
-
-	Path.prototype.drawPathToArea = function(lctx, view, dx){
-		// debug('\n Path.drawPathToArea - START');
-		// debug('\t passed dx ' + dx);
-		// var tempv = clone(getView('Path.drawPathToArea'));
-		var tempv = getView('Path.drawPathToArea');
-
-		setView(view);
-		if(dx){
-			var tp = clone(this);
-			tp.updatePathPosition(dx, 0, true);
-			tp.drawPath(lctx);
-		} else {
-			this.drawPath(lctx);
-		}
-
-		setView(tempv);
-		// debug(' Path.drawPathToArea - END\n');
-	};
-
 
 
 //  -----------------------------------

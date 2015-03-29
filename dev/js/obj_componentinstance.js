@@ -104,17 +104,10 @@
 
 	ComponentInstance.prototype.selectPathPoint = function() { return false; };
 	
-	ComponentInstance.prototype.drawShape_Stack = function(lctx){
+	ComponentInstance.prototype.drawShape = function(lctx, view){
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawShape_Stack(lctx);
-		}
-	};
-
-	ComponentInstance.prototype.drawShape_Single = function(lctx){
-		var g = this.getTransformedGlyph();
-		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawShape_Single(lctx);
+			g.shapes[s].drawShape(lctx, view);
 		}
 	};
 
@@ -145,11 +138,6 @@
  		}
 
  		return re;
-	};
-
-	ComponentInstance.prototype.drawShapeToArea = function(lctx, view){
-		var g = this.getTransformedGlyph();
-		g.drawGlyphToArea(lctx, view);
 	};
 
 	ComponentInstance.prototype.drawSelectOutline = function(){

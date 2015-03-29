@@ -46,7 +46,7 @@
 		drawGuides();
 
 		// load char info
-		if(sc) sc.drawGlyphToArea(_UI.glypheditctx, getView('Redraw'));
+		if(sc) sc.drawGlyph(_UI.glypheditctx, getView('Redraw'));
 
 		// Finish up
 		var s = ss('Redraw');

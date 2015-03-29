@@ -112,8 +112,8 @@
 		else return this.rightsidebearing;
 	};
 
-	Glyph.prototype.drawGlyphToArea = function(lctx, view, uselsb){
-		// debug('\n Glyph.drawGlyphToArea - START');
+	Glyph.prototype.drawGlyph = function(lctx, view, uselsb){
+		// debug('\n Glyph.drawGlyph - START');
 		// debug('\t drawing ' + this.name);
 
 		var sl = this.shapes;
@@ -125,9 +125,7 @@
 			shape = sl[j];
 			if(shape.visible) {
 				// debug('\t drawing shape ' + j);
-				// path = shape.getPath();
-				// path.drawPathToArea(lctx, view, lsb);
-				shape.drawShapeToArea(lctx, view);
+				shape.drawShape(lctx, view);
 			}
 		}
 
@@ -135,7 +133,7 @@
 		lctx.closePath();
 		lctx.fill('nonzero');
 
-		// debug(' Glyph.drawGlyphToArea - END\n');
+		// debug(' Glyph.drawGlyph - END\n');
 		return (this.getTotalWidth()*view.dz);
 	};
 
