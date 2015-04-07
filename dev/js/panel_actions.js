@@ -273,7 +273,10 @@
 	}
 
 	function addComponent(pglyph){
-		pglyph = pglyph || new Glyph({'glyphname':'component ' + (getLength(_GP.components)+1)});
+		debug('\n addComponent - START');
+		debug('\t name = ' + name);
+
+		pglyph = pglyph || new Glyph({'name':'Component ' + (getLength(_GP.components)+1)});
 		var newid = generateNewID(_GP.components, 'com');
 		_UI.selectedcomponent = newid;
 

@@ -61,7 +61,7 @@
 		} else if (lig === false || lid.length < 2){
 			showErrorMessageBox('Ligatures must be at least two glyphs.');
 		} else {
-			lig[lid] = new Glyph({'glyphhex':lid, 'glyphname':('Ligature ' + inlig)});
+			lig[lid] = new Glyph({'glyphhex':lid, 'name':('Ligature ' + inlig)});
 			sortLigatures();
 			_UI.selectedglyph = lid;
 			navigate();

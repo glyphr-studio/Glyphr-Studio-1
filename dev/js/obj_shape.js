@@ -321,9 +321,8 @@
 	function turnSelectedShapeIntoAComponent(){
 		var s = clone(ss());
 		deleteShape();
-		var newcom = new Glyph({'shapes':[s], 'glyphname':s.name});
-		var newid = addComponent(newcom);
-		insertComponentInstance(newid, getSelectedWorkItemID(), ('Component from ' + s.name));
+		var newid = addComponent(new Glyph({'shapes':[s], 'name':'Component ' + s.name}));
+		insertComponentInstance(newid, getSelectedWorkItemID(), (s.name));
 		_UI.selectedshape = getSelectedWorkItemShapes().length-1;
 		redraw('turnSelectedShapeIntoAComponent');
 	}
