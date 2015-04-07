@@ -598,10 +598,10 @@
 
 
 	function drawSelectOutline(sh, accent) {
-		debug('\n drawSelectOutline - START');
-		debug('\t shape name = ' + sh.name);
-		debug('\t accent.l65 = ' + accent.l65);
-		debug('\t selectedtool = ' + _UI.selectedtool);
+		// debug('\n drawSelectOutline - START');
+		// debug('\t shape name = ' + sh.name);
+		// debug('\t accent.l65 = ' + accent.l65);
+		// debug('\t selectedtool = ' + _UI.selectedtool);
 
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.glypheditctx.lineWidth = 1;
@@ -662,12 +662,12 @@
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
 		}
-		debug(' drawSelectOutline - END\n');
+		// debug(' drawSelectOutline - END\n');
 	}
 
 	function drawBoundingBox(maxes, accent) {
-		debug('\n drawBoundingBox - START');
-		debug('\t accent: ' + accent.l65);
+		// debug('\n drawBoundingBox - START');
+		// debug('\t accent: ' + accent.l65);
 		//draw bounding box and 8points
 		var tnbs = _UI.eventhandlers.tempnewbasicshape;
 		var lx = tnbs? sx_cx(tnbs.xmin) : sx_cx(maxes.xmin);
@@ -680,7 +680,7 @@
 		_UI.glypheditctx.fillStyle = 'transparent';
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.strokeRect(lx,ty,w,h);
-		debug(' drawBoundingBox - END\n');
+		// debug(' drawBoundingBox - END\n');
 	}
 
 	function drawBoundingBoxHandles(maxes, accent) {

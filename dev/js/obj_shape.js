@@ -53,17 +53,17 @@
 //	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
 //	-------------------------------------------------------
 	Shape.prototype.drawSelectOutline = function(){
-		debug('\n Shape.drawSelectOutline - START');
+		// debug('\n Shape.drawSelectOutline - START');
 		drawSelectOutline(this, _UI.colors.blue);
 	};
 
 	Shape.prototype.drawBoundingBox = function() {
-		debug('\n Shape.drawBoundingBox - START');
+		// debug('\n Shape.drawBoundingBox - START');
 		drawBoundingBox(this.path.maxes, _UI.colors.blue);
 	};
 
 	Shape.prototype.drawBoundingBoxHandles = function(){
-		debug('\n Shape.drawBoundingBoxHandles - START');
+		// debug('\n Shape.drawBoundingBoxHandles - START');
 		drawBoundingBoxHandles(this.path.maxes, _UI.colors.blue);
 	};
 

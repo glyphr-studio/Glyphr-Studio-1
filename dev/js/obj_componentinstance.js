@@ -141,7 +141,7 @@
 	};
 
 	ComponentInstance.prototype.drawSelectOutline = function(){
-		debug('\n ComponentInstance.drawSelectOutline - START');
+		// debug('\n ComponentInstance.drawSelectOutline - START');
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
 			drawSelectOutline(g.shapes[s], _UI.colors.green);
@@ -149,13 +149,13 @@
 	};
 
 	ComponentInstance.prototype.drawBoundingBox = function() {
-		debug('\n ComponentInstance.drawBoundingBox - START');
+		// debug('\n ComponentInstance.drawBoundingBox - START');
 		var g = this.getTransformedGlyph();
 		drawBoundingBox(g.maxes, _UI.colors.green);
 	};
 
 	ComponentInstance.prototype.drawBoundingBoxHandles = function(){
-		debug('\n ComponentInstance.drawBoundingBoxHandles - START');
+		// debug('\n ComponentInstance.drawBoundingBoxHandles - START');
 		var g = this.getTransformedGlyph();
 	 	drawBoundingBoxHandles(g.maxes, _UI.colors.green);
 	};
@@ -168,7 +168,7 @@
 
 	ComponentInstance.prototype.isOverBoundingBoxCorner = function(x,y){
 		var c = isOverBoundingBoxCorner(x,y,this.getMaxes());
-		debug('\t ComponentInstance.isOverBoundingBoxCorner returning ' + c);
+		// debug('\t ComponentInstance.isOverBoundingBoxCorner returning ' + c);
 		return c;
 	};
 
