@@ -355,7 +355,7 @@
 	}
 
 	function linkComponentToGlyph(id){
-		insertComponentInstance(_UI.selectedcomponent, id);
+		//insertComponentInstance(_UI.selectedcomponent, id);
 		history_put("Linked Component to Glyph");
 		closeDialog();
 		showDialog_LinkComponentToGlyph("The Component '" + getSelectedWorkItem().shape.name + "' was successfully inserted into glyph " + getGlyphName(id) + ".<br><br>");

@@ -189,9 +189,11 @@
 
 //	Insert Component
 	function insertComponentDialog(){
-		var thumbs = makeComponentThumbs();
+		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', true, true, true);
 		if(thumbs){
-			var content = '<h1>Add Component</h1>Choose a Component to insert as a layer in this glyph:<br><br>';
+			var content = '<h1>Add Component</h1>';
+			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.';
+			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br><br>';
 			content += thumbs;
 			content += '<div style="display:block;"><button onclick="closeDialog();">cancel</button></div>';
 			openDialog(content);
@@ -200,10 +202,12 @@
 		}
 	}
 
-	function insertComponentInstance(cid, tochar, name){
+	function insertComponentInstance(cid){
+		var tochar = getSelectedWorkItemID();
 		var ch = getGlyph(tochar, true);
+
 		if(ch.canAddComponent(cid)){
-			name = name || 'Instance of ' + getGlyphName(cid);
+			var name = 'Instance of ' + getGlyphName(cid);
 			var nci = new ComponentInstance({'link':cid, 'name':name});
 
 			//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(nci));

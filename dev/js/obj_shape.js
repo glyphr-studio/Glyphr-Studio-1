@@ -320,7 +320,7 @@
 		var s = clone(ss());
 		deleteShape();
 		var newid = addComponent(new Glyph({'shapes':[s], 'name':'Component ' + s.name}));
-		insertComponentInstance(newid, getSelectedWorkItemID(), (s.name));
+		insertComponentInstance(newid);
 		_UI.selectedshape = getSelectedWorkItemShapes().length-1;
 		redraw('turnSelectedShapeIntoAComponent');
 	}
