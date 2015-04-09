@@ -12,7 +12,7 @@
 		setupEditCanvas();
 		initEventHandlers();
 
-		_UI.selectedshape = -1;
+		clickEmptySpace();
 		_UI.selectedtool = 'pathedit';
 
 		redraw("loadPage_components");

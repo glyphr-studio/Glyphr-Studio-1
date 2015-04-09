@@ -53,7 +53,7 @@
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
 		//debug('UPDATEPATHSIZE - dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
 
-		var s = ss('updatePathSize') || {'wlock':false, 'hlock':false};
+		var s = _UI.ss || {'wlock':false, 'hlock':false};
 		dw = s.wlock? 0 : parseFloat(dw) || 0;
 		dh = s.hlock? 0 : parseFloat(dh) || 0;
 

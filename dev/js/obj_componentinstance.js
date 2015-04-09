@@ -225,7 +225,7 @@
 	}
 
 	function turnComponentIntoShapes(){
-		var selshape = ss();
+		var selshape = _UI.ss;
 		var shapes = selshape.getTransformedGlyph().shapes;
 		
 		deleteShape();

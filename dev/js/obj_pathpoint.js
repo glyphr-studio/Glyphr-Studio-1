@@ -188,7 +188,7 @@
 			this.useh2 = !this.useh2;
 			history_put('Use Handle 2 : ' + this.useh2);
 		}
-		ss().calcMaxes();
+		_UI.ss.calcMaxes();
 		redraw('pointDetails');
 
 		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));

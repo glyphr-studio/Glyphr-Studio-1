@@ -23,12 +23,12 @@
 			for(var i=(scs.length-1); i>=0; i--){
 				ts = scs[i];
 
-				if(i===_UI.selectedshape) {
+				if(i===_UI.ssnumber) {
 					if(ts.objtype === 'componentinstance')	content += '<tr class="lslayersel"';
 					else content += '<tr class="layersel"';
 				} else content += '<tr class="layer"';
 				
-				content += ' onclick="_UI.selectedshape = ' + i + '; redraw(\'updatelayers\'); ';
+				content += ' onclick="_UI.ssnumber = ' + i + '; redraw(\'updatelayers\'); ';
 				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\');';
 				content += '">';
 

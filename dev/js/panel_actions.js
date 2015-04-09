@@ -8,7 +8,6 @@
 
 
 	function makePanel_Actions(){
-		var s = ss("Update Actions");
 		var pop = _UI.popout;
 
 		var content = "<div class='panel_section'>";
@@ -28,11 +27,11 @@
 
 		var shapeactions = "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
-		shapeactions += "<button onclick='ss().flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
-		shapeactions += "<button onclick='ss().flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
+		shapeactions += "<button onclick='_UI.ss.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
+		shapeactions += "<button onclick='_UI.ss.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
-		if(s && s.objtype === 'componentinstance'){
+		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
 			shapeactions += "<button onclick='turnComponentIntoShapes();redraw(\"turnComponentIntoShapes\");'>unlink this component</button><br>";
 		} else {
 			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
@@ -43,9 +42,9 @@
 		layeractions += "<button onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
-		pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
-		pointactions += "<button class='"+(s? "": "buttondis")+"' onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
-		pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
+		pointactions += "<button onclick='_UI.ss.path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
+		pointactions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='_UI.ss.path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
+		pointactions += "<button onclick='_UI.ss.path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together
 		content += "<table class='actionsgrid'><tr>";
@@ -55,12 +54,12 @@
 		if(!pop) content += "</td>";
 
 		if(!pop) content += "<td>";
-		if(s){ content += shapeactions; }
+		if(_UI.ss){ content += shapeactions; }
 		else if (!pop){ content += "&nbsp;";}
 		if(!pop) content += "</td>";
 
 		var ispointsel = false;
-		if(s && s.objtype !== 'componentinstance') ispointsel = s.path.sp(false);
+		if(_UI.ss && _UI.ss.objtype !== 'componentinstance') ispointsel = _UI.ss.path.sp(false);
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
@@ -72,7 +71,7 @@
 		if (!pop) content += "</tr><tr>";
 
 		if(!pop) content += "<td>";
-		if(s && !pop){ content += layeractions; }
+		if(_UI.ss && !pop){ content += layeractions; }
 		content += "</td>";
 
 		content += "</tr></table></div>";
@@ -84,17 +83,16 @@
 
 		var content = '<h1 class="paneltitle">actions</h1><table class="actionsgrid"><tr>';
 
-		var s = ss("Update Actions");
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
 			allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
 			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another glyph</button><br>";
 
-		var shapeactions = "<button class='"+(s? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
+		var shapeactions = "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
 
 		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='moveupShape();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
-			layeractions += "<button class='"+(s? "": "buttondis")+"' onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
+			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='moveupShape();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
+			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 			layeractions += "</td>";
 
 		content += allactions;
@@ -113,15 +111,14 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
-		var s = ss('copy shape');
-		if(s){
+		if(_UI.ss){
 			_UI.clipboardshape = {
-				's':s,
+				's':_UI.ss,
 				'c':_UI.selectedglyph,
 				'dx': 0,
 				'dy': 0
 			};
-			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape.s.name);
+			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape._UI.ss.name);
 		}
 		redraw('copyShape');
 	}
@@ -196,25 +193,21 @@
 // Move up / down
 //-------------------
 	function moveupShape(){
-		var s = ss("Move Up Shape");
-
-		if(s && (_UI.selectedshape < (getSelectedWorkItemShapes().length-1))){
-			var tempshape = getSelectedWorkItemShapes()[_UI.selectedshape+1];
-			getSelectedWorkItemShapes()[_UI.selectedshape+1] = getSelectedWorkItemShapes()[_UI.selectedshape];
-			getSelectedWorkItemShapes()[_UI.selectedshape] = tempshape;
-			_UI.selectedshape++;
+		if(_UI.ss && (_UI.ssnumber < (getSelectedWorkItemShapes().length-1))){
+			var tempshape = getSelectedWorkItemShapes()[_UI.ssnumber+1];
+			getSelectedWorkItemShapes()[_UI.ssnumber+1] = getSelectedWorkItemShapes()[_UI.ssnumber];
+			getSelectedWorkItemShapes()[_UI.ssnumber] = tempshape;
+			_UI.ssnumber++;
 			redraw("moveupShape");
 		}
 	}
 
 	function movedownShape(){
-		var s = ss("Move Down Shape");
-
-		if(s && (_UI.selectedshape > 0)){
-			var tempshape = getSelectedWorkItemShapes()[_UI.selectedshape-1];
-			getSelectedWorkItemShapes()[_UI.selectedshape-1] = getSelectedWorkItemShapes()[_UI.selectedshape];
-			getSelectedWorkItemShapes()[_UI.selectedshape] = tempshape;
-			_UI.selectedshape--;
+		if(_UI.ss && (_UI.ssnumber > 0)){
+			var tempshape = getSelectedWorkItemShapes()[_UI.ssnumber-1];
+			getSelectedWorkItemShapes()[_UI.ssnumber-1] = getSelectedWorkItemShapes()[_UI.ssnumber];
+			getSelectedWorkItemShapes()[_UI.ssnumber] = tempshape;
+			_UI.ssnumber--;
 			redraw("movedownShape");
 		}
 	}
@@ -231,35 +224,33 @@
 		if(!getSelectedWorkItem()) return content + '</div>';
 		if(pop) content += '</div><div class="panel_section">';
 
-		var s = ss('Update Actions');
-
-		var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">component</h3>";
-			if(s) ls1actions += "<button onclick='showDialog_LinkComponentToGlyph();'>link to glyph</button><br>";
+			var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">component</h3>";
+			if(_UI.ss) ls1actions += "<button onclick='showDialog_LinkComponentToGlyph();'>link to glyph</button><br>";
 			ls1actions += "<button onclick='addComponent();history_put(\"Create New Component\");navigate();'>create new</button><br>";
-			if(s) ls1actions += "<button onclick='deleteComponentConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
+			if(_UI.ss) ls1actions += "<button onclick='deleteComponentConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
 
 		var	ls2actions = "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
 			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
-			ls2actions += "<button onclick='ss().path.flipEW();history_put(\"Flip Component Horizontal\");redraw(\"updatecomponentactions\");'>flip horizontal</button><br>";
-			ls2actions += "<button onclick='ss().path.flipNS();history_put(\"Flip Component Vertical\");redraw(\"updatecomponentactions\");'>flip vertical</button><br>";
+			ls2actions += "<button onclick='_UI.ss.path.flipEW();history_put(\"Flip Component Horizontal\");redraw(\"updatecomponentactions\");'>flip horizontal</button><br>";
+			ls2actions += "<button onclick='_UI.ss.path.flipNS();history_put(\"Flip Component Vertical\");redraw(\"updatecomponentactions\");'>flip vertical</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
-			pointactions += "<button onclick='ss().path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatecomponentactions\");'>insert</button><br>";
-			pointactions += "<button onclick='ss().path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatecomponentactions\");'class='"+(s? "": "buttondis")+"' >delete</button><br>";
-			pointactions += "<button onclick='ss().path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatecomponentactions\");'>reset handles</button><br>";
+			pointactions += "<button onclick='_UI.ss.path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatecomponentactions\");'>insert</button><br>";
+			pointactions += "<button onclick='_UI.ss.path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatecomponentactions\");'class='"+(_UI.ss? "": "buttondis")+"' >delete</button><br>";
+			pointactions += "<button onclick='_UI.ss.path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatecomponentactions\");'>reset handles</button><br>";
 
 
 		// Put it all together
 		content += '<table class="actionsgrid"><tr>';
 		content += '<td>';
 		content += ls1actions;
-		if(s){
+		if(_UI.ss){
 			if(pop) content += ls2actions;
 			else content += '</td><td><h3>&nbsp;</h3>'+ls2actions+'</td>';
 		}
 
 		var ispointsel = false;
-		if(s && s.objtype !== 'componentinstance') ispointsel = s.path.sp(false);
+		if(_UI.ss && _UI.ss.objtype !== 'componentinstance') ispointsel = _UI.ss.path.sp(false);
 		if(_UI.selectedtool !== "pathedit") ispointsel = false;
 		if(ispointsel) {
 			if(pop) content += pointactions;
@@ -279,7 +270,7 @@
 		var newid = generateNewID(_GP.components, 'com');
 		_UI.selectedcomponent = newid;
 
-		if(_UI.navhere === 'components') _UI.selectedshape = newid;
+		if(_UI.navhere === 'components') _UI.ssnumber = newid;
 		_GP.components[newid] = pglyph;
 
 		//debug("Added New Component: " + newid + " JSON=" + json(_GP.components));
@@ -329,7 +320,7 @@
 			// delete component and switch selection
 			delete _GP.components[_UI.selectedcomponent];
 			_UI.selectedcomponent = getFirstID(_GP.components);
-			_UI.selectedshape = _UI.selectedcomponent;
+			_UI.ssnumber = _UI.selectedcomponent;
 			//debug("DELETECOMPONENT - delete complete, new selectedcomponent = " + selectedcomponent);
 
 			navigate();

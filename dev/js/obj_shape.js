@@ -250,7 +250,7 @@
 
 		var sg = getSelectedWorkItem();
 
-		_UI.selectedshape = sg.shapes.length;
+		_UI.ssnumber = sg.shapes.length;
 		sg.shapes.push(newshape);
 		sg.calcGlyphMaxes();
 
@@ -288,7 +288,7 @@
 		newshape.path = new Path({'pathpoints':parr});
 		newshape.name = (shapetype + getSelectedWorkItemShapes().length+1);
 
-		if(_UI.navhere === 'glyph edit') { _UI.selectedshape = getSelectedWorkItemShapes().length; }
+		if(_UI.navhere === 'glyph edit') { _UI.ssnumber = getSelectedWorkItemShapes().length; }
 		getSelectedWorkItemShapes().push(newshape);
 		updateCurrentGlyphWidth();
 	}
@@ -296,20 +296,20 @@
 	function deleteShape(){
 		var scs = getSelectedWorkItemShapes();
 
-		if(scs[_UI.selectedshape] && scs[_UI.selectedshape].objtype === 'componentinstance'){
-			removeFromUsedIn(scs[_UI.selectedshape].link, _UI.selectedglyph);
+		if(scs[_UI.ssnumber] && scs[_UI.ssnumber].objtype === 'componentinstance'){
+			removeFromUsedIn(scs[_UI.ssnumber].link, _UI.selectedglyph);
 		}
 
-		if((scs.length > 0) && (_UI.selectedshape >= 0)){
-			scs.splice(_UI.selectedshape, 1);
-			if(scs.length === _UI.selectedshape) {
-				_UI.selectedshape = _UI.selectedshape-1;
+		if((scs.length > 0) && (_UI.ssnumber >= 0)){
+			scs.splice(_UI.ssnumber, 1);
+			if(scs.length === _UI.ssnumber) {
+				_UI.ssnumber = _UI.ssnumber-1;
 			}
 		} else {
 			//debug('DELETESHAPES - no shapes left');
 		}
 
-		if((_UI.selectedshape >= 0) && (scs[_UI.selectedshape].objtype === 'componentinstance')){
+		if((_UI.ssnumber >= 0) && (scs[_UI.ssnumber].objtype === 'componentinstance')){
 			//debug('DELETESHAPE - newly selected shape is component, changing tool');
 			_UI.selectedtool = 'shaperesize';
 		}
@@ -317,11 +317,11 @@
 	}
 
 	function turnSelectedShapeIntoAComponent(){
-		var s = clone(ss());
+		var s = clone(_UI.ss);
 		deleteShape();
 		var newid = addComponent(new Glyph({'shapes':[s], 'name':'Component ' + s.name}));
 		insertComponentInstance(newid);
-		_UI.selectedshape = getSelectedWorkItemShapes().length-1;
+		_UI.ssnumber = getSelectedWorkItemShapes().length-1;
 		redraw('turnSelectedShapeIntoAComponent');
 	}
 
@@ -337,9 +337,9 @@
 
 			if(ts.isHere(x,y)){
 				ts.selectPathPoint(false);
-				if(j !== _UI.selectedshape){
+				if(j !== _UI.ssnumber){
 					// debug('\t selecting shape ' + j);
-					_UI.selectedshape = j;
+					_UI.ssnumber = j;
 				}
 
 				if(ts.objtype === 'componentinstance') clickTool('shaperesize');
@@ -349,7 +349,7 @@
 				return true;
 			}
 		}
-		_UI.selectedshape = -1;
+		clickEmptySpace();
 		// debug('\t deselecting, setting to -1');
 		// debug(' clickSelectShape - END\n');
 		return false;

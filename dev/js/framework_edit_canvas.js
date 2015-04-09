@@ -103,22 +103,21 @@
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 
-		var s = ss('Glyphedit: UpdateTools');
 
 		if(oncom) {
-			if(!_GP.components[_UI.selectedshape]) { s = false; }
+			if(!_GP.components[_UI.ssnumber]) { _UI.ss = false; }
 		}
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
-		} else if (s && s.objtype === 'componentinstance'){
+		} else if (_UI.ss && _UI.ss.objtype === 'componentinstance'){
 			patheditclass = 'buttondis';
 			penclickable = false;
 		}
 
 		if(_UI.selectedtool === 'pathaddpoint'){
 			pathaddpointclass = 'buttonsel';
-		} else if (s && s.objtype === 'componentinstance'){
+		} else if (_UI.ss && _UI.ss.objtype === 'componentinstance'){
 			pathaddpointclass = 'buttondis';
 			penclickable = false;
 		}
@@ -195,27 +194,26 @@
 	function clickTool(ctool){
 
 		_UI.selectedtool = ctool;
-		var s = ss("clicktool");
 
 		//debug("CLICKTOOL - was passed: " + ctool + " and _UI.selectedtool now is: " + _UI.selectedtool);
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
 
 		if(ctool === "newrect"){
 			setCursor('crosshairsSquare');
-			_UI.selectedshape = -1;
+			clickEmptySpace();
 		} else if (ctool === "newoval"){
 			setCursor('crosshairsCircle');
-			_UI.selectedshape = -1;
+			clickEmptySpace();
 		} else if (ctool === "newpath"){
 			setCursor('penPlus');
-			_UI.selectedshape = -1;
+			clickEmptySpace();
 		} else if(ctool === "pathedit"){
 			setCursor('pen');
-			if(s && s.path) {s.selectPathPoint(0);}
+			if(_UI.ss && _UI.ss.path) {_UI.ss.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
-			if(s && s.path){ s.calcMaxes(); }
+			if(_UI.ss && _UI.ss.path){ _UI.ss.calcMaxes(); }
 		}
 
 		updateCursor();
@@ -527,24 +525,24 @@
 		var rechar = getSelectedWorkItem();
 		return rechar? rechar.shapes : [];
 	}
-
+/*
 	function ss(req){
 		req = req || '[probably a dynamically-generated page control]';
 		// debug('\nSS - START');
 		// debug('\t Requested by: ' + req);
-		// debug('\t selectedshape: ' + _UI.selectedshape);
+		// debug('\t selectedshape: ' + _UI.ssnumber);
 
 		var shapes = getSelectedWorkItemShapes();
 
-		if(_UI.selectedshape !== -1){
-			if((_UI.selectedshape >= 0) && (_UI.selectedshape < shapes.length)) {
+		if(_UI.ssnumber !== -1){
+			if((_UI.ssnumber >= 0) && (_UI.ssnumber < shapes.length)) {
 				// Glyphedit Selected Shape
-				// debug('SS - returning shape object for position ' + _UI.selectedshape);
-				return shapes[_UI.selectedshape];
+				// debug('SS - returning shape object for position ' + _UI.ssnumber);
+				return shapes[_UI.ssnumber];
 			} else {
 				// Out of bounds Selected Shape
 				// debug('SS - returning false - Selected Shape outside of expected boundary');
-				_UI.selectedshape = -1;
+				clickEmptySpace();
 				return false;
 			}
 		} else {
@@ -553,12 +551,12 @@
 			return false;
 		}
 	}
-
+*/
 	function selectGlyph(c, dontnavigate){
 		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedglyph = c;
-		_UI.selectedshape = -1;
+		clickEmptySpace();
 
 		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
 		if(!dontnavigate){
@@ -571,7 +569,7 @@
 		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedcomponent = c;
-		_UI.selectedshape = -1;
+		clickEmptySpace();
 
 		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
 		if(!dontnavigate){
@@ -584,7 +582,7 @@
 		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedligature = c;
-		_UI.selectedshape = -1;
+		clickEmptySpace();
 
 		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
 		if(!dontnavigate){

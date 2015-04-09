@@ -18,9 +18,9 @@
 
 		_UI.selectedtool = 'pathedit';
 
-		_UI.selectedshape = -1;
+		clickEmptySpace();
 		if(_UI.devmode && isval(_UI.devselectedshape)){
-			_UI.selectedshape = _UI.devselectedshape;
+			_UI.ssnumber = _UI.devselectedshape;
 			_UI.devselectedshape = false;
 		}
 
@@ -49,12 +49,11 @@
 		if(sc) sc.drawGlyph(_UI.glypheditctx, getView('Redraw'));
 
 		// Finish up
-		var s = ss('Redraw');
-		if(s) {
-			s.drawSelectOutline();
+		if(_UI.ss) {
+			_UI.ss.drawSelectOutline();
 			if(_UI.selectedtool === 'shaperesize'){
-				s.drawBoundingBox();
-				s.drawBoundingBoxHandles();
+				_UI.ss.drawBoundingBox();
+				_UI.ss.drawBoundingBoxHandles();
 			}
 		}
 

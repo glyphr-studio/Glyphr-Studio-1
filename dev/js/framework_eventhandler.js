@@ -9,6 +9,7 @@
 
 	_UI.eventhandlers = {
 		'currtool': false,
+		'selectedshape': false,
 		'tempnewbasicshape' : false,
 		'mousex' : 0,
 		'mousey' : 0,
@@ -131,7 +132,7 @@
 				_UI.eventhandlers.tempnewbasicshape.ymax = Math.max(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 
-				ss().path.maxes = _UI.eventhandlers.tempnewbasicshape;
+				_UI.ss.path.maxes = _UI.eventhandlers.tempnewbasicshape;
 
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw('Event Handler Tool_NewBasicShape mousemove');
@@ -141,7 +142,6 @@
 
 		this.mouseup = function () {
 			// prevent really small shapes
-			var newshape = ss('NEWSHAPE MOUSEUP');
 			var tnbs = _UI.eventhandlers.tempnewbasicshape;
 
 			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
@@ -150,14 +150,14 @@
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 
 				if(_UI.selectedtool==='newrect'){
-					newshape.name = ('Rectangle ' + count);
-					newshape.path = rectPathFromMaxes(tnbs);
+					_UI.ss.name = ('Rectangle ' + count);
+					_UI.ss.path = rectPathFromMaxes(tnbs);
 				} else {
-					newshape.name = ('Oval ' + count);
-					newshape.path = ovalPathFromMaxes(tnbs);
+					_UI.ss.name = ('Oval ' + count);
+					_UI.ss.path = ovalPathFromMaxes(tnbs);
 				}
 
-				newshape.visible = true;
+				_UI.ss.visible = true;
 				//updateCurrentGlyphWidth();
 			} else {
 				deleteShape();
@@ -187,8 +187,7 @@
 		this.mousedown = function (ev) {
 			// debug('\n Tool_ShapeEdit.mousedown - START');
 			// debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
-			var s = ss('eventHandler - mousedown');
-			_UI.eventhandlers.corner = s? s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
+			_UI.eventhandlers.corner = _UI.ss? _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -212,24 +211,23 @@
 		};
 
 		this.mousemove = function (ev) {
-			var s = ss('eventHandler - Tool_ShapeEdit mousemove');
-			if(!s) return;
+			if(!_UI.ss) return;
 
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-			var cur = s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			var cur = _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 			if(!cur) cur = isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)? 'pointerSquare' : 'pointer';
 
 			if (this.dragging) {
 				// debug('\tTool_ShapeEdit dragging normal shape');
-				var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-				var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+				var dx = _UI.ss.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+				var dy = _UI.ss.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
-				s.updateShapePosition(dx, dy);
+				_UI.ss.updateShapePosition(dx, dy);
 				didstuff = true;
 			} else if (this.resizing){
 				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
-				evHanShapeResize(s, _UI.eventhandlers.corner);
+				evHanShapeResize(_UI.ss, _UI.eventhandlers.corner);
 				didstuff = true;
 			}
 			
@@ -247,16 +245,15 @@
 		this.mouseup = function () {
 			// debug('Mouse Up');
 			setCursor('pointer');
-			var s = ss('eventHandler - mouseup');
 			if(_UI.eventhandlers.tempnewbasicshape){
 				_UI.eventhandlers.tempnewbasicshape = false;
-				s.hidden = false;
+				_UI.ss.hidden = false;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
-				evHanShapeResize(s, _UI.eventhandlers.corner);
+				evHanShapeResize(_UI.ss, _UI.eventhandlers.corner);
 			}
 
-			if(s && this.resizing) s.calcMaxes();
+			if(_UI.ss && this.resizing) _UI.ss.calcMaxes();
 			updateCurrentGlyphWidth();
 
 			this.dragging = false;
@@ -301,11 +298,10 @@
 
 			} else {
 				//debug('Tool_NewPath MOUSEDOWN - after firstpoint, placing another point');
-				var currpath = ss('Event Handler New Path').path;
-				var ccp = currpath.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
+				var ccp = _UI.ss.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
 				//debug('Tool_NewPath MOUSEDOWN - after creating ccp: ' + ccp);
-				if((ccp==='P')&&(currpath.pathpoints.length > 1)){
-					var p = currpath.pathpoints[0];
+				if((ccp==='P')&&(_UI.ss.path.pathpoints.length > 1)){
+					var p = _UI.ss.path.pathpoints[0];
 					var hp = _GP.projectsettings.pointsize/getView('Event Handler Tool_NewPath mousedown').dz;
 					if( ((p.P.x+hp) > cx_sx(_UI.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(_UI.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(_UI.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(_UI.eventhandlers.mousey)) ){
 						//clicked on an existing control point in this path
@@ -323,11 +319,11 @@
 					}
 				}
 
-				currpath.addPathPoint(newpoint, false);
+				_UI.ss.path.addPathPoint(newpoint, false);
 				//debug('Tool_NewPath MOUSEDOWN - after AddPathPoint');
 			}
 
-			this.currpt = ss('Event Handler New Path').path.sp(false, 'Event Handler New Path');
+			this.currpt = _UI.ss.path.sp(false, 'Event Handler New Path');
 			this.firstpoint = false;
 			this.dragging = true;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -362,15 +358,14 @@
 
 		this.mouseup = function () {
 			//debug('Tool_NewPath MOUSEUP');
-			var currpath = ss('Event Handler New Path').path;
-			currpath.winding = currpath.findWinding();
+			_UI.ss.path.winding = _UI.ss.path.findWinding();
 			this.dragging = false;
 			this.firstmove = false;
 			_UI.eventhandlers.lastx = -100;
 			_UI.eventhandlers.lasty = -100;
 
 			if(_UI.eventhandlers.uqhaschanged){
-				currpath.calcMaxes();
+				_UI.ss.path.calcMaxes();
 				updateCurrentGlyphWidth();
 				// For new shape tools, mouse up always adds to the undo-queue
 				history_put('New Path tool');
@@ -390,8 +385,7 @@
 
 		this.mousedown = function (ev) {
 			//debug('mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
-			var s = ss('Path Edit - Mouse Down');
-			this.controlpoint = s? s.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey)) : false;
+			this.controlpoint = _UI.ss? _UI.ss.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey)) : false;
 			if(this.controlpoint){
 				this.dragging = true;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -403,16 +397,15 @@
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			} else {
-				if(s){s.calcMaxes();}
+				if(_UI.ss){_UI.ss.calcMaxes();}
 				clickEmptySpace();
 			}
 			redraw('Event Handler Tool_PathEdit mousedown');
 		};
 
 		this.mousemove = function (ev) {
-			var s = ss('Path Edit - Mouse Move');
 			if (this.dragging) {
-				var sp = s.path.sp();
+				var sp = _UI.ss.path.sp();
 				if(_UI.eventhandlers.toolhandoff){
 					sp.useh2 = true;
 					sp.H2.x = cx_sx(_UI.eventhandlers.mousex);
@@ -441,7 +434,7 @@
 						break;
 				}
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
-				s.calcMaxes();
+				_UI.ss.calcMaxes();
 
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -449,8 +442,8 @@
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 
-			if(s){
-				var cp = s.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey), true);
+			if(_UI.ss){
+				var cp = _UI.ss.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey), true);
 				if(cp === 'P') setCursor('penSquare');
 				if(cp === 'H1' || cp === 'H2') setCursor('penCircle');
 			}
@@ -462,7 +455,7 @@
 			_UI.eventhandlers.lasty = -100;
 
 			if(_UI.eventhandlers.uqhaschanged) {
-				ss('Path Edit - Mouse Up').calcMaxes();
+				_UI.ss.calcMaxes();
 				updateCurrentGlyphWidth();
 				history_put('Path Edit tool');
 				_UI.eventhandlers.uqhaschanged = false;
@@ -480,9 +473,8 @@
 
 		this.mousedown = function(ev) {
 			if(this.addpoint){
-				var s = ss();
-				if(s && s.path){
-					s.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+				if(_UI.ss && _UI.ss.path){
+					_UI.ss.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
 				}
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				// selected the shape
@@ -499,9 +491,8 @@
 		};
 
 		this.mousemove = function(ev) {
-			var s = ss();
-			if(s){
-				var pt = s.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
+			if(_UI.ss){
+				var pt = _UI.ss.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
 				if(pt && pt.distance < 20){
 					this.addpoint = pt;
 					var ptsize = _GP.projectsettings.pointsize;
@@ -602,12 +593,12 @@
 	// Helper Functions
 
 	function clickEmptySpace(){
-		var s = ss('Click Empty Space');
-		if(s) {
-			s.path.selectPathPoint(false);
-			s.calcMaxes();
+		if(_UI.ss) {
+			_UI.ss.path.selectPathPoint(false);
+			_UI.ss.calcMaxes();
 		}
-		_UI.selectedshape = -1;
+		_UI.ssnumber = -1;
+		_UI.ss = false;
 	}
 
 	function evHanShapeResize(s, pcorner){
@@ -715,16 +706,15 @@
 	}
 
 	function canResize(pc){
-		var s = ss('canResize');
 		switch(pc){
-			case 'nw': return (!s.ylock && !s.hlock && !s.xlock && !s.wlock);
-			case 'n':  return (!s.ylock && !s.hlock);
-			case 'ne': return (!s.ylock && !s.hlock && !s.wlock);
-			case 'e':  return (!s.wlock);
-			case 'se': return (!s.hlock && !s.wlock);
-			case 's':  return (!s.hlock);
-			case 'sw': return (!s.hlock && !s.xlock && !s.wlock);
-			case 'w':  return (!s.xlock && !s.wlock);
+			case 'nw': return (!_UI.ss.ylock && !_UI.ss.hlock && !_UI.ss.xlock && !_UI.ss.wlock);
+			case 'n':  return (!_UI.ss.ylock && !_UI.ss.hlock);
+			case 'ne': return (!_UI.ss.ylock && !_UI.ss.hlock && !_UI.ss.wlock);
+			case 'e':  return (!_UI.ss.wlock);
+			case 'se': return (!_UI.ss.hlock && !_UI.ss.wlock);
+			case 's':  return (!_UI.ss.hlock);
+			case 'sw': return (!_UI.ss.hlock && !_UI.ss.xlock && !_UI.ss.wlock);
+			case 'w':  return (!_UI.ss.xlock && !_UI.ss.wlock);
 		}
 		return true;
 	}
@@ -782,7 +772,6 @@
 		if(!onCanvasEditPage()) return;
 		if(event.type !== 'keydown') return;
 
-		var s = ss('keypress event');
 		var eh = _UI.eventhandlers;
 
 		var kc = getKeyFromEvent(event);
@@ -875,13 +864,13 @@
 		// del
 		if(kc==='del' || kc==='backspace'){
 			event.preventDefault();
-			var sp = s.path.sp(false);
+			var sp = _UI.ss.path.sp(false);
 
 			if(sp){
-				s.path.deletePathPoint();
+				_UI.ss.path.deletePathPoint();
 				history_put('Delete Path Point');
 				redraw('Keypress DEL or BACKSPACE');
-			} else if (s){
+			} else if (_UI.ss){
 				deleteShape();
 				history_put('Delete Shape');
 				redraw('Keypress DEL or BACKSPACE');
@@ -914,20 +903,19 @@
 	}
 
 	function nudge(dx, dy) {
-		var s = ss('Nudge');
 		var mx = (dx * _GP.projectsettings.spinnervaluechange);
 		var my = (dy * _GP.projectsettings.spinnervaluechange);
 
 		if(_UI.navhere === 'kerning'){
-			s = getSelectedKern();
-			s.value += (mx || my);
+			_UI.ss = getSelectedKern();
+			_UI.ss.value += (mx || my);
 			redraw('Nudge');
-		} else if(s){
-			var sp = s.path.sp();
+		} else if(_UI.ss){
+			var sp = _UI.ss.path.sp();
 			if(sp){
 				sp.updatePathPointPosition('P', mx, my);
 			} else {
-				s.path.updatePathPosition(mx, my);
+				_UI.ss.path.updatePathPosition(mx, my);
 			}
 			redraw('Nudge');
 		}
