@@ -15,8 +15,6 @@
 
 		// common settings
 		this.name = oa.name || 'Shape';
-		this.xpos = isval(oa.xpos)? oa.xpos : 0;		// these are used for stroke-independent position & size
-		this.ypos = isval(oa.ypos)? oa.ypos : 400;
 		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromMaxes(false);
 		this.visible = isval(oa.visible)? oa.visible : true;
 		this.xlock = oa.xlock || false;
@@ -386,8 +384,8 @@
 	};
 
 	Shape.prototype.isOverBoundingBoxCorner = function(px,py){
-		var c = isOverBoundingBoxCorner(px, py, this.maxes);
-		debug('\t Shape.isOverBoundingBoxCorner returning ' + c);
+		var c = isOverBoundingBoxCorner(px, py, this.path.maxes);
+		// debug('\t Shape.isOverBoundingBoxCorner returning ' + c);
 		return c;
 	};
 

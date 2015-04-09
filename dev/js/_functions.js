@@ -326,6 +326,22 @@ function saveFile(fname, buffer, ftype) {
 		return id;
 	}
 
+	function getMyID(obj) {
+		for(var g in _GP.glyphs){if(_GP.glyphs.hasOwnProperty(g)){
+			if(obj === _GP.glyphs[g]) return g;
+		}}
+
+		for(var c in _GP.components){if(_GP.components.hasOwnProperty(c)){
+			if(obj === _GP.components[c]) return c;
+		}}
+
+		for(var l in _GP.ligatures){if(_GP.ligatures.hasOwnProperty(l)){
+			if(obj === _GP.ligatures[l]) return l;
+		}}
+
+		return false;
+	}
+
 	// returns the length of an associative array
 	function getLength(obj){
 		var len = 0;

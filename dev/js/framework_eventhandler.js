@@ -177,7 +177,7 @@
 
 
 	// ---------------------------------------------------------
-	// Shape Resize - resizes whole shapes
+	// shape resize - resizes whole shapes
 	// ---------------------------------------------------------
 	function Tool_ShapeEdit(){
 		this.dragging = false;
@@ -185,8 +185,8 @@
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
-			debug('\n Tool_ShapeEdit.mousedown - START');
-			debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			// debug('\n Tool_ShapeEdit.mousedown - START');
+			// debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 			var s = ss('eventHandler - mousedown');
 			_UI.eventhandlers.corner = s? s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
@@ -195,18 +195,18 @@
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 
 			if (_UI.eventhandlers.corner){
-				debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				// debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
 				setCursor(_UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				debug('\t clicked on shape = true');
+				// debug('\t clicked on shape = true');
 				this.dragging = true;
 				this.resizing = false;
 				setCursor('pointerSquare');
 				redraw('Event Handler Tool_ShapeEdit mousedown');
 			} else {
-				debug('\t clicked on nothing');
+				// debug('\t clicked on nothing');
 				clickEmptySpace();
 			}
 		};
@@ -217,47 +217,30 @@
 
 			var didstuff = false;
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-			if(s.objtype === 'componentinstance'){
-				// debug('\tTool_ShapeEdit dragging component');
-				if(this.dragging){
-					// debug('Tool_ShapeEdit, this.dragging=' + this.dragging);
-					s.translatex += ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					s.translatey += ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
-					didstuff = true;
-					setCursor('pointerSquare');
-				}
-			} else if (s){
+			var cur = s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			if(!cur) cur = isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)? 'pointerSquare' : 'pointer';
+
+			if (this.dragging) {
 				// debug('\tTool_ShapeEdit dragging normal shape');
-				if (this.dragging) {
-					// Moving shapes if mousedown
-					// debug('\tTool_ShapeEdit - Moving Shape on Drag');
-					var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-					var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+				var dx = s.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+				var dy = s.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
-					s.updateShapePosition(dx, dy);
-					didstuff = true;
-					setCursor('pointerSquare');
-				} else if (this.resizing){
-					// Resizing shapes if mousedown over handle
-					// debug('\tTool_ShapeEdit - Resizing Shape over handle');
-					evHanShapeResize(s, _UI.eventhandlers.corner);
-					didstuff = true;
-				} else {
-					setCursor('pointer');
-				}
-
-				//Translation fidelity, passing raw canvas values
-				if(s && !this.resizing) s.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+				s.updateShapePosition(dx, dy);
+				didstuff = true;
+			} else if (this.resizing){
+				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
+				evHanShapeResize(s, _UI.eventhandlers.corner);
+				didstuff = true;
 			}
-
+			
 			if(didstuff){
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw('Event Handler Tool_ShapeEdit mousemove');
-			} else if(isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				setCursor('pointerSquare');
 			}
+
+			if(!this.resizing) setCursor(cur);
 		};
 
 
@@ -629,14 +612,15 @@
 
 	function evHanShapeResize(s, pcorner){
 		// debug('EVHANSHAPERESIZE - ' + s.name + ' handle ' + pcorner);
+		var maxes = s.getMaxes();
 		var mx = cx_sx(_UI.eventhandlers.mousex);
 		var my = cy_sy(_UI.eventhandlers.mousey);
 		var lx = cx_sx(_UI.eventhandlers.lastx);
 		var ly = cy_sy(_UI.eventhandlers.lasty);
 		var dh = (ly-my);
 		var dw = (lx-mx);
-		var ox = s.path.maxes.xmin;
-		var oy = s.path.maxes.ymax;
+		var ox = maxes.xmin;
+		var oy = maxes.ymax;
 		var rl = (!s.wlock && !s.hlock && s.ratiolock);
 
 		switch(pcorner){
@@ -646,7 +630,7 @@
 					setCursor('n-resize');
 					dw = 0;
 					dh*=-1;
-					s.path.updatePathSize(dw, dh, rl);
+					s.updateShapeSize(dw, dh, rl);
 					//s.path.setPathSize(false, false);
 				}
 				break;
@@ -656,8 +640,8 @@
 					setCursor('ne-resize');
 					dw*=-1;
 					dh*=-1;
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(false, oy+dh);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(false, oy+dh);
 				}
 				break;
 
@@ -666,8 +650,8 @@
 					setCursor('e-resize');
 					dh = 0;
 					dw*=-1;
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(false, oy+dh);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(false, oy+dh);
 				}
 				break;
 
@@ -676,8 +660,8 @@
 					setCursor('se-resize');
 					dw*=-1;
 					//dh*=-1;
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(ox, oy);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(ox, oy);
 				}
 				break;
 
@@ -685,16 +669,16 @@
 				if(canResize('s')){
 					setCursor('s-resize');
 					dw = 0;
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(ox, oy);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(ox, oy);
 				}
 				break;
 
 			case 'sw':
 				if(canResize('sw')){
 					setCursor('sw-resize');
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(ox-dw, oy);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(ox-dw, oy);
 				}
 				break;
 
@@ -702,8 +686,8 @@
 				if(canResize('w')){
 					setCursor('w-resize');
 					dh = 0;
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(ox-dw, oy+dh);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(ox-dw, oy+dh);
 				}
 				break;
 
@@ -711,8 +695,8 @@
 				if(canResize('nw')){
 					setCursor('nw-resize');
 					dh*=-1;
-					s.path.updatePathSize(dw, dh, rl);
-					s.path.setPathPosition(ox-dw, oy+dh);
+					s.updateShapeSize(dw, dh, rl);
+					s.setShapePosition(ox-dw, oy+dh);
 				}
 				break;
 		}

@@ -112,6 +112,13 @@
 		else return this.rightsidebearing;
 	};
 
+	Glyph.prototype.canAddComponent = function(cid) {
+		var myid = getMyID(this);
+		if(myid === cid) return false;
+
+		return true;
+	};
+
 	Glyph.prototype.drawGlyph = function(lctx, view, uselsb){
 		// debug('\n Glyph.drawGlyph - START');
 		// debug('\t drawing ' + this.name);

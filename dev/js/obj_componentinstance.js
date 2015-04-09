@@ -36,15 +36,22 @@
 	}
 
 	ComponentInstance.prototype.getTransformedGlyph = function() {
-		var g = clone(getGlyph(this.link));
+		// debug('\n ComponentInstance.getTransformedGlyph - START');
+		var og = getGlyph(this.link);
+		var g = clone(og);
+		// debug('\t Original:\t'+json(og.maxes, true));
+
 		if(g){
 			g.updateGlyphPosition(this.translatex, this.translatey, true);
-			g.updateGlyphSize(this.scalex, this.scaley);
+			g.updateGlyphSize(this.scalew, this.scaleh);
 			if(this.flipew) g.flipEW();
 			if(this.flipns) g.flipNS();
 			if(this.reversewinding) g.reverseWinding();
 		}
 
+		// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
+		// debug('\t Transfor:\t'+json(g.maxes, true));
+		// debug(' ComponentInstance.getTransformedGlyph - END\n');
 		return g;
 	};
 
@@ -101,6 +108,8 @@
 	ComponentInstance.prototype.flipNS = function() { this.flipns = !this.flipns; };
 	
 	ComponentInstance.prototype.getMaxes = function() { return this.getTransformedGlyph().maxes; };
+
+	ComponentInstance.prototype.calcMaxes = function() { return this.getTransformedGlyph().calcGlyphMaxes(); };
 
 	ComponentInstance.prototype.selectPathPoint = function() { return false; };
 	
@@ -191,21 +200,24 @@
 		}
 	}
 
-	function insertComponentInstance(comid, tochar, name){
-		//debug("INSERTCOMPONENT - adding component: " + comid + " to char: " + _UI.selectedglyph);
-		name = name || 'Instance of ' + getGlyphName(comid);
-		var ns = new ComponentInstance({'link':comid, 'name':name});
-
-		//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(ns));
+	function insertComponentInstance(cid, tochar, name){
 		var ch = getGlyph(tochar, true);
-		ch.shapes.push(ns);
-		ch.calcGlyphMaxes();
+		if(ch.canAddComponent(cid)){
+			name = name || 'Instance of ' + getGlyphName(cid);
+			var nci = new ComponentInstance({'link':cid, 'name':name});
 
-		addToUsedIn(comid, tochar);
+			//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(nci));
+			ch.shapes.push(nci);
+			ch.calcGlyphMaxes();
 
-		closeDialog();
-		history_put('insert component from glyphedit');
-		redraw('insertComponent');
+			addToUsedIn(cid, tochar);
+
+			closeDialog();
+			history_put('insert component from glyphedit');
+			redraw('insertComponent');
+		} else {
+			openDialog('<h1>Could not add component to this glyph</h1><div class="dialoglargetext">A circular link was found, components can\'t include links to themselves.<br>They can\'t handle the philosophical conundrum it poses.</div>');
+		}
 	}
 
 	function turnComponentIntoShapes(){
@@ -223,21 +235,20 @@
 	}
 
 	function makeComponentThumbs(){
+
 		var re = '';
 		var tochar = getSelectedWorkItemID();
 		var tcom;
 
 		for(var com in _GP.components){if(_GP.components.hasOwnProperty(com)){
 			tcom = getGlyph(com);
-			if(tcom.shape){
-				re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-				re += '<div class="glyphselectthumb" onclick="insertComponentInstance(\''+com+'\',\''+tochar+'\',\'Component from '+tcom.shape.name+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
-				re += getGlyph(com).shape.makeSVG();
-				re += '</div></td></tr><tr><td>';
-				re += getGlyphName(com);
-				re += '</td></tr></table>';
-				//debug('makeComponentThumbs - created canvas thumb'+com);
-			}
+			re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
+			re += '<div class="glyphselectthumb" onclick="insertComponentInstance(\''+com+'\',\''+tochar+'\',\'Instance of '+tcom.name+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
+			re += getGlyph(com).makeSVG();
+			re += '</div></td></tr><tr><td>';
+			re += getGlyphName(com);
+			re += '</td></tr></table>';
+			//debug('makeComponentThumbs - created canvas thumb'+com);
 		}}
 
 		if (re !== '') re = '<div class="ssthumbcontainer">'+re+'</div>';

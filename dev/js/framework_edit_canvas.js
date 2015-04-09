@@ -280,14 +280,15 @@
 		var cur = ['auto','default','none','context-menu','help','pointer','progress','wait','cell','crosshair','text','vertical-text','alias','copy','move','no-drop','not-allowed','e-resize','n-resize','ne-resize','nw-resize','s-resize','se-resize','sw-resize','w-resize','ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize','all-scroll','zoom-in','zoom-out','grab','grabbing'];
 		
 		if(cur.indexOf(name+'-resize') > -1){
-			if(canResize(name)) cur = name+'-resize';
+			// debug('\t FOUND -resize CURSOR');
+			if(canResize(name)) name+='-resize';
 		}
 
 		if(_UI.cursors[name]){
-			// debug('\t FOUND CUSTOM CURSOR');
+			// debug('\t FOUND CUSTOM CURSOR:\t'+name);
 			getEditDocument().body.style.cursor = _UI.cursors[name];
 		} else if (cur.indexOf(name) > -1) {
-			// debug('\t FOUND BUILT-IN CURSOR');
+			// debug('\t FOUND BUILT-IN CURSOR:\t'+name);
 			getEditDocument().body.style.cursor = name;
 		} else {
 			// debug('\t DEFAULT TO auto');
@@ -757,6 +758,10 @@
 	}
 
 	function isOverBoundingBoxCorner(px, py, maxes) {
+		// debug('\n isOverBoundingBoxCorner - START');
+		// debug('\t px/py - ' + px + ' / ' + py);
+		// debug('\t maxes - ' + json(maxes, true));
+
 		if(!maxes) return false;
 		
 		// Translation Fidelity - converting passed canvas values to saved value system
@@ -769,6 +774,10 @@
 		var topyb = sy_cy(maxes.ymax)-hp;
 		var midyb = Math.floor(sy_cy(maxes.ymax)+((sy_cy(maxes.ymin)-sy_cy(maxes.ymax))/2)-hp)+0.5;
 		var bottomyb = sy_cy(maxes.ymin) -hp;
+
+		// debug('\t point size - ' + ps);
+		// debug('\t l/m/r x: ' + leftxb + ' / ' + midxb + ' / ' + rightxb);
+		// debug('\t t/m/b y: ' + topyb + ' / ' + midyb + ' / ' + bottomyb);
 
 		// upper left
 		if( ((px > leftxb) && (px < leftxb+ps)) &&
