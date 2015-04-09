@@ -337,6 +337,7 @@
 
 			if(ts.isHere(x,y)){
 				ts.selectPathPoint(false);
+				_UI.ss = ts;
 				if(j !== _UI.ssnumber){
 					// debug('\t selecting shape ' + j);
 					_UI.ssnumber = j;

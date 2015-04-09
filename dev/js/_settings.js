@@ -125,7 +125,7 @@
 		'selectedcomponent': false,
 
 		// page: kerning
-		'selectedkern': 'kern0',
+		'selectedkern': false,
 		'defaultkernview': {
 			'dx': 500,		// X offset for the canvas origin
 			'dy': 500,		// Y offset for the canvas origin

@@ -142,42 +142,56 @@
 		// debug('\t DONE ls > glyph');
 
 		
-		// Switch from Char to Glyph names
+		// Switch from Char to Glyph
+		// Switch from Ligature to Glyph
 		// Update Glyphs to use Components not Linked Shapes
-		var gl, gshapes, dx, dy;
 		for(var g in fc.glyphs){ if(fc.glyphs.hasOwnProperty(g)){
-			gl = fc.glyphs[g];
-			gl.shapes = gl.charshapes || [];
-			gl.name = gl.charname || false;
-			gl.glyphhtml = gl.charhtml || false;
-			gl.glyphwidth = gl.charwidth || false;
-			delete gl.charshapes;
-			delete gl.charname;
-			delete gl.charhtml;
-			delete gl.charwidth;
-
-			gshapes = gl.shapes;
-			// debug('\t Glyph ' + gl.charname);
-			for(var s=0; s<gshapes.length; s++){
-				sh = gshapes[s];
-				if(sh.objtype === 'linkedshapeinstance'){
-					dx = sh.uselinkedshapexy? 0 : sh.xpos;
-					dy = sh.uselinkedshapexy? 0 : sh.ypos;
-					gshapes[s] = new ComponentInstance({'name':sh.name, 'link':sh.link, 'translatex':dx, 'translatey':dy, 'xlock':sh.xlock, 'ylock':sh.ylock});
-				}
-
-				/*
-				if(isval(gshapes[s].uselinkedshapexy)){
-					// debug('\t\t shape ' + gshapes[s].name + ' uselsxy: ' + typeof gshapes[s].uselinkedshapexy + ' ' + gshapes[s].uselinkedshapexy);
-					gshapes[s].usecomponentxy = gshapes[s].uselinkedshapexy;
-					delete gshapes[s].uselinkedshapexy;
-					// debug('\t\t now usecomxy: ' + gshapes[s].usecomponentxy);
-				}*/
-			}
+			fc.glyphs[g] = charToGlyph(fc.glyphs[g]);
 		}}
+
+		for(var l in fc.ligatures){ if(fc.ligatures.hasOwnProperty(l)){
+			fc.ligatures[l] = charToGlyph(fc.ligatures[l]);
+		}}
+
+
+
 		// debug(fc);
 		// debug(' migrate_0_5_to_1_0 - END\n');
 		return fc;
+
+	}
+
+	function charToGlyph(gl) {
+		var gshapes, dx, dy;
+		gl.shapes = gl.charshapes || [];
+		gl.name = gl.charname || false;
+		gl.glyphhtml = gl.charhtml || false;
+		gl.glyphwidth = gl.charwidth || false;
+		delete gl.charshapes;
+		delete gl.charname;
+		delete gl.charhtml;
+		delete gl.charwidth;
+
+		gshapes = gl.shapes;
+		// debug('\t Glyph ' + gl.charname);
+		for(var s=0; s<gshapes.length; s++){
+			sh = gshapes[s];
+			if(sh.objtype === 'linkedshapeinstance'){
+				dx = sh.uselinkedshapexy? 0 : sh.xpos;
+				dy = sh.uselinkedshapexy? 0 : sh.ypos;
+				gshapes[s] = new ComponentInstance({'name':sh.name, 'link':sh.link, 'translatex':dx, 'translatey':dy, 'xlock':sh.xlock, 'ylock':sh.ylock});
+			}
+
+			/*
+			if(isval(gshapes[s].uselinkedshapexy)){
+				// debug('\t\t shape ' + gshapes[s].name + ' uselsxy: ' + typeof gshapes[s].uselinkedshapexy + ' ' + gshapes[s].uselinkedshapexy);
+				gshapes[s].usecomponentxy = gshapes[s].uselinkedshapexy;
+				delete gshapes[s].uselinkedshapexy;
+				// debug('\t\t now usecomxy: ' + gshapes[s].usecomponentxy);
+			}*/
+		}
+
+		return gl;
 	}
 
 	function migrate_0_4_to_0_5(fc) {
@@ -365,6 +379,7 @@
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
+		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);
 		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
 		
