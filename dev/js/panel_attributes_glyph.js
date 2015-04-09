@@ -22,9 +22,6 @@
 		if(!sc) return content;
 
 		content += '<div class="panel_section">';
-
-		// debug(" \t  _UI.ssnumber: " + _UI.ssnumber + " - _UI.ss.name: " + _UI.ss.name + " - navhere: " + _UI.navhere);
-
 		content += '<table class="detail">';
 
 		if (_UI.navhere === 'components'){

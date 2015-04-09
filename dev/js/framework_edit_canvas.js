@@ -103,11 +103,6 @@
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
 
-
-		if(oncom) {
-			if(!_GP.components[_UI.ssnumber]) { _UI.ss = false; }
-		}
-
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
 		} else if (_UI.ss && _UI.ss.objtype === 'componentinstance'){
@@ -525,33 +520,7 @@
 		var rechar = getSelectedWorkItem();
 		return rechar? rechar.shapes : [];
 	}
-/*
-	function ss(req){
-		req = req || '[probably a dynamically-generated page control]';
-		// debug('\nSS - START');
-		// debug('\t Requested by: ' + req);
-		// debug('\t selectedshape: ' + _UI.ssnumber);
 
-		var shapes = getSelectedWorkItemShapes();
-
-		if(_UI.ssnumber !== -1){
-			if((_UI.ssnumber >= 0) && (_UI.ssnumber < shapes.length)) {
-				// Glyphedit Selected Shape
-				// debug('SS - returning shape object for position ' + _UI.ssnumber);
-				return shapes[_UI.ssnumber];
-			} else {
-				// Out of bounds Selected Shape
-				// debug('SS - returning false - Selected Shape outside of expected boundary');
-				clickEmptySpace();
-				return false;
-			}
-		} else {
-			// -1 = 'no shape selected'
-			// debug('SS - returning false, ss=-1 no shape selected');
-			return false;
-		}
-	}
-*/
 	function selectGlyph(c, dontnavigate){
 		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 

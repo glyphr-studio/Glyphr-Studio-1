@@ -20,7 +20,7 @@
 
 		clickEmptySpace();
 		if(_UI.devmode && isval(_UI.devselectedshape)){
-			_UI.ssnumber = _UI.devselectedshape;
+			selectShape(_UI.devselectedshape);
 			_UI.devselectedshape = false;
 		}
 

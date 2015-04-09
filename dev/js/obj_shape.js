@@ -250,8 +250,8 @@
 
 		var sg = getSelectedWorkItem();
 
-		_UI.ssnumber = sg.shapes.length;
 		sg.shapes.push(newshape);
+		_UI.ss = newshape;
 		sg.calcGlyphMaxes();
 
 		_UI.navprimaryhere = 'npAttributes';
@@ -288,28 +288,26 @@
 		newshape.path = new Path({'pathpoints':parr});
 		newshape.name = (shapetype + getSelectedWorkItemShapes().length+1);
 
-		if(_UI.navhere === 'glyph edit') { _UI.ssnumber = getSelectedWorkItemShapes().length; }
 		getSelectedWorkItemShapes().push(newshape);
+		_UI.ss = newshape;
 		updateCurrentGlyphWidth();
 	}
 
 	function deleteShape(){
-		var scs = getSelectedWorkItemShapes();
+		var wishapes = getSelectedWorkItemShapes();
 
-		if(scs[_UI.ssnumber] && scs[_UI.ssnumber].objtype === 'componentinstance'){
-			removeFromUsedIn(scs[_UI.ssnumber].link, _UI.selectedglyph);
+		if(_UI.ss.objtype === 'componentinstance'){
+			removeFromUsedIn(_UI.ss.link, _UI.selectedglyph);
 		}
 
-		if((scs.length > 0) && (_UI.ssnumber >= 0)){
-			scs.splice(_UI.ssnumber, 1);
-			if(scs.length === _UI.ssnumber) {
-				_UI.ssnumber = _UI.ssnumber-1;
-			}
-		} else {
-			//debug('DELETESHAPES - no shapes left');
+		var i = wishapes.indexOf(_UI.ss);
+		if(i > -1){
+			wishapes.splice(i, 1);
 		}
 
-		if((_UI.ssnumber >= 0) && (scs[_UI.ssnumber].objtype === 'componentinstance')){
+		_UI.ss = wishapes[i] || wishapes[wishapes.length-1];
+
+		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
 			//debug('DELETESHAPE - newly selected shape is component, changing tool');
 			_UI.selectedtool = 'shaperesize';
 		}
@@ -321,7 +319,8 @@
 		deleteShape();
 		var newid = addComponent(new Glyph({'shapes':[s], 'name':'Component ' + s.name}));
 		insertComponentInstance(newid);
-		_UI.ssnumber = getSelectedWorkItemShapes().length-1;
+		_UI.selectedtool = 'shaperesize';
+		selectShape(getSelectedWorkItemShapes().length-1);
 		redraw('turnSelectedShapeIntoAComponent');
 	}
 
@@ -338,10 +337,6 @@
 			if(ts.isHere(x,y)){
 				ts.selectPathPoint(false);
 				_UI.ss = ts;
-				if(j !== _UI.ssnumber){
-					// debug('\t selecting shape ' + j);
-					_UI.ssnumber = j;
-				}
 
 				if(ts.objtype === 'componentinstance') clickTool('shaperesize');
 

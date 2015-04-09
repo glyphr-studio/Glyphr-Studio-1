@@ -594,10 +594,9 @@
 
 	function clickEmptySpace(){
 		if(_UI.ss) {
-			_UI.ss.path.selectPathPoint(false);
+			if(_UI.ss.path) _UI.ss.path.selectPathPoint(false);
 			_UI.ss.calcMaxes();
 		}
-		_UI.ssnumber = -1;
 		_UI.ss = false;
 	}
 

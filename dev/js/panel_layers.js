@@ -23,12 +23,12 @@
 			for(var i=(scs.length-1); i>=0; i--){
 				ts = scs[i];
 
-				if(i===_UI.ssnumber) {
+				if(ts === _UI.ss) {
 					if(ts.objtype === 'componentinstance')	content += '<tr class="lslayersel"';
 					else content += '<tr class="layersel"';
 				} else content += '<tr class="layer"';
 				
-				content += ' onclick="_UI.ssnumber = ' + i + '; redraw(\'updatelayers\'); ';
+				content += ' onclick="selectShape(' + i + '); redraw(\'updatelayers\'); ';
 				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\');';
 				content += '">';
 
@@ -57,6 +57,12 @@
 		content += '</div>';
 
 		return content;
+	}
+
+	function selectShape(num) {
+		var wishapes = getSelectedWorkItemShapes();
+		if(wishapes && wishapes[num]) _UI.ss = wishapes[num];
+		else _UI.ss = false;
 	}
 
 // end of file

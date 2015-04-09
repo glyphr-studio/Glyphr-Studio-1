@@ -481,7 +481,7 @@
 				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target=_new class="navpanellink">create a new issue on github</a><br>');
 			} else {
 				iconname = 'nav_'+navarr[i].replace(' ','');
-				newsub += '<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; _UI.ssnumber=-1; navigate();">'+
+				newsub += '<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; clickEmptySpace(); navigate();">'+
 					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':24})+'</div>'+
 					navarr[i]+'</button>';
 			}

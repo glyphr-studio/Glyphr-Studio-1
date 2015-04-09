@@ -38,8 +38,8 @@
 		}
 
 		var layeractions = "<h3>layer</h3>";
-		layeractions += "<button onclick='moveupShape();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
-		layeractions += "<button onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
+		layeractions += "<button onclick='moveShapeUp();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
+		layeractions += "<button onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
 		pointactions += "<button onclick='_UI.ss.path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
@@ -91,8 +91,8 @@
 		var shapeactions = "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
 
 		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='moveupShape();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
-			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='movedownShape();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
+			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='moveShapeUp();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
+			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 			layeractions += "</td>";
 
 		content += allactions;
@@ -192,23 +192,25 @@
 //-------------------
 // Move up / down
 //-------------------
-	function moveupShape(){
-		if(_UI.ss && (_UI.ssnumber < (getSelectedWorkItemShapes().length-1))){
-			var tempshape = getSelectedWorkItemShapes()[_UI.ssnumber+1];
-			getSelectedWorkItemShapes()[_UI.ssnumber+1] = getSelectedWorkItemShapes()[_UI.ssnumber];
-			getSelectedWorkItemShapes()[_UI.ssnumber] = tempshape;
-			_UI.ssnumber++;
-			redraw("moveupShape");
+	function moveShapeUp(){
+		var wishapes = getSelectedWorkItemShapes();
+		var si = wishapes.indexOf(_UI.ss);
+		if(si > -1 && si < wishapes.length-1){
+			var tempshape = wishapes[si+1];
+			wishapes[si+1] = wishapes[si];
+			wishapes[si] = tempshape;
+			redraw("moveShapeUp");
 		}
 	}
 
-	function movedownShape(){
-		if(_UI.ss && (_UI.ssnumber > 0)){
-			var tempshape = getSelectedWorkItemShapes()[_UI.ssnumber-1];
-			getSelectedWorkItemShapes()[_UI.ssnumber-1] = getSelectedWorkItemShapes()[_UI.ssnumber];
-			getSelectedWorkItemShapes()[_UI.ssnumber] = tempshape;
-			_UI.ssnumber--;
-			redraw("movedownShape");
+	function moveShapeDown(){
+		var wishapes = getSelectedWorkItemShapes();
+		var si = wishapes.indexOf(_UI.ss);
+		if(si > 0 && si < wishapes.length){
+			var tempshape = wishapes[si-1];
+			wishapes[si-1] = wishapes[si];
+			wishapes[si] = tempshape;
+			redraw("moveShapeDown");
 		}
 	}
 
@@ -270,7 +272,6 @@
 		var newid = generateNewID(_GP.components, 'com');
 		_UI.selectedcomponent = newid;
 
-		if(_UI.navhere === 'components') _UI.ssnumber = newid;
 		_GP.components[newid] = pglyph;
 
 		//debug("Added New Component: " + newid + " JSON=" + json(_GP.components));
@@ -320,7 +321,6 @@
 			// delete component and switch selection
 			delete _GP.components[_UI.selectedcomponent];
 			_UI.selectedcomponent = getFirstID(_GP.components);
-			_UI.ssnumber = _UI.selectedcomponent;
 			//debug("DELETECOMPONENT - delete complete, new selectedcomponent = " + selectedcomponent);
 
 			navigate();
