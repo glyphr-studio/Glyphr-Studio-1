@@ -36,11 +36,17 @@
 		// debug('\n History.pull - START');
 		// debug('\t queue.length ' + this.queue.length);
 
+		var si = false;
+		if(_UI.ss) si = getSelectedWorkItemShapes().indexOf(_UI.ss);
+
 		var top = this.queue.length? this.queue.pop().state : this.initialstate;
 		_GP[this.parentname] = clone(top);
 		this.currstate = clone(top);
 		if (_UI.navhere === 'import svg') update_NavPanels();
-		else redraw('history_pull');
+		else {
+			if(si) selectShape(si);
+			redraw('history_pull');
+		}
 
 		// debug('\t after redraw');
 

@@ -62,11 +62,16 @@
 //	-------------------------------------
 
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
+		debug('\n ComponentInstance.updateShapePosition - START');
+		debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
 		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
 		
+		debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
 		this.translatex += dx;
 		this.translatey += dy;
+		debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
+		debug(' ComponentInstance.updateShapePosition - END\n');
 	};
 
 	ComponentInstance.prototype.setShapePosition = function(nx, ny, force) {
@@ -78,13 +83,17 @@
 	};
 
 	ComponentInstance.prototype.updateShapeSize = function(dw, dh, force) {
+		debug('\n ComponentInstance.updateShapeSize - START');
+		debug('\t passed dw/dh/force: ' + dw + ' / ' + dh + ' / ' + force);
 		if(dw !== false) dw = parseFloat(dw);
 		if(dh !== false) dh = parseFloat(dh);
-		
+
+		debug('\t translate was: ' + this.scalew + ' / ' + this.scaleh);
 		this.scalew += dw;
 		this.scaleh += dh;
+		debug('\t translate now: ' + this.scalew + ' / ' + this.scaleh);
 	};
-	
+
 	ComponentInstance.prototype.setShapeSize = function(nw, nh, force) {
 		var og = getGlyph(this.link);
 		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;

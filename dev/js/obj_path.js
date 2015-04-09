@@ -78,6 +78,10 @@
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
+		// If ratiolocked, keep both w&h from min'ing out at 1
+		if(!s.wlock && !s.hlock && ratiolock){
+			if(neww <= 1 || newh <=1) return;
+		}
 
 		for(var e=0; e<this.pathpoints.length; e++){
 			var pp = this.pathpoints[e];

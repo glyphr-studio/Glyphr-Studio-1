@@ -99,6 +99,100 @@
 
 
 	// ---------------------------------------------------------
+	// shape resize - resizes whole shapes
+	// ---------------------------------------------------------
+	function Tool_ShapeEdit(){
+		this.dragging = false;
+		this.resizing = false;
+		_UI.eventhandlers.corner = false;
+
+		this.mousedown = function (ev) {
+			// debug('\n Tool_ShapeEdit.mousedown - START');
+			// debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			_UI.eventhandlers.corner = _UI.ss? _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
+			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
+			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
+
+			if (_UI.eventhandlers.corner){
+				// debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
+				setCursor(_UI.eventhandlers.corner);
+				this.resizing = true;
+				this.dragging = false;
+			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+				// debug('\t clicked on shape = true');
+				this.dragging = true;
+				this.resizing = false;
+				setCursor('pointerSquare');
+				redraw('Event Handler Tool_ShapeEdit mousedown');
+			} else {
+				// debug('\t clicked on nothing');
+				clickEmptySpace();
+			}
+		};
+
+		this.mousemove = function (ev) {
+			if(!_UI.ss) return;
+
+			var didstuff = false;
+			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
+			var cur = _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			if(!cur) cur = isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)? 'pointerSquare' : 'pointer';
+
+			if (this.dragging) {
+				// debug('\tTool_ShapeEdit dragging normal shape');
+				var dx = _UI.ss.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
+				var dy = _UI.ss.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+
+				_UI.ss.updateShapePosition(dx, dy);
+				didstuff = true;
+			} else if (this.resizing){
+				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
+				eventHandler_ShapeResize();
+				didstuff = true;
+			}
+			
+			if(didstuff){
+				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				_UI.eventhandlers.uqhaschanged = true;
+				redraw('Event Handler Tool_ShapeEdit mousemove');
+			}
+
+			if(!this.resizing) setCursor(cur);
+		};
+
+
+		this.mouseup = function () {
+			// debug('Mouse Up');
+			setCursor('pointer');
+			if(_UI.eventhandlers.tempnewbasicshape){
+				_UI.eventhandlers.tempnewbasicshape = false;
+				_UI.ss.hidden = false;
+				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
+				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
+				eventHandler_ShapeResize();
+			}
+
+			if(_UI.ss && this.resizing) _UI.ss.calcMaxes();
+			updateCurrentGlyphWidth();
+
+			this.dragging = false;
+			this.resizing = false;
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
+			_UI.eventhandlers.firstx = -100;
+			_UI.eventhandlers.firsty = -100;
+			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
+			_UI.eventhandlers.uqhaschanged = false;
+			redraw('Event Handler Tool_ShapeEdit mouseup');
+			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
+		};
+	}
+
+
+	// ---------------------------------------------------------
 	// new basic shape - adds many points to a new path
 	// ---------------------------------------------------------
 	function Tool_NewBasicShape(){
@@ -172,100 +266,6 @@
 			this.dragging = false;
 
 			clickTool('pathedit');
-		};
-	}
-
-
-	// ---------------------------------------------------------
-	// shape resize - resizes whole shapes
-	// ---------------------------------------------------------
-	function Tool_ShapeEdit(){
-		this.dragging = false;
-		this.resizing = false;
-		_UI.eventhandlers.corner = false;
-
-		this.mousedown = function (ev) {
-			// debug('\n Tool_ShapeEdit.mousedown - START');
-			// debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
-			_UI.eventhandlers.corner = _UI.ss? _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
-			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
-
-			if (_UI.eventhandlers.corner){
-				// debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
-				setCursor(_UI.eventhandlers.corner);
-				this.resizing = true;
-				this.dragging = false;
-			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				// debug('\t clicked on shape = true');
-				this.dragging = true;
-				this.resizing = false;
-				setCursor('pointerSquare');
-				redraw('Event Handler Tool_ShapeEdit mousedown');
-			} else {
-				// debug('\t clicked on nothing');
-				clickEmptySpace();
-			}
-		};
-
-		this.mousemove = function (ev) {
-			if(!_UI.ss) return;
-
-			var didstuff = false;
-			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-			var cur = _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
-			if(!cur) cur = isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)? 'pointerSquare' : 'pointer';
-
-			if (this.dragging) {
-				// debug('\tTool_ShapeEdit dragging normal shape');
-				var dx = _UI.ss.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-				var dy = _UI.ss.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
-
-				_UI.ss.updateShapePosition(dx, dy);
-				didstuff = true;
-			} else if (this.resizing){
-				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
-				evHanShapeResize(_UI.ss, _UI.eventhandlers.corner);
-				didstuff = true;
-			}
-			
-			if(didstuff){
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				_UI.eventhandlers.uqhaschanged = true;
-				redraw('Event Handler Tool_ShapeEdit mousemove');
-			}
-
-			if(!this.resizing) setCursor(cur);
-		};
-
-
-		this.mouseup = function () {
-			// debug('Mouse Up');
-			setCursor('pointer');
-			if(_UI.eventhandlers.tempnewbasicshape){
-				_UI.eventhandlers.tempnewbasicshape = false;
-				_UI.ss.hidden = false;
-				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
-				evHanShapeResize(_UI.ss, _UI.eventhandlers.corner);
-			}
-
-			if(_UI.ss && this.resizing) _UI.ss.calcMaxes();
-			updateCurrentGlyphWidth();
-
-			this.dragging = false;
-			this.resizing = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
-			_UI.eventhandlers.firstx = -100;
-			_UI.eventhandlers.firsty = -100;
-			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
-			_UI.eventhandlers.uqhaschanged = false;
-			redraw('Event Handler Tool_ShapeEdit mouseup');
-			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
 		};
 	}
 
@@ -600,8 +600,10 @@
 		_UI.ss = false;
 	}
 
-	function evHanShapeResize(s, pcorner){
-		// debug('EVHANSHAPERESIZE - ' + s.name + ' handle ' + pcorner);
+	function eventHandler_ShapeResize(){
+		var s = _UI.ss;
+		var pcorner = _UI.eventhandlers.corner;
+		// debug('eventHandler_ShapeResize - ' + s.name + ' handle ' + pcorner);
 		var maxes = s.getMaxes();
 		var mx = cx_sx(_UI.eventhandlers.mousex);
 		var my = cy_sy(_UI.eventhandlers.mousey);
@@ -612,6 +614,7 @@
 		var ox = maxes.xmin;
 		var oy = maxes.ymax;
 		var rl = (!s.wlock && !s.hlock && s.ratiolock);
+		var ci = _UI.ss.objtype === 'componentinstance';
 
 		switch(pcorner){
 
@@ -621,6 +624,7 @@
 					dw = 0;
 					dh*=-1;
 					s.updateShapeSize(dw, dh, rl);
+					if(ci) s.updateShapePosition(0, dh);
 					//s.path.setPathSize(false, false);
 				}
 				break;
@@ -631,7 +635,8 @@
 					dw*=-1;
 					dh*=-1;
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(false, oy+dh);
+					if(!ci) s.setShapePosition(false, oy+dh);
+					else s.updateShapePosition(0, dh);
 				}
 				break;
 
@@ -641,7 +646,7 @@
 					dh = 0;
 					dw*=-1;
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(false, oy+dh);
+					if(!ci) s.setShapePosition(false, oy+dh);
 				}
 				break;
 
@@ -651,7 +656,7 @@
 					dw*=-1;
 					//dh*=-1;
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(ox, oy);
+					if(!ci) s.setShapePosition(ox, oy);
 				}
 				break;
 
@@ -660,7 +665,7 @@
 					setCursor('s-resize');
 					dw = 0;
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(ox, oy);
+					if(!ci) s.setShapePosition(ox, oy);
 				}
 				break;
 
@@ -668,7 +673,8 @@
 				if(canResize('sw')){
 					setCursor('sw-resize');
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(ox-dw, oy);
+					if(!ci) s.setShapePosition(ox-dw, oy);
+					else s.updateShapePosition(dw*-1, 0);
 				}
 				break;
 
@@ -677,7 +683,7 @@
 					setCursor('w-resize');
 					dh = 0;
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(ox-dw, oy+dh);
+					s.updateShapePosition(dw*-1, dh);
 				}
 				break;
 
@@ -686,14 +692,15 @@
 					setCursor('nw-resize');
 					dh*=-1;
 					s.updateShapeSize(dw, dh, rl);
-					s.setShapePosition(ox-dw, oy+dh);
+					if(!ci) s.setShapePosition(ox-dw, oy+dh);
+					else s.updateShapePosition(dw*-1, dh);
 				}
 				break;
 		}
 
 		//if(!_UI.eventhandlers.tempnewbasicshape) s.calcMaxes();
 
-		//debug('EVHANSHAPERESIZE - Done lx/rx/ty/by: ' + s.path.maxes.xmin + ',' + s.path.maxes.xmax + ',' + s.path.maxes.ymax + ',' + s.path.maxes.ymin);
+		//debug('eventHandler_ShapeResize - Done lx/rx/ty/by: ' + s.path.maxes.xmin + ',' + s.path.maxes.xmax + ',' + s.path.maxes.ymax + ',' + s.path.maxes.ymin);
 	}
 
 	function updateTNBS(dx,dy,dw,dh){
