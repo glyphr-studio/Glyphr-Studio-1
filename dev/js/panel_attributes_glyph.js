@@ -102,7 +102,7 @@
 
 			content += '<tr>'+
 				'<td> lock aspect ratio </td>'+
-				'<td>'+checkUI('getSelectedWorkItem().ratiolock')+'</td>'+
+				'<td>'+checkUI('getSelectedWorkItem().ratiolock', true)+'</td>'+
 			'</tr>';
 
 			content += '<tr><td colspan=2>'+
@@ -304,7 +304,7 @@
 		if(_UI.selectedtool !== 'pathedit') {
 			content += '<tr>'+
 				'<td> lock aspect ratio </td>'+
-				'<td>'+checkUI('_UI.ss.ratiolock',true)+'</td>'+
+				'<td>'+checkUI('_UI.ss.ratiolock', true)+'</td>'+
 			'</tr>';
 		}
 

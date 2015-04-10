@@ -84,7 +84,7 @@
 		// Shared edit pages
 		'popout': false,
 		'ss': false,	//Selected Shape
-		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
+		'selectedtool': 'shaperesize',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
 		'redrawing': false,
 		'thumbsize': 50,

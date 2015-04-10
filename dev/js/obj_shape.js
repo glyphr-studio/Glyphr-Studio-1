@@ -108,9 +108,9 @@
 
 	Shape.prototype.setShapePosition = function(nx, ny, force) { this.path.setPathPosition(nx, ny, force); };
 
-	Shape.prototype.updateShapeSize = function(dx, dy, force) { this.path.updatePathSize(dx, dy, force); };
+	Shape.prototype.updateShapeSize = function(dx, dy, ratiolock) { this.path.updatePathSize(dx, dy, ratiolock); };
 	
-	Shape.prototype.setShapeSize = function(nx, ny, force) { this.path.setPathSize(nx, ny, force); };
+	Shape.prototype.setShapeSize = function(nx, ny, ratiolock) { this.path.setPathSize(nx, ny, ratiolock); };
 
 	Shape.prototype.selectPathPoint = function(p) { this.path.selectPathPoint(p); };
 

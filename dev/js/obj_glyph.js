@@ -255,30 +255,40 @@
 		// debug('\tratio dh/dw:\t' + ratiodh + '\t ' + ratiodw);
 
 		var cs = this.shapes;
-		var ts, tsmaxes, newdw, newdh, newdx, newdy, tsw, tsh, tsx, tsy;
+		var s, smaxes,
+			oldsw, oldsh, oldsx, oldsy,
+			newsw, newsh, newsx, newsy,
+			sdw, sdh, sdx, sdy;
+
 		for(var i=0; i<cs.length; i++){
-			ts = cs[i];
-			tsmaxes = ts.getMaxes();
+			s = cs[i];
+			smaxes = s.getMaxes();
 
 			// scale
-			tsw = tsmaxes.xmax - tsmaxes.xmin;
-			if(dw === 0) newdw = false;
-			else newdw = (tsw*ratiodw) - tsw;
+			oldsw = smaxes.xmax - smaxes.xmin;
+			newsw = oldsw * ratiodw;
+			if(dw === 0) sdw = false;
+			else sdw = newsw - oldsw;
 
-			tsh = tsmaxes.ymax - tsmaxes.ymin;
-			if(dh === 0) newdh = false;
-			else newdh = (tsh*ratiodh) - tsh;
+			oldsh = smaxes.ymax - smaxes.ymin;
+			newsh = oldsh * ratiodh;
+			if(dh === 0) sdh = false;
+			else sdh = newsh - oldsh;
 
-			ts.updateShapeSize(newdw, newdh, true);
+			s.updateShapeSize(sdw, sdh, false);
 
 			// move
+			oldsx = smaxes.xmin - this.maxes.xmin;
+			newsx = oldsx * ratiodw;
+			if(dw === 0) sdx = false;
+			else sdx = newsx - oldsx;
 
-			if(dw === 0) newdx = false;
-			else newdx = (ratiodw * (tsmaxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
-			if(dh === 0) newdy = false;
-			else newdy = (ratiodh * (tsmaxes.ymin - this.maxes.ymin));
+			oldsy = smaxes.ymin - this.maxes.ymin;
+			newsy = oldsy * ratiodh;
+			if(dh === 0) sdy = false;
+			else sdy = newsy - oldsy;
 
-			ts.updateShapePosition(newdx, newdy, true);
+			s.updateShapePosition(sdx, sdy, true);
 		}
 
 		this.calcGlyphMaxes();

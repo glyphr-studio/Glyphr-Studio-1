@@ -611,61 +611,50 @@
 		var ly = cy_sy(_UI.eventhandlers.lasty);
 		var dh = (ly-my);
 		var dw = (lx-mx);
-		var ox = maxes.xmin;
-		var oy = maxes.ymax;
 		var rl = (!s.wlock && !s.hlock && s.ratiolock);
 		var ci = _UI.ss.objtype === 'componentinstance';
 
-		switch(pcorner){
 
+		// Check that the shape won't have negative dimensions
+		if(mx >= maxes.xmax && maxes.xmax-maxes.xmin+dw < 2) dw=0;
+		if(my >= maxes.ymax && maxes.ymax-maxes.ymin+dh < 2) dh=0;
+
+		// Resize the shape
+		switch(pcorner){
 			case 'n':
 				if(canResize('n')){
 					setCursor('n-resize');
-					dw = 0;
-					dh*=-1;
-					s.updateShapeSize(dw, dh, rl);
-					if(ci) s.updateShapePosition(0, dh);
-					//s.path.setPathSize(false, false);
+					s.updateShapeSize(0, dh*-1, rl);
 				}
 				break;
 
 			case 'ne':
 				if(canResize('ne')){
 					setCursor('ne-resize');
-					dw*=-1;
-					dh*=-1;
-					s.updateShapeSize(dw, dh, rl);
-					if(!ci) s.setShapePosition(false, oy+dh);
-					else s.updateShapePosition(0, dh);
+					s.updateShapeSize(dw*-1, dh*-1, rl);
 				}
 				break;
 
 			case 'e':
 				if(canResize('e')){
 					setCursor('e-resize');
-					dh = 0;
-					dw*=-1;
-					s.updateShapeSize(dw, dh, rl);
-					if(!ci) s.setShapePosition(false, oy+dh);
+					s.updateShapeSize(dw*-1, 0, rl);
 				}
 				break;
 
 			case 'se':
 				if(canResize('se')){
 					setCursor('se-resize');
-					dw*=-1;
-					//dh*=-1;
-					s.updateShapeSize(dw, dh, rl);
-					if(!ci) s.setShapePosition(ox, oy);
+					s.updateShapeSize(dw*-1, dh, rl);
+					s.updateShapePosition(0, dh*-1);
 				}
 				break;
 
 			case 's':
 				if(canResize('s')){
 					setCursor('s-resize');
-					dw = 0;
-					s.updateShapeSize(dw, dh, rl);
-					if(!ci) s.setShapePosition(ox, oy);
+					s.updateShapeSize(0, dh, rl);
+					s.updateShapePosition(0, dh*-1);
 				}
 				break;
 
@@ -673,27 +662,23 @@
 				if(canResize('sw')){
 					setCursor('sw-resize');
 					s.updateShapeSize(dw, dh, rl);
-					if(!ci) s.setShapePosition(ox-dw, oy);
-					else s.updateShapePosition(dw*-1, 0);
+					s.updateShapePosition(dw*-1, dh*-1);
 				}
 				break;
 
 			case 'w':
 				if(canResize('w')){
 					setCursor('w-resize');
-					dh = 0;
-					s.updateShapeSize(dw, dh, rl);
-					s.updateShapePosition(dw*-1, dh);
+					s.updateShapeSize(dw, 0, rl);
+					s.updateShapePosition(dw*-1, 0);
 				}
 				break;
 
 			case 'nw':
 				if(canResize('nw')){
 					setCursor('nw-resize');
-					dh*=-1;
-					s.updateShapeSize(dw, dh, rl);
-					if(!ci) s.setShapePosition(ox-dw, oy+dh);
-					else s.updateShapePosition(dw*-1, dh);
+					s.updateShapeSize(dw, dh*-1, rl);
+					s.updateShapePosition(dw*-1, 0);
 				}
 				break;
 		}
@@ -870,12 +855,13 @@
 		// del
 		if(kc==='del' || kc==='backspace'){
 			event.preventDefault();
-			var sp = _UI.ss.path.sp(false);
 
-			if(sp){
-				_UI.ss.path.deletePathPoint();
-				history_put('Delete Path Point');
-				redraw('Keypress DEL or BACKSPACE');
+			if(_UI.ss.objtype !== 'componentinstance'){
+				if(_UI.ss.path.sp(false)){
+					_UI.ss.path.deletePathPoint();
+					history_put('Delete Path Point');
+					redraw('Keypress DEL or BACKSPACE');
+				}
 			} else if (_UI.ss){
 				deleteShape();
 				history_put('Delete Shape');
