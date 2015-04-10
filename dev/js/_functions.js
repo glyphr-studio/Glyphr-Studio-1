@@ -46,9 +46,18 @@
 		'</tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
 
+		var bigdialogbox = '<div id="big_dialog_box">' +
+		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
+		'<td rowspan=2 id="dialogLeftBar"><button class="dialogCloseButton" onclick="closeDialog();">&times;</button></td>' +
+		'<td id="bigDialogRightContent"></td></tr>' +
+		'<tr><td><div id="bigDialogScrollContent"></div></td>' +
+		'</tr></table></div>' +
+		'<div id="dialog_bg" onclick="closeDialog();"></div>';
+
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
 		document.body.innerHTML += dialogbox;
+		document.body.innerHTML += bigdialogbox;
 
 
 		window.onbeforeunload = function() {
@@ -125,8 +134,10 @@
 //--------------------------------------
 	function closeDialog(){
 		document.getElementById('dialog_box').style.display='none';
+		document.getElementById('big_dialog_box').style.display='none';
 		document.getElementById('dialog_bg').style.display='none';
 		document.getElementById('dialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
+		document.getElementById('bigDialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
 		document.body.focus();
 	}
 
@@ -139,6 +150,15 @@
 		else dc.style.width = 'auto';
 
 		document.getElementById('dialog_box').style.display='block';
+		document.getElementById('dialog_bg').style.display='block';
+	}
+
+	function openBigDialog(content, scrollstuff){
+		document.body.focus();
+		document.getElementById('bigDialogRightContent').innerHTML = content;
+		document.getElementById('bigDialogScrollContent').innerHTML = scrollstuff;
+
+		document.getElementById('big_dialog_box').style.display='block';
 		document.getElementById('dialog_bg').style.display='block';
 	}
 

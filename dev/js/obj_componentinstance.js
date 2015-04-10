@@ -62,16 +62,16 @@
 //	-------------------------------------
 
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
-		debug('\n ComponentInstance.updateShapePosition - START');
-		debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
+		// debug('\n ComponentInstance.updateShapePosition - START');
+		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
 		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
 		
-		debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
+		// debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
 		this.translatex += dx;
 		this.translatey += dy;
-		debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
-		debug(' ComponentInstance.updateShapePosition - END\n');
+		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
+		// debug(' ComponentInstance.updateShapePosition - END\n');
 	};
 
 	ComponentInstance.prototype.setShapePosition = function(nx, ny, force) {
@@ -202,10 +202,8 @@
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
 			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.';
-			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br><br>';
-			content += thumbs;
-			content += '<div style="display:block;"><button onclick="closeDialog();">cancel</button></div>';
-			openDialog(content);
+			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br>';
+			openBigDialog(content, thumbs);
 		} else {
 			openDialog('<h1>Add Component</h1><div class="dialoglargetext">No Components exist.  First, create some Components, then you can insert them into glyphs.</div>');
 		}
@@ -229,7 +227,7 @@
 			history_put('insert component from glyphedit');
 			redraw('insertComponent');
 		} else {
-			openDialog('<h1>Could not add component to this glyph</h1><div class="dialoglargetext">A circular link was found, components can\'t include links to themselves.<br>They can\'t handle the philosophical conundrum it poses.</div>');
+			openDialog('<h1>Whoops</h1><div class="dialoglargetext">A circular link was found, components can\'t include links to themselves.<br>They can\'t handle the philosophical conundrum it poses.</div><br><br><button class="buttonsel" onclick="closeDialog();">Fine, I guess.</button>');
 		}
 	}
 

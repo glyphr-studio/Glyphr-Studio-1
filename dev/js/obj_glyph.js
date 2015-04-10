@@ -113,10 +113,46 @@
 	};
 
 	Glyph.prototype.canAddComponent = function(cid) {
-		var myid = getMyID(this);
+		debug('\n Glyph.canAddComponent - START');
+		var myid = ''+getMyID(this);
+		debug('\t adding ' + cid + ' to (me) ' + myid);
+
 		if(myid === cid) return false;
+		if(this.usedin.length === 0) return true;
+
+		var downlinks = this.collectAllDownstreamLinks([], true);
+		downlinks = downlinks.filter(function(elem, pos) { return downlinks.indexOf(elem) === pos;});
+
+		var uplinks = this.collectAllUpstreamLinks([]);
+		uplinks = uplinks.filter(function(elem, pos) { return uplinks.indexOf(elem) === pos;});
+		
+		debug('\t downlinks: ' + downlinks);
+		debug('\t uplinks: ' + uplinks);
+
+		if(downlinks.indexOf(cid) > -1) return false;
+		if(uplinks.indexOf(cid) > -1) return false;
 
 		return true;
+	};
+
+	Glyph.prototype.collectAllDownstreamLinks = function(re, excludepeers) {
+		re = re || [];
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].objtype === 'componentinstance'){
+				re = re.concat(getGlyph(this.shapes[s].link).collectAllDownstreamLinks(re));
+				if(!excludepeers) re.push(this.shapes[s].link);
+			}
+		}
+		return re;
+	};
+
+	Glyph.prototype.collectAllUpstreamLinks = function(re) {
+		re = re || [];
+		for(var g=0; g<this.usedin.length; g++){
+			re = re.concat(getGlyph(this.usedin[g]).collectAllUpstreamLinks(re));
+			re.push(this.usedin[g]);
+		}
+		return re;
 	};
 
 	Glyph.prototype.drawGlyph = function(lctx, view, uselsb){

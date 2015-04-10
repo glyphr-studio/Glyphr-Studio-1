@@ -647,6 +647,23 @@
 		overflow:hidden;
 	}
 
+	#big_dialog_box {
+		display:none;
+		position:absolute;
+		top:0px;
+		left:0px;
+		height:100%;
+		width:900px;
+		background-color:rgb(229,234,239);
+		z-index:1002;
+		overflow:hidden;
+	}
+
+	#bigDialogScrollContent {
+		height:800px;
+		overflow-y:auto;
+	}
+
 	.dialogCloseButton,
 	.dialogCloseButton:active,
 	.dialogCloseButton:focus,
@@ -669,13 +686,16 @@
 		background-color:rgb(0,170,225);/* dynamic */
 	}
 
-	#dialogRightContent {
+	#dialogRightContent,
+	#bigDialogRightContent,
+	#bigDialogScrollContent {
 		padding:10px 20px 20px 20px;
 		color:rgb(25,30,35);
 		max-width: 910px;
 	}
 
-	#dialogRightContent h1{
+	#dialogRightContent h1,
+	#bigDialogRightContent h1{
 		margin-bottom:10px;
 	}
 
@@ -713,6 +733,10 @@
 		color:rgb(76,81,86);
 	}
 
+	.dialoglargetext {
+		font-size:1.4em;
+	}
+	
 	#notation {
 		display:none;
 		position:absolute;
