@@ -244,32 +244,41 @@
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
+		if(ratiolock){
+			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
+			else dh = dw;
+		}
+
 		// debug('\tadj dh/dw:\t' + dh + '\t ' + dw);
 		// debug('\told h/w:\t' + oldh + '\t ' + oldw);
 		// debug('\tnew h/w:\t' + newh + '\t ' + neww);
 		// debug('\tratio dh/dw:\t' + ratiodh + '\t ' + ratiodw);
 
 		var cs = this.shapes;
-		var ts, tsmaxes, pnw, pnh, pnx, pny;
+		var ts, tsmaxes, newdw, newdh, newdx, newdy, tsw, tsh, tsx, tsy;
 		for(var i=0; i<cs.length; i++){
 			ts = cs[i];
 			tsmaxes = ts.getMaxes();
 
 			// scale
-			if(dw === 0) pnw = false;
-			else pnw = ((tsmaxes.xmax - tsmaxes.xmin)*ratiodw);
-			if(dh === 0) pnh = false;
-			else pnh = ((tsmaxes.ymax - tsmaxes.ymin)*ratiodh);
+			tsw = tsmaxes.xmax - tsmaxes.xmin;
+			if(dw === 0) newdw = false;
+			else newdw = (tsw*ratiodw) - tsw;
 
-			ts.setShapeSize(pnw, pnh, ratiolock);
+			tsh = tsmaxes.ymax - tsmaxes.ymin;
+			if(dh === 0) newdh = false;
+			else newdh = (tsh*ratiodh) - tsh;
+
+			ts.updateShapeSize(newdw, newdh, true);
 
 			// move
-			if(dw === 0) pnx = false;
-			else pnx = (ratiodw * (tsmaxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
-			if(dh === 0) pny = false;
-			else pny = (ratiodh * (tsmaxes.ymin - this.maxes.ymin)) + this.maxes.ymin + (tsmaxes.ymax - tsmaxes.ymin);
 
-			ts.setShapePosition(pnx, pny, true);
+			if(dw === 0) newdx = false;
+			else newdx = (ratiodw * (tsmaxes.xmin - this.maxes.xmin)) + this.maxes.xmin;
+			if(dh === 0) newdy = false;
+			else newdy = (ratiodh * (tsmaxes.ymin - this.maxes.ymin));
+
+			ts.updateShapePosition(newdx, newdy, true);
 		}
 
 		this.calcGlyphMaxes();
