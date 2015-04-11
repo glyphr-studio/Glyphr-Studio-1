@@ -48,10 +48,10 @@
 
 		var bigdialogbox = '<div id="big_dialog_box">' +
 		'<table cellpadding=0 cellspacing=0 border=0><tr>' +
-		'<td rowspan=2 id="dialogLeftBar"><button class="dialogCloseButton" onclick="closeDialog();">&times;</button></td>' +
-		'<td id="bigDialogRightContent"></td></tr>' +
-		'<tr><td><div id="bigDialogScrollContent"></div></td>' +
-		'</tr></table></div>' +
+		'<td id="dialogLeftBar"><button class="dialogCloseButton" onclick="closeDialog();">&times;</button></td>' +
+		'<td><div id="bigDialogRightContent"></div>' +
+		'<div id="bigDialogScrollContent"></div>' +
+		'</td></tr></table></div>' +
 		'<div id="dialog_bg" onclick="closeDialog();"></div>';
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';

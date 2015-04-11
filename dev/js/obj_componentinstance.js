@@ -201,7 +201,7 @@
 		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', true, true, true);
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
-			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.';
+			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.  ';
 			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br>';
 			openBigDialog(content, thumbs);
 		} else {

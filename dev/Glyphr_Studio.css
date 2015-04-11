@@ -650,18 +650,28 @@
 	#big_dialog_box {
 		display:none;
 		position:absolute;
-		top:0px;
-		left:0px;
 		height:100%;
 		width:900px;
+		top:0px;
+		left:0px;
 		background-color:rgb(229,234,239);
 		z-index:1002;
 		overflow:hidden;
 	}
 
+	#big_dialog_box table {
+		height:100%;
+	}
+
 	#bigDialogScrollContent {
-		height:800px;
+		display:block;
+		height:88%;
 		overflow-y:auto;
+	}
+
+	#bigDialogRightContent {
+		height:12%;
+		border-bottom:1px solid rgb(204,209,214);
 	}
 
 	.dialogCloseButton,
@@ -1088,7 +1098,8 @@
 
 	.layer,
 	.layersel,
-	.lslayersel	{
+	.componentlayer,
+	.componentlayersel	{
 		width:100%;
 		border-bottom:6px solid rgb(229, 234, 239);
 		background-color: rgb(178,183,188);
@@ -1097,21 +1108,29 @@
 		cursor: pointer;
 	}
 
-	.layer .layername{
+	.layer .layername {
 		color:rgb(250,252,255);
+		border-right:2px solid rgb(0,170,255);
 	}
 
 	.layersel .layername {
 		background-color: rgb(0,170,225);
 		color: rgb(155,221,255);
+		border-right:2px solid rgb(0,170,255);
 	}
 
-	.lslayersel .layername {
+	.componentlayer .layername {
+		color:rgb(250,252,255);
+		border-right:2px solid rgb(0,180,105);
+	}
+
+	.componentlayersel .layername {
 		background-color: rgb(0,180,105);
 		color: rgb(185,255,226);
+		border-right:2px solid rgb(0,180,105);
 	}
 
-	.layername{
+	.layername {
 		padding:6px 0px 6px 10px;
 		height: 45px;
 		text-align: left;
@@ -1120,11 +1139,17 @@
 
 	.layernote {
 		font-size: .4em;
-		color:rgb(185,255,226);
-		color:rgb(0,125,73);
 		display: block;
 		margin-top:4px;
 		clear: both;
+	}
+	
+	.componentlayer .layername .layernote {
+		color:rgb(0,125,73);	
+	}
+
+	.componentlayersel .layername .layernote {
+		color:rgb(185,255,226);
 	}
 
 	.layerthumb {

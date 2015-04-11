@@ -24,9 +24,12 @@
 				ts = scs[i];
 
 				if(ts === _UI.ss) {
-					if(ts.objtype === 'componentinstance')	content += '<tr class="lslayersel"';
+					if(ts.objtype === 'componentinstance')	content += '<tr class="componentlayersel"';
 					else content += '<tr class="layersel"';
-				} else content += '<tr class="layer"';
+				} else {
+					if(ts.objtype === 'componentinstance') content += '<tr class="componentlayer"';
+					else content += '<tr class="layer"';
+				}
 				
 				content += ' onclick="selectShape(' + i + '); redraw(\'updatelayers\'); ';
 				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\');';
