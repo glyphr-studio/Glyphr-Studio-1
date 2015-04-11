@@ -125,9 +125,9 @@
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(onge && !evmove) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser();
-		else if(oncom) document.getElementById('popout_glyphchooser').innerHTML = makePanel_ComponentChooser();
-		else if (onlig) document.getElementById('popout_glyphchooser').innerHTML = makePanel_LigatureChooser();
+		if(onge && !evmove) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser('selectGlyph');
+		else if(oncom) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser('selectComponent');
+		else if (onlig) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser('selectLigature');
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 

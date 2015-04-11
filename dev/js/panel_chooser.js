@@ -29,8 +29,8 @@
 			content += '</div>';
 		} else if(oncom){
 			content += '<div class="panel_section">';
-			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate();">add new component</button><br>';
-			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete component</button><br>';
+			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate();">create new component</button><br>';
+			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete selectedcomponent</button><br>';
 			content += '</div>';
 		}
 

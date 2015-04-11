@@ -122,7 +122,7 @@
 		var cr = getGlyph(s.link);
 		content += '<tr><td colspan=2><h3>root component</h3></td></tr></table>';
 		content += '<table class="layertable">';
-		content += '<tr class="layer" onclick="goToEditComponent(\''+s.link+'\');">';
+		content += '<tr class="componentlayer" onclick="goToEditComponent(\''+s.link+'\');">';
 		content += '<td class="layerthumb">'+ cr.makeSVG() +'</td>';
 		content += '<td class="layername">' + cr.name;
 		content += '<span class="layernote">edit this component</span>';

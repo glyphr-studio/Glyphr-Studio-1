@@ -16,7 +16,6 @@
 		if(pop) content += "</div><div class='panel_section'>";
 
 		// Generate Sections
-		if(_UI.navhere==='components') return componentActions();
 
 		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
 		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
@@ -171,14 +170,10 @@
 	function showGetShapesDialog(msg){
 		var content = "<h1>Get Shapes</h1><table style='width:900px'><tr><td>";
 		content += msg? msg : "<br>";
-		content += "Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br></td></tr>";
-		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:600px;'>";
-		content += makeGenericGlyphChooserContent("pasteShapesFrom", true, true, true);
-		content += "</div></td></tr>";
-		content += "<tr><td><br>";
-		content += "<button style='width:100px;' onclick='closeDialog();'>done</button>";
-		content += "</td></tr></table>";
-		openDialog(content);
+		content += "Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br>";
+		var scroll = makeGenericGlyphChooserContent("pasteShapesFrom", true, true, true);
+
+		openBigDialog(content, scroll);
 	}
 
 	function pasteShapesFrom(chid) {
@@ -218,52 +213,6 @@
 //-------------------
 // COMPONENT Actions
 //-------------------
-	function componentActions(){
-		var pop = _UI.popout;
-		var content = '<div class="panel_section">';
-		if(pop) content = '<div class="navarea_header">';
-		content += '<h1 class="paneltitle">actions</h1>';
-		if(!getSelectedWorkItem()) return content + '</div>';
-		if(pop) content += '</div><div class="panel_section">';
-
-			var ls1actions = "<h3"+ (pop? " style='margin-top:0px;'" : "") +">component</h3>";
-			if(_UI.ss) ls1actions += "<button onclick='showDialog_LinkComponentToGlyph();'>link to glyph</button><br>";
-			ls1actions += "<button onclick='addComponent();history_put(\"Create New Component\");navigate();'>create new</button><br>";
-			if(_UI.ss) ls1actions += "<button onclick='deleteComponentConfirm();' class='"+(getLength(_GP.components)>1? "": "buttondis")+"'>delete</button><br>";
-
-		var	ls2actions = "<button onclick='history_pull()' class='"+(history_length()? "": "buttondis")+"'>undo" + (history_length()? (" ("+history_length()+")"): "") + "</button><br>";
-			ls2actions += "<button onclick='copyShape()'>copy</button><br>";
-			ls2actions += "<button onclick='_UI.ss.path.flipEW();history_put(\"Flip Component Horizontal\");redraw(\"updatecomponentactions\");'>flip horizontal</button><br>";
-			ls2actions += "<button onclick='_UI.ss.path.flipNS();history_put(\"Flip Component Vertical\");redraw(\"updatecomponentactions\");'>flip vertical</button><br>";
-
-		var pointactions = "<h3>path point</h3>";
-			pointactions += "<button onclick='_UI.ss.path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updatecomponentactions\");'>insert</button><br>";
-			pointactions += "<button onclick='_UI.ss.path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updatecomponentactions\");'class='"+(_UI.ss? "": "buttondis")+"' >delete</button><br>";
-			pointactions += "<button onclick='_UI.ss.path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updatecomponentactions\");'>reset handles</button><br>";
-
-
-		// Put it all together
-		content += '<table class="actionsgrid"><tr>';
-		content += '<td>';
-		content += ls1actions;
-		if(_UI.ss){
-			if(pop) content += ls2actions;
-			else content += '</td><td><h3>&nbsp;</h3>'+ls2actions+'</td>';
-		}
-
-		var ispointsel = false;
-		if(_UI.ss && _UI.ss.objtype !== 'componentinstance') ispointsel = _UI.ss.path.sp(false);
-		if(_UI.selectedtool !== "pathedit") ispointsel = false;
-		if(ispointsel) {
-			if(pop) content += pointactions;
-			else content += '<td>'+pointactions+'</td>';
-		}
-		else { if(!pop) content += "<td><h3>&nbsp;</h3></td>"; }
-
-		content += "</tr></table>";
-		content += "</div>";
-		return content;
-	}
 
 	function addComponent(pglyph){
 		// debug('\n addComponent - START');
