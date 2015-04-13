@@ -202,7 +202,7 @@
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
 			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.  ';
-			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br>';
+			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br><br>';
 			openBigDialog(content, thumbs);
 		} else {
 			openDialog('<h1>Add Component</h1><div class="dialoglargetext">No Components exist.  First, create some Components, then you can insert them into glyphs.</div>');

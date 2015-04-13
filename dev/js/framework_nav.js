@@ -160,6 +160,7 @@
 
 	function makeLayout_PopIn(nap){
 		// debug('\n makeLayout_PopIn - START');
+		// debug('\t nap = ' + nap);
 
 		var pil = '<div id="mainwrapper"></div>';
 		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
@@ -171,6 +172,7 @@
 		var nh = _UI.navhere;
 
 		if(nap){
+			// debug('\t applying cutom navprimaryhere as ' + nap);
 			_UI.navprimaryhere = nap;
 		} else {
 			switch(nh){
@@ -196,6 +198,8 @@
 			make_NavPanels_PopIn();
 			document.getElementById('mainwrapper').style.overflowY = 'scroll';
 		}
+
+		// debug(' makeLayout_PopIn - END\n');
 	}
 
 	function onCanvasEditPage() {
@@ -232,7 +236,7 @@
 
 		switch(_UI.navprimaryhere){
 			case 'npChooser':
-				// debug('\t case ' + npChooser);
+				// debug('\t case npChooser');
 				switch(_UI.navhere){
 					case 'glyph edit': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
 					case 'import svg': np.innerHTML = makePanel_GlyphChooser('importSVG_selectGlyph'); break;
@@ -242,7 +246,7 @@
 				break;
 
 			case 'npAttributes':
-				// debug('\t case ' + npAttributes);
+				// debug('\t case npAttributes');
 				switch (_UI.navhere){
 					case 'glyph edit':
 					case 'components':
@@ -261,7 +265,7 @@
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
 			case 'npSave': saveGlyphrProjectFile(); break;
 		}
-		// debug('make_NavPanels_PopIn - END\n');
+		// debug(' make_NavPanels_PopIn - END\n');
 	}
 
 

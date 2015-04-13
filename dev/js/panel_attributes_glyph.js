@@ -209,6 +209,14 @@
 			}
 		}
 
+		// USED IN 
+		if(sc.usedin.length > 0){
+			content += '<tr><td colspan=2><br><h3>glyphs that use this component</h3></td></tr>';
+			content += '<tr><td colspan=2>';
+			content += makeUsedInThumbs();
+			content += '</td></tr>';
+		} 
+
 		return content;
 	}
 

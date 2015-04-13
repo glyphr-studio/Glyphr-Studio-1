@@ -29,14 +29,27 @@
 	}
 
 	function goToEditGlyph(chid){
-		//debug("GOTOEDITGLYPH - " + chid);
+		// debug('\n goToEditGlyph - START');
+		// debug('\t passed ' + chid);
+
+		if (chid.indexOf('0x', 2) > -1){
+			// Ligature
+			_UI.selectedligature = chid;
+			_UI.navhere = 'ligatures';
+		} else if(chid.indexOf('0x') > -1){
+			// Glyph
+			_UI.selectedglyph = chid;
+			_UI.navhere = 'glyph edit';
+		} else {
+			// Component
+			_UI.selectedcomponent = chid;
+			_UI.navhere = 'components';
+		}
+
 		clickEmptySpace();
-		_UI.selectedglyph = chid;
-		if(chid.length === 6) _UI.navhere = "glyph edit";
-		else if (chid.length > 6) _UI.navhere = 'ligatures';
-		else debug('\n goToEditGlyph - BAD CHID CAN\'T NAVIGATE TO ' + chid);
 		_UI.navprimaryhere = "npAttributes";
-		navigate();
+		navigate('npAttributes');
+		// debug(' goToEditGlyph - END\n');
 	}
 
 //	---------------------------------
@@ -122,7 +135,7 @@
 		var cr = getGlyph(s.link);
 		content += '<tr><td colspan=2><h3>root component</h3></td></tr></table>';
 		content += '<table class="layertable">';
-		content += '<tr class="componentlayer" onclick="goToEditComponent(\''+s.link+'\');">';
+		content += '<tr class="componentlayer" onclick="goToEditGlyph(\''+s.link+'\');">';
 		content += '<td class="layerthumb">'+ cr.makeSVG() +'</td>';
 		content += '<td class="layername">' + cr.name;
 		content += '<span class="layernote">edit this component</span>';
@@ -132,7 +145,7 @@
 		// content += '<tr><td> root name </td><td>' + 
 		// 	'<input type="text" disabled="disabled" value="' + getGlyphName(s.link) + '">'+
 		// '</td></tr>';
-		// content += '<tr><td colspan=2><button onclick="goToEditComponent(\''+s.link+'\');">edit this component</button>';
+		// content += '<tr><td colspan=2><button onclick="goToEditGlyph(\''+s.link+'\');">edit this component</button>';
 
 		// content += '</td></tr>';
 
@@ -145,12 +158,6 @@
 		history_put('component '+key);
 		_UI.focuselement = id;
 		redraw('componentInstanceDetails');
-	}
-
-	function goToEditComponent(com){
-		_UI.selectedcomponent = com;
-		_UI.navhere = 'components';
-		navigate('npAttributes');
 	}
 
 // end of file

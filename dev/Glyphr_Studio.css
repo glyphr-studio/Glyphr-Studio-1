@@ -517,8 +517,8 @@
 	}
 
 	.glyphselectthumb {
-		height:50px;
-		width:50px;
+		height:48px;
+		width:48px;
 		background-color:rgb(250,252,255);
 		border:1px solid white;
 		display: block;
@@ -654,24 +654,9 @@
 		width:900px;
 		top:0px;
 		left:0px;
+		overflow-y:auto;
 		background-color:rgb(229,234,239);
 		z-index:1002;
-		overflow:hidden;
-	}
-
-	#big_dialog_box table {
-		height:100%;
-	}
-
-	#bigDialogScrollContent {
-		display:block;
-		height:88%;
-		overflow-y:auto;
-	}
-
-	#bigDialogRightContent {
-		height:12%;
-		border-bottom:1px solid rgb(204,209,214);
 	}
 
 	.dialogCloseButton,
