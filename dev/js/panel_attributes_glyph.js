@@ -71,9 +71,9 @@
 		var content = '';
 		var numshapes = getSelectedWorkItemShapes().length;
 
-		content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform glyph shapes </h3></td></tr>';
 
 		if(numshapes > 1){
+			content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform glyph shapes </h3></td></tr>';
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
@@ -111,10 +111,6 @@
 				'<button onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
 				'</td></tr></table>'+
 			'</td></tr>';
-		} else {
-			content += '<tr>'+
-				'<td colspan=2><i>This glyph needs to have at least two shapes in order to bulk-transform.</i></td>'+
-			'</tr>';
 		}
 
 		if (_UI.navhere === 'components') return content;
