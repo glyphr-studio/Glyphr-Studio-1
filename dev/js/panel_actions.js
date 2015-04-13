@@ -23,6 +23,7 @@
 		allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
 		allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
 		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another glyph</button><br>";
+		if(_UI.navhere === 'components') allactions += "<button onclick='showDialog_LinkComponentToGlyph();'>link component to a glyph</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
@@ -130,7 +131,7 @@
 			if(cbs.c === _UI.selectedglyph) {
 				cbs.dx += 20;
 				cbs.dy -= 20;
-				newshape.path.updatePathPosition(cbs.dx,cbs.dy,true);
+				newshape.updateShapePosition(cbs.dx,cbs.dy,true);
 			} else {
 				cbs.c = _UI.selectedglyph;
 				cbs.dx = 0;
@@ -289,20 +290,16 @@
 
 	function showDialog_LinkComponentToGlyph(msg){
 		var sls = getSelectedWorkItem();
-		var content = "<h1>Link to Glyph</h1><table style='width:900px'><tr><td>";
-		content += msg? msg : "There is currently " + sls.usedin.length + " instances of '" + sls.shape.name + "' being used.<br><br>";
-		content += "Select the glyph you would like to link to this component:<br><br></td></tr>";
-		content += "<tr><td><div style='overflow-y:auto; overflow-x:hidden; max-height:500px;'>";
-		content += makeGenericGlyphChooserContent("linkComponentToGlyph", true, true, false);
-		content += "</div></td></tr>";
-		content += "<tr><td><br><button onclick='closeDialog();'>done</button></td></tr></table>";
-		openDialog(content);
+		var content = '<h1>Link to Glyph</h1>';
+		content += msg? msg : 'There are currently ' + sls.usedin.length + ' instances of "' + sls.name + '" being used in various Glyphs.<br><br>';
+		content += 'Select a Glyph you would like to link to this Component:<br><br>';
+		var scroll = makeGenericGlyphChooserContent('linkComponentToGlyph', true, true, true);
+		openBigDialog(content, scroll);
 	}
 
 	function linkComponentToGlyph(id){
-		//insertComponentInstance(_UI.selectedcomponent, id);
-		history_put("Linked Component to Glyph");
-		closeDialog();
-		showDialog_LinkComponentToGlyph("The Component '" + getSelectedWorkItem().shape.name + "' was successfully inserted into glyph " + getGlyphName(id) + ".<br><br>");
+		if(insertComponentInstance(_UI.selectedcomponent, id)){
+			showDialog_LinkComponentToGlyph('The Component "' + getSelectedWorkItem().name + '" was successfully linked to Glyph "' + getGlyphName(id) + '".<br><br>');
+		}
 	}
 // end of file

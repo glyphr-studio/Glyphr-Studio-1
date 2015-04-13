@@ -1,12 +1,12 @@
  // start of file
 /**
 	Object > Component Instance
-	Component Instances are a link to any other 
+	Component Instances are a link to any other
 	Glyph Object (Glyphs, Components, or Ligatures).
-	Additionally they hold transformation info about 
+	Additionally they hold transformation info about
 	how they differ from their root component.
-	Component Instances surface *all* the same 
-	methods as a Shape, and are stored along side 
+	Component Instances surface *all* the same
+	methods as a Shape, and are stored along side
 	regular Shapes in a Glyph.
 **/
 
@@ -47,7 +47,7 @@
 			if(this.flipew) g.flipEW();
 			if(this.flipns) g.flipNS();
 			if(this.reversewinding) g.reverseWinding();
-	
+
 			// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
 			// debug('\t Transfor:\t'+json(g.maxes, true));
 			// debug(' ComponentInstance.getTransformedGlyph - END\n');
@@ -68,7 +68,7 @@
 		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
 		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
-		
+
 		// debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
 		this.translatex += dx;
 		this.translatey += dy;
@@ -80,7 +80,7 @@
 		var og = getGlyph(this.link);
 		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - og.maxes.ymax) : 0;
-		
+
 		this.updateShapePosition(dx, dy, force);
 	};
 
@@ -100,7 +100,7 @@
 		var og = getGlyph(this.link);
 		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;
 		var dy = ny? ((ny*1) - og.maxes.ymax) : 0;
-		
+
 		this.updateShapePosition(dx, dy, ratiolock);
 	};
 
@@ -117,13 +117,13 @@
 	ComponentInstance.prototype.flipEW = function() { this.flipew = !this.flipew; };
 
 	ComponentInstance.prototype.flipNS = function() { this.flipns = !this.flipns; };
-	
+
 	ComponentInstance.prototype.getMaxes = function() { return this.getTransformedGlyph().maxes; };
 
 	ComponentInstance.prototype.calcMaxes = function() { return this.getTransformedGlyph().calcGlyphMaxes(); };
 
 	ComponentInstance.prototype.selectPathPoint = function() { return false; };
-	
+
 	ComponentInstance.prototype.drawShape = function(lctx, view){
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
@@ -150,7 +150,7 @@
 		};
 	};
 
-	ComponentInstance.prototype.makeOpenTypeJSpath = function(re) { 
+	ComponentInstance.prototype.makeOpenTypeJSpath = function(re) {
 		var g = this.getTransformedGlyph();
 
 		for (var s=0; s<g.shapes.length; s++){
@@ -211,8 +211,8 @@
 		}
 	}
 
-	function insertComponentInstance(cid){
-		var tochar = getSelectedWorkItemID();
+	function insertComponentInstance(cid, tochar){
+		tochar = tochar || getSelectedWorkItemID();
 		var ch = getGlyph(tochar, true);
 
 		if(ch.canAddComponent(cid)){
@@ -228,15 +228,17 @@
 			closeDialog();
 			history_put('insert component from glyphedit');
 			redraw('insertComponent');
+			return true;
 		} else {
 			openDialog('<h1>Whoops</h1><div class="dialoglargetext">A circular link was found, components can\'t include links to themselves.<br>They can\'t handle the philosophical conundrum it poses.</div><br><br><button class="buttonsel" onclick="closeDialog();">Fine, I guess.</button>');
+			return false;
 		}
 	}
 
 	function turnComponentIntoShapes(){
 		var selshape = _UI.ss;
 		var shapes = selshape.getTransformedGlyph().shapes;
-		
+
 		deleteShape();
 
 		for(var s=0; s<shapes.length; s++){

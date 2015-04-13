@@ -528,8 +528,8 @@
 
 	.glyphselectbuttonsel,
 	.glyphselectbutton {
-		width:50px;
-		height:50px;
+		width:48px;
+		height:48px;
 		border:1px solid white;
 		text-align:center;
 		line-height: 2em;

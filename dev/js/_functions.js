@@ -139,6 +139,7 @@
 	}
 
 	function openDialog(content){
+		closeDialog();
 		document.body.focus();
 		var dc = document.getElementById('dialogRightContent');
 		dc.innerHTML = content;
@@ -151,6 +152,7 @@
 	}
 
 	function openBigDialog(content, scrollstuff){
+		closeDialog();
 		document.body.focus();
 		document.getElementById('bigDialogRightContent').innerHTML = content + scrollstuff;
 
