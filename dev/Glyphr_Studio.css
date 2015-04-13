@@ -1151,13 +1151,17 @@
 /*	DETAILS		*/
 
 	.detail	{
-		width:380px;
+		width:370px;
 	}
 
 	.detail td {
 		padding:0px 4px 10px 0px;
 		vertical-align:middle;
 		height:26px;
+	}
+
+	.detail .detailtitle {
+		padding-bottom:2px;
 	}
 
 	.detail input {
@@ -1179,6 +1183,10 @@
 		border-width: 0px;
 		background-color:rgb(204,209,214);
 		color:rgb(127,134,137);
+	}
+
+	.namewidth {
+		width:212px;
 	}
 
 	.lockwrapper {

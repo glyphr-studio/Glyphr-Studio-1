@@ -26,8 +26,8 @@
 
 		if (_UI.navhere === 'components'){
 			// debug(" \t  detected navhere = components");
-			content += '<tr><td colspan=2><h3>component</h3></td></tr>';
-			content += '<tr><td>name</td><td><input type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
+			content += '<tr><td colspan=2 class="detailtitle"><h3>component</h3></td></tr>';
+			content += '<tr><td> name </td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
 
 		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
@@ -46,7 +46,7 @@
 		}
 
 		if (_UI.navhere === 'components'){
-			content += '<tr><td colspan=2><h3>glyphs that use this component</h3></td></tr>';
+			content += '<tr><td colspan=2 class="detailtitle"><h3>glyphs that use this component</h3></td></tr>';
 			content += '<tr><td colspan=2>';
 			if(sc.usedin.length > 0){
 				content += makeUsedInThumbs();
@@ -117,7 +117,7 @@
 
 
 		// AUTO GLYPH WIDTH
-		content += '<tr><td colspan=2><h3> glyph width </h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3> glyph width </h3></td></tr>';
 
 		content += '<tr>'+
 				'<td> auto calculate <span class="unit">(em units)</span></td>'+
@@ -141,7 +141,7 @@
 
 		// LEFT SIDE BEARING
 		if(sc.isautowide){
-			content += '<tr><td colspan=2><h3> left side bearing </h3></td></tr>';
+			content += '<tr><td colspan=2 class="detailtitle"><h3> left side bearing </h3></td></tr>';
 
 			content += '<tr>'+
 				'<td> use default <span class="unit">(em units)</span> </td>'+
@@ -166,7 +166,7 @@
 
 		// RIGHT SIDE BEARING
 		if(sc.isautowide){
-			content += '<tr><td colspan=2><h3> right side bearing </h3></td></tr>';
+			content += '<tr><td colspan=2 class="detailtitle"><h3> right side bearing </h3></td></tr>';
 
 			content += '<tr>'+
 				'<td> use default <span class="unit">(em units)</span> </td>'+
@@ -190,7 +190,7 @@
 
 		// USED IN 
 		if(sc.usedin.length > 0){
-			content += '<tr><td colspan=2><br><h3>glyphs that use this component</h3></td></tr>';
+			content += '<tr><td colspan=2><br class="detailtitle"><h3>glyphs that use this component</h3></td></tr>';
 			content += '<tr><td colspan=2>';
 			content += makeUsedInThumbs();
 			content += '</td></tr>';
@@ -203,12 +203,12 @@
 		//debug("SHAPEDETAILS - Drawing Shape Details");
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
-		content += '<tr><td colspan=2><h3 style="margin:0px;">shape</h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin:0px;">shape</h3></td></tr>';
 
 		content += '<tr>'+
-			'<td>name</td>'+
+			'<td> name </td>'+
 			'<td>'+
-				'<input style="width:210px;" type="text" value="' + s.name + '" onchange="_UI.ss.changeShapeName(this.value);">'+
+				'<input class="namewidth" type="text" value="' + s.name + '" onchange="_UI.ss.changeShapeName(this.value);">'+
 			'</td>'+
 		'</tr>';
 
@@ -305,7 +305,7 @@
 		var content = '';
 
 		// POINT
-		content += '<tr><td colspan=2><h3>path point</h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>path point</h3></td></tr>';
 
 		content += '<tr>'+
 			'<td> selected point </td>'+
@@ -341,7 +341,7 @@
 		var issymmetric = tp.type === 'symmetric';
 
 		// HANDLE 1
-		content += '<tr><td colspan=2><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI("_UI.ss.path.sp().useh1",true))+' handle 1 <span class="unit">(before the point)</span></h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI("_UI.ss.path.sp().useh1",true))+' handle 1 <span class="unit">(before the point)</span></h3></td></tr>';
 
 		if(tp.useh1){
 			content += '<tr>'+
@@ -370,7 +370,7 @@
 		}
 
 		// HANDLE 2
-		content += '<tr><td colspan=2><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI('_UI.ss.path.sp().useh2',true))+' handle 2 <span class="unit">(after the point)</span></h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI('_UI.ss.path.sp().useh2',true))+' handle 2 <span class="unit">(after the point)</span></h3></td></tr>';
 
 		if(tp.useh2){
 			content += '<tr>'+

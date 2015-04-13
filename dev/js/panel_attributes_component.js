@@ -67,8 +67,8 @@
 		'</h3></td></tr>';
 
 		content += '<tr><td> instance name </td>'+
-			'<td style="margin-top:0px; padding-top:0px; padding-right:10px;">'+
-				'<input style="width:90%;" id="comname" type="text" value="' + s.name + '" '+
+			'<td style="margin-top:0px; padding-top:0px;">'+
+				'<input class="namewidth" id="comname" type="text" value="' + s.name + '" '+
 					'onchange="updateComponentInstanceDetail(\'name\', this.value, this.id);">' + 
 			'</td>'+
 		'</tr>';

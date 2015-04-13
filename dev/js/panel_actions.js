@@ -13,6 +13,9 @@
 		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";
 		content += "<h1 class='paneltitle'>actions</h1>";
+
+		if(!existingWorkItem()){ return content + '</div></div>'; }
+		
 		if(pop) content += "</div><div class='panel_section'>";
 
 		// Generate Sections
@@ -21,8 +24,8 @@
 		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
 		allactions += "<button class='"+(history_length()? "": "buttondis")+"' onclick='history_pull()'>undo" + (history_length()? (" ("+history_length()+")") : "") + "</button><br>";
 		allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
-		allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
-		allactions += "<button onclick='showGetShapesDialog();'>get shapes from another glyph</button><br>";
+		allactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
+		allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
 		if(_UI.navhere === 'components') allactions += "<button onclick='showDialog_LinkComponentToGlyph();'>link component to a glyph</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
@@ -85,8 +88,8 @@
 
 		var allactions = "<td><h3>shape</h3>";
 			allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
-			allactions += "<button onclick='insertComponentDialog();'>add component</button><br>";
-			allactions += "<button onclick='showGetShapesDialog();'>get shapes from another glyph</button><br>";
+			allactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
+			allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
 
 		var shapeactions = "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
 
@@ -168,7 +171,7 @@
 		}
 	}
 
-	function showGetShapesDialog(msg){
+	function showDialog_GetShapes(msg){
 		var content = '<h1>Get Shapes</h1>';
 		content += msg? msg : '<br>';
 		content += 'Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br>';
@@ -184,9 +187,9 @@
 			redraw();
 			history_put('Pasted Shapes to Glyph');
 			closeDialog();
-			showGetShapesDialog('The shapes from "' + getGlyphName(chid) + '" were successfully pasted to glyph "' + getSelectedWorkItemName() + '".<br>');
+			showDialog_GetShapes('The shapes from "' + getGlyphName(chid) + '" were successfully pasted to glyph "' + getSelectedWorkItemName() + '".<br>');
 		} else {
-			showGetShapesDialog('Sorry, you can\'t paste shapes from the currently selected glyph.<br>');
+			showDialog_GetShapes('Sorry, you can\'t paste shapes from the currently selected glyph.<br>');
 		}
 	}
 

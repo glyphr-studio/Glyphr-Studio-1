@@ -17,10 +17,13 @@
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
-		content += '<div class="panel_section">';
-		content += makeGenericGlyphChooserContent(fname, onglyph, onlig, oncom);
-		content += '</div>';
-
+		var choices = makeGenericGlyphChooserContent(fname, onglyph, onlig, oncom);
+		if(choices !== '<div class="charchooserwrapper"></div>'){
+			content += '<div class="panel_section">';
+			content += choices;
+			content += '</div>';
+		}
+		
 		if(onlig){
 			content += '<div class="panel_section">';
 			content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
@@ -29,8 +32,8 @@
 			content += '</div>';
 		} else if(oncom){
 			content += '<div class="panel_section">';
-			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate();">create new component</button><br>';
-			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete selectedcomponent</button><br>';
+			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate(\'npAttributes\');">create new component</button><br>';
+			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
 			content += '</div>';
 		}
 
@@ -127,12 +130,8 @@
 		// debug(wi);
 
 		var issel = (index === selid);
-		
-		var gname = hexToHTML(index);
-		if(index === '0x0020') gname = 'space';
-		else if (!gname) gname = wi.name;
 
-		if(wi && getSelectedWorkItemShapes().length) {
+		if(wi && wi.hasShapes()) {
 			var extra = '';
 			if(issel) {extra = ' glyphselectthumbsel';}
 			rv += '<div class="glyphselectthumb'+extra+'">'+wi.makeSVG()+'</div>';
@@ -141,15 +140,22 @@
 			else {rv += '<div class="glyphselectbutton"';}
 
 			if(index === '0x0020'){
-				rv += ' style="font-size:13px; line-height:3.8em;"';	// SPACE needs to be smaller font size
+				rv += ' style="font-size:13px; line-height:3.8em;">space';	// SPACE needs to be smaller font size
+			} else if (index.indexOf('0x') === -1){
+				rv += ' style="font-size:8px;"><div style="height:10px;"></div>';	// Component names needs to be smaller font size
+				rv += wi.name;
+			} else {
+				rv += '>';
+				rv += (wi.glyphhtml || hexToHTML(index) || wi.name);
 			}
 
-			rv += ('>'+gname+'</div>');
+			rv += '</div>';
 		}
 
-		rv += '<div class="glyphselectname">'+gname+'</div>';
+		rv += '<div class="glyphselectname">'+ (hexToHTML(index) || getGlyphName(index) || '[no name])') +'</div>';
 		rv += '</td></tr></table>';
 
+		// debug(' makeGlyphChooserButton - END\n');
 		return rv;
 	}
 

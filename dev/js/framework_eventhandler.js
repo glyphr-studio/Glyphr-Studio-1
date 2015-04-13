@@ -9,7 +9,6 @@
 
 	_UI.eventhandlers = {
 		'currtool': false,
-		'selectedshape': false,
 		'tempnewbasicshape' : false,
 		'mousex' : 0,
 		'mousey' : 0,

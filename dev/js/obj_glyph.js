@@ -19,8 +19,8 @@
 		// debug('\n GLYPH - START');
 		this.objtype = 'glyph';
 
-		this.name = oa.name || getGlyphName(oa.glyphhex) || 'ERROR_GLYPHNAME';
-		this.glyphhtml = oa.glyphhtml || hexToHTML(oa.glyphhex) || 'ERROR_GLYPHHTML';
+		this.name = oa.name || getGlyphName(oa.glyphhex) || false;
+		this.glyphhtml = oa.glyphhtml || hexToHTML(oa.glyphhex) || false;
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
 		this.glyphwidth = isval(oa.glyphwidth)? oa.glyphwidth : 0;
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
@@ -367,6 +367,18 @@
 		return false;
 	};
 
+	Glyph.prototype.hasShapes = function() {
+		var tg;
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].objtype !== 'componentinstance') return true;
+			else {
+				tg = this.shapes[s].getTransformedGlyph();
+				if(tg.hasShapes()) return true;
+			}
+		}
+
+		return false;
+	};
 
 
 
@@ -438,7 +450,7 @@
 		if(ch.indexOf('0x',2) > -1){
 			// ligature
 			// debug('\t ligature - returning ' + hexToHTML(ch));
-			return hexToHTML(ch);
+			return cobj.name || hexToHTML(ch);
 		} else {
 			// Component
 			// debug('getGlyphName - inexplicably fails, returning [name not found]\n');

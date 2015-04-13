@@ -48,7 +48,7 @@
 			}
 			content += '</table>';
 		} else {
-			content += '<div style="margin-left:10px; font-style:oblique;">No shapes exist yet.<br><br></div>';
+			content += '<div>No shapes exist yet.  You can create one with the New Shape tools on the canvas, or by pressing "add new shape" below.<br><br></div>';
 		}
 
 		if(_UI.clipboardshape){

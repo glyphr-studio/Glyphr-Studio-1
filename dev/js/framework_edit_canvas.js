@@ -472,6 +472,34 @@
 //	Global Get Selected Glyph and Shape
 //	------------------------------------------
 
+	function existingWorkItem() {
+		var len = 0;
+		if(_UI.navhere === 'ligatures'){
+			len = getLength(_GP.ligatures);
+			if(!len){ 
+				_UI.selectedligature = false;
+				_UI.navprimaryhere = 'npChooser';
+				return false;
+			}
+		} else if (_UI.navhere === 'components'){
+			len = getLength(_GP.components);
+			if(!len){ 
+				_UI.selectedcomponent = false;
+				_UI.navprimaryhere = 'npChooser';
+				return false;
+			}
+		} else if (_UI.navhere === 'kerning'){
+			len = getLength(_GP.kerning);
+			if(!len){ 
+				_UI.selectedkern = false;
+				_UI.navprimaryhere = 'npChooser';
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	function getSelectedWorkItem(){
 		// debug('\n getSelectedWorkItem - START');
 		// debug('\t navhere: ' + _UI.navhere);

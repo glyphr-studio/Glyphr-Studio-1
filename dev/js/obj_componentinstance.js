@@ -199,7 +199,7 @@
 //-------------------------------------------------------
 
 //	Insert Component
-	function insertComponentDialog(){
+	function showDialog_AddComponent(){
 		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', true, true, true);
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
@@ -212,6 +212,7 @@
 	}
 
 	function insertComponentInstance(cid, tochar){
+		var select = !tochar;
 		tochar = tochar || getSelectedWorkItemID();
 		var ch = getGlyph(tochar, true);
 
@@ -222,6 +223,10 @@
 			//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(nci));
 			ch.shapes.push(nci);
 			ch.calcGlyphMaxes();
+			if(select) {
+				_UI.ss = nci;
+				_UI.selectedtool = 'shaperesize';
+			}
 
 			addToUsedIn(cid, tochar);
 
@@ -247,27 +252,6 @@
 
 		//debug('turnComponentIntoShapes - newshape \n'+json(newshape));
 		redraw('turnComponentIntoShapes');
-	}
-
-	function makeComponentThumbs(){
-
-		var re = '';
-		var tochar = getSelectedWorkItemID();
-		var tcom;
-
-		for(var com in _GP.components){if(_GP.components.hasOwnProperty(com)){
-			tcom = getGlyph(com);
-			re += '<table cellpadding=0 cellspacing=0 border=0><tr><td>';
-			re += '<div class="glyphselectthumb" onclick="insertComponentInstance(\''+com+'\',\''+tochar+'\',\'Instance of '+tcom.name+'\');" height='+_UI.thumbsize+'" width='+_UI.thumbsize+'>';
-			re += getGlyph(com).makeSVG();
-			re += '</div></td></tr><tr><td>';
-			re += getGlyphName(com);
-			re += '</td></tr></table>';
-			//debug('makeComponentThumbs - created canvas thumb'+com);
-		}}
-
-		if (re !== '') re = '<div class="ssthumbcontainer">'+re+'</div>';
-		return re;
 	}
 
 //	UsedIn Array Stuff

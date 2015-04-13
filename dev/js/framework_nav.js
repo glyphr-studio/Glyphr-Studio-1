@@ -309,7 +309,7 @@
 	function makePanel_NavTabs(){
 		var navarr = [];
 		navarr.push('npNav');
-		var wi = getSelectedWorkItemID();
+		var wi = existingWorkItem();
 
 		if(_UI.navprimaryhere !== 'npNav'){
 			switch(_UI.navhere){
