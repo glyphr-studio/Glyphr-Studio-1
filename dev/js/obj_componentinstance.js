@@ -37,22 +37,24 @@
 
 	ComponentInstance.prototype.getTransformedGlyph = function() {
 		// debug('\n ComponentInstance.getTransformedGlyph - START');
-		var og = getGlyph(this.link);
-		var g = clone(og);
-		// debug('\t Original:\t'+json(og.maxes, true));
+		var og = getGlyph(this.link, true);
 
-		if(g){
+		if(og){
+			var g = clone(og);
+			// debug('\t Original:\t'+json(og.maxes, true));
 			g.updateGlyphPosition(this.translatex, this.translatey, true);
 			g.updateGlyphSize(this.scalew, this.scaleh);
 			if(this.flipew) g.flipEW();
 			if(this.flipns) g.flipNS();
 			if(this.reversewinding) g.reverseWinding();
+	
+			// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
+			// debug('\t Transfor:\t'+json(g.maxes, true));
+			// debug(' ComponentInstance.getTransformedGlyph - END\n');
+			return g;
 		}
 
-		// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
-		// debug('\t Transfor:\t'+json(g.maxes, true));
-		// debug(' ComponentInstance.getTransformedGlyph - END\n');
-		return g;
+		return false;
 	};
 
 

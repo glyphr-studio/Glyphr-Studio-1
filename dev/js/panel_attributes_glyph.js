@@ -124,28 +124,23 @@
 		content += '<tr><td colspan=2><h3> glyph width </h3></td></tr>';
 
 		content += '<tr>'+
-				'<td> automatically calculate </td>'+
-				'<td>'+checkUI('getSelectedWorkItem().isautowide',true)+'</td>'+
+				'<td> auto calculate <span class="unit">(em units)</span></td>'+
+				'<td>'+
+					checkUI('getSelectedWorkItem().isautowide',true)+
+					'&emsp;';
+
+					if(!sc.isautowide){
+						content += '<input type="number" id="charaw" step="'+svc+'" '+
+						'value="' + round(sc.glyphwidth, 3) + '" '+
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw(\'glyphDetails\');">';
+					} else {
+						content += '<input type="number" disabled="disabled" '+
+						'value="'+ round(sc.glyphwidth, 3) + '"/>';
+					}
+
+			content += '</td>'+
 			'</tr>';
 
-		if(!sc.isautowide){
-			content += '<tr>'+
-				'<td> glyph width <span class="unit">(em units)</span> </td>'+
-				'<td>'+
-					'<input type="number" id="charaw" step="'+svc+'" '+
-					'value="' + round(sc.glyphwidth, 3) + '" '+
-					'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw(\'glyphDetails\');">'+
-				'</td>'+
-			'</tr>';
-		} else {
-			content += '<tr>'+
-				'<td> glyph width <span class="unit">(em units)</span> </td>'+
-				'<td>'+
-					'<input type="number" disabled="disabled" '+
-					'value="'+ round(sc.glyphwidth, 3) + '"/>'+
-				'</td>'+
-			'</tr>';
-		}
 
 
 		// LEFT SIDE BEARING
@@ -153,29 +148,23 @@
 			content += '<tr><td colspan=2><h3> left side bearing </h3></td></tr>';
 
 			content += '<tr>'+
-				'<td> use default </td>'+
-				'<td>'+checkUI('getSelectedWorkItem().leftsidebearing', true, true)+'</td>'+
+				'<td> use default <span class="unit">(em units)</span> </td>'+
+				'<td>'+
+					checkUI('getSelectedWorkItem().leftsidebearing', true, true)+
+					'&emsp;';
+
+					if(sc.leftsidebearing){
+						if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
+						content += '<input type="number" id="charlsb" step="'+svc+'" '+
+						'value="' + sc.leftsidebearing + '" '+
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().leftsidebearing = (this.value*1); redraw(\'glyphDetails\');">';
+					} else {
+						content +='<input type="number" disabled="disabled" '+
+						'value="'+ round(_GP.projectsettings.defaultlsb, 3) + '"/>';
+					}
+			content += '</td>'+
 			'</tr>';
 
-			if(sc.leftsidebearing){
-				if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
-				content += '<tr>'+
-					'<td>left side bearing <span class="unit">(em units)</span> </td>'+
-					'<td>'+
-						'<input type="number" id="charlsb" step="'+svc+'" '+
-						'value="' + sc.leftsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().leftsidebearing = (this.value*1); redraw(\'glyphDetails\');">'+
-					'</td>'+
-				'</tr>';
-			} else {
-				content += '<tr>'+
-					'<td>left side bearing <span class="unit">(em units)</span> </td>'+
-					'<td>'+
-						'<input type="number" disabled="disabled" '+
-						'value="'+ round(_GP.projectsettings.defaultlsb, 3) + '"/>'+
-					'</td>'+
-				'</tr>';
-			}
 		}
 
 
@@ -184,29 +173,23 @@
 			content += '<tr><td colspan=2><h3> right side bearing </h3></td></tr>';
 
 			content += '<tr>'+
-				'<td> use default </td>'+
-				'<td>'+checkUI('getSelectedWorkItem().rightsidebearing', true, true)+'</td>'+
+				'<td> use default <span class="unit">(em units)</span> </td>'+
+				'<td>'+
+					checkUI('getSelectedWorkItem().rightsidebearing', true, true)+
+					'&emsp;';
+
+					if(sc.rightsidebearing){
+						if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
+						content += '<input type="number" id="charrsb" step="'+svc+'" '+
+						'value="' + sc.rightsidebearing + '" '+
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().rightsidebearing = (this.value*1); redraw(\'glyphDetails\');">';
+					} else {
+						content +=	'<input type="number" disabled="disabled" '+
+						'value="'+round(_GP.projectsettings.defaultrsb, 3) + '"/>';
+					}
+			content += '</td>'+
 			'</tr>';
 
-			if(sc.rightsidebearing){
-				if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
-				content += '<tr>'+
-					'<td>right side bearing <span class="unit">(em units)</span> </td>'+
-					'<td>'+
-						'<input type="number" id="charrsb" step="'+svc+'" '+
-						'value="' + sc.rightsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().rightsidebearing = (this.value*1); redraw(\'glyphDetails\');">'+
-					'</td>'+
-				'</tr>';
-			} else {
-				content += '<tr>'+
-					'<td>right side bearing <span class="unit">(em units)</span> </td>'+
-					'<td>'+
-						'<input type="number" disabled="disabled" '+
-						'value="'+round(_GP.projectsettings.defaultrsb, 3) + '"/>'+
-					'</td>'+
-				'</tr>';
-			}
 		}
 
 		// USED IN 

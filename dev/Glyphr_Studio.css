@@ -1164,6 +1164,11 @@
 		display:inline;
 	}
 
+	.detail input[type=checkbox]{
+		position: relative;
+		top:4px;
+	}
+
 	.detail input[type=text],
 	.detail input[type=number]{
 		border-width: 0px;
@@ -1191,10 +1196,6 @@
 
 	.detail .lockpad {
 		width:93px;
-	}
-
-	.detail h3 > input[type=checkbox]{
-		vertical-align: -4px;
 	}
 
 	.pointtypebutton,

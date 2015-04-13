@@ -168,20 +168,25 @@
 	}
 
 	function showGetShapesDialog(msg){
-		var content = "<h1>Get Shapes</h1><table style='width:900px'><tr><td>";
-		content += msg? msg : "<br>";
-		content += "Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br>";
-		var scroll = makeGenericGlyphChooserContent("pasteShapesFrom", true, true, true);
+		var content = '<h1>Get Shapes</h1>';
+		content += msg? msg : '<br>';
+		content += 'Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br>';
+		var scroll = makeGenericGlyphChooserContent('pasteShapesFrom', true, true, true);
 
 		openBigDialog(content, scroll);
 	}
 
 	function pasteShapesFrom(chid) {
-		getGlyph(chid).sendShapesTo(getSelectedWorkItemID());
-		redraw();
-		history_put("Pasted Shapes to Glyph");
-		closeDialog();
-		showGetShapesDialog("The shapes from '" + getGlyphName(chid) + "' were successfully pasted to glyph " + getSelectedWorkItemName() + ".<br>");
+		var swid = getSelectedWorkItemID();
+		if(chid !== swid){
+			getGlyph(chid).sendShapesTo(getSelectedWorkItemID());
+			redraw();
+			history_put('Pasted Shapes to Glyph');
+			closeDialog();
+			showGetShapesDialog('The shapes from "' + getGlyphName(chid) + '" were successfully pasted to glyph "' + getSelectedWorkItemName() + '".<br>');
+		} else {
+			showGetShapesDialog('Sorry, you can\'t paste shapes from the currently selected glyph.<br>');
+		}
 	}
 
 //-------------------
