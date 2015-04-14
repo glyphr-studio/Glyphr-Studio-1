@@ -421,11 +421,8 @@
 //	LOCK, CHECKBOX, HELP
 //	-----------------------
 
-	function lockUI(varname){
+	function lockUI(varname, currbool, idname){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
-		var idname = varname.split("()");
-		idname = idname[idname.length-1];
-		var currbool = !!eval(varname);
 		var restcolor = _UI.colors.gray.l90;
 		var selcolor = _UI.colors.blue.l65;
 
@@ -437,7 +434,7 @@
 			'style="background-color:'+(currbool? _UI.colors.gray.l80 : 'white')+'" '+
 			'onclick="' +
 				// 'debug(\'Clicked on checkbox '+varname+'\'); ' +
-				'toggle(\''+varname+'\'); ' +
+				varname + ' = !' + varname + '; ' + 
 				//'history_put(\'Toggled '+idname+': '+!currbool+'\'); '+
 				'redraw(\'checkbox '+idname+'\'); ' +
 			'">';
@@ -446,17 +443,16 @@
 		return re;
 	}
 
-	function checkUI(varname, doredraw, invert){
+	function checkUI(varname, currbool, doredraw, invert){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
 		var idname = varname.split('.');
 		idname = idname[idname.length-1];
-		var currbool = !!eval(varname);
 		if(invert) currbool = !currbool;
 
 		var re = '<input type="checkbox"';
 		re += (currbool? ' checked ' : ' ');
 		re += 'id="'+idname+'"';
-		re += 'onclick="toggle(\''+varname+'\');';
+		re += 'onclick="'+varname+' = !'+varname+';';
 
 		if(doredraw){
 			re += ' history_put(\'Toggled '+idname+': '+!currbool+'\');';
