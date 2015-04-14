@@ -22,7 +22,9 @@
 		this.scalew = oa.scalew || 0;
 		this.scaleh = oa.scaleh || 0;
 		this.flipew = oa.flipew || false;
+		this.flipew = oa.flipewmid || false;
 		this.flipns = oa.flipns || false;
+		this.flipns = oa.flipnsmid || false;
 		this.reversewinding = oa.reversewinding || false;
 
 		this.xlock = oa.xlock || false;
@@ -38,14 +40,20 @@
 	ComponentInstance.prototype.getTransformedGlyph = function() {
 		// debug('\n ComponentInstance.getTransformedGlyph - START');
 		var og = getGlyph(this.link, true);
+		var mid;
 
 		if(og){
 			var g = clone(og);
 			// debug('\t Original:\t'+json(og.maxes, true));
-			g.updateGlyphPosition(this.translatex, this.translatey, true);
-			g.updateGlyphSize(this.scalew, this.scaleh);
+			
 			if(this.flipew) g.flipEW();
+			
 			if(this.flipns) g.flipNS();
+
+			g.updateGlyphPosition(this.translatex, this.translatey, true);
+
+			g.updateGlyphSize(this.scalew, this.scaleh);
+
 			if(this.reversewinding) g.reverseWinding();
 
 			// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
@@ -89,6 +97,11 @@
 		// debug('\t passed dw/dh/ratiolock: ' + dw + ' / ' + dh + ' / ' + ratiolock);
 		if(dw !== false) dw = parseFloat(dw);
 		if(dh !== false) dh = parseFloat(dh);
+		
+		if(ratiolock){
+			if(Math.abs(dw) > Math.abs(dh)) dh = dw;
+			else dw = dh;
+		}
 
 		// debug('\t translate was: ' + this.scalew + ' / ' + this.scaleh);
 		this.scalew += dw;
@@ -114,9 +127,21 @@
 		return g.maxes.ymax - g.maxes.ymin;
 	};
 
-	ComponentInstance.prototype.flipEW = function() { this.flipew = !this.flipew; };
+	ComponentInstance.prototype.flipEW = function(mid) { 
+		this.flipew = !this.flipew;
+		if(mid){
+			var g = this.getTransformedGlyph();
+			this.translatex += (((mid - g.maxes.xmax) + mid) - g.maxes.xmin);
+		}
+	};
 
-	ComponentInstance.prototype.flipNS = function() { this.flipns = !this.flipns; };
+	ComponentInstance.prototype.flipNS = function(mid) { 
+		this.flipns = !this.flipns;
+		if(mid){
+			var g = this.getTransformedGlyph();
+			this.translatey += (((mid - g.maxes.ymax) + mid) - g.maxes.ymin);
+		}
+	};
 
 	ComponentInstance.prototype.getMaxes = function() { return this.getTransformedGlyph().maxes; };
 
@@ -124,12 +149,7 @@
 
 	ComponentInstance.prototype.selectPathPoint = function() { return false; };
 
-	ComponentInstance.prototype.drawShape = function(lctx, view){
-		var g = this.getTransformedGlyph();
-		for(var s=0; s<g.shapes.length; s++){
-			g.shapes[s].drawShape(lctx, view);
-		}
-	};
+	ComponentInstance.prototype.drawShape = function(lctx, view){ this.getTransformedGlyph().drawGlyph(lctx, view); };
 
 	ComponentInstance.prototype.genPostScript = function(lastx, lasty){
 		//debug('GENLINKEDPOSTSCRIPT');

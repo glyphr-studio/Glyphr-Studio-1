@@ -611,7 +611,6 @@
 		var dh = (ly-my);
 		var dw = (lx-mx);
 		var rl = (!s.wlock && !s.hlock && s.ratiolock);
-		var ci = _UI.ss.objtype === 'componentinstance';
 
 
 		// Check that the shape won't have negative dimensions
@@ -696,15 +695,16 @@
 	}
 
 	function canResize(pc){
+		var s = _UI.ss;
 		switch(pc){
-			case 'nw': return (!_UI.ss.ylock && !_UI.ss.hlock && !_UI.ss.xlock && !_UI.ss.wlock);
-			case 'n':  return (!_UI.ss.ylock && !_UI.ss.hlock);
-			case 'ne': return (!_UI.ss.ylock && !_UI.ss.hlock && !_UI.ss.wlock);
-			case 'e':  return (!_UI.ss.wlock);
-			case 'se': return (!_UI.ss.hlock && !_UI.ss.wlock);
-			case 's':  return (!_UI.ss.hlock);
-			case 'sw': return (!_UI.ss.hlock && !_UI.ss.xlock && !_UI.ss.wlock);
-			case 'w':  return (!_UI.ss.xlock && !_UI.ss.wlock);
+			case 'nw': return (!s.ylock && !s.hlock && !s.xlock && !s.wlock);
+			case 'n':  return (!s.ylock && !s.hlock);
+			case 'ne': return (!s.ylock && !s.hlock && !s.wlock);
+			case 'e':  return (!s.wlock);
+			case 'se': return (!s.hlock && !s.wlock);
+			case 's':  return (!s.hlock);
+			case 'sw': return (!s.hlock && !s.xlock && !s.wlock);
+			case 'w':  return (!s.xlock && !s.wlock);
 		}
 		return true;
 	}

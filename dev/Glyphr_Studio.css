@@ -1157,7 +1157,7 @@
 	.detail td {
 		padding:0px 4px 10px 0px;
 		vertical-align:middle;
-		height:26px;
+		height:24px;
 	}
 
 	.detail .detailtitle {
@@ -1190,6 +1190,7 @@
 	}
 
 	.lockwrapper {
+		height:24px;
 		display: inline-block;
 	}
 

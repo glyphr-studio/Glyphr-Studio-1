@@ -114,9 +114,9 @@
 
 	Shape.prototype.selectPathPoint = function(p) { this.path.selectPathPoint(p); };
 
-	Shape.prototype.flipEW = function() { this.path.flipEW(); };
+	Shape.prototype.flipEW = function(mid) { this.path.flipEW(mid); };
 
-	Shape.prototype.flipNS = function() { this.path.flipNS(); };
+	Shape.prototype.flipNS = function(mid) { this.path.flipNS(mid); };
 
 	Shape.prototype.reverseWinding = function() {this.path.reverseWinding(); };
 

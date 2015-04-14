@@ -78,12 +78,7 @@
 				this.maxes.ymin = Math.min(tmax.ymin, this.maxes.ymin);
 			}
 		} else {
-			this.maxes = {
-				'xmax': 0,
-				'xmin': 0,
-				'ymax': 0,
-				'ymin': 0
-			};
+			this.maxes = { 'xmax': 0, 'xmin': 0, 'ymax': 0, 'ymin': 0 };
 		}
 
 		this.calcGlyphWidth();
@@ -113,9 +108,9 @@
 	};
 
 	Glyph.prototype.canAddComponent = function(cid) {
-		debug('\n Glyph.canAddComponent - START');
+		// debug('\n Glyph.canAddComponent - START');
 		var myid = ''+getMyID(this);
-		debug('\t adding ' + cid + ' to (me) ' + myid);
+		// debug('\t adding ' + cid + ' to (me) ' + myid);
 
 		if(myid === cid) return false;
 		if(this.usedin.length === 0) return true;
@@ -126,8 +121,8 @@
 		var uplinks = this.collectAllUpstreamLinks([]);
 		uplinks = uplinks.filter(function(elem, pos) { return uplinks.indexOf(elem) === pos;});
 		
-		debug('\t downlinks: ' + downlinks);
-		debug('\t uplinks: ' + uplinks);
+		// debug('\t downlinks: ' + downlinks);
+		// debug('\t uplinks: ' + uplinks);
 
 		if(downlinks.indexOf(cid) > -1) return false;
 		if(uplinks.indexOf(cid) > -1) return false;
@@ -330,15 +325,21 @@
 		this.calcGlyphMaxes();
 	};
 
-	Glyph.prototype.flipEW = function(){
-		var mid = ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
+	Glyph.prototype.flipEW = function(mid){
+		debug('\n Glyph.flipEW - START');
+		debug('\t ' + this.name);
+		debug('\t passed mid = ' + mid);
+		mid = mid || ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
+		debug('\t mid = ' + mid);
+		debug('\t maxes = ' + json(this.maxes, true));
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].flipEW(mid);
 		}
+		debug('\t maxes = ' + json(this.maxes, true));
 	};
 
-	Glyph.prototype.flipNS = function(){
-		var mid = ((this.maxes.ymax - this.maxes.ymin) / 2) + this.maxes.ymin;
+	Glyph.prototype.flipNS = function(mid){
+		mid = mid || ((this.maxes.ymax - this.maxes.ymin) / 2) + this.maxes.ymin;
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].flipNS(mid);
 		}
