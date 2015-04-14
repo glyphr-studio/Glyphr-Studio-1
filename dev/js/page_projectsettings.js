@@ -23,27 +23,27 @@
 		content += "<h2>UI Behavior</h2>"+
 					"<table class='settingstable projectsettings'>"+
 
-					"<tr><td style='text-align:right; vertical-align:bottom;'>"+checkUI('_GP.projectsettings.showkeyboardtipsicon')+"</td>"+
+					"<tr><td style='text-align:right; vertical-align:bottom;'>"+checkUI('_GP.projectsettings.showkeyboardtipsicon', ps.showkeyboardtipsicon)+"</td>"+
 					"<td><label for='showkeyboardtipsicon'>Show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button on the edit canvas.</label></td></tr>"+
 
 					"<tr><td colspan='2' style='font-size:8px;'>&nbsp;</td></tr>"+
 
-					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.stoppagenavigation')+"</td>"+
+					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.stoppagenavigation', ps.stoppagenavigation)+"</td>"+
 					"<td><label for='stoppagenavigation'>Show a confirmation message if you attempt to close an unsaved project.</label></td></tr>"+
 
 					"<tr><td colspan='2' style='font-size:8px;'>&nbsp;</td></tr>"+
 
-					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.formatsavefile')+"</td>"+
+					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.formatsavefile', ps.formatsavefile)+"</td>"+
 					"<td><label for='formatsavefile'>Format the Glyphr Project text file for easy reading.  This may increase the file size by 2x.</label></td></tr>"+
 
 					"<tr><td colspan='2' style='font-size:8px;'>&nbsp;</td></tr>"+
 					
-					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.showexportotf')+"</td>"+
+					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.showexportotf', ps.showexportotf)+"</td>"+
 					"<td><label for='showexportotf'>Show an Export OTF File button on the Nav Bar.</label></td></tr>"+
 
 					"<tr><td colspan='2' style='font-size:8px;'>&nbsp;</td></tr>"+
 					
-					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.showexportsvg')+"</td>"+
+					"<tr><td style='text-align:right;'>"+checkUI('_GP.projectsettings.showexportsvg', ps.showexportsvg)+"</td>"+
 					"<td><label for='showexportsvg'>Show an Export SVG File button on the Nav Bar.</label></td></tr>"+
 
 					"<tr><td colspan='2' style='font-size:4px;'>&nbsp;</td></tr>"+

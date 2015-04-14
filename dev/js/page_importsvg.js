@@ -15,11 +15,11 @@
 			"<h3>scaling and moving</h3>"+
 
 			"<table><tr><td>"+
-				checkUI("_UI.importsvg.scale") +
+				checkUI("_UI.importsvg.scale", _UI.importsvg.scale) +
 			"</td><td style='padding:0px 0px 8px 5px;'>"+
 				"<label for='scale'>Scale the imported SVG outlines</label>"+
 			"</td></tr><tr><td>"+
-				checkUI("_UI.importsvg.move") +
+				checkUI("_UI.importsvg.move", _UI.importsvg.move) +
 			"</td><td style='padding:0px 0px 8px 5px;'>"+
 				"<label for='move'>Move the imported SVG outlines</label>"+
 			"</td></tr></table>"+
@@ -28,9 +28,9 @@
 
 			"<table style='margin-top:10px;'><tr>"+
 			"<td style='width:20px; padding-top:10px;'>"+
-				checkUI("_UI.importsvg.ascender")+
+				checkUI("_UI.importsvg.ascender", _UI.importsvg.ascender)+
 				"<br>"+
-				checkUI("_UI.importsvg.capheight")+
+				checkUI("_UI.importsvg.capheight", _UI.importsvg.capheight)+
 			"</td><td class='svgscaleoption'>"+
 				"<label for='ascender'>Ascender</label><br>"+
 				"<label for='capheight'>Cap Height</label>"+
@@ -39,11 +39,11 @@
 				"<table><tr><td colspan='2' style='padding-bottom:8px;'>"+
 					"For rounded glyphs:"+
 				"</td></tr><tr><td>"+
-					checkUI("_UI.importsvg.overshoot_top")+
+					checkUI("_UI.importsvg.overshoot_top", _UI.importsvg.overshoot_top)+
 				"</td><td style='padding:0px 0px 8px 8px;'>"+
 					"<label for='overshoot_top'>top overshoot</label>"+
 				"</td></tr><tr><td>"+
-					checkUI("_UI.importsvg.overshoot_bottom")+
+					checkUI("_UI.importsvg.overshoot_bottom", _UI.importsvg.overshoot_bottom)+
 				"</td><td style='padding:0px 0px 8px 8px;'>"+
 					"<label for='overshoot_bottom'>bottom overshoot</label>"+
 				"</td></tr></table>"+
@@ -54,7 +54,7 @@
 			"</td><td class='svgscaleoption'>"+
 				"<span style='color:"+_UI.colors.gray.l40+";'>X Height</span>"+
 			"</td></tr><tr><td style='padding-top:10px;'>"+
-				checkUI("_UI.importsvg.descender")+
+				checkUI("_UI.importsvg.descender", _UI.importsvg.descender)+
 			"</td><td class='svgscaleoption'>"+
 				"<label for='descender'>Descender</label><br>"+
 			"</td></tr></table>"+

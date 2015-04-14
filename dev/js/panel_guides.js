@@ -22,21 +22,21 @@
 			tg = guides[g];
 
 			if(tg.editable){
-				user += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), g);
+				user += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), tg.visible, g);
 			} else {
-				system += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), g);
+				system += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), tg.visible, g);
 			}
 		}}
 
 		content += '<h3 style="margin-top:0px; margin-bottom:10px;">options</h3>';
 		content += '<table style="width:100%;">'+
-			'<tr><td style="width:20px">' + checkUI('_UI.showgrid', true) + '</td>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showgrid', _UI.showgrid, true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
-			'<tr><td style="width:20px">' + checkUI('_UI.showguides', true) + '</td>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showguides', _UI.showguides, true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showguides">show guides</label></td></tr>' +
-			'<tr><td style="width:20px">' + checkUI('_UI.showguidelabels', true) + '</td>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showguidelabels', _UI.showguidelabels, true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showguidelabels">show guide labels</label></td></tr>' +
-			'<tr><td style="width:20px">' + checkUI('_UI.showovershoots', true) + '</td>' +
+			'<tr><td style="width:20px">' + checkUI('_UI.showovershoots', _UI.showovershoots, true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+_GP.projectsettings.overshoot+' em units)</label></td></tr>' +
 			'</table>';
 
@@ -53,7 +53,7 @@
 		return content;
 	}
 
-	function makeOneGuideRow(guide, path, id) {
+	function makeOneGuideRow(guide, path, currviz, id) {
 		var sys = !guide.editable;
 		var re = '<table class="guiderow"><tr>';
 
@@ -67,7 +67,7 @@
 		re += '</td>';
 
 		re += '<td>';
-		re += checkUI((path+'.visible'), true);
+		re += checkUI((path+'.visible'), currviz, true);
 		re += '</td>';
 
 		re += '<td>';
