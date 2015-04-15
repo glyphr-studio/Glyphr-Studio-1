@@ -63,9 +63,17 @@
 	}
 
 	function selectShape(num) {
+		// debug('\n selectShape - START');
+		// debug('\t passed ' + num);
 		var wishapes = getSelectedWorkItemShapes();
-		if(wishapes && wishapes[num]) _UI.ss = wishapes[num];
-		else _UI.ss = false;
+		// debug('\t wishapes ' + wishapes);
+
+		if(wishapes && wishapes[num]){
+			 _UI.ss = wishapes[num];
+		} else {
+			_UI.ss = false;
+		}
+		// debug(' selectShape - END\n');
 	}
 
 // end of file

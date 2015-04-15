@@ -265,9 +265,11 @@
 	};
 
 	Glyph.prototype.updateGlyphSize = function(dw, dh, ratiolock){
-		// debug('UPDATE GLYPHSIZE - dw/dh/ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
+		// debug('\n Glyph.updateGlyphSize - START');
+		// debug('\t dw/dh/ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
 		if(dw !== false) dw = parseFloat(dw);
 		if(dh !== false) dh = parseFloat(dh);
+		
 		var oldw = this.maxes.xmax - this.maxes.xmin;
 		var oldh = this.maxes.ymax - this.maxes.ymin;
 		var neww = Math.max((oldw + dw), 1);
@@ -276,8 +278,8 @@
 		var ratiodw = (neww/oldw);
 
 		if(ratiolock){
-			if(Math.abs(dh) > Math.abs(dw)) dw = dh;
-			else dh = dw;
+			if(Math.abs(ratiodh) > Math.abs(ratiodw)) ratiodw = ratiodh;
+			else ratiodh = ratiodw;
 		}
 
 		// debug('\tadj dh/dw:\t' + dh + '\t ' + dw);
@@ -323,19 +325,20 @@
 		}
 
 		this.calcGlyphMaxes();
+		// debug(' Glyph.updateGlyphSize - END\n');
 	};
 
 	Glyph.prototype.flipEW = function(mid){
-		debug('\n Glyph.flipEW - START');
-		debug('\t ' + this.name);
-		debug('\t passed mid = ' + mid);
+		// debug('\n Glyph.flipEW - START');
+		// debug('\t ' + this.name);
+		// debug('\t passed mid = ' + mid);
 		mid = mid || ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
-		debug('\t mid = ' + mid);
-		debug('\t maxes = ' + json(this.maxes, true));
+		// debug('\t mid = ' + mid);
+		// debug('\t maxes = ' + json(this.maxes, true));
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].flipEW(mid);
 		}
-		debug('\t maxes = ' + json(this.maxes, true));
+		// debug('\t maxes = ' + json(this.maxes, true));
 	};
 
 	Glyph.prototype.flipNS = function(mid){

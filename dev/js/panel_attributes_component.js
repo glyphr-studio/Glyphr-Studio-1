@@ -153,8 +153,23 @@
 	}
 
 	function updateComponentInstanceDetail(key, value, id) {
-		var s = _UI.ss;
-		s[key] = value;
+		var oldval = _UI.ss[key];
+		_UI.ss[key] = value;
+		var ts, w, h;
+
+		if(_UI.ss.ratiolock){
+			ts = _UI.ss.getTransformedGlyph();
+			w = (ts.maxes.xmax - ts.maxes.xmin);
+			h = (ts.maxes.ymax - ts.maxes.ymin);
+
+			if(key === 'scalew'){
+				_UI.ss.scaleh += ((value - oldval) * (h / w));
+			} else if (key === 'scaleh'){
+				_UI.ss.scalew += ((value - oldval) * (w / h));
+			}
+		}
+
+
 		history_put('component '+key);
 		_UI.focuselement = id;
 		redraw('componentInstanceDetails');

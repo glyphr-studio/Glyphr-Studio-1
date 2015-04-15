@@ -696,14 +696,16 @@
 
 	function canResize(pc){
 		var s = _UI.ss;
+		var rl = s.ratiolock;
+
 		switch(pc){
-			case 'nw': return (!s.ylock && !s.hlock && !s.xlock && !s.wlock);
+			case 'nw': return rl? false : (!s.ylock && !s.hlock && !s.xlock && !s.wlock);
 			case 'n':  return (!s.ylock && !s.hlock);
-			case 'ne': return (!s.ylock && !s.hlock && !s.wlock);
+			case 'ne': return rl? false : (!s.ylock && !s.hlock && !s.wlock);
 			case 'e':  return (!s.wlock);
-			case 'se': return (!s.hlock && !s.wlock);
+			case 'se': return rl? false : (!s.hlock && !s.wlock);
 			case 's':  return (!s.hlock);
-			case 'sw': return (!s.hlock && !s.xlock && !s.wlock);
+			case 'sw': return rl? false : (!s.hlock && !s.xlock && !s.wlock);
 			case 'w':  return (!s.xlock && !s.wlock);
 		}
 		return true;

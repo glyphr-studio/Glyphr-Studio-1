@@ -39,14 +39,14 @@
 		// debug('\n redraw_GlyphEdit - START');
 		_UI.redrawing = true;
 		
-		var sc = getSelectedWorkItem();
-		if(sc) sc.calcGlyphMaxes();
+		var sg = getSelectedWorkItem();
+		if(sg) sg.calcGlyphMaxes();
 
 		drawGrid();
 		drawGuides();
 
 		// load char info
-		if(sc) sc.drawGlyph(_UI.glypheditctx, getView('Redraw'));
+		if(sg) sg.drawGlyph(_UI.glypheditctx, getView('Redraw'));
 
 		// Finish up
 		if(_UI.ss) {

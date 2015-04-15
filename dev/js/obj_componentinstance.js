@@ -99,8 +99,17 @@
 		if(dh !== false) dh = parseFloat(dh);
 		
 		if(ratiolock){
-			if(Math.abs(dw) > Math.abs(dh)) dh = dw;
-			else dw = dh;
+			var ts = this.getTransformedGlyph();
+			var w = (ts.maxes.xmax - ts.maxes.xmin);
+			var h = (ts.maxes.ymax - ts.maxes.ymin);
+
+			if(Math.abs(dw) > Math.abs(dh)){
+				dh = (dw * (h / w));
+				// this.updateShapePosition(0, dh, true);
+			} else {
+				dw = (dh * (w / h));
+				// this.updateShapePosition(dw, 0, true);
+			}
 		}
 
 		// debug('\t translate was: ' + this.scalew + ' / ' + this.scaleh);

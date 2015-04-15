@@ -37,14 +37,22 @@
 		// debug('\t queue.length ' + this.queue.length);
 
 		var si = false;
-		if(_UI.ss) si = getSelectedWorkItemShapes().indexOf(_UI.ss);
+		if(_UI.ss) {
+			si = getSelectedWorkItemShapes().indexOf(_UI.ss);
+			debug('\t sel shape number is ' + si);
+		}
+		_UI.ss = false;
 
 		var top = this.queue.length? this.queue.pop().state : this.initialstate;
 		_GP[this.parentname] = clone(top);
 		this.currstate = clone(top);
 		if (_UI.navhere === 'import svg') update_NavPanels();
 		else {
-			if(si) selectShape(si);
+			if(isval(si)) {
+				selectShape(si);
+				// debug('\t _UI.ss is now ' + _UI.ss);
+				// _UI.ss.calcMaxes();
+			}
 			redraw('history_pull');
 		}
 
