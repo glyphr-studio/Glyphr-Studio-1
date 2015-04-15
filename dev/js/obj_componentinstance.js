@@ -45,9 +45,9 @@
 		if(og){
 			var g = clone(og);
 			// debug('\t Original:\t'+json(og.maxes, true));
-			
+
 			if(this.flipew) g.flipEW();
-			
+
 			if(this.flipns) g.flipNS();
 
 			g.updateGlyphPosition(this.translatex, this.translatey, true);
@@ -97,7 +97,7 @@
 		// debug('\t passed dw/dh/ratiolock: ' + dw + ' / ' + dh + ' / ' + ratiolock);
 		if(dw !== false) dw = parseFloat(dw);
 		if(dh !== false) dh = parseFloat(dh);
-		
+
 		if(ratiolock){
 			var ts = this.getTransformedGlyph();
 			var w = (ts.maxes.xmax - ts.maxes.xmin);
@@ -136,7 +136,7 @@
 		return g.maxes.ymax - g.maxes.ymin;
 	};
 
-	ComponentInstance.prototype.flipEW = function(mid) { 
+	ComponentInstance.prototype.flipEW = function(mid) {
 		this.flipew = !this.flipew;
 		if(mid){
 			var g = this.getTransformedGlyph();
@@ -144,7 +144,7 @@
 		}
 	};
 
-	ComponentInstance.prototype.flipNS = function(mid) { 
+	ComponentInstance.prototype.flipNS = function(mid) {
 		this.flipns = !this.flipns;
 		if(mid){
 			var g = this.getTransformedGlyph();
@@ -158,7 +158,20 @@
 
 	ComponentInstance.prototype.selectPathPoint = function() { return false; };
 
-	ComponentInstance.prototype.drawShape = function(lctx, view){ this.getTransformedGlyph().drawGlyph(lctx, view); };
+	ComponentInstance.prototype.reverseWinding = function() { this.reversewinding = !this.reversewinding; };
+
+	ComponentInstance.prototype.drawShape = function(lctx, view){
+		/*		
+		Have to iterate through shapes instead of using Glyph.drawGlyph
+		due to stacking shapes with appropriate winding
+		*/
+
+		var g = this.getTransformedGlyph();
+
+		for(var s = 0; s<g.shapes.length; s++){
+			g.shapes[s].drawShape(lctx, view);
+		}
+	};
 
 	ComponentInstance.prototype.genPostScript = function(lastx, lasty){
 		//debug('GENLINKEDPOSTSCRIPT');
