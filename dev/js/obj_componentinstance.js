@@ -240,8 +240,9 @@
 		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', ['components', 'glyphs', 'ligatures']);
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
-			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.  ';
-			content += 'Choose a glyph to insert as a Component Instance in this glyph:<br><br>';
+			content += 'Components are groups of shapes that can be re-used across many Glyphs.  Component Instances can be transformed while the Root Component remains unchanged.<br><br>';
+			content += 'You can define and link to stand-alone Components, but you can also use Glyphs and Ligatures as if they were Root Components.<br><br>';
+			content += 'Choose a Glyph to insert as a Component Instance in this Glyph.';
 			openBigDialog(content, thumbs);
 		} else {
 			openDialog('<h1>Add Component</h1><div class="dialoglargetext">No Components exist.  First, create some Components, then you can insert them into glyphs.</div>');

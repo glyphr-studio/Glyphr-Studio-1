@@ -495,6 +495,7 @@
 
 	.charchooserwrapper h3 {
 		display: block;
+		margin-top:;
 		clear: both;
 		width: 100%;
 	}
@@ -506,6 +507,14 @@
 		width:50px;
 		overflow: hidden;
 		margin:0px 10px 10px 0px;
+	}
+
+	.glyphselectsectionbreak {
+		display:inline;
+		float:left;
+		width:100%;
+		clear:both;
+		height:20px;
 	}
 
 	.glyphselectname {
@@ -635,6 +644,34 @@
 		filter: alpha(opacity=80);
 	}
 
+	#big_dialog_box {
+		display:none;
+		position:absolute;
+		height:100%;
+		width:900px;
+		top:0px;
+		left:0px;
+		overflow:hidden;
+		background-color:rgb(229,234,239);
+		z-index:1002;
+	}
+
+	#bigDialogLeftContent {
+		width:320px;
+	}
+
+	#bigDialogScrollContent {
+		display:block;
+		position:absolute;
+		top:0px;
+		left:370px;
+		height:100%;
+		width: 501px;
+		padding:10px 10px 0px 20px;
+		overflow-y:scroll;
+		overflow-x:hidden;
+	}
+
 	#dialog_box {
 		display:none;
 		position:absolute;
@@ -645,18 +682,6 @@
 		background-color:rgb(229,234,239);
 		z-index:1002;
 		overflow:hidden;
-	}
-
-	#big_dialog_box {
-		display:none;
-		position:absolute;
-		height:100%;
-		width:900px;
-		top:0px;
-		left:0px;
-		overflow-y:auto;
-		background-color:rgb(229,234,239);
-		z-index:1002;
 	}
 
 	.dialogCloseButton,
@@ -682,15 +707,14 @@
 	}
 
 	#dialogRightContent,
-	#bigDialogRightContent,
-	#bigDialogScrollContent {
+	#bigDialogLeftContent {
 		padding:10px 20px 20px 20px;
 		color:rgb(25,30,35);
 		max-width: 910px;
 	}
 
 	#dialogRightContent h1,
-	#bigDialogRightContent h1{
+	#bigDialogLeftContent h1{
 		margin-bottom:10px;
 	}
 

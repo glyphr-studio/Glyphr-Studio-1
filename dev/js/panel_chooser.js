@@ -124,12 +124,15 @@
 			switch(showarr[j]){
 				case 'glyphs':
 					re += reglyph;
+					re += '<div class="glyphselectsectionbreak"></div>';
 					break;
 				case 'ligatures':
 					re += relig;
+					re += '<div class="glyphselectsectionbreak"></div>';
 					break;
 				case 'components':
 					re += recom;
+					re += '<div class="glyphselectsectionbreak"></div>';
 					break;
 			}
 		}
