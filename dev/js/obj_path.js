@@ -53,14 +53,13 @@
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
 		//debug('UPDATEPATHSIZE - dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
 
-		var s = _UI.ss || {'wlock':false, 'hlock':false};
-		dw = s.wlock? 0 : parseFloat(dw) || 0;
-		dh = s.hlock? 0 : parseFloat(dh) || 0;
+		dw = parseFloat(dw) || 0;
+		dh = parseFloat(dh) || 0;
 
-		if(s.wlock && s.hlock) return;
+		if(!dw && !dh) return;
 
 		// Lock Aspect Ratio
-		if(!s.wlock && !s.hlock && ratiolock){
+		if(ratiolock){
 			if(dw !== dh){
 				var ratio = this.getWidth() / this.getHeight();
 				if(Math.abs(dw) > Math.abs(dh)){
@@ -79,7 +78,7 @@
 		var ratiodw = (neww/oldw);
 
 		// If ratiolocked, keep both w&h from min'ing out at 1
-		if(!s.wlock && !s.hlock && ratiolock){
+		if(ratiolock){
 			if(neww <= 1 || newh <=1) return;
 		}
 

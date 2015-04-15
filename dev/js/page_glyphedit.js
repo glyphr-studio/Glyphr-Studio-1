@@ -41,7 +41,8 @@
 		
 		var sg = getSelectedWorkItem();
 		if(sg) sg.calcGlyphMaxes();
-
+		// debug('\t Selected WI ' + sg.name);
+		
 		drawGrid();
 		drawGuides();
 

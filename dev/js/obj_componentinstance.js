@@ -47,13 +47,9 @@
 			// debug('\t Original:\t'+json(og.maxes, true));
 
 			if(this.flipew) g.flipEW();
-
 			if(this.flipns) g.flipNS();
-
 			g.updateGlyphPosition(this.translatex, this.translatey, true);
-
-			g.updateGlyphSize(this.scalew, this.scaleh);
-
+			g.updateGlyphSize(this.scalew, this.scaleh, false);
 			if(this.reversewinding) g.reverseWinding();
 
 			// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
@@ -105,10 +101,8 @@
 
 			if(Math.abs(dw) > Math.abs(dh)){
 				dh = (dw * (h / w));
-				// this.updateShapePosition(0, dh, true);
 			} else {
 				dw = (dh * (w / h));
-				// this.updateShapePosition(dw, 0, true);
 			}
 		}
 
@@ -116,6 +110,7 @@
 		this.scalew += dw;
 		this.scaleh += dh;
 		// debug('\t translate now: ' + this.scalew + ' / ' + this.scaleh);
+		// debug(' ComponentInstance.updateShapeSize - END\n');
 	};
 
 	ComponentInstance.prototype.setShapeSize = function(nw, nh, ratiolock) {

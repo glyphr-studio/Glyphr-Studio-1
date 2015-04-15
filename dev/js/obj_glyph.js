@@ -61,7 +61,7 @@
 */
 
 	Glyph.prototype.calcGlyphMaxes = function(){
-		//debug('CALCGLYPHMAXES - this char\n'+json(this));
+		// debug('\n Glyph.calcGlyphMaxes - START ' + this.name);
 
 		var sh;
 		var tmax = clone(_UI.mins);
@@ -83,6 +83,7 @@
 
 		this.calcGlyphWidth();
 
+		// debug(' Glyph.calcGlyphMaxes - END ' + this.name + '\n');
 		return this.maxes;
 	};
 
@@ -151,18 +152,17 @@
 	};
 
 	Glyph.prototype.drawGlyph = function(lctx, view, uselsb){
-		// debug('\n Glyph.drawGlyph - START');
-		// debug('\t drawing ' + this.name);
+		// debug('\n Glyph.drawGlyph - START ' + this.name);
 
 		var sl = this.shapes;
-		var shape, path;
+		var shape;
 		var lsb = uselsb? this.getLSB() : 0;
 
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
-				// debug('\t drawing shape ' + j);
+				// debug('\t ' + this.name + ' drawing shape ' + j + ' ' + shape.name);
 				shape.drawShape(lctx, view);
 			}
 		}
@@ -171,7 +171,7 @@
 		lctx.closePath();
 		lctx.fill('nonzero');
 
-		// debug(' Glyph.drawGlyph - END\n');
+		// debug(' Glyph.drawGlyph - END ' + this.name + '\n');
 		return (this.getTotalWidth()*view.dz);
 	};
 
@@ -265,10 +265,11 @@
 	};
 
 	Glyph.prototype.updateGlyphSize = function(dw, dh, ratiolock){
-		// debug('\n Glyph.updateGlyphSize - START');
-		// debug('\t dw/dh/ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
+		// debug('\n Glyph.updateGlyphSize - START ' + this.name);
+
 		if(dw !== false) dw = parseFloat(dw);
 		if(dh !== false) dh = parseFloat(dh);
+		// debug('\t dw dh ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
 		
 		var oldw = this.maxes.xmax - this.maxes.xmin;
 		var oldh = this.maxes.ymax - this.maxes.ymin;
@@ -283,8 +284,8 @@
 		}
 
 		// debug('\tadj dh/dw:\t' + dh + '\t ' + dw);
-		// debug('\told h/w:\t' + oldh + '\t ' + oldw);
-		// debug('\tnew h/w:\t' + newh + '\t ' + neww);
+		// debug('\told width / height:\t' + oldw+ ' / ' + oldh);
+		// debug('\tnew width / height:\t' + neww+ ' / ' + newh);
 		// debug('\tratio dh/dw:\t' + ratiodh + '\t ' + ratiodw);
 
 		var cs = this.shapes;
@@ -293,8 +294,10 @@
 			newsw, newsh, newsx, newsy,
 			sdw, sdh, sdx, sdy;
 
+		// debug('\t Before Maxes ' + json(this.maxes, true));
 		for(var i=0; i<cs.length; i++){
 			s = cs[i];
+			// debug('\t >>> Updating ' + s.objtype + ' ' + i + '/' + cs.length + ' : ' + s.name);
 			smaxes = s.getMaxes();
 
 			// scale
@@ -308,6 +311,7 @@
 			if(dh === 0) sdh = false;
 			else sdh = newsh - oldsh;
 
+			// debug('\t Shape Size ' + i + ' dw dh ' + sdw + ' ' + sdh);
 			s.updateShapeSize(sdw, sdh, false);
 
 			// move
@@ -321,11 +325,13 @@
 			if(dh === 0) sdy = false;
 			else sdy = newsy - oldsy;
 
+			// debug('\t Shape Pos ' + i + ' dx dy ' + sdx + ' ' + sdy);
 			s.updateShapePosition(sdx, sdy, true);
 		}
 
 		this.calcGlyphMaxes();
-		// debug(' Glyph.updateGlyphSize - END\n');
+		// debug('\t Afters Maxes ' + json(this.maxes, true));
+		// debug(' Glyph.updateGlyphSize - END ' + this.name + '\n');
 	};
 
 	Glyph.prototype.flipEW = function(mid){

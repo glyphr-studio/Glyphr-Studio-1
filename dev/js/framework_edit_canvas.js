@@ -61,6 +61,8 @@
 	}
 
 	function redrawUnit() {
+		// debug('\n::::::::::::::::::::::\n REDRAW UNIT \t START');
+		var start = Date.now();
 		_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 
 		switch (_UI.navhere){
@@ -79,6 +81,7 @@
 			if(fe) fe.focus();
 		}
 		_UI.focuselement = false;
+		// debug('REDRAW UNIT DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
 	}
 
 
