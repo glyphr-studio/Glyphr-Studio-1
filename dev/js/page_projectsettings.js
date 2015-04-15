@@ -67,9 +67,6 @@
 	function updateGridLightness(l) {
 		l = l || 95;
 		_GP.projectsettings.colors.gridlightness = l;
-
-		l = Math.floor(l / 100 * 255);
-		_GP.projectsettings.colors.grid = ('rgb('+l+','+l+','+l+')');
 	}
 
 	function updateGridDivisions(val){

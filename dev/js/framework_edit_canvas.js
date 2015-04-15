@@ -855,7 +855,10 @@
 
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.glypheditctx.lineWidth = 1;
-			_UI.glypheditctx.strokeStyle = _GP.projectsettings.colors.grid;
+
+
+			var l = Math.floor(_GP.projectsettings.colors.gridlightness / 100 * 255);
+			_UI.glypheditctx.strokeStyle = 'rgb('+l+','+l+','+l+')';
 			//debug('GRID - gridsize set as: ' + gsize);
 
 			var horizontal = function(y){
