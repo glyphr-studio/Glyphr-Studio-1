@@ -237,7 +237,7 @@
 
 //	Insert Component
 	function showDialog_AddComponent(){
-		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', true, true, true);
+		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', ['components', 'glyphs', 'ligatures']);
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
 			content += 'Components can be used in any Glyph, but Glyphs and Ligatures can also be used in any Glyph like a Component.  ';

@@ -175,7 +175,7 @@
 		var content = '<h1>Get Shapes</h1>';
 		content += msg? msg : '<br>';
 		content += 'Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br>';
-		var scroll = makeGenericGlyphChooserContent('pasteShapesFrom', true, true, true);
+		var scroll = makeGenericGlyphChooserContent('pasteShapesFrom', ['glyphs', 'ligatures', 'components']);
 
 		openBigDialog(content, scroll);
 	}
@@ -296,7 +296,7 @@
 		var content = '<h1>Link to Glyph</h1>';
 		content += msg? msg : 'There are currently ' + sls.usedin.length + ' instances of "' + sls.name + '" being used in various Glyphs.<br><br>';
 		content += 'Select a Glyph you would like to link to this Component:<br><br>';
-		var scroll = makeGenericGlyphChooserContent('linkComponentToGlyph', true, true, true);
+		var scroll = makeGenericGlyphChooserContent('linkComponentToGlyph', ['glyphs', 'ligatures', 'components']);
 		openBigDialog(content, scroll);
 	}
 

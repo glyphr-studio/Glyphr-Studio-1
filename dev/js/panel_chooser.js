@@ -17,7 +17,7 @@
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
-		var choices = makeGenericGlyphChooserContent(fname, onglyph, onlig, oncom);
+		var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs')]);
 		if(choices !== '<div class="charchooserwrapper"></div>'){
 			content += '<div class="panel_section">';
 			content += choices;
@@ -40,15 +40,22 @@
 		return content;
 	}
 
-	function makeGenericGlyphChooserContent(funname, showglyph, showlig, showcom) {
+	function makeGenericGlyphChooserContent(funname, showarr) {
 		// debug('\n makeGenericGlyphChooserContent - START');
 		// debug('\t passed fname ' + fname);
 
 		var selwi = getSelectedWorkItemID();
-		var ccon = '<div class="charchooserwrapper">';
+		var re = '<div class="charchooserwrapper">';
 		var cr = _GP.projectsettings.glyphrange;
 		var showtitles = false;
 		var fname;
+		var showglyph = showarr.indexOf('glyphs') > -1;
+		var showcom = showarr.indexOf('components') > -1;
+		var showlig = showarr.indexOf('ligatures') > -1;
+		var reglyph = '';
+		var relig = '';
+		var recom = '';
+
 		if(showglyph && showlig || showglyph && showcom){
 			showtitles = true;
 		} else if (showglyph){
@@ -59,36 +66,36 @@
 			fname = funname? funname : 'selectGlyph';
 			if(cr.basiclatin){
 				var bl = _UI.basiclatinorder;
-				if(showtitles) ccon += '<h3>basic latin</h3>';
-				for(var i=0; i<bl.length; i++){ ccon += makeGlyphChooserButton(bl[i], fname, selwi); }
+				if(showtitles) reglyph += '<h3>basic latin</h3>';
+				for(var i=0; i<bl.length; i++){ reglyph += makeGlyphChooserButton(bl[i], fname, selwi); }
 			}
 
 			if(cr.latinsuppliment){
-				if(showtitles) ccon += '<h3>latin suppliment</h3>';
-				for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ ccon += makeGlyphChooserButton(decToHex(s), fname, selwi); }
+				if(showtitles) reglyph += '<h3>latin suppliment</h3>';
+				for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ reglyph += makeGlyphChooserButton(decToHex(s), fname, selwi); }
 			}
 
 			if(cr.latinextendeda){
-				if(showtitles) ccon += '<h3>latin extended-a</h3>';
-				for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ ccon += makeGlyphChooserButton(decToHex(a), fname, selwi); }
+				if(showtitles) reglyph += '<h3>latin extended-a</h3>';
+				for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ reglyph += makeGlyphChooserButton(decToHex(a), fname, selwi); }
 			}
 
 			if(cr.latinextendedb){
-				if(showtitles) ccon += '<h3>latin extended-b</h3>';
-				for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ ccon += makeGlyphChooserButton(decToHex(b), fname, selwi); }
+				if(showtitles) reglyph += '<h3>latin extended-b</h3>';
+				for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ reglyph += makeGlyphChooserButton(decToHex(b), fname, selwi); }
 			}
 
 			var cn;
 			if(cr.custom.length){
 				// debug('\t custom ranges: ' + cr.custom.length);
 				for(var c=0; c<cr.custom.length; c++){
-					ccon += '<h3>custom range ' + (c+1) + '</h3>';
+					reglyph += '<h3>custom range ' + (c+1) + '</h3>';
 					for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 						cn = decToHex(range);
 						if(_GP.projectsettings.glyphrange.filternoncharpoints){
-							if(getUnicodeName(cn) !== '[name not found]') ccon += makeGlyphChooserButton(cn, fname, selwi);
+							if(getUnicodeName(cn) !== '[name not found]') reglyph += makeGlyphChooserButton(cn, fname, selwi);
 						} else {
-							ccon += makeGlyphChooserButton(cn, fname, selwi);
+							reglyph += makeGlyphChooserButton(cn, fname, selwi);
 						}
 					}
 				}
@@ -97,25 +104,40 @@
 
 		if(showlig && getFirstID(_GP.ligatures)){
 			fname = funname? funname : 'selectLigature';
-			if(showtitles) ccon += '<h3>ligatures</h3>';
+			if(showtitles) relig += '<h3>ligatures</h3>';
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
-				ccon += makeGlyphChooserButton(l, fname, selwi) ;
+				relig += makeGlyphChooserButton(l, fname, selwi) ;
 			}}
 		}
 
 		if(showcom && getFirstID(_GP.components)){
 			fname = funname? funname : 'selectComponent';
-			if(showtitles) ccon += '<h3>components</h3>';
+			if(showtitles) recom += '<h3>components</h3>';
 			var com = _GP.components;
 			for(var d in com){ if(com.hasOwnProperty(d)){
-				ccon += makeGlyphChooserButton(d, fname, selwi) ;
+				recom += makeGlyphChooserButton(d, fname, selwi) ;
 			}}
 		}
 
-		ccon += '</div>';
+		for(var j=0; j<showarr.length; j++){
+			switch(showarr[j]){
+				case 'glyphs':
+					re += reglyph;
+					break;
+				case 'ligatures':
+					re += relig;
+					break;
+				case 'components':
+					re += recom;
+					break;
+			}
+		}
+
+		re += '</div>';
 		// debug('makeGenericGlyphChooserContent - END\n');
-		return ccon;
+
+		return re;
 	}
 
 	function makeGlyphChooserButton(index, fname, selid){

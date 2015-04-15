@@ -39,7 +39,7 @@
 		var si = false;
 		if(_UI.ss) {
 			si = getSelectedWorkItemShapes().indexOf(_UI.ss);
-			debug('\t sel shape number is ' + si);
+			// debug('\t sel shape number is ' + si);
 		}
 		_UI.ss = false;
 
