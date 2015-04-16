@@ -1334,8 +1334,11 @@
 	}
 
 	.guiderow td {
+		border-top:2px solid rgb(250,252,255);
+		border-bottom:2px solid rgb(250,252,255);
 		background-color: rgb(250,252,255);
 		height: 30px;
+		padding:2px 0px;
 		vertical-align: middle;
 		padding:auto auto;
 	}
@@ -1396,6 +1399,8 @@
 	.guidecolor {
 		height:100%;
 		width:20px;
+		height:30px;
+		padding:0px !important;
 		border-width:2px;
 		border-style:solid;
 		border-color:rgb(250,252,255);
