@@ -11,15 +11,17 @@
 //-------------------
 	function makeIcon(oa) {
 		var size = oa.size || 50;
+		var width = oa.width || size;
+		var height = oa.height || size;
 		var color = oa.color || 'rgb(76,81,86)';
 		var hovercolor = oa.hovercolor || 'rgb(0,170,225)';
 		if(oa.hovercolor === false) hovercolor = color;
 
 		var re = '<svg version="1.1" ';
 		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
-		re += 'x="0px" y="0px" width="'+size+'px" height="'+size+'px" viewBox="0 0 50 50"> ';
+		re += 'x="0px" y="0px" width="'+width+'px" height="'+height+'px" viewBox="0 0 ' + width + ' ' + height + '"> ';
 		re += '<defs></defs> ';
-		re += '<rect fill="transparent" width="'+size+'" height="'+size+'" ';
+		re += '<rect fill="transparent" width="'+width+'" height="'+height+'" ';
 		re += 'onmouseover="var gs=this.parentNode.getElementsByTagName(\'g\'); for(var i=0; i<gs.length; i++){gs[i].style.fill=\''+hovercolor+'\';}" ';
 		re += 'onmouseout="var gs=this.parentNode.getElementsByTagName(\'g\'); for(var i=0; i<gs.length; i++){gs[i].style.fill=\''+color+'\';}" ';
 		re += '"/> ';
@@ -47,6 +49,7 @@
 
 	_UI.icons.button_npSave = '<rect x="19" y="28" width="1" height="5"/><rect x="33" y="17" width="4" height="2"/><rect x="19" y="13" width="2" height="11"/><rect x="29" y="13" width="2" height="11"/><rect x="19" y="23" width="12" height="2"/><rect x="22" y="28" width="9" height="5"/><rect x="19" y="28" width="11" height="1"/><rect x="19" y="32" width="11" height="1"/><polygon points="18,35 15,32 15,15 37,15 37,13 13,13 13,32.8 17.2,37 37,37 37,35"/><polygon points="37,13 35,13 35,15 35,35 35,37 37,37"/>';
 
+	_UI.icons.button_more = '<polygon points="0,20 0,30 5,25"/>';
 
 	_UI.icons.nav_about = '<path d="M25,2.5c10.3,0,16,0,19.3,3.2c3.2,3.2,3.2,8.9,3.2,19.3s0,16-3.2,19.3c-3.2,3.2-8.9,3.2-19.3,3.2c-10.3,0-16,0-19.3-3.2C2.5,41,2.5,35.3,2.5,25s0-16,3.2-19.3C9,2.5,14.7,2.5,25,2.5 M25,0C14,0,8,0,4,4C0,8,0,14,0,25s0,17,4,21c4,4,10.1,4,21,4s17,0,21-4c4-4,4-10.1,4-21s0-17-4-21C42,0,36,0,25,0L25,0z"/>'+
 		'<path d="M22.9,36.7V23h-3.3v-3.7h7.4v17.5h3.3v3.7H19.6v-3.7H22.9z M22.3,12c0-0.7,0.2-1.3,0.7-1.8c0.5-0.5,1.1-0.7,1.8-0.7c0.7,0,1.3,0.2,1.8,0.7c0.5,0.5,0.7,1.1,0.7,1.8c0,0.7-0.2,1.3-0.7,1.8c-0.5,0.5-1.1,0.7-1.8,0.7c-0.7,0-1.3-0.2-1.8-0.7C22.6,13.3,22.3,12.7,22.3,12z"/>';

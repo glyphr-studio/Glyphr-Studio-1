@@ -377,7 +377,7 @@
 				nfill = _UI.colors.gray.l90;
 				nhover = 'white';
 			}
-			newsub += '<div class="panel_section" title="'+navarr[i].substr(2)+'"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
+			newsub += '<div class="np_section" title="'+navarr[i].substr(2)+'"><button class="primarynavbutton" id="'+navarr[i]+'" onclick="_UI.navprimaryhere=\''+navarr[i]+'\'; make_NavPanels_PopIn();">';
 			newsub += makeIcon({'name': ('button_'+navarr[i]), 'color': nfill, 'hovercolor':nhover});
 			newsub += '</button></div>';
 		}
@@ -386,23 +386,17 @@
 
 		// Save Button
 		var savecolor = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
-		newsub += '<div class="panel_section" title="Save Glyphr Project File"><button class="primarynavbutton" id="npSave" onclick="saveGlyphrProjectFile();">';
-		newsub += makeIcon({'name': 'button_npSave', 'color':savecolor, 'hovercolor':'white'});
-		newsub += '</button></div>';
-
-		// Export OTF Button
-		if(_GP.projectsettings.showexportotf){
-			newsub += '<div class="panel_section" title="Export OTF File"><button class="primarynavbutton" id="npSave" onclick="ioOTF_exportOTFfont();">';
-			newsub += makeIcon({'name': 'nav_exportotf', 'size':40, 'color':_UI.colors.gray.l90, 'hovercolor':'white'});
-			newsub += '</button></div>';
-		}
-
-		// Export SVG Button
-		if(_GP.projectsettings.showexportsvg){
-			newsub += '<div class="panel_section" title="Export SVG Font File"><button class="primarynavbutton" id="npSave" onclick="ioSVG_exportSVGfont();">';
-			newsub += makeIcon({'name': 'nav_exportsvg', 'size':40, 'color':_UI.colors.gray.l90, 'hovercolor':'white'});
-			newsub += '</button></div>';
-		}
+		newsub += '<div class="np_section">' +
+			'<table><tr><td>' +
+				'<button class="primarynavbutton" style="width:50px; position:relative; left:-10px;" title="Save Glyphr Project File" id="npSave" onclick="saveGlyphrProjectFile();">' +
+					makeIcon({'name': 'button_npSave', 'size':40, 'color':savecolor, 'hovercolor':'white'}) +
+				'</button>' +
+			'</td><td>' +
+				'<button class="primarynavbutton" style="width:10px; position:relative; left:-10px; top:-4px;" title="Save File Format Options" onclick="showDialog_ExportOptions();">' +
+					makeIcon({'name': 'button_more', 'size':40, 'color':_UI.colors.gray.l90, 'hovercolor':'white'}) +
+				'</button>' +
+			'</td></tr></table>' +
+		'</div>';
 
 		// Bottom Left
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';

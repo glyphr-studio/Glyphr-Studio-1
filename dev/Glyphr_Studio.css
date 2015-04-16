@@ -281,6 +281,12 @@
 		overflow-x:hidden;
 	}
 
+	.np_section {
+		clear:both;
+		width:50px;
+		padding:10px;
+	}
+	
 	.panel_section,
 	.navarea_header {
 		clear:both;
