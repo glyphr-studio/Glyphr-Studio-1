@@ -51,9 +51,27 @@
 		'<td style="height:9999px;"><div id="bigDialogScrollContent"></div></td>'+
 		'</tr></table>';
 
+		var formatsaveflyout = '<div id="saveFormatFlyout" style="display:none;">';
+		formatsaveflyout += '<div class="closeFormatFlyout" onclick="closeDialog();">&times</div>';
+		formatsaveflyout += '<button onclick="saveGlyphrProjectFile(); closeDialog();">' + 
+				makeIcon({'name':'button_npNav', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
+				'<span>Glyphr Studio Project File</span>' + 
+			'</button>';
+			
+		formatsaveflyout += '<button onclick="ioOTF_exportOTFfont(); closeDialog();">' + 
+				makeIcon({'name':'nav_exportotf', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
+				'<span>OTF Font</span>' + 
+			'</button>';
+			
+		formatsaveflyout += '<button onclick="ioSVG_exportSVGfont(); closeDialog();">' + 
+				makeIcon({'name':'nav_exportsvg', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
+				'<span>SVG Font</span>' + 
+			'</button>';
+		formatsaveflyout += '</div>';
+
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
-		document.body.innerHTML += '<div id="saveFormatFlyout" style="display:none;"></div>';
+		document.body.innerHTML += formatsaveflyout;
 		document.body.innerHTML += '<div id="dialog_bg" onclick="closeDialog();"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
@@ -189,6 +207,11 @@
 		getEditDocument().getElementById('notation').style.display='none';
 		getEditDocument().getElementById('notation').innerHTML = "&#x20E2;";
 		getEditDocument().body.focus();
+	}
+
+	function showDialog_ExportOptions() {
+		document.getElementById('saveFormatFlyout').style.display = 'block';
+		document.getElementById('npSave').style.backgroundColor = _UI.colors.blue.l45;
 	}
 
 	function makeErrorMessageBox() {

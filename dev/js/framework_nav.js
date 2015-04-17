@@ -163,7 +163,7 @@
 		// debug('\t nap = ' + nap);
 
 		var pil = '<div id="mainwrapper"></div>';
-		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();" onclick="closeDialog();"></div>';
+		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
 		pil += '<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
 		document.getElementById('primaryScreenLayout').innerHTML = pil;
 
