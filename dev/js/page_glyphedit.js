@@ -36,7 +36,7 @@
 // Redraw
 //-------------------
 	function redraw_GlyphEdit(){
-		// debug('\n redraw_GlyphEdit - START');
+		debug('\n redraw_GlyphEdit - START');
 		_UI.redrawing = true;
 		
 		var sg = getSelectedWorkItem();
@@ -65,7 +65,7 @@
 		}
 		
 		_UI.redrawing = false;
-		// debug(' redraw_GlyphEdit - END\n');
+		debug(' redraw_GlyphEdit - END\n');
 	}
 
 // end of file

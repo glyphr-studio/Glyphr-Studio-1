@@ -36,9 +36,10 @@
 
 
 	function update_NavPanels() {
-		//debug('UPDATE_NAVPANELS');
+		debug('\n update_NavPanels - START');
 		if (_UI.popout){ make_NavPanels_PopOut(); }
 		else { make_NavPanels_PopIn(); }
+		debug(' update_NavPanels - END\n');
 	}
 
 //-------------------
@@ -159,11 +160,11 @@
 	}
 
 	function makeLayout_PopIn(nap){
-		// debug('\n makeLayout_PopIn - START');
+		debug('\n makeLayout_PopIn - START');
 		// debug('\t nap = ' + nap);
 
 		var pil = '<div id="mainwrapper"></div>';
-		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();"></div>';
+		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec(); onclick="closeDialog();"></div>';
 		pil += '<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
 		document.getElementById('primaryScreenLayout').innerHTML = pil;
 
@@ -199,7 +200,7 @@
 			document.getElementById('mainwrapper').style.overflowY = 'scroll';
 		}
 
-		// debug(' makeLayout_PopIn - END\n');
+		debug(' makeLayout_PopIn - END\n');
 	}
 
 	function onCanvasEditPage() {
@@ -220,7 +221,7 @@
 	}
 
 	function make_NavPanels_PopIn(){
-		// debug('\n make_NavPanels_PopIn - START');
+		debug('\n make_NavPanels_PopIn - START');
 		// debug('\t navhere:' + _UI.navhere + ' navprimaryhere:' + _UI.navprimaryhere);
 
 		var np = document.getElementById('navarea_panel');
@@ -265,7 +266,7 @@
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
 			case 'npSave': saveGlyphrProjectFile(); break;
 		}
-		// debug(' make_NavPanels_PopIn - END\n');
+		debug(' make_NavPanels_PopIn - END\n');
 	}
 
 
@@ -300,13 +301,25 @@
 	}
 
 	function updateSaveIcon(){
-		var fill = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
-		if(!_UI.projectsaved) fill = 'white';
-		document.getElementById('npSave').innerHTML = makeIcon({'name': 'button_npSave', 'color': fill, 'hovercolor':'white'});
+		if(_UI.navprimaryhere === 'npNav') return;
+
+		var savecolor = _UI.colors.gray.l90;
+		if(!_UI.projectsaved) savecolor = 'white';
+		
+		document.getElementById('npSave').innerHTML = '<table class="saveButtonTable">' +
+		'<tr><td style="border-right:1px solid rgb(204, 209, 214);">' +
+			'<button class="primarynavbutton" style="height:32px; width:38px; padding:4px 0px 0px 7px;" title="Save Glyphr Project File" onclick="saveGlyphrProjectFile();">' +
+				makeIcon({'name': 'button_npSave', 'size':24, 'color':savecolor, 'hovercolor':'white'}) +
+			'</button></td><td>' +
+			'<button class="primarynavbutton" style="height:36px; width:21px; text-align:left; padding:0px 0px 0px 4px;" title="Save File Format Options" onclick="showDialog_ExportOptions();">' +
+				makeIcon({'name': 'button_more', 'height':10, 'width':10, 'size':10, 'color':savecolor, 'hovercolor':'white'}) +
+			'</button></td></tr>'+
+		'</table>';
 	}
 
 
 	function makePanel_NavTabs(){
+		debug('\n makePanel_NavTabs - START');
 		var navarr = [];
 		navarr.push('npNav');
 		var wi = existingWorkItem();
@@ -365,7 +378,7 @@
 			newsub += '<div class="navarea_header"></div>';
 		} else {
 			newsub += '<div class="navarea_header" title="Navigate" style="background-color:'+_UI.colors.blue.l45+';"><button class="primarynavbutton" id="npNav" onclick="_UI.navprimaryhere=\'npNav\'; make_NavPanels_PopIn();">';
-			newsub += makeIcon({'name': 'button_npNav', 'color': nfill, 'hovercolor': nhover});
+			newsub += makeIcon({'name':'button_npNav', 'color':nfill, 'hovercolor':nhover});
 			newsub += '</button></div>';
 		}
 
@@ -382,21 +395,10 @@
 			newsub += '</button></div>';
 		}
 
-		newsub += '<div style="height:40px;">&nbsp;</div>';
-
-		// Save Button
-		var savecolor = (onNoNavPage()? _UI.colors.gray.offwhite : _UI.colors.gray.l90);
-		newsub += '<div class="np_section">' +
-			'<table><tr><td>' +
-				'<button class="primarynavbutton" style="width:50px; position:relative; left:-10px;" title="Save Glyphr Project File" id="npSave" onclick="saveGlyphrProjectFile();">' +
-					makeIcon({'name': 'button_npSave', 'size':40, 'color':savecolor, 'hovercolor':'white'}) +
-				'</button>' +
-			'</td><td>' +
-				'<button class="primarynavbutton" style="width:10px; position:relative; left:-10px; top:-4px;" title="Save File Format Options" onclick="showDialog_ExportOptions();">' +
-					makeIcon({'name': 'button_more', 'size':40, 'color':_UI.colors.gray.l90, 'hovercolor':'white'}) +
-				'</button>' +
-			'</td></tr></table>' +
-		'</div>';
+		if(_UI.navprimaryhere !== 'npNav'){
+			newsub += '<div style="height:64px;"></div>';
+			newsub += '<div id="npSave"></div>';
+		}
 
 		// Bottom Left
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';
@@ -421,35 +423,36 @@
 		newsub += '<a href="#" style="color:'+_UI.colors.blue.l55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
 		newsub += '</div>';
 
+		debug(' makePanel_NavTabs - END\n');
 		return newsub;
 	}
 
 
 	function makePanel_PageNav(){
-		var navarr = [
-			'glyph edit',
-			'components',
-			'ligatures',
-			'kerning',
-			'test drive',
-			'_',
-			'font settings',
-			'project settings',
-			'_',
-			'import svg',
-			'export font',
-			'_',
-			'help',
-			'about'
-		];
-
+		var navarr = [];
+		navarr.push('glyph edit');
+		navarr.push('components');
+		navarr.push('ligatures');
+		navarr.push('kerning');
+		navarr.push('test drive');
+		navarr.push('_');
+		navarr.push('font settings');
+		navarr.push('project settings');
+		navarr.push('_');
+		navarr.push('import svg');
+		navarr.push('export font');
+		if(_UI.popout){
+			navarr.push('_');
+			navarr.push('save');
+		}
+		navarr.push('_');
+		navarr.push('help');
+		navarr.push('about');
 		if(!_UI.popout){
-			navarr = navarr.concat([
-				'_',
-				'feature',
-				'email',
-				'issue'
-			]);
+			navarr.push('_');
+			navarr.push('feature');
+			navarr.push('email');
+			navarr.push('issue');
 		}
 
 		var newsub = '<div class="navarea_header" style="padding:12px 10px 8px 10px;">'+makeGlyphrStudioLogo({fill:'white', width:150})+'</div>';
@@ -466,10 +469,16 @@
 			}
 
 			if(navarr[i]==='_'){
-				newsub += '<div style="height:10px;"></div>';
+				newsub += '<div style="height:12px;"></div>';
+			} else if (navarr[i] === 'save'){
+				newsub += '<div id="npSave" style="position:relative; left:-10px; margin-bottom:12px; background-color:rgb(0,113,170);"></div>';
+				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:31px; position:relative; left:-10px; padding:5px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
+					makeIcon({'name':'tool_popIn', 'color':'white', 'hovercolor':'white', 'size':20, 'width':24, 'height':24})+
+					'<span style="position:relative; top:-5px; margin-left:10px; color:white;">Pop In</span>'+
+					'</div>';
 			} else if (navarr[i] === 'help'){
 				newsub += '<a href="http://www.glyphrstudio.com/help" style="text-decoration:none;" target=_new class="navtargetbutton">'+
-					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':24})+'</div>'+
+					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
 					'help</a>';
 			} else if (navarr[i] === 'feature'){
 				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target=_new>suggest a feature or improvement</a><br>');
@@ -480,20 +489,11 @@
 			} else {
 				iconname = 'nav_'+navarr[i].replace(' ','');
 				newsub += '<button class="'+bc+'" onclick="_UI.navhere=\''+navarr[i]+'\'; clickEmptySpace(); navigate();">'+
-					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':24})+'</div>'+
+					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
 					navarr[i]+'</button>';
 			}
 		}
 		
-		newsub += '<div style="height:40px;"></div>';
-
-		if(_UI.popout) {
-			newsub += '<div class="popoutsave">';
-			newsub += '<button class="primarynavbutton" id="npSave" style="margin-left:12px;" onclick="saveGlyphrProjectFile();"></button>';
-			newsub += '<button title="one screen mode" class="tool" style="background-color:transparent; position:relative; top:-15px;" onclick="popIn();">'+makeToolButton({'name':'tool_popIn'})+'</button>';
-			newsub += '</div>';
-		}
-
 		newsub += '</div>';
 
 		return newsub;

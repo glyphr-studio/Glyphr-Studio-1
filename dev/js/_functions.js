@@ -53,6 +53,7 @@
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
+		document.body.innerHTML += '<div id="saveFormatFlyout" style="display:none;"></div>';
 		document.body.innerHTML += '<div id="dialog_bg" onclick="closeDialog();"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
@@ -131,11 +132,17 @@
 // Dialog Box, Error Box, Notation
 //--------------------------------------
 	function closeDialog(){
-		document.getElementById('dialog_box').style.display='none';
-		document.getElementById('big_dialog_box').style.display='none';
 		document.getElementById('dialog_bg').style.display='none';
+		
+		document.getElementById('dialog_box').style.display='none';
 		document.getElementById('dialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
+
+		document.getElementById('big_dialog_box').style.display='none';
 		document.getElementById('bigDialogLeftContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
+		
+		document.getElementById('saveFormatFlyout').style.display='none';
+		if(!_UI.popout) document.getElementById('npSave').style.backgroundColor = 'transparent';
+
 		document.body.focus();
 	}
 

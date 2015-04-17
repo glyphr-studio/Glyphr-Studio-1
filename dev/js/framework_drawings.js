@@ -10,27 +10,49 @@
 // 50px Icons
 //-------------------
 	function makeIcon(oa) {
+		// debug('\n makeIcon - START ' + oa.name);
+		// debug('\t passed ' + json(oa, true));
+
 		var size = oa.size || 50;
 		var width = oa.width || size;
 		var height = oa.height || size;
 		var color = oa.color || 'rgb(76,81,86)';
 		var hovercolor = oa.hovercolor || 'rgb(0,170,225)';
 		if(oa.hovercolor === false) hovercolor = color;
+		var con = _UI.icons[oa.name].outline? _UI.icons[oa.name].outline : _UI.icons[oa.name];
 
 		var re = '<svg version="1.1" ';
 		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
-		re += 'x="0px" y="0px" width="'+width+'px" height="'+height+'px" viewBox="0 0 ' + width + ' ' + height + '"> ';
+		re += 'x="0px" y="0px" width="'+width+'px" height="'+height+'px" viewBox="0 0 ' + size + ' ' + size + '"> ';
 		re += '<defs></defs> ';
 		re += '<rect fill="transparent" width="'+width+'" height="'+height+'" ';
-		re += 'onmouseover="var gs=this.parentNode.getElementsByTagName(\'g\'); for(var i=0; i<gs.length; i++){gs[i].style.fill=\''+hovercolor+'\';}" ';
-		re += 'onmouseout="var gs=this.parentNode.getElementsByTagName(\'g\'); for(var i=0; i<gs.length; i++){gs[i].style.fill=\''+color+'\';}" ';
-		re += '"/> ';
+		re += 'onmouseover="mouseOverIcon(\''+hovercolor+'\', this);" ';
+		re += 'onmouseout="mouseOutIcon(\''+color+'\', this);" ';
+		re += '/> ';
 		re += '<g pointer-events="none" fill="'+color+'">';
-		re += _UI.icons[oa.name];
+		re += con;
 		re += '</g>';
 		re += '</svg>';
 
 		return re;
+	}
+
+	function mouseOverIcon(hovercolor, elem) {
+		debug('\n mouseOverIcon - START');
+		var gs = elem.parentNode.getElementsByTagName('g');
+		for(var i=0; i<gs.length; i++){
+			gs[i].style.fill = ''+hovercolor;
+		}
+		debug(' mouseOverIcon - END\n');
+	}
+
+	function mouseOutIcon(color, elem) {
+		debug('\n mouseOutIcon - START');
+		var gs = elem.parentNode.getElementsByTagName('g');
+		for(var i=0; i<gs.length; i++){
+			gs[i].style.fill = ''+color;
+		}
+		debug(' mouseOutIcon - END\n');
 	}
 
 	_UI.icons.keyboard = '<rect x="12" y="29" width="26" height="7"/><rect y="29" width="10" height="7"/><rect y="21" width="8" height="6"/><rect x="10" y="21" width="6" height="6"/><rect x="18" y="21" width="6" height="6"/><rect x="26" y="21" width="6" height="6"/><rect x="34" y="21" width="6" height="6"/><rect x="42" y="21" width="8" height="6"/><rect x="6" y="13" width="6" height="6"/><rect x="14" y="13" width="6" height="6"/><rect x="22" y="13" width="6" height="6"/><rect x="38" y="13" width="6" height="6"/><rect x="30" y="13" width="6" height="6"/><rect x="46" y="13" width="4" height="6"/><rect y="13" width="4" height="6"/><rect x="40" y="29" width="10" height="7"/>';
@@ -47,9 +69,9 @@
 
 	_UI.icons.button_npAttributes = '<polygon points="2,9 9,16 18,5 15,2 9,10 5,6"/><polygon points="20,45 1,45 1,46 20,46 20,45"/><polygon points="20,37 1,37 1,38 20,38 20,37"/><polygon points="20,41 1,41 1,42 20,42 20,41"/><polygon points="20,28 1,28 1,29 20,29 20,28"/><polygon points="20,20 1,20 1,21 20,21 20,20"/><polygon points="20,24 1,24 1,25 20,25 20,24"/><polygon points="49,12 20,12 20,13 49,13 49,12"/><polygon points="49,4 20,4 20,5 49,5 49,4"/><polygon points="49,8 20,8 20,9 49,9 49,8"/><path d="M24,18v13h25V18H24z M26,27l5-5l5,5H26z M42,27l-5-5h10L42,27z"/><path d="M24,35v13h25V35H24z M26,44l5-5l5,5H26z M42,44l-5-5h10L42,44z"/>';
 
-	_UI.icons.button_npSave = '<rect x="19" y="28" width="1" height="5"/><rect x="33" y="17" width="4" height="2"/><rect x="19" y="13" width="2" height="11"/><rect x="29" y="13" width="2" height="11"/><rect x="19" y="23" width="12" height="2"/><rect x="22" y="28" width="9" height="5"/><rect x="19" y="28" width="11" height="1"/><rect x="19" y="32" width="11" height="1"/><polygon points="18,35 15,32 15,15 37,15 37,13 13,13 13,32.8 17.2,37 37,37 37,35"/><polygon points="37,13 35,13 35,15 35,35 35,37 37,37"/>';
-
-	_UI.icons.button_more = '<polygon points="0,20 0,30 5,25"/>';
+	_UI.icons.button_npSave = '<rect x="6" y="15" width="1" height="5"/><rect x="20" y="4" width="4" height="2"/><rect x="6" width="2" height="11"/><rect x="16" width="2" height="11"/><rect x="6" y="10" width="12" height="2"/><rect x="9" y="15" width="9" height="5"/><rect x="6" y="15" width="11" height="1"/><rect x="6" y="19" width="11" height="1"/><polygon points="5,22 2,19 2,2 24,2 24,0 0,0 0,19.8 4.2,24 24,24 24,22"/><polygon points="24,0 22,0 22,2 22,22 22,24 24,24"/>';
+	
+	_UI.icons.button_more = '<polygon points="0,0 0,10 5,5"/>';
 
 	_UI.icons.nav_about = '<path d="M25,2.5c10.3,0,16,0,19.3,3.2c3.2,3.2,3.2,8.9,3.2,19.3s0,16-3.2,19.3c-3.2,3.2-8.9,3.2-19.3,3.2c-10.3,0-16,0-19.3-3.2C2.5,41,2.5,35.3,2.5,25s0-16,3.2-19.3C9,2.5,14.7,2.5,25,2.5 M25,0C14,0,8,0,4,4C0,8,0,14,0,25s0,17,4,21c4,4,10.1,4,21,4s17,0,21-4c4-4,4-10.1,4-21s0-17-4-21C42,0,36,0,25,0L25,0z"/>'+
 		'<path d="M22.9,36.7V23h-3.3v-3.7h7.4v17.5h3.3v3.7H19.6v-3.7H22.9z M22.3,12c0-0.7,0.2-1.3,0.7-1.8c0.5-0.5,1.1-0.7,1.8-0.7c0.7,0,1.3,0.2,1.8,0.7c0.5,0.5,0.7,1.1,0.7,1.8c0,0.7-0.2,1.3-0.7,1.8c-0.5,0.5-1.1,0.7-1.8,0.7c-0.7,0-1.3-0.2-1.8-0.7C22.6,13.3,22.3,12.7,22.3,12z"/>';
