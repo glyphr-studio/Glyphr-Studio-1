@@ -477,7 +477,7 @@
 					'<span style="position:relative; top:-5px; margin-left:10px; color:white;">Pop In</span>'+
 					'</div>';
 			} else if (navarr[i] === 'help'){
-				newsub += '<a href="http://www.glyphrstudio.com/help" style="text-decoration:none;" target=_new class="navtargetbutton">'+
+				newsub += '<a href="http://help.glyphrstudio.com/" style="text-decoration:none; color:rgb(51, 56, 61);" target=_new class="navtargetbutton">'+
 					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
 					'help</a>';
 			} else if (navarr[i] === 'feature'){
