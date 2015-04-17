@@ -23,9 +23,9 @@
 		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
 		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
 		allactions += "<button class='"+(history_length()? "": "buttondis")+"' onclick='history_pull()'>undo" + (history_length()? (" ("+history_length()+")") : "") + "</button><br>";
-		allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
-		allactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
-		allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
+		if(!_UI.popout) allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
+		if(!_UI.popout) allactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
+		if(!_UI.popout) allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
 		if(_UI.navhere === 'components') allactions += "<button onclick='showDialog_LinkComponentToGlyph();'>link component to a glyph</button><br>";
 
 		var shapeactions = "<h3>shape</h3>";
