@@ -87,11 +87,11 @@
 			if(sc){
 				name = (sc.name || sc.glyphhtml || sc.shape.name || '[no shape outline yet]');
 				if(sc.name) name = name.replace(/latin /i, '');
-				content += '<span class="supertitleseperator">&#x276F;&#x276F;</span>';
+				content += makeSuperTitleSeperator();
 				content += name;
 			} else if (_UI.navhere === 'kerning'){
 				name = getSelectedKern();
-				content += name? '<span class="supertitleseperator">&#x276F;&#x276F;</span>' + name.getName() : '';
+				content += name? makeSuperTitleSeperator() + name.getName() : '';
 			}
 			content += '</h1>';
 		}
@@ -99,6 +99,13 @@
 		return content;
 	}
 
+	function makeSuperTitleSeperator() {
+		var re = '<span class="supertitleseperator">';
+		re += makeIcon({name:'button_more', color:_UI.colors.blue.l75, hovercolor:_UI.colors.blue.l75, size:10});
+		re += makeIcon({name:'button_more', color:_UI.colors.blue.l75, hovercolor:_UI.colors.blue.l75, size:10});
+		re += '</span>';
+		return re;
+	}
 
 
 
