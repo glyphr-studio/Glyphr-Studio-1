@@ -13,7 +13,7 @@
 //-------------------
 
 	function navigate(nap){
-		debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
+		// debug('>>> NAVIGATE STARTED - to ' + _UI.navhere + ', nav primary: ' + nap);
 
 		if(_UI.navhere === 'openproject'){
 			makeLayout_OpenProject();
@@ -36,10 +36,10 @@
 
 
 	function update_NavPanels() {
-		debug('\n update_NavPanels - START');
+		// debug('\n update_NavPanels - START');
 		if (_UI.popout){ make_NavPanels_PopOut(); }
 		else { make_NavPanels_PopIn(); }
-		debug(' update_NavPanels - END\n');
+		// debug(' update_NavPanels - END\n');
 	}
 
 //-------------------
@@ -160,11 +160,11 @@
 	}
 
 	function makeLayout_PopIn(nap){
-		debug('\n makeLayout_PopIn - START');
+		// debug('\n makeLayout_PopIn - START');
 		// debug('\t nap = ' + nap);
 
 		var pil = '<div id="mainwrapper"></div>';
-		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec(); onclick="closeDialog();"></div>';
+		pil += '<div id="navarea_tabs" onMouseOver="mouseoutcec();" onclick="closeDialog();"></div>';
 		pil += '<div id="navarea_panel" onMouseOver="mouseoutcec();"></div>';
 		document.getElementById('primaryScreenLayout').innerHTML = pil;
 
@@ -200,7 +200,7 @@
 			document.getElementById('mainwrapper').style.overflowY = 'scroll';
 		}
 
-		debug(' makeLayout_PopIn - END\n');
+		// debug(' makeLayout_PopIn - END\n');
 	}
 
 	function onCanvasEditPage() {
@@ -221,7 +221,7 @@
 	}
 
 	function make_NavPanels_PopIn(){
-		debug('\n make_NavPanels_PopIn - START');
+		// debug('\n make_NavPanels_PopIn - START');
 		// debug('\t navhere:' + _UI.navhere + ' navprimaryhere:' + _UI.navprimaryhere);
 
 		var np = document.getElementById('navarea_panel');
@@ -266,7 +266,7 @@
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
 			case 'npSave': saveGlyphrProjectFile(); break;
 		}
-		debug(' make_NavPanels_PopIn - END\n');
+		// debug(' make_NavPanels_PopIn - END\n');
 	}
 
 
@@ -319,7 +319,7 @@
 
 
 	function makePanel_NavTabs(){
-		debug('\n makePanel_NavTabs - START');
+		// debug('\n makePanel_NavTabs - START');
 		var navarr = [];
 		navarr.push('npNav');
 		var wi = existingWorkItem();
@@ -423,7 +423,7 @@
 		newsub += '<a href="#" style="color:'+_UI.colors.blue.l55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
 		newsub += '</div>';
 
-		debug(' makePanel_NavTabs - END\n');
+		// debug(' makePanel_NavTabs - END\n');
 		return newsub;
 	}
 

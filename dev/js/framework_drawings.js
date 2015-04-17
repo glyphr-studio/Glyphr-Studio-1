@@ -38,21 +38,21 @@
 	}
 
 	function mouseOverIcon(hovercolor, elem) {
-		debug('\n mouseOverIcon - START');
+		// debug('\n mouseOverIcon - START');
 		var gs = elem.parentNode.getElementsByTagName('g');
 		for(var i=0; i<gs.length; i++){
 			gs[i].style.fill = ''+hovercolor;
 		}
-		debug(' mouseOverIcon - END\n');
+		// debug(' mouseOverIcon - END\n');
 	}
 
 	function mouseOutIcon(color, elem) {
-		debug('\n mouseOutIcon - START');
+		// debug('\n mouseOutIcon - START');
 		var gs = elem.parentNode.getElementsByTagName('g');
 		for(var i=0; i<gs.length; i++){
 			gs[i].style.fill = ''+color;
 		}
-		debug(' mouseOutIcon - END\n');
+		// debug(' mouseOutIcon - END\n');
 	}
 
 	_UI.icons.keyboard = '<rect x="12" y="29" width="26" height="7"/><rect y="29" width="10" height="7"/><rect y="21" width="8" height="6"/><rect x="10" y="21" width="6" height="6"/><rect x="18" y="21" width="6" height="6"/><rect x="26" y="21" width="6" height="6"/><rect x="34" y="21" width="6" height="6"/><rect x="42" y="21" width="8" height="6"/><rect x="6" y="13" width="6" height="6"/><rect x="14" y="13" width="6" height="6"/><rect x="22" y="13" width="6" height="6"/><rect x="38" y="13" width="6" height="6"/><rect x="30" y="13" width="6" height="6"/><rect x="46" y="13" width="4" height="6"/><rect y="13" width="4" height="6"/><rect x="40" y="29" width="10" height="7"/>';
