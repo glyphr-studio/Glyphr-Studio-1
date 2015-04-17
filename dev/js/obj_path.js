@@ -170,8 +170,9 @@
 //  -----------------------------------
 
 	Path.prototype.drawPath = function(lctx, view) {
-		//if(lctx == _UI.glypheditctx)	debug('DRAWPATH');
+		// debug('\n Path.drawPath - START');
 
+		var snap = _GP.projectsettings.renderpointssnappedtogrid;
 		var currview = getView('Path.drawPath');
 		view = view || clone(currview);
 		setView(view);
@@ -179,7 +180,8 @@
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
 		var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
-		lctx.moveTo(sx_cx(this.pathpoints[0].P.x), sy_cy(this.pathpoints[0].P.y));
+		if(snap) lctx.moveTo(sx_cx(round(this.pathpoints[0].P.x)), sy_cy(round(this.pathpoints[0].P.y)));
+		else lctx.moveTo(sx_cx(this.pathpoints[0].P.x), sy_cy(this.pathpoints[0].P.y));
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			pp = this.pathpoints[cp];
@@ -190,18 +192,28 @@
 
 			// this.validate('DRAW PATH');
 
-			pph2x = sx_cx(pp.getH2x());
-			pph2y = sy_cy(pp.getH2y());
-			nxh1x = sx_cx(np.getH1x());
-			nxh1y = sy_cy(np.getH1y());
-			nxppx = sx_cx(np.P.x);
-			nxppy = sy_cy(np.P.y);
+			if(snap){
+				pph2x = sx_cx(round(pp.getH2x()));
+				pph2y = sy_cy(round(pp.getH2y()));
+				nxh1x = sx_cx(round(np.getH1x()));
+				nxh1y = sy_cy(round(np.getH1y()));
+				nxppx = sx_cx(round(np.P.x));
+				nxppy = sy_cy(round(np.P.y));
+			} else {
+				pph2x = sx_cx(pp.getH2x());
+				pph2y = sy_cy(pp.getH2y());
+				nxh1x = sx_cx(np.getH1x());
+				nxh1y = sy_cy(np.getH1y());
+				nxppx = sx_cx(np.P.x);
+				nxppy = sy_cy(np.P.y);
+			}
 
-			//if(lctx == _UI.glypheditctx)	debug('  curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
+			debug('\t curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
 		}
 
 		setView(currview);
+		// debug(' Path.drawPath - END\n');
 	};
 
 
