@@ -94,7 +94,6 @@
 
 	function makeLayout_PopOut(){
 		// debug('\n makeLayout_PopOut - START');
-		var onls = _UI.navhere === 'components';
 		var onkern = _UI.navhere === 'kerning';
 
 		var pol = '<table class="popout_table"><tr>';
@@ -102,7 +101,7 @@
 		if(!onkern) pol += '<td id="popout_glyphchooser"></td>';
 		pol += '<td id="popout_guides"></td>';
 		pol += '<td id="popout_history"></td>';
-		if(!onls && !onkern) pol += '<td id="popout_layerchooser"></td>';
+		if(!onkern) pol += '<td id="popout_layerchooser"></td>';
 		if(!onkern) pol += '<td id="popout_actions"></td>';
 		pol += '<td id="popout_attributes"></td>';
 		pol += '</tr></table>';
