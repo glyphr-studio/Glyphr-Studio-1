@@ -765,6 +765,7 @@
 		if(event.type !== 'keydown') return;
 
 		var eh = _UI.eventhandlers;
+		var overcanvas = eh.ismouseovercec;
 
 		var kc = getKeyFromEvent(event);
 		//debug('Key Press:\t' + kc + ' from ' + event.which);
@@ -826,25 +827,25 @@
 		}
 
 		// left
-		if(kc==='left'){
+		if(kc==='left' && overcanvas){
 			event.preventDefault();
 			nudge(-1,0);
 		}
 
 		// right
-		if(kc==='right'){
+		if(kc==='right' && overcanvas){
 			event.preventDefault();
 			nudge(1,0);
 		}
 
 		// up
-		if(kc==='up'){
+		if(kc==='up' && overcanvas){
 			event.preventDefault();
 			nudge(0,1);
 		}
 
 		// down
-		if(kc==='down'){
+		if(kc==='down' && overcanvas){
 			event.preventDefault();
 			nudge(0,-1);
 		}
@@ -853,38 +854,40 @@
 		// Only allow above stuff on Kerning page
 		if(_UI.navhere === 'kerning') return;
 
-		// del
-		if(kc==='del' || kc==='backspace'){
-			event.preventDefault();
+		// Only do the below stuff if the canvas has focus
 
-			if(_UI.ss.objtype !== 'componentinstance'){
-				if(_UI.ss.path.sp(false)){
-					_UI.ss.path.deletePathPoint();
-					history_put('Delete Path Point');
+		if(overcanvas){
+			// del
+			if(kc==='del' || kc==='backspace'){
+				event.preventDefault();
+
+				if(_UI.ss.objtype !== 'componentinstance'){
+					if(_UI.ss.path.sp(false)){
+						_UI.ss.path.deletePathPoint();
+						history_put('Delete Path Point');
+						redraw('Keypress DEL or BACKSPACE');
+					}
+				} else if (_UI.ss){
+					deleteShape();
+					history_put('Delete Shape');
 					redraw('Keypress DEL or BACKSPACE');
 				}
-			} else if (_UI.ss){
-				deleteShape();
-				history_put('Delete Shape');
-				redraw('Keypress DEL or BACKSPACE');
+			}
+
+			// c
+			if(event.ctrlKey && kc==='c'){
+				event.preventDefault();
+				copyShape();
+			}
+
+			// v
+			if(event.ctrlKey && kc==='v'){
+				event.preventDefault();
+				pasteShape();
+				history_put('Paste Shape');
+				redraw('Paste Shape');
 			}
 		}
-
-		// c
-		if(event.ctrlKey && kc==='c'){
-			event.preventDefault();
-			copyShape();
-		}
-
-		// v
-		if(event.ctrlKey && kc==='v'){
-			event.preventDefault();
-			pasteShape();
-			history_put('Paste Shape');
-			redraw('Paste Shape');
-		}
-
-
 	}
 
 	function getKeyFromEvent (event) {

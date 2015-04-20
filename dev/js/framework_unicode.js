@@ -44,6 +44,8 @@
 	function hexToHTML(h) {
 		// debug('\n hexToHTML - START');
 		// debug('\t passed ' + h);
+		if(!h || h.indexOf('0x') < 0) return false;
+		
 		h = String(h).split('0x');
 		var result = '';
 		for(var i=0; i<h.length; i++){ if(h[i] !== ''){

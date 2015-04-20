@@ -232,14 +232,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ss.xlock', _UI.ss.xlock, 'ssxlock')+
 					'<input type="number" id="shapex" step="'+svc+'" '+
-					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.path.setPathPosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw(\'shapeDetails - X Position\');}"')+
+					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapePosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw(\'shapeDetails - X Position\');}"')+
 					' value="' + xval + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ss.ylock', _UI.ss.ylock, 'ssylock')+
 					'<input type="number" id="shapey" step="'+svc+'" '+
-					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.path.setPathPosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw(\'shapeDetails - Y Position\');}"')+
+					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapePosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw(\'shapeDetails - Y Position\');}"')+
 					' value="' + yval + '" >'+
 				'</div>'+
 			'</td>'+
@@ -251,14 +251,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ss.wlock', _UI.ss.wlock, 'sswlock')+
 					'<input type="number" id="shapew" step="'+svc+'" '+
-					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.path.setPathSize(this.value,false,_UI.ss.ratiolock); history_put(\'Shape Width : \'+this.value); redraw(\'shapeDetails - Width\');}"')+
+					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapeSize(this.value,false,_UI.ss.ratiolock); history_put(\'Shape Width : \'+this.value); redraw(\'shapeDetails - Width\');}"')+
 					' value="' + wval + '" >'+
 				"</div>"+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ss.hlock', _UI.ss.hlock, 'sshlock')+
 					'<input type="number" id="shapeh" step="'+svc+'" '+
-					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.path.setPathSize(false,this.value,_UI.ss.ratiolock); history_put(\'Shape Height : \'+this.value); redraw(\'shapeDetails - Height\');}"')+
+					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapeSize(false,this.value,_UI.ss.ratiolock); history_put(\'Shape Height : \'+this.value); redraw(\'shapeDetails - Height\');}"')+
 					' value="' + hval + '" ></td>'+
 				'</div>'+
 			'</td>'+

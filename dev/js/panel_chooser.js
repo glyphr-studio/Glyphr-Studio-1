@@ -144,15 +144,15 @@
 	}
 
 	function makeGlyphChooserButton(index, fname, selid){
-		// debug('\n makeGlyphChooserButton - START');
+		// debug('\n makeGlyphChooserButton - START ' + index);
 		var onc = (fname + '(\'' + index + '\');');
 		// debug('\t constructed function: ' + onc);
-		
-		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+getGlyphName(index)+'"><tr><td>';
 		
 		var wi = getGlyph(index);
 		// debug('\t getGlyph returned');
 		// debug(wi);
+		
+		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+wi.name+'"><tr><td>';
 
 		var issel = (index === selid);
 
@@ -177,7 +177,7 @@
 			rv += '</div>';
 		}
 
-		rv += '<div class="glyphselectname">'+ (hexToHTML(index) || getGlyphName(index) || '[no name])') +'</div>';
+		rv += '<div class="glyphselectname">'+ (hexToHTML(index) || wi.name || '[no name])') +'</div>';
 		rv += '</td></tr></table>';
 
 		// debug(' makeGlyphChooserButton - END\n');

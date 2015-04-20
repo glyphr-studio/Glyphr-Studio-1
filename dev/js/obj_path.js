@@ -45,8 +45,8 @@
 	Path.prototype.setPathSize = function(nw, nh, ratiolock){
 		if(nw !== false) nw = parseFloat(nw);
 		if(nh !== false) nh = parseFloat(nh);
-		var dw = nw? (nw - this.getWidth()) : 0;
-		var dh = nh? (nh - this.getHeight()) : 0;
+		var dw = (nw !== false)? (nw - this.getWidth()) : 0;
+		var dh = (nh !== false)? (nh - this.getHeight()) : 0;
 		this.updatePathSize(dw, dh, ratiolock);
 	};
 
@@ -96,14 +96,19 @@
 	};
 
 	Path.prototype.setPathPosition = function(nx, ny, force){
-		//debug('SETPATHPOSITION - nx/ny/force:\t ' + nx + '\t ' + ny + '\t ' + force);
-		//debug('SETPATHPOSITION - this.maxes.ymax: ' + this.maxes.ymax);
+		// debug('\n Path.setPathPosition - START');
+		// debug('\t nx ny force:\t ' + nx + '\t ' + ny + '\t ' + force);
+
 		if(nx !== false) nx = parseFloat(nx);
 		if(ny !== false) ny = parseFloat(ny);
-		var dx = nx? ((nx*1) - this.maxes.xmin) : 0;
-		var dy = ny? ((ny*1) - this.maxes.ymax) : 0;
-		//debug('SETPATHPOSITION - dx/dy: ' + dx + ' ' + dy);
+		
+		var dx = (nx !== false)? ((nx*1) - this.maxes.xmin) : 0;
+		var dy = (ny !== false)? ((ny*1) - this.maxes.ymax) : 0;
+		// debug('\t dx dy: ' + dx + ' ' + dy);
+		
 		this.updatePathPosition(dx,dy,force);
+
+		// debug(' Path.setPathPosition - END\n');
 	};
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
@@ -208,7 +213,7 @@
 				nxppy = sy_cy(np.P.y);
 			}
 
-			debug('\t curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
+			// debug('\t curve ' + pph2x +' '+ pph2y +' '+ nxh1x +' '+ nxh1y +' '+ nxppx +' '+ nxppy);
 			lctx.bezierCurveTo(pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy);
 		}
 

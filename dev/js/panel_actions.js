@@ -128,15 +128,16 @@
 
 	function pasteShape(){
 		var cbs = _UI.clipboardshape;
+		var selwi = getSelectedWorkItemID();
 		if(cbs){
 			var newshape = clone(cbs.s);
 			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
-			if(cbs.c === _UI.selectedglyph) {
+			if(cbs.c === selwi) {
 				cbs.dx += 20;
 				cbs.dy -= 20;
 				newshape.updateShapePosition(cbs.dx,cbs.dy,true);
 			} else {
-				cbs.c = _UI.selectedglyph;
+				cbs.c = selwi;
 				cbs.dx = 0;
 				cbs.dy = 0;
 			}
