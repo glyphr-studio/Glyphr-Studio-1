@@ -23,7 +23,7 @@
 
 			if(tg.editable){
 				user += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), tg.visible, g);
-			} else {
+			} else if (tg.showname) {
 				system += makeOneGuideRow(tg, ('_GP.projectsettings.guides.'+g), tg.visible, g);
 			}
 		}}

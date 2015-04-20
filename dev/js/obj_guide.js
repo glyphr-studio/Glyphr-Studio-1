@@ -16,6 +16,7 @@
 		this.angle = oa.angle || false;
 		this.color = oa.color || makeRandomSaturatedColor();
 		this.visible = isval(oa.visible)? oa.visible : true;
+		this.showname = isval(oa.showname)? oa.showname : true;
 		this.editable = isval(oa.editable)? oa.editable : true;
 	}
 
@@ -61,7 +62,7 @@
 		// Draw Line
 		// debug('\t start: ' + JSON.stringify(start) + ' / end: ' + JSON.stringify(end));
 		ctx.strokeStyle = this.color;
-		if(delta) ctx.strokeStyle = shiftColor(this.color, 0.6, true);
+		if(isval(delta)) ctx.strokeStyle = shiftColor(this.color, 0.6, true);
 		ctx.beginPath();
 		ctx.moveTo(start.x, start.y);
 		ctx.lineTo(end.x, end.y);
@@ -69,7 +70,7 @@
 		ctx.closePath();
 
 		// Draw Label
-		if(_UI.showguidelabels && !delta){
+		if(this.showname && _UI.showguidelabels && !delta){
 			_UI.glypheditctx.fillStyle = this.color;
 			_UI.glypheditctx.font = '10px tahoma, verdana, sans-serif';
 			_UI.glypheditctx.fillText(this.name, label.x, label.y);

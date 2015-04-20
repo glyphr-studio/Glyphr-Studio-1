@@ -911,14 +911,20 @@
 				}
 			}}
 
+			var sc = getSelectedWorkItem();
+			var t = _UI.eventhandlers.tempnewbasicshape;
+			var rl = t? Math.max(sc.glyphwidth, t.xmax) :  sc.glyphwidth;
+			var ll = Math.min(sc.maxes.xmin, 0);
+
 			// Update system guides
 			ps.guides.xheight.location = ps.xheight;
 			ps.guides.capheight.location = ps.capheight;
 			ps.guides.ascent.location = ps.ascent;
 			ps.guides.baseline.location = 0;
 			ps.guides.descent.location = (ps.ascent-ps.upm);
-			ps.guides.leftside.location = 0;
-			ps.guides.rightside.location = ps.upm;
+			ps.guides.max.location = rl;
+			ps.guides.leftside.location = (getSelectedGlyphLeftSideBearing()*-1) + ll;
+			ps.guides.rightside.location = getSelectedGlyphRightSideBearing() + rl;
 
 			// Minor Guidelines - Overshoots
 			if(_UI.showovershoots){
@@ -930,15 +936,11 @@
 			}
 
 			// Glyph Width or Kerning
-			var sc = getSelectedWorkItem();
 			if(onglyphedit){
-				ps.guides.leftside.draw(getSelectedGlyphLeftSideBearing()*-1);
-
-				var rhl = sc.glyphwidth;
-				if(_UI.eventhandlers.tempnewbasicshape) rhl = Math.max(rhl, _UI.eventhandlers.tempnewbasicshape.xmax);
-				ps.guides.rightside.location = rhl;
-				ps.guides.rightside.draw(getSelectedGlyphRightSideBearing());
+				ps.guides.leftside.draw();
+				ps.guides.zero.draw(0);
 				ps.guides.rightside.draw();
+				ps.guides.max.draw(0);
 			} else if (onkern){
 				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;
 			}
