@@ -94,20 +94,24 @@
 		// debug('\n makePanelSuperTitle - START');
 		var content = '';
 		if(!_UI.popout) {
-			var sc = getSelectedWorkItem();
+			var selwi = getSelectedWorkItem();
 			var name;
+			// debug('\t selwi = ' + selwi.objtype);
 
 			content += '<h1 class="panelsupertitle">'+_UI.navhere.toUpperCase();
 			if (_UI.navprimaryhere === 'npChooser' ||
 				_UI.navprimaryhere === 'npGuides' ||
 				_UI.navprimaryhere === 'npHistory') return content + '</h1>';
 				
-			if(sc){
-				name = (sc.name || sc.glyphhtml || sc.shape.name || '[no shape outline yet]');
-				if(sc.name) name = name.replace(/latin /i, '');
+			if(selwi){
+				name = (selwi.name || selwi.glyphhtml || selwi.shape.name || '[no shape outline yet]');
+				// debug('\t selwi name is ' + name);
+
+				if(selwi.name) name = name.replace(/latin /i, '');
 				content += makeSuperTitleSeperator();
 				content += name;
 			} else if (_UI.navhere === 'kerning'){
+				// debug('\t selwi = false, on kerning');
 				name = getSelectedKern();
 				content += name? makeSuperTitleSeperator() + name.getName() : '';
 			}

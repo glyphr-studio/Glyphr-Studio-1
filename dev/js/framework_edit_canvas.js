@@ -495,7 +495,7 @@
 			len = getLength(_GP.kerning);
 			if(!len){ 
 				_UI.selectedkern = false;
-				_UI.navprimaryhere = 'npChooser';
+				_UI.navprimaryhere = 'npAttributes';
 				return false;
 			}
 		}
@@ -902,6 +902,15 @@
 		// debug(ps.guides);
 
 		if(_UI.showguides){
+
+			if (onkern){
+				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;
+				_UI.guides.leftgroup_xmax.draw();
+				_UI.guides.rightgroup_xmin.draw();
+				ps.guides.baseline.draw();
+				return;
+			}
+
 			// Update custom guides
 			var g;
 			for(var c in ps.guides){if(ps.guides.hasOwnProperty(c)){
@@ -922,8 +931,9 @@
 			ps.guides.ascent.location = ps.ascent;
 			ps.guides.baseline.location = 0;
 			ps.guides.descent.location = (ps.ascent-ps.upm);
+			ps.guides.min.location = ll;
 			ps.guides.max.location = rl;
-			ps.guides.leftside.location = (getSelectedGlyphLeftSideBearing()*-1) + ll;
+			ps.guides.leftside.location = (getSelectedGlyphLeftSideBearing()*-1);
 			ps.guides.rightside.location = getSelectedGlyphRightSideBearing() + rl;
 
 			// Minor Guidelines - Overshoots
@@ -944,26 +954,23 @@
 
 			// Verticals
 			if(onglyphedit){
+				ps.guides.min.draw(0);
 				ps.guides.zero.draw(0);
 				ps.guides.leftside.draw();
 				if(getSelectedWorkItemShapes().length || !selwi.isautowide){
 					ps.guides.max.draw(0);
 					ps.guides.rightside.draw();
 				}
-			} else if (onkern){
-				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;
-				_UI.guides.leftgroup_xmax.draw();
-				_UI.guides.rightgroup_xmin.draw();
 			}
 
 			// Out of bounds triangle
-			if(!onkern && (ps.guides.baseline.visible || ps.guides.leftside.visible)){
+			if(ps.guides.baseline.visible || ps.guides.leftside.visible){
 				var v = getView('guides');
 				_UI.glypheditctx.fillStyle = ps.guides.baseline.color;
 				_UI.glypheditctx.beginPath();
-				_UI.glypheditctx.moveTo(v.dx, v.dy);
-				_UI.glypheditctx.lineTo(v.dx, v.dy+(ps.pointsize*2));
-				_UI.glypheditctx.lineTo(v.dx-(ps.pointsize*2), v.dy);
+				_UI.glypheditctx.moveTo(v.dx, v.dy-1);
+				_UI.glypheditctx.lineTo(v.dx, v.dy+(ps.pointsize*2)-1);
+				_UI.glypheditctx.lineTo(v.dx-(ps.pointsize*2), v.dy-1);
 				_UI.glypheditctx.closePath();
 				_UI.glypheditctx.fill();
 			}

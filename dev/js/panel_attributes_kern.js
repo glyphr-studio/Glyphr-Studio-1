@@ -6,6 +6,8 @@
 
 
 	function makePanel_KerningAttributes() {
+		// debug('\n makePanel_KerningAttributes - START');
+
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">Pairs</h1>';
@@ -24,6 +26,7 @@
 		if(!rows) content += '<button onclick="addCommonKernPairs();">add some common kern pairs</button>';
 		content += '</div>';
 
+		// debug(' makePanel_KerningAttributes - END\n');
 		return content;
 	}
 

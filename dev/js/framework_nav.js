@@ -31,7 +31,7 @@
 		updateCursor();
 		loadPageContent();
 		getEditDocument().body.focus();
-		debug('>>> NAVIGATED - to ' + _UI.navhere);
+		// debug('>>> NAVIGATED - to ' + _UI.navhere);
 	}
 
 
@@ -221,13 +221,13 @@
 
 	function make_NavPanels_PopIn(){
 		// debug('\n make_NavPanels_PopIn - START');
-		// debug('\t navhere:' + _UI.navhere + ' navprimaryhere:' + _UI.navprimaryhere);
+		// debug('\t navhere: ' + _UI.navhere + '\tnavprimaryhere: ' + _UI.navprimaryhere);
 
 		var np = document.getElementById('navarea_panel');
 		document.getElementById('navarea_tabs').innerHTML = makePanel_NavTabs();
 		np.innerHTML = '';
 		updateSaveIcon();
-
+		
 		if(onNoNavPage()) {
 			_UI.navprimaryhere = 'npNav';
 			np.innerHTML = makePanel_PageNav();
@@ -236,7 +236,7 @@
 
 		switch(_UI.navprimaryhere){
 			case 'npChooser':
-				// debug('\t case npChooser');
+				// debug('\t caught npChooser');
 				switch(_UI.navhere){
 					case 'glyph edit': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
 					case 'import svg': np.innerHTML = makePanel_GlyphChooser('importSVG_selectGlyph'); break;
@@ -401,23 +401,7 @@
 
 		// Bottom Left
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';
-/*
-		// Debug Dumps
-		if(_UI.devmode){
-			newsub += '<div id="devtools" style="display:none; margin-top:20px; width:70px; text-align:center;">';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_UI);">UI</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.projectsettings);">PS</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.metadata);">META</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.glyphs);">GLYPH</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.kerning);">KRN</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.ligatures);">LIG</button><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="debug(_GP.components);">COM</button><br><br>';
-			newsub += '<button class="buttonsel" style="width:50px; padding:0px 4px;" onclick="console.clear();">clear</button><br><br>';
-			newsub += '</div>';
-			newsub += '<div style="color:slategray; text-align:center;" onclick="var dt=document.getElementById(\'devtools\'); dt.style.display = (dt.style.display === \'none\'? \'block\' : \'none\');">devtools';
-			newsub += '</div><br><br>';
-		}
-*/
+
 		// Contribute!
 		newsub += '<a href="#" style="color:'+_UI.colors.blue.l55+'; font-size:18px;" onclick="openDialog(make_ContributeHTML());">give<br>back!</a>';
 		newsub += '</div>';

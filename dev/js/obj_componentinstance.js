@@ -22,9 +22,7 @@
 		this.scalew = oa.scalew || 0;
 		this.scaleh = oa.scaleh || 0;
 		this.flipew = oa.flipew || false;
-		this.flipew = oa.flipewmid || false;
 		this.flipns = oa.flipns || false;
-		this.flipns = oa.flipnsmid || false;
 		this.reversewinding = oa.reversewinding || false;
 
 		this.xlock = oa.xlock || false;

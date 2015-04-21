@@ -388,7 +388,8 @@
 			'leftside': new Guide({name:'leftside', type:'vertical', location: ps.defaultlsb*-1, editable:false, color: ps.colors.guide_dark}),
 			'rightside': new Guide({name:'rightside', type:'vertical', location: ps.upm, editable:false, color: ps.colors.guide_dark}),
 			'zero': new Guide({name:'zero', type:'vertical', showname:false, location:0, editable:false, color: ps.colors.guide_med}),
-			'max': new Guide({name:'max', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_med}),
+			'min': new Guide({name:'min', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_light}),
+			'max': new Guide({name:'max', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_light}),
 		};
 
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
