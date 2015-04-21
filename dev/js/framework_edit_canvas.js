@@ -946,7 +946,7 @@
 			if(onglyphedit){
 				ps.guides.zero.draw(0);
 				ps.guides.leftside.draw();
-				if(getSelectedWorkItemShapes().length){
+				if(getSelectedWorkItemShapes().length || !selwi.isautowide){
 					ps.guides.max.draw(0);
 					ps.guides.rightside.draw();
 				}

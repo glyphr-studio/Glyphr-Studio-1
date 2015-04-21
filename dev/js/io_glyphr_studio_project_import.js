@@ -358,7 +358,7 @@
 		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;
 
 		getGlyph('0x0020', true).isautowide = false;
-		getGlyph('0x0020', true).charwidth = _GP.projectsettings.upm/2;
+		getGlyph('0x0020', true).glyphwidth = _GP.projectsettings.upm/2;
 		getGlyph('0x0041', true);
 
 		finalizeGlyphrProject();

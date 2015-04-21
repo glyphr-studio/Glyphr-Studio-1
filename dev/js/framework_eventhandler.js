@@ -474,6 +474,7 @@
 			if(this.addpoint){
 				if(_UI.ss && _UI.ss.path){
 					_UI.ss.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+					history_put('Added point to path');
 				}
 			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
 				// selected the shape
