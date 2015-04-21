@@ -378,6 +378,19 @@
 		_UI.guides.leftgroup_xmax = new Guide(_UI.guides.leftgroup_xmax);
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
+		var ps = _GP.projectsettings;
+		ps.guides = {
+			'ascent': new Guide({name:'ascent', type:'horizontal', location: ps.ascent, editable:false, color: ps.colors.guide_med}),
+			'capheight': new Guide({name:'capheight', type:'horizontal', location: ps.capheight, editable:false, color: ps.colors.guide_light}),
+			'xheight': new Guide({name:'xheight', type:'horizontal', location: ps.xheight, editable:false, color: ps.colors.guide_light}),
+			'baseline': new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color: ps.colors.guide_dark}),
+			'descent': new Guide({name:'descent', type:'horizontal', location:( ps.ascent- ps.upm), editable:false, color: ps.colors.guide_med}),
+			'leftside': new Guide({name:'leftside', type:'vertical', location: ps.defaultlsb*-1, editable:false, color: ps.colors.guide_dark}),
+			'rightside': new Guide({name:'rightside', type:'vertical', location: ps.upm, editable:false, color: ps.colors.guide_dark}),
+			'zero': new Guide({name:'zero', type:'vertical', showname:false, location:0, editable:false, color: ps.colors.guide_med}),
+			'max': new Guide({name:'max', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_med}),
+		};
+
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
 		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);

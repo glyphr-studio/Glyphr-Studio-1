@@ -112,19 +112,6 @@
 			'overline_thickness': 10
 		};
 
-		this.projectsettings.guides = {
-			'ascent': new Guide({name:'ascent', type:'horizontal', location:this.projectsettings.ascent, editable:false, color:this.projectsettings.colors.guide_med}),
-			'capheight': new Guide({name:'capheight', type:'horizontal', location:this.projectsettings.capheight, editable:false, color:this.projectsettings.colors.guide_light}),
-			'xheight': new Guide({name:'xheight', type:'horizontal', location:this.projectsettings.xheight, editable:false, color:this.projectsettings.colors.guide_light}),
-			'baseline': new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color:this.projectsettings.colors.guide_dark}),
-			'descent': new Guide({name:'descent', type:'horizontal', location:(this.projectsettings.ascent-this.projectsettings.upm), editable:false, color:this.projectsettings.colors.guide_med}),
-			'leftside': new Guide({name:'leftside', type:'vertical', location:this.projectsettings.defaultlsb*-1, editable:false, color:this.projectsettings.colors.guide_dark}),
-			'rightside': new Guide({name:'rightside', type:'vertical', location:this.projectsettings.upm, editable:false, color:this.projectsettings.colors.guide_dark}),
-			'zero': new Guide({name:'zero', type:'vertical', showname:false, location:0, editable:false, color:this.projectsettings.colors.guide_med}),
-			'max': new Guide({name:'max', type:'vertical', showname:false, location:this.projectsettings.upm, editable:false, color:this.projectsettings.colors.guide_med}),
-		
-		};
-
 		this.glyphs = {};
 
 		this.ligatures = {};

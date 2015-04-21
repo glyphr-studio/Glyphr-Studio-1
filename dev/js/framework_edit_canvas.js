@@ -911,10 +911,10 @@
 				}
 			}}
 
-			var sc = getSelectedWorkItem();
+			var selwi = getSelectedWorkItem();
 			var t = _UI.eventhandlers.tempnewbasicshape;
-			var rl = t? Math.max(sc.glyphwidth, t.xmax) :  sc.glyphwidth;
-			var ll = Math.min(sc.maxes.xmin, 0);
+			var rl = t? Math.max(selwi.glyphwidth, t.xmax) :  selwi.glyphwidth;
+			var ll = Math.min(selwi.maxes.xmin, 0);
 
 			// Update system guides
 			ps.guides.xheight.location = ps.xheight;
@@ -935,25 +935,26 @@
 				ps.guides.descent.draw(os);
 			}
 
-			// Glyph Width or Kerning
-			if(onglyphedit){
-				ps.guides.leftside.draw();
-				ps.guides.zero.draw(0);
-				ps.guides.rightside.draw();
-				ps.guides.max.draw(0);
-			} else if (onkern){
-				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;
-			}
-
-			// Major Guidelines
+			// Horizontals
 			ps.guides.xheight.draw();
 			ps.guides.capheight.draw();
 			ps.guides.ascent.draw();
 			ps.guides.descent.draw();
-			if (!onkern) ps.guides.leftside.draw();
 			ps.guides.baseline.draw();
-			if(onkern) _UI.guides.leftgroup_xmax.draw();
-			if(onkern) _UI.guides.rightgroup_xmin.draw();
+
+			// Verticals
+			if(onglyphedit){
+				ps.guides.zero.draw(0);
+				ps.guides.leftside.draw();
+				if(getSelectedWorkItemShapes().length){
+					ps.guides.max.draw(0);
+					ps.guides.rightside.draw();
+				}
+			} else if (onkern){
+				_UI.guides.leftgroup_xmax.location = getSelectedKern().value;
+				_UI.guides.leftgroup_xmax.draw();
+				_UI.guides.rightgroup_xmin.draw();
+			}
 
 			// Out of bounds triangle
 			if(!onkern && (ps.guides.baseline.visible || ps.guides.leftside.visible)){
