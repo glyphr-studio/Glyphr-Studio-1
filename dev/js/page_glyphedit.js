@@ -47,7 +47,13 @@
 		drawGuides();
 
 		// load char info
-		if(sg) sg.drawGlyph(_UI.glypheditctx, getView('Redraw'));
+		if(sg) {
+			// _UI.debug = true;
+			// debug('========START GLYPH DRAWING TO CANVAS==========');
+			sg.drawGlyph(_UI.glypheditctx, getView('Redraw'));
+			// debug('========END OF GLYPH DRAWING TO CANVAS==========');
+			// _UI.debug = false;
+		}
 
 		// Finish up
 		if(_UI.ss) {

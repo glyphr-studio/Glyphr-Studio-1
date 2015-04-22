@@ -162,7 +162,7 @@
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
-				// debug('\t ' + this.name + ' drawing shape ' + j + ' ' + shape.name);
+				// debug('\t ' + this.name + ' drawing ' + shape.objtype + ' ' + j + ' ' + shape.name);
 				shape.drawShape(lctx, view);
 			}
 		}
