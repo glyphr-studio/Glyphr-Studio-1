@@ -17,10 +17,10 @@
 		this.link = oa.link || getFirstID(_GP.components);
 		this.name = oa.name || 'Component Instance';
 
-		this.translatex = oa.translatex || 0;
-		this.translatey = oa.translatey || 0;
-		this.scalew = oa.scalew || 0;
-		this.scaleh = oa.scaleh || 0;
+		this.translatex = parseFloat(oa.translatex) || 0;
+		this.translatey = parseFloat(oa.translatey) || 0;
+		this.scalew = parseFloat(oa.scalew) || 0;
+		this.scaleh = parseFloat(oa.scaleh) || 0;
 		this.flipew = oa.flipew || false;
 		this.flipns = oa.flipns || false;
 		this.reversewinding = oa.reversewinding || false;
@@ -36,37 +36,48 @@
 	}
 
 	ComponentInstance.prototype.getTransformedGlyph = function() {
-		// debug('\n ComponentInstance.getTransformedGlyph - START');
+		// debug('\n ComponentInstance.getTransformedGlyph - START ' + this.name);
 		var og = getGlyph(this.link, true);
-		var g, s, tg;
+		var g;
 		if(og) g = clone(og);
 		else return false;
 
-		var childshapes = [];
+		if(this.flipew) g.flipEW();
+		if(this.flipns) g.flipNS();
+		g.updateGlyphPosition(this.translatex, this.translatey, true);
+		g.updateGlyphSize(this.scalew, this.scaleh, false);
+		if(this.reversewinding) g.reverseWinding();
+
+		g.flattenGlyphShapes();
+
+		// debug(' ComponentInstance.getTransformedGlyph - END\n');
+		return g;
+	};
+/*
+	ComponentInstance.prototype.flattenGlyphShapes = function() {
+		debug('\n ComponentInstance.flattenGlyphShapes - START ' + this.name);
+		var og = getGlyph(this.link, true);
+		var g, ts;
+		if(og) g = clone(og);
+		else return false;
+
+		var reshapes = [];
 		
 		// Transform all the shapes
 		// Build a new flat array of translated Component Instance shapes
 		for(var si=0; si<g.shapes.length; si++){
-			s = g.shapes[si];
+			ts = g.shapes[si];
+			// debug('\t shapes['+si+'] is a ' + ts.objtype + ' named ' + ts.name);
 
-			if(s.objtype === 'componentinstance'){
-				tg = s.getTransformedGlyph().shapes || [];
-				childshapes = childshapes.concat(tg);
+			if(ts.objtype === 'componentinstance'){
+				reshapes = reshapes.concat(ts.flattenGlyphShapes());
 			} else {
-				s = this.transformShape(s);
+				reshapes.push(this.transformShape(ts));
 			}
 		}
-
-		// Translate all the collected Component Instance shapes
-		for(var ci=0; ci<childshapes.length; ci++){
-			childshapes[ci] = this.transformShape(childshapes[ci]);
-		}
-
-		g.shapes = g.shapes.concat(childshapes);
-		g.calcGlyphMaxes();
-		
-		// debug(' ComponentInstance.getTransformedGlyph - END\n');
-		return g;
+		debug('\t returning shapes ' + reshapes.length);
+		debug(' ComponentInstance.flattenGlyphShapes - END ' + this.name + '\n\n');
+		return reshapes;
 	};
 
 	ComponentInstance.prototype.transformShape = function(s) {
@@ -75,10 +86,11 @@
 		s.updateShapePosition(this.translatex, this.translatey, true);
 		s.updateShapeSize(this.scalew, this.scaleh, false);
 		if(this.reversewinding) s.reverseWinding();
-		return s;
+		s.calcMaxes();
+		return new Shape(s);
 	};
 
-
+*/
 
 //	-------------------------------------
 //	Component to Shape Paridy Functions

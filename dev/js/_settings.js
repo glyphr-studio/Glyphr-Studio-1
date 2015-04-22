@@ -17,7 +17,7 @@
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'ligatures',		// navigate straight to a page
-		'devnavprimary': false, // navigate straight to a panel
+		'devnavprimary': 'npAttributes', // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		// SelectedGlyph
 

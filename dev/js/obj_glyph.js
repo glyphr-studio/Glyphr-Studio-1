@@ -360,6 +360,43 @@
 		}
 	};
 
+	Glyph.prototype.flattenGlyphShapes = function() {
+		var sha = [];
+		var cis = [];
+		var temp;
+		for(var s=0; s < this.shapes.length; s++){
+			if(this.shapes[s].objtype === 'shape') sha.push(this.shapes[s]);
+			if(this.shapes[s].objtype === 'componentinstance'){
+				temp = this.shapes[s].getTransformedGlyph();
+				cis = cis.concat(clone(temp.shapes));
+			}
+		}
+
+		if(cis.length) {
+			this.shapes = sha.concat(cis);
+			this.calcGlyphMaxes();
+		}
+	};
+
+	Glyph.prototype.map = function(indents) {
+		indents = indents || '   ';
+		var re = (indents + 'GLYPH ' + this.name + '\n');
+		var ts;
+
+		for(var s=0; s < this.shapes.length; s++){
+			ts = this.shapes[s];
+			if(ts.objtype === 'shape'){
+				re += (indents + '-' + s + '-' + ts.name + ' ' + json(ts.path.maxes, true) + '\n');
+
+			} else if(ts.objtype === 'componentinstance'){
+				re += (indents+ '~' + s + '~' + ts.name + '\n');
+				re += getGlyph(ts.link).map(indents + '   ');
+			}
+		}
+
+		return re;
+	};
+
 	Glyph.prototype.sendShapesTo = function(chid) {
 		var destination = getGlyph(chid, true);
 		destination.shapes = clone(destination.shapes.concat(this.shapes));
