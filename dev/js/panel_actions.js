@@ -278,8 +278,10 @@
 			}
 
 			// delete component and switch selection
+			var oldname = getSelectedWorkItemName();
 			delete _GP.components[_UI.selectedcomponent];
 			_UI.selectedcomponent = getFirstID(_GP.components);
+			history_put('Deleted ' + oldname);
 			//debug("DELETECOMPONENT - delete complete, new selectedcomponent = " + selectedcomponent);
 
 			navigate();

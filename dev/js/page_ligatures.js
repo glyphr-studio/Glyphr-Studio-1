@@ -18,7 +18,7 @@
 		initEventHandlers();
 
 		_UI.selectedtool = "pathedit";
-		if(_UI.selectedglyph.length < 7) _UI.selectedglyph = getFirstID(_GP.ligatures);
+		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 
 		redraw("loadPage_ligatures");
 	}
@@ -64,29 +64,34 @@
 			lig[lid] = new Glyph({'glyphhex':lid, 'name':('Ligature ' + inlig)});
 			sortLigatures();
 			_UI.selectedligature = lid;
+			history_put('Created ' + getSelectedWorkItemName());
 			navigate();
 			closeDialog();
 		}
 	}
 
 	function deleteLigatureConfirm(){
-		var content = "<h1>Delete Ligature</h1>Are you sure you want to delete this ligature?<br>";
-		content += "<br>Warning: This action cannot be undone!<br>";
-		content += "<br><button onclick='deleteLigature();'>permanently delete this ligature</button> &nbsp; <button onclick='closeDialog();'>cancel</button>";
+		var content = '<h1>Delete Ligature</h1>Are you sure you want to delete this ligature?<br>';
+		content += getSelectedWorkItemName() + '<br>';
+		content += '<br><button onclick="deleteLigature();">delete this ligature</button> &nbsp; <button onclick="closeDialog();">cancel</button>';
 
 		openDialog(content);
 	}
 
 	function deleteLigature(){
-		// debug('\n deleteLigature - START');
-		// debug('\t deleting ' + _UI.selectedglyph);
+		debug('\n deleteLigature - START');
+		debug('\t deleting ' + _UI.selectedligature);
 
 		closeDialog();
-		delete _GP.ligatures[_UI.selectedglyph];
-		_UI.selectedglyph = getFirstID(_GP.ligatures);
+		var oldname = getSelectedWorkItemName();
+		delete _GP.ligatures[_UI.selectedligature];
+		_UI.selectedligature = getFirstID(_GP.ligatures);
+		history_put('Deleted ' + oldname);
+
+		debug('\t after delete ' + _GP.ligatures);
 		navigate();
 
-		// debug('deleteLigature - END\n');
+		debug('deleteLigature - END\n');
 	}
 
 	function sortLigatures() {

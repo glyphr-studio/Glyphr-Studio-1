@@ -170,7 +170,7 @@
 		document.getElementById('bigDialogLeftContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
 		
 		document.getElementById('saveFormatFlyout').style.display='none';
-		if(!_UI.popout) document.getElementById('npSave').style.backgroundColor = 'transparent';
+		if(!_UI.popout && document.getElementById('npSave')) document.getElementById('npSave').style.backgroundColor = 'transparent';
 
 		document.body.focus();
 	}

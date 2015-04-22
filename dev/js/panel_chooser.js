@@ -105,6 +105,7 @@
 		if(showlig && getFirstID(_GP.ligatures)){
 			fname = funname? funname : 'selectLigature';
 			if(showtitles) relig += '<h3>ligatures</h3>';
+			sortLigatures();
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
 				relig += makeGlyphChooserButton(l, fname, selwi) ;

@@ -953,9 +953,9 @@
 			ps.guides.baseline.draw();
 
 			// Verticals
+			ps.guides.zero.draw(0);
 			if(onglyphedit){
 				ps.guides.min.draw(0);
-				ps.guides.zero.draw(0);
 				ps.guides.leftside.draw();
 				if(getSelectedWorkItemShapes().length || !selwi.isautowide){
 					ps.guides.max.draw(0);

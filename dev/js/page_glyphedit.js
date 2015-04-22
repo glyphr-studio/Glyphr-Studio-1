@@ -24,7 +24,7 @@
 			_UI.devselectedshape = false;
 		}
 
-		if(_UI.selectedglyph.length > 6) _UI.selectedglyph = getFirstGlyphID();
+		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
 
 		redraw("loadPage_glyphedit");
 		

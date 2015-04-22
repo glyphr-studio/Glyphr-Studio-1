@@ -13,13 +13,14 @@
 		this.parentname = pn;
 		this.currstate = clone(_GP[this.parentname]);
 		this.initialstate = clone(_GP[this.parentname]);
+		this.initialdate = new Date().getTime();
 	}
 
 	History.prototype.put = function(des) {
 		// debug('\n History.put - START');
 
 		this.queue.push({
-			'glyphname': getSelectedWorkItemName(),
+			'name': getSelectedWorkItemName(),
 			'description': des,
 			'date': new Date().getTime(),
 			'state': clone(this.currstate)
@@ -41,19 +42,31 @@
 			si = getSelectedWorkItemShapes().indexOf(_UI.ss);
 			// debug('\t sel shape number is ' + si);
 		}
-		_UI.ss = false;
 
 		var top = this.queue.length? this.queue.pop().state : this.initialstate;
 		_GP[this.parentname] = clone(top);
 		this.currstate = clone(top);
-		if (_UI.navhere === 'import svg') update_NavPanels();
-		else {
-			if(isval(si)) {
-				selectShape(si);
-				// debug('\t _UI.ss is now ' + _UI.ss);
-				// _UI.ss.calcMaxes();
+		
+		if (_UI.navhere === 'import svg'){
+			update_NavPanels();
+
+		} else if (_UI.navhere === 'components'){
+			if(!_GP.components[_UI.selectedcomponent]){
+				si = false;
+				_UI.selectedcomponent = getFirstID(_GP.components);
 			}
+		} else if (_UI.navhere === 'ligatures'){
+			if(!_GP.ligatures[_UI.selectedligature]){
+				si = false;
+				_UI.selectedligature = getFirstID(_GP.ligatures);
+			}
+		}
+
+		if(isval(si)) {
+			selectShape(si);
 			redraw('history_pull');
+		} else {
+			_UI.ss = false;
 		}
 
 		// debug('\t after redraw');
