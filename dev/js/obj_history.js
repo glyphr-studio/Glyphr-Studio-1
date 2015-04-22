@@ -80,6 +80,8 @@
 
 	function history_pull(){
 		if(onCanvasEditPage()){
+			closeDialog();
+			closeNotation();
 			_UI.history[_UI.navhere].pull();
 		}
 	}

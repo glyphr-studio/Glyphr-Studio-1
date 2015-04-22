@@ -908,11 +908,10 @@
 			_UI.ss.value += (mx || my);
 			redraw('Nudge');
 		} else if(_UI.ss){
-			var sp = _UI.ss.path.sp();
-			if(sp){
-				sp.updatePathPointPosition('P', mx, my);
+			if(_UI.ss.objtype !== 'componentinstance' && _UI.ss.path.sp()){
+				_UI.ss.path.sp().updatePathPointPosition('P', mx, my);
 			} else {
-				_UI.ss.path.updatePathPosition(mx, my);
+				_UI.ss.updateShapePosition(mx, my);
 			}
 			redraw('Nudge');
 		}

@@ -63,7 +63,7 @@
 		} else {
 			lig[lid] = new Glyph({'glyphhex':lid, 'name':('Ligature ' + inlig)});
 			sortLigatures();
-			_UI.selectedglyph = lid;
+			_UI.selectedligature = lid;
 			navigate();
 			closeDialog();
 		}
