@@ -38,25 +38,44 @@
 	ComponentInstance.prototype.getTransformedGlyph = function() {
 		// debug('\n ComponentInstance.getTransformedGlyph - START');
 		var og = getGlyph(this.link, true);
-		var mid;
+		var g, s, tg;
+		if(og) g = clone(og);
+		else return false;
 
-		if(og){
-			var g = clone(og);
-			// debug('\t Original:\t'+json(og.maxes, true));
+		var childshapes = [];
+		
+		// Transform all the shapes
+		// Build a new flat array of translated Component Instance shapes
+		for(var si=0; si<g.shapes.length; si++){
+			s = g.shapes[si];
 
-			if(this.flipew) g.flipEW();
-			if(this.flipns) g.flipNS();
-			g.updateGlyphPosition(this.translatex, this.translatey, true);
-			g.updateGlyphSize(this.scalew, this.scaleh, false);
-			if(this.reversewinding) g.reverseWinding();
-
-			// debug('\t CIdata:\t'+this.translatex+','+this.translatey+','+this.scalew+','+this.scaleh);
-			// debug('\t Transfor:\t'+json(g.maxes, true));
-			// debug(' ComponentInstance.getTransformedGlyph - END\n');
-			return g;
+			if(s.objtype === 'componentinstance'){
+				tg = s.getTransformedGlyph().shapes || [];
+				childshapes = childshapes.concat(tg);
+			} else {
+				s = this.transformShape(s);
+			}
 		}
 
-		return false;
+		// Translate all the collected Component Instance shapes
+		for(var ci=0; ci<childshapes.length; ci++){
+			childshapes[ci] = this.transformShape(childshapes[ci]);
+		}
+
+		g.shapes = g.shapes.concat(childshapes);
+		g.calcGlyphMaxes();
+		
+		// debug(' ComponentInstance.getTransformedGlyph - END\n');
+		return g;
+	};
+
+	ComponentInstance.prototype.transformShape = function(s) {
+		if(this.flipew) s.flipEW();
+		if(this.flipns) s.flipNS();
+		s.updateShapePosition(this.translatex, this.translatey, true);
+		s.updateShapeSize(this.scalew, this.scaleh, false);
+		if(this.reversewinding) s.reverseWinding();
+		return s;
 	};
 
 
@@ -68,10 +87,10 @@
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
 		// debug('\n ComponentInstance.updateShapePosition - START');
 		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
-		if(dx !== false) dx = parseFloat(dx);
-		if(dy !== false) dy = parseFloat(dy);
-
 		// debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
+		dx = parseFloat(dx);
+		dy = parseFloat(dy);
+
 		this.translatex += dx;
 		this.translatey += dy;
 		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);

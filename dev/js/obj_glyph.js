@@ -238,8 +238,8 @@
 
 	Glyph.prototype.updateGlyphPosition = function(dx, dy, force){
 		// debug('UPDATEGLYPHPOSITION dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
-		if(dx !== false) dx = parseFloat(dx);
-		if(dy !== false) dy = parseFloat(dy);
+		dx = parseFloat(dx);
+		dy = parseFloat(dy);
 		var cs = this.shapes;
 		for(var i=0; i<cs.length; i++){
 			cs[i].updateShapePosition(dx, dy, force);
