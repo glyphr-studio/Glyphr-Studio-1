@@ -1,8 +1,8 @@
 // start of file
 /**
 	Framework > Unicode
-	Anything having to do with / working with 
-	Unicode values.  Also working with Unicode 
+	Anything having to do with / working with
+	Unicode values.  Also working with Unicode
 	ranges, like basic latin.
 **/
 
@@ -45,7 +45,7 @@
 		// debug('\n hexToHTML - START');
 		// debug('\t passed ' + h);
 		if(!h || h.indexOf('0x') < 0) return false;
-		
+
 		h = String(h).split('0x');
 		var result = '';
 		for(var i=0; i<h.length; i++){ if(h[i] !== ''){
@@ -253,4 +253,13 @@
 		'latinextendeda': {'begin':0x0100, 'end':0x017F},
 		'latinextendedb': {'begin':0x0180, 'end':0x024F}
 	};
+	_UI.ligaturetounicode = {
+		'ff': '0xFB00',
+		'fi': '0xFB01',
+		'fl': '0xFB02',
+		'ft': '0xFB05',
+		'ffi': '0xFB03',
+		'ffl': '0xFB04'
+	};
+	
 // end of file

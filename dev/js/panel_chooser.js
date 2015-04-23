@@ -189,12 +189,14 @@
 		var ff = parseUnicodeInput('ff').join('');
 		var fi = parseUnicodeInput('fi').join('');
 		var fl = parseUnicodeInput('fl').join('');
+		var ft = parseUnicodeInput('ft').join('');
 		var ffi = parseUnicodeInput('ffi').join('');
 		var ffl = parseUnicodeInput('ffl').join('');
 
 		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'glyphhex':ff});
 		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'glyphhex':fi});
 		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'glyphhex':fl});
+		if(!_GP.ligatures[ft]) _GP.ligatures[fl] = new Glyph({'glyphhex':ft});
 		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'glyphhex':ffi});
 		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'glyphhex':ffl});
 
