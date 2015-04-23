@@ -14,7 +14,8 @@
 			// Internal Stuff
 			'version': _UI.thisGlyphrStudioVersion,			// project version
 			'versionnum': _UI.thisGlyphrStudioVersionNum,	// project number version
-
+			'projectid': false,		// A unique ID for this project
+			
 			// Font Metrics
 			'name': 'My Font',		// project name (can be different than font names)
 			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are
@@ -135,6 +136,17 @@
 		saveFile(fname, jsonString);
 
 		setProjectAsSaved();
+	}
+
+	function genProjectID() {
+		var j = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+		var re = 'g_';
+
+		for(var i=0; i<10; i++){
+			re += j.charAt(Math.floor(Math.round(Math.random()*j.length)));
+		}
+
+		return re;
 	}
 
 	function genDateStampSuffix(){

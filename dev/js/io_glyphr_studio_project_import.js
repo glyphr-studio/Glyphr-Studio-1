@@ -270,6 +270,7 @@
 			_GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
 			_GP.projectsettings.glyphrange.custom = data.projectsettings.glyphrange.custom || [];
 		}
+		_GP.projectsettings.projectid = _GP.projectsettings.projectid || genProjectID();
 
 		// debug('\t merged projectsettings');
 		// debug(_GP.projectsettings);
@@ -356,6 +357,7 @@
 
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;
+		_GP.projectsettings.projectid = genProjectID();
 
 		getGlyph('0x0020', true).isautowide = false;
 		getGlyph('0x0020', true).glyphwidth = _GP.projectsettings.upm/2;
