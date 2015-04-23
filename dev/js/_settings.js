@@ -15,9 +15,9 @@
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'ligatures',		// navigate straight to a page
-		'devnavprimary': 'npAttributes', // navigate straight to a panel
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'devnav': false,		// navigate straight to a page
+		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		// SelectedGlyph
 
@@ -119,7 +119,7 @@
 		'shapelayers': [],
 
 		// page: ligatures
-		'selectedligature': '0x00660x00660x0069',
+		'selectedligature': false,
 		
 		// page: components
 		'selectedcomponent': false,
@@ -180,7 +180,7 @@
 				'ymin': 999999
 			}
 		},
-		'notdefglyph': '{"objtype":"glyph","name":"Notdef","glyphwidth":414,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0},"shapes":[{"objtype":"shape","name":"Outer","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":670,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":670,"xlock":false,"ylock":false},"type":"corner","selected":false,"useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":414,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":414,"xmin":0,"ymax":670,"ymin":0}},"link":false},{"objtype":"shape","name":"Inner","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":364,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":620,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":364,"xmin":50,"ymax":620,"ymin":50}},"link":false,"usecomponentxy":false}]}',
+		'notdefglyphshapes': '[{"objtype":"shape","name":"Outer Phi Rectangle","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":700,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":432,"y":700,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":432,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":432,"xmin":0,"ymax":700,"ymin":0}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false},{"objtype":"shape","name":"Inner Phi Rectangle","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":382,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":382,"y":650,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":650,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":382,"xmin":50,"ymax":650,"ymin":50}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false}]',
 
 		// page: font settings
 		'metadatahelp': {

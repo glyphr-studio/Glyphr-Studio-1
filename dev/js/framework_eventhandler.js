@@ -862,12 +862,10 @@
 			if(kc==='del' || kc==='backspace'){
 				event.preventDefault();
 
-				if(_UI.ss.objtype !== 'componentinstance'){
-					if(_UI.ss.path.sp(false)){
-						_UI.ss.path.deletePathPoint();
-						history_put('Delete Path Point');
-						redraw('Keypress DEL or BACKSPACE');
-					}
+				if(_UI.ss.objtype !== 'componentinstance' && _UI.ss.path.sp(false)){
+					_UI.ss.path.deletePathPoint();
+					history_put('Delete Path Point');
+					redraw('Keypress DEL or BACKSPACE');
 				} else if (_UI.ss){
 					deleteShape();
 					history_put('Delete Shape');
