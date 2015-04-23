@@ -113,8 +113,8 @@
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
 		force = isval(force)? force : false;
-		if(dx !== false) dx = parseFloat(dx);
-		if(dy !== false) dy = parseFloat(dy);
+		if(dx !== false) dx = parseFloat(dx) || 0;
+		if(dy !== false) dy = parseFloat(dy) || 0;
 		//debug('UPDATEPATHPOSITION - dx,dy,f\t'+dx+' , '+dy+' , '+force);
 
 		for(var d=0; d<this.pathpoints.length; d++){

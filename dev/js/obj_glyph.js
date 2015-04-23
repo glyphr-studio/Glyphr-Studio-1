@@ -237,14 +237,18 @@
 	};
 
 	Glyph.prototype.updateGlyphPosition = function(dx, dy, force){
-		// debug('UPDATEGLYPHPOSITION dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
-		dx = parseFloat(dx);
-		dy = parseFloat(dy);
+		// debug('\n Glyph.updateGlyphPosition - START ' + this.name);
+		// debug('\t dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
+
+		dx = parseFloat(dx) || 0;
+		dy = parseFloat(dy) || 0;
 		var cs = this.shapes;
 		for(var i=0; i<cs.length; i++){
 			cs[i].updateShapePosition(dx, dy, force);
 		}
 		this.calcGlyphMaxes();
+
+		// debug(' Glyph.updateGlyphPosition - END ' + this.name + '\n\n');
 	};
 
 	Glyph.prototype.setGlyphSize = function(nw, nh, ratiolock){
@@ -267,8 +271,8 @@
 	Glyph.prototype.updateGlyphSize = function(dw, dh, ratiolock){
 		// debug('\n Glyph.updateGlyphSize - START ' + this.name);
 
-		if(dw !== false) dw = parseFloat(dw);
-		if(dh !== false) dh = parseFloat(dh);
+		if(dw !== false) dw = parseFloat(dw) || 0;
+		if(dh !== false) dh = parseFloat(dh) || 0;
 		// debug('\t dw dh ra:\t' + dw + '\t ' + dh + '\t ' + ratiolock);
 		
 		var oldw = this.maxes.xmax - this.maxes.xmin;

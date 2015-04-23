@@ -48,16 +48,11 @@
 
 		// load char info
 		if(sg) {
-			_UI.debug = true;
-			debug('========  START GLYPH DRAWING TO CANVAS  ==========');
-			debug(sg.map());
-			debug('========             FLATTENED           ==========');
-			var t = clone(sg);
-			t.flattenGlyphShapes();
-			debug(t.map());
+			// _UI.debug = true;
+			// debug('========  START GLYPH DRAWING TO CANVAS  ==========');
 			sg.drawGlyph(_UI.glypheditctx, getView('Redraw'));
-			debug('========  END OF GLYPH DRAWING TO CANVAS ==========\n\n');
-			_UI.debug = false;
+			// debug('========  END OF GLYPH DRAWING TO CANVAS ==========\n\n');
+			// _UI.debug = false;
 		}
 
 		// Finish up

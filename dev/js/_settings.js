@@ -119,7 +119,7 @@
 		'shapelayers': [],
 
 		// page: ligatures
-		'selectedligature': false,
+		'selectedligature': '0x00660x00660x0069',
 		
 		// page: components
 		'selectedcomponent': false,
