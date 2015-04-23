@@ -59,7 +59,7 @@
 	function componentInstanceDetails(s){
 		//debug("COMPONENTINSTANCEDETAILS - start of function");
 		var svc = (_GP.projectsettings.spinnervaluechange || 1);
-		content = '<tr><td colspan=2><h3>component instance</h3></td></tr>';
+		content = '<tr><td colspan=2 class="detailtitle"><h3 style="margin:0px;">component instance</h3></td></tr>';
 
 		content += '<tr><td colspan=2><h3 style="font-size:.9em; color:rgb(153,158,163); margin-top:0px; padding-top:0px;">'+
 			'A compnent instance may be adjusted while the root component remains unchanged. '+
