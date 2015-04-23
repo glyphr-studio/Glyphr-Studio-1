@@ -97,7 +97,7 @@
 		return this.path? this.path.genPathPostScript(lastx, lasty) : {'re':'', 'lastx':lastx, 'lasty':lasty};
 	};
 
-	Shape.prototype.makeOpenTypeJSpath = function() { this.path.makeOpenTypeJSpath(); };
+	Shape.prototype.makeOpenTypeJSpath = function(otpath) { return this.path.makeOpenTypeJSpath(otpath); };
 
 
 //	-------------------------------------------------------
@@ -294,6 +294,7 @@
 	}
 
 	function deleteShape(){
+		// debug('\n deleteShape - START');
 		var wishapes = getSelectedWorkItemShapes();
 
 		if(_UI.ss.objtype === 'componentinstance'){
@@ -312,6 +313,7 @@
 			_UI.selectedtool = 'shaperesize';
 		}
 		updateCurrentGlyphWidth();
+		// debug(' deleteShape - END\n');
 	}
 
 	function turnSelectedShapeIntoAComponent(){

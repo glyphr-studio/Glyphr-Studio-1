@@ -181,14 +181,10 @@
 		};
 	};
 
-	ComponentInstance.prototype.makeOpenTypeJSpath = function(re) {
+	ComponentInstance.prototype.makeOpenTypeJSpath = function(otpath) {
+		otpath = otpath || new opentype.Path();
 		var g = this.getTransformedGlyph();
-
-		for (var s=0; s<g.shapes.length; s++){
- 			re += g.shapes[s].makeOpenTypeJSpath(re);
- 		}
-
- 		return re;
+		return g.makeOpenTypeJSpath(otpath);
 	};
 
 	ComponentInstance.prototype.drawSelectOutline = function(){

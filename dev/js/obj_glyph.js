@@ -55,10 +55,6 @@
 //-------------------------------------------------------
 // GLYPH METHODS
 //-------------------------------------------------------
-/*
-	getCmapCode
-	getHTMLCode
-*/
 
 	Glyph.prototype.calcGlyphMaxes = function(){
 		// debug('\n Glyph.calcGlyphMaxes - START ' + this.name);
@@ -226,6 +222,15 @@
 
 		return pathdata;
 	};
+
+	Glyph.prototype.makeOpenTypeJSpath = function(otpath) {
+		otpath = otpath || new opentype.Path();
+		for(var s=0; s < this.shapes.length; s++){
+			otpath = this.shapes[s].makeOpenTypeJSpath(otpath);
+		}
+		return otpath;
+	};
+
 
 	Glyph.prototype.setGlyphPosition = function(nx, ny, force){
 		// debug('SETGLYPHPOSITION nx/ny/force: ' + nx + ' ' + ny + ' ' + force);

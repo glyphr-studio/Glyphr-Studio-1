@@ -294,24 +294,24 @@
 		return re;
 	};
 
-	Path.prototype.makeOpenTypeJSpath = function(re) {
+	Path.prototype.makeOpenTypeJSpath = function(otpath) {
 		// debug('\n Path.makeOpenTypeJSpath - START');
-		// debug('\t re: ' + json(re));
+		// debug('\t otpath: ' + json(otpath));
 
-		re = re || new opentype.Path();
+		otpath = otpath || new opentype.Path();
 		var p1, p2;
 
 		if(!this.pathpoints) {
-			re.close();
-			return re;
+			otpath.close();
+			return otpath;
 		}
 
-		re.moveTo(round(this.pathpoints[0].P.x), round(this.pathpoints[0].P.y));
+		otpath.moveTo(round(this.pathpoints[0].P.x), round(this.pathpoints[0].P.y));
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
-			re.curveTo(
+			otpath.curveTo(
 				round(p1.getH2x()),
 				round(p1.getH2y()),
 				round(p2.getH1x()),
@@ -321,11 +321,11 @@
 			);
 		}
 
-		re.close();
+		otpath.close();
 
-		// debug('\t returning path ' + json(re));
+		// debug('\t returning path ' + json(otpath));
 		// debug(' Path.makeOpenTypeJSpath - END\n');
-		return re;
+		return otpath;
 	};
 
 

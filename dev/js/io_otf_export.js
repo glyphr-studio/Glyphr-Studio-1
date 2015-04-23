@@ -33,23 +33,27 @@
 		debug(options);
 
 		// Add Notdef
-		var ndchar = new Glyph(JSON.parse(_UI.notdefglyph));
+		var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
 		if(_GP.upm !== 1000){
 			var delta = _GP.upm / 1000;
-			ndchar.updateGlyphSize(delta, delta, true);
+			notdef.updateGlyphSize(delta, delta, true);
 		}
-		var ndpath = ndchar.shapes[0].makeOpenTypeJSpath();
-		ndpath = ndchar.shapes[1].makeOpenTypeJSpath(ndpath);
+
+		debug('\t notdef glyph and path:');
+		debug(notdef);
+
+		var ndpath = notdef.makeOpenTypeJSpath();
+		debug(ndpath);
 
 		options.glyphs.push(new opentype.Glyph({
 			name: '.notdef',
 			unicode: 0,
 			index: 0,
-			advanceWidth: ndchar.getTotalWidth(),
-			xMin: ndchar.maxes.xmin,
-			xMax: ndchar.maxes.xmax,
-			yMin: ndchar.maxes.ymin,
-			yMax: ndchar.maxes.ymax,
+			advanceWidth: notdef.getTotalWidth(),
+			xMin: notdef.maxes.xmin,
+			xMax: notdef.maxes.xmax,
+			yMin: notdef.maxes.ymin,
+			yMax: notdef.maxes.ymax,
 			path: ndpath
 		}));
 
@@ -57,7 +61,7 @@
 		var tc, tcpath;
 
 		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
-			tc = _GP.glyphs[c];
+			tc = new Glyph(clone(_GP.glyphs[c]));
 			tc.calcGlyphMaxes();
 			tcpath = new opentype.Path();
 			var sl = tc.shapes;
@@ -67,11 +71,10 @@
 			// Go through each shape in the char, generate the OpenTypeJS path
 			for(var j=0; j<sl.length; j++) {
 				shape = sl[j];
-				path = shape.getPath();
-				path.updatePathPosition(lsb, 0, true);
+				shape.updateShapePosition(lsb, 0, true);
 
 				// debug('\t drawing path of char ' + tc.name);
-				tcpath = path.makeOpenTypeJSpath(tcpath);
+				tcpath = shape.makeOpenTypeJSpath(tcpath);
 			}
 
 			options.glyphs.push(new opentype.Glyph({
