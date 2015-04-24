@@ -55,7 +55,11 @@
 		con += '<div class="openproject_tile" id="load_content" style="display: none;">'+
 					'<h2>Load a file</h2>'+
 					'<button onclick="document.getElementById(\'filechooser\').click();" class="buttonsel">Browse for a File</button>&ensp; or Drag and Drop:'+
-					'<div id="droptarget">Glyphr Studio Project File &ensp;(.txt)<br>SVG Font File &ensp;(.svg)</div>'+
+					'<div id="droptarget">'+
+						'Glyphr Studio Project &ensp;(.txt)<br>'+
+						'Open Type or True Type Font &ensp;(.otf or .ttf)<br>'+
+						'SVG Font &ensp;(.svg)'+
+					'</div>'+
 					'<div style="width:335px;">'+ makeErrorMessageBox() + '</div>'+
 				'</div>';
 
@@ -122,14 +126,15 @@
 					_UI.droppedFileContent = reader.result;
 					ioSVG_importSVGfont(false);
 				} else if(fname === 'otf' || fname === 'ttf'){
-					// debug('\t File = .otf / .ttf');
-
+					debug('\t File = .otf / .ttf');
+					debug('\t file: ' + json(f));
+					ioOTF_importOTFfont(false, f.webkitRelativePath);
 				} else if(fname === 'txt') {
 					// debug('\t File = .txt');
 					importGlyphrProjectFromText(reader.result);
 					navigate();
 				} else {
-					con = '<h2>Could not read the file</h2>';
+					con = '<h2>Unsupported file type</h2>';
 					con += 'Glyphr Studio can\'t import .' + fname + ' files.<br>';
 					con += 'Try loading another .otf, .ttf, .svg or .txt file...';
 					document.getElementById('load_content').innerHTML = con;
