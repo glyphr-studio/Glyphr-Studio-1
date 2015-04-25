@@ -443,44 +443,49 @@
 //-------------------------------------------------------
 	// GET
 	function getGlyph(id, create) {
-		// debug('\n getGlyph - START');
-		// debug('\t passed: ' + id + ' create: ' + create);
+		debug('\n getGlyph - START');
+		debug('\t passed: ' + id + ' create: ' + create);
 
 		if(!id){
-			// debug('getGlyph - not passed an ID, returning false');
+			debug('\t Not passed an ID, returning false');
 			return false;
 		}
 
+		if(_GP === {}){
+			debug('\t _GP is uninitialized, returning false');
+			return false;
+		}
+		
 		id = ''+id;
 		var rechar;
 
 		if (id.indexOf('0x', 2) > -1){
 			rechar = _GP.ligatures[id];
-			// debug('\t retrieved ' + rechar + ' from ligatures.');
+			debug('\t retrieved ' + rechar + ' from ligatures.');
 			if(rechar){
 				return rechar;
 			} else if(create){
-				// debug('\t create was true, returning a new ligature.');
+				debug('\t create was true, returning a new ligature.');
 				_GP.ligatures[id] = new Glyph({'glyphhex':id});
 				return _GP.ligatures[id];
 			}
 		} else if(id.indexOf('0x') > -1){
 			rechar = _GP.glyphs[id];
-			// debug('\t retrieved ' + rechar + ' from glyphs.');
+			debug('\t retrieved ' + rechar + ' from glyphs.');
 			if(rechar){
 				return rechar;
 			} else if(create){
-				// debug('\t create was true, returning a new char.');
+				debug('\t create was true, returning a new char.');
 				_GP.glyphs[id] = new Glyph({'glyphhex':id});
 				return _GP.glyphs[id];
 			}
 		} else {
-			// debug('\t component, retrieved');
+			debug('\t component, retrieved');
 			// debug(_GP.components[id]);
 			return _GP.components[id] || false;
 		}
 
-		// debug('getGlyph - returning FALSE\n');
+		debug('getGlyph - returning FALSE\n');
 		return false;
 	}
 

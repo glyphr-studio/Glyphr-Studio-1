@@ -280,7 +280,11 @@
 		}
 
 		function finalizeFontImport(){
-			// var rstart, rend;
+			_GP.glyphs = fc;
+			_GP.ligatures = fl;
+			_GP.kerning = fk;
+
+			var rstart, rend;
 			for(var r in _UI.glyphrange){
 				if(_UI.glyphrange.hasOwnProperty(r)){
 					rstart = 1*_UI.glyphrange[r].begin;
@@ -303,9 +307,6 @@
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
-			_GP.glyphs = fc;
-			_GP.ligatures = fl;
-			_GP.kerning = fk;
 
 			// Font Settings
 			var fatt = ioSVG_getFirstTagInstance(font, 'font-face').attributes;

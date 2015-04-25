@@ -78,7 +78,7 @@
 
 
 		window.onbeforeunload = function() {
-			if(_GP.projectsettings.stoppagenavigation && !_UI.devmode){
+			if(_GP && _GP.projectsettings.stoppagenavigation && !_UI.devmode){
 				return '\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n';
 			} else {
 				return;

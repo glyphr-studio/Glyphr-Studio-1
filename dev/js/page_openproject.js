@@ -101,6 +101,7 @@
 	}
 
 	function handleDrop(evt) {
+		debug('\n handleDrop - START');
 		document.getElementById('openprojecttableright').innerHTML = 'Loading File...';
 		document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
 
@@ -109,44 +110,50 @@
 
 		var f = evt.dataTransfer || document.getElementById('filechooser');
 		f = f.files[0];
+		// debug('\t filename: ' + f.name);
+		var fname = f.name.split('.');
+		fname = fname[fname.length-1].toLowerCase();
+		debug('\t fname = ' + fname);
 
 		var reader = new FileReader();
 
-		// Closure to capture the file information.
-		reader.onload = (function() {
-			return function(e) {
-				// debug('\n reader.onload - START');
-				// debug('\t filename: ' + f.name);
-				var fname = f.name.split('.');
-				fname = fname[fname.length-1].toLowerCase();
-				var con;
+		if(fname === 'otf' || fname === 'ttf'){
+			reader.onload = function(){
+				debug('\n reader.onload::OTF or TTF - START');
+				ioOTF_importOTFfont(false, reader.result);
+				debug(' reader.onload:: OTF or TTF - END\n');
+			};
 
+			reader.readAsArrayBuffer(f);
+
+		} else if (fname === 'svg' || fname === 'txt'){
+			reader.onload = function() {
+				debug('\n reader.onload::SVG or TXT - START');
 				if(fname === 'svg') {
 					// debug('\t File = .svg');
 					_UI.droppedFileContent = reader.result;
 					ioSVG_importSVGfont(false);
-				} else if(fname === 'otf' || fname === 'ttf'){
-					debug('\t File = .otf / .ttf');
-					debug('\t file: ' + json(f));
-					ioOTF_importOTFfont(false, f.webkitRelativePath);
+
 				} else if(fname === 'txt') {
 					// debug('\t File = .txt');
 					importGlyphrProjectFromText(reader.result);
 					navigate();
-				} else {
-					con = '<h2>Unsupported file type</h2>';
-					con += 'Glyphr Studio can\'t import .' + fname + ' files.<br>';
-					con += 'Try loading another .otf, .ttf, .svg or .txt file...';
-					document.getElementById('load_content').innerHTML = con;
-					document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
+
 				}
-
-				// debug(' reader.onload - END\n');
+				debug(' reader.onload::SVG OR TXT - END\n');
 			};
-		})(f);
 
-		reader.readAsText(f);
+			reader.readAsText(f);
 
+		} else {
+			var con = '<h2>Unsupported file type</h2>';
+			con += 'Glyphr Studio can\'t import .' + fname + ' files.<br>';
+			con += 'Try loading another .otf, .ttf, .svg or .txt file...';
+			document.getElementById('load_content').innerHTML = con;
+			document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
+		}
+
+		debug(' handleDrop - END\n');
 	}
 
 	function handleMessage(evt) {
@@ -167,7 +174,7 @@
 	function handleDragLeave(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-		
+
 		var frtr = document.getElementById('openprojecttableright');
 		frtr.style.backgroundColor = _UI.colors.gray.offwhite;
 		frtr.innerHTML = make_ImportOrCreateNew();
