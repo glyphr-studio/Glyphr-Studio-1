@@ -157,6 +157,9 @@
 		}
 
 		function flattenDataArray(da) {
+			debug('\n flattenDataArray - START');
+			debug(json(da, true));
+
 			var re = '';
 			var tc;
 			for(var i=0; i<da.length; i++){
@@ -164,15 +167,14 @@
 				
 				re += tc.type;
 
-				if(tc.x) re += tc.x + ',';
-				if(tc.y) re += tc.y + ',';
-
-				if(tc.x1) re += tc.x1 + ',';
-				if(tc.y1) re += tc.y1 + ',';
-
-				if(tc.x2) re += tc.x2 + ',';
-				if(tc.y2) re += tc.y2 + ',';
+				if(isval(tc.x) && isval(tc.y)){ re += tc.x + ',' + tc.y + ',';					
+					if(isval(tc.x1) && isval(tc.y1)){ re += tc.x1 + ',' + tc.y1 + ',';
+						if(isval(tc.x2) && isval(tc.y2)){ re += tc.x2 + ',' + tc.y2 + ',';
+				}}}
 			}
+			
+			debug(re);
+			debug(' flattenDataArray - END\n');
 
 			return re;
 		}
