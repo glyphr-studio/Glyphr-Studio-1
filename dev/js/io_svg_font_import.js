@@ -32,25 +32,27 @@
 			// debug('\n setupFontImport - START');
 
 			_GP = new GlyphrProject();
-
-			// Convert unicode glyphs to decimal values
-			// DOM Parser does not return unicode values as text strings
-			// Kern groups containing '&#x' will get fuck'd
-			svgdata = svgdata.replace(/&#x/g, '0x');
-
 			var jsondata;
-			try {
-				jsondata = convertXMLtoJSON(svgdata);
-			} catch (e){
-				loadPage_openproject();
-				showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
-				return;
+
+			if(!_UI.importingfont){
+				// Convert unicode glyphs to decimal values
+				// DOM Parser does not return unicode values as text strings
+				// Kern groups containing '&#x' will get fuck'd
+				svgdata = svgdata.replace(/&#x/g, '0x');
+
+				try {
+					jsondata = convertXMLtoJSON(svgdata);
+				} catch (e){
+					loadPage_openproject();
+					showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
+					return;
+				}
+				// debug('\t Converted XML to JSON:');
+				// debug(jsondata);
 			}
-			// debug('\t Converted XML to JSON:');
-			// debug(jsondata);
 
 			// Get Font
-			font = ioSVG_getFirstTagInstance(jsondata, 'font');
+			font = _UI.importingfont || ioSVG_getFirstTagInstance(jsondata, 'font');
 			// debug('\t got font');
 			// debug(font);
 
@@ -77,7 +79,7 @@
 				// Dump JSON
 				// saveFile('Parsed JSON', json(jsondata));
 			} else {
-				document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(chars.length, kerns.length);
+				document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(chars.length, kerns.length, 'ioSVG_importSVGfont');
 			}
 			// debug(' setupFontImport - END\n');
 		}
@@ -128,7 +130,7 @@
 				// debug('\t !!! Skipping '+tca['glyph-name']+' NO UNICODE !!!');
 				chars.splice(c, 1);
 
-			} else if (isOutOfBounds(uni)){
+			} else if (filter && isOutOfBounds(uni)){
 				// debug('\t !!! Skipping '+tca['glyph-name']+' OUT OF BOUNDS !!!');
 				chars.splice(c, 1);
 
@@ -202,17 +204,6 @@
 			setTimeout(importOneGlyph, 1);
 
 			// debug(' importOneGlyph - END\n');
-		}
-
-		function isOutOfBounds(uni) {
-			if(!filter) return false;
-			if(!uni.length) return true;
-
-			for(var u=0; u<uni.length; u++){
-				if((parseInt(uni[u]) > _UI.importrange.end) || (parseInt(uni[u]) < _UI.importrange.begin)) return true;
-			}
-
-			return false;
 		}
 
 		/*
@@ -360,11 +351,13 @@
         return re;
 	}
 
-	function make_ImportFilter(chars, kerns) {
+	function make_ImportFilter(chars, kerns, funname) {
 		var re = '<div class="openproject_tile" style="width:500px; height:auto;">'+
 			'<h2>Whoa, there...</h2><br>'+
-			'The font you\'re trying to import has <b>'+chars+' glyphs</b> and <b>'+kerns+' kern pairs</b>.  '+
-			'Glyphr Studio has a hard time with super-large fonts like this.  '+
+			'The font you\'re trying to import has <b>'+chars+' glyphs</b>';
+			if(kerns) re += ' and <b>'+kerns+' kern pairs</b>.  ';
+			else re += '.  ';
+			re += 'Glyphr Studio has a hard time with super-large fonts like this.  '+
 			'We recommend pairing it down a little:<br><br>';
 
 		re += '<table>';
@@ -393,7 +386,7 @@
 
 		re += '</table>';
 
-		re += '<br><br><button class="buttonsel" id="importfontbutton" onclick="ioSVG_importSVGfont(true);">Import Font</button>';
+		re += '<br><br><button class="buttonsel" id="importfontbutton" onclick="'+funname+'(true);">Import Font</button>';
 
 		return re;
 	}
@@ -405,6 +398,16 @@
 			document.getElementById('customrangebegin').value = range.begin;
 			document.getElementById('customrangeend').value = range.end;
 		}
+	}
+
+	function isOutOfBounds(uni) {
+		if(!uni.length) return true;
+
+		for(var u=0; u<uni.length; u++){
+			if((parseInt(uni[u]) > _UI.importrange.end) || (parseInt(uni[u]) < _UI.importrange.begin)) return true;
+		}
+
+		return false;
 	}
 
 	function checkFilter(id) {

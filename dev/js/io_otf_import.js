@@ -24,25 +24,35 @@
 		_GP = new GlyphrProject();
 		var font = false;
 
-		importStatus('Reading font data...');
+		if(!_UI.importingfont){
+			importStatus('Reading font data...');
 
-		try {
-			debug('\t TRY - start');
-			font = opentype.parse(file);
-		} catch(err){
-			debug('\t CATCH ERROR');
-			loadPage_openproject();
-			openproject_changeTab('load');
-			showErrorMessageBox('Something went wrong with opening the font file:<br><br>' + err);
-			debug(' opentype.load:ERROR - END\n');
-			return;
+			try {
+				debug('\t TRY - start');
+				font = opentype.parse(file);
+			} catch(err){
+				debug('\t CATCH ERROR');
+				loadPage_openproject();
+				openproject_changeTab('load');
+				showErrorMessageBox('Something went wrong with opening the font file:<br><br>' + err);
+				debug(' opentype.load:ERROR - END\n');
+				return;
+			}
+		} else {
+			font = _UI.importingfont;
 		}
-		
-		if (font) startFontImport();
+
+		// test for range
+		if((font && font.glyphs.length < 600) || filter){
+			importStatus('Importing Glyph 1 of ' + font.glyphs.length);
+			setTimeout(startFontImport, 1);
+		} else {
+			_UI.importingfont = font;
+			document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(font.glyphs.length, 0, 'ioOTF_importOTFfont');
+		}
 
 		function startFontImport() {
 			debug('\n startFontImport - START');
-			importStatus('Importing Glyph 1 of ' + font.glyphs.length);
 			setTimeout(importOneGlyph, 4);
 			debug(' startFontImport - END\n');
 		}
@@ -86,7 +96,7 @@
 				debug('\t !!! Skipping '+tglyph.name+' NO UNICODE !!!');
 				font.glyphs.splice(c, 1);
 
-			} else if (isOutOfBounds(uni)){
+			} else if (filter && isOutOfBounds([uni])){
 				debug('\t !!! Skipping '+tglyph.name+' OUT OF BOUNDS !!!');
 				font.glyphs.splice(c, 1);
 
@@ -172,24 +182,12 @@
 						if(isval(tc.x2) && isval(tc.y2)){ re += tc.x2 + ',' + tc.y2 + ',';
 				}}}
 			}
-			
+
 			debug(re);
 			debug(' flattenDataArray - END\n');
 
 			return re;
 		}
-
-		function isOutOfBounds(uni) {
-			if(!filter) return false;
-			if(!uni.length) return true;
-
-			for(var u=0; u<uni.length; u++){
-				if((parseInt(uni[u]) > _UI.importrange.end) || (parseInt(uni[u]) < _UI.importrange.begin)) return true;
-			}
-
-			return false;
-		}
-
 
 		/*
 		*

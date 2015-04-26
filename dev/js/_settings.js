@@ -163,6 +163,7 @@
 
 		// page: openproject
 		'droppedFileContent': false,
+		'importingfont': false,
 		'spinning': true,
 		'importrange': {
 			'begin': 0x0020,
