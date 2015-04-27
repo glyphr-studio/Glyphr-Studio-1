@@ -146,10 +146,12 @@
 			reader.readAsText(f);
 
 		} else {
-			var con = '<h2>Unsupported file type</h2>';
+			var con = '<h3>Unsupported file type</h3>';
 			con += 'Glyphr Studio can\'t import .' + fname + ' files.<br>';
-			con += 'Try loading another .otf, .ttf, .svg or .txt file...';
-			document.getElementById('load_content').innerHTML = con;
+			con += 'Try loading another file.';
+			document.getElementById('openprojecttableright').innerHTML = make_ImportOrCreateNew();
+			openproject_changeTab('load');
+			showErrorMessageBox(con);
 			document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
 		}
 
