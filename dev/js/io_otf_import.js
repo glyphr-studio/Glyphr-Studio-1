@@ -9,18 +9,25 @@
 		// debug('\n ioOTF_importOTFfont - START');
 		// debug('\t file = ' + file);
 
+
+		// Spinner Animation
 		document.getElementById('openprojecttableright').innerHTML = make_LoadingAnimation(false);
 
 		var fis = document.getElementById('fontimportstatus');
 		var sweep = document.getElementById('sweep');
 		var degrees = 0;
-		function importStatus(msg, spin){
-			// debug('\t>> import status >> ' + msg);
-		    degrees = ((degrees + 2) % 360);
-            sweep.style.transform = ('rotate('+degrees+'deg)');
-            if(msg) fis.innerHTML = msg;
+
+		function importStatus(msg){
+			if(msg) fis.innerHTML = msg;
+			spinSpinner();
 		}
 
+		function spinSpinner() {
+			degrees = ((degrees + 2) % 360);
+			sweep.style.transform = ('rotate('+degrees+'deg)');
+		}
+
+		// Font Stuff
 		_GP = new GlyphrProject();
 		var font = false;
 
@@ -217,24 +224,22 @@
 		}
 
 		function finalizeFontImport(){
-			// debug('\n finalizeFontImport - START');
+			debug('\n finalizeFontImport - START');
 			_GP.glyphs = fc;
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
 
 			var rstart, rend;
-			for(var r in _UI.glyphrange){
-				if(_UI.glyphrange.hasOwnProperty(r)){
-					rstart = 1*_UI.glyphrange[r].begin;
-					rend = 1*_UI.glyphrange[r].end+1;
-					for(var t=rstart; t<rend; t++){
-						if(getGlyph(''+decToHex(t))){
-							_GP.projectsettings.glyphrange[r] = true;
-							break;
-						}
+			for(var r in _UI.glyphrange){ if(_UI.glyphrange.hasOwnProperty(r)){
+				rstart = 1*_UI.glyphrange[r].begin;
+				rend = 1*_UI.glyphrange[r].end+1;
+				for(var t=rstart; t<rend; t++){
+					if(getGlyph(''+decToHex(t))){
+						_GP.projectsettings.glyphrange[r] = true;
+						break;
 					}
 				}
-			}
+			}}
 
 			// Make a custom range for the rest
 			if(customglyphrange.length){
@@ -245,7 +250,7 @@
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
-
+			debug('\t Custom range stuff done');
 			var ps = _GP.projectsettings;
 			var md = _GP.metadata;
 			var fname = font.familyName || 'My Font';
@@ -270,15 +275,14 @@
 			md.version = font.version || 'Version 0.1';
 
 			// Finish Up
-			// debug('\t calling finalizeGlyphrProject');
+			debug('\t calling finalizeGlyphrProject');
 			finalizeGlyphrProject();
 			closeDialog();
-
-			// debug(' finalizeFontImport - END\n');
+			debug(' finalizeFontImport - END\n');
 			navigate();
 		}
 
-		// debug(' ioOTF_importOTFfont - END\n');
+		debug(' ioOTF_importOTFfont - END\n');
 	}
 
 
