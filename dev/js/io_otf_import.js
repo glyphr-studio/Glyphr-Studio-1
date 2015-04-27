@@ -6,8 +6,8 @@
 **/
 
 	function ioOTF_importOTFfont(filter, file) {
-		debug('\n ioOTF_importOTFfont - START');
-		debug('\t file = ' + file);
+		// debug('\n ioOTF_importOTFfont - START');
+		// debug('\t file = ' + file);
 
 		document.getElementById('openprojecttableright').innerHTML = make_LoadingAnimation(false);
 
@@ -28,14 +28,14 @@
 			importStatus('Reading font data...');
 
 			try {
-				debug('\t TRY - start');
+				// debug('\t TRY - start');
 				font = opentype.parse(file);
 			} catch(err){
-				debug('\t CATCH ERROR');
+				// debug('\t CATCH ERROR');
 				loadPage_openproject();
 				openproject_changeTab('load');
 				showErrorMessageBox('Something went wrong with opening the font file:<br><br>' + err);
-				debug(' opentype.load:ERROR - END\n');
+				// debug(' opentype.load:ERROR - END\n');
 				return;
 			}
 		} else {
@@ -52,9 +52,9 @@
 		}
 
 		function startFontImport() {
-			debug('\n startFontImport - START');
+			// debug('\n startFontImport - START');
 			setTimeout(importOneGlyph, 4);
-			debug(' startFontImport - END\n');
+			// debug(' startFontImport - END\n');
 		}
 
 
@@ -86,26 +86,26 @@
 			tglyph = font.glyphs[c];
 
 			// Get the appropriate unicode decimal for this glyph
-			debug('\n importOneGlyph - START');
-			debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph['glyph-name']);
+			// debug('\n importOneGlyph - START');
+			// debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
 
 			uni = decToHex(tglyph.unicode);
 
 			if(uni === false || uni === '0x0000'){
 				// Check for .notdef
-				debug('\t !!! Skipping '+tglyph.name+' NO UNICODE !!!');
+				// debug('\t !!! Skipping '+tglyph.name+' NO UNICODE !!!');
 				font.glyphs.splice(c, 1);
 
 			} else if (filter && isOutOfBounds([uni])){
-				debug('\t !!! Skipping '+tglyph.name+' OUT OF BOUNDS !!!');
+				// debug('\t !!! Skipping '+tglyph.name+' OUT OF BOUNDS !!!');
 				font.glyphs.splice(c, 1);
 
 			} else {
 
-				debug('\t GLYPH ' + c + '/'+font.glyphs.length+'\t"'+tglyph.name + '" unicode: ' + uni);
+				// debug('\t GLYPH ' + c + '/'+font.glyphs.length+'\t"'+tglyph.name + '" unicode: ' + uni);
 				/*
 				*
-				*	GLYPH OR LIGATURE IMPORT
+				*	GLYPH IMPORT
 				*
 				*/
 				newshapes = [];
@@ -113,7 +113,7 @@
 
 				// Import Path Data
 				data = flattenDataArray(tglyph.path.commands);
-				debug('\t Glyph has path data ' + data);
+				// debug('\t Glyph has path data ' + data);
 
 				if(data){
 					// Move commands for a path are treated as different Glyphr Shapes
@@ -121,14 +121,14 @@
 					data = data.replace(/m/g,'~m');
 					data = data.split('~');
 
-					debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
+					// debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
 
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
-							debug('\t starting convertPathTag');
+							// debug('\t starting convertPathTag');
 							ns = ioSVG_convertPathTag(data[d]);
-							debug('\t created shape from PathTag');
-							debug(ns);
+							// debug('\t created shape from PathTag');
+							// debug(ns);
 							newshapes.push(ns);
 							shapecounter++;
 							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
@@ -160,6 +160,7 @@
 				c++;
 			}
 
+
 			// finish loop
 			setTimeout(importOneGlyph, 1);
 
@@ -167,24 +168,25 @@
 		}
 
 		function flattenDataArray(da) {
-			debug('\n flattenDataArray - START');
-			debug(json(da, true));
+			// debug('\n flattenDataArray - START');
+			// debug(json(da, true));
 
 			var re = '';
 			var tc;
 			for(var i=0; i<da.length; i++){
 				tc = da[i];
-				
+
 				re += tc.type;
 
-				if(isval(tc.x) && isval(tc.y)){ re += tc.x + ',' + tc.y + ',';					
-					if(isval(tc.x1) && isval(tc.y1)){ re += tc.x1 + ',' + tc.y1 + ',';
-						if(isval(tc.x2) && isval(tc.y2)){ re += tc.x2 + ',' + tc.y2 + ',';
-				}}}
+				if(isval(tc.x1) && isval(tc.y1)){ re += tc.x1 + ',' + tc.y1 + ',';
+					if(isval(tc.x2) && isval(tc.y2)){ re += tc.x2 + ',' + tc.y2 + ',';
+				}}
+
+				if(isval(tc.x) && isval(tc.y)) re += tc.x + ',' + tc.y + ',';
 			}
 
-			debug(re);
-			debug(' flattenDataArray - END\n');
+			// debug(re);
+			// debug(' flattenDataArray - END\n');
 
 			return re;
 		}
@@ -215,7 +217,7 @@
 		}
 
 		function finalizeFontImport(){
-			debug('\n finalizeFontImport - START');
+			// debug('\n finalizeFontImport - START');
 			_GP.glyphs = fc;
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
@@ -254,7 +256,7 @@
 			ps.capheight = 1*font.tables.os2.sCapHeight || 675;
 			ps.xheight = 1*font.tables.os2.sxHeight || 400;
 			ps.overshoot = round(ps.upm / 100);
-			
+
 			md.font_family = fname;
 			md.panose_1 = font.tables.os2.panose.join(' ') || '0 0 0 0 0 0 0 0 0 0';
 			// md.font_weight = 1*font.fontweight || 400;
@@ -268,15 +270,15 @@
 			md.version = font.version || 'Version 0.1';
 
 			// Finish Up
-			debug('\t calling finalizeGlyphrProject');
+			// debug('\t calling finalizeGlyphrProject');
 			finalizeGlyphrProject();
 			closeDialog();
 
-			debug(' finalizeFontImport - END\n');
+			// debug(' finalizeFontImport - END\n');
 			navigate();
 		}
 
-		debug(' ioOTF_importOTFfont - END\n');
+		// debug(' ioOTF_importOTFfont - END\n');
 	}
 
 

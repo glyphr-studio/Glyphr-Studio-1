@@ -260,7 +260,6 @@
 		if(data.charAt(0) === ',') data = data.slice(1);
 
 		// debug('\t clean data\n' + data);
-		// debug('\t parsed path data as \n' + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
@@ -285,7 +284,7 @@
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({'command':command, 'data':dataarr});
 
-		// debug('\t chunkarr data is \n' + json(chunkarr));
+		// debug('\t chunkarr data is \n' + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];

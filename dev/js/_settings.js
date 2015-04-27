@@ -14,7 +14,7 @@
 	var _UI = {
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below
-		'debug': true,			// show messages sent to the browser console
+		'debug': false,			// show messages sent to the browser console
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 		'devnav': false,		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
