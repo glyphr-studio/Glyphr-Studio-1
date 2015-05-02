@@ -1,7 +1,7 @@
 // start of file
 /**
 	Functions
-	This is an uber-bucket of high level and 
+	This is an uber-bucket of high level and
 	generic functions that don't fit well in other
 	files.
 **/
@@ -51,27 +51,28 @@
 		'<td style="height:9999px;"><div id="bigDialogScrollContent"></div></td>'+
 		'</tr></table>';
 
-		var formatsaveflyout = '<div id="saveFormatFlyout" style="display:none;">';
-		formatsaveflyout += '<div class="closeFormatFlyout" onclick="closeDialog();">&times</div>';
-		formatsaveflyout += '<button onclick="saveGlyphrProjectFile(); closeDialog();">' + 
+		var save = '<div id="npSave"></div>';
+		save += '<div id="saveFormatFlyout" style="display:none;">';
+		save += '<div class="closeFormatFlyout" onclick="closeDialog();">&times</div>';
+		save += '<button onclick="saveGlyphrProjectFile(); closeDialog();">' +
 				makeIcon({'name':'button_npNav', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
-				'<span>Glyphr Studio Project File</span>' + 
+				'<span>Glyphr Studio Project File</span>' +
 			'</button>';
-			
-		formatsaveflyout += '<button onclick="ioOTF_exportOTFfont(); closeDialog();">' + 
+
+		save += '<button onclick="ioOTF_exportOTFfont(); closeDialog();">' +
 				makeIcon({'name':'nav_exportotf', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
-				'<span>OTF Font</span>' + 
+				'<span>OTF Font</span>' +
 			'</button>';
-			
-		formatsaveflyout += '<button onclick="ioSVG_exportSVGfont(); closeDialog();">' + 
+
+		save += '<button onclick="ioSVG_exportSVGfont(); closeDialog();">' +
 				makeIcon({'name':'nav_exportsvg', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
-				'<span>SVG Font</span>' + 
+				'<span>SVG Font</span>' +
 			'</button>';
-		formatsaveflyout += '</div>';
+		save += '</div>';
 
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
-		document.body.innerHTML += formatsaveflyout;
+		document.body.innerHTML += save;
 		document.body.innerHTML += '<div id="dialog_bg" onclick="closeDialog();"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
@@ -102,7 +103,7 @@
 			if (_UI.navprimaryhere === 'npChooser' ||
 				_UI.navprimaryhere === 'npGuides' ||
 				_UI.navprimaryhere === 'npHistory') return content + '</h1>';
-				
+
 			if(selwi){
 				name = (selwi.name || selwi.glyphhtml || selwi.shape.name || '[no shape outline yet]');
 				// debug('\t selwi name is ' + name);
@@ -162,13 +163,13 @@
 //--------------------------------------
 	function closeDialog(){
 		document.getElementById('dialog_bg').style.display='none';
-		
+
 		document.getElementById('dialog_box').style.display='none';
 		document.getElementById('dialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
 
 		document.getElementById('big_dialog_box').style.display='none';
 		document.getElementById('bigDialogLeftContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
-		
+
 		document.getElementById('saveFormatFlyout').style.display='none';
 		if(!_UI.popout && document.getElementById('npSave')) document.getElementById('npSave').style.backgroundColor = 'transparent';
 
@@ -213,9 +214,16 @@
 		getEditDocument().body.focus();
 	}
 
-	function showDialog_ExportOptions() {
-		document.getElementById('saveFormatFlyout').style.display = 'block';
-		document.getElementById('npSave').style.backgroundColor = _UI.colors.blue.l45;
+	function toggleDialog_ExportOptions() {
+		var sff = document.getElementById('saveFormatFlyout');
+		var nps = document.getElementById('npSave');
+
+		if(sff.style.display === 'block'){
+			closeDialog();
+		} else {
+			nps.style.backgroundColor = _UI.colors.blue.l45;
+			sff.style.display = 'block';
+		}
 	}
 
 	function makeErrorMessageBox() {
@@ -244,7 +252,7 @@
 
 
 //-------------------
-// Project Saved Sate
+// Saved Sate
 //-------------------
 	function setProjectAsSaved(){
 		_UI.projectsaved = true;
@@ -270,6 +278,23 @@
 		}
 
 		updateSaveIcon();
+	}
+
+	function updateSaveIcon(){
+		if(_UI.navprimaryhere === 'npNav') return;
+
+		var savecolor = _UI.colors.gray.l90;
+		if(!_UI.projectsaved) savecolor = 'white';
+
+		document.getElementById('npSave').innerHTML = '<table class="saveButtonTable">' +
+		'<tr><td style="border-right:1px solid rgb(204, 209, 214);">' +
+			'<button class="primarynavbutton" style="height:32px; width:38px; padding:4px 0px 0px 7px;" title="Save Glyphr Project File" onclick="saveGlyphrProjectFile();">' +
+				makeIcon({'name': 'button_npSave', 'size':24, 'color':savecolor, 'hovercolor':'white'}) +
+			'</button></td><td>' +
+			'<button class="primarynavbutton" style="height:36px; width:21px; text-align:left; padding:0px 0px 0px 4px;" title="Save File Format Options" onclick="toggleDialog_ExportOptions();">' +
+				makeIcon({'name': 'button_more', 'height':10, 'width':10, 'size':10, 'color':savecolor, 'hovercolor':'white'}) +
+			'</button></td></tr>'+
+		'</table>';
 	}
 
 
@@ -313,7 +338,7 @@ function saveFile(fname, buffer, ftype) {
 			if (cobj[i] && typeof cobj[i] === 'object') {
 				newObj[i] = clone(cobj[i]);
 			} else newObj[i] = cobj[i];
-		} 
+		}
 		return newObj;
 	}
 

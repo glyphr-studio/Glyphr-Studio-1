@@ -317,9 +317,10 @@
 	#saveFormatFlyout {
 		display:none;
 		position: absolute;
-		left:70px;
-		top:436px;
+		left:69px;
+		top:433px;
 		background-color: rgb(0,113,170);
+		border-color: rgb(0,113,170);
 		padding:10px 10px 0px 10px;
 		width: 250px;
 		height:auto;
@@ -327,13 +328,14 @@
 
 	.closeFormatFlyout {
 		background-color: rgb(0,113,170);
+		border-color: rgb(0,113,170);
 		color:rgb(80,196,255);
 		font-size:30px;
 		line-height: 35px;
 		width:24px;
 		height:35px;
 		position:absolute;
-		left:270px;
+		left:269px;
 		top:0px;
 		border-top-right-radius: 4px;
 		border-bottom-right-radius: 4px;
@@ -496,13 +498,6 @@
 		padding:0px;
 	}
 
-	#pnsaveout {
-		width:100%;
-		overflow-x:hidden;
-		overflow-y:scroll;
-		height:400px;
-	}
-
 	#floatlogo {
 		background-color:transparent;
 		position:fixed;
@@ -511,9 +506,10 @@
 		z-index:999;
 	}
 
-	#npSaveout {
-		height:800px;
-		width:100%;
+	#npSave {
+		position: absolute;
+		left:0px;
+		top:500px;
 	}
 
 	.pagecontent {
@@ -840,7 +836,7 @@
 		width:auto;
 		height:auto;
 		padding:2px 4px 4px 4px;
-		z-index:1000;
+		z-index:999;
 		background-color:rgb(229,234,239);
 		border:5px solid rgb(229,234,239);
 		border-radius:3px;

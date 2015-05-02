@@ -135,6 +135,7 @@
 
 		saveFile(fname, jsonString);
 
+		closeDialog();
 		setProjectAsSaved();
 	}
 

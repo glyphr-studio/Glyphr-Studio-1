@@ -1,9 +1,9 @@
 // start of file
 /**
 	Framework > Navigation
-	This is all the logic around navigating around 
-	various pages of the framework.  It also 
-	handles the layouts for single screen mode and 
+	This is all the logic around navigating around
+	various pages of the framework.  It also
+	handles the layouts for single screen mode and
 	tearout / two screen mode.
 **/
 
@@ -109,7 +109,7 @@
 		document.getElementById('primaryScreenLayout').innerHTML = pol;
 		//debug('MAKELAYOUT_POPOUT primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
 		make_NavPanels_PopOut();
-		
+
 		// debug(' makeLayout_PopOut - END\n');
 	}
 
@@ -226,12 +226,16 @@
 		var np = document.getElementById('navarea_panel');
 		document.getElementById('navarea_tabs').innerHTML = makePanel_NavTabs();
 		np.innerHTML = '';
+		closeDialog();
 		updateSaveIcon();
-		
-		if(onNoNavPage()) {
+
+		if(onNoNavPage() || _UI.navprimaryhere === 'npNav') {
 			_UI.navprimaryhere = 'npNav';
 			np.innerHTML = makePanel_PageNav();
+			document.getElementById('npSave').style.display = 'none';
 			return;
+		} else {
+			document.getElementById('npSave').style.display = 'block';
 		}
 
 		switch(_UI.navprimaryhere){
@@ -263,7 +267,6 @@
 			case 'npLayers': np.innerHTML = makePanel_LayerChooser(); break;
 			case 'npGuides': np.innerHTML = makePanel_Guides(); break;
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
-			case 'npSave': saveGlyphrProjectFile(); break;
 		}
 		// debug(' make_NavPanels_PopIn - END\n');
 	}
@@ -298,24 +301,6 @@
 			case 'ligatures':			loadPage_ligatures();		break;
 		}
 	}
-
-	function updateSaveIcon(){
-		if(_UI.navprimaryhere === 'npNav') return;
-
-		var savecolor = _UI.colors.gray.l90;
-		if(!_UI.projectsaved) savecolor = 'white';
-		
-		document.getElementById('npSave').innerHTML = '<table class="saveButtonTable">' +
-		'<tr><td style="border-right:1px solid rgb(204, 209, 214);">' +
-			'<button class="primarynavbutton" style="height:32px; width:38px; padding:4px 0px 0px 7px;" title="Save Glyphr Project File" onclick="saveGlyphrProjectFile();">' +
-				makeIcon({'name': 'button_npSave', 'size':24, 'color':savecolor, 'hovercolor':'white'}) +
-			'</button></td><td>' +
-			'<button class="primarynavbutton" style="height:36px; width:21px; text-align:left; padding:0px 0px 0px 4px;" title="Save File Format Options" onclick="showDialog_ExportOptions();">' +
-				makeIcon({'name': 'button_more', 'height':10, 'width':10, 'size':10, 'color':savecolor, 'hovercolor':'white'}) +
-			'</button></td></tr>'+
-		'</table>';
-	}
-
 
 	function makePanel_NavTabs(){
 		// debug('\n makePanel_NavTabs - START');
@@ -394,11 +379,6 @@
 			newsub += '</button></div>';
 		}
 
-		if(_UI.navprimaryhere !== 'npNav'){
-			newsub += '<div style="height:64px;"></div>';
-			newsub += '<div id="npSave"></div>';
-		}
-
 		// Bottom Left
 		newsub += '<div style="position:absolute; bottom:15px; left:0px; width:70px; text-align:center; cursor:pointer;">';
 
@@ -423,12 +403,13 @@
 		navarr.push('project settings');
 		navarr.push('_');
 		navarr.push('import svg');
-		navarr.push('export font');
 		if(_UI.popout){
 			navarr.push('_');
-			navarr.push('save');
+			navarr.push('popin');
+		} else {
+			navarr.push('export font');
 		}
-		navarr.push('_');
+		if(!_UI.popout) navarr.push('_');
 		navarr.push('help');
 		navarr.push('about');
 		if(!_UI.popout){
@@ -453,9 +434,8 @@
 
 			if(navarr[i]==='_'){
 				newsub += '<div style="height:12px;"></div>';
-			} else if (navarr[i] === 'save'){
-				newsub += '<div id="npSave" style="position:relative; left:-10px; margin-bottom:12px; background-color:rgb(0,113,170);"></div>';
-				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:31px; position:relative; left:-10px; padding:5px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
+			} else if (navarr[i] === 'popin'){
+				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:32px; position:relative; left:-10px; top:-4px; padding:50px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
 					makeIcon({'name':'tool_popIn', 'color':'white', 'hovercolor':'white', 'size':20, 'width':24, 'height':24})+
 					'<span style="position:relative; top:-5px; margin-left:10px; color:white;">Pop In</span>'+
 					'</div>';
@@ -476,7 +456,7 @@
 					navarr[i]+'</button>';
 			}
 		}
-		
+
 		newsub += '</div>';
 
 		return newsub;
