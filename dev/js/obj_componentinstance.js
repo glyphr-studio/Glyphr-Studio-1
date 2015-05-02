@@ -60,7 +60,8 @@
 //	-------------------------------------
 //	Component to Shape Paridy Functions
 //	-------------------------------------
-
+	ComponentInstance.prototype.getName = function() { return this.name; };
+	
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
 		// debug('\n ComponentInstance.updateShapePosition - START');
 		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);

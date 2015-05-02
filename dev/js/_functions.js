@@ -105,7 +105,7 @@
 				_UI.navprimaryhere === 'npHistory') return content + '</h1>';
 
 			if(selwi){
-				name = (selwi.name || selwi.glyphhtml || selwi.shape.name || '[no shape outline yet]');
+				name = (selwi.getName() || selwi.glyphhtml || selwi.shape.name || '[no shape outline yet]');
 				// debug('\t selwi name is ' + name);
 
 				if(selwi.name) name = name.replace(/latin /i, '');

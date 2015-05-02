@@ -56,6 +56,8 @@
 // GLYPH METHODS
 //-------------------------------------------------------
 
+	Glyph.prototype.getName = function() { return this.name; };
+
 	Glyph.prototype.calcGlyphMaxes = function(){
 		// debug('\n Glyph.calcGlyphMaxes - START ' + this.name);
 

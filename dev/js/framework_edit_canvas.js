@@ -504,7 +504,7 @@
 	}
 
 	function getSelectedWorkItem(){
-		// debug('\n getSelectedWorkItem - START');
+		debug('\n getSelectedWorkItem - START');
 		// debug('\t navhere: ' + _UI.navhere);
 		var re;
 
@@ -522,8 +522,13 @@
 				// debug('\t case components, returning ' + re.name);
 				return re;
 			case 'kerning':
-				re = getGlyph(_UI.selectedkern, false);
-				// debug('\t case glyph edit, returning ' + re.name);
+				debug('\t case KERN - selkern = ' + _UI.selectedkern);
+				if(!_UI.selectedkern) {
+					_UI.selectedkern = getFirstID(_GP.kerning);
+					debug('\t no selected kern, setting to ' + _UI.selectedkern);
+				}
+				re = _GP.kerning[_UI.selectedkern] || false;
+				debug('\t case kerning, returning ' + re);
 				return re;
 		}
 
@@ -541,9 +546,11 @@
 		return false;
 	}
 
-	function getSelectedWorkItemName() {
+	function getSelectedWorkItemName(){
+		debug('\n getSelectedWorkItemName - START');
 		var wi = getSelectedWorkItem();
-		return wi.name || '[name not found]';
+		debug('\t wi\n'+wi);
+		return wi.name || wi.getName() || '[name not found]';
 	}
 
 	function getSelectedWorkItemShapes(){

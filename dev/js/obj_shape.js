@@ -31,9 +31,20 @@
 
 
 //	-------------------------------------------------------
+//	SHAPE METHODS
+//	-------------------------------------------------------
+
+	Shape.prototype.getName = function() { return this.name; };
+
+
+
+
+//	-------------------------------------------------------
 //	DRAWING THE SHAPE
 //	-------------------------------------------------------
 
+	Shape.prototype.getName = function() { return this.name; };
+	
 	Shape.prototype.drawShape = function(lctx, view){
 		//debug('drawShape');
 		if(this.visible){
