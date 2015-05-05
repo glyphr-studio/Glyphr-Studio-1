@@ -213,8 +213,11 @@
 			setCursor('pointer');
 			if(_UI.ss && _UI.ss.path){ _UI.ss.calcMaxes(); }
 		}
-
+		
+		_UI.eventhandlers.hoverpoint = false;
+		closeNotation();
 		updateCursor();
+
 		redraw("clicktool");
 	}
 
@@ -306,7 +309,7 @@
 			con += "<table><tr><td style='vertical-align:top; padding:20px 10px 0px 0px;'>"+
 				checkUI("_GP.projectsettings.showkeyboardtipsicon")+
 			"</td><td style='vertical-align:top; padding:20px 10px 0px 0px;'>"+
-				"<label style='position:relative; top:-5px;' for='showkeyboardtipsicon'>show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button</label>"+
+				"<label style='position:relative; top:-5px;' for='showkeyboardtipsicon'>show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button</label>"+
 			"</td></tr></table>";
 
 			openDialog(con);
@@ -342,6 +345,8 @@
 			"<br><table>"+
 			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>v</span></td><td>select the shape edit arrow tool</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>b</span></td><td>select the path edit pen tool</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>&ndash;</span></td><td>zoom out the edit canvas</td></tr>"+

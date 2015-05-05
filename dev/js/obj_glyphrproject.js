@@ -38,7 +38,7 @@
 			},
 
 			// UI stuff
-			'pointsize': 5,					// path point square size
+			'pointsize': 7,					// path point square size
 			'spinnervaluechange': 1,		// how much spinner controls change a value
 			'renderpointssnappedtogrid': true, // OpenType.js requires all points be round numbers - project will still store decimals
 			'showkeyboardtipsicon': true,	// button for keyboard tips on edit canvas

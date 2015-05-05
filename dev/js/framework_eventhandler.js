@@ -1,8 +1,8 @@
 // start of file
 /**
 	Framework > Event Handlers
-	All the canvas interaction, tool events, and 
-	keyboard events for all pages can be found 
+	All the canvas interaction, tool events, and
+	keyboard events for all pages can be found
 	here.
 **/
 
@@ -151,7 +151,7 @@
 				eventHandler_ShapeResize();
 				didstuff = true;
 			}
-			
+
 			if(didstuff){
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
@@ -328,7 +328,7 @@
 			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 
-			redraw('Event Handler Tool_NewPath mousedown');	
+			redraw('Event Handler Tool_NewPath mousedown');
 			//debug('Tool_NewPath MOUSEDOWN - end of function, this.currpt:\n' + JSON.stringify(newpoint));
 		};
 
@@ -873,19 +873,27 @@
 				}
 			}
 
-			// c
+			// ctrl + c
 			if(event.ctrlKey && kc==='c'){
 				event.preventDefault();
 				copyShape();
 			}
 
-			// v
+			// ctrl + v
 			if(event.ctrlKey && kc==='v'){
 				event.preventDefault();
 				pasteShape();
 				history_put('Paste Shape');
 				redraw('Paste Shape');
 			}
+
+
+			// v
+			if(kc === 'v') clickTool('shaperesize');
+
+			// b
+			if(kc === 'b') clickTool('pathedit');
+
 		}
 	}
 
