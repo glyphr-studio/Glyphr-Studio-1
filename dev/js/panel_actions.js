@@ -35,9 +35,9 @@
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
 		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
-			shapeactions += "<button onclick='turnComponentIntoShapes();redraw(\"turnComponentIntoShapes\");'>unlink this component</button><br>";
+			shapeactions += "<button onclick='turnComponentIntoShapes();history_put(\"Unlinked Component\");redraw(\"turnComponentIntoShapes\");'>unlink this component</button><br>";
 		} else {
-			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
+			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();history_put(\"Turned Shape into a Component\");redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
 		}
 
 		var layeractions = "<h3>layer</h3>";

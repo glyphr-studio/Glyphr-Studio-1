@@ -69,8 +69,8 @@
 		dx = parseFloat(dx) || 0;
 		dy = parseFloat(dy) || 0;
 
-		this.translatex += dx;
-		this.translatey += dy;
+		this.translatex = (1*this.translatex) + dx;
+		this.translatey = (1*this.translatey) + dy;
 		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
 		// debug(' ComponentInstance.updateShapePosition - END\n');
 	};
@@ -102,8 +102,8 @@
 		}
 
 		// debug('\t translate was: ' + this.scalew + ' / ' + this.scaleh);
-		this.scalew += dw;
-		this.scaleh += dh;
+		this.scalew = (1*this.scalew) + dw;
+		this.scaleh = (1*this.scaleh) + dh;
 		// debug('\t translate now: ' + this.scalew + ' / ' + this.scaleh);
 		// debug(' ComponentInstance.updateShapeSize - END\n');
 	};
