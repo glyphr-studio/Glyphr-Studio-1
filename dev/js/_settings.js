@@ -16,7 +16,7 @@
 		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': false,		// navigate straight to a page
+		'devnav': 'import svg',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		// SelectedGlyph
@@ -151,8 +151,8 @@
 
 		// page: import svg
 		'importsvg': {
-			'scale': false,
-			'move': false,
+			'scale': true,
+			'move': true,
 			'ascender': false,
 			'capheight': false,
 			'descender': false,

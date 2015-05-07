@@ -509,12 +509,13 @@
 	}
 
 	function getSelectedWorkItem(){
-		debug('\n getSelectedWorkItem - START');
+		// debug('\n getSelectedWorkItem - START');
 		// debug('\t navhere: ' + _UI.navhere);
 		var re;
 
 		switch(_UI.navhere){
 			case 'glyph edit':
+			case 'import svg':
 				re = getGlyph(_UI.selectedglyph, true);
 				// debug('\t case glyph edit, returning ' + re.name);
 				return re;
@@ -527,13 +528,13 @@
 				// debug('\t case components, returning ' + re.name);
 				return re;
 			case 'kerning':
-				debug('\t case KERN - selkern = ' + _UI.selectedkern);
+				// debug('\t case KERN - selkern = ' + _UI.selectedkern);
 				if(!_UI.selectedkern) {
 					_UI.selectedkern = getFirstID(_GP.kerning);
-					debug('\t no selected kern, setting to ' + _UI.selectedkern);
+					// debug('\t no selected kern, setting to ' + _UI.selectedkern);
 				}
 				re = _GP.kerning[_UI.selectedkern] || false;
-				debug('\t case kerning, returning ' + re);
+				// debug('\t case kerning, returning ' + re);
 				return re;
 		}
 
@@ -542,7 +543,8 @@
 
 	function getSelectedWorkItemID(){
 		switch(_UI.navhere){
-			case 'glyph edit':	return _UI.selectedglyph;
+			case 'glyph edit':
+			case 'import svg':	return _UI.selectedglyph;
 			case 'ligatures':	return _UI.selectedligature;
 			case 'components':	return _UI.selectedcomponent;
 			case 'kerning':	return _UI.selectedkern;
@@ -552,9 +554,9 @@
 	}
 
 	function getSelectedWorkItemName(){
-		debug('\n getSelectedWorkItemName - START');
+		// debug('\n getSelectedWorkItemName - START');
 		var wi = getSelectedWorkItem();
-		debug('\t wi\n'+wi);
+		// debug('\t wi = '+wi);
 		return wi.name || wi.getName() || '[name not found]';
 	}
 

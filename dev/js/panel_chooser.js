@@ -8,29 +8,25 @@
 
 
 	function makePanel_GlyphChooser(fname){
-		var onglyph = _UI.navhere === 'glyph edit';
-		var onlig = _UI.navhere === 'ligatures';
-		var oncom = _UI.navhere === 'components';
-
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
 
-		var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs')]);
+		var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs').replace('import svg', 'glyphs')]);
 		if(choices !== '<div class="charchooserwrapper"></div>'){
 			content += '<div class="panel_section">';
 			content += choices;
 			content += '</div>';
 		}
 		
-		if(onlig){
+		if(_UI.navhere === 'ligatures'){
 			content += '<div class="panel_section">';
 			content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
 			if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
-		} else if(oncom){
+		} else if(_UI.navhere === 'components'){
 			content += '<div class="panel_section">';
 			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate(\'npAttributes\');">create new component</button><br>';
 			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
