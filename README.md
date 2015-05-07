@@ -17,7 +17,7 @@ site the moment they are finished!
 
 ## Links
 | Website | [glyphrstudio.com](http://www.glyphrstudio.com) |
-| ---- | ---- |
+| :---- | :---- |
 | Email | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
 | Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
 | Blog | [glyphrstudio.com/blog](http://www.glyphrstudio.com/blog/) |
