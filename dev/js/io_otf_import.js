@@ -272,7 +272,7 @@
 			// md.strikethrough_thickness = 1*font.strikethroughthickness || 10;
 			// md.overline_position = 1*font.overlineposition || 750;
 			// md.overline_thickness = 1*font.overlinethickness || 10;
-			md.version = font.version || 'Version 0.1';
+			md.version = font.version || 'Version 0.001';
 
 			// Finish Up
 			// debug('\t calling finalizeGlyphrProject');
