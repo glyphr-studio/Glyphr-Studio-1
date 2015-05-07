@@ -7,7 +7,7 @@
 
 
 	function ioOTF_exportOTFfont() {
-		debug('\n ioOTF_exportOTFfont - START');
+		// debug('\n ioOTF_exportOTFfont - START');
 		var options = {};
 		
 		// Add metadata
@@ -29,8 +29,8 @@
 		options.trademark = md.trademark || ' ';
 		options.glyphs = [];
 
-		debug('\t NEW options ARG BEFORE GLYPHS');
-		debug(options);
+		// debug('\t NEW options ARG BEFORE GLYPHS');
+		// debug(options);
 
 		// Add Notdef
 		var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
@@ -39,11 +39,11 @@
 			notdef.updateGlyphSize(delta, delta, true);
 		}
 
-		debug('\t notdef glyph and path:');
-		debug(notdef);
+		// debug('\t notdef glyph and path:');
+		// debug(notdef);
 
 		var ndpath = notdef.makeOpenTypeJSpath();
-		debug(ndpath);
+		// debug(ndpath);
 
 		options.glyphs.push(new opentype.Glyph({
 			name: '.notdef',
@@ -81,11 +81,11 @@
 				name: tc.name,
 				unicode: parseInt(c),
 				index: parseInt(c),
-				advanceWidth: tc.getTotalWidth(),
-				xMin: tc.maxes.xmin,
-				xMax: tc.maxes.xmax,
-				yMin: tc.maxes.ymin,
-				yMax: tc.maxes.ymax,
+				advanceWidth: round(tc.getTotalWidth(), 3),
+				xMin: round(tc.maxes.xmin, 3),
+				xMax: round(tc.maxes.xmax, 3),
+				yMin: round(tc.maxes.ymin, 3),
+				yMax: round(tc.maxes.ymax, 3),
 				path: tcpath
 			}));
 		}}
@@ -94,10 +94,12 @@
 		
 
 		// Create Font
-		debug('\t NEW options ARG TO FONT');
-		debug(options);
+		// debug('\t NEW options ARG TO FONT');
+		// debug(options);
 		var font = new opentype.Font(options);
 
 		// Export
 		font.download();
+
+		// debug(' ioOTF_exportOTFfont - END\n');
 	}

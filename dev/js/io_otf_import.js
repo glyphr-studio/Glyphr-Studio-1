@@ -220,11 +220,11 @@
 		*/
 		function startFinalizeFontImport() {
 			importStatus('Finalizing the imported font...');
-			setTimeout(finalizeFontImport, 4);
+			setTimeout(finalizeFontImport, 20);
 		}
 
 		function finalizeFontImport(){
-			debug('\n finalizeFontImport - START');
+			// debug('\n finalizeFontImport - START');
 			_GP.glyphs = fc;
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
@@ -250,7 +250,7 @@
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
-			debug('\t Custom range stuff done');
+			// debug('\t Custom range stuff done');
 			var ps = _GP.projectsettings;
 			var md = _GP.metadata;
 			var fname = font.familyName || 'My Font';
@@ -275,14 +275,14 @@
 			md.version = font.version || 'Version 0.1';
 
 			// Finish Up
-			debug('\t calling finalizeGlyphrProject');
+			// debug('\t calling finalizeGlyphrProject');
 			finalizeGlyphrProject();
 			closeDialog();
-			debug(' finalizeFontImport - END\n');
+			// debug(' finalizeFontImport - END\n');
 			navigate();
 		}
 
-		debug(' ioOTF_importOTFfont - END\n');
+		// debug(' ioOTF_importOTFfont - END\n');
 	}
 
 

@@ -73,7 +73,9 @@
 		// EXAMPLES
 		con += '<div class="openproject_tile" id="examples_content" style="display: none;">'+
 					'<h2>Load an Example project</h2>'+
-					'<button onclick="openproject_loadSample(true);" class="buttonsel">Modegg v3</button><br>'+
+					'Modegg is a project that utilizes Glyphr Studio features, like Components.  '+
+					'Merriweather Sans is an open-source font imported from an Open Type file.<br><br>'+
+					'<button onclick="openproject_loadSample(true);" class="buttonsel">Modegg</button><br>'+
 					'<button onclick="openproject_loadSample(false);" class="buttonsel">Merriweather Sans</button><br>'+
 				'</div>';
 
@@ -101,7 +103,7 @@
 	}
 
 	function handleDrop(evt) {
-		debug('\n handleDrop - START');
+		// debug('\n handleDrop - START');
 		document.getElementById('openprojecttableright').innerHTML = 'Loading File...';
 		document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
 
@@ -113,22 +115,22 @@
 		// debug('\t filename: ' + f.name);
 		var fname = f.name.split('.');
 		fname = fname[fname.length-1].toLowerCase();
-		debug('\t fname = ' + fname);
+		// debug('\t fname = ' + fname);
 
 		var reader = new FileReader();
 
 		if(fname === 'otf' || fname === 'ttf'){
 			reader.onload = function(){
-				debug('\n reader.onload::OTF or TTF - START');
+				// debug('\n reader.onload::OTF or TTF - START');
 				ioOTF_importOTFfont(false, reader.result);
-				debug(' reader.onload:: OTF or TTF - END\n');
+				// debug(' reader.onload:: OTF or TTF - END\n');
 			};
 
 			reader.readAsArrayBuffer(f);
 
 		} else if (fname === 'svg' || fname === 'txt'){
 			reader.onload = function() {
-				debug('\n reader.onload::SVG or TXT - START');
+				// debug('\n reader.onload::SVG or TXT - START');
 				if(fname === 'svg') {
 					// debug('\t File = .svg');
 					_UI.droppedFileContent = reader.result;
@@ -140,7 +142,7 @@
 					navigate();
 
 				}
-				debug(' reader.onload::SVG OR TXT - END\n');
+				// debug(' reader.onload::SVG OR TXT - END\n');
 			};
 
 			reader.readAsText(f);
@@ -155,7 +157,7 @@
 			document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
 		}
 
-		debug(' handleDrop - END\n');
+		// debug(' handleDrop - END\n');
 	}
 
 	function handleMessage(evt) {

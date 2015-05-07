@@ -79,8 +79,8 @@
 	}
 
 	function deleteLigature(){
-		debug('\n deleteLigature - START');
-		debug('\t deleting ' + _UI.selectedligature);
+		// debug('\n deleteLigature - START');
+		// debug('\t deleting ' + _UI.selectedligature);
 
 		closeDialog();
 		var oldname = getSelectedWorkItemName();
@@ -88,10 +88,10 @@
 		_UI.selectedligature = getFirstID(_GP.ligatures);
 		history_put('Deleted ' + oldname);
 
-		debug('\t after delete ' + _GP.ligatures);
+		// debug('\t after delete ' + _GP.ligatures);
 		navigate();
 
-		debug('deleteLigature - END\n');
+		// debug('deleteLigature - END\n');
 	}
 
 	function sortLigatures() {
