@@ -16,6 +16,7 @@ a much faster release cadence than the Beta time-frame.  Bug fixes and new featu
 site the moment they are finished!
 
 ## Links
+| | |
 |-|-|
 | Website: | [glyphrstudio.com](http://www.glyphrstudio.com) |
 | Email: | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
