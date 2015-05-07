@@ -27,6 +27,7 @@
 		'thisGlyphrStudioVersion': 'Version 1',
 		'thisGlyphrStudioVersionNum': '1.00.00',
 		'projectsaved': true,
+		'stoppagenavigation': true,
 		'icons': {},
 		'cursors': {},
 		'colors': {

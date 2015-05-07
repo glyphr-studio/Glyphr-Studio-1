@@ -76,17 +76,17 @@
 		document.body.innerHTML += '<div id="dialog_bg" onclick="closeDialog();"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
-
-		window.onbeforeunload = function() {
-			popIn();
-			if(_GP && _GP.projectsettings.stoppagenavigation && !_UI.devmode){
-				return '\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n';
-			} else {
-				return;
-			}
-		};
+		window.onbeforeunload = ohNoes;
 	}
 
+	function ohNoes() {
+		popIn();
+		if(_GP && _GP.projectsettings.stoppagenavigation && _UI.stoppagenavigation && !_UI.devmode){
+			return '\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n';
+		} else {
+			return;
+		}		
+	}
 
 //-------------------
 // Common Panel Title

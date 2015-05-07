@@ -99,7 +99,9 @@
 		var font = new opentype.Font(options);
 
 		// Export
+		_UI.stoppagenavigation = false;
 		font.download();
+		setTimeout(function(){_UI.stoppagenavigation = true;}, 2000);
 
 		// debug(' ioOTF_exportOTFfont - END\n');
 	}
