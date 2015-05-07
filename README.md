@@ -16,15 +16,14 @@ a much faster release cadence than the Beta time-frame.  Bug fixes and new featu
 site the moment they are finished!
 
 ## Links
-| Name | Link |
+| Website | [glyphrstudio.com](http://www.glyphrstudio.com) |
 | ---- | ---- |
-| Website: | [glyphrstudio.com](http://www.glyphrstudio.com) |
-| Email: | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
-| Twitter: | [@glyphrstudio](https://twitter.com/glyphrstudio) |
-| Blog: | [glyphrstudio.com/blog](http://www.glyphrstudio.com/blog/) |
-| Help & Documentation: | [help.glyphrstudio.com](http://help.glyphrstudio.com/) |
-| Help Repository: | [github.com/mattlag/Glyphr-Studio-Help](https://github.com/mattlag/Glyphr-Studio-Help/) |
-| Feedback: | [glyphrstudio.uservoice.com](https://glyphrstudio.uservoice.com) |
+| Email | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
+| Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
+| Blog | [glyphrstudio.com/blog](http://www.glyphrstudio.com/blog/) |
+| Help & Documentation | [help.glyphrstudio.com](http://help.glyphrstudio.com/) |
+| Help Repository | [github.com/mattlag/Glyphr-Studio-Help](https://github.com/mattlag/Glyphr-Studio-Help/) |
+| Feedback | [glyphrstudio.uservoice.com](https://glyphrstudio.uservoice.com) |
 
 
 ## Feedback
