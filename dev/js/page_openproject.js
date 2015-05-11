@@ -15,8 +15,8 @@
 			'<div class="splashvername">'+_UI.thisGlyphrStudioVersion+'<br></div>'+
 			'<div class="splashvernum">'+_UI.thisGlyphrStudioVersionNum+'<br></div>'+
 			'<div class="splashblurb">'+
-				'For more informaiton visit <a href="http://www.glyphrstudio.com" target=_new>www.glyphrstudio.com</a><br>'+
-				'Glyphr Studio is licensed under a <a href="https://www.gnu.org/licenses/gpl.html" target="_new">GNU General Public License</a>, ' +
+				'For more informaiton visit <a href="http://www.glyphrstudio.com" target="_blank">www.glyphrstudio.com</a><br>'+
+				'Glyphr Studio is licensed under a <a href="https://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>, ' +
 				'which is a free / open source "copyleft" license. You are free to use, distribute, and modify Glyphr Studio as long as ' +
 				'this license and its freeness stays intact.'+
 			'</div>'+

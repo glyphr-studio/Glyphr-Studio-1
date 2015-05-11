@@ -63,7 +63,7 @@
 
 		// GLYPHS
 		content += "<h1>Glyph Ranges</h1>"+
-					"Glyph ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target=_new>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target=_new>hexadecimal number</a> to all possible glyphs in a font. ";
+					"Glyph ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target='_blank'>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target='_blank'>hexadecimal number</a> to all possible glyphs in a font. ";
 
 		content += "<br><br><h3>Standard Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
 					"The most common glyph sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
@@ -100,7 +100,7 @@
 
 		content += "<br><h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
 					"Additional glyph ranges above 0x024F can be included here. "+
-					"A nice overview of glyph ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target=_new>Wikipedia's Unicode Block page</a>.<br>" +
+					"A nice overview of glyph ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target='_blank'>Wikipedia's Unicode Block page</a>.<br>" +
 					"Custom glyph ranges are inclusive, must be unique (non-overlapping), must be greater than 0x024F and less than 0xFFFF.<br><br>"+
 					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.glyphrange.filternoncharpoints", ps.glyphrange.filternoncharpoints)+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
 					"<table class='settingstable'><tr>"+
@@ -127,7 +127,7 @@
 					content += "These properties will be saved with Open Type files when they are exported.";
 				} else if (m === 'svg'){
 					content += "<h2>SVG</h2>";
-					content += "These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target=_new>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target=_new>CSS @font-face Page</a>.";
+					content += "These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target='_blank'>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target='_blank'>CSS @font-face Page</a>.";
 				}
 				content += "</p></td></tr>";
 			} else {

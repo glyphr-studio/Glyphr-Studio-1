@@ -369,7 +369,7 @@
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
 		re += '<h3>Import a custom range of glyphs</h3>'+
-			'A nice overview of glyph ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target=_new>Wikipedia\'s Unicode Block page</a>.<br>' +
+			'A nice overview of glyph ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target="_blank">Wikipedia\'s Unicode Block page</a>.<br>' +
 			'<table class="settingstable"><tr>'+
 			'<td>begin:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
 			'<td>end:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
