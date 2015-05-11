@@ -7,7 +7,7 @@
 
 
 	function ioOTF_exportOTFfont() {
-		// debug('\n ioOTF_exportOTFfont - START');
+		debug('\n ioOTF_exportOTFfont - START');
 		var options = {};
 		
 		// Add metadata
@@ -29,8 +29,8 @@
 		options.trademark = md.trademark || ' ';
 		options.glyphs = [];
 
-		// debug('\t NEW options ARG BEFORE GLYPHS');
-		// debug(options);
+		debug('\t NEW options ARG BEFORE GLYPHS');
+		debug(options);
 
 		// Add Notdef
 		var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
@@ -58,7 +58,7 @@
 		}));
 
 		// Add Glyphs and Ligatures
-		var tc, tcpath;
+		var tc, tcpath, tglyph;
 
 		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 			tc = new Glyph(clone(_GP.glyphs[c]));
@@ -66,7 +66,7 @@
 			tcpath = new opentype.Path();
 			var sl = tc.shapes;
 			var shape, path;
-			var lsb = tc.getLSB();
+			var lsb = tc.isautowide? tc.getLSB() : 0;
 
 			// Go through each shape in the char, generate the OpenTypeJS path
 			for(var j=0; j<sl.length; j++) {
@@ -77,17 +77,21 @@
 				tcpath = shape.makeOpenTypeJSpath(tcpath);
 			}
 
-			options.glyphs.push(new opentype.Glyph({
+			tglyph = new opentype.Glyph({
 				name: tc.name,
 				unicode: parseInt(c),
 				index: parseInt(c),
 				advanceWidth: round(tc.getTotalWidth(), 3),
-				xMin: round(tc.maxes.xmin, 3),
-				xMax: round(tc.maxes.xmax, 3),
+				xMin: round(tc.maxes.xmin, 3) + lsb,
+				xMax: round(tc.maxes.xmax, 3) + lsb,
 				yMin: round(tc.maxes.ymin, 3),
 				yMax: round(tc.maxes.ymax, 3),
 				path: tcpath
-			}));
+			});
+			debug('\t adding glyph ' + c);
+			debug(tglyph);
+
+			options.glyphs.push(tglyph);
 		}}
 
 		options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });

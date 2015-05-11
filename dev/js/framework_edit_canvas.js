@@ -482,25 +482,27 @@
 
 	function existingWorkItem() {
 		var len = 0;
+		var nph = _UI.navprimaryhere;
+
 		if(_UI.navhere === 'ligatures'){
 			len = getLength(_GP.ligatures);
 			if(!len){ 
 				_UI.selectedligature = false;
-				_UI.navprimaryhere = 'npChooser';
+				if(nph !== 'npNav') nph = 'npChooser';
 				return false;
 			}
 		} else if (_UI.navhere === 'components'){
 			len = getLength(_GP.components);
 			if(!len){ 
 				_UI.selectedcomponent = false;
-				_UI.navprimaryhere = 'npChooser';
+				if(nph !== 'npNav') nph = 'npChooser';
 				return false;
 			}
 		} else if (_UI.navhere === 'kerning'){
 			len = getLength(_GP.kerning);
 			if(!len){ 
 				_UI.selectedkern = false;
-				_UI.navprimaryhere = 'npAttributes';
+				if(nph !== 'npNav') nph = 'npAttributes';
 				return false;
 			}
 		}

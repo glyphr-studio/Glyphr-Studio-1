@@ -5,26 +5,23 @@
 **/
 
 
-//-------------------
-// UBER FUCNTIONS
-//-------------------
-
 	function loadPage_glyphedit(){
 		// debug('\n loadPage_glyphedit - START');
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
 		initEventHandlers();
-
-		_UI.selectedtool = 'pathedit';
-
 		clickEmptySpace();
+		
 		if(_UI.devmode && isval(_UI.devselectedshape)){
 			selectShape(_UI.devselectedshape);
 			_UI.devselectedshape = false;
 		}
 
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
+		
+		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
+		else _UI.selectedtool = 'pathaddpoint';
 
 		redraw("loadPage_glyphedit");
 		

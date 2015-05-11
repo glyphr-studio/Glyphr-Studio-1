@@ -5,20 +5,23 @@
 **/
 
 
-//-------------------
-// UBER FUCNTIONS
-//-------------------
-
 	function loadPage_ligatures(){
-
-		// debug("LOADING PAGE >> ligatures");
+		// debug('\n loadPage_ligatures - START');
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = editPage_Content();
 		setupEditCanvas();
 		initEventHandlers();
+		clickEmptySpace();
+		
+		if(_UI.devmode && isval(_UI.devselectedshape)){
+			selectShape(_UI.devselectedshape);
+			_UI.devselectedshape = false;
+		}
 
-		_UI.selectedtool = "pathedit";
 		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
+		
+		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
+		else _UI.selectedtool = 'pathaddpoint';
 
 		redraw("loadPage_ligatures");
 	}

@@ -25,7 +25,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1',
-		'thisGlyphrStudioVersionNum': '1.00.00',
+		'thisGlyphrStudioVersionNum': '1.00.01',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},
@@ -85,7 +85,7 @@
 		// Shared edit pages
 		'popout': false,
 		'ss': false,	//Selected Shape
-		'selectedtool': 'shaperesize',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
+		'selectedtool': 'default',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
 		'redrawing': false,
 		'thumbsize': 50,

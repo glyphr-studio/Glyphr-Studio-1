@@ -14,22 +14,27 @@
 		content += '</div>';
 
 		var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs').replace('import svg', 'glyphs')]);
-		if(choices !== '<div class="charchooserwrapper"></div>'){
+		if(choices !== '<div class="charchooserwrapper"></div>' &&
+			choices !== '<div class="charchooserwrapper"><div class="glyphselectsectionbreak"></div></div>'){
 			content += '<div class="panel_section">';
 			content += choices;
 			content += '</div>';
 		}
 		
 		if(_UI.navhere === 'ligatures'){
-			content += '<div class="panel_section">';
+			var emptyligs = getLength(_GP.ligatures) === 0;
+			content += '<div class="panel_section" ';
+			content += emptyligs? 'style="padding-top:-10px;">' : '>';
 			content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
-			if(getLength(_GP.ligatures)) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
+			if(emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
 		} else if(_UI.navhere === 'components'){
-			content += '<div class="panel_section">';
+			var emptycoms = getLength(_GP.components) === 0;
+			content += '<div class="panel_section" ';
+			content += emptycoms? 'style="padding-top:-10px;">' : '>';
 			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate(\'npAttributes\');">create new component</button><br>';
-			if(getLength(_GP.components)) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
+			if(emptycoms) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
 			content += '</div>';
 		}
 

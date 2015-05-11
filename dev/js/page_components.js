@@ -6,14 +6,22 @@
 
 
 	function loadPage_components(){
-		// debug("LOADING PAGE >> loadPage_components");
+		// debug('\n loadPage_components - START');
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
 		initEventHandlers();
-
 		clickEmptySpace();
-		_UI.selectedtool = 'pathedit';
+		
+		if(_UI.devmode && isval(_UI.devselectedshape)){
+			selectShape(_UI.devselectedshape);
+			_UI.devselectedshape = false;
+		}
+
+		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);
+
+		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
+		else _UI.selectedtool = 'pathaddpoint';
 
 		redraw("loadPage_components");
 	}
