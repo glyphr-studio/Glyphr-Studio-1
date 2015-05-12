@@ -7,7 +7,7 @@
 
 
 	function ioOTF_exportOTFfont() {
-		debug('\n ioOTF_exportOTFfont - START');
+		// debug('\n ioOTF_exportOTFfont - START');
 		var options = {};
 		
 		// Add metadata
@@ -23,14 +23,14 @@
 		options.manufacturerURL = md.manufacturerURL || ' ';
 		options.license = md.license || ' ';
 		options.licenseURL = md.licenseURL || ' ';
-		options.version = md.version || 'Version 0.1';
+		options.version = md.version || 'Version 0.001';
 		options.description = md.description || ' ';
 		options.copyright = md.copyright || ' ';
 		options.trademark = md.trademark || ' ';
 		options.glyphs = [];
 
-		debug('\t NEW options ARG BEFORE GLYPHS');
-		debug(options);
+		// debug('\t NEW options ARG BEFORE GLYPHS');
+		// debug(options);
 
 		// Add Notdef
 		var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
@@ -88,8 +88,8 @@
 				yMax: round(tc.maxes.ymax, 3),
 				path: tcpath
 			});
-			debug('\t adding glyph ' + c);
-			debug(tglyph);
+			// debug('\t adding glyph ' + c);
+			// debug(tglyph);
 
 			options.glyphs.push(tglyph);
 		}}
@@ -101,6 +101,7 @@
 		// debug('\t NEW options ARG TO FONT');
 		// debug(options);
 		var font = new opentype.Font(options);
+
 
 		// Export
 		_UI.stoppagenavigation = false;

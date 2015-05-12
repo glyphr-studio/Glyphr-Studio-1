@@ -165,6 +165,7 @@
 		// page: openproject
 		'droppedFileContent': false,
 		'importingfont': false,
+		'overflowcount': 300,
 		'spinning': true,
 		'importrange': {
 			'begin': 0x0020,
@@ -187,7 +188,7 @@
 		// page: font settings
 		'metadatahelp': {
 			'font_family': '',
-			'font_style': 'normal, italic, oblique',
+			'font_style': 'regular, italic, oblique',
 			'font_variant': 'normal, small-caps',
 			'font_weight': 'normal, bold, or a number 100-900',
 			'font_stretch': 'normal, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded',
@@ -201,8 +202,8 @@
 			'strikethrough_thickness': '',
 			'overline_position': '',
 			'overline_thickness': '',
-			'designer': 'You!',
-			'designerURL': 'Your website.',
+			'designer': '',
+			'designerURL': '',
 			'manufacturer': '',
 			'manufacturerURL': '',
 			'license': '',

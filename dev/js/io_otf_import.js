@@ -50,7 +50,7 @@
 		}
 
 		// test for range
-		if((font && font.glyphs.length < 600) || filter){
+		if((font && font.glyphs.length < _UI.overflowcount) || filter){
 			importStatus('Importing Glyph 1 of ' + font.glyphs.length);
 			setTimeout(startFontImport, 1);
 		} else {
@@ -255,6 +255,10 @@
 			var md = _GP.metadata;
 			var fname = font.familyName || 'My Font';
 
+			if(!font.tables) font.tables = {};
+			if(!font.tables.name) font.tables.name = {};
+			if(!font.tables.os2) font.tables.os2 = {};
+
 			ps.upm = 1*font.unitsPerEm || 1000;
 			ps.name = fname;
 			ps.ascent = 1*font.ascender || 700;
@@ -264,6 +268,20 @@
 
 			md.font_family = fname;
 			md.panose_1 = font.tables.os2.panose.join(' ') || '0 0 0 0 0 0 0 0 0 0';
+			md.version = font.version || 'Version 0.001';
+
+			// These can be read in but not saved using OpenType.js
+			md.font_style = JSON.stringify(font.tables.name.fontSubfamily) || 'regular';
+			md.copyright = JSON.stringify(font.tables.name.copyright) || '';
+			md.trademark = JSON.stringify(font.tables.name.trademark) || '';
+			md.designer = JSON.stringify(font.tables.name.designer) || '';
+			md.designerURL = JSON.stringify(font.tables.name.designerURL) || '';
+			md.manufacturer = JSON.stringify(font.tables.name.manufacturer) || '';
+			md.manufacturerURL = JSON.stringify(font.tables.name.manufacturerURL) || '';
+			md.license = JSON.stringify(font.tables.name.license) || '';
+			md.licenseURL = JSON.stringify(font.tables.name.licenseURL) || '';
+			md.description = JSON.stringify(font.tables.name.description) || '';
+
 			// md.font_weight = 1*font.fontweight || 400;
 			// md.font_stretch = font.fontstretch || 'normal';
 			// md.underline_position = 1*font.underlineposition || -50;
@@ -272,7 +290,6 @@
 			// md.strikethrough_thickness = 1*font.strikethroughthickness || 10;
 			// md.overline_position = 1*font.overlineposition || 750;
 			// md.overline_thickness = 1*font.overlinethickness || 10;
-			md.version = font.version || 'Version 0.001';
 
 			// Finish Up
 			// debug('\t calling finalizeGlyphrProject');

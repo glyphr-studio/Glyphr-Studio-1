@@ -74,7 +74,7 @@
 			// debug(chars);
 
 			// test for range
-			if(chars.length < 600 || filter){
+			if(chars.length < _UI.overflowcount || filter){
 				setTimeout(startFontImport, 1);
 				// Dump JSON
 				// saveFile('Parsed JSON', json(jsondata));
