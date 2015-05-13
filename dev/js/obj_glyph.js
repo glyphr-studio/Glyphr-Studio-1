@@ -175,22 +175,23 @@
 
 	Glyph.prototype.makeSVG = function(size, gutter) {
 		// debug('\n Glyph.makeSVG - START');
+		var ps = _GP.projectsettings;
 		size = size || _UI.thumbsize;
 		gutter = gutter || _UI.thumbgutter;
-		var upm = _GP.projectsettings.upm;
-		var desc = upm - _GP.projectsettings.ascent;
+		var emsquare = Math.max(ps.upm, (ps.ascent - ps.descent));
+		var desc = Math.abs(ps.descent);
 		var charscale = (size-(gutter*2)) / size;
-		var gutterscale = (gutter / size) * upm;
-		var vbsize = upm - (gutter*2);
+		var gutterscale = (gutter / size) * emsquare;
+		var vbsize = emsquare - (gutter*2);
 		var pathdata = this.makeSVGpathData();
 
 		// Assemble SVG
 		var re = '<svg version="1.1" ';
 		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
 		re += 'width="'+size+'" height="'+size+'" viewBox="0,0,'+vbsize+','+vbsize+'">';
-		re += '<g transform="translate('+(gutterscale)+','+(upm-desc-(gutterscale/2))+') scale('+charscale+',-'+charscale+')">';
+		re += '<g transform="translate('+(gutterscale)+','+(emsquare-desc-(gutterscale/2))+') scale('+charscale+',-'+charscale+')">';
 		// re += '<rect x="0" y="-'+desc+'" height="'+desc+'" width="1000" fill="lime"/>';
-		// re += '<rect x="0" y="0" height="'+(upm-desc)+'" width="1000" fill="cyan"/>';
+		// re += '<rect x="0" y="0" height="'+(emsquare-desc)+'" width="1000" fill="cyan"/>';
 		re += '<path d="' + pathdata + '"/>';
 		re += '</g>';
 		re += '</svg>';

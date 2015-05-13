@@ -20,11 +20,11 @@
 
 		content += "<h3>Key Metrics</h3>"+
 					"<table class='settingstable'>"+
-					"<tr><td>Ascent height: </td><td><input type='number' value='"+ps.ascent+"' onchange='updateAscender(this.value);'></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Cap height: </td><td><input type='number' value='"+ps.capheight+"' onchange='_GP.projectsettings.capheight = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>x Height: </td><td><input type='number' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = this.value'></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' disabled='disabled' value='"+(ps.ascent - ps.upm)+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Total Units per Em: </td><td><input type='number' disabled='disabled' value='"+ps.upm+"'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Ascent height: </td><td><input type='number' value='"+ps.ascent+"' onchange='_GP.projectsettings.ascent = Math.abs(parseInt(this.value));'></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Cap height: </td><td><input type='number' value='"+ps.capheight+"' onchange='_GP.projectsettings.capheight = Math.abs(parseInt(this.value));'></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>x Height: </td><td><input type='number' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = Math.abs(parseInt(this.value));'></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' value='"+ps.descent+"' onchange='_GP.projectsettings.descent = Math.abs(parseInt(this.value))*-1;'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td>Total Units per Em: </td><td><input type='number' value='"+ps.upm+"' onchange='_GP.projectsettings.upm = Math.abs(parseInt(this.value));'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
 /*
 		content += "<h3>Line Gap</h3>" +
@@ -113,44 +113,62 @@
 
 
 		// METADATA
-		content += "<br><h1>Font Metadata</h1>";
+		content += '<br><h1>Font Metadata</h1>';
 
-		content += "<table class='settingstable metadatatable'>";
+		content += '<table class="settingstable metadatatable">';
 		for(var m in meta){ if(meta.hasOwnProperty(m) && m!== 'font_family'){
 			if(meta[m] === '{{sectionbreak}}'){
-				content += "<tr><td colspan='3'><p style='margin-bottom:10px;'>";
+				content += '<tr><td colspan="3"><p style="margin-bottom:10px;">';
 				if(m === 'shared'){
-					content += "<h2>Shared</h2>";
-					content += "These properties are shared between all font file formats.";
+					content += '<h2>Shared</h2>';
+					content += 'These properties are shared between all font file formats.';
 				} else if (m === 'otf'){
-					content += "<h2>OTF</h2>";
-					content += "These properties will be saved with Open Type files when they are exported.";
+					content += '<h2>OTF</h2>';
+					content += 'These properties will be saved with Open Type files when they are exported.';
 				} else if (m === 'svg'){
-					content += "<h2>SVG</h2>";
-					content += "These properties are based on the CSS @font-face standard.  More information can be found at the W3C's <a href='http://www.w3.org/TR/CSS2/fonts.html' target='_blank'>Fonts Page</a> and their <a href='http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select' target='_blank'>CSS @font-face Page</a>.";
+					content += '<h2>SVG</h2>';
+					content += 'These properties are based on the CSS @font-face standard.  More information can be found at the W3C\'s <a href=\'http://www.w3.org/TR/CSS2/fonts.html\' target=\'_blank\'>Fonts Page</a> and their <a href=\'http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#select\' target=\'_blank\'>CSS @font-face Page</a>.';
 				}
-				content += "</p></td></tr>";
+				content += '</p></td></tr>';
 			} else {
-				content += "<tr>";
-				content += "<td class='propname' style='padding-top:8px;'>" + m.replace(/_/g, '-') + "</td>";
-				content += "<td><input type='text' value='"+meta[m]+"' onchange='_GP."+m+" = this.value;'/></td>";
-				content += "<td class='prophelp' style='padding-top:8px;'>"+_UI.metadatahelp[m]+"</td>";
-				content += "</tr>";
+				meta[m] = meta[m] || '""';
+				content += '<tr>';
+				content += '<td class="propname" style="padding-top:8px;">' + m.replace(/_/g, '-') + '</td>';
+				content += '<td><input type="text" value="'+escapeTableValue(meta[m])+'" onchange="_GP.metadata.'+m+' = this.value;"/></td>';
+				content += '<td class="prophelp" style="padding-top:8px;">'+_UI.metadatahelp[m]+'</td>';
+				content += '</tr>';
 			}
 		}}
-		content += "</table>";
+		content += '</table>';
 
 
 		// Finish and show table
-		content += "</div>";
-		getEditDocument().getElementById("mainwrapper").innerHTML = content;
+		content += '</div>';
+		getEditDocument().getElementById('mainwrapper').innerHTML = content;
 		updateCustomRangeTable();
 	}
 
-	function updateAscender(val){
-		var ps = _GP.projectsettings;
-		ps.ascent = Math.max(0, Math.min(ps.upm, round(val)));
-		document.getElementById('metric-des').value = (ps.ascent - ps.upm);
+	function escapeTableValue(val) {
+		debug('\n escapeTableValue - START');
+		debug('\t typeof val = ' + typeof val);
+		debug(val);
+
+		if(typeof val === 'string'){
+			if(val === '""' || val === "''") return '';
+			if(val.indexOf("'") > -1){
+				debug('\t replacing single quotes');
+				// val = val.replace(/'/g, '\x27');
+				val = val.replace(/'/g, '&apos;');
+			}
+			if(val.indexOf('"') > -1) {
+				debug('\t replacing double quotes');
+				// val = val.replace(/"/g, '\x22');
+				val = val.replace(/"/g, '&quot;');
+			}
+		}
+
+		debug('\t returning ' + JSON.stringify(val));
+		return val;
 	}
 
 // end of file

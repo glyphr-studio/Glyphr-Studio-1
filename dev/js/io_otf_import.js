@@ -255,32 +255,29 @@
 			var md = _GP.metadata;
 			var fname = font.familyName || 'My Font';
 
-			if(!font.tables) font.tables = {};
-			if(!font.tables.name) font.tables.name = {};
-			if(!font.tables.os2) font.tables.os2 = {};
-
-			ps.upm = 1*font.unitsPerEm || 1000;
 			ps.name = fname;
+			ps.upm = 1*font.unitsPerEm || 1000;
 			ps.ascent = 1*font.ascender || 700;
-			ps.capheight = 1*font.tables.os2.sCapHeight || 675;
-			ps.xheight = 1*font.tables.os2.sxHeight || 400;
+			ps.descent = 1*font.descender || 300;
+			ps.capheight = 1*getTableValue(font.tables.os2.sCapHeight) || 675;
+			ps.xheight = 1*getTableValue(font.tables.os2.sxHeight) || 400;
 			ps.overshoot = round(ps.upm / 100);
 
 			md.font_family = fname;
-			md.panose_1 = font.tables.os2.panose.join(' ') || '0 0 0 0 0 0 0 0 0 0';
-			md.version = font.version || 'Version 0.001';
+			md.panose_1 = getTableValue(font.tables.os2.panose) || '0 0 0 0 0 0 0 0 0 0';
+			md.version = getTableValue(font.tables.head.fontRevision) || getTableValue(font.version) || getTableValue('Version 0.001');
 
 			// These can be read in but not saved using OpenType.js
-			md.font_style = JSON.stringify(font.tables.name.fontSubfamily) || 'regular';
-			md.copyright = JSON.stringify(font.tables.name.copyright) || '';
-			md.trademark = JSON.stringify(font.tables.name.trademark) || '';
-			md.designer = JSON.stringify(font.tables.name.designer) || '';
-			md.designerURL = JSON.stringify(font.tables.name.designerURL) || '';
-			md.manufacturer = JSON.stringify(font.tables.name.manufacturer) || '';
-			md.manufacturerURL = JSON.stringify(font.tables.name.manufacturerURL) || '';
-			md.license = JSON.stringify(font.tables.name.license) || '';
-			md.licenseURL = JSON.stringify(font.tables.name.licenseURL) || '';
-			md.description = JSON.stringify(font.tables.name.description) || '';
+			md.font_style = getTableValue(font.tables.name.fontSubfamily) || 'Regular';
+			md.copyright = getTableValue(font.tables.name.copyright) || '';
+			md.trademark = getTableValue(font.tables.name.trademark) || '';
+			md.designer = getTableValue(font.tables.name.designer) || '';
+			md.designerURL = getTableValue(font.tables.name.designerURL) || '';
+			md.manufacturer = getTableValue(font.tables.name.manufacturer) || '';
+			md.manufacturerURL = getTableValue(font.tables.name.manufacturerURL) || '';
+			md.license = getTableValue(font.tables.name.license) || '';
+			md.licenseURL = getTableValue(font.tables.name.licenseURL) || '';
+			md.description = getTableValue(font.tables.name.description) || '';
 
 			// md.font_weight = 1*font.fontweight || 400;
 			// md.font_stretch = font.fontstretch || 'normal';
@@ -302,5 +299,13 @@
 		// debug(' ioOTF_importOTFfont - END\n');
 	}
 
+	function getTableValue(val) {
+		try {
+			if(Object.prototype.toString.call(val) === '[object Array]') val = val.join(' ');
+			return val;
+		} catch(err) {
+			return 0;
+		}
+	}
 
 // end of file

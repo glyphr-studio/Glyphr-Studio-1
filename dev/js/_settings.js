@@ -25,7 +25,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1',
-		'thisGlyphrStudioVersionNum': '1.00.02',
+		'thisGlyphrStudioVersionNum': '1.00.03',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},
@@ -165,7 +165,7 @@
 		// page: openproject
 		'droppedFileContent': false,
 		'importingfont': false,
-		'overflowcount': 300,
+		'overflowcount': 326,
 		'spinning': true,
 		'importrange': {
 			'begin': 0x0020,

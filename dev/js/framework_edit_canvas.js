@@ -867,8 +867,7 @@
 			// background white square
 			_UI.glypheditctx.fillStyle = 'white';
 			_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
-			//debug('GRID:\nascent / xheight / descent = '+ ps.ascent+ '/' + ps.xheight+ '/' + (ps.ascent-ps.upm));
-
+			
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.glypheditctx.lineWidth = 1;
 
@@ -946,7 +945,7 @@
 			ps.guides.capheight.location = ps.capheight;
 			ps.guides.ascent.location = ps.ascent;
 			ps.guides.baseline.location = 0;
-			ps.guides.descent.location = (ps.ascent-ps.upm);
+			ps.guides.descent.location = ps.descent;
 			ps.guides.min.location = ll;
 			ps.guides.max.location = rl;
 			ps.guides.leftside.location = (getSelectedGlyphLeftSideBearing()*-1);

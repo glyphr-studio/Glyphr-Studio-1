@@ -14,19 +14,22 @@
 		var md = _GP.metadata;
 		var ps = _GP.projectsettings;
 
-		options.unitsPerEm = ps.upm || 1000;
-		options.familyName = md.font_family || ' ';
-		options.styleName = md.font_style || ' ';
-		options.designer = md.designer || ' ';
-		options.designerURL = md.designerURL || ' ';
-		options.manufacturer = md.manufacturer || ' ';
-		options.manufacturerURL = md.manufacturerURL || ' ';
-		options.license = md.license || ' ';
-		options.licenseURL = md.licenseURL || ' ';
-		options.version = md.version || 'Version 0.001';
-		options.description = md.description || ' ';
-		options.copyright = md.copyright || ' ';
-		options.trademark = md.trademark || ' ';
+		// This may seem silly, but all fonts are 1000 UPM for 
+		// OpenType.js - even if they are designed differently
+		options.unitsPerEm = 1000;
+
+		options.familyName = (md.font_family) || ' ';
+		options.styleName = (md.font_style) || ' ';
+		options.designer = (md.designer) || ' ';
+		options.designerURL = (md.designerURL) || ' ';
+		options.manufacturer = (md.manufacturer) || ' ';
+		options.manufacturerURL = (md.manufacturerURL) || ' ';
+		options.license = (md.license) || ' ';
+		options.licenseURL = (md.licenseURL) || ' ';
+		options.version = (md.version) || 'Version 0.001';
+		options.description = (md.description) || ' ';
+		options.copyright = (md.copyright) || ' ';
+		options.trademark = (md.trademark) || ' ';
 		options.glyphs = [];
 
 		// debug('\t NEW options ARG BEFORE GLYPHS');
@@ -49,49 +52,38 @@
 			name: '.notdef',
 			unicode: 0,
 			index: 0,
-			advanceWidth: notdef.getTotalWidth(),
-			xMin: notdef.maxes.xmin,
-			xMax: notdef.maxes.xmax,
-			yMin: notdef.maxes.ymin,
-			yMax: notdef.maxes.ymax,
+			advanceWidth: round(notdef.getTotalWidth()),
+			xMin: round(notdef.maxes.xmin),
+			xMax: round(notdef.maxes.xmax),
+			yMin: round(notdef.maxes.ymin),
+			yMax: round(notdef.maxes.ymax),
 			path: ndpath
 		}));
 
 		// Add Glyphs and Ligatures
-		var tc, tcpath, tglyph;
+		var tg, tgpath, otglyph;
 
 		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
-			tc = new Glyph(clone(_GP.glyphs[c]));
-			tc.calcGlyphMaxes();
-			tcpath = new opentype.Path();
-			var sl = tc.shapes;
-			var shape, path;
-			var lsb = tc.isautowide? tc.getLSB() : 0;
+			tg = new Glyph(clone(_GP.glyphs[c]));
+			if(tg.isautowide) tg.updateGlyphPosition(tg.getLSB(), 0);
 
-			// Go through each shape in the char, generate the OpenTypeJS path
-			for(var j=0; j<sl.length; j++) {
-				shape = sl[j];
-				shape.updateShapePosition(lsb, 0, true);
+			tgpath = tg.makeOpenTypeJSpath(new opentype.Path());
 
-				// debug('\t drawing path of char ' + tc.name);
-				tcpath = shape.makeOpenTypeJSpath(tcpath);
-			}
-
-			tglyph = new opentype.Glyph({
-				name: tc.name,
+			otglyph = new opentype.Glyph({
+				name: tg.name,
 				unicode: parseInt(c),
 				index: parseInt(c),
-				advanceWidth: round(tc.getTotalWidth(), 3),
-				xMin: round(tc.maxes.xmin, 3) + lsb,
-				xMax: round(tc.maxes.xmax, 3) + lsb,
-				yMin: round(tc.maxes.ymin, 3),
-				yMax: round(tc.maxes.ymax, 3),
-				path: tcpath
+				advanceWidth: round(tg.getTotalWidth()),
+				xMin: round(tg.maxes.xmin),
+				xMax: round(tg.maxes.xmax),
+				yMin: round(tg.maxes.ymin),
+				yMax: round(tg.maxes.ymax),
+				path: tgpath
 			});
-			// debug('\t adding glyph ' + c);
-			// debug(tglyph);
 
-			options.glyphs.push(tglyph);
+			// debug(otglyph);
+
+			options.glyphs.push(otglyph);
 		}}
 
 		options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
@@ -102,6 +94,8 @@
 		// debug(options);
 		var font = new opentype.Font(options);
 
+		// debug('\t Font object:');
+		// debug(font);
 
 		// Export
 		_UI.stoppagenavigation = false;

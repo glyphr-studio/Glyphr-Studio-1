@@ -20,6 +20,7 @@
 			'name': 'My Font',		// project name (can be different than font names)
 			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are
 			'ascent': 700,			// ascender
+			'descent': -300,		// descender
 			'capheight': 675,		// capital letter height
 			'xheight': 400,			// lowercase letter height
 			'linegap': 250,			// distance between lines
@@ -64,6 +65,7 @@
 			'shared': '{{sectionbreak}}',
 			'font_family': 'My Font',
 			'font_style': 'normal',
+			'panose_1': '2 0 0 0 0 0 0 0 0 0',
 
 			/* OTF Properties */
 			'otf': '{{sectionbreak}}',
@@ -89,9 +91,8 @@
 			// 'bbox': 0,
 			// 'unicode_range': 0,
 			'font_variant': 'normal',
-			'font_weight': 'normal',	// Default to 400
+			'font_weight': 400,		// Default to 400
 			'font_stretch': 'normal',
-			'panose_1': '2 0 0 0 0 0 0 0 0 0',
 			'stemv': 0,
 			'stemh': 0,
 			'slope': 0,
