@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 		concat: {
 			merge: {
 				src: ['dev/js/*.js'],
-				dest: 'build/Glyphr_Studio.min.js'
+				dest: 'dist/build/Glyphr_Studio.min.js'
 			},
 			test: {
 				options: {
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 						apphtml[2]
 				},
 				src: 'nothing',
-				dest: 'build/Glyphr_Studio_-_test.html'
+				dest: 'dist/build/Glyphr_Studio_-_test.html'
 			},
 			dist: {
 				options: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 					footer: '\n</script>' + apphtml[2],
 					separator: '\n</style>\n\n<script>\n'
 				},
-				src: ['build/Glyphr_Studio.min.css', 'build/Glyphr_Studio.min.js'],
+				src: ['dist/build/Glyphr_Studio.min.css', 'dist/build/Glyphr_Studio.min.js'],
 				dest: 'dist/Glyphr_Studio_-_<%= pkg.version %>.html'
 			}
 		},
@@ -44,22 +44,19 @@ module.exports = function(grunt) {
 					preserveComments: false,
 					mangle: true
 				},
-				src: 'build/Glyphr_Studio.min.js',
-				dest: 'build/Glyphr_Studio.min.js'
+				src: 'dist/build/Glyphr_Studio.min.js',
+				dest: 'dist/build/Glyphr_Studio.min.js'
 			}
 		},
 		cssmin: {
 			minimize:{
 				src: 'dev/Glyphr_Studio.css',
-				dest: 'build/Glyphr_Studio.min.css'
+				dest: 'dist/build/Glyphr_Studio.min.css'
 			}
-		}/*,
-		copy: {
-			test:{
-				src: 'dist/Glyphr_Studio_-_<%= pkg.version %>.html',
-				dest: 'build/index.html'
-			}
-		}*/
+		}, 
+		clean: {
+			build: "dist/build"
+		}
 	});
 
 	// Load the plugins
@@ -67,7 +64,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	// Tasks
-	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist']);
+	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
 };
