@@ -149,25 +149,25 @@
 	}
 
 	function escapeTableValue(val) {
-		debug('\n escapeTableValue - START');
-		debug('\t typeof val = ' + typeof val);
-		debug(val);
+		// debug('\n escapeTableValue - START');
+		// debug('\t typeof val = ' + typeof val);
+		// debug(val);
 
 		if(typeof val === 'string'){
 			if(val === '""' || val === "''") return '';
 			if(val.indexOf("'") > -1){
-				debug('\t replacing single quotes');
+				// debug('\t replacing single quotes');
 				// val = val.replace(/'/g, '\x27');
 				val = val.replace(/'/g, '&apos;');
 			}
 			if(val.indexOf('"') > -1) {
-				debug('\t replacing double quotes');
+				// debug('\t replacing double quotes');
 				// val = val.replace(/"/g, '\x22');
 				val = val.replace(/"/g, '&quot;');
 			}
 		}
 
-		debug('\t returning ' + JSON.stringify(val));
+		// debug('\t returning ' + JSON.stringify(val));
 		return val;
 	}
 

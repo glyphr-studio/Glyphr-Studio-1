@@ -13,10 +13,13 @@
 		// Add metadata
 		var md = _GP.metadata;
 		var ps = _GP.projectsettings;
-
-		// This may seem silly, but all fonts are 1000 UPM for 
-		// OpenType.js - even if they are designed differently
+		
+		/*
+			This may seem silly, but all fonts are 1000 UPM for 
+			OpenType.js - even if they are designed differently
+		*/
 		options.unitsPerEm = 1000;
+		// options.unitsPerEm = ps.upm;
 
 		options.familyName = (md.font_family) || ' ';
 		options.styleName = (md.font_style) || ' ';
@@ -31,6 +34,16 @@
 		options.copyright = (md.copyright) || ' ';
 		options.trademark = (md.trademark) || ' ';
 		options.glyphs = [];
+
+		/*
+			Hack to fix a bug where the exported font does 
+			not reflect the current changes unless its
+			name is different than the last exported font.
+			So, add whitespace char on every export.
+		*/
+		options.familyName += _UI.unique;
+		_UI.unique += ' ';
+
 
 		// debug('\t NEW options ARG BEFORE GLYPHS');
 		// debug(options);

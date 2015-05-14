@@ -122,7 +122,7 @@
 				data = flattenDataArray(tglyph.path.commands);
 				// debug('\t Glyph has path data ' + data);
 
-				if(data){
+				if(data && data !== 'Z'){
 					// Move commands for a path are treated as different Glyphr Shapes
 					data = data.replace(/M/g,'~M');
 					data = data.replace(/m/g,'~m');
