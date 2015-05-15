@@ -20,8 +20,8 @@ module.exports = function(grunt) {
 			test: {
 				options: {
 					stripbanners: true,
-					banner: apphtml[0] + 
-						'<link rel="stylesheet" type="text/css" href="Glyphr_Studio.min.css" />\n\n' + 
+					banner: apphtml[0] +
+						'<link rel="stylesheet" type="text/css" href="Glyphr_Studio.min.css" />\n\n' +
 						'<script src="Glyphr_Studio.min.js"></script>' +
 						apphtml[2]
 				},
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
 				src: 'dev/Glyphr_Studio.css',
 				dest: 'dist/build/Glyphr_Studio.min.css'
 			}
-		}, 
+		},
 		clean: {
 			build: "dist/build"
 		}
