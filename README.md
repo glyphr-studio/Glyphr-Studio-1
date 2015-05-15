@@ -38,7 +38,7 @@
  course in JavaScript and HTML5.  Since this is my first major HTML5/JS app, there are many
  opportunities for growth & improvement - for both code, and collaborative development styles.
 
- If you’d like to contribute a feature or bug fix, please make sure to search the issue tracker
+ If you'd like to contribute a feature or bug fix, please make sure to search the issue tracker
  first, your issue may have already been discussed or fixed in master.  After researching, please
  feel free to fork and send a pull request.
 
