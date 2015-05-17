@@ -231,6 +231,12 @@
 		return re || '[name not found]';
 	}
 
+	function getUnicodeShortName(ch) {
+		ch = ''+ch;
+		var re = _UI.shortunicodenames[ch];
+		return re || getUnicodeName(ch);
+	}
+
 //	-----------------
 //	Global Vars
 //	-----------------

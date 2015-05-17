@@ -13,7 +13,7 @@
 // These are NOT SAVED with the project
 	var _UI = {
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 		'devnav': false,		// navigate straight to a page
@@ -25,7 +25,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1',
-		'thisGlyphrStudioVersionNum': '1.00.04',
+		'thisGlyphrStudioVersionNum': '1.00.05',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},

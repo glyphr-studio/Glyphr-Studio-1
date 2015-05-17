@@ -83,7 +83,7 @@
 			tgpath = tg.makeOpenTypeJSpath(new opentype.Path());
 
 			otglyph = new opentype.Glyph({
-				name: tg.name,
+				name: getUnicodeShortName(''+decToHex(c)),
 				unicode: parseInt(c),
 				index: parseInt(c),
 				advanceWidth: round(tg.getTotalWidth()),
@@ -94,7 +94,7 @@
 				path: tgpath
 			});
 
-			// debug(otglyph);
+			debug(otglyph);
 
 			options.glyphs.push(otglyph);
 		}}
