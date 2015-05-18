@@ -302,15 +302,15 @@
 		if(document.getElementById('dialog_box').style.display==='block'){
 			closeDialog();
 		} else {
-			var con = "<h1>Keyboard and Mouse Shortcuts</h1>";
+			var con = '<h1>Keyboard and Mouse Shortcuts</h1>';
 
 			con += makeKeyboardShortcutsTable();
 
-			con += "<table><tr><td style='vertical-align:top; padding:20px 10px 0px 0px;'>"+
-				checkUI("_GP.projectsettings.showkeyboardtipsicon")+
-			"</td><td style='vertical-align:top; padding:20px 10px 0px 0px;'>"+
-				"<label style='position:relative; top:-5px;' for='showkeyboardtipsicon'>show the &nbsp;<span style='position:relative; top:6px;'>"+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+"</span>&nbsp; button</label>"+
-			"</td></tr></table>";
+			con += '<table><tr><td style="vertical-align:top; padding:20px 10px 0px 0px;">'+
+				checkUI('_GP.projectsettings.showkeyboardtipsicon', _GP.projectsettings.showkeyboardtipsicon)+
+			'</td><td style="vertical-align:top; padding:20px 10px 0px 0px;">'+
+				'<label style="position:relative; top:-5px;" for="showkeyboardtipsicon">show the &nbsp;<span style="position:relative; top:6px;">'+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+'</span>&nbsp; button</label>'+
+			'</td></tr></table>';
 
 			openDialog(con);
 		}
@@ -322,6 +322,8 @@
 			"<table>"+
 			"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Project file</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>e</span></td><td>export an Open Type font file</td></tr>"+
+			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>g</span></td><td>export a SVG font file</td></tr>"+
 			"</table>"+
 
 			"</td></tr><tr><td>"+

@@ -47,11 +47,6 @@
             document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
         }
 
-		// Document Key Listeners
-		getEditDocument().addEventListener('keypress', keypress, false);
-		getEditDocument().addEventListener('keydown', keypress, false);
-		getEditDocument().addEventListener('keyup', keyup, false);
-
 		// The general-purpose event handler.
 		function ev_canvas (ev) {
 
@@ -762,15 +757,37 @@
 
 	function keypress(event){
 
-		if(!onCanvasEditPage()) return;
 		if(event.type !== 'keydown') return;
+		if(_UI.navhere === 'openproject') return;
 
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
-
 		var kc = getKeyFromEvent(event);
 		//debug('Key Press:\t' + kc + ' from ' + event.which);
 		//debug(event);
+
+
+		// s
+		if(event.ctrlKey && kc==='s'){
+			event.preventDefault();
+			saveGlyphrProjectFile();
+		}
+
+		// g
+		if(event.ctrlKey && kc==='g'){
+			event.preventDefault();
+			ioSVG_exportSVGfont();
+		}
+
+		// e
+		if(event.ctrlKey && kc==='e'){
+			event.preventDefault();
+			ioOTF_exportOTFfont();
+		}
+
+
+		// Only allow the following stuff for canvas edit pages
+		if(!onCanvasEditPage()) return;
 
 		// Space
 		if(kc === 'space' && eh.ismouseovercec){
@@ -798,12 +815,6 @@
 		if(kc==='undo' || (event.ctrlKey && kc==='z')){
 			event.preventDefault();
 			history_pull();
-		}
-
-		// s
-		if(event.ctrlKey && kc==='s'){
-			event.preventDefault();
-			saveGlyphrProjectFile();
 		}
 
 		// plus

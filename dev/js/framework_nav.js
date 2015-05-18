@@ -80,12 +80,17 @@
         _UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
 		_UI.popout.onBeforeUnload = popIn;
 		_UI.popout.document.getElementById('mainwrapper').style.overflowY = 'hidden';
-
+		
 		// Paridy Functions
 		for(var f in window){ if(window.hasOwnProperty(f) && !_UI.popout[f]){
 			_UI.popout[f] = window[f];
 			// debug('\t added ' + json(f));
 		}}
+
+		// Document Key Listeners
+		getEditDocument().addEventListener('keypress', keypress, false);
+		getEditDocument().addEventListener('keydown', keypress, false);
+		getEditDocument().addEventListener('keyup', keyup, false);
 
 		navigate();
 

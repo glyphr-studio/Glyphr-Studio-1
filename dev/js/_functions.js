@@ -77,6 +77,11 @@
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
 		window.onbeforeunload = ohNoes;
+
+		// Document Key Listeners
+		getEditDocument().addEventListener('keypress', keypress, false);
+		getEditDocument().addEventListener('keydown', keypress, false);
+		getEditDocument().addEventListener('keyup', keyup, false);
 	}
 
 	function ohNoes() {
