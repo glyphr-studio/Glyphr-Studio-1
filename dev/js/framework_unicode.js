@@ -234,7 +234,7 @@
 	function getUnicodeShortName(ch) {
 		ch = ''+ch;
 		var re = _UI.shortunicodenames[ch];
-		return re || getUnicodeName(ch);
+		return re || getUnicodeName(ch).replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
 	}
 
 //	-----------------
