@@ -1,9 +1,9 @@
 // start of file
 /**
 	Framework > Edit Canvas
-	The Glyph Edit, Components, Ligatures, and to 
-	a certain extent, Kerning pages use a common 
-	HTML5 Canvas mechanism for interaction. 
+	The Glyph Edit, Components, Ligatures, and to
+	a certain extent, Kerning pages use a common
+	HTML5 Canvas mechanism for interaction.
 	Common functions around this can be found here.
 **/
 
@@ -105,17 +105,18 @@
 		var oncom = (_UI.navhere === 'components');
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
+		var type = _UI.selectedshapes.getType();
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
-		} else if (_UI.ss && _UI.ss.objtype === 'componentinstance'){
+		} else if (type === 'componentinstance'){
 			patheditclass = 'buttondis';
 			penclickable = false;
 		}
 
 		if(_UI.selectedtool === 'pathaddpoint'){
 			pathaddpointclass = 'buttonsel';
-		} else if (_UI.ss && _UI.ss.objtype === 'componentinstance'){
+		} else if (type === 'componentinstance'){
 			pathaddpointclass = 'buttondis';
 			penclickable = false;
 		}
@@ -211,9 +212,9 @@
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
-			if(_UI.ss && _UI.ss.path){ _UI.ss.calcMaxes(); }
+			_UI.selectedshapes.calcMaxes();
 		}
-		
+
 		_UI.eventhandlers.hoverpoint = false;
 		closeNotation();
 		updateCursor();
@@ -239,7 +240,7 @@
 			} else if (tool === 'shaperesize'){
 				// debug('\t not setting cursor');
 				// Handled by eventHandler
-							
+
 			} else if (tool === 'newpath'){
 				// debug('\t setting cursor to penPlus');
 				setCursor('penPlus');
@@ -277,7 +278,7 @@
 		// debug('\n setCursor - START');
 		// debug('\t passed ' + name);
 		var cur = ['auto','default','none','context-menu','help','pointer','progress','wait','cell','crosshair','text','vertical-text','alias','copy','move','no-drop','not-allowed','e-resize','n-resize','ne-resize','nw-resize','s-resize','se-resize','sw-resize','w-resize','ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize','all-scroll','zoom-in','zoom-out','grab','grabbing'];
-		
+
 		if(cur.indexOf(name+'-resize') > -1){
 			// debug('\t FOUND -resize CURSOR');
 			if(canResize(name)) name+='-resize';
@@ -421,7 +422,7 @@
 			'dx' : v.dx,
 			'dy' : v.dy
 		});
-		
+
 		redraw('setViewZoom');
 	}
 
@@ -488,21 +489,21 @@
 
 		if(_UI.navhere === 'ligatures'){
 			len = getLength(_GP.ligatures);
-			if(!len){ 
+			if(!len){
 				_UI.selectedligature = false;
 				if(nph !== 'npNav') nph = 'npChooser';
 				return false;
 			}
 		} else if (_UI.navhere === 'components'){
 			len = getLength(_GP.components);
-			if(!len){ 
+			if(!len){
 				_UI.selectedcomponent = false;
 				if(nph !== 'npNav') nph = 'npChooser';
 				return false;
 			}
 		} else if (_UI.navhere === 'kerning'){
 			len = getLength(_GP.kerning);
-			if(!len){ 
+			if(!len){
 				_UI.selectedkern = false;
 				if(nph !== 'npNav') nph = 'npAttributes';
 				return false;
@@ -620,6 +621,7 @@
 		// debug('\t accent.l65 = ' + accent.l65);
 		// debug('\t selectedtool = ' + _UI.selectedtool);
 
+		accent = accent || _UI.colors.blue;
 		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.glypheditctx.lineWidth = 1;
 		_UI.glypheditctx.strokeStyle = accent.l65;
@@ -779,7 +781,7 @@
 		// debug('\t maxes - ' + json(maxes, true));
 
 		if(!maxes) return false;
-		
+
 		// Translation Fidelity - converting passed canvas values to saved value system
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
@@ -800,49 +802,49 @@
 			((py > topyb) && (py < topyb+ps)) ){
 			return 'nw';
 		}
-		
+
 		// top
 		if( ((px > midxb) && (px < midxb+ps)) &&
 			((py > topyb) && (py < topyb+ps)) ){
 			return 'n';
 		}
-		
+
 		// upper right
 		if( ((px > rightxb) && (px < rightxb+ps)) &&
 			((py > topyb) && (py < topyb+ps)) ){
 			return 'ne';
 		}
-		
+
 		// right
 		if( ((px > rightxb) && (px < rightxb+ps)) &&
 			((py > midyb) && (py < midyb+ps)) ){
 			return 'e';
 		}
-		
+
 		// lower right
 		if( ((px > rightxb) && (px < rightxb+ps)) &&
 			((py > bottomyb) && (py < bottomyb+ps)) ){
 			return 'se';
 		}
-		
+
 		// bottom
 		if( ((px > midxb) && (px < midxb+ps)) &&
 			((py > bottomyb) && (py < bottomyb+ps)) ){
 			return 's';
 		}
-		
+
 		// lower left
 		if( ((px > leftxb) && (px < leftxb+ps)) &&
 			((py > bottomyb) && (py < bottomyb+ps)) ){
 			return 'sw';
 		}
-		
+
 		// left
 		if( ((px > leftxb) && (px < leftxb+ps)) &&
 			((py > midyb) && (py < midyb+ps)) ){
 			return 'w';
 		}
-		
+
 		return false;
 	}
 
@@ -869,7 +871,7 @@
 			// background white square
 			_UI.glypheditctx.fillStyle = 'white';
 			_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
-			
+
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.glypheditctx.lineWidth = 1;
 

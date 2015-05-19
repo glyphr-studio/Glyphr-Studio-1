@@ -10,10 +10,7 @@
 	function makePanel_GlyphAttributes(){
 		// debug('\n makePanel_GlyphAttributes - START');
 		var sc = getSelectedWorkItem();
-
-		var ispointsel = false;
-		if(_UI.ss && _UI.ss.objtype !== 'componentinstance') ispointsel = _UI.ss.path.sp(false);
-		if(!(_UI.selectedtool === 'pathedit' || _UI.selectedtool === 'pathaddpoint')) ispointsel = false;
+		var ss = _UI.selectedshapes.getShapes();
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
@@ -30,19 +27,30 @@
 			content += '<tr><td> name </td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
 
-		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
-			// component selected
-			// debug(" \t component selected");
-			content += componentInstanceDetails(_UI.ss);
-		} else if (_UI.ss){
-			// regular shape selected
-			// debug(" \t regular shape selected");
-			content += shapeDetails(_UI.ss);
-			if(ispointsel){ content += pointDetails(_UI.ss); }
-		} else {
+		if(ss.length === 0){
 			// no shape selected
 			// debug(" \t no shape selected");
 			content += glyphDetails();
+
+		} else if (ss.length === 1){
+			// One shape selected
+			if(ss[0].objtype === 'componentinstance'){
+				// component selected
+				// debug(" \t component selected");
+				content += componentInstanceDetails(ss[0]);
+			} else {
+				// regular shape selected
+				// debug(" \t regular shape selected");
+				content += shapeDetails(ss[0]);
+
+				var ispointsel = ss[0].path.sp(false);
+				if(!(_UI.selectedtool === 'pathedit' || _UI.selectedtool === 'pathaddpoint')) ispointsel = false;
+
+				if(ispointsel){ content += pointDetails(ss[0]); }
+			}
+		} else {
+			// Many shapes selected
+			content += '<tr><td colspan=2 class="detailtitle"><h3>'+ss.length+' SELECTED SHAPES</h3></td></tr>';
 		}
 
 		if (_UI.navhere === 'components'){

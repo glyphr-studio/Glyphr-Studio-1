@@ -337,8 +337,8 @@
 		redraw('turnSelectedShapeIntoAComponent');
 	}
 
-	function clickSelectShape(x,y){
-		// debug('\n clickSelectShape - START');
+	function getClickedShape(x,y){
+		// debug('\n getClickedShape - START');
 		// debug('\t checking x:' + x + ' y:' + y);
 
 		var ts;
@@ -348,19 +348,14 @@
 			// debug('\t Checking shape ' + j);
 
 			if(ts.isHere(x,y)){
-				ts.selectPathPoint(false);
-				_UI.ss = ts;
 
-				if(ts.objtype === 'componentinstance') clickTool('shaperesize');
-
-				_UI.navprimaryhere = 'npAttributes';
-
-				return true;
+				return ts;
 			}
 		}
+
 		clickEmptySpace();
 		// debug('\t deselecting, setting to -1');
-		// debug(' clickSelectShape - END\n');
+		// debug(' getClickedShape - END\n');
 		return false;
 	}
 

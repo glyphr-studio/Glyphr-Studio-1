@@ -37,6 +37,8 @@
 		_UI.redrawing = true;
 		
 		var sg = getSelectedWorkItem();
+		var ss = _UI.selectedshapes.getShapes();
+
 		if(sg) sg.calcGlyphMaxes();
 		// debug('\t Selected WI ' + sg.name);
 		
@@ -53,13 +55,20 @@
 		}
 
 		// Finish up
-		if(_UI.ss) {
-			_UI.ss.drawSelectOutline();
-			if(_UI.selectedtool === 'shaperesize'){
-				_UI.ss.drawBoundingBox();
-				_UI.ss.drawBoundingBoxHandles();
-			}
+		// if(_UI.ss) {
+		// 	_UI.ss.drawSelectOutline();
+		// 	if(_UI.selectedtool === 'shaperesize'){
+		// 		_UI.ss.drawBoundingBox();
+		// 		_UI.ss.drawBoundingBoxHandles();
+		// 	}
+		// }
+
+		_UI.selectedshapes.drawSelectOutline();
+		if(_UI.selectedtool === 'shaperesize'){
+			_UI.selectedshapes.drawBoundingBox();
+			if(ss.length === 1) _UI.selectedshapes.drawBoundingBoxHandles();
 		}
+
 
 		if(_UI.eventhandlers.hoverpoint){
 			var hp = _UI.eventhandlers.hoverpoint;

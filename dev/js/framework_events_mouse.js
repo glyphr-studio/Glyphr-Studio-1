@@ -1,9 +1,8 @@
 // start of file
 /**
-	Framework > Event Handlers
-	All the canvas interaction, tool events, and
-	keyboard events for all pages can be found
-	here.
+	Framework > Event Handlers > Mouse
+	All the canvas mouse interaction and tool 
+	events for all pages can be found here.
 **/
 
 
@@ -22,7 +21,8 @@
 		'uqhaschanged' : false,
 		'lastTool' : 'pathedit',
 		'isSpaceDown' : false,
-		'hoverpoint' : false
+		'hoverpoint' : false,
+		'multi': false
 	};
 
 	function initEventHandlers() {
@@ -109,17 +109,30 @@
 			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 
+			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+
 			if (_UI.eventhandlers.corner){
 				// debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
 				setCursor(_UI.eventhandlers.corner);
 				this.resizing = true;
 				this.dragging = false;
-			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
+
+			} else if (s){
 				// debug('\t clicked on shape = true');
 				this.dragging = true;
 				this.resizing = false;
 				setCursor('pointerSquare');
+
+				s.selectPathPoint(false);
+				_UI.ss = s;
+				if(_UI.eventhandlers.multi) _UI.selectedshapes.add(s);
+				else _UI.selectedshapes.select(s);
+
+				if(s.objtype === 'componentinstance') clickTool('shaperesize');
+				_UI.navprimaryhere = 'npAttributes';
+
 				redraw('Event Handler Tool_ShapeEdit mousedown');
+
 			} else {
 				// debug('\t clicked on nothing');
 				clickEmptySpace();
@@ -140,6 +153,8 @@
 				var dy = _UI.ss.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
 
 				_UI.ss.updateShapePosition(dx, dy);
+				// _UI.selectedshapes.updateShapePosition(dx, dy);
+
 				didstuff = true;
 			} else if (this.resizing){
 				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
@@ -380,16 +395,28 @@
 		this.mousedown = function (ev) {
 			//debug('mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 			this.controlpoint = _UI.ss? _UI.ss.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey)) : false;
+
+			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);			
+
 			if(this.controlpoint){
 				this.dragging = true;
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
 				if(this.controlpoint === 'P') setCursor('penSquare');
 				else setCursor('penCircle');
-			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				//clickSelectShape checks to switch the tool if need be.
+
+			} else if (s){
 				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
 				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+
+				s.selectPathPoint(false);
+				_UI.ss = s;
+				if(_UI.eventhandlers.multi) _UI.selectedshapes.add(s);
+				else _UI.selectedshapes.select(s);
+
+				if(s.objtype === 'componentinstance') clickTool('shaperesize');
+				_UI.navprimaryhere = 'npAttributes';
+
 			} else {
 				if(_UI.ss){_UI.ss.calcMaxes();}
 				clickEmptySpace();
@@ -466,13 +493,24 @@
 		this.addpoint = false;
 
 		this.mousedown = function(ev) {
+
+			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+
 			if(this.addpoint){
 				if(_UI.ss && _UI.ss.path){
 					_UI.ss.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
 					history_put('Added point to path');
 				}
-			} else if (clickSelectShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)){
-				// selected the shape
+
+			} else if(s){
+				s.selectPathPoint(false);
+				_UI.ss = s;
+				if(_UI.eventhandlers.multi) _UI.selectedshapes.add(s);
+				else _UI.selectedshapes.select(s);
+
+				if(s.objtype === 'componentinstance') clickTool('shaperesize');
+				_UI.navprimaryhere = 'npAttributes';
+			
 			} else {
 				_UI.selectedtool = 'newpath';
 				_UI.eventhandlers.currtool = _UI.eventhandlers.eh_addpath;
@@ -593,6 +631,7 @@
 			_UI.ss.calcMaxes();
 		}
 		_UI.ss = false;
+		_UI.selectedshapes.clear();
 	}
 
 	function eventHandler_ShapeResize(){
@@ -737,201 +776,6 @@
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () {};
 		updateCursor();
-	}
-
-	function keyup(event){
-		if(!onCanvasEditPage()) return;
-
-		var kc = getKeyFromEvent(event);
-		//debug('Key Up:\t\t' + kc + ' from ' + event.which);
-		var eh = _UI.eventhandlers;
-
-		// Space
-		if(kc=== 'space' && eh.ismouseovercec){
-			_UI.selectedtool = eh.lastTool;
-			eh.isSpaceDown = false;
-			updateCursor();
-			redraw('Event Handler - Keyup Spacebar for pan toggle');
-		}
-	}
-
-	function keypress(event){
-
-		if(event.type !== 'keydown') return;
-		if(_UI.navhere === 'openproject') return;
-
-		var eh = _UI.eventhandlers;
-		var overcanvas = eh.ismouseovercec;
-		var kc = getKeyFromEvent(event);
-		//debug('Key Press:\t' + kc + ' from ' + event.which);
-		//debug(event);
-
-
-		// s
-		if(event.ctrlKey && kc==='s'){
-			event.preventDefault();
-			saveGlyphrProjectFile();
-		}
-
-		// g
-		if(event.ctrlKey && kc==='g'){
-			event.preventDefault();
-			ioSVG_exportSVGfont();
-		}
-
-		// e
-		if(event.ctrlKey && kc==='e'){
-			event.preventDefault();
-			ioOTF_exportOTFfont();
-		}
-
-
-		// Only allow the following stuff for canvas edit pages
-		if(!onCanvasEditPage()) return;
-
-		// Space
-		if(kc === 'space' && eh.ismouseovercec){
-			event.preventDefault();
-			if(!eh.isSpaceDown){
-				eh.lastTool = _UI.selectedtool;
-				_UI.selectedtool = 'pan';
-				eh.isSpaceDown = true;
-				setCursor('move');
-				redraw('Event Handler - Keydown Spacebar for pan toggle');
-			}
-		}
-
-		if(kc==='esc'){
-			closeDialog();
-		}
-
-		// ?
-		if(kc==='?' || kc==='¿'){
-			event.preventDefault();
-			toggleKeyboardTips();
-		}
-
-		// z
-		if(kc==='undo' || (event.ctrlKey && kc==='z')){
-			event.preventDefault();
-			history_pull();
-		}
-
-		// plus
-		if(event.ctrlKey && kc==='plus'){
-			event.preventDefault();
-			viewZoom(1.1);
-			redraw('Zoom Keyboard Shortcut');
-		}
-
-		// minus
-		if(event.ctrlKey && kc==='minus'){
-			event.preventDefault();
-			viewZoom(0.9);
-			redraw('Zoom Keyboard Shortcut');
-		}
-
-		// 0
-		if(event.ctrlKey && kc==='0'){
-			event.preventDefault();
-			setView(clone(_UI.defaultview));
-			redraw('Zoom Keyboard Shortcut');
-		}
-
-		// left
-		if(kc==='left' && overcanvas){
-			event.preventDefault();
-			nudge(-1,0);
-		}
-
-		// right
-		if(kc==='right' && overcanvas){
-			event.preventDefault();
-			nudge(1,0);
-		}
-
-		// up
-		if(kc==='up' && overcanvas){
-			event.preventDefault();
-			nudge(0,1);
-		}
-
-		// down
-		if(kc==='down' && overcanvas){
-			event.preventDefault();
-			nudge(0,-1);
-		}
-
-
-		// Only allow above stuff on Kerning page
-		if(_UI.navhere === 'kerning') return;
-
-		// Only do the below stuff if the canvas has focus
-
-		if(overcanvas){
-			// del
-			if(kc==='del' || kc==='backspace'){
-				event.preventDefault();
-
-				if(_UI.ss.objtype !== 'componentinstance' && _UI.ss.path.sp(false)){
-					_UI.ss.path.deletePathPoint();
-					history_put('Delete Path Point');
-					redraw('Keypress DEL or BACKSPACE');
-				} else if (_UI.ss){
-					deleteShape();
-					history_put('Delete Shape');
-					redraw('Keypress DEL or BACKSPACE');
-				}
-			}
-
-			// ctrl + c
-			if(event.ctrlKey && kc==='c'){
-				event.preventDefault();
-				copyShape();
-			}
-
-			// ctrl + v
-			if(event.ctrlKey && kc==='v'){
-				event.preventDefault();
-				pasteShape();
-				history_put('Paste Shape');
-				redraw('Paste Shape');
-			}
-
-
-			// v
-			if(kc === 'v') clickTool('shaperesize');
-
-			// b
-			if(kc === 'b') clickTool('pathedit');
-
-		}
-	}
-
-	function getKeyFromEvent (event) {
-		//debug('GETKEYFROMEVENT - keyCode:' + event.keyCode + '\twhich:' + event.which);
-		var specialGlyphs = {
-			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 187:'plus', 189:'minus', 224:'meta'
-		};
-		return specialGlyphs[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();
-	}
-
-	function nudge(dx, dy) {
-		var mx = (dx * _GP.projectsettings.spinnervaluechange);
-		var my = (dy * _GP.projectsettings.spinnervaluechange);
-
-		if(_UI.navhere === 'kerning'){
-			_UI.ss = getSelectedKern();
-			_UI.ss.value += (mx || my);
-			redraw('Nudge');
-		} else if(_UI.ss){
-			if(_UI.ss.objtype !== 'componentinstance' && _UI.ss.path.sp()){
-				_UI.ss.path.sp().updatePathPointPosition('P', mx, my);
-			} else {
-				_UI.ss.updateShapePosition(mx, my);
-			}
-			redraw('Nudge');
-		}
 	}
 
 // end of file

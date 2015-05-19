@@ -9,6 +9,7 @@
 
 	function makePanel_Actions(){
 		var pop = _UI.popout;
+		var ss = _UI.selectedshapes.getShapes();
 
 		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";
@@ -57,12 +58,12 @@
 		if(!pop) content += "</td>";
 
 		if(!pop) content += "<td>";
-		if(_UI.ss){ content += shapeactions; }
+		if(ss.length === 1){ content += shapeactions; }
 		else if (!pop){ content += "&nbsp;";}
 		if(!pop) content += "</td>";
 
 		var ispointsel = false;
-		if(_UI.ss && _UI.ss.objtype !== 'componentinstance') ispointsel = _UI.ss.path.sp(false);
+		if(ss.length === 1 && ss[0].objtype !== 'componentinstance') ispointsel = ss[0].path.sp(false);
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
@@ -74,7 +75,7 @@
 		if (!pop) content += "</tr><tr>";
 
 		if(!pop) content += "<td>";
-		if(_UI.ss && !pop){ content += layeractions; }
+		if(ss.length === 1 && !pop){ content += layeractions; }
 		content += "</td>";
 
 		content += "</tr></table></div>";
