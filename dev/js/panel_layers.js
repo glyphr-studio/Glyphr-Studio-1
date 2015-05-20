@@ -70,7 +70,6 @@
 
 		if(wishapes && wishapes[num]){
 			 _UI.ss = wishapes[num];
-
 			 if(_UI.eventhandlers.multi) _UI.selectedshapes.toggle(wishapes[num]);
 			 else _UI.selectedshapes.select(wishapes[num]);
 		} else {

@@ -9,7 +9,7 @@
 
 	function makePanel_Actions(){
 		var pop = _UI.popout;
-		var ss = _UI.selectedshapes.getShapes();
+		var ss = _UI.selectedshapes.getMembers();
 
 		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";

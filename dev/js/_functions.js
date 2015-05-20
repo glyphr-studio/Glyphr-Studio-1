@@ -78,11 +78,6 @@
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
 		window.onbeforeunload = ohNoes;
-
-		// Document Key Listeners
-		getEditDocument().addEventListener('keypress', keypress, false);
-		getEditDocument().addEventListener('keydown', keypress, false);
-		getEditDocument().addEventListener('keyup', keyup, false);
 	}
 
 	function ohNoes() {
@@ -179,7 +174,7 @@
 		document.getElementById('saveFormatFlyout').style.display='none';
 		if(!_UI.popout && document.getElementById('npSave')) document.getElementById('npSave').style.backgroundColor = 'transparent';
 
-		document.body.focus();
+		// document.body.focus();
 	}
 
 	function openDialog(content){

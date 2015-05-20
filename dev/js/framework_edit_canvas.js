@@ -191,10 +191,11 @@
 	}
 
 	function clickTool(ctool){
-
+		// debug('\n clickTool - START');
 		_UI.selectedtool = ctool;
 
-		//debug("CLICKTOOL - was passed: " + ctool + " and _UI.selectedtool now is: " + _UI.selectedtool);
+		// debug('\t passed: ' + ctool + ' and _UI.selectedtool now is: ' + _UI.selectedtool);
+
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
 
 		if(ctool === "newrect"){
@@ -212,12 +213,12 @@
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
-			_UI.selectedshapes.calcMaxes();
+			// _UI.selectedshapes.calcMaxes();
 		}
 
 		_UI.eventhandlers.hoverpoint = false;
 		closeNotation();
-		updateCursor();
+		// updateCursor();
 
 		redraw("clicktool");
 	}
@@ -238,7 +239,7 @@
 				setCursor('crosshairsCircle');
 
 			} else if (tool === 'shaperesize'){
-				// debug('\t not setting cursor');
+				// debug('\t shaperesize :: not setting cursor');
 				// Handled by eventHandler
 
 			} else if (tool === 'newpath'){
@@ -296,6 +297,24 @@
 		}
 
 		// debug(' setCursor - END\n');
+	}
+
+	function mouseovercec() {
+		// debug('\n mouseovercec - START');
+		_UI.eventhandlers.ismouseovercec = true;
+		// Fixes a Chrome cursor problem
+		document.onselectstart = function () { return false; };
+		updateCursor();
+		// debug(' mouseovercec - END\n');
+	}
+
+	function mouseoutcec() {
+		// debug('\n mouseoutcec - START');
+		_UI.eventhandlers.ismouseovercec = false;
+		// Fixes a Chrome cursor problem
+		document.onselectstart = function () {};
+		updateCursor();
+		// debug(' mouseoutcec - END\n');
 	}
 
 	function toggleKeyboardTips(){
@@ -610,10 +629,11 @@
 		}
 	}
 
+
+
 //------------------------------
 // Drawing controls
 //------------------------------
-
 
 	function drawSelectOutline(sh, accent) {
 		// debug('\n drawSelectOutline - START');

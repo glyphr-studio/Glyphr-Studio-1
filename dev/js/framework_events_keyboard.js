@@ -6,21 +6,29 @@
 
 
 	function keyup(event){
+		var kc = getKeyFromEvent(event);
+		debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		if(!onCanvasEditPage()) return;
 
-		var kc = getKeyFromEvent(event);
-		//debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		var eh = _UI.eventhandlers;
+		debug('\t eh.lastTool = ' + eh.lastTool);
 
 		// Ctrl
-		if(kc === 'ctrl'){
-			if(_UI.selectedshapes.getShapes().length < 2){
+		if(kc === 'ctrl' || event.ctrlKey){
+			debug('\t CTRL');
+
+			if(_UI.selectedshapes.getMembers().length < 2){
+				debug('\t Shapes < 2 setting to ' + eh.lastTool);
 				_UI.selectedtool = eh.lastTool;
+				if(_UI.selectedtool === 'shaperesize') setCursor('pointer');
+				else updateCursor();
 			} else {
+				debug('\t Shapes > 2, setting to pointer');
 				_UI.selectedtool = 'shaperesize';
+				setCursor('pointer');
 			}
+			
 			eh.multi = false;
-			updateCursor();
 			redraw('Event Handler - Keyup Ctrl for multi select');
 		}
 
@@ -42,8 +50,8 @@
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
 		var kc = getKeyFromEvent(event);
-		//debug('Key Press:\t' + kc + ' from ' + event.which);
-		//debug(event);
+		debug('Key Press:\t' + kc + ' from ' + event.which);
+		// debug(event);
 
 
 		// s
@@ -69,24 +77,26 @@
 		if(!onCanvasEditPage()) return;
 
 		// Ctrl
-		if(kc === 'ctrl'){
+		if((event.ctrlKey || kc==='ctrl') && !eh.multi){
+			debug('\t event.ctrlKey = true');
+			debug('\t selectedtool = ' + _UI.selectedtool);
 			event.preventDefault();
-			_UI.eventhandlers.multi = true;
+			eh.multi = true;
 			eh.lastTool = _UI.selectedtool;
 			_UI.selectedtool = 'shaperesize';
-			setCursor('pointerPlus');
+			if(overcanvas) setCursor('pointerPlus');
+			debug('\t eh.lastTool = ' + eh.lastTool);
 			redraw('Event Handler - Keydown Ctrl for multi select');
 		}
 
 		// Space
-		if(kc === 'space' && eh.ismouseovercec){
+		if(kc === 'space' && overcanvas){
 			event.preventDefault();
 			if(!eh.isSpaceDown){
 				eh.lastTool = _UI.selectedtool;
 				_UI.selectedtool = 'pan';
 				eh.isSpaceDown = true;
 				setCursor('move');
-				redraw('Event Handler - Keydown Spacebar for pan toggle');
 			}
 		}
 

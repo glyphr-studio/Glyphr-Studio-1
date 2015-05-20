@@ -10,7 +10,7 @@
 	function makePanel_GlyphAttributes(){
 		// debug('\n makePanel_GlyphAttributes - START');
 		var sc = getSelectedWorkItem();
-		var ss = _UI.selectedshapes.getShapes();
+		var ss = _UI.selectedshapes.getMembers();
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();

@@ -37,7 +37,7 @@
 		_UI.redrawing = true;
 		
 		var sg = getSelectedWorkItem();
-		var ss = _UI.selectedshapes.getShapes();
+		var ss = _UI.selectedshapes.getMembers();
 
 		if(sg) sg.calcGlyphMaxes();
 		// debug('\t Selected WI ' + sg.name);

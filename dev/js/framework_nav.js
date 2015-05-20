@@ -202,6 +202,11 @@
 		} else {
 			make_NavPanels_PopIn();
 			document.getElementById('mainwrapper').style.overflowY = 'scroll';
+				
+			// Document Key Listeners
+			getEditDocument().addEventListener('keypress', keypress, false);
+			getEditDocument().addEventListener('keydown', keypress, false);
+			getEditDocument().addEventListener('keyup', keyup, false);
 		}
 
 		// debug(' makeLayout_PopIn - END\n');

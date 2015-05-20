@@ -50,8 +50,13 @@
 		return this.members.length;
 	};
 
-	MultiSelect.prototype.getShapes = function() {
+	MultiSelect.prototype.getMembers = function() {
 		return this.members;
+	};
+
+	MultiSelect.prototype.getSingleton = function() {
+		if(this.members.length === 1) return this.members[0];
+		else return false;
 	};
 
 	MultiSelect.prototype.isSelected = function(obj) {

@@ -44,8 +44,13 @@
 		_UI.glypheditcanvas.onmouseout = mouseoutcec;
 		_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
 		if (document.getElementById('navarea_panel')) {
-            document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
-        }
+			document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
+		}
+
+		// Document Key Listeners
+		getEditDocument().addEventListener('keypress', keypress, false);
+		getEditDocument().addEventListener('keydown', keypress, false);
+		getEditDocument().addEventListener('keyup', keyup, false);
 
 		// The general-purpose event handler.
 		function ev_canvas (ev) {
@@ -98,103 +103,147 @@
 	function Tool_ShapeEdit(){
 		this.dragging = false;
 		this.resizing = false;
+		this.didstuff = false;
+		this.clickedshape = false;
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
 			// debug('\n Tool_ShapeEdit.mousedown - START');
 			// debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
-			_UI.eventhandlers.corner = _UI.ss? _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey) : false;
-			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.firstx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-			_UI.eventhandlers.firsty = _UI.eventhandlers.mousey;
 
-			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			this.didstuff = false;
+			var eh = _UI.eventhandlers;
+			eh.corner = false;
+			eh.lastx = eh.mousex;
+			eh.firstx = eh.mousex;
+			eh.lasty = eh.mousey;
+			eh.firsty = eh.mousey;
 
-			if (_UI.eventhandlers.corner){
-				// debug('\t clicked on _UI.eventhandlers.corner: ' + _UI.eventhandlers.corner);
-				setCursor(_UI.eventhandlers.corner);
-				this.resizing = true;
-				this.dragging = false;
+			this.clickedshape = getClickedShape(eh.mousex, eh.mousey);
+			var singleton = _UI.selectedshapes.getSingleton();
 
-			} else if (s){
+			if (singleton){
+				eh.corner = singleton.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
+				
+				if(eh.corner){
+					// debug('\t clicked on eh.corner: ' + eh.corner);
+					setCursor(eh.corner);
+					this.resizing = true;
+					this.dragging = false;
+				}
+			}
+
+			if(this.clickedshape && !eh.corner){
 				// debug('\t clicked on shape = true');
 				this.dragging = true;
 				this.resizing = false;
-				setCursor('pointerSquare');
-
-				s.selectPathPoint(false);
-				_UI.ss = s;
-				if(_UI.eventhandlers.multi) _UI.selectedshapes.add(s);
-				else _UI.selectedshapes.select(s);
-
-				if(s.objtype === 'componentinstance') clickTool('shaperesize');
-				_UI.navprimaryhere = 'npAttributes';
-
-				redraw('Event Handler Tool_ShapeEdit mousedown');
-
 			} else {
 				// debug('\t clicked on nothing');
 				clickEmptySpace();
 			}
+			
+			redraw('Event Handler Tool_ShapeEdit mousedown');
 		};
 
 		this.mousemove = function (ev) {
-			if(!_UI.ss) return;
-
-			var didstuff = false;
-			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-			var cur = _UI.ss.isOverBoundingBoxCorner(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
-			if(!cur) cur = isOverShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey)? 'pointerSquare' : 'pointer';
+			var singleton = _UI.selectedshapes.getSingleton();
+			var eh = _UI.eventhandlers;
+			this.didstuff = false;
 
 			if (this.dragging) {
-				// debug('\tTool_ShapeEdit dragging normal shape');
-				var dx = _UI.ss.xlock? 0 : dx = ((_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz);
-				var dy = _UI.ss.ylock? 0 : dy = ((_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz);
+				var dx, dy;
+				var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
+				var cur = 'pointer';
 
-				_UI.ss.updateShapePosition(dx, dy);
-				// _UI.selectedshapes.updateShapePosition(dx, dy);
+				if(this.clickedshape){
+					if(eh.multi) _UI.selectedshapes.add(this.clickedshape);
+					else if (!_UI.selectedshapes.isSelected(this.clickedshape)){
+						_UI.selectedshapes.select(this.clickedshape);
+					}
 
-				didstuff = true;
+					this.clickedshape.selectPathPoint(false);
+
+					if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
+					else setCursor('pointerSquare');
+
+					_UI.navprimaryhere = 'npAttributes';
+				}
+
+				singleton = _UI.selectedshapes.getSingleton();
+
+				if(singleton){
+					cur = singleton.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
+					if(!cur) cur = isOverShape(eh.mousex, eh.mousey)? 'pointerSquare' : 'pointer';
+					dx = singleton.xlock? 0 : dx = ((eh.mousex-eh.lastx)/dz);
+					dy = singleton.ylock? 0 : dy = ((eh.lasty-eh.mousey)/dz);
+				} else {
+					dx  = ((eh.mousex-eh.lastx)/dz);
+					dy  = ((eh.lasty-eh.mousey)/dz);
+				}
+				_UI.selectedshapes.updateShapePosition(dx, dy);
+				this.didstuff = true;
+				setCursor(cur);				
+				
 			} else if (this.resizing){
-				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
-				eventHandler_ShapeResize();
-				didstuff = true;
+				if(singleton) {
+					// debug('\tTool_ShapeEdit - Resizing Shape over handle');
+					eventHandler_ShapeResize();
+					this.didstuff = true;
+				}
 			}
 
-			if(didstuff){
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				_UI.eventhandlers.uqhaschanged = true;
+			if(this.didstuff){
+				eh.lastx = eh.mousex;
+				eh.lasty = eh.mousey;
+				eh.uqhaschanged = true;
 				redraw('Event Handler Tool_ShapeEdit mousemove');
 			}
-
-			if(!this.resizing) setCursor(cur);
 		};
 
 
 		this.mouseup = function () {
 			// debug('Mouse Up');
+			var eh = _UI.eventhandlers;
+
 			setCursor('pointer');
-			if(_UI.eventhandlers.tempnewbasicshape){
-				_UI.eventhandlers.tempnewbasicshape = false;
+
+			// New Basic Shape
+			if(eh.tempnewbasicshape){
+				eh.tempnewbasicshape = false;
 				_UI.ss.hidden = false;
-				_UI.eventhandlers.lastx = _UI.eventhandlers.firstx;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.firsty;
+				eh.lastx = eh.firstx;
+				eh.lasty = eh.firsty;
 				eventHandler_ShapeResize();
 			}
 
+			// Clicked a shape to select
+			if(this.clickedshape && !this.didstuff){
+				if(eh.multi) _UI.selectedshapes.toggle(this.clickedshape);
+				else _UI.selectedshapes.select(this.clickedshape);
+
+				this.clickedshape.selectPathPoint(false);
+
+				if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
+				else setCursor('pointerSquare');
+
+				_UI.navprimaryhere = 'npAttributes';
+			}
+
+			// Resized a shape
 			if(_UI.ss && this.resizing) _UI.ss.calcMaxes();
 			updateCurrentGlyphWidth();
 
+			// Finish Up
+			this.clickedshape = false;
+			this.didstuff = false;
 			this.dragging = false;
 			this.resizing = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
-			_UI.eventhandlers.firstx = -100;
-			_UI.eventhandlers.firsty = -100;
-			if(_UI.eventhandlers.uqhaschanged) history_put('Path Edit tool');
-			_UI.eventhandlers.uqhaschanged = false;
+			eh.lastx = -100;
+			eh.lasty = -100;
+			eh.firstx = -100;
+			eh.firsty = -100;
+			if(eh.uqhaschanged) history_put('Path Edit tool');
+			eh.uqhaschanged = false;
 			redraw('Event Handler Tool_ShapeEdit mouseup');
 			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
 		};
@@ -760,22 +809,6 @@
 				else { viewZoom(0.9); }
 			}
 		}
-	}
-
-	function mouseovercec() {
-		//debug('MOUSEOVERCEC');
-		_UI.eventhandlers.ismouseovercec = true;
-		// Fixes a Chrome cursor problem
-		document.onselectstart = function () { return false; };
-		updateCursor();
-	}
-
-	function mouseoutcec() {
-		//debug('MOUSEOUTCEC');
-		_UI.eventhandlers.ismouseovercec = false;
-		// Fixes a Chrome cursor problem
-		document.onselectstart = function () {};
-		updateCursor();
 	}
 
 // end of file
