@@ -92,9 +92,21 @@
 	};
 
 	_UI.selectedshapes.drawBoundingBox = function(){
-		for(var m=0; m<this.members.length; m++){
-			this.members[m].drawBoundingBox();
+		if(this.members.length === 1){
+			this.members[0].drawBoundingBox();
+		} else {
+			var bmaxes = clone(_UI.mins);
+
+			for(var m=0; m<this.members.length; m++){
+				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
+			}
+
+			drawBoundingBox(bmaxes, {'l65': 'magenta'});
 		}
+
+		// for(var m=0; m<this.members.length; m++){
+		// 	this.members[m].drawBoundingBox();
+		// }
 	};
 
 	_UI.selectedshapes.drawBoundingBoxHandles = function(){

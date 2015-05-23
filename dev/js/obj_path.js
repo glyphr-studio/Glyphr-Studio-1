@@ -675,10 +675,7 @@
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
-		this.maxes.ymax = (_UI.glypheditcanvassize*-1);
-		this.maxes.ymin = _UI.glypheditcanvassize;
-		this.maxes.xmin = _UI.glypheditcanvassize;
-		this.maxes.xmax = (_UI.glypheditcanvassize*-1);
+		this.maxes = clone(_UI.mins);
 
 		var pp1, pp2, tbounds;
 
@@ -688,19 +685,16 @@
 
 			tbounds = getBounds(pp1.P.x, pp1.P.y, pp1.getH2x(), pp1.getH2y(), pp2.getH1x(), pp2.getH1y(), pp2.P.x, pp2.P.y);
 
-			this.maxes.xmax = Math.max(this.maxes.xmax, tbounds.maxx);
-			this.maxes.ymax = Math.max(this.maxes.ymax, tbounds.maxy);
-			this.maxes.xmin = Math.min(this.maxes.xmin, tbounds.minx);
-			this.maxes.ymin = Math.min(this.maxes.ymin, tbounds.miny);
+			this.maxes = getOverallMaxes([this.maxes, tbounds]);
 		}
 	};
 
 	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){
 		var bounds = {
-			'minx' : Math.min(x1,x2),
-			'miny' : Math.min(y1,y2),
-			'maxx' : Math.max(x1,x2),
-			'maxy' : Math.max(y1,y2)
+			'xmin' : Math.min(x1,x2),
+			'ymin' : Math.min(y1,y2),
+			'xmax' : Math.max(x1,x2),
+			'ymax' : Math.max(y1,y2)
 		};
 
 		var dcx0 = cx1 - x1;
@@ -712,7 +706,7 @@
 
 		var numerator, denominator, quadroot, root, t1, t2;
 
-		if(cx1<bounds.minx || cx1>bounds.maxx || cx2<bounds.minx || cx2>bounds.maxx) {
+		if(cx1<bounds.xmin || cx1>bounds.xmax || cx2<bounds.xmin || cx2>bounds.xmax) {
 			// X bounds
 			if(dcx0+dcx2 !== 2*dcx1) { dcx1+=0.01; }
 			numerator = 2*(dcx0 - dcx1);
@@ -726,7 +720,7 @@
 		}
 
 		// Y bounds
-		if(cy1<bounds.miny || cy1>bounds.maxy || cy2<bounds.miny || cy2>bounds.maxy) {
+		if(cy1<bounds.ymin || cy1>bounds.ymax || cy2<bounds.ymin || cy2>bounds.ymax) {
 			if(dcy0+dcy2 !== 2*dcy1) { dcy1+=0.01; }
 			numerator = 2*(dcy0 - dcy1);
 			denominator = 2*(dcy0 - 2*dcy1 + dcy2);
@@ -742,13 +736,13 @@
 	}
 
 	function checkXbounds(bounds, value) {
-		if(bounds.minx > value) { bounds.minx = value; }
-		else if(bounds.maxx < value) { bounds.maxx = value; }
+		if(bounds.xmin > value) { bounds.xmin = value; }
+		else if(bounds.xmax < value) { bounds.xmax = value; }
 	}
 
 	function checkYbounds(bounds, value) {
-		if(bounds.miny > value) { bounds.miny = value; }
-		else if(bounds.maxy < value) { bounds.maxy = value; }
+		if(bounds.ymin > value) { bounds.ymin = value; }
+		else if(bounds.ymax < value) { bounds.ymax = value; }
 	}
 
 	function getBezierValue(t, p0, p1, p2, p3) {

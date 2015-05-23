@@ -380,7 +380,16 @@ function saveFile(fname, buffer, ftype) {
 		//return ((typeof val !== "undefined") && (val !== null));
 	}
 
-
+	function getOverallMaxes(maxarr) {
+		var re = clone(_UI.mins);
+		for(var m=0; m<maxarr.length; m++){
+			re.xmax = Math.max(re.xmax, maxarr[m].xmax);
+			re.xmin = Math.min(re.xmin, maxarr[m].xmin);
+			re.ymax = Math.max(re.ymax, maxarr[m].ymax);
+			re.ymin = Math.min(re.ymin, maxarr[m].ymin);
+		}
+		return re;
+	}
 
 //-------------------
 // Object ID Stuff
