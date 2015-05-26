@@ -635,15 +635,15 @@
 // Drawing controls
 //------------------------------
 
-	function drawSelectOutline(sh, accent) {
+	function drawSelectOutline(sh, accent, thickness) {
 		// debug('\n drawSelectOutline - START');
 		// debug('\t shape name = ' + sh.name);
 		// debug('\t accent.l65 = ' + accent.l65);
 		// debug('\t selectedtool = ' + _UI.selectedtool);
 
 		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
 		var hp = (_GP.projectsettings.pointsize/2);
-		_UI.glypheditctx.lineWidth = 1;
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.fillStyle = 'transparent';
 
@@ -668,7 +668,7 @@
 			var pp = sh.path.pathpoints;
 
 			// Draw path selection outline
-			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.lineWidth = thickness;
 			_UI.glypheditctx.strokeStyle = accent.l65;
 
 			_UI.glypheditctx.beginPath();
@@ -710,25 +710,39 @@
 		// debug(' drawSelectOutline - END\n');
 	}
 
-	function drawBoundingBox(maxes, accent) {
+	function drawBoundingBox(maxes, accent, thickness) {
 		// debug('\n drawBoundingBox - START');
 		// debug('\t accent: ' + accent.l65);
 		//draw bounding box and 8points
+		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
 		var tnbs = _UI.eventhandlers.tempnewbasicshape;
 		var lx = tnbs? sx_cx(tnbs.xmin) : sx_cx(maxes.xmin);
 		var rx = tnbs? sx_cx(tnbs.xmax) : sx_cx(maxes.xmax);
 		var ty = tnbs? sy_cy(tnbs.ymax) : sy_cy(maxes.ymax);
 		var by = tnbs? sy_cy(tnbs.ymin) : sy_cy(maxes.ymin);
+
+		if(_UI.selectedshapes.getMembers().length > 1 && thickness > 1){
+			lx -= thickness;
+			rx += thickness;
+			ty -= thickness;
+			by += thickness;			
+		}
+		
 		var w = (rx-lx);
 		var h = (by-ty);
 
 		_UI.glypheditctx.fillStyle = 'transparent';
 		_UI.glypheditctx.strokeStyle = accent.l65;
+		_UI.glypheditctx.lineWidth = thickness;
 		_UI.glypheditctx.strokeRect(lx,ty,w,h);
 		// debug(' drawBoundingBox - END\n');
 	}
 
-	function drawBoundingBoxHandles(maxes, accent) {
+	function drawBoundingBoxHandles(maxes, accent, thickness) {
+		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
+
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
 
@@ -746,6 +760,7 @@
 		var bbottomy = (by-hp).makeCrisp(true);
 
 		_UI.glypheditctx.fillStyle = 'white';
+		_UI.glypheditctx.lineWidth = 1;
 		_UI.glypheditctx.strokeStyle = accent.l65;
 
 		//upper left

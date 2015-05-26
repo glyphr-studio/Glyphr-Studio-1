@@ -221,14 +221,16 @@
 
 	function getUnicodeName(ch) {
 		ch = ''+ch;
-		var re = _UI.unicodenames[ch];
-
+		var re = '[name not found]';
 		var chn = ch*1;
+		
 		if(chn > 0x4E00 && chn < 0xA000){
 			return 'CJK Unified Ideograph ' + ch.substr(2);
+		} else if(_UI && _UI.unicodenames){
+		 	re = _UI.unicodenames[ch];
 		}
 
-		return re || '[name not found]';
+		return re;
 	}
 
 	function getUnicodeShortName(ch) {

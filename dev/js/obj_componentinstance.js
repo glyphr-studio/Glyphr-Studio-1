@@ -1,4 +1,4 @@
- // start of file
+// start of file
 /**
 	Object > Component Instance
 	Component Instances are a link to any other
@@ -21,7 +21,7 @@
 		this.translatey = parseFloat(oa.translatey) || 0;
 		this.scalew = parseFloat(oa.scalew) || 0;
 		this.scaleh = parseFloat(oa.scaleh) || 0;
-		this.flipew = oa.flipew || false;
+		this.flipew = oa.flipew || false; 
 		this.flipns = oa.flipns || false;
 		this.reversewinding = oa.reversewinding || false;
 
@@ -188,24 +188,30 @@
 		return g.makeOpenTypeJSpath(otpath);
 	};
 
-	ComponentInstance.prototype.drawSelectOutline = function(){
+	ComponentInstance.prototype.drawSelectOutline = function(accent, thickness){
 		// debug('\n ComponentInstance.drawSelectOutline - START');
+		accent = accent || _UI.colors.green;
+		thickness = thickness || 1;
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
-			drawSelectOutline(g.shapes[s], _UI.colors.green);
+			drawSelectOutline(g.shapes[s], accent, thickness);
 		}
 	};
 
-	ComponentInstance.prototype.drawBoundingBox = function() {
+	ComponentInstance.prototype.drawBoundingBox = function(accent, thickness) {
 		// debug('\n ComponentInstance.drawBoundingBox - START');
+		accent = accent || _UI.colors.green;
+		thickness = thickness || 1;
 		var g = this.getTransformedGlyph();
-		drawBoundingBox(g.maxes, _UI.colors.green);
+		drawBoundingBox(g.maxes, accent, thickness);
 	};
 
-	ComponentInstance.prototype.drawBoundingBoxHandles = function(){
+	ComponentInstance.prototype.drawBoundingBoxHandles = function(accent, thickness){
 		// debug('\n ComponentInstance.drawBoundingBoxHandles - START');
+		accent = accent || _UI.colors.green;
+		thickness = thickness || 1;
 		var g = this.getTransformedGlyph();
-	 	drawBoundingBoxHandles(g.maxes, _UI.colors.green);
+	 	drawBoundingBoxHandles(g.maxes, accent, thickness);
 	};
 
 	ComponentInstance.prototype.isHere = function(x,y){

@@ -61,19 +61,25 @@
 //	-------------------------------------------------------
 //	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
 //	-------------------------------------------------------
-	Shape.prototype.drawSelectOutline = function(){
+	Shape.prototype.drawSelectOutline = function(accent, thickness){
 		// debug('\n Shape.drawSelectOutline - START');
-		drawSelectOutline(this, _UI.colors.blue);
+		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
+		drawSelectOutline(this, accent, thickness);
 	};
 
-	Shape.prototype.drawBoundingBox = function() {
+	Shape.prototype.drawBoundingBox = function(accent, thickness) {
 		// debug('\n Shape.drawBoundingBox - START');
-		drawBoundingBox(this.path.maxes, _UI.colors.blue);
+		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
+		drawBoundingBox(this.path.maxes, accent, thickness);
 	};
 
-	Shape.prototype.drawBoundingBoxHandles = function(){
+	Shape.prototype.drawBoundingBoxHandles = function(accent, thickness){
 		// debug('\n Shape.drawBoundingBoxHandles - START');
-		drawBoundingBoxHandles(this.path.maxes, _UI.colors.blue);
+		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
+		drawBoundingBoxHandles(this.path.maxes, accent, thickness);
 	};
 
 

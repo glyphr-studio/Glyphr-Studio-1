@@ -7,23 +7,23 @@
 
 	function keyup(event){
 		var kc = getKeyFromEvent(event);
-		debug('Key Up:\t\t' + kc + ' from ' + event.which);
+		// debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		if(!onCanvasEditPage()) return;
 
 		var eh = _UI.eventhandlers;
-		debug('\t eh.lastTool = ' + eh.lastTool);
+		// debug('\t eh.lastTool = ' + eh.lastTool);
 
 		// Ctrl
 		if(kc === 'ctrl' || event.ctrlKey){
-			debug('\t CTRL');
+			// debug('\t CTRL');
 
 			if(_UI.selectedshapes.getMembers().length < 2){
-				debug('\t Shapes < 2 setting to ' + eh.lastTool);
+				// debug('\t Shapes < 2 setting to ' + eh.lastTool);
 				_UI.selectedtool = eh.lastTool;
 				if(_UI.selectedtool === 'shaperesize') setCursor('pointer');
 				else updateCursor();
 			} else {
-				debug('\t Shapes > 2, setting to pointer');
+				// debug('\t Shapes > 2, setting to pointer');
 				_UI.selectedtool = 'shaperesize';
 				setCursor('pointer');
 			}
@@ -50,7 +50,7 @@
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
 		var kc = getKeyFromEvent(event);
-		debug('Key Press:\t' + kc + ' from ' + event.which);
+		// debug('Key Press:\t' + kc + ' from ' + event.which);
 		// debug(event);
 
 
@@ -78,14 +78,14 @@
 
 		// Ctrl
 		if((event.ctrlKey || kc==='ctrl') && !eh.multi){
-			debug('\t event.ctrlKey = true');
-			debug('\t selectedtool = ' + _UI.selectedtool);
+			// debug('\t event.ctrlKey = true');
+			// debug('\t selectedtool = ' + _UI.selectedtool);
 			event.preventDefault();
 			eh.multi = true;
 			eh.lastTool = _UI.selectedtool;
 			_UI.selectedtool = 'shaperesize';
 			if(overcanvas) setCursor('pointerPlus');
-			debug('\t eh.lastTool = ' + eh.lastTool);
+			// debug('\t eh.lastTool = ' + eh.lastTool);
 			redraw('Event Handler - Keydown Ctrl for multi select');
 		}
 

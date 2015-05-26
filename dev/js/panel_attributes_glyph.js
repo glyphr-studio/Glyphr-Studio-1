@@ -50,7 +50,8 @@
 			}
 		} else {
 			// Many shapes selected
-			content += '<tr><td colspan=2 class="detailtitle"><h3>'+ss.length+' SELECTED SHAPES</h3></td></tr>';
+			content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin-top:0px;">'+ss.length+' selected shapes</h3></td></tr>';
+			content += multiSelectDetails();
 		}
 
 		if (_UI.navhere === 'components'){
@@ -69,6 +70,52 @@
 		content += '</div>';
 
 		// debug(' makePanel_GlyphAttributes - END\n');
+		return content;
+	}
+
+	function multiSelectDetails() {
+		var sc = _UI.selectedshapes.getGlyph();
+		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
+		var content = '';
+
+		content += '<tr>'+
+			'<td>x'+dimSplit()+'y</td>'+
+			'<td>'+
+				'<input type="number" id="charx" step="'+svc+'" '+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+				' value="' + round(sc.maxes.xmin, 3) + '" >'+
+				dimSplit()+
+				'<input type="number" id="chary" step="'+svc+'" '+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+				' value="' + round(sc.maxes.ymax, 3) + '" >'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td>width'+dimSplit()+'height</td>'+
+			'<td>'+
+				'<input type="number" id="charw" step="'+svc+'" '+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+				' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
+				dimSplit()+
+				'<input type="number" id="charh" step="'+svc+'" '+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+				' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> lock aspect ratio </td>'+
+			'<td>'+checkUI('_UI.selectedshapes.ratiolock', sc.ratiolock, true)+'</td>'+
+		'</tr>';
+
+		content += '<tr><td colspan=2>'+
+			'<table class="actionsgrid"><tr><td>'+
+			'<button onclick="_UI.selectedshapes.flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
+			'<button onclick="_UI.selectedshapes.flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
+			'</td></tr></table>'+
+		'</td></tr>';
+
 		return content;
 	}
 

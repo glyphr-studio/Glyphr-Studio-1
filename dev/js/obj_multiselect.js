@@ -71,8 +71,29 @@
 //-------------------------------------------------------
 // Shape Paridy Functions
 //-------------------------------------------------------
-	_UI.selectedshapes = new MultiSelect();
 
+	// Initialize fake Glyph of multiselected shapes
+	_UI.selectedshapes = new MultiSelect();
+	_UI.selectedshapes.glyph = new Glyph({'name': 'multiselected shapes', 'shapes': this.members});
+
+	_UI.selectedshapes.getGlyph = function() {
+		this.glyph.shapes = this.members;
+		this.glyph.calcGlyphMaxes();
+		return this.glyph;
+	};
+
+	_UI.selectedshapes.ratiolock = false;
+	
+	_UI.selectedshapes.setShapesPosition = function(nx, ny, force) { this.glyph.setGlyphPosition(nx, ny, force); };
+
+	_UI.selectedshapes.setShapesSize = function(nw, nh, ratiolock) { this.glyph.setGlyphSize(nw, nh, ratiolock); };
+
+	_UI.selectedshapes.flipNS = function(mid) { this.glyph.flipNS(mid); };
+
+	_UI.selectedshapes.flipEW = function(mid) { this.glyph.flipEW(mid); };
+
+
+	// Wrapper functions
 	_UI.selectedshapes.calcMaxes = function(){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].calcMaxes();
@@ -86,8 +107,12 @@
 	};
 
 	_UI.selectedshapes.drawSelectOutline = function(){
-		for(var m=0; m<this.members.length; m++){
-			this.members[m].drawSelectOutline();
+		if(this.members.length === 1){
+			this.members[0].drawSelectOutline();
+		} else {
+			for(var m=0; m<this.members.length; m++){
+				this.members[m].drawSelectOutline(false, 3);
+			}
 		}
 	};
 
@@ -101,7 +126,7 @@
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
 			}
 
-			drawBoundingBox(bmaxes, {'l65': 'magenta'});
+			drawBoundingBox(bmaxes, _UI.colors.gray, 3);
 		}
 
 		// for(var m=0; m<this.members.length; m++){
@@ -120,7 +145,6 @@
 			this.members[m].updateShapePosition(dx, dy, force);
 		}
 	};
-
 
 
 // end of file
