@@ -51,10 +51,6 @@
 			content += '<div>No shapes exist yet.  You can create one with the New Shape tools on the canvas, or by pressing "add new shape" below.<br><br></div>';
 		}
 
-		if(_UI.clipboardshape){
-			content += '<br>Clipboard: ' + _UI.clipboardshape.s.name;
-		}
-
 		content +=  '<br><br>' + updateLayerActions();
 
 		content += '</div>';
