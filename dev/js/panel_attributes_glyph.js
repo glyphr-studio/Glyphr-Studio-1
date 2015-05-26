@@ -23,7 +23,7 @@
 
 		if (_UI.navhere === 'components'){
 			// debug(" \t  detected navhere = components");
-			content += '<tr><td colspan=2 class="detailtitle"><h3>component</h3></td></tr>';
+			content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin-top:0px;">component</h3></td></tr>';
 			content += '<tr><td> name </td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
 
@@ -82,11 +82,11 @@
 			'<td>x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<input type="number" id="charx" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
 				' value="' + round(sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="chary" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
 				' value="' + round(sc.maxes.ymax, 3) + '" >'+
 			'</td>'+
 		'</tr>';
@@ -95,24 +95,24 @@
 			'<td>width'+dimSplit()+'height</td>'+
 			'<td>'+
 				'<input type="number" id="charw" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
 				' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="charh" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
 				' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 			'</td>'+
 		'</tr>';
 
 		content += '<tr>'+
 			'<td> lock aspect ratio </td>'+
-			'<td>'+checkUI('_UI.selectedshapes.ratiolock', sc.ratiolock, true)+'</td>'+
+			'<td>'+checkUI('_UI.selectedshapes.glyph.ratiolock', sc.ratiolock, true)+'</td>'+
 		'</tr>';
 
 		content += '<tr><td colspan=2>'+
 			'<table class="actionsgrid"><tr><td>'+
-			'<button onclick="_UI.selectedshapes.flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
-			'<button onclick="_UI.selectedshapes.flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
+			'<button onclick="_UI.selectedshapes.flipNS(); history_put(\'Flip Multi-selected Shapes : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
+			'<button onclick="_UI.selectedshapes.flipEW(); history_put(\'Flip Multi-selected Shapes : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
 			'</td></tr></table>'+
 		'</td></tr>';
 

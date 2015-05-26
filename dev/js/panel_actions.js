@@ -115,9 +115,10 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
-		if(_UI.ss){
+		var ssm = _UI.selectedshapes.getMembers();
+		if(ssm.length){
 			_UI.clipboardshape = {
-				's':_UI.ss,
+				's':clone(ssm),
 				'c':_UI.selectedglyph,
 				'dx': 0,
 				'dy': 0
@@ -130,46 +131,56 @@
 	function pasteShape(){
 		var cbs = _UI.clipboardshape;
 		var selwi = getSelectedWorkItemID();
+		
 		if(cbs){
-			var newshape = clone(cbs.s);
+			var newshapes = clone(cbs.s);
+			var ts, newname, newsuffix, n;
 			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
-			if(cbs.c === selwi) {
-				cbs.dx += 20;
-				cbs.dy -= 20;
-				newshape.updateShapePosition(cbs.dx,cbs.dy,true);
-			} else {
-				cbs.c = selwi;
-				cbs.dx = 0;
-				cbs.dy = 0;
-			}
 
-			var newname = newshape.name;
-			var newsuffix = ' (copy)';
-			var n = newshape.name.lastIndexOf('(copy');
+			_UI.selectedshapes.clear();
 
-			if(n > 0){
-				var suffix = newname.substring(n+5);
-				newname = newname.substring(0,n);
-				if(suffix === ')'){
-					newsuffix = '(copy 2)';
+			for(var s=0; s<newshapes.length; s++){
+				ts = newshapes[s];
+
+				if(cbs.c === selwi) {
+					cbs.dx += 20;
+					cbs.dy -= 20;
+					ts.updateShapePosition(cbs.dx,cbs.dy,true);
 				} else {
-					//debug("PASTESHAPE - suffix " + suffix);
-					suffix = suffix.substring(1);
-					//debug("PASTESHAPE - suffix " + suffix);
-					suffix = suffix.substring(0, suffix.length-1);
-					//debug("PASTESHAPE - suffix " + suffix);
-					newsuffix = '(copy ' + (parseInt(suffix)+1) + ")";
-					//debug("PASTESHAPE - newsuffix " + newsuffix);
+					cbs.c = selwi;
+					cbs.dx = 0;
+					cbs.dy = 0;
 				}
-			}
-			newshape.name = newname + newsuffix;
 
-			if(newshape.objtype === 'componentinstance'){
-				addToUsedIn(newshape.link, _UI.selectedglyph);
-				//debug("PASTESHAPE - pasted a component, added " + _UI.selectedglyph + " to usedin array.");
-			}
+				newname = ts.name;
+				newsuffix = ' (copy)';
+				n = ts.name.lastIndexOf('(copy');
 
-			addShape(newshape);
+				if(n > 0){
+					var suffix = newname.substring(n+5);
+					newname = newname.substring(0,n);
+					if(suffix === ')'){
+						newsuffix = '(copy 2)';
+					} else {
+						//debug("PASTESHAPE - suffix " + suffix);
+						suffix = suffix.substring(1);
+						//debug("PASTESHAPE - suffix " + suffix);
+						suffix = suffix.substring(0, suffix.length-1);
+						//debug("PASTESHAPE - suffix " + suffix);
+						newsuffix = '(copy ' + (parseInt(suffix)+1) + ")";
+						//debug("PASTESHAPE - newsuffix " + newsuffix);
+					}
+				}
+				ts.name = newname + newsuffix;
+
+				if(ts.objtype === 'componentinstance'){
+					addToUsedIn(ts.link, _UI.selectedglyph);
+					//debug("PASTESHAPE - pasted a component, added " + _UI.selectedglyph + " to usedin array.");
+				}
+
+				addShape(ts);
+				_UI.selectedshapes.add(ts);
+			}
 		}
 	}
 

@@ -74,15 +74,13 @@
 
 	// Initialize fake Glyph of multiselected shapes
 	_UI.selectedshapes = new MultiSelect();
-	_UI.selectedshapes.glyph = new Glyph({'name': 'multiselected shapes', 'shapes': this.members});
+	_UI.selectedshapes.glyph = new Glyph({'name': 'multiselected shapes'});
 
 	_UI.selectedshapes.getGlyph = function() {
 		this.glyph.shapes = this.members;
 		this.glyph.calcGlyphMaxes();
 		return this.glyph;
 	};
-
-	_UI.selectedshapes.ratiolock = false;
 	
 	_UI.selectedshapes.setShapesPosition = function(nx, ny, force) { this.glyph.setGlyphPosition(nx, ny, force); };
 
