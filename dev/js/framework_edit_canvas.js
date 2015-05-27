@@ -679,7 +679,7 @@
 			var ssm = _UI.selectedshapes.getMembers();
 			if( ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')) &&
 				(ssm.length === 1 && ssm[0].objtype !== 'componentinstance') ){
-				
+
 				if(sep !== false){
 					// Draw Handles
 					//debug('DRAWSELECTOUTLINE - new path added, sep=' + sep + ' pathpoints: ' + JSON.stringify(sh.path.pathpoints))
@@ -726,9 +726,9 @@
 			lx -= thickness;
 			rx += thickness;
 			ty -= thickness;
-			by += thickness;			
+			by += thickness;
 		}
-		
+
 		var w = (rx-lx);
 		var h = (by-ty);
 
@@ -752,6 +752,13 @@
 		var ty = tnbs? sy_cy(tnbs.maxes.ymax) : sy_cy(maxes.ymax);
 		var by = tnbs? sy_cy(tnbs.maxes.ymin) : sy_cy(maxes.ymin);
 
+		if(_UI.selectedshapes.getMembers().length > 1 && thickness > 1){
+			lx -= thickness;
+			rx += thickness;
+			ty -= thickness;
+			by += thickness;
+		}
+		
 		var bleftx = (lx-hp).makeCrisp(true);
 		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
 		var brightx = (rx-hp).makeCrisp(true);
@@ -886,6 +893,7 @@
 			return 'w';
 		}
 
+		debug(' isOverBoundingBoxCorner - returning FALSE - END\n');
 		return false;
 	}
 

@@ -146,13 +146,15 @@
 		};
 
 		this.mousemove = function (ev) {
-			var singleton = _UI.selectedshapes.getSingleton();
 			var eh = _UI.eventhandlers;
 			this.didstuff = false;
+			var corner = eh.corner || _UI.selectedshapes.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
+
+			var dx = ((eh.mousex-eh.lastx)/dz);
+			var dy = ((eh.lasty-eh.mousey)/dz);
+			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 
 			if (this.dragging) {
-				var dx, dy;
-				var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 				var cur = 'pointer';
 
 				if(this.clickedshape){
@@ -169,27 +171,29 @@
 					_UI.navprimaryhere = 'npAttributes';
 				}
 
-				singleton = _UI.selectedshapes.getSingleton();
+				var singleton = _UI.selectedshapes.getSingleton();
 
 				if(singleton){
 					cur = singleton.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
 					if(!cur) cur = isOverShape(eh.mousex, eh.mousey)? 'pointerSquare' : 'pointer';
-					dx = singleton.xlock? 0 : dx = ((eh.mousex-eh.lastx)/dz);
-					dy = singleton.ylock? 0 : dy = ((eh.lasty-eh.mousey)/dz);
-				} else {
-					dx  = ((eh.mousex-eh.lastx)/dz);
-					dy  = ((eh.lasty-eh.mousey)/dz);
+					dx = singleton.xlock? 0 : dx;
+					dy = singleton.ylock? 0 : dy;
 				}
+
 				_UI.selectedshapes.updateShapePosition(dx, dy);
 				this.didstuff = true;
 				setCursor(cur);				
 				
 			} else if (this.resizing){
-				if(singleton) {
-					// debug('\tTool_ShapeEdit - Resizing Shape over handle');
-					eventHandler_ShapeResize();
-					this.didstuff = true;
-				}
+				debug('\tTool_ShapeEdit - Resizing Shape over handle');
+				eventHandler_ShapeResize();
+				this.didstuff = true;
+
+			} else if (corner){
+				setCursor(corner);
+
+			} else {
+				setCursor('pointer');
 			}
 
 			if(this.didstuff){
@@ -684,9 +688,11 @@
 	}
 
 	function eventHandler_ShapeResize(){
-		var s = _UI.ss;
+		debug('\n eventHandler_ShapeResize - START');
+		var s = _UI.selectedshapes;
 		var pcorner = _UI.eventhandlers.corner;
-		// debug('eventHandler_ShapeResize - ' + s.name + ' handle ' + pcorner);
+		debug('\t handle ' + pcorner);
+
 		var maxes = s.getMaxes();
 		var mx = cx_sx(_UI.eventhandlers.mousex);
 		var my = cy_sy(_UI.eventhandlers.mousey);
@@ -695,7 +701,7 @@
 		var dh = (ly-my);
 		var dw = (lx-mx);
 		var rl = (!s.wlock && !s.hlock && s.ratiolock);
-
+		debug('\t dw: ' + dw + '\tdh: ' + dh);
 
 		// Check that the shape won't have negative dimensions
 		if(mx >= maxes.xmax && maxes.xmax-maxes.xmin+dw < 2) dw=0;

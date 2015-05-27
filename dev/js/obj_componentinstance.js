@@ -214,14 +214,15 @@
 	 	drawBoundingBoxHandles(g.maxes, accent, thickness);
 	};
 
-	ComponentInstance.prototype.isHere = function(x,y){
-		//debug('ISCOMPONENTHERE - checking ' + x + ',' + y);
+	ComponentInstance.prototype.isHere = function(px, py){
+		//debug('ISCOMPONENTHERE - checking ' + px + ',' + py);
 		var g = this.getTransformedGlyph();
-		return g? g.isHere(x,y) : false;
+		return g? g.isHere(px, py) : false;
 	};
 
-	ComponentInstance.prototype.isOverBoundingBoxCorner = function(x,y){
-		var c = isOverBoundingBoxCorner(x,y,this.getMaxes());
+	ComponentInstance.prototype.isOverBoundingBoxCorner = function(px, py){
+		// debug('\n ComponentInstance.isOverBoundingBoxCorner - START');
+		var c = isOverBoundingBoxCorner(px, py, this.getMaxes());
 		// debug('\t ComponentInstance.isOverBoundingBoxCorner returning ' + c);
 		return c;
 	};

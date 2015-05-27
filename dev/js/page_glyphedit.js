@@ -37,7 +37,6 @@
 		_UI.redrawing = true;
 		
 		var sg = getSelectedWorkItem();
-		var ss = _UI.selectedshapes.getMembers();
 
 		if(sg) sg.calcGlyphMaxes();
 		// debug('\t Selected WI ' + sg.name);
@@ -55,6 +54,7 @@
 		}
 
 		// Finish up
+		// var ss = _UI.selectedshapes.getMembers();
 		// if(_UI.ss) {
 		// 	_UI.ss.drawSelectOutline();
 		// 	if(_UI.selectedtool === 'shaperesize'){
@@ -66,7 +66,7 @@
 		_UI.selectedshapes.drawSelectOutline();
 		if(_UI.selectedtool === 'shaperesize'){
 			_UI.selectedshapes.drawBoundingBox();
-			if(ss.length === 1) _UI.selectedshapes.drawBoundingBoxHandles();
+			_UI.selectedshapes.drawBoundingBoxHandles();
 		}
 
 

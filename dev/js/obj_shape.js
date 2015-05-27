@@ -139,10 +139,9 @@
 
 	Shape.prototype.getMaxes = function() { return this.path.getMaxes(); };
 
-	Shape.prototype.getPath = function() { return clone(this.path); };
-
 	Shape.prototype.calcMaxes = function() { this.path.calcMaxes(); };
 
+	Shape.prototype.getPath = function() { return clone(this.path); };
 
 
 //	-------------------------------------------------------
@@ -378,7 +377,7 @@
 //	----------------------------------------------
 //	CANVAS HELPER FUNCTIONS
 //	----------------------------------------------
-	Shape.prototype.isHere = function(x,y){
+	Shape.prototype.isHere = function(px, py){
 		var gctx = _UI.ishereghostctx;
 		
 		gctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
@@ -388,12 +387,13 @@
 		gctx.closePath();
 		gctx.fill();
 
-		var imageData = gctx.getImageData(x, y, 1, 1);
+		var imageData = gctx.getImageData(px, py, 1, 1);
 		//debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);
 	};
 
-	Shape.prototype.isOverBoundingBoxCorner = function(px,py){
+	Shape.prototype.isOverBoundingBoxCorner = function(px, py){
+		// debug('\n Shape.isOverBoundingBoxCorner - START');
 		var c = isOverBoundingBoxCorner(px, py, this.path.maxes);
 		// debug('\t Shape.isOverBoundingBoxCorner returning ' + c);
 		return c;

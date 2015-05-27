@@ -82,11 +82,11 @@
 			'<td>x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<input type="number" id="charx" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
 				' value="' + round(sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="chary" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesPosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
 				' value="' + round(sc.maxes.ymax, 3) + '" >'+
 			'</td>'+
 		'</tr>';
@@ -95,11 +95,11 @@
 			'<td>width'+dimSplit()+'height</td>'+
 			'<td>'+
 				'<input type="number" id="charw" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapeSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
 				' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="charh" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapesSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapeSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
 				' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 			'</td>'+
 		'</tr>';
