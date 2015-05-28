@@ -69,74 +69,76 @@
 
 
 //-------------------------------------------------------
-// Shape Paridy Functions
+// Multiselect SHAPES
 //-------------------------------------------------------
 
 	// Initialize fake Glyph of multiselected shapes
-	_UI.selectedshapes = new MultiSelect();
-	_UI.selectedshapes.glyph = new Glyph({'name': 'multiselected shapes'});
-	_UI.selectedshapes.glyph.hlock = false;
-	_UI.selectedshapes.glyph.wlock = false;
+	_UI.ss = new MultiSelect();
+	_UI.ss.glyph = new Glyph({'name': 'multiselected shapes'});
+	_UI.ss.glyph.hlock = false;
+	_UI.ss.glyph.wlock = false;
 
-	_UI.selectedshapes.getGlyph = function() {
+	_UI.ss.getGlyph = function() {
 		this.glyph.shapes = this.members;
 		this.glyph.calcGlyphMaxes();
 		return this.glyph;
 	};
 
-	_UI.selectedshapes.setShapePosition = function(nx, ny, force) { this.glyph.setGlyphPosition(nx, ny, force); };
+	// Wrapper functions
+	_UI.ss.updateShapePosition = function(dx, dy, force){ this.glyph.updateGlyphPosition(dx, dy, force); };
 
-	_UI.selectedshapes.updateShapeSize = function(dx, dy, force) { this.glyph.updateGlyphSize(dx, dy, force); };
+	_UI.ss.setShapePosition = function(nx, ny, force) { this.glyph.setGlyphPosition(nx, ny, force); };
 
-	_UI.selectedshapes.setShapeSize = function(nw, nh, ratiolock) { this.glyph.setGlyphSize(nw, nh, ratiolock); };
+	_UI.ss.updateShapeSize = function(dx, dy, force) { this.glyph.updateGlyphSize(dx, dy, force); };
 
-	_UI.selectedshapes.updateShapeSize = function(dw, dh, ratiolock) { this.glyph.updateGlyphSize(dw, dh, ratiolock); };
+	_UI.ss.setShapeSize = function(nw, nh, ratiolock) { this.glyph.setGlyphSize(nw, nh, ratiolock); };
 
-	_UI.selectedshapes.flipNS = function(mid) { this.glyph.flipNS(mid); };
+	_UI.ss.updateShapeSize = function(dw, dh, ratiolock) { this.glyph.updateGlyphSize(dw, dh, ratiolock); };
 
-	_UI.selectedshapes.flipEW = function(mid) { this.glyph.flipEW(mid); };
+	_UI.ss.flipNS = function(mid) { this.glyph.flipNS(mid); };
 
-	_UI.selectedshapes.isOverBoundingBoxCorner = function(px, py) {
+	_UI.ss.flipEW = function(mid) { this.glyph.flipEW(mid); };
+
+	_UI.ss.isOverBoundingBoxCorner = function(px, py) {
 		// debug('\n SelectedShapes.isOverBoundingBoxCorner - START');
 		if(this.members.length === 1) {
 			// debug('\t calling singleton method');
 			return this.members[0].isOverBoundingBoxCorner(px, py);
 		}
 
-		var c = isOverBoundingBoxCorner(px, py, this.getGlyph().maxes);
-		// debug('\t SelectedShapes.isOverBoundingBoxCorner returning ' + c);
+		var c = isOverBoundingBoxCorner(px, py, this.getGlyph().maxes, _UI.multiselectthickness);
+		debug('\t SelectedShapes.isOverBoundingBoxCorner returning ' + c);
 		return c;
 	};
 
-	// Wrapper functions
-	_UI.selectedshapes.calcMaxes = function(){
+	_UI.ss.calcMaxes = function(){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].calcMaxes();
 		}
 	};
 
-	_UI.selectedshapes.getMaxes = function(){
+	_UI.ss.getMaxes = function(){
 		if(this.members.length === 1) return this.members[0].getMaxes();
 		else return this.getGlyph().maxes;
 	};
 
-	_UI.selectedshapes.drawShape = function(lctx, view){
+	_UI.ss.drawShape = function(lctx, view){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].drawShape(lctx, view);
 		}
 	};
 
-	_UI.selectedshapes.drawSelectOutline = function(){
+	_UI.ss.drawSelectOutline = function(){
 		if(this.members.length === 1){
 			this.members[0].drawSelectOutline();
 		} else {
 			for(var m=0; m<this.members.length; m++){
-				this.members[m].drawSelectOutline(false, 3);
+				this.members[m].drawSelectOutline(false, _UI.multiselectthickness);
 			}
 		}
 	};
 
-	_UI.selectedshapes.drawBoundingBox = function(){
+	_UI.ss.drawBoundingBox = function(){
 		if(this.members.length === 1){
 			this.members[0].drawBoundingBox();
 		} else {
@@ -146,11 +148,11 @@
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
 			}
 
-			drawBoundingBox(bmaxes, _UI.colors.gray, 3);
+			drawBoundingBox(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
 		}
 	};
 
-	_UI.selectedshapes.drawBoundingBoxHandles = function(){
+	_UI.ss.drawBoundingBoxHandles = function(){
 		if(this.members.length === 1){
 			this.members[0].drawBoundingBoxHandles();
 		} else {
@@ -160,15 +162,19 @@
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
 			}
 
-			drawBoundingBoxHandles(bmaxes, _UI.colors.gray, 3);
+			drawBoundingBoxHandles(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
 		}
 	};
 
-	_UI.selectedshapes.updateShapePosition = function(dx, dy, force){
-		for(var m=0; m<this.members.length; m++){
-			this.members[m].updateShapePosition(dx, dy, force);
-		}
+	// This is a hack
+	_UI.ss.sp = function(){
+		if(this.members[0]) return this.members[0].path.sp();
+		else return false;
 	};
 
+
+//-------------------------------------------------------
+// Multiselect PATH POINTS
+//-------------------------------------------------------
 
 // end of file

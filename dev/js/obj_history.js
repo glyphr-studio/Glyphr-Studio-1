@@ -66,7 +66,7 @@
 			selectShape(si);
 			redraw('history_pull');
 		} else {
-			_UI.ss = false;
+			_UI.ss.clear();
 		}
 
 		// debug('\t after redraw');

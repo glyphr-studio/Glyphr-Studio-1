@@ -17,7 +17,7 @@
 		if(kc === 'ctrl' || event.ctrlKey){
 			// debug('\t CTRL');
 
-			if(_UI.selectedshapes.getMembers().length < 2){
+			if(_UI.ss.getMembers().length < 2){
 				// debug('\t Shapes < 2 setting to ' + eh.lastTool);
 				_UI.selectedtool = eh.lastTool;
 				if(_UI.selectedtool === 'shaperesize') setCursor('pointer');
@@ -220,12 +220,11 @@
 		var my = (dy * _GP.projectsettings.spinnervaluechange);
 
 		if(_UI.navhere === 'kerning'){
-			_UI.ss = getSelectedKern();
-			_UI.ss.value += (mx || my);
+			getSelectedKern().value += (mx || my);
 			redraw('Nudge');
-		} else if(_UI.ss){
-			if(_UI.ss.objtype !== 'componentinstance' && _UI.ss.path.sp()){
-				_UI.ss.path.sp().updatePathPointPosition('P', mx, my);
+		} else if(_UI.ss.count()){
+			if(_UI.ss.sp()){
+				_UI.ss.sp().updatePathPointPosition('P', mx, my);
 			} else {
 				_UI.ss.updateShapePosition(mx, my);
 			}

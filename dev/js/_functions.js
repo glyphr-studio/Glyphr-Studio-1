@@ -14,7 +14,6 @@
 		// Initialize Stuff
 		insertGlobalDOMElements();
 		setupGhostCanvas();
-		// _UI.selectedshapes = new MultiSelect();
 
 		// Navigate
 		if(_UI.devmode && _UI.devnav){

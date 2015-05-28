@@ -105,7 +105,7 @@
 		var oncom = (_UI.navhere === 'components');
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
-		var type = _UI.selectedshapes.getType();
+		var type = _UI.ss.getType();
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
@@ -213,7 +213,7 @@
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
-			// _UI.selectedshapes.calcMaxes();
+			// _UI.ss.calcMaxes();
 		}
 
 		_UI.eventhandlers.hoverpoint = false;
@@ -641,6 +641,8 @@
 		// debug('\t accent.l65 = ' + accent.l65);
 		// debug('\t selectedtool = ' + _UI.selectedtool);
 
+		if(!sh) return;
+
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
 		var hp = (_GP.projectsettings.pointsize/2);
@@ -664,6 +666,7 @@
 
 		} else {
 			// Draw Path Points
+			if(!sh.path) return;
 			var sep = sh.path.sp(true, 'DRAWSELECTOUTLINE');
 			var pp = sh.path.pathpoints;
 
@@ -676,7 +679,7 @@
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
 
-			var ssm = _UI.selectedshapes.getMembers();
+			var ssm = _UI.ss.getMembers();
 			if( ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')) &&
 				(ssm.length === 1 && ssm[0].objtype !== 'componentinstance') ){
 
@@ -722,7 +725,7 @@
 		var ty = tnbs? sy_cy(tnbs.ymax) : sy_cy(maxes.ymax);
 		var by = tnbs? sy_cy(tnbs.ymin) : sy_cy(maxes.ymin);
 
-		if(_UI.selectedshapes.getMembers().length > 1 && thickness > 1){
+		if(_UI.ss.getMembers().length > 1 && thickness > 1){
 			lx -= thickness;
 			rx += thickness;
 			ty -= thickness;
@@ -752,19 +755,19 @@
 		var ty = tnbs? sy_cy(tnbs.maxes.ymax) : sy_cy(maxes.ymax);
 		var by = tnbs? sy_cy(tnbs.maxes.ymin) : sy_cy(maxes.ymin);
 
-		if(_UI.selectedshapes.getMembers().length > 1 && thickness > 1){
+		if(_UI.ss.getMembers().length > 1 && thickness > 1){
 			lx -= thickness;
 			rx += thickness;
 			ty -= thickness;
 			by += thickness;
 		}
 		
-		var bleftx = (lx-hp).makeCrisp(true);
-		var bmidx = (lx+((rx-lx)/2)-hp).makeCrisp(true);
+		var bleftx = (lx-hp).makeCrisp(false);
+		var bmidx = (lx+((rx-lx)/2)-hp);
 		var brightx = (rx-hp).makeCrisp(true);
 		var btopy = (ty-hp).makeCrisp(true);
-		var bmidy = (ty+((by-ty)/2)-hp).makeCrisp(true);
-		var bbottomy = (by-hp).makeCrisp(true);
+		var bmidy = (ty+((by-ty)/2)-hp);
+		var bbottomy = (by-hp).makeCrisp(false);
 
 		_UI.glypheditctx.fillStyle = 'white';
 		_UI.glypheditctx.lineWidth = 1;
@@ -823,23 +826,33 @@
 		_UI.glypheditctx.strokeRect(bmidx, bmidy, ps, ps);
 	}
 
-	function isOverBoundingBoxCorner(px, py, maxes) {
+	function isOverBoundingBoxCorner(px, py, maxes, thickness) {
 		// debug('\n isOverBoundingBoxCorner - START');
 		// debug('\t px/py - ' + px + ' / ' + py);
 		// debug('\t maxes - ' + json(maxes, true));
 
 		if(!maxes) return false;
 
+		thickness = thickness || 1;
+
 		// Translation Fidelity - converting passed canvas values to saved value system
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
-		var leftxb = sx_cx(maxes.xmin) -hp;
-		var midxb = Math.floor(sx_cx(maxes.xmin)+((sx_cx(maxes.xmax)-sx_cx(maxes.xmin))/2)-hp)+0.5;
-		var rightxb = sx_cx(maxes.xmax) -hp;
+		var leftxb = (sx_cx(maxes.xmin) - hp).makeCrisp(false);
+		var midxb = Math.floor(sx_cx(maxes.xmin)+((sx_cx(maxes.xmax)-sx_cx(maxes.xmin))/2)-hp);
+		var rightxb = (sx_cx(maxes.xmax) - hp).makeCrisp(true);
 
-		var topyb = sy_cy(maxes.ymax)-hp;
-		var midyb = Math.floor(sy_cy(maxes.ymax)+((sy_cy(maxes.ymin)-sy_cy(maxes.ymax))/2)-hp)+0.5;
-		var bottomyb = sy_cy(maxes.ymin) -hp;
+		var topyb = (sy_cy(maxes.ymax) - hp).makeCrisp(true);
+		var midyb = Math.floor(sy_cy(maxes.ymax)+((sy_cy(maxes.ymin)-sy_cy(maxes.ymax))/2)-hp);
+		var bottomyb = (sy_cy(maxes.ymin) - hp).makeCrisp(false);
+
+
+		if(_UI.ss.getMembers().length > 1 && thickness > 1){
+			leftxb -= thickness;
+			rightxb += thickness;
+			topyb -= thickness;
+			bottomyb += thickness;
+		}
 
 		// debug('\t point size - ' + ps);
 		// debug('\t l/m/r x: ' + leftxb + ' / ' + midxb + ' / ' + rightxb);
@@ -893,7 +906,7 @@
 			return 'w';
 		}
 
-		debug(' isOverBoundingBoxCorner - returning FALSE - END\n');
+		// debug(' isOverBoundingBoxCorner - returning FALSE - END\n');
 		return false;
 	}
 

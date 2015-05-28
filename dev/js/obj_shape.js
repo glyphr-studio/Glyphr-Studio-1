@@ -267,7 +267,7 @@
 		var sg = getSelectedWorkItem();
 
 		sg.shapes.push(newshape);
-		_UI.ss = newshape;
+		_UI.ss.select(newshape);
 		sg.calcGlyphMaxes();
 
 		_UI.navprimaryhere = 'npAttributes';
@@ -305,37 +305,37 @@
 		newshape.name = (shapetype + getSelectedWorkItemShapes().length+1);
 
 		getSelectedWorkItemShapes().push(newshape);
-		_UI.ss = newshape;
+		_UI.ss.select(newshape);
 		updateCurrentGlyphWidth();
 	}
 
 	function deleteShape(){
 		// debug('\n deleteShape - START');
 		var wishapes = getSelectedWorkItemShapes();
+		var sels = _UI.ss.getMembers();
+		var curs, i;
 
-		if(_UI.ss.objtype === 'componentinstance'){
-			removeFromUsedIn(_UI.ss.link, _UI.selectedglyph);
+		for(var s=0; s<sels.length; s++){
+			curs = sels[s];
+
+			if(curs.objtype === 'componentinstance'){
+				removeFromUsedIn(curs.link, _UI.selectedglyph);
+			}
+
+			i = wishapes.indexOf(curs);
+			if(i > -1) wishapes.splice(i, 1);
 		}
 
-		var i = wishapes.indexOf(_UI.ss);
-		if(i > -1){
-			wishapes.splice(i, 1);
-		}
-
-		_UI.ss = wishapes[i] || wishapes[wishapes.length-1];
-
-		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
-			//debug('DELETESHAPE - newly selected shape is component, changing tool');
-			_UI.selectedtool = 'shaperesize';
-		}
+		_UI.ss.select(wishapes[i] || wishapes[wishapes.length-1]);
+		if(_UI.ss.getSingleton().objtype === 'componentinstance') clickTool('shaperesize');
 		updateCurrentGlyphWidth();
 		// debug(' deleteShape - END\n');
 	}
 
 	function turnSelectedShapeIntoAComponent(){
-		var s = clone(_UI.ss);
+		var s = clone(_UI.ss.getMembers());
 		deleteShape();
-		var newid = addComponent(new Glyph({'shapes':[s], 'name':'Component ' + s.name}));
+		var newid = addComponent(new Glyph({'shapes':s, 'name':'Component ' + s.name}));
 		insertComponentInstance(newid);
 		_UI.selectedtool = 'shaperesize';
 		selectShape(getSelectedWorkItemShapes().length-1);

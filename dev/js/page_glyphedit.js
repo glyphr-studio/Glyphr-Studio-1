@@ -54,7 +54,7 @@
 		}
 
 		// Finish up
-		// var ss = _UI.selectedshapes.getMembers();
+		// var ss = _UI.ss.getMembers();
 		// if(_UI.ss) {
 		// 	_UI.ss.drawSelectOutline();
 		// 	if(_UI.selectedtool === 'shaperesize'){
@@ -63,10 +63,10 @@
 		// 	}
 		// }
 
-		_UI.selectedshapes.drawSelectOutline();
+		_UI.ss.drawSelectOutline();
 		if(_UI.selectedtool === 'shaperesize'){
-			_UI.selectedshapes.drawBoundingBox();
-			_UI.selectedshapes.drawBoundingBoxHandles();
+			_UI.ss.drawBoundingBox();
+			_UI.ss.drawBoundingBoxHandles();
 		}
 
 

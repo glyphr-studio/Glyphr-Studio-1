@@ -9,7 +9,7 @@
 
 	function makePanel_Actions(){
 		var pop = _UI.popout;
-		var ss = _UI.selectedshapes.getMembers();
+		var ss = _UI.ss.getMembers();
 
 		var content = "<div class='panel_section'>";
 		if(pop) content = "<div class='navarea_header'>";
@@ -29,13 +29,13 @@
 		if(!_UI.popout) allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
 		if(_UI.navhere === 'components') allactions += "<button onclick='showDialog_LinkComponentToGlyph();'>link component to a glyph</button><br>";
 
-		var shapeactions = "<h3>shape</h3>";
+		var shapeactions = ss.length > 1? "<h3>shapes</h3>" : "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
 		shapeactions += "<button onclick='_UI.ss.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
 		shapeactions += "<button onclick='_UI.ss.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
 		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
 
-		if(_UI.ss && _UI.ss.objtype === 'componentinstance'){
+		if(ss.length === 1 && ss[0].objtype === 'componentinstance'){
 			shapeactions += "<button onclick='turnComponentIntoShapes();history_put(\"Unlinked Component\");redraw(\"turnComponentIntoShapes\");'>unlink this component</button><br>";
 		} else {
 			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();history_put(\"Turned Shape into a Component\");redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
@@ -48,7 +48,7 @@
 		var pointactions = "<h3>path point</h3>";
 		pointactions += "<button onclick='_UI.ss.path.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
 		pointactions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='_UI.ss.path.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
-		pointactions += "<button onclick='_UI.ss.path.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
+		pointactions += "<button onclick='_UI.ss.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together
 		content += "<table class='actionsgrid'><tr>";
@@ -58,7 +58,7 @@
 		if(!pop) content += "</td>";
 
 		if(!pop) content += "<td>";
-		if(ss.length === 1){ content += shapeactions; }
+		if(ss.length > 0){ content += shapeactions; }
 		else if (!pop){ content += "&nbsp;";}
 		if(!pop) content += "</td>";
 
@@ -115,7 +115,7 @@
 // Copy Paste
 //-------------------
 	function copyShape(){
-		var ssm = _UI.selectedshapes.getMembers();
+		var ssm = _UI.ss.getMembers();
 		if(ssm.length){
 			_UI.clipboardshape = {
 				's':clone(ssm),
@@ -137,7 +137,7 @@
 			var ts, newname, newsuffix, n;
 			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
 
-			_UI.selectedshapes.clear();
+			_UI.ss.clear();
 
 			for(var s=0; s<newshapes.length; s++){
 				ts = newshapes[s];
@@ -179,7 +179,7 @@
 				}
 
 				addShape(ts);
-				_UI.selectedshapes.add(ts);
+				_UI.ss.add(ts);
 			}
 		}
 	}

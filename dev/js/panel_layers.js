@@ -23,7 +23,7 @@
 			for(var i=(scs.length-1); i>=0; i--){
 				ts = scs[i];
 
-				if(_UI.selectedshapes.isSelected(ts)) {
+				if(_UI.ss.isSelected(ts)) {
 					if(ts.objtype === 'componentinstance')	content += '<tr class="componentlayersel"';
 					else content += '<tr class="layersel"';
 				} else {
@@ -65,12 +65,11 @@
 		// debug('\t wishapes ' + wishapes);
 
 		if(wishapes && wishapes[num]){
-			 _UI.ss = wishapes[num];
-			 if(_UI.eventhandlers.multi) _UI.selectedshapes.toggle(wishapes[num]);
-			 else _UI.selectedshapes.select(wishapes[num]);
+			 if(_UI.eventhandlers.multi) _UI.ss.toggle(wishapes[num]);
+			 else _UI.ss.select(wishapes[num]);
 		} else {
-			_UI.ss = false;
-			_UI.selectedshapes.clear();
+			_UI.ss.clear();
+			_UI.ss.clear();
 		}
 		// debug(' selectShape - END\n');
 	}

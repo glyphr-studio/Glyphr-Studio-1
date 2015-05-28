@@ -260,7 +260,7 @@
 			ch.shapes.push(nci);
 			ch.calcGlyphMaxes();
 			if(select) {
-				_UI.ss = nci;
+				_UI.ss.select(nci);
 				_UI.selectedtool = 'shaperesize';
 			}
 

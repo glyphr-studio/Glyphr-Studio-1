@@ -10,7 +10,7 @@
 	function makePanel_GlyphAttributes(){
 		// debug('\n makePanel_GlyphAttributes - START');
 		var sc = getSelectedWorkItem();
-		var ss = _UI.selectedshapes.getMembers();
+		var ss = _UI.ss.getMembers();
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
@@ -74,7 +74,7 @@
 	}
 
 	function multiSelectDetails() {
-		var sc = _UI.selectedshapes.getGlyph();
+		var sc = _UI.ss.getGlyph();
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
 
@@ -82,11 +82,11 @@
 			'<td>x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<input type="number" id="charx" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
 				' value="' + round(sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="chary" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
 				' value="' + round(sc.maxes.ymax, 3) + '" >'+
 			'</td>'+
 		'</tr>';
@@ -95,24 +95,24 @@
 			'<td>width'+dimSplit()+'height</td>'+
 			'<td>'+
 				'<input type="number" id="charw" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapeSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapeSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
 				' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="charh" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.selectedshapes.setShapeSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapeSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
 				' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 			'</td>'+
 		'</tr>';
 
 		content += '<tr>'+
 			'<td> lock aspect ratio </td>'+
-			'<td>'+checkUI('_UI.selectedshapes.glyph.ratiolock', sc.ratiolock, true)+'</td>'+
+			'<td>'+checkUI('_UI.ss.glyph.ratiolock', sc.ratiolock, true)+'</td>'+
 		'</tr>';
 
 		content += '<tr><td colspan=2>'+
 			'<table class="actionsgrid"><tr><td>'+
-			'<button onclick="_UI.selectedshapes.flipNS(); history_put(\'Flip Multi-selected Shapes : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
-			'<button onclick="_UI.selectedshapes.flipEW(); history_put(\'Flip Multi-selected Shapes : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
+			'<button onclick="_UI.ss.flipNS(); history_put(\'Flip Multi-selected Shapes : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
+			'<button onclick="_UI.ss.flipEW(); history_put(\'Flip Multi-selected Shapes : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
 			'</td></tr></table>'+
 		'</td></tr>';
 
@@ -377,16 +377,16 @@
 			'<td>x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ss.path.sp().P.xlock', _UI.ss.path.sp().P.xlock, 'Pxlock')+
+					lockUI('_UI.ss.sp().P.xlock', _UI.ss.sp().P.xlock, 'Pxlock')+
 					'<input type="number" id="pointx" step="'+svc+'" '+
-					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.path.sp().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
+					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.sp().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
 					' value="' + round(tp.P.x, 3) + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ss.path.sp().P.ylock', _UI.ss.path.sp().P.ylock, 'Pylock')+
+					lockUI('_UI.ss.sp().P.ylock', _UI.ss.sp().P.ylock, 'Pylock')+
 					'<input type="number" id="pointy" step="'+svc+'" '+
-					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.path.sp().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
+					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.sp().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
 					' value="' + round(tp.P.y, 3) + '" >'+
 				'</div>'+
 			'</td>'+
@@ -396,23 +396,23 @@
 		var issymmetric = tp.type === 'symmetric';
 
 		// HANDLE 1
-		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI("_UI.ss.path.sp().useh1", tp.useh1, true))+' handle 1 <span class="unit">(before the point)</span></h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI("_UI.ss.sp().useh1", tp.useh1, true))+' handle 1 <span class="unit">(before the point)</span></h3></td></tr>';
 
 		if(tp.useh1){
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ss.path.sp().H1.xlock', _UI.ss.path.sp().H1.xlock, 'H1xlock')+
+						lockUI('_UI.ss.sp().H1.xlock', _UI.ss.sp().H1.xlock, 'H1xlock')+
 						'<input type="number" id="handle1x" step="'+svc+'" '+
-						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.path.sp().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.sp().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H1.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ss.path.sp().H1.ylock', _UI.ss.path.sp().H1.ylock, 'H1ylock')+
+						lockUI('_UI.ss.sp().H1.ylock', _UI.ss.sp().H1.ylock, 'H1ylock')+
 						'<input type="number" id="handle1y" step="'+svc+'" '+
-						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.path.sp().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.sp().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H1.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+
@@ -425,23 +425,23 @@
 		}
 
 		// HANDLE 2
-		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI('_UI.ss.path.sp().useh2', tp.useh2, true))+' handle 2 <span class="unit">(after the point)</span></h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI('_UI.ss.sp().useh2', tp.useh2, true))+' handle 2 <span class="unit">(after the point)</span></h3></td></tr>';
 
 		if(tp.useh2){
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ss.path.sp().H2.xlock', _UI.ss.path.sp().H2.xlock, 'H2xlock')+
+						lockUI('_UI.ss.sp().H2.xlock', _UI.ss.sp().H2.xlock, 'H2xlock')+
 						'<input type="number" id="handle2x" step="'+svc+'" '+
-						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.path.sp().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.sp().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H2.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ss.path.sp().H2.ylock', _UI.ss.path.sp().H2.ylock, 'H2ylock')+
+						lockUI('_UI.ss.sp().H2.ylock', _UI.ss.sp().H2.ylock, 'H2ylock')+
 						'<input type="number" id="handle2y" step="'+svc+'" '+
-						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.path.sp().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ss.sp().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H2.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+

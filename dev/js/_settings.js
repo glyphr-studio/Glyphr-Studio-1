@@ -87,6 +87,7 @@
 		'popout': false,
 		'ss': false,	//Selected Shape
 		'selectedshapes': {},
+		'multiselectthickness': 2,
 		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
 		'redrawing': false,
