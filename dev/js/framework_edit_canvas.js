@@ -719,13 +719,12 @@
 		//draw bounding box and 8points
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		var tnbs = _UI.eventhandlers.tempnewbasicshape;
-		var lx = tnbs? sx_cx(tnbs.xmin) : sx_cx(maxes.xmin);
-		var rx = tnbs? sx_cx(tnbs.xmax) : sx_cx(maxes.xmax);
-		var ty = tnbs? sy_cy(tnbs.ymax) : sy_cy(maxes.ymax);
-		var by = tnbs? sy_cy(tnbs.ymin) : sy_cy(maxes.ymin);
+		var lx = sx_cx(maxes.xmin);
+		var rx = sx_cx(maxes.xmax);
+		var ty = sy_cy(maxes.ymax);
+		var by = sy_cy(maxes.ymin);
 
-		if(_UI.ss.getMembers().length > 1 && thickness > 1){
+		if(thickness > 1){
 			lx -= thickness;
 			rx += thickness;
 			ty -= thickness;
@@ -745,29 +744,8 @@
 	function drawBoundingBoxHandles(maxes, accent, thickness) {
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-
 		var ps = _GP.projectsettings.pointsize;
-		var hp = ps/2;
-
-		var tnbs = _UI.eventhandlers.tempnewbasicshape;
-		var lx = tnbs? sx_cx(tnbs.maxes.xmin) : sx_cx(maxes.xmin);
-		var rx = tnbs? sx_cx(tnbs.maxes.xmax) : sx_cx(maxes.xmax);
-		var ty = tnbs? sy_cy(tnbs.maxes.ymax) : sy_cy(maxes.ymax);
-		var by = tnbs? sy_cy(tnbs.maxes.ymin) : sy_cy(maxes.ymin);
-
-		if(_UI.ss.getMembers().length > 1 && thickness > 1){
-			lx -= thickness;
-			rx += thickness;
-			ty -= thickness;
-			by += thickness;
-		}
-		
-		var bleftx = (lx-hp).makeCrisp(false);
-		var bmidx = (lx+((rx-lx)/2)-hp);
-		var brightx = (rx-hp).makeCrisp(true);
-		var btopy = (ty-hp).makeCrisp(true);
-		var bmidy = (ty+((by-ty)/2)-hp);
-		var bbottomy = (by-hp).makeCrisp(false);
+		var bb = getBoundingBoxHandleDimensions(maxes, thickness);
 
 		_UI.glypheditctx.fillStyle = 'white';
 		_UI.glypheditctx.lineWidth = 1;
@@ -775,141 +753,146 @@
 
 		//upper left
 		if(canResize('nw')){
-			_UI.glypheditctx.fillRect(bleftx, btopy, ps, ps);
-			_UI.glypheditctx.strokeRect(bleftx, btopy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.leftx, bb.topy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.leftx, bb.topy, ps, ps);
 		}
 
 		//top
 		if(canResize('n')){
-			_UI.glypheditctx.fillRect(bmidx, btopy, ps, ps);
-			_UI.glypheditctx.strokeRect(bmidx, btopy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.midx, bb.topy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.midx, bb.topy, ps, ps);
 		}
 
 		//upper right
 		if(canResize('ne')){
-			_UI.glypheditctx.fillRect(brightx, btopy, ps, ps);
-			_UI.glypheditctx.strokeRect(brightx, btopy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.rightx, bb.topy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.rightx, bb.topy, ps, ps);
 		}
 
 		// right
 		if(canResize('e')){
-			_UI.glypheditctx.fillRect(brightx, bmidy, ps, ps);
-			_UI.glypheditctx.strokeRect(brightx, bmidy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.rightx, bb.midy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.rightx, bb.midy, ps, ps);
 		}
 
 		//lower right
 		if(canResize('se')){
-			_UI.glypheditctx.fillRect(brightx, bbottomy, ps, ps);
-			_UI.glypheditctx.strokeRect(brightx, bbottomy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.rightx, bb.bottomy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.rightx, bb.bottomy, ps, ps);
 		}
 
 		//bottom
 		if(canResize('s')){
-			_UI.glypheditctx.fillRect(bmidx, bbottomy, ps, ps);
-			_UI.glypheditctx.strokeRect(bmidx, bbottomy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.midx, bb.bottomy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.midx, bb.bottomy, ps, ps);
 		}
 
 		//lower left
 		if(canResize('sw')){
-			_UI.glypheditctx.fillRect(bleftx, bbottomy, ps, ps);
-			_UI.glypheditctx.strokeRect(bleftx, bbottomy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.leftx, bb.bottomy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.leftx, bb.bottomy, ps, ps);
 		}
 
 		//left
 		if(canResize('w')){
-			_UI.glypheditctx.fillRect(bleftx, bmidy, ps, ps);
-			_UI.glypheditctx.strokeRect(bleftx, bmidy, ps, ps);
+			_UI.glypheditctx.fillRect(bb.leftx, bb.midy, ps, ps);
+			_UI.glypheditctx.strokeRect(bb.leftx, bb.midy, ps, ps);
 		}
 
 		//Center Dot
-		_UI.glypheditctx.fillRect(bmidx, bmidy, ps, ps);
-		_UI.glypheditctx.strokeRect(bmidx, bmidy, ps, ps);
+		_UI.glypheditctx.fillRect(bb.midx, bb.midy, ps, ps);
+		_UI.glypheditctx.strokeRect(bb.midx, bb.midy, ps, ps);
 	}
 
-	function isOverBoundingBoxCorner(px, py, maxes, thickness) {
-		// debug('\n isOverBoundingBoxCorner - START');
+	function isOverBoundingBoxHandle(px, py, maxes, thickness) {
+		// debug('\n isOverBoundingBoxHandle - START');
 		// debug('\t px/py - ' + px + ' / ' + py);
 		// debug('\t maxes - ' + json(maxes, true));
 
 		if(!maxes) return false;
-
-		thickness = thickness || 1;
-
-		// Translation Fidelity - converting passed canvas values to saved value system
 		var ps = _GP.projectsettings.pointsize;
-		var hp = ps/2;
-		var leftxb = (sx_cx(maxes.xmin) - hp).makeCrisp(false);
-		var midxb = Math.floor(sx_cx(maxes.xmin)+((sx_cx(maxes.xmax)-sx_cx(maxes.xmin))/2)-hp);
-		var rightxb = (sx_cx(maxes.xmax) - hp).makeCrisp(true);
-
-		var topyb = (sy_cy(maxes.ymax) - hp).makeCrisp(true);
-		var midyb = Math.floor(sy_cy(maxes.ymax)+((sy_cy(maxes.ymin)-sy_cy(maxes.ymax))/2)-hp);
-		var bottomyb = (sy_cy(maxes.ymin) - hp).makeCrisp(false);
-
-
-		if(_UI.ss.getMembers().length > 1 && thickness > 1){
-			leftxb -= thickness;
-			rightxb += thickness;
-			topyb -= thickness;
-			bottomyb += thickness;
-		}
+		var bb = getBoundingBoxHandleDimensions(maxes, thickness);
 
 		// debug('\t point size - ' + ps);
-		// debug('\t l/m/r x: ' + leftxb + ' / ' + midxb + ' / ' + rightxb);
-		// debug('\t t/m/b y: ' + topyb + ' / ' + midyb + ' / ' + bottomyb);
+		// debug('\t l/m/r x: ' + bb.leftx + ' / ' + bb.midx + ' / ' + bb.rightx);
+		// debug('\t t/m/b y: ' + bb.topy + ' / ' + bb.midy + ' / ' + bb.bottomy);
 
 		// upper left
-		if( ((px > leftxb) && (px < leftxb+ps)) &&
-			((py > topyb) && (py < topyb+ps)) ){
+		if( ((px > bb.leftx) && (px < bb.leftx+ps)) &&
+			((py > bb.topy) && (py < bb.topy+ps)) ){
 			return 'nw';
 		}
 
 		// top
-		if( ((px > midxb) && (px < midxb+ps)) &&
-			((py > topyb) && (py < topyb+ps)) ){
+		if( ((px > bb.midx) && (px < bb.midx+ps)) &&
+			((py > bb.topy) && (py < bb.topy+ps)) ){
 			return 'n';
 		}
 
 		// upper right
-		if( ((px > rightxb) && (px < rightxb+ps)) &&
-			((py > topyb) && (py < topyb+ps)) ){
+		if( ((px > bb.rightx) && (px < bb.rightx+ps)) &&
+			((py > bb.topy) && (py < bb.topy+ps)) ){
 			return 'ne';
 		}
 
 		// right
-		if( ((px > rightxb) && (px < rightxb+ps)) &&
-			((py > midyb) && (py < midyb+ps)) ){
+		if( ((px > bb.rightx) && (px < bb.rightx+ps)) &&
+			((py > bb.midy) && (py < bb.midy+ps)) ){
 			return 'e';
 		}
 
 		// lower right
-		if( ((px > rightxb) && (px < rightxb+ps)) &&
-			((py > bottomyb) && (py < bottomyb+ps)) ){
+		if( ((px > bb.rightx) && (px < bb.rightx+ps)) &&
+			((py > bb.bottomy) && (py < bb.bottomy+ps)) ){
 			return 'se';
 		}
 
 		// bottom
-		if( ((px > midxb) && (px < midxb+ps)) &&
-			((py > bottomyb) && (py < bottomyb+ps)) ){
+		if( ((px > bb.midx) && (px < bb.midx+ps)) &&
+			((py > bb.bottomy) && (py < bb.bottomy+ps)) ){
 			return 's';
 		}
 
 		// lower left
-		if( ((px > leftxb) && (px < leftxb+ps)) &&
-			((py > bottomyb) && (py < bottomyb+ps)) ){
+		if( ((px > bb.leftx) && (px < bb.leftx+ps)) &&
+			((py > bb.bottomy) && (py < bb.bottomy+ps)) ){
 			return 'sw';
 		}
 
 		// left
-		if( ((px > leftxb) && (px < leftxb+ps)) &&
-			((py > midyb) && (py < midyb+ps)) ){
+		if( ((px > bb.leftx) && (px < bb.leftx+ps)) &&
+			((py > bb.midy) && (py < bb.midy+ps)) ){
 			return 'w';
 		}
 
-		// debug(' isOverBoundingBoxCorner - returning FALSE - END\n');
+		// debug(' isOverBoundingBoxHandle - returning FALSE - END\n');
 		return false;
 	}
 
+	function getBoundingBoxHandleDimensions(maxes, thickness) {
+		var hp = _GP.projectsettings.pointsize/2;
+		var dimensions = {};
+		thickness = thickness || 1;
+
+		// Translation Fidelity - converting passed canvas values to saved value system
+		dimensions.leftx = (sx_cx(maxes.xmin) - hp); //.makeCrisp(false);
+		dimensions.midx = Math.floor(sx_cx(maxes.xmin)+((sx_cx(maxes.xmax)-sx_cx(maxes.xmin))/2)-hp);
+		dimensions.rightx = (sx_cx(maxes.xmax) - hp); //.makeCrisp(true);
+
+		dimensions.topy = (sy_cy(maxes.ymax) - hp); //.makeCrisp(true);
+		dimensions.midy = Math.floor(sy_cy(maxes.ymax)+((sy_cy(maxes.ymin)-sy_cy(maxes.ymax))/2)-hp);
+		dimensions.bottomy = (sy_cy(maxes.ymin) - hp); //.makeCrisp(false);
+
+
+		if(thickness > 1){
+			dimensions.leftx -= thickness;
+			dimensions.rightx += thickness;
+			dimensions.topy -= thickness;
+			dimensions.bottomy += thickness;
+		}
+
+		return dimensions;
+	}
 
 
 //-------------------

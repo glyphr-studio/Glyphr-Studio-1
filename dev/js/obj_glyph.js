@@ -247,7 +247,8 @@
 	Glyph.prototype.updateGlyphPosition = function(dx, dy, force){
 		// debug('\n Glyph.updateGlyphPosition - START ' + this.name);
 		// debug('\t dx/dy/force: ' + dx + ' ' + dy + ' ' + force);
-
+		// debug('\t number of shapes: ' + this.shapes.length);
+		
 		dx = parseFloat(dx) || 0;
 		dy = parseFloat(dy) || 0;
 		var cs = this.shapes;
@@ -278,6 +279,7 @@
 
 	Glyph.prototype.updateGlyphSize = function(dw, dh, ratiolock){
 		// debug('\n Glyph.updateGlyphSize - START ' + this.name);
+		// debug('\t number of shapes: ' + this.shapes.length);
 
 		if(dw !== false) dw = parseFloat(dw) || 0;
 		if(dh !== false) dh = parseFloat(dh) || 0;

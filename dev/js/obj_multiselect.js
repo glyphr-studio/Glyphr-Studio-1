@@ -85,29 +85,29 @@
 	};
 
 	// Wrapper functions
-	_UI.ss.updateShapePosition = function(dx, dy, force){ this.glyph.updateGlyphPosition(dx, dy, force); };
+	_UI.ss.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
 
-	_UI.ss.setShapePosition = function(nx, ny, force) { this.glyph.setGlyphPosition(nx, ny, force); };
+	_UI.ss.setShapePosition = function(nx, ny, force) { this.getGlyph().setGlyphPosition(nx, ny, force); };
 
-	_UI.ss.updateShapeSize = function(dx, dy, force) { this.glyph.updateGlyphSize(dx, dy, force); };
+	_UI.ss.updateShapeSize = function(dx, dy, force) { this.getGlyph().updateGlyphSize(dx, dy, force); };
 
-	_UI.ss.setShapeSize = function(nw, nh, ratiolock) { this.glyph.setGlyphSize(nw, nh, ratiolock); };
+	_UI.ss.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
 
-	_UI.ss.updateShapeSize = function(dw, dh, ratiolock) { this.glyph.updateGlyphSize(dw, dh, ratiolock); };
+	_UI.ss.updateShapeSize = function(dw, dh, ratiolock) { this.getGlyph().updateGlyphSize(dw, dh, ratiolock); };
 
-	_UI.ss.flipNS = function(mid) { this.glyph.flipNS(mid); };
+	_UI.ss.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
 
-	_UI.ss.flipEW = function(mid) { this.glyph.flipEW(mid); };
+	_UI.ss.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
 
-	_UI.ss.isOverBoundingBoxCorner = function(px, py) {
-		// debug('\n SelectedShapes.isOverBoundingBoxCorner - START');
+	_UI.ss.isOverBoundingBoxHandle = function(px, py) {
+		// debug('\n SelectedShapes.isOverBoundingBoxHandle - START');
 		if(this.members.length === 1) {
 			// debug('\t calling singleton method');
-			return this.members[0].isOverBoundingBoxCorner(px, py);
+			return this.members[0].isOverBoundingBoxHandle(px, py);
 		}
 
-		var c = isOverBoundingBoxCorner(px, py, this.getGlyph().maxes, _UI.multiselectthickness);
-		debug('\t SelectedShapes.isOverBoundingBoxCorner returning ' + c);
+		var c = isOverBoundingBoxHandle(px, py, this.getGlyph().maxes, _UI.multiselectthickness);
+		// debug('\t SelectedShapes.isOverBoundingBoxHandle returning ' + c);
 		return c;
 	};
 
@@ -141,7 +141,7 @@
 	_UI.ss.drawBoundingBox = function(){
 		if(this.members.length === 1){
 			this.members[0].drawBoundingBox();
-		} else {
+		} else if(this.members.length > 1){
 			var bmaxes = clone(_UI.mins);
 
 			for(var m=0; m<this.members.length; m++){
@@ -155,7 +155,7 @@
 	_UI.ss.drawBoundingBoxHandles = function(){
 		if(this.members.length === 1){
 			this.members[0].drawBoundingBoxHandles();
-		} else {
+		} else if(this.members.length > 1){
 			var bmaxes = clone(_UI.mins);
 
 			for(var m=0; m<this.members.length; m++){

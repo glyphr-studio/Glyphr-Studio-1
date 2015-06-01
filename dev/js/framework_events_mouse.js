@@ -108,8 +108,8 @@
 		_UI.eventhandlers.corner = false;
 
 		this.mousedown = function (ev) {
-			debug('\n Tool_ShapeEdit.mousedown - START');
-			debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
+			// debug('\n Tool_ShapeEdit.mousedown - START');
+			// debug('\t x:y ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
 
 			this.didstuff = false;
 			var eh = _UI.eventhandlers;
@@ -120,9 +120,9 @@
 			eh.firsty = eh.mousey;
 
 			this.clickedshape = getClickedShape(eh.mousex, eh.mousey);
-			eh.corner = _UI.ss.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
+			eh.corner = _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
-			debug('\t clickshape: ' + this.clickedshape);
+			// debug('\t clickshape: ' + this.clickedshape);
 			debug('\t corner: ' + eh.corner);
 
 			if(eh.corner){
@@ -147,12 +147,12 @@
 		this.mousemove = function (ev) {
 			var eh = _UI.eventhandlers;
 			this.didstuff = false;
-			var corner = eh.corner || _UI.ss.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
+			var corner = eh.corner || _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
-			var dx = ((eh.mousex-eh.lastx)/dz);
-			var dy = ((eh.lasty-eh.mousey)/dz);
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
-
+			var dx = ((eh.mousex-eh.lastx)/dz) || 0;
+			var dy = ((eh.lasty-eh.mousey)/dz) || 0;
+			
 			if (this.dragging) {
 				var cur = 'pointer';
 
@@ -173,7 +173,7 @@
 				var singleton = _UI.ss.getSingleton();
 
 				if(singleton){
-					cur = singleton.isOverBoundingBoxCorner(eh.mousex, eh.mousey);
+					cur = singleton.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 					if(!cur) cur = isOverShape(eh.mousex, eh.mousey)? 'pointerSquare' : 'pointer';
 					dx = singleton.xlock? 0 : dx;
 					dy = singleton.ylock? 0 : dy;
@@ -270,6 +270,7 @@
 			var newshape = new Shape({'visible':false, 'name':'...'});
 			newshape.path.maxes = _UI.eventhandlers.tempnewbasicshape;
 			newshape = addShape(newshape);
+			_UI.ss.select(newshape);
 
 			_UI.eventhandlers.firstx = cx_sx(_UI.eventhandlers.mousex);
 			_UI.eventhandlers.firsty = cy_sy(_UI.eventhandlers.mousey);
@@ -287,8 +288,6 @@
 				_UI.eventhandlers.tempnewbasicshape.ymax = Math.max(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 
-				_UI.ss.path.maxes = _UI.eventhandlers.tempnewbasicshape;
-
 				_UI.eventhandlers.uqhaschanged = true;
 				redraw('Event Handler Tool_NewBasicShape mousemove');
 				//debug('Tool_NewBasicShape MOUSEMOVE past redraw');
@@ -303,16 +302,17 @@
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
+				var s = _UI.ss.getSingleton();
 
 				if(_UI.selectedtool==='newrect'){
-					_UI.ss.name = ('Rectangle ' + count);
-					_UI.ss.path = rectPathFromMaxes(tnbs);
+					s.name = ('Rectangle ' + count);
+					s.path = rectPathFromMaxes(tnbs);
 				} else {
-					_UI.ss.name = ('Oval ' + count);
-					_UI.ss.path = ovalPathFromMaxes(tnbs);
+					s.name = ('Oval ' + count);
+					s.path = ovalPathFromMaxes(tnbs);
 				}
 
-				_UI.ss.visible = true;
+				s.visible = true;
 				//updateCurrentGlyphWidth();
 			} else {
 				deleteShape();
@@ -686,10 +686,10 @@
 	}
 
 	function eventHandler_ShapeResize(){
-		debug('\n eventHandler_ShapeResize - START');
+		// debug('\n eventHandler_ShapeResize - START');
 		var s = _UI.ss;
 		var pcorner = _UI.eventhandlers.corner;
-		debug('\t handle ' + pcorner);
+		// debug('\t handle ' + pcorner);
 
 		var maxes = s.getMaxes();
 		var mx = cx_sx(_UI.eventhandlers.mousex);
@@ -699,7 +699,7 @@
 		var dh = (ly-my);
 		var dw = (lx-mx);
 		var rl = (!s.wlock && !s.hlock && s.ratiolock);
-		debug('\t dw: ' + dw + '\tdh: ' + dh);
+		// debug('\t dw: ' + dw + '\tdh: ' + dh);
 
 		// Check that the shape won't have negative dimensions
 		if(mx >= maxes.xmax && maxes.xmax-maxes.xmin+dw < 2) dw=0;

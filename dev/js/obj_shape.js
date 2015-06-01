@@ -392,10 +392,10 @@
 		return (imageData.data[3] > 0);
 	};
 
-	Shape.prototype.isOverBoundingBoxCorner = function(px, py){
-		// debug('\n Shape.isOverBoundingBoxCorner - START');
-		var c = isOverBoundingBoxCorner(px, py, this.path.maxes);
-		// debug('\t Shape.isOverBoundingBoxCorner returning ' + c);
+	Shape.prototype.isOverBoundingBoxHandle = function(px, py){
+		// debug('\n Shape.isOverBoundingBoxHandle - START');
+		var c = isOverBoundingBoxHandle(px, py, this.path.maxes);
+		// debug('\t Shape.isOverBoundingBoxHandle returning ' + c);
 		return c;
 	};
 

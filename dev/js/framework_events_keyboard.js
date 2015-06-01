@@ -72,7 +72,14 @@
 			ioOTF_exportOTFfont();
 		}
 
+		// q 
+		// for dev mode clear console
+		if(_UI.devmode && event.ctrlKey && kc==='q'){
+			event.preventDefault();
+			console.clear();
+		}
 
+		
 		// Only allow the following stuff for canvas edit pages
 		if(!onCanvasEditPage()) return;
 

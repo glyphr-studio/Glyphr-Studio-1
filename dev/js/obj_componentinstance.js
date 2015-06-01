@@ -220,10 +220,10 @@
 		return g? g.isHere(px, py) : false;
 	};
 
-	ComponentInstance.prototype.isOverBoundingBoxCorner = function(px, py){
-		// debug('\n ComponentInstance.isOverBoundingBoxCorner - START');
-		var c = isOverBoundingBoxCorner(px, py, this.getMaxes());
-		// debug('\t ComponentInstance.isOverBoundingBoxCorner returning ' + c);
+	ComponentInstance.prototype.isOverBoundingBoxHandle = function(px, py){
+		// debug('\n ComponentInstance.isOverBoundingBoxHandle - START');
+		var c = isOverBoundingBoxHandle(px, py, this.getMaxes());
+		// debug('\t ComponentInstance.isOverBoundingBoxHandle returning ' + c);
 		return c;
 	};
 
