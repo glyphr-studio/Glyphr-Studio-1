@@ -101,6 +101,7 @@
 
 	_UI.ss.isOverBoundingBoxHandle = function(px, py) {
 		// debug('\n SelectedShapes.isOverBoundingBoxHandle - START');
+		// debug('\t passed x/y: ' + px + '/' + py);
 		if(this.members.length === 1) {
 			// debug('\t calling singleton method');
 			return this.members[0].isOverBoundingBoxHandle(px, py);

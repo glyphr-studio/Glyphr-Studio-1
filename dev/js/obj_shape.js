@@ -358,8 +358,7 @@
 			}
 		}
 
-		clickEmptySpace();
-		// debug('\t deselecting, setting to -1');
+		// clickEmptySpace();
 		// debug(' getClickedShape - END\n');
 		return false;
 	}

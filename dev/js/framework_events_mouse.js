@@ -105,7 +105,7 @@
 		this.resizing = false;
 		this.didstuff = false;
 		this.clickedshape = false;
-		_UI.eventhandlers.corner = false;
+		_UI.eventhandlers.handle = false;
 
 		this.mousedown = function (ev) {
 			// debug('\n Tool_ShapeEdit.mousedown - START');
@@ -113,31 +113,31 @@
 
 			this.didstuff = false;
 			var eh = _UI.eventhandlers;
-			eh.corner = false;
+			eh.handle = false;
 			eh.lastx = eh.mousex;
 			eh.firstx = eh.mousex;
 			eh.lasty = eh.mousey;
 			eh.firsty = eh.mousey;
 
 			this.clickedshape = getClickedShape(eh.mousex, eh.mousey);
-			eh.corner = _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
+			eh.handle = _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
 			// debug('\t clickshape: ' + this.clickedshape);
-			debug('\t corner: ' + eh.corner);
+			// debug('\t corner: ' + eh.handle);
 
-			if(eh.corner){
-				debug('\t clicked on eh.corner: ' + eh.corner);
-				setCursor(eh.corner);
+			if(eh.handle){
+				// debug('\t clicked on eh.handle: ' + eh.handle);
+				setCursor(eh.handle);
 				this.resizing = true;
 				this.dragging = false;
 
 			} else if(this.clickedshape){
-				debug('\t clicked on shape = true');
+				// debug('\t clicked on shape = true');
 				this.dragging = true;
 				this.resizing = false;
 
 			} else {
-				debug('\t clicked on nothing');
+				// debug('\t clicked on nothing');
 				clickEmptySpace();
 			}
 
@@ -147,13 +147,14 @@
 		this.mousemove = function (ev) {
 			var eh = _UI.eventhandlers;
 			this.didstuff = false;
-			var corner = eh.corner || _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
+			var corner = eh.handle || _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			var dx = ((eh.mousex-eh.lastx)/dz) || 0;
 			var dy = ((eh.lasty-eh.mousey)/dz) || 0;
 			
 			if (this.dragging) {
+				// debug('\n Tool_ShapeEdit.mousemove - dragging');
 				var cur = 'pointer';
 
 				if(this.clickedshape){
@@ -184,14 +185,17 @@
 				setCursor(cur);
 
 			} else if (this.resizing){
-				// debug('\tTool_ShapeEdit - Resizing Shape over handle');
+				// debug('\n Tool_ShapeEdit.mousemove - resizing');
 				eventHandler_ShapeResize();
 				this.didstuff = true;
 
 			} else if (corner){
+				// debug('\n Tool_ShapeEdit.mousemove - corner ' + corner);
+				// hovering over a corner
 				setCursor(corner);
 
 			} else {
+				// debug('\n Tool_ShapeEdit.mousemove - fallthrough else');
 				setCursor('pointer');
 			}
 
@@ -213,7 +217,6 @@
 			// New Basic Shape
 			if(eh.tempnewbasicshape){
 				eh.tempnewbasicshape = false;
-				_UI.ss.hidden = false;
 				eh.lastx = eh.firstx;
 				eh.lasty = eh.firsty;
 				eventHandler_ShapeResize();
@@ -241,6 +244,7 @@
 			this.didstuff = false;
 			this.dragging = false;
 			this.resizing = false;
+			eh.handle = false;
 			eh.lastx = -100;
 			eh.lasty = -100;
 			eh.firstx = -100;
@@ -688,7 +692,7 @@
 	function eventHandler_ShapeResize(){
 		// debug('\n eventHandler_ShapeResize - START');
 		var s = _UI.ss;
-		var pcorner = _UI.eventhandlers.corner;
+		var pcorner = _UI.eventhandlers.handle;
 		// debug('\t handle ' + pcorner);
 
 		var maxes = s.getMaxes();
