@@ -368,6 +368,25 @@
 		return false;
 	};
 
+	Path.prototype.isOverFirstPoint = function(x, y) {
+		debug('\n Path.isOverFirstPoint - START');
+		debug('\t Passed ' + x + '/' + y);
+		var a = this.pathpoints[0];
+
+		var hp = _GP.projectsettings.pointsize/getView('Path.isOverFirstPoint').dz;
+		debug('\t Checking ' + a.P.x + '/' + a.P.y + ' around ' + hp);
+		
+		if(!a) return false;
+
+		if( ((a.P.x+hp) > x) && ((a.P.x-hp) < x) && ((a.P.y+hp) > y) && ((a.P.y-hp) < y) ){
+			debug(' Path.isOverFirstPoint - END - return TRUE\n');
+			return true;
+		}
+
+		debug(' Path.isOverFirstPoint - END - return FALSE\n');
+		return false;
+	};
+
 	Path.prototype.findWinding = function(){
 		// debug('\n Path.findWinding - START');
 		var j,k,z;
@@ -448,7 +467,9 @@
 	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
-		//debug('ADDPATHPOINT - new point? ' + newpp);
+		// debug('\n Path.addPathPoint - START');
+		// debug('\t newpp = ' + newpp);
+		var re = false;
 
 		if(!newpp) {
 			// No pathpoint passed to function - make a new one
@@ -468,7 +489,7 @@
 				}
 
 				this.pathpoints.unshift(newpp);
-				this.selectPathPoint(0);
+				re = this.selectPathPoint(0);
 			} else {
 				// Adds new pathpoint to end of path
 				if(this.pathpoints.length > 0){
@@ -483,15 +504,18 @@
 				}
 
 				this.pathpoints.push(newpp);
-				this.selectPathPoint(this.pathpoints.length-1);
+				re = this.selectPathPoint(this.pathpoints.length-1);
 			}
 		} else {
 			// Function was passed a new path point
 			this.pathpoints.push(newpp);
-			this.selectPathPoint(this.pathpoints.length-1);
+			re = this.selectPathPoint(this.pathpoints.length-1);
 		}
 
 		this.calcMaxes();
+
+		// debug(' Path.addPathPoint - END - returning ' + re + '\n');
+		return re;
 	};
 
 	Path.prototype.insertPathPoint = function(split, pointnum) {
@@ -653,18 +677,18 @@
 	};
 
 	Path.prototype.selectPathPoint = function(index){
-		// FOR NOW, ONLY ONE POINT SELECTED
-		//debug('SELECTPATHPOINT - passed ' + index + ' length ' + this.pathpoints.length + ' mod ' +(index%this.pathpoints.length));
 		for(var j=0; j<this.pathpoints.length; j++){
 			this.pathpoints[j].selected = false;
 		}
 
 		if(index === false){
-			return;
+			return false;
 		} else {
 			index = (index === -1)? (this.pathpoints.length-1) : Math.abs(index);
-			this.pathpoints[index%this.pathpoints.length].selected = true;
-			//debug('SELECTPATHPOINT - selecting point ' + index%this.pathpoints.length));
+			index = index % this.pathpoints.length;
+			this.pathpoints[index].selected = true;
+			
+			return this.pathpoints[index];
 		}
 	};
 

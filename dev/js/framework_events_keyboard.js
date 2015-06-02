@@ -178,9 +178,10 @@
 			// del
 			if(kc==='del' || kc==='backspace'){
 				event.preventDefault();
+				var singleton = _UI.ss.getSingleton();
 
-				if(_UI.ss.objtype !== 'componentinstance' && _UI.ss.path.sp(false)){
-					_UI.ss.path.deletePathPoint();
+				if(singleton && singleton.objtype !== 'componentinstance' && singleton.path.sp(false)){
+					singleton.path.deletePathPoint();
 					history_put('Delete Path Point');
 					redraw('Keypress DEL or BACKSPACE');
 				} else if (_UI.ss){

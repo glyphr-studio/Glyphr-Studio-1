@@ -136,7 +136,7 @@
 				this.dragging = true;
 				this.resizing = false;
 
-			} else {
+			} else if (!eh.multi){
 				// debug('\t clicked on nothing');
 				clickEmptySpace();
 			}
@@ -155,7 +155,7 @@
 			
 			if (this.dragging) {
 				// debug('\n Tool_ShapeEdit.mousemove - dragging');
-				var cur = 'pointer';
+				var cur = 'pointerSquare';
 
 				if(this.clickedshape){
 					if(eh.multi) _UI.ss.add(this.clickedshape);
@@ -164,10 +164,7 @@
 					}
 
 					this.clickedshape.selectPathPoint(false);
-
 					if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
-					else setCursor('pointerSquare');
-
 					_UI.navprimaryhere = 'npAttributes';
 				}
 
@@ -194,6 +191,12 @@
 				// hovering over a corner
 				setCursor(corner);
 
+			} else if (eh.multi){
+				setCursor('pointerPlus');
+
+			} else if (isOverShape(eh.mousex, eh.mousey)){
+				setCursor('pointerSquare');
+
 			} else {
 				// debug('\n Tool_ShapeEdit.mousemove - fallthrough else');
 				setCursor('pointer');
@@ -211,8 +214,6 @@
 		this.mouseup = function () {
 			// debug('Mouse Up');
 			var eh = _UI.eventhandlers;
-
-			setCursor('pointer');
 
 			// New Basic Shape
 			if(eh.tempnewbasicshape){
@@ -342,101 +343,114 @@
 		this.dragging = false;
 		this.firstpoint = true;
 		this.currpt = {};
+		this.singleton = false;
 
 		this.mousedown = function (ev) {
-			//debug('Tool_NewPath MOUSEDOWN');
-			var newpoint = new PathPoint({'P':new Coord({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)}), 'H1':new Coord({'x':cx_sx(_UI.eventhandlers.mousex-100), 'y':cy_sy(_UI.eventhandlers.mousey)}), 'H2':new Coord({'x':cx_sx(_UI.eventhandlers.mousex+100), 'y':cy_sy(_UI.eventhandlers.mousey)}), 'type':'flat', 'selected':true, 'useh1':false, 'useh2':false});
+			debug('\n Tool_NewPath.mousedown - START');
+
+			var eh = _UI.eventhandlers;
+			this.singleton = _UI.ss.getSingleton();
+			var newpoint = new PathPoint({
+				'P':new Coord({'x':cx_sx(eh.mousex), 'y':cy_sy(eh.mousey)}),
+				'H1':new Coord({'x':cx_sx(eh.mousex-100), 'y':cy_sy(eh.mousey)}),
+				'H2':new Coord({'x':cx_sx(eh.mousex+100), 'y':cy_sy(eh.mousey)}),
+				'type':'flat',
+				'selected':true,
+				'useh1':false,
+				'useh2':false}
+			);
 
 			if(this.firstpoint) {
-				//debug('Tool_NewPath MOUSEDOWN - tool.firstpoint=true, making a new path');
-				//alert('EVENTHANDLER - Tool_NewPath mousedown - tool.firstpoint=true, making a new path');
-
+				debug('\t firstpoint = TRUE');
 				// make a new path with one point
 				var newpath = new Path({'pathpoints':[newpoint]});
-				//debug('Tool_NewPath MOUSEDOWN - after new path is made.');
-
+				
 				// make a new shape with the new path
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
-				newshape.path.selectPathPoint(0);
-				//debug('Tool_NewPath MOUSEDOWN - end of firstpoint, new shape added with new path with single point.');
+				this.currpt = newshape.path.selectPathPoint(0);
+				this.singleton = _UI.ss.getSingleton();
+				
+			} else if(this.singleton){
 
-			} else {
-				//debug('Tool_NewPath MOUSEDOWN - after firstpoint, placing another point');
-				var ccp = _UI.ss.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey));
-				//debug('Tool_NewPath MOUSEDOWN - after creating ccp: ' + ccp);
-				if((ccp==='P')&&(_UI.ss.path.pathpoints.length > 1)){
-					var p = _UI.ss.path.pathpoints[0];
-					var hp = _GP.projectsettings.pointsize/getView('Event Handler Tool_NewPath mousedown').dz;
-					if( ((p.P.x+hp) > cx_sx(_UI.eventhandlers.mousex)) && ((p.P.x-hp) < cx_sx(_UI.eventhandlers.mousex)) && ((p.P.y+hp) > cy_sy(_UI.eventhandlers.mousey)) && ((p.P.y-hp) < cy_sy(_UI.eventhandlers.mousey)) ){
-						//clicked on an existing control point in this path
-						//if first point - close the path
-						_UI.selectedtool = 'pathedit';
-						_UI.eventhandlers.eh_pathedit.dragging = true;
-						_UI.eventhandlers.eh_pathedit.controlpoint = 'H2';
-						_UI.eventhandlers.toolhandoff = true;
-						this.dragging = false;
-						this.firstmove = false;
-						_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-						_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-						redraw('Event Handler Tool_NewPath mousedown');
-						return;
-					}
+				if(this.singleton.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
+					//clicked on an existing control point in this path
+					//if first point - close the path
+					_UI.selectedtool = 'pathedit';
+					eh.eh_pathedit.dragging = true;
+					eh.eh_pathedit.controlpoint = 'H2';
+					eh.toolhandoff = true;
+					this.dragging = false;
+					this.firstpoint = false;
+					this.currpt = {};
+					eh.lastx = eh.mousex;
+					eh.lasty = eh.mousey;
+					redraw('Event Handler Tool_NewPath mousedown');
+					return;
 				}
 
-				_UI.ss.path.addPathPoint(newpoint, false);
-				//debug('Tool_NewPath MOUSEDOWN - after AddPathPoint');
+				this.currpt = this.singleton.path.addPathPoint(newpoint, false);
 			}
 
-			this.currpt = _UI.ss.path.sp(false, 'Event Handler New Path');
 			this.firstpoint = false;
 			this.dragging = true;
-			_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-			_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+			eh.lastx = eh.mousex;
+			eh.lasty = eh.mousey;
 
 			redraw('Event Handler Tool_NewPath mousedown');
-			//debug('Tool_NewPath MOUSEDOWN - end of function, this.currpt:\n' + JSON.stringify(newpoint));
 		};
 
 		this.mousemove = function (ev) {
-			//debug('Tool_NewPath MOUSEMOVE');
+			var eh = _UI.eventhandlers;
+
 			if(this.dragging){
-				//avoid really small handles
-				//debug('Tool_NewPath MOUSEMOVE - ps*2 = ' + (_GP.projectsettings.pointsize*2) + ' x / y: ' + Math.abs(this.currpt.P.x-cx_sx(_UI.eventhandlers.mousex)) + ' / ' + Math.abs(this.currpt.P.y-cy_sy(_UI.eventhandlers.mousey)) );
-				if( (Math.abs(this.currpt.P.x-cx_sx(_UI.eventhandlers.mousex)) > (_GP.projectsettings.pointsize*2)) || (Math.abs(this.currpt.P.y-cy_sy(_UI.eventhandlers.mousey)) > (_GP.projectsettings.pointsize*2)) ){
-					//debug('Tool_NewPath MOUSEMOVE - dragging H2, this.currpt:\n' + JSON.stringify(this.currpt));
+				//avoid really small handles				
+				if((Math.abs(this.currpt.P.x-cx_sx(eh.mousex)) > (_GP.projectsettings.pointsize*2)) ||
+					(Math.abs(this.currpt.P.y-cy_sy(eh.mousey)) > (_GP.projectsettings.pointsize*2)) ){
 					this.currpt.useh1 = true;
 					this.currpt.useh2 = true;
-					this.currpt.H2.x = cx_sx(_UI.eventhandlers.mousex);
-					this.currpt.H2.y = cy_sy(_UI.eventhandlers.mousey);
+					this.currpt.H2.x = cx_sx(eh.mousex);
+					this.currpt.H2.y = cy_sy(eh.mousey);
 					this.currpt.makeSymmetric('H2');
-				} else {
-					//debug('Tool_NewPath MOUSEMOVE - no handle created yet');
-				}
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				_UI.eventhandlers.uqhaschanged = true;
+				 }
+
+				setCursor('penCircle');
+				eh.lastx = eh.mousex;
+				eh.lasty = eh.mousey;
+				eh.uqhaschanged = true;
 
 				redraw('Event Handler Tool_NewPath mousemove');
-			}
+
+			} else if(this.singleton && this.singleton.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
+			 	setCursor('penSquare');
+
+			} else {
+			 	setCursor('penPlus');
+			}			
 		};
 
 		this.mouseup = function () {
-			//debug('Tool_NewPath MOUSEUP');
-			_UI.ss.path.winding = _UI.ss.path.findWinding();
-			this.dragging = false;
-			this.firstmove = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
+
+			setCursor('penPlus');
+			
+			if(this.singleton && this.singleton.path.length > 2){
+				this.singleton.path.winding = this.singleton.path.findWinding();
+			}
 
 			if(_UI.eventhandlers.uqhaschanged){
-				_UI.ss.path.calcMaxes();
+				if(this.singleton) this.singleton.path.calcMaxes();
 				updateCurrentGlyphWidth();
 				// For new shape tools, mouse up always adds to the undo-queue
 				history_put('New Path tool');
 				_UI.eventhandlers.uqhaschanged = false;
 				redraw('Event Handler Tool_NewPath mouseup');
 			}
+
+			this.dragging = false;
+			this.firstpoint = false;
+			this.currpt = {};
+			_UI.eventhandlers.lastx = -100;
+			_UI.eventhandlers.lasty = -100;
 		};
 	}
 
@@ -447,27 +461,27 @@
 	function Tool_PathEdit(){
 		this.dragging = false;
 		this.controlpoint = false;
+		this.singleton = false;
 
 		this.mousedown = function (ev) {
-			//debug('mouse down: ' + _UI.eventhandlers.mousex + ':' + _UI.eventhandlers.mousey);
-			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
+			var eh = _UI.eventhandlers;
+			var s = getClickedShape(eh.mousex, eh.mousey);
 			var singleton = _UI.ss.getSingleton();
-			this.controlpoint = singleton? singleton.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey)) : false;
-
+			this.controlpoint = singleton? singleton.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey)) : false;
 
 			if(this.controlpoint){
 				this.dragging = true;
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				eh.lastx = eh.mousex;
+				eh.lasty = eh.mousey;
 				if(this.controlpoint === 'P') setCursor('penSquare');
 				else setCursor('penCircle');
 
 			} else if (s){
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
+				eh.lastx = eh.mousex;
+				eh.lasty = eh.mousey;
 
 				s.selectPathPoint(false);
-				if(_UI.eventhandlers.multi) _UI.ss.add(s);
+				if(eh.multi) _UI.ss.add(s);
 				else _UI.ss.select(s);
 
 				if(s.objtype === 'componentinstance') clickTool('shaperesize');
@@ -481,47 +495,57 @@
 		};
 
 		this.mousemove = function (ev) {
+			var eh = _UI.eventhandlers;
+
 			if (this.dragging) {
 				var sp = _UI.ss.sp();
-				if(_UI.eventhandlers.toolhandoff){
+
+				if(eh.toolhandoff){
+					var p = _UI.ss.getSingleton().path;
+					sp = p.selectPathPoint(0);
 					sp.useh2 = true;
-					sp.H2.x = cx_sx(_UI.eventhandlers.mousex);
-					sp.H2.y = cy_sy(_UI.eventhandlers.mousey);
-					_UI.eventhandlers.toolhandoff = false;
+					sp.H2.x = cx_sx(eh.mousex);
+					sp.H2.y = cy_sy(eh.mousey);
+					eh.toolhandoff = false;
 				}
+
 				// Moving points if mousedown
 				var dx = 0;
 				var dy = 0;
 				var dz = getView('Event Handler Tool_PathEdit mousemove').dz;
+
 				switch (this.controlpoint){
 					case 'P':
-						if(!sp.P.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
-						if(!sp.P.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
+						if(!sp.P.xlock) dx = (eh.mousex-eh.lastx)/dz;
+						if(!sp.P.ylock) dy = (eh.lasty-eh.mousey)/dz;
 						setCursor('penSquare');
 						break;
+
 					case 'H1':
-						if(!sp.H1.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
-						if(!sp.H1.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
+						if(!sp.H1.xlock) dx = (eh.mousex-eh.lastx)/dz;
+						if(!sp.H1.ylock) dy = (eh.lasty-eh.mousey)/dz;
 						setCursor('penCircle');
 						break;
+
 					case 'H2':
-						if(!sp.H2.xlock) dx = (_UI.eventhandlers.mousex-_UI.eventhandlers.lastx)/dz;
-						if(!sp.H2.ylock) dy = (_UI.eventhandlers.lasty-_UI.eventhandlers.mousey)/dz;
+						if(!sp.H2.xlock) dx = (eh.mousex-eh.lastx)/dz;
+						if(!sp.H2.ylock) dy = (eh.lasty-eh.mousey)/dz;
 						setCursor('penCircle');
 						break;
 				}
+
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
 				_UI.ss.calcMaxes();
 
-				_UI.eventhandlers.lastx = _UI.eventhandlers.mousex;
-				_UI.eventhandlers.lasty = _UI.eventhandlers.mousey;
-				_UI.eventhandlers.uqhaschanged = true;
+				eh.lastx = eh.mousex;
+				eh.lasty = eh.mousey;
+				eh.uqhaschanged = true;
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 
 			var singleton = _UI.ss.getSingleton();
 			if(singleton){
-				var cp = singleton.path.isOverControlPoint(cx_sx(_UI.eventhandlers.mousex), cy_sy(_UI.eventhandlers.mousey), true);
+				var cp = singleton.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
 				if(cp === 'P') setCursor('penSquare');
 				if(cp === 'H1' || cp === 'H2') setCursor('penCircle');
 			}
@@ -682,10 +706,7 @@
 	// Helper Functions
 
 	function clickEmptySpace(){
-		if(_UI.ss) {
-			if(_UI.ss.path) _UI.ss.path.selectPathPoint(false);
-			_UI.ss.calcMaxes();
-		}
+		_UI.ss.deSelectPathPoints();
 		_UI.ss.clear();
 	}
 
@@ -702,7 +723,8 @@
 		var ly = cy_sy(_UI.eventhandlers.lasty);
 		var dh = (ly-my);
 		var dw = (lx-mx);
-		var rl = (!s.wlock && !s.hlock && s.ratiolock);
+		var rl = s.getRatioLock();
+
 		// debug('\t dw: ' + dw + '\tdh: ' + dh);
 
 		// Check that the shape won't have negative dimensions

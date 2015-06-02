@@ -99,6 +99,12 @@
 
 	_UI.ss.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
 
+	_UI.ss.getRatioLock = function() {
+		if(this.members.length === 1) return this.members[0].ratiolock;
+		else if (this.member.length > 1) return this.getGlyph().ratiolock;
+		else return false;
+	};
+	
 	_UI.ss.isOverBoundingBoxHandle = function(px, py) {
 		// debug('\n SelectedShapes.isOverBoundingBoxHandle - START');
 		// debug('\t passed x/y: ' + px + '/' + py);
@@ -126,6 +132,12 @@
 	_UI.ss.drawShape = function(lctx, view){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].drawShape(lctx, view);
+		}
+	};
+
+	_UI.ss.reverseWinding = function(){
+		for(var m=0; m<this.members.length; m++){
+			this.members[m].reverseWinding();
 		}
 	};
 
@@ -167,15 +179,25 @@
 		}
 	};
 
-	// This is a hack
+	// Global path accessor functions
+	// THESE ASSUME THE FIRST MEMBER IS A SINGLETON
+
+	_UI.ss.deletePathPoint = function(){ if(this.members[0]) this.members[0].path.deletePathPoint(); };
+
+	_UI.ss.insertPathPoint = function() { if(this.members[0]) this.members[0].path.insertPathPoint(); };
+
+	_UI.ss.selectPathPoint = function(index) { if(this.members[0]) this.members[0].path.selectPathPoint(index); };
+
+	_UI.ss.deSelectPathPoints = function(){
+		for(var m=0; m<this.members.length; m++){
+			if(this.members[m].path) this.members[m].path.selectPathPoint(false);
+		}
+	};
+
 	_UI.ss.sp = function(){
 		if(this.members[0]) return this.members[0].path.sp();
 		else return false;
 	};
 
-
-//-------------------------------------------------------
-// Multiselect PATH POINTS
-//-------------------------------------------------------
 
 // end of file

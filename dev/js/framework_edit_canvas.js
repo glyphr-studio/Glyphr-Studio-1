@@ -209,7 +209,8 @@
 			clickEmptySpace();
 		} else if(ctool === "pathedit"){
 			setCursor('pen');
-			if(_UI.ss && _UI.ss.path) {_UI.ss.selectPathPoint(0);}
+			var singleton = _UI.ss.getSingleton();
+			if(singleton && singleton.path) {singleton.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');

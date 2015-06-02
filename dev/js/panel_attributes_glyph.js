@@ -110,9 +110,10 @@
 		'</tr>';
 
 		content += '<tr><td colspan=2>'+
-			'<table class="actionsgrid"><tr><td>'+
-			'<button onclick="_UI.ss.flipNS(); history_put(\'Flip Multi-selected Shapes : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
-			'<button onclick="_UI.ss.flipEW(); history_put(\'Flip Multi-selected Shapes : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
+			'<table class="actionsgrid"><tr><td>'+			
+				'<button onclick="_UI.ss.reverseWinding();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
+					'reverse winding'+
+				'</button>'+
 			'</td></tr></table>'+
 		'</td></tr>';
 
@@ -336,7 +337,7 @@
 		content += '<tr>'+
 			'<td> overlap mode </td>'+
 			'<td>'+
-				'<button style="width:180px; height:26px; padding:0px;" onclick="_UI.ss.path.reverseWinding();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
+				'<button style="width:180px; height:26px; padding:0px;" onclick="_UI.ss.reverseWinding();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
 				(s.path.winding===0?'unknown':(s.path.winding>0?'counterclockwise&ensp;&#8634':'clockwise&ensp;&#8635'))+
 				'</button>'+
 				'&ensp;'+helpUI(overlaphelptext)+
@@ -364,7 +365,7 @@
 
 		content += '<tr>'+
 			'<td> selected point </td>'+
-			'<td><input type="number" id="pointnum" class="lockpad" value="' + s.path.sp(true) + '" onchange="_UI.focuselement=this.id; _UI.ss.path.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
+			'<td><input type="number" id="pointnum" class="lockpad" value="' + s.path.sp(true) + '" onchange="_UI.focuselement=this.id; _UI.ss.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
 		'</tr>';
 
 		content += '<tr><td> point type </td><td>';

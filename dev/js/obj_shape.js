@@ -353,7 +353,6 @@
 			// debug('\t Checking shape ' + j);
 
 			if(ts.isHere(x,y)){
-
 				return ts;
 			}
 		}
