@@ -723,9 +723,9 @@
 		var ly = cy_sy(_UI.eventhandlers.lasty);
 		var dh = (ly-my);
 		var dw = (lx-mx);
-		var rl = s.getRatioLock();
+		var rl = s.getAttribute('ratiolock');
 
-		// debug('\t dw: ' + dw + '\tdh: ' + dh);
+		debug('\t eventHandler_ShapeResize dw/dh/rl: ' + dw + '/' + dh + '/' + rl);
 
 		// Check that the shape won't have negative dimensions
 		if(mx >= maxes.xmax && maxes.xmax-maxes.xmin+dw < 2) dw=0;
@@ -765,8 +765,8 @@
 			case 's':
 				if(canResize('s')){
 					setCursor('s-resize');
-					s.updateShapeSize(0, dh, rl);
 					s.updateShapePosition(0, dh*-1);
+					s.updateShapeSize(0, dh, rl);
 				}
 				break;
 
@@ -809,20 +809,26 @@
 	}
 
 	function canResize(pc){
-		var s = _UI.ss;
-		var rl = s.ratiolock;
+		var rl = _UI.ss.getAttribute('ratiolock');
+		var xl = _UI.ss.getAttribute('xlock');
+		var yl = _UI.ss.getAttribute('ylock');
+		var wl = _UI.ss.getAttribute('wlock');
+		var hl = _UI.ss.getAttribute('hlock');
+		var re = true;
 
 		switch(pc){
-			case 'nw': return rl? false : (!s.ylock && !s.hlock && !s.xlock && !s.wlock);
-			case 'n':  return (!s.ylock && !s.hlock);
-			case 'ne': return rl? false : (!s.ylock && !s.hlock && !s.wlock);
-			case 'e':  return (!s.wlock);
-			case 'se': return rl? false : (!s.hlock && !s.wlock);
-			case 's':  return (!s.hlock);
-			case 'sw': return rl? false : (!s.hlock && !s.xlock && !s.wlock);
-			case 'w':  return (!s.xlock && !s.wlock);
+			case 'nw': re = rl? false : (!yl && !hl && !xl && !wl); break;
+			case 'n':  re = (!yl && !hl); break;
+			case 'ne': re = rl? false : (!yl && !hl && !wl); break;
+			case 'e':  re = (!wl); break;
+			case 'se': re = rl? false : (!hl && !wl); break;
+			case 's':  re = (!hl); break;
+			case 'sw': re = rl? false : (!hl && !xl && !wl); break;
+			case 'w':  re = (!xl && !wl);
 		}
-		return true;
+
+		// debug('\t canResize ' + pc + ' returning ' + re);
+		return re;
 	}
 
 	function mousewheel(event){

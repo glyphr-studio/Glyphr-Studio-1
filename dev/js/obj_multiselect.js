@@ -21,6 +21,7 @@
 
 	MultiSelect.prototype.clear = function(){
 		this.members = [];
+		if (this.glyph) this.glyph.ratiolock = false;
 	};
 
 	MultiSelect.prototype.add = function(obj){
@@ -75,8 +76,6 @@
 	// Initialize fake Glyph of multiselected shapes
 	_UI.ss = new MultiSelect();
 	_UI.ss.glyph = new Glyph({'name': 'multiselected shapes'});
-	_UI.ss.glyph.hlock = false;
-	_UI.ss.glyph.wlock = false;
 
 	_UI.ss.getGlyph = function() {
 		this.glyph.shapes = this.members;
@@ -89,26 +88,32 @@
 
 	_UI.ss.setShapePosition = function(nx, ny, force) { this.getGlyph().setGlyphPosition(nx, ny, force); };
 
-	_UI.ss.updateShapeSize = function(dx, dy, force) { this.getGlyph().updateGlyphSize(dx, dy, force); };
+	_UI.ss.updateShapeSize = function(dw, dh, ratiolock) { 
+		_UI.debug = true;
+		if(this.members.length === 1) this.members[0].updateShapeSize(dw, dh, ratiolock);
+		else if (this.members.length > 1) this.getGlyph().updateGlyphSize(dw, dh, ratiolock);
+		_UI.debug = false;
+	};
 
 	_UI.ss.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
-
-	_UI.ss.updateShapeSize = function(dw, dh, ratiolock) { this.getGlyph().updateGlyphSize(dw, dh, ratiolock); };
 
 	_UI.ss.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
 
 	_UI.ss.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
 
-	_UI.ss.getRatioLock = function() {
-		if(this.members.length === 1) return this.members[0].ratiolock;
-		else if (this.member.length > 1) return this.getGlyph().ratiolock;
+	_UI.ss.getAttribute = function(attr) {
+		if(this.members.length === 1) return this.members[0][attr];
+		else if (this.members.length > 1) return this.getGlyph()[attr] || false;
 		else return false;
 	};
-	
+
 	_UI.ss.isOverBoundingBoxHandle = function(px, py) {
 		// debug('\n SelectedShapes.isOverBoundingBoxHandle - START');
 		// debug('\t passed x/y: ' + px + '/' + py);
-		if(this.members.length === 1) {
+		
+		if(this.members.length === 0){
+			return false;
+		} else if(this.members.length === 1) {
 			// debug('\t calling singleton method');
 			return this.members[0].isOverBoundingBoxHandle(px, py);
 		}

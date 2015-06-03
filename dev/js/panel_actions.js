@@ -179,8 +179,9 @@
 				}
 
 				addShape(ts);
-				_UI.ss.add(ts);
 			}
+
+			for(var t=0; t<newshapes.length; t++) _UI.ss.add(newshapes[t]);
 		}
 	}
 

@@ -49,8 +49,6 @@
 		g.updateGlyphSize(this.scalew, this.scaleh, false);
 		if(this.reversewinding) g.reverseWinding();
 		
-		// g.flattenGlyphShapes();
-
 		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 		return g;
 	};
@@ -277,7 +275,7 @@
 	}
 
 	function turnComponentIntoShapes(){
-		var selshape = _UI.ss;
+		var selshape = _UI.ss.getSingleton();
 		var shapes = selshape.getTransformedGlyph().shapes;
 
 		deleteShape();

@@ -231,8 +231,9 @@
 			getSelectedKern().value += (mx || my);
 			redraw('Nudge');
 		} else if(_UI.ss.count()){
-			if(_UI.ss.sp()){
-				_UI.ss.sp().updatePathPointPosition('P', mx, my);
+			var singleton = _UI.ss.getSingleton();
+			if(singleton && singleton.path.sp()){
+				singleton.path.sp().updatePathPointPosition('P', mx, my);
 			} else {
 				_UI.ss.updateShapePosition(mx, my);
 			}

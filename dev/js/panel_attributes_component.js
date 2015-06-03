@@ -77,13 +77,13 @@
 			'<td>&#916; x'+ dimSplit() + '&#916; y</td>'+
 			'<td>'+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ss.xlock', _UI.ss.xlock, 'xlock')+
+					lockUI('_UI.ss.getSingleton().xlock', s.xlock, 'xlock')+
 					'<input type="number" id="comx" step="'+svc+'" value="' + round(s.translatex, 3) + '" '+
 						(s.xlock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'translatex\', this.value, this.id);">')+
 				'</div>'+
 				dimSplit() +
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ss.ylock', _UI.ss.ylock, 'ylock')+
+					lockUI('_UI.ss.getSingleton().ylock', s.ylock, 'ylock')+
 					'<input type="number" id="comy" step="'+svc+'" value="' + round(s.translatey, 3) + '" '+
 						(s.ylock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'translatey\', this.value, this.id);">')+
 				'</div>'+
@@ -94,13 +94,13 @@
 			'<td>&#916; width' + dimSplit() + '&#916; height</td>'+
 			'<td>'+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ss.wlock', _UI.ss.wlock, 'wlock')+
+					lockUI('_UI.ss.getSingleton().wlock', s.wlock, 'wlock')+
 					'<input type="number" id="comw" step="'+svc+'" value="' + round(s.scalew, 3) + '" '+
 						(s.wlock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'scalew\', this.value, this.id);">')+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ss.hlock', _UI.ss.hlock, 'hlock')+
+					lockUI('_UI.ss.getSingleton().hlock', s.hlock, 'hlock')+
 					'<input type="number" id="comh" step="'+svc+'" value="' + round(s.scaleh, 3) + '" '+
 						(s.hlock? 'disabled="disabled" ' : 'onchange="updateComponentInstanceDetail(\'scaleh\', this.value, this.id);">')+
 				'</div>'+
@@ -110,7 +110,7 @@
 		if(_UI.selectedtool !== 'pathedit') {
 			content += '<tr>'+
 				'<td> lock aspect ratio </td>'+
-				'<td>' + checkUI('_UI.ss.ratiolock', _UI.ss.ratiolock, true) + '</td>'+
+				'<td>' + checkUI('_UI.ss.getSingleton().ratiolock', s.ratiolock, true) + '</td>'+
 			'</tr>';
 		}
 
@@ -118,17 +118,17 @@
 		// CHECKBOXES
 		content += '<tr>'+
 			'<td> flip horizontal </td>'+
-			'<td>' + checkUI('_UI.ss.flipew', _UI.ss.flipew, true) + '</td>'+
+			'<td>' + checkUI('_UI.ss.getSingleton().flipew', s.flipew, true) + '</td>'+
 		'</tr>';
 
 		content += '<tr>'+
 			'<td> flip vertical </td>'+
-			'<td>' + checkUI('_UI.ss.flipns', _UI.ss.flipns, true) + '</td>'+
+			'<td>' + checkUI('_UI.ss.getSingleton().flipns', s.flipns, true) + '</td>'+
 		'</tr>';
 
 		content += '<tr>'+
 			'<td> reverse winding </td>'+
-			'<td>' + checkUI('_UI.ss.reversewinding', _UI.ss.reversewinding, true) + '</td>'+
+			'<td>' + checkUI('_UI.ss.getSingleton().reversewinding', s.reversewinding, true) + '</td>'+
 		'</tr>';
 
 		// ROOT
