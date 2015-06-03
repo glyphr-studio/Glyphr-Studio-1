@@ -14,13 +14,7 @@
 		var md = _GP.metadata;
 		var ps = _GP.projectsettings;
 		
-		/*
-			This may seem silly, but all fonts are 1000 UPM for 
-			OpenType.js - even if they are designed differently
-		*/
-		options.unitsPerEm = 1000;
-		// options.unitsPerEm = ps.upm;
-
+		options.unitsPerEm = ps.upm;
 		options.familyName = (md.font_family) || ' ';
 		options.styleName = (md.font_style) || ' ';
 		options.designer = (md.designer) || ' ';
