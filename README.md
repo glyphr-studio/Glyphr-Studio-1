@@ -14,7 +14,7 @@
  With lots of back-end improvements and the addition of Import / Export OTF, Glyphr Studio has reached
  Version 1 status.  There are still many features left to add, and rough edges to clean up.  But, expect
  a much faster release cadence than the Beta time-frame.  Bug fixes and new features will be pushed to the
- site the moment they are finished!
+ site the moment they are finished! You can see what's new on the [Updates Page](http://help.glyphrstudio.com/overview_updates.html).
 
 ## Links
 | Website | [glyphrstudio.com](http://www.glyphrstudio.com) |
