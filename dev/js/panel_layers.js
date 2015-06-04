@@ -74,4 +74,37 @@
 		// debug(' selectShape - END\n');
 	}
 
+	function updateLayerActions(){
+		var pop = _UI.popout;
+		var selshapes = _UI.ss.getMembers().length;
+		var numshapes = getSelectedWorkItemShapes().length;
+
+		var shapeactions ="<h3>shapes</h3>";
+		shapeactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
+		shapeactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
+		shapeactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
+
+		var layeractions = "<h3>layers</h3>";
+		layeractions += "<button onclick='moveShapeUp();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
+		layeractions += "<button onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
+
+
+		var content = '<h1 class="paneltitle">';
+		if(pop && selshapes === 1 && numshapes > 1) content += 'Actions';
+		else if (!pop) content += 'Actions';
+		content += '</h1><table class="actionsgrid"><tr>';
+
+		content += '<td>';
+		if(selshapes === 1 && numshapes > 1){ content += layeractions; }
+		content += "</td>";
+
+		content += '<td>';
+		if(numshapes > 0 && !pop) content += shapeactions;
+		if(selshapes > 0 && !pop) content += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+		content += "</td>";
+
+		content += "<td> &nbsp; </td></tr></table>";
+
+		return content;
+	}
 // end of file

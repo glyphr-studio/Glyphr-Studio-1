@@ -13,10 +13,10 @@
 // These are NOT SAVED with the project
 	var _UI = {
 		// Internal Dev Stuff
-		'devmode': true,		// global switch for all the stuff below
-		'debug': false,			// show messages sent to the browser console
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': false,		// navigate straight to a page
+		'devmode': false,		// global switch for all the stuff below
+		'debug': true,			// show messages sent to the browser console
+		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
+		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		// SelectedGlyph
@@ -24,7 +24,7 @@
 		// all pages
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Version 1',
+		'thisGlyphrStudioVersion': 'Version 1.01',
 		'thisGlyphrStudioVersionNum': '1.01.00',
 		'projectsaved': true,
 		'stoppagenavigation': true,

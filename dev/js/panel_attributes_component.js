@@ -66,7 +66,7 @@
 			'X, Y, Width, and Height values are relative to the component position.'+
 		'</h3></td></tr>';
 
-		content += '<tr><td> instance name </td>'+
+		content += '<tr><td class="leftcol"> instance name </td>'+
 			'<td style="margin-top:0px; padding-top:0px;">'+
 				'<input class="namewidth" id="comname" type="text" value="' + s.name + '" '+
 					'onchange="updateComponentInstanceDetail(\'name\', this.value, this.id);">' + 

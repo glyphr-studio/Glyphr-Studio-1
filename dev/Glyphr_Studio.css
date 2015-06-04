@@ -1260,6 +1260,10 @@
 		height:24px;
 	}
 
+	.detail .leftcol {
+		width:150px;
+	}
+
 	.detail .detailtitle {
 		padding-bottom:2px;
 	}

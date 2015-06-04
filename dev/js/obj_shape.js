@@ -327,15 +327,18 @@
 		}
 
 		_UI.ss.select(wishapes[i] || wishapes[wishapes.length-1]);
-		if(_UI.ss.getSingleton().objtype === 'componentinstance') clickTool('shaperesize');
+		var singleton = _UI.ss.getSingleton();
+		if(singleton && singleton.objtype === 'componentinstance') clickTool('shaperesize');
 		updateCurrentGlyphWidth();
 		// debug(' deleteShape - END\n');
 	}
 
 	function turnSelectedShapeIntoAComponent(){
 		var s = clone(_UI.ss.getMembers());
+		var n = s.length === 1? ('Component ' + s[0].name) : ('Component ' + (getLength(_GP.components)+1));
+		
 		deleteShape();
-		var newid = addComponent(new Glyph({'shapes':s, 'name':'Component ' + s.name}));
+		var newid = addComponent(new Glyph({'shapes':s, 'name':n}));
 		insertComponentInstance(newid);
 		_UI.selectedtool = 'shaperesize';
 		selectShape(getSelectedWorkItemShapes().length-1);

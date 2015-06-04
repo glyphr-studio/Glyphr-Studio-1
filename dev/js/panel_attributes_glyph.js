@@ -24,7 +24,7 @@
 		if (_UI.navhere === 'components'){
 			// debug(" \t  detected navhere = components");
 			content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin-top:0px;">component</h3></td></tr>';
-			content += '<tr><td> name </td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
+			content += '<tr><td class="leftcol">name</td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
 
 		if(ss.length === 0){
@@ -79,7 +79,7 @@
 		var content = '';
 
 		content += '<tr>'+
-			'<td>x'+dimSplit()+'y</td>'+
+			'<td class="leftcol">x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<input type="number" id="charx" step="'+svc+'" '+
 				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ss.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
@@ -131,7 +131,7 @@
 		if(numshapes > 1){
 			content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform glyph shapes </h3></td></tr>';
 			content += '<tr>'+
-				'<td>x'+dimSplit()+'y</td>'+
+				'<td class="leftcol">x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<input type="number" id="charx" step="'+svc+'" '+
 					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
@@ -262,7 +262,7 @@
 		content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin:0px;">shape</h3></td></tr>';
 
 		content += '<tr>'+
-			'<td> name </td>'+
+			'<td class="leftcol">name</td>'+
 			'<td>'+
 				'<input class="namewidth" type="text" value="' + s.name + '" onchange="_UI.ss.changeShapeName(this.value);">'+
 			'</td>'+
@@ -364,7 +364,7 @@
 		content += '<tr><td colspan=2 class="detailtitle"><h3>path point</h3></td></tr>';
 
 		content += '<tr>'+
-			'<td> selected point </td>'+
+			'<td class="leftcol"> selected point </td>'+
 			'<td><input type="number" id="pointnum" class="lockpad" value="' + s.path.sp(true) + '" onchange="_UI.focuselement=this.id; _UI.ss.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
 		'</tr>';
 

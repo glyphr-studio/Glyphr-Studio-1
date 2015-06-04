@@ -514,34 +514,34 @@
 
 	function getGlyphName(ch) {
 		ch = ''+ch;
-		// debug('\n getGlyphName');
-		// debug('\t passed ' + ch);
+		debug('\n getGlyphName');
+		debug('\t passed ' + ch);
 
 		// not passed an id
 		if(!ch){
-			// debug('\t not passed an ID, returning false');
+			debug('\t not passed an ID, returning false');
 			return false;
 		}
 
 		// known unicode names
 		var un = getUnicodeName(ch);
-		if(un !== '[name not found]'){
-			// debug('\t got unicode name: ' + un);
+		if(un && un !== '[name not found]'){
+			debug('\t got unicode name: ' + un);
 			return un;
 		}
 
 		var cobj = getGlyph(ch);
 		if(ch.indexOf('0x',2) > -1){
 			// ligature
-			// debug('\t ligature - returning ' + hexToHTML(ch));
+			debug('\t ligature - returning ' + hexToHTML(ch));
 			return cobj.name || hexToHTML(ch);
 		} else {
 			// Component
-			// debug('getGlyphName - inexplicably fails, returning [name not found]\n');
+			debug('getGlyphName - inexplicably fails, returning [name not found]\n');
 			return cobj.name || '[name not found]';
 		}
 
-		// debug(' getGlyphName - returning nothing - END\n');
+		debug(' getGlyphName - returning nothing - END\n');
 	}
 
 	function getFirstGlyphID() {

@@ -83,33 +83,6 @@
 		return content;
 	}
 
-	function updateLayerActions(){
-
-		var content = '<h1 class="paneltitle">actions</h1><table class="actionsgrid"><tr>';
-
-		var allactions = "<td><h3>shape</h3>";
-			allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateLayerActions\");'>add new shape</button><br>";
-			allactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
-			allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
-
-		var shapeactions = "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateLayerActions\");'>delete</button><br>";
-
-		var layeractions = "<td><h3>layer</h3>";
-			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='moveShapeUp();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
-			layeractions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
-			layeractions += "</td>";
-
-		content += allactions;
-
-		if(getSelectedWorkItemShapes().length > 0){ content += shapeactions; }
-		content += "</td>";
-
-		if(getSelectedWorkItemShapes().length > 1){ content += layeractions; }
-
-		content += "<td> &nbsp; </td></tr></table>";
-
-		return content;
-	}
 
 //-------------------
 // Copy Paste
@@ -212,7 +185,7 @@
 //-------------------
 	function moveShapeUp(){
 		var wishapes = getSelectedWorkItemShapes();
-		var si = wishapes.indexOf(_UI.ss);
+		var si = wishapes.indexOf(_UI.ss.getSingleton());
 		if(si > -1 && si < wishapes.length-1){
 			var tempshape = wishapes[si+1];
 			wishapes[si+1] = wishapes[si];
@@ -223,7 +196,7 @@
 
 	function moveShapeDown(){
 		var wishapes = getSelectedWorkItemShapes();
-		var si = wishapes.indexOf(_UI.ss);
+		var si = wishapes.indexOf(_UI.ss.getSingleton());
 		if(si > 0 && si < wishapes.length){
 			var tempshape = wishapes[si-1];
 			wishapes[si-1] = wishapes[si];
