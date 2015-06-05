@@ -16,7 +16,8 @@
 	}
 
 	MultiSelect.prototype.select = function(obj) {
-		this.members = [obj];
+		if(obj)	this.members = [obj];
+		else this.clear();
 	};
 
 	MultiSelect.prototype.clear = function(){
@@ -187,9 +188,19 @@
 	// Global path accessor functions
 	// THESE ASSUME THE FIRST MEMBER IS A SINGLETON
 
-	_UI.ss.deletePathPoint = function(){ if(this.members[0]) this.members[0].path.deletePathPoint(); };
+	_UI.ss.deletePathPoint = function(){ 
+		if(this.members[0]){
+			// this.members[0].path.deletePathPoint();
+			this.members[0].calcMaxes();
+		}
+	};
 
-	_UI.ss.insertPathPoint = function() { if(this.members[0]) this.members[0].path.insertPathPoint(); };
+	_UI.ss.insertPathPoint = function() { 
+		if(this.members[0]){
+			// this.members[0].path.insertPathPoint();
+			this.members[0].calcMaxes();
+		}
+	};
 
 	_UI.ss.selectPathPoint = function(index) { if(this.members[0]) this.members[0].path.selectPathPoint(index); };
 

@@ -47,7 +47,7 @@
 
 		var pointactions = "<h3>path point</h3>";
 		pointactions += "<button onclick='_UI.ss.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
-		pointactions += "<button class='"+(_UI.ss? "": "buttondis")+"' onclick='_UI.ss.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
+		pointactions += "<button class='"+(ss.length? "": "buttondis")+"' onclick='_UI.ss.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
 		pointactions += "<button onclick='_UI.ss.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together

@@ -89,21 +89,34 @@
 		layeractions += "<button onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 
 
-		var content = '<h1 class="paneltitle">';
-		if(pop && selshapes === 1 && numshapes > 1) content += 'Actions';
-		else if (!pop) content += 'Actions';
-		content += '</h1><table class="actionsgrid"><tr>';
+		var content = '';
 
-		content += '<td>';
-		if(selshapes === 1 && numshapes > 1){ content += layeractions; }
-		content += "</td>";
+		if(pop && numshapes > 1 && selshapes === 1 ){
+			content += '<h1 class="paneltitle">Actions</h1>';
+			content += '<td>';
+			content += layeractions;
+			content += "</td>";
+			content += "<td> &nbsp; </td><td> &nbsp; </td></tr></table>";
 
-		content += '<td>';
-		if(numshapes > 0 && !pop) content += shapeactions;
-		if(selshapes > 0 && !pop) content += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
-		content += "</td>";
+		} else if (!pop){
+			content += '<h1 class="paneltitle">Actions</h1>';			
+			content += '<table class="actionsgrid"><tr>';
 
-		content += "<td> &nbsp; </td></tr></table>";
+			content += '<td>';
+			content += shapeactions;
+			if(selshapes > 0) content += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+			content += "</td>";
+
+			if(numshapes > 1 && selshapes === 1){
+				content += '<td>';
+				content += layeractions; 
+				content += "</td>";
+			} else {
+				content += "<td> &nbsp; </td>";
+			}
+
+			content += "<td> &nbsp; </td></tr></table>";
+		}
 
 		return content;
 	}

@@ -54,11 +54,12 @@
 		if(major === 1){
 
 			// Check for future versions
-			if(minor > 0){ error_TimeTraveller(); return; }
+			if(minor > 1){ error_TimeTraveller(); return; }
 
 			// Roll through minor versions
 			switch (minor) {
 				case 0:	// no updates
+				case 1:	// no updates
 			}
 		}
 
@@ -72,13 +73,15 @@
 	}
 
 	function error_NoVersionFound(){
-		document.getElementById("droptarget").innerHTML = "drop file here...";
-		alert("File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...");
+		var msg = 'File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...';
+		console.warn(msg);
+		alert(msg);
 	}
 
 	function error_TimeTraveller(){
-		document.getElementById("droptarget").innerHTML = "drop file here...";
-		alert("Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.");
+		var msg = 'Your Glyphr Project was created with a later version of Glyphr Studio.  This version of Glyphr Studio cannot open project files created in the future O_o (whoa).  Please go to glyphrstudio.com to get the latest release.';
+		console.warn(msg);
+		alert(msg);
 	}
 
 //	------------------------

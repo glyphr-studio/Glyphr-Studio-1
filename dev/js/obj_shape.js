@@ -315,20 +315,24 @@
 		var sels = _UI.ss.getMembers();
 		var curs, i;
 
-		for(var s=0; s<sels.length; s++){
-			curs = sels[s];
+		if(sels.length === 0) _UI.ss.clear();
+		else {
+			for(var s=0; s<sels.length; s++){
+				curs = sels[s];
 
-			if(curs.objtype === 'componentinstance'){
-				removeFromUsedIn(curs.link, _UI.selectedglyph);
+				if(curs.objtype === 'componentinstance'){
+					removeFromUsedIn(curs.link, _UI.selectedglyph);
+				}
+
+				i = wishapes.indexOf(curs);
+				if(i > -1) wishapes.splice(i, 1);
 			}
 
-			i = wishapes.indexOf(curs);
-			if(i > -1) wishapes.splice(i, 1);
+			_UI.ss.select(wishapes[i] || wishapes[wishapes.length-1]);
+			var singleton = _UI.ss.getSingleton();
+			if(singleton && singleton.objtype === 'componentinstance') clickTool('shaperesize');
 		}
-
-		_UI.ss.select(wishapes[i] || wishapes[wishapes.length-1]);
-		var singleton = _UI.ss.getSingleton();
-		if(singleton && singleton.objtype === 'componentinstance') clickTool('shaperesize');
+		
 		updateCurrentGlyphWidth();
 		// debug(' deleteShape - END\n');
 	}

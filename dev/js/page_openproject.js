@@ -6,7 +6,7 @@
 **/
 
 
-	function loadPage_openproject(){
+	function loadPage_openproject(tab){
 		// debug("LOADING PAGE >> loadPage_openproject");
 
 		var ct = '<table style="height:100%; width:100%;"><tr>'+
@@ -37,7 +37,7 @@
 		document.getElementById('filechooser').addEventListener('change', handleDrop, false);
 		window.addEventListener('message', handleMessage, false);
 		if ( window.opener ) { window.opener.postMessage('ready', '*'); }
-		openproject_changeTab();
+		openproject_changeTab(tab);
 
 		document.getElementById('splashscreenlogo').innerHTML = makeGlyphrStudioLogo({'fill':'white', 'width':400});
 	}
@@ -84,7 +84,7 @@
 		return con;
 	}
 
-	function openproject_changeTab (tab) {
+	function openproject_changeTab(tab) {
 		var uinew = document.getElementById('new_content');
 		var uiload = document.getElementById('load_content');
 		var uiexamples = document.getElementById('examples_content');
