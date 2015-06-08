@@ -1010,10 +1010,17 @@
 	}
 
 	.openproject_tabs button {
-		background-color: rgb(229,234,239);
-		padding:4px 12px;
-		margin-right: 8px;
+		/*background-color: rgb(229,234,239);*/
+		background-color: transparent;
+		border-bottom: 3px solid rgb(229,234,239);
+		padding:4px 16px;
+		margin: 0px;
 		color:rgb(0,140,210);
+		outline-width: 0px;
+	}
+	.openproject_tabs button:hover {
+		border-bottom: 3px solid rgb(155,221,255) !important;
+		background-color: rgb(225,245,255);
 	}
 
 	#newprojectname	{

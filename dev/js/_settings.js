@@ -25,7 +25,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1.01',
-		'thisGlyphrStudioVersionNum': '1.01.01',
+		'thisGlyphrStudioVersionNum': '1.01.02',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},

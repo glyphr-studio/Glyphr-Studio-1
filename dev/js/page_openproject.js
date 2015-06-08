@@ -45,9 +45,9 @@
 	function make_ImportOrCreateNew(){
 		// TABS
 		var con = '<div class="openproject_tabs">'+
-			'<button onclick="openproject_changeTab(\'new\');">new</button>'+
-			'<button onclick="openproject_changeTab(\'load\');">load</button>'+
-			'<button onclick="openproject_changeTab(\'examples\');">examples</button>'+
+			'<button id="new_tab" onclick="openproject_changeTab(\'new\');">new</button>'+
+			'<button id="load_tab" onclick="openproject_changeTab(\'load\');">load</button>'+
+			'<button id="examples_tab" onclick="openproject_changeTab(\'examples\');">examples</button>'+
 			// '<button onclick="openproject_changeTab(\'recent\');">recent</button>'+
 		'</div>';
 
@@ -85,20 +85,38 @@
 	}
 
 	function openproject_changeTab(tab) {
-		var uinew = document.getElementById('new_content');
-		var uiload = document.getElementById('load_content');
-		var uiexamples = document.getElementById('examples_content');
-		// var uirecent = document.getElementById('recent_content');
+		var contentnew = document.getElementById('new_content');
+		var contentload = document.getElementById('load_content');
+		var contentexamples = document.getElementById('examples_content');
+		// var contentrecent = document.getElementById('recent_content');
 
-		uinew.style.display = 'none';
-		uiload.style.display = 'none';
-		uiexamples.style.display = 'none';
-		// uirecent.style.display = 'none';
+		var tabnew = document.getElementById('new_tab');
+		var tabload = document.getElementById('load_tab');
+		var tabexamples = document.getElementById('examples_tab');
+		// var tabrecent = document.getElementById('recent_tab');
 
-		if(tab === 'load') uiload.style.display = 'block';
-		else if(tab === 'examples') uiexamples.style.display = 'block';
-		// else if(tab === 'recent') uirecent.style.display = 'block';
-		else uinew.style.display = 'block';	// default to new
+		contentnew.style.display = 'none';
+		contentload.style.display = 'none';
+		contentexamples.style.display = 'none';
+		// contentrecent.style.display = 'none';
+		
+		tabnew.style.borderBottomColor = 'rgb(229,234,239)';
+		tabload.style.borderBottomColor = 'rgb(229,234,239)';
+		tabexamples.style.borderBottomColor = 'rgb(229,234,239)';
+		// tabrecent.style.borderBottomColor = 'rgb(229,234,239)';
+
+
+		if(tab === 'load'){
+			contentload.style.display = 'block';
+			tabload.style.borderBottomColor = 'rgb(0,140,210)';
+		} else if(tab === 'examples'){
+			contentexamples.style.display = 'block';
+			tabexamples.style.borderBottomColor = 'rgb(0,140,210)';
+		} else {
+			// default to new
+			contentnew.style.display = 'block';
+			tabnew.style.borderBottomColor = 'rgb(0,140,210)';
+		}
 
 	}
 
