@@ -26,7 +26,7 @@
 			content += '<div class="panel_section" ';
 			content += emptyligs? 'style="padding-top:-10px;">' : '>';
 			content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
-			if(emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
+			if(!emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
 		} else if(_UI.navhere === 'components'){

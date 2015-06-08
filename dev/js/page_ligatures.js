@@ -74,8 +74,15 @@
 	}
 
 	function deleteLigatureConfirm(){
+		var selwi = getSelectedWorkItem();
 		var content = '<h1>Delete Ligature</h1>Are you sure you want to delete this ligature?<br>';
 		content += getSelectedWorkItemName() + '<br>';
+
+		if(selwi.usedin.length){
+			content += '<br>This Ligature is used as a Component Instance in ' + selwi.usedin.length + ' other Glyphs.<br>';
+			content += 'Those Component Instances will also be deleted.<br>';
+		}
+
 		content += '<br><button onclick="deleteLigature();">delete this ligature</button> &nbsp; <button onclick="closeDialog();">cancel</button>';
 
 		openDialog(content);
@@ -89,10 +96,13 @@
 		var oldname = getSelectedWorkItemName();
 		delete _GP.ligatures[_UI.selectedligature];
 		_UI.selectedligature = getFirstID(_GP.ligatures);
+
+		// delete upstream component instances
+		
 		history_put('Deleted ' + oldname);
 
 		// debug('\t after delete ' + _GP.ligatures);
-		navigate();
+		redraw();
 
 		// debug('deleteLigature - END\n');
 	}
