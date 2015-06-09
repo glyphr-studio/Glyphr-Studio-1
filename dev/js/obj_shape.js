@@ -55,6 +55,8 @@
 			}
 			this.path.drawPath(lctx, view);
 		}
+
+		return true;
 	};
 
 
@@ -342,7 +344,7 @@
 		var n = s.length === 1? ('Component ' + s[0].name) : ('Component ' + (getLength(_GP.components)+1));
 		
 		deleteShape();
-		var newid = addComponent(new Glyph({'shapes':s, 'name':n}));
+		var newid = createNewComponent(new Glyph({'shapes':s, 'name':n}));
 		insertComponentInstance(newid);
 		_UI.selectedtool = 'shaperesize';
 		selectShape(getSelectedWorkItemShapes().length-1);

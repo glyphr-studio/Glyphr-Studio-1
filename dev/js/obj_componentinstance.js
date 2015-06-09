@@ -41,7 +41,10 @@
 		var og = getGlyph(this.link, true);
 		var g;
 		if(og) g = new Glyph(clone(og));
-		else return false;
+		else {
+			console.warn('Tried to get Component: ' + this.link + ' but it doesn\'t exist - bad usedin array maintenance.');
+			return false;
+		}
 
 		if(this.flipew) g.flipEW();
 		if(this.flipns) g.flipNS();
@@ -154,11 +157,16 @@
 		due to stacking shapes with appropriate winding
 		*/
 
-		var g = this.getTransformedGlyph();
+		var g = this.getTransformedGlyph(); if(!g) return false;
+		var drewshape = false;
+		var failed = false;
 
 		for(var s = 0; s<g.shapes.length; s++){
-			g.shapes[s].drawShape(lctx, view);
+			drewshape = g.shapes[s].drawShape(lctx, view);
+			failed = failed || !drewshape;
 		}
+
+		return !failed;
 	};
 
 	ComponentInstance.prototype.genPostScript = function(lastx, lasty){

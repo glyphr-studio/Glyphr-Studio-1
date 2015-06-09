@@ -382,6 +382,7 @@ function saveFile(fname, buffer, ftype) {
 	function getOverallMaxes(maxarr) {
 		var re = clone(_UI.mins);
 		for(var m=0; m<maxarr.length; m++){
+			maxarr[m] = maxarr[m] || clone(_UI.mins);
 			re.xmax = Math.max(re.xmax, maxarr[m].xmax);
 			re.xmin = Math.min(re.xmin, maxarr[m].xmin);
 			re.ymax = Math.max(re.ymax, maxarr[m].ymax);

@@ -120,4 +120,31 @@
 
 		return content;
 	}
+
+
+//-------------------
+// Move up / down
+//-------------------
+	function moveShapeUp(){
+		var wishapes = getSelectedWorkItemShapes();
+		var si = wishapes.indexOf(_UI.ss.getSingleton());
+		if(si > -1 && si < wishapes.length-1){
+			var tempshape = wishapes[si+1];
+			wishapes[si+1] = wishapes[si];
+			wishapes[si] = tempshape;
+			redraw("moveShapeUp");
+		}
+	}
+
+	function moveShapeDown(){
+		var wishapes = getSelectedWorkItemShapes();
+		var si = wishapes.indexOf(_UI.ss.getSingleton());
+		if(si > 0 && si < wishapes.length){
+			var tempshape = wishapes[si-1];
+			wishapes[si-1] = wishapes[si];
+			wishapes[si] = tempshape;
+			redraw("moveShapeDown");
+		}
+	}
+	
 // end of file

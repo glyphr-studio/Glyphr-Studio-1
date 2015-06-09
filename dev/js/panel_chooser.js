@@ -25,16 +25,16 @@
 			var emptyligs = getLength(_GP.ligatures) === 0;
 			content += '<div class="panel_section" ';
 			content += emptyligs? 'style="padding-top:-10px;">' : '>';
-			content += '<button onclick="showNewLigatureDialog();">add new ligature</button><br>';
-			if(!emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete ligature</button><br>';
+			content += '<button onclick="showNewLigatureDialog();">create new ligature</button><br>';
+			if(!emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete selected ligature</button><br>';
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
 		} else if(_UI.navhere === 'components'){
 			var emptycoms = getLength(_GP.components) === 0;
 			content += '<div class="panel_section" ';
 			content += emptycoms? 'style="padding-top:-10px;">' : '>';
-			content += '<button onclick="addComponent();history_put(\'Create New Component\');navigate(\'npAttributes\');">create new component</button><br>';
-			if(emptycoms) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
+			content += '<button onclick="createNewComponent();history_put(\'Create New Component\');navigate(\'npAttributes\');">create new component</button><br>';
+			if(!emptycoms) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
 			content += '</div>';
 		}
 
@@ -184,25 +184,6 @@
 
 		// debug(' makeGlyphChooserButton - END\n');
 		return rv;
-	}
-
-	function addCommonLigatures() {
-		var ff = parseUnicodeInput('ff').join('');
-		var fi = parseUnicodeInput('fi').join('');
-		var fl = parseUnicodeInput('fl').join('');
-		var ft = parseUnicodeInput('ft').join('');
-		var ffi = parseUnicodeInput('ffi').join('');
-		var ffl = parseUnicodeInput('ffl').join('');
-
-		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'glyphhex':ff});
-		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'glyphhex':fi});
-		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'glyphhex':fl});
-		if(!_GP.ligatures[ft]) _GP.ligatures[fl] = new Glyph({'glyphhex':ft});
-		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'glyphhex':ffi});
-		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'glyphhex':ffl});
-
-		_UI.selectedglyph = getFirstID(_GP.ligatures);
-		redraw();
 	}
 
 // end of file

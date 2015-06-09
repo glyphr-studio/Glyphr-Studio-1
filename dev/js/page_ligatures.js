@@ -73,17 +73,42 @@
 		}
 	}
 
-	function deleteLigatureConfirm(){
-		var selwi = getSelectedWorkItem();
-		var content = '<h1>Delete Ligature</h1>Are you sure you want to delete this ligature?<br>';
-		content += getSelectedWorkItemName() + '<br>';
+	function addCommonLigatures() {
+		var ff = parseUnicodeInput('ff').join('');
+		var fi = parseUnicodeInput('fi').join('');
+		var fl = parseUnicodeInput('fl').join('');
+		var ft = parseUnicodeInput('ft').join('');
+		var ffi = parseUnicodeInput('ffi').join('');
+		var ffl = parseUnicodeInput('ffl').join('');
 
-		if(selwi.usedin.length){
-			content += '<br>This Ligature is used as a Component Instance in ' + selwi.usedin.length + ' other Glyphs.<br>';
-			content += 'Those Component Instances will also be deleted.<br>';
+		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'glyphhex':ff});
+		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'glyphhex':fi});
+		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'glyphhex':fl});
+		if(!_GP.ligatures[ft]) _GP.ligatures[fl] = new Glyph({'glyphhex':ft});
+		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'glyphhex':ffi});
+		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'glyphhex':ffl});
+
+		_UI.selectedglyph = getFirstID(_GP.ligatures);
+		redraw();
+	}
+
+	function deleteLigatureConfirm(){
+		var content = '<h1>Delete Ligature</h1>';
+		content += '<b style="color:'+_UI.colors.error.medium+';">This action cannot be undone!</b> &nbsp; Are you sure you want to delete this Ligature?<br><br>';
+		
+		var uia = getSelectedWorkItem().usedin;
+		if(uia.length > 0){
+			content += 'This Ligature is linked to the following Glyphs as a Component Instance:<br><ul>';
+
+			for(var ssu=0; ssu<uia.length; ssu++){
+				content += ('<li>' + getGlyphName(uia[ssu]).replace(/LATIN /gi,'') + '</li>');
+			}
+
+			content += '</ul>';
+			// content += '<br>The Component Instances in these Glyphs will also be deleted.<br><br>';
 		}
 
-		content += '<br><button onclick="deleteLigature();">delete this ligature</button> &nbsp; <button onclick="closeDialog();">cancel</button>';
+		content += '<br><br><button class="buttonsel" onclick="deleteLigature();">delete this ligature</button> &nbsp; <button onclick="closeDialog();">cancel</button>';
 
 		openDialog(content);
 	}
@@ -93,13 +118,16 @@
 		// debug('\t deleting ' + _UI.selectedligature);
 
 		closeDialog();
+
+		// Delete upstream Component Instances
+		getSelectedWorkItem().deleteLinks(_UI.selectedligature);
+		
+		// Delete it
 		var oldname = getSelectedWorkItemName();
 		delete _GP.ligatures[_UI.selectedligature];
 		_UI.selectedligature = getFirstID(_GP.ligatures);
 
-		// delete upstream component instances
-		
-		history_put('Deleted ' + oldname);
+		// history_put('Deleted ' + oldname);
 
 		// debug('\t after delete ' + _GP.ligatures);
 		redraw();

@@ -230,19 +230,11 @@
 	Glyph.prototype.calcGlyphMaxes = function(){
 		// debug('\n Glyph.calcGlyphMaxes - START ' + this.name);
 
-		var sh;
-		var tmax = clone(_UI.mins);
 		this.maxes = clone(_UI.mins);
 
 		if(this.shapes.length > 0){
 			for(var jj=0; jj<this.shapes.length; jj++) {
-				sh = this.shapes[jj];
-				tmax = sh.getMaxes();
-
-				this.maxes.xmax = Math.max(tmax.xmax, this.maxes.xmax);
-				this.maxes.xmin = Math.min(tmax.xmin, this.maxes.xmin);
-				this.maxes.ymax = Math.max(tmax.ymax, this.maxes.ymax);
-				this.maxes.ymin = Math.min(tmax.ymin, this.maxes.ymin);
+				this.maxes = getOverallMaxes([this.shapes[jj].getMaxes(), this.maxes]);
 			}
 		} else {
 			this.maxes = { 'xmax': 0, 'xmin': 0, 'ymax': 0, 'ymin': 0 };
@@ -314,6 +306,35 @@
 	};
 
 
+	// This method is called on Glyphs just before they are deleted
+	// to clean up all the component instance linking
+	Glyph.prototype.deleteLinks = function(thisid) {
+		debug('\n Glyph.deleteLinks - START');
+		debug('\t passed this as id: ' + thisid);
+
+		// Delete upstream Component Instances
+		var upstreamglyph;
+		for(var c=0; c<this.usedin.length; c++){
+			upstreamglyph = getGlyph(this.usedin[c]);
+			debug('\t removing from ' + upstreamglyph.name);
+			debug(upstreamglyph.shapes);
+			for(var u=0; u<upstreamglyph.shapes.length; u++){
+				if(upstreamglyph.shapes[u].objtype === 'componentinstance' && upstreamglyph.shapes[u].link === thisid){
+					upstreamglyph.shapes.splice(u, 1);
+					u--;
+				}
+			}
+			debug(upstreamglyph.shapes);
+		}
+
+		// Delete downstream usedin array values
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].objtype === 'componentinstance'){
+				removeFromUsedIn(this.shapes[s].link, thisid);
+			}
+		}
+	};
+
 
 //-------------------------------------------------------
 // DRAWING AND EXPORTING
@@ -322,7 +343,7 @@
 		// debug('\n Glyph.drawGlyph - START ' + this.name);
 
 		var sl = this.shapes;
-		var shape;
+		var shape, drewshape;
 		var lsb = uselsb? this.getLSB() : 0;
 
 		lctx.beginPath();
@@ -330,7 +351,20 @@
 			shape = sl[j];
 			if(shape.visible) {
 				// debug('\t ' + this.name + ' drawing ' + shape.objtype + ' ' + j + ' ' + shape.name);
-				shape.drawShape(lctx, view);
+				drewshape = shape.drawShape(lctx, view);
+
+				if(!drewshape){
+					console.warn('Could not draw shape ' + shape.name + ' in Glyph ' + this.name);
+					if(shape.objtype === 'componentinstance' && !getGlyph(shape.link)){
+						console.warn('>>> Component Instance has bad link: ' + shape.link);
+
+						var i = this.shapes.indexOf(shape);
+						if(i > -1){
+							this.shapes.splice(i, 1);
+							console.warn('>>> Deleted the Instance');
+						}
+					}
+				}
 			}
 		}
 
@@ -374,14 +408,15 @@
 		var sl = this.shapes;
 		var pathdata = '';
 		var lsb = this.getLSB();
-		var shape, path;
+		var shape, path, tg;
 
 		// Make Pathdata
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
 				if(shape.objtype === 'componentinstance'){
-					pathdata += shape.getTransformedGlyph().makeSVGpathData();
+					tg = shape.getTransformedGlyph();
+					if(tg) pathdata += tg.makeSVGpathData();
 				} else {
 					path = shape.getPath();
 					path.updatePathPosition(lsb, 0, true);
@@ -514,34 +549,34 @@
 
 	function getGlyphName(ch) {
 		ch = ''+ch;
-		debug('\n getGlyphName');
-		debug('\t passed ' + ch);
+		// debug('\n getGlyphName');
+		// debug('\t passed ' + ch);
 
 		// not passed an id
 		if(!ch){
-			debug('\t not passed an ID, returning false');
+			// debug('\t not passed an ID, returning false');
 			return false;
 		}
 
 		// known unicode names
 		var un = getUnicodeName(ch);
 		if(un && un !== '[name not found]'){
-			debug('\t got unicode name: ' + un);
+			// debug('\t got unicode name: ' + un);
 			return un;
 		}
 
 		var cobj = getGlyph(ch);
 		if(ch.indexOf('0x',2) > -1){
 			// ligature
-			debug('\t ligature - returning ' + hexToHTML(ch));
+			// debug('\t ligature - returning ' + hexToHTML(ch));
 			return cobj.name || hexToHTML(ch);
 		} else {
 			// Component
-			debug('getGlyphName - inexplicably fails, returning [name not found]\n');
+			// debug('getGlyphName - inexplicably fails, returning [name not found]\n');
 			return cobj.name || '[name not found]';
 		}
 
-		debug(' getGlyphName - returning nothing - END\n');
+		// debug(' getGlyphName - returning nothing - END\n');
 	}
 
 	function getFirstGlyphID() {

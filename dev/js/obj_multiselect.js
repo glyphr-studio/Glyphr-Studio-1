@@ -136,9 +136,14 @@
 	};
 
 	_UI.ss.drawShape = function(lctx, view){
+		var failed = false;
+		var drewshape = false;
 		for(var m=0; m<this.members.length; m++){
-			this.members[m].drawShape(lctx, view);
+			drewshape = this.members[m].drawShape(lctx, view);
+			failed = failed || !drewshape;
 		}
+
+		return !failed;
 	};
 
 	_UI.ss.reverseWinding = function(){
