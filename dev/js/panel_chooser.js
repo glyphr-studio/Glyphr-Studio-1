@@ -154,7 +154,7 @@
 		// debug('\t getGlyph returned');
 		// debug(wi);
 		
-		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+wi.name+'"><tr><td>';
+		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'"><tr><td>';
 
 		var issel = (index === selid);
 

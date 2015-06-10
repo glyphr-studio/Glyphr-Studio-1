@@ -220,23 +220,35 @@
 //	-----------------
 
 	function getUnicodeName(ch) {
+		// debug('\n getUnicodeName - START');
+		// debug('\t passed ' + ch);
 		ch = ''+ch;
-		var re = '[name not found]';
+		var re;
 		var chn = ch*1;
 		
 		if(chn > 0x4E00 && chn < 0xA000){
 			return 'CJK Unified Ideograph ' + ch.substr(2);
 		} else if(_UI && _UI.unicodenames){
-		 	re = _UI.unicodenames[ch];
+		 	re = _UI.unicodenames[ch] || '[name not found]';
 		}
 
+		// debug(' getUnicodeName - END - returning ' + re + '\n');
 		return re;
 	}
 
 	function getUnicodeShortName(ch) {
+		// debug('\n getUnicodeShortName - START');
+		// debug('\t passed ' + ch);
 		ch = ''+ch;
-		var re = _UI.shortunicodenames[ch];
-		return re || getUnicodeName(ch).replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
+		var name = _UI.shortunicodenames[ch];
+		if(!name) {
+			name = getUnicodeName(ch);
+			if(name) name = name.replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
+			else name = 'none';
+		}
+
+		// debug(' getUnicodeShortName - returning ' + name + ' - END\n');
+		return name;
 	}
 
 //	-----------------

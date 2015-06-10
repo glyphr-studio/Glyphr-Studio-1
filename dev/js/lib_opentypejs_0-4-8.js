@@ -524,8 +524,9 @@ Font.prototype.download = function() {
 
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 
+
+    // OpenType.js style save file
     if(window.requestFileSystem){
-        // OpenType.js style save file
         window.requestFileSystem(window.TEMPORARY, buffer.byteLength, function(fs) {
             fs.root.getFile(fileName, {create: true}, function(fileEntry) {
                 fileEntry.createWriter(function(writer) {
@@ -542,12 +543,13 @@ Font.prototype.download = function() {
         },
 
         function(err) {
-            throw err;
+            // Glyphr Studio style save file
+            console.warn('OpenType.js file save failed, falling back to Glyphr Studio file save.');
+            saveFile(fileName, buffer, 'font/opentype');
+            // throw err;
         });
-    } else {
-        // Glyphr Studio style save file
-        saveFile(fileName, buffer, 'font/opentype');
     }
+
 };
 
 exports.Font = Font;

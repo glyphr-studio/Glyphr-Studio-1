@@ -71,26 +71,30 @@
 		var tg, tgpath, otglyph;
 
 		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
-			tg = new Glyph(clone(_GP.glyphs[c]));
-			if(tg.isautowide) tg.updateGlyphPosition(tg.getLSB(), 0);
+			if(parseInt(c)){
+				tg = new Glyph(clone(_GP.glyphs[c]));
+				if(tg.isautowide) tg.updateGlyphPosition(tg.getLSB(), 0);
 
-			tgpath = tg.makeOpenTypeJSpath(new opentype.Path());
+				tgpath = tg.makeOpenTypeJSpath(new opentype.Path());
 
-			otglyph = new opentype.Glyph({
-				name: getUnicodeShortName(''+decToHex(c)),
-				unicode: parseInt(c),
-				index: parseInt(c),
-				advanceWidth: round(tg.getTotalWidth()),
-				xMin: round(tg.maxes.xmin),
-				xMax: round(tg.maxes.xmax),
-				yMin: round(tg.maxes.ymin),
-				yMax: round(tg.maxes.ymax),
-				path: tgpath
-			});
+				otglyph = new opentype.Glyph({
+					name: getUnicodeShortName(''+decToHex(c)),
+					unicode: parseInt(c),
+					index: parseInt(c),
+					advanceWidth: round(tg.getTotalWidth()),
+					xMin: round(tg.maxes.xmin),
+					xMax: round(tg.maxes.xmax),
+					yMin: round(tg.maxes.ymin),
+					yMax: round(tg.maxes.ymax),
+					path: tgpath
+				});
 
-			debug(otglyph);
+				// debug(otglyph);
 
-			options.glyphs.push(otglyph);
+				options.glyphs.push(otglyph);
+			} else {
+				console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
+			}
 		}}
 
 		options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
