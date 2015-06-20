@@ -273,13 +273,18 @@
 		var p1, p2;
 		var trr = '';
 
-		re += 'M' + (this.pathpoints[0].P.x) + ',' + (this.pathpoints[0].P.y);
+		re += 'M' + (this.pathpoints[0].getPx()) + ',' + (this.pathpoints[0].getPy());
 		// debug('GENPATHPOSTSCRIPT:\n\t ' + re);
+		
+		if(re.indexOf('NaN') > -1){
+			console.warn(glyphname + ' PathPoint 0 MOVE has NaN: ' + re);
+			debug(this.pathpoints[0]);
+		}
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
 			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
-			trr = ' C' + round(p1.getH2x(), 9) + ',' + round(p1.getH2y(), 9) + ',' + round(p2.getH1x(), 9) + ',' + round(p2.getH1y(), 9) + ',' + round(p2.P.x, 9) + ',' + round(p2.P.y, 9);
+			trr = ' C' + round(p1.getH2x(), 9) + ',' + round(p1.getH2y(), 9) + ',' + round(p2.getH1x(), 9) + ',' + round(p2.getH1y(), 9) + ',' + round(p2.getPx(), 9) + ',' + round(p2.getPy(), 9);
 			// debug('\t ' + trr);
 
 			if(trr.indexOf('NaN') > -1){

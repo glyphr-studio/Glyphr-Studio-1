@@ -164,7 +164,7 @@
 							// debug(ns);
 							newshapes.push(ns);
 							shapecounter++;
-							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
+							newshapes[newshapes.length-1].name = ('Path ' + shapecounter);
 						}
 					}
 				}

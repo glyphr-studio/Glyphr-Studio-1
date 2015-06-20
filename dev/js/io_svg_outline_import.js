@@ -9,9 +9,10 @@
 
 
 	function ioSVG_convertTagsToGlyph(svgdata){
-		// debug('\n ioSVG_convertTagsToGlyph \t Start');
+		debug('\n ioSVG_convertTagsToGlyph - START');
 
 		var newshapes = [];
+		var parsedshape = {};
 		var data = {};
 		var shapecounter = 0;
 		var error = false;
@@ -42,7 +43,9 @@
 		if(shapetags.path.length){
 			// debug('\t parsing PATH');
 			data = '';
+			parsedshape = {};
 			for(var p=0; p<shapetags.path.length; p++){
+				debug('\t STARTING PATH TAG ' + p);
 				data = shapetags.path[p].attributes.d;
 
 				// if(ioSVG_checkForIgnored(data)) error = true;
@@ -50,16 +53,28 @@
 				// Compound Paths are treated as different Glyphr Shapes
 				data = data.replace(/Z/gi,'z');
 				data = data.split('z');
-				// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
+				debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
-						newshapes.push(ioSVG_convertPathTag(data[d]));
+						parsedshape = ioSVG_convertPathTag(data[d]);
 						shapecounter++;
-						newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
+						parsedshape.name = ('Path ' + shapecounter);
+						newshapes.push(parsedshape);
+
+						// DEBUG WIERD NAN ERROR
+						debug('\t >>>>>>>>>>');
+						debug('\t shape ' + d);
+						debug(data[d]);
+						debug('\t resulted in');
+						debug(parsedshape);
+						debug('\t \n\n');
 					}
 				}
 			}
+
+			debug('\n\n\t Done with all path tags: ' + newshapes.length);
+			debug(newshapes);
 		}
 
 		/*
@@ -94,7 +109,7 @@
 				// debug('IMPORTSVG_IMPORTCODE - Rect maxes: ' + JSON.stringify(rectmaxes));
 
 				shapecounter++;
-				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':('SVG Rectangle ' + shapecounter)}));
+				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':('Rectangle ' + shapecounter)}));
 			}
 		}
 
@@ -128,7 +143,7 @@
 					// debug(json(pparr));
 
 					shapecounter++;
-					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':('SVG Polygon ' + shapecounter)}));
+					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':('Polygon ' + shapecounter)}));
 				}
 			}
 		}
@@ -164,7 +179,7 @@
 				ellipsemaxes.ymax = (data.cy*1) + (radius*1);
 
 				shapecounter++;
-				newshapes.push(new Shape({'path':ovalPathFromMaxes(ellipsemaxes), 'name':('SVG Oval ' + shapecounter)}));
+				newshapes.push(new Shape({'path':ovalPathFromMaxes(ellipsemaxes), 'name':('Oval ' + shapecounter)}));
 			}
 		}
 
@@ -178,8 +193,10 @@
 			showErrorMessageBox('A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.');
 		}
 
-		// debug('ioSVG_convertTagsToGlyph \t End \n');
-		return new Glyph({'shapes':newshapes});
+		var reglyph = new Glyph({'shapes':newshapes});
+		debug(reglyph);
+		debug(' ioSVG_convertTagsToGlyph - END\n');
+		return reglyph;
 	}
 
 	function ioSVG_getTags(obj, grabtags) {
@@ -513,6 +530,7 @@
 		var added = patharr[patharr.length-1];
 		// debug(added);
 
+		// Finish up last point
 		if(islastpoint) added.resolvePointType();
 
 		return patharr;

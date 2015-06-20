@@ -440,4 +440,16 @@
 		}
 	};
 
+	Shape.prototype.checkForNaN = function() {
+		for(var pp = 0; pp < this.path.pathpoints.length; pp++){
+			var tp = this.path.pathpoints[pp];
+			if( isNaN(tp.P.x) || isNaN(tp.P.y) ||
+				isNaN(tp.H1.x) || isNaN(tp.H1.y) ||
+				isNaN(tp.H2.x) || isNaN(tp.H2.y) ){
+				return true;
+			}
+		}
+		return false;
+	};
+
 // end of file

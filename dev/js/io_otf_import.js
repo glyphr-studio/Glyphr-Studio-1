@@ -94,9 +94,9 @@
 
 			// Get the appropriate unicode decimal for this glyph
 			// debug('\n importOneGlyph - START');
-			// debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
+			debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
 
-			uni = decToHex(tglyph.unicode);
+			uni = decToHex(tglyph.unicode || 0);
 
 			if(uni === false || uni === '0x0000'){
 				// Check for .notdef
@@ -138,7 +138,7 @@
 							// debug(ns);
 							newshapes.push(ns);
 							shapecounter++;
-							newshapes[newshapes.length-1].name = ('SVG Path ' + shapecounter);
+							newshapes[newshapes.length-1].name = ('Path ' + shapecounter);
 						}
 					}
 				}
