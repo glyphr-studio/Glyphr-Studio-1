@@ -51,7 +51,8 @@
 	};
 
 	Path.prototype.updatePathSize = function(dw, dh, ratiolock){
-		//debug('UPDATEPATHSIZE - dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
+		// debug('\n Path.updatePathSize - START');
+		// debug('dw,dh,rl\t'+dw+' , '+dh+' , '+ratiolock);
 
 		dw = parseFloat(dw) || 0;
 		dh = parseFloat(dh) || 0;
@@ -70,16 +71,25 @@
 			}
 		}
 
+		// debug('\t dw / dh is now ' + dw + ' / ' + dh);
+
 		var oldw = this.getWidth();
+		if(oldw === 0) oldw = 1;
 		var oldh = this.getHeight();
+		if(oldh === 0) oldh = 1;
+
 		var neww = Math.max((oldw + dw), 1);
 		var newh = Math.max((oldh + dh), 1);
+		
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
 		// If ratiolocked, keep both w&h from min'ing out at 1
 		if(ratiolock){
-			if(neww <= 1 || newh <=1) return;
+			if(neww <= 1 || newh <=1) {
+				// debug('\t RETURNING: ratiolock forcing width or height to be less than 1.');
+				return;
+			}
 		}
 
 		for(var e=0; e<this.pathpoints.length; e++){
@@ -92,7 +102,19 @@
 			pp.H2.y =  (((pp.H2.y - this.maxes.ymin) * ratiodh) + this.maxes.ymin);
 		}
 
+		if(this.checkForNaN()){
+			// debug('\t NAN FOUND IN THIS PATH');
+			// debug('\t this.maxes = ' + json(this.maxes));
+			// debug('oldw = ' + oldw);
+			// debug('oldh = ' + oldh);
+			// debug('neww = ' + neww);
+			// debug('newh = ' + newh);
+			// debug('ratiodh = ' + ratiodh);
+			// debug('ratiodw = ' + ratiodw);
+		}
+
 		this.calcMaxes();
+		// debug(' Path.updatePathSize - END\n');
 	};
 
 	Path.prototype.setPathPosition = function(nx, ny, force){
@@ -278,7 +300,7 @@
 		
 		if(re.indexOf('NaN') > -1){
 			console.warn(glyphname + ' PathPoint 0 MOVE has NaN: ' + re);
-			debug(this.pathpoints[0]);
+			// debug(this.pathpoints[0]);
 		}
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
@@ -374,21 +396,21 @@
 	};
 
 	Path.prototype.isOverFirstPoint = function(x, y) {
-		debug('\n Path.isOverFirstPoint - START');
-		debug('\t Passed ' + x + '/' + y);
+		// debug('\n Path.isOverFirstPoint - START');
+		// debug('\t Passed ' + x + '/' + y);
 		var a = this.pathpoints[0];
 
 		var hp = _GP.projectsettings.pointsize/getView('Path.isOverFirstPoint').dz;
-		debug('\t Checking ' + a.P.x + '/' + a.P.y + ' around ' + hp);
+		// debug('\t Checking ' + a.P.x + '/' + a.P.y + ' around ' + hp);
 		
 		if(!a) return false;
 
 		if( ((a.P.x+hp) > x) && ((a.P.x-hp) < x) && ((a.P.y+hp) > y) && ((a.P.y-hp) < y) ){
-			debug(' Path.isOverFirstPoint - END - return TRUE\n');
+			// debug(' Path.isOverFirstPoint - END - return TRUE\n');
 			return true;
 		}
 
-		debug(' Path.isOverFirstPoint - END - return FALSE\n');
+		// debug(' Path.isOverFirstPoint - END - return FALSE\n');
 		return false;
 	};
 
@@ -819,4 +841,16 @@
 		}
 	};
 
+
+	Path.prototype.checkForNaN = function() {
+		for(var pp = 0; pp < this.pathpoints.length; pp++){
+			var tp = this.pathpoints[pp];
+			if( isNaN(tp.P.x) || isNaN(tp.P.y) ||
+				isNaN(tp.H1.x) || isNaN(tp.H1.y) ||
+				isNaN(tp.H2.x) || isNaN(tp.H2.y) ){
+				return true;
+			}
+		}
+		return false;
+	};
 // end of file

@@ -147,20 +147,24 @@
 	}
 
 	function importSVG_importCode() {
+		// debug('\n importSVG_importCode - START');
 		var svgin = document.getElementById('svgcode').value;
 		//debug("IMPORTSVG_IMPORTCODE - svgin is " + JSON.stringify(svgin));
 		closeErrorMessageBox();
 
 		var tempchar = ioSVG_convertTagsToGlyph(svgin);
-
+		// debug('\t Convert Tags To Glyph returned');
+		// debug(JSON.parse(JSON.stringify(tempchar)));
 		if(!tempchar) return;
 
 		// Flip and Scale
 		tempchar.flipNS();
-		var so = _UI.importsvg;
-		var gp = _GP.projectsettings;
+		// debug('\t >><< AFTER FLIPNS');
+		// debug(JSON.parse(JSON.stringify(tempchar)));
 
 		//debug("IMPORTSVG_IMPORTCODE - scale / move " + so.scale + " / " + so.move);
+		var so = _UI.importsvg;
+		var gp = _GP.projectsettings;
 
 		if(so.scale || so.move){
 			var chartop = gp.xheight*1;
@@ -177,8 +181,15 @@
 				chartop += ovs;
 			}
 
+			// debug('\t\n Scale to totalheight = ' + totalheight);
 			if(so.scale) tempchar.setGlyphSize(false, totalheight, true);
+			// debug('\t >><< AFTER SCALE');
+			// debug(JSON.parse(JSON.stringify(tempchar)));
+
+			// debug('\t\n move to chartop = ' + chartop);
 			if(so.move) tempchar.setGlyphPosition(0, chartop);
+			// debug('\t >><< AFTER MOVE');
+			// debug(JSON.parse(JSON.stringify(tempchar)));
 		}
 
 		// Add new Glyph Shapes
@@ -186,6 +197,8 @@
 		history_put("Imported Paths from SVG to glyph "+getSelectedWorkItemName());
 
 		update_NavPanels();
+
+		// debug(' importSVG_importCode - END\n');
 	}
 
 // end of file

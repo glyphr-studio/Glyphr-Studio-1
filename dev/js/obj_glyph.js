@@ -309,22 +309,22 @@
 	// This method is called on Glyphs just before they are deleted
 	// to clean up all the component instance linking
 	Glyph.prototype.deleteLinks = function(thisid) {
-		debug('\n Glyph.deleteLinks - START');
-		debug('\t passed this as id: ' + thisid);
+		// debug('\n Glyph.deleteLinks - START');
+		// debug('\t passed this as id: ' + thisid);
 
 		// Delete upstream Component Instances
 		var upstreamglyph;
 		for(var c=0; c<this.usedin.length; c++){
 			upstreamglyph = getGlyph(this.usedin[c]);
-			debug('\t removing from ' + upstreamglyph.name);
-			debug(upstreamglyph.shapes);
+			// debug('\t removing from ' + upstreamglyph.name);
+			// debug(upstreamglyph.shapes);
 			for(var u=0; u<upstreamglyph.shapes.length; u++){
 				if(upstreamglyph.shapes[u].objtype === 'componentinstance' && upstreamglyph.shapes[u].link === thisid){
 					upstreamglyph.shapes.splice(u, 1);
 					u--;
 				}
 			}
-			debug(upstreamglyph.shapes);
+			// debug(upstreamglyph.shapes);
 		}
 
 		// Delete downstream usedin array values

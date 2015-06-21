@@ -9,7 +9,7 @@
 
 
 	function ioSVG_convertTagsToGlyph(svgdata){
-		debug('\n ioSVG_convertTagsToGlyph - START');
+		// debug('\n ioSVG_convertTagsToGlyph - START');
 
 		var newshapes = [];
 		var parsedshape = {};
@@ -45,7 +45,7 @@
 			data = '';
 			parsedshape = {};
 			for(var p=0; p<shapetags.path.length; p++){
-				debug('\t STARTING PATH TAG ' + p);
+				// debug('\t STARTING DATA CHUNK ' + p);
 				data = shapetags.path[p].attributes.d;
 
 				// if(ioSVG_checkForIgnored(data)) error = true;
@@ -53,7 +53,7 @@
 				// Compound Paths are treated as different Glyphr Shapes
 				data = data.replace(/Z/gi,'z');
 				data = data.split('z');
-				debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
+				// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
@@ -63,18 +63,29 @@
 						newshapes.push(parsedshape);
 
 						// DEBUG WIERD NAN ERROR
-						debug('\t >>>>>>>>>>');
-						debug('\t shape ' + d);
-						debug(data[d]);
-						debug('\t resulted in');
-						debug(parsedshape);
-						debug('\t \n\n');
+						// debug('\t\t\t >>>>>>>>>>');
+						// debug('\t\t\t shape ' + p + '-' + d + '\n\t\t\t' + data[d]);
+						// debug('\t\t\t resulted in');
+						// debug(parsedshape);
+						// debug('\t\t\t newshapes arr is now ');
+						// debug(JSON.parse(JSON.stringify(newshapes)));
+						// debug('\t\t\t >>>>>>>>>>');
+						// debug('\t\t\t \n\n');
 					}
+
+					// debug('\t\t newshapes arr is now ');
+					// debug(JSON.parse(JSON.stringify(newshapes)));
+					// debug('\t\t done with shape ' + p + '-' + d);
 				}
+
+				// debug('\t newshapes arr is now ');
+				// debug(JSON.parse(JSON.stringify(newshapes)));
+				// debug('\t DONE WITH DATA CHUNK ' + p);
 			}
 
-			debug('\n\n\t Done with all path tags: ' + newshapes.length);
-			debug(newshapes);
+			// debug('\n\nDone with all data chunks, newshapes arr is now');
+			// debug(JSON.parse(JSON.stringify(newshapes)));
+			// debug('\n\n');
 		}
 
 		/*
@@ -193,9 +204,15 @@
 			showErrorMessageBox('A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.');
 		}
 
+		// debug('\t NEWSHAPES BEFORE GLYPH IS MADE');
+		// debug(JSON.parse(JSON.stringify(newshapes)));
 		var reglyph = new Glyph({'shapes':newshapes});
-		debug(reglyph);
-		debug(' ioSVG_convertTagsToGlyph - END\n');
+		// debug('\t SHAPES AFTER GLYPH IS MADE');
+		// debug(JSON.parse(JSON.stringify(reglyph.shapes)));
+		// debug(JSON.parse(JSON.stringify(reglyph)));
+		// debug(reglyph);
+
+		// debug(' ioSVG_convertTagsToGlyph - END\n');
 		return reglyph;
 	}
 
