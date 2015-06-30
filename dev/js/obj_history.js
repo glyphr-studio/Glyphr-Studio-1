@@ -38,8 +38,8 @@
 		// debug('\t queue.length ' + this.queue.length);
 
 		var si = false;
-		if(_UI.ss) {
-			si = getSelectedWorkItemShapes().indexOf(_UI.ss);
+		if(_UI.mss) {
+			si = getSelectedWorkItemShapes().indexOf(_UI.mss);
 			// debug('\t sel shape number is ' + si);
 		}
 
@@ -66,7 +66,7 @@
 			selectShape(si);
 			redraw('history_pull');
 		} else {
-			_UI.ss.clear();
+			_UI.mss.clear();
 		}
 
 		// debug('\t after redraw');

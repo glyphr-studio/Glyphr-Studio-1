@@ -105,7 +105,7 @@
 		var oncom = (_UI.navhere === 'components');
 		var onlig = (_UI.navhere === 'ligatures');
 		var onkern = (_UI.navhere === 'kerning');
-		var type = _UI.ss.getType();
+		var type = _UI.mss.getType();
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
@@ -209,12 +209,12 @@
 			clickEmptySpace();
 		} else if(ctool === "pathedit"){
 			setCursor('pen');
-			var singleton = _UI.ss.getSingleton();
+			var singleton = _UI.mss.getSingleton();
 			if(singleton && singleton.path) {singleton.selectPathPoint(0);}
 			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
-			// _UI.ss.calcMaxes();
+			// _UI.mss.calcMaxes();
 		}
 
 		_UI.eventhandlers.hoverpoint = false;
@@ -681,7 +681,7 @@
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
 
-			var ssm = _UI.ss.getMembers();
+			var ssm = _UI.mss.getMembers();
 			if( ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')) &&
 				(ssm.length === 1 && ssm[0].objtype !== 'componentinstance') ){
 

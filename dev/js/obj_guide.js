@@ -8,6 +8,7 @@
 
 
 	function Guide(oa){
+		oa = oa || {};
 		this.objtype = 'guide';
 
 		this.type = oa.type || 'vertical';
