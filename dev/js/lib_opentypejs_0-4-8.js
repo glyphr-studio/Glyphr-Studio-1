@@ -544,12 +544,14 @@ Font.prototype.download = function() {
 
         function(err) {
             // Glyphr Studio style save file
-            console.warn('OpenType.js file save failed, falling back to Glyphr Studio file save.');
+            console.warn('OpenType.js file writer failed, falling back to Glyphr Studio file writer.');
             saveFile(fileName, buffer, 'font/opentype');
-            // throw err;
         });
+    } else {
+        // Glyphr Studio style save file
+        console.warn('OpenType.js file save failed, falling back to Glyphr Studio file save.');
+        saveFile(fileName, buffer, 'font/opentype');
     }
-
 };
 
 exports.Font = Font;
