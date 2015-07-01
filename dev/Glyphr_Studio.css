@@ -971,7 +971,10 @@
 		font-size:1em;
 	}
 
-	.splashvernum,
+	.splashvernum {
+		font-size:.8em;
+	}
+
 	.splashblurb {
 		font-size:.6em;
 	}

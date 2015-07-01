@@ -14,7 +14,6 @@
 
 	function Path(oa){
 		// debug('\n PATH - START');
-		oa = oa || {};
 		this.objtype = 'path';
 
 		// declare attributes

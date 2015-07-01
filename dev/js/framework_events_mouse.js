@@ -120,7 +120,7 @@
 			eh.firsty = eh.mousey;
 
 			this.clickedshape = getClickedShape(eh.mousex, eh.mousey);
-			eh.handle = _UI.mss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
+			eh.handle = _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
 			// debug('\t clickshape: ' + this.clickedshape);
 			// debug('\t corner: ' + eh.handle);
@@ -147,7 +147,7 @@
 		this.mousemove = function (ev) {
 			var eh = _UI.eventhandlers;
 			this.didstuff = false;
-			var corner = eh.handle || _UI.mss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
+			var corner = eh.handle || _UI.ss.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
 			var dz = getView('Event Handler Tool_ShapeEdit mousemove').dz;
 			var dx = ((eh.mousex-eh.lastx)/dz) || 0;
@@ -158,9 +158,9 @@
 				var cur = 'pointerSquare';
 
 				if(this.clickedshape){
-					if(eh.multi) _UI.mss.add(this.clickedshape);
-					else if (!_UI.mss.isSelected(this.clickedshape)){
-						_UI.mss.select(this.clickedshape);
+					if(eh.multi) _UI.ss.add(this.clickedshape);
+					else if (!_UI.ss.isSelected(this.clickedshape)){
+						_UI.ss.select(this.clickedshape);
 					}
 
 					this.clickedshape.selectPathPoint(false);
@@ -168,7 +168,7 @@
 					_UI.navprimaryhere = 'npAttributes';
 				}
 
-				var singleton = _UI.mss.getSingleton();
+				var singleton = _UI.ss.getSingleton();
 
 				if(singleton){
 					cur = singleton.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
@@ -177,7 +177,7 @@
 					dy = singleton.ylock? 0 : dy;
 				}
 
-				_UI.mss.updateShapePosition(dx, dy);
+				_UI.ss.updateShapePosition(dx, dy);
 				this.didstuff = true;
 				setCursor(cur);
 
@@ -225,8 +225,8 @@
 
 			// Clicked a shape to select
 			if(this.clickedshape && !this.didstuff){
-				if(eh.multi) _UI.mss.toggle(this.clickedshape);
-				else _UI.mss.select(this.clickedshape);
+				if(eh.multi) _UI.ss.toggle(this.clickedshape);
+				else _UI.ss.select(this.clickedshape);
 
 				this.clickedshape.selectPathPoint(false);
 
@@ -237,7 +237,7 @@
 			}
 
 			// Resized a shape
-			if(_UI.mss && this.resizing) _UI.mss.calcMaxes();
+			if(_UI.ss && this.resizing) _UI.ss.calcMaxes();
 			updateCurrentGlyphWidth();
 
 			// Finish Up
@@ -275,7 +275,7 @@
 			var newshape = new Shape({'visible':false, 'name':'...'});
 			newshape.path.maxes = _UI.eventhandlers.tempnewbasicshape;
 			newshape = addShape(newshape);
-			_UI.mss.select(newshape);
+			_UI.ss.select(newshape);
 
 			_UI.eventhandlers.firstx = cx_sx(_UI.eventhandlers.mousex);
 			_UI.eventhandlers.firsty = cy_sy(_UI.eventhandlers.mousey);
@@ -307,7 +307,7 @@
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
-				var s = _UI.mss.getSingleton();
+				var s = _UI.ss.getSingleton();
 
 				if(_UI.selectedtool==='newrect'){
 					s.name = ('Rectangle ' + count);
@@ -349,7 +349,7 @@
 			debug('\n Tool_NewPath.mousedown - START');
 
 			var eh = _UI.eventhandlers;
-			this.singleton = _UI.mss.getSingleton();
+			this.singleton = _UI.ss.getSingleton();
 			var newpoint = new PathPoint({
 				'P':new Coord({'x':cx_sx(eh.mousex), 'y':cy_sy(eh.mousey)}),
 				'H1':new Coord({'x':cx_sx(eh.mousex-100), 'y':cy_sy(eh.mousey)}),
@@ -369,7 +369,7 @@
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
 				this.currpt = newshape.path.selectPathPoint(0);
-				this.singleton = _UI.mss.getSingleton();
+				this.singleton = _UI.ss.getSingleton();
 				
 			} else if(this.singleton){
 
@@ -466,7 +466,7 @@
 		this.mousedown = function (ev) {
 			var eh = _UI.eventhandlers;
 			var s = getClickedShape(eh.mousex, eh.mousey);
-			var singleton = _UI.mss.getSingleton();
+			var singleton = _UI.ss.getSingleton();
 			this.controlpoint = singleton? singleton.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey)) : false;
 
 			if(this.controlpoint){
@@ -481,14 +481,14 @@
 				eh.lasty = eh.mousey;
 
 				s.selectPathPoint(false);
-				if(eh.multi) _UI.mss.add(s);
-				else _UI.mss.select(s);
+				if(eh.multi) _UI.ss.add(s);
+				else _UI.ss.select(s);
 
 				if(s.objtype === 'componentinstance') clickTool('shaperesize');
 				_UI.navprimaryhere = 'npAttributes';
 
 			} else {
-				_UI.mss.calcMaxes();
+				_UI.ss.calcMaxes();
 				clickEmptySpace();
 			}
 			redraw('Event Handler Tool_PathEdit mousedown');
@@ -498,10 +498,10 @@
 			var eh = _UI.eventhandlers;
 
 			if (this.dragging) {
-				var sp = _UI.mss.getSingleton();
+				var sp = _UI.ss.sp();
 
 				if(eh.toolhandoff){
-					var p = _UI.mss.getSingleton().path;
+					var p = _UI.ss.getSingleton().path;
 					sp = p.selectPathPoint(0);
 					sp.useh2 = true;
 					sp.H2.x = cx_sx(eh.mousex);
@@ -535,7 +535,7 @@
 				}
 
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
-				_UI.mss.calcMaxes();
+				_UI.ss.calcMaxes();
 
 				eh.lastx = eh.mousex;
 				eh.lasty = eh.mousey;
@@ -543,7 +543,7 @@
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 
-			var singleton = _UI.mss.getSingleton();
+			var singleton = _UI.ss.getSingleton();
 			if(singleton){
 				var cp = singleton.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
 				if(cp === 'P') setCursor('penSquare');
@@ -557,7 +557,7 @@
 			_UI.eventhandlers.lasty = -100;
 
 			if(_UI.eventhandlers.uqhaschanged) {
-				_UI.mss.calcMaxes();
+				_UI.ss.calcMaxes();
 				updateCurrentGlyphWidth();
 				history_put('Path Edit tool');
 				_UI.eventhandlers.uqhaschanged = false;
@@ -575,7 +575,7 @@
 
 		this.mousedown = function(ev) {
 
-			var singleton = _UI.mss.getSingleton();
+			var singleton = _UI.ss.getSingleton();
 			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 
 			if(this.addpoint && singleton && singleton.objtype !== 'componentinstance'){
@@ -584,8 +584,8 @@
 
 			} else if(s){
 				s.selectPathPoint(false);
-				if(_UI.eventhandlers.multi) _UI.mss.add(s);
-				else _UI.mss.select(s);
+				if(_UI.eventhandlers.multi) _UI.ss.add(s);
+				else _UI.ss.select(s);
 
 				if(s.objtype === 'componentinstance') clickTool('shaperesize');
 				_UI.navprimaryhere = 'npAttributes';
@@ -603,7 +603,7 @@
 		};
 
 		this.mousemove = function(ev) {
-			var singleton = _UI.mss.getSingleton();
+			var singleton = _UI.ss.getSingleton();
 			if(singleton){
 				var pt = singleton.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
 				if(pt && pt.distance < 20){
@@ -706,13 +706,13 @@
 	// Helper Functions
 
 	function clickEmptySpace(){
-		_UI.mss.deSelectPathPoints();
-		_UI.mss.clear();
+		_UI.ss.deSelectPathPoints();
+		_UI.ss.clear();
 	}
 
 	function eventHandler_ShapeResize(){
 		// debug('\n eventHandler_ShapeResize - START');
-		var s = _UI.mss;
+		var s = _UI.ss;
 		var pcorner = _UI.eventhandlers.handle;
 		// debug('\t handle ' + pcorner);
 
@@ -809,11 +809,11 @@
 	}
 
 	function canResize(pc){
-		var rl = _UI.mss.getAttribute('ratiolock');
-		var xl = _UI.mss.getAttribute('xlock');
-		var yl = _UI.mss.getAttribute('ylock');
-		var wl = _UI.mss.getAttribute('wlock');
-		var hl = _UI.mss.getAttribute('hlock');
+		var rl = _UI.ss.getAttribute('ratiolock');
+		var xl = _UI.ss.getAttribute('xlock');
+		var yl = _UI.ss.getAttribute('ylock');
+		var wl = _UI.ss.getAttribute('wlock');
+		var hl = _UI.ss.getAttribute('hlock');
 		var re = true;
 
 		switch(pc){

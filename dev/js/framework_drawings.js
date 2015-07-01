@@ -394,7 +394,7 @@
 		var re = "";
 
 		re += '<button class="pointtypebutton" style="background-color:'+bgcolor+';" ';
-		re += 'onclick="_UI.mss.getSingleton().type = \''+type+'\'; history_put(\'Point Type: '+type+'\'); redraw(\'pointDetails\');" ';
+		re += 'onclick="_UI.ss.sp().type = \''+type+'\'; history_put(\'Point Type: '+type+'\'); redraw(\'pointDetails\');" ';
 		re += 'title="point type: '+type+'" ';
 		re += '>';
 		re += '<svg version="1.1" ';

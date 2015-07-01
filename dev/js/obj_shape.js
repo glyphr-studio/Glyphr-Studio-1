@@ -11,7 +11,6 @@
 
 	function Shape(oa){
 		// debug('\n SHAPE - START');
-		oa = oa || {};
 		this.objtype = 'shape';
 
 		// common settings
@@ -270,7 +269,7 @@
 		var sg = getSelectedWorkItem();
 
 		sg.shapes.push(newshape);
-		_UI.mss.select(newshape);
+		_UI.ss.select(newshape);
 		sg.calcGlyphMaxes();
 
 		_UI.navprimaryhere = 'npAttributes';
@@ -308,17 +307,17 @@
 		newshape.name = (shapetype + getSelectedWorkItemShapes().length+1);
 
 		getSelectedWorkItemShapes().push(newshape);
-		_UI.mss.select(newshape);
+		_UI.ss.select(newshape);
 		updateCurrentGlyphWidth();
 	}
 
 	function deleteShape(){
 		// debug('\n deleteShape - START');
 		var wishapes = getSelectedWorkItemShapes();
-		var sels = _UI.mss.getMembers();
+		var sels = _UI.ss.getMembers();
 		var curs, i;
 
-		if(sels.length === 0) _UI.mss.clear();
+		if(sels.length === 0) _UI.ss.clear();
 		else {
 			for(var s=0; s<sels.length; s++){
 				curs = sels[s];
@@ -331,8 +330,8 @@
 				if(i > -1) wishapes.splice(i, 1);
 			}
 
-			_UI.mss.select(wishapes[i] || wishapes[wishapes.length-1]);
-			var singleton = _UI.mss.getSingleton();
+			_UI.ss.select(wishapes[i] || wishapes[wishapes.length-1]);
+			var singleton = _UI.ss.getSingleton();
 			if(singleton && singleton.objtype === 'componentinstance') clickTool('shaperesize');
 		}
 		
@@ -341,7 +340,7 @@
 	}
 
 	function turnSelectedShapeIntoAComponent(){
-		var s = clone(_UI.mss.getMembers());
+		var s = clone(_UI.ss.getMembers());
 		var n = s.length === 1? ('Component ' + s[0].name) : ('Component ' + (getLength(_GP.components)+1));
 		
 		deleteShape();

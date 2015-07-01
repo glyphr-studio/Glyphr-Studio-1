@@ -17,7 +17,7 @@
 		if(kc === 'ctrl' || event.ctrlKey){
 			// debug('\t CTRL');
 
-			if(_UI.mss.getMembers().length < 2){
+			if(_UI.ss.getMembers().length < 2){
 				// debug('\t Shapes < 2 setting to ' + eh.lastTool);
 				_UI.selectedtool = eh.lastTool;
 				if(_UI.selectedtool === 'shaperesize') setCursor('pointer');
@@ -178,13 +178,13 @@
 			// del
 			if(kc==='del' || kc==='backspace'){
 				event.preventDefault();
-				var singleton = _UI.mss.getSingleton();
+				var singleton = _UI.ss.getSingleton();
 
 				if(singleton && singleton.objtype !== 'componentinstance' && singleton.path.sp(false)){
 					singleton.path.deletePathPoint();
 					history_put('Delete Path Point');
 					redraw('Keypress DEL or BACKSPACE');
-				} else if (_UI.mss){
+				} else if (_UI.ss){
 					deleteShape();
 					history_put('Delete Shape');
 					redraw('Keypress DEL or BACKSPACE');
@@ -230,12 +230,12 @@
 		if(_UI.navhere === 'kerning'){
 			getSelectedKern().value += (mx || my);
 			redraw('Nudge');
-		} else if(_UI.mss.count()){
-			var singleton = _UI.mss.getSingleton();
+		} else if(_UI.ss.count()){
+			var singleton = _UI.ss.getSingleton();
 			if(singleton && singleton.path.sp()){
 				singleton.path.sp().updatePathPointPosition('P', mx, my);
 			} else {
-				_UI.mss.updateShapePosition(mx, my);
+				_UI.ss.updateShapePosition(mx, my);
 			}
 			redraw('Nudge');
 		}

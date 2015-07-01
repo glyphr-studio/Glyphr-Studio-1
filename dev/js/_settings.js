@@ -13,10 +13,10 @@
 // These are NOT SAVED with the project
 	var _UI = {
 		// Internal Dev Stuff
-		'devmode': true,		// global switch for all the stuff below
+		'devmode': false,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'glyph edit',		// navigate straight to a page
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'devnav': false,		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		// SelectedGlyph
@@ -24,8 +24,8 @@
 		// all pages
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Version 1.02',
-		'thisGlyphrStudioVersionNum': '1.02.00',
+		'thisGlyphrStudioVersion': 'Version 1.01',
+		'thisGlyphrStudioVersionNum': '1.01.03',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},
@@ -85,8 +85,8 @@
 
 		// Shared edit pages
 		'popout': false,
-		'mss': false,		// Multi-Selected Shape
-		'msp': false,		// Multi-Selected Points
+		'ss': false,	//Selected Shape
+		'selectedshapes': {},
 		'multiselectthickness': 2,
 		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,

@@ -53,10 +53,10 @@
 			// _UI.debug = false;
 		}
 
-		_UI.mss.drawSelectOutline();
+		_UI.ss.drawSelectOutline();
 		if(_UI.selectedtool === 'shaperesize'){
-			_UI.mss.drawBoundingBox();
-			_UI.mss.drawBoundingBoxHandles();
+			_UI.ss.drawBoundingBox();
+			_UI.ss.drawBoundingBoxHandles();
 		}
 
 

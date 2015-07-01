@@ -17,7 +17,6 @@
 //-------------------------------------------------------
 	function Glyph(oa){
 		// debug('\n GLYPH - START');
-		oa = oa || {};
 		this.objtype = 'glyph';
 
 		this.name = oa.name || getGlyphName(oa.glyphhex) || false;

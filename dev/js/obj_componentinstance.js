@@ -12,7 +12,6 @@
 
 
 	function ComponentInstance(oa){
-		oa = oa || {};
 		this.objtype = 'componentinstance';
 
 		this.link = oa.link || getFirstID(_GP.components);
@@ -270,7 +269,7 @@
 			ch.shapes.push(nci);
 			ch.calcGlyphMaxes();
 			if(select) {
-				_UI.mss.select(nci);
+				_UI.ss.select(nci);
 				_UI.selectedtool = 'shaperesize';
 			}
 
@@ -287,7 +286,7 @@
 	}
 
 	function turnComponentIntoShapes(){
-		var selshape = _UI.mss.getSingleton();
+		var selshape = _UI.ss.getSingleton();
 		var shapes = selshape.getTransformedGlyph().shapes;
 
 		deleteShape();

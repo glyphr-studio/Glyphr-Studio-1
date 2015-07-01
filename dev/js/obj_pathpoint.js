@@ -14,7 +14,6 @@
 
 
 	function PathPoint(oa){
-		oa = oa || {};
 		this.objtype = 'pathpoint';
 
 		this.P = oa.P? new Coord(oa.P) : new Coord({'x':100, 'y':100});
@@ -97,6 +96,7 @@
 		}
 
 		//this.roundAll();
+
 	};
 
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
@@ -195,6 +195,7 @@
 		return re;
 	};
 
+
 	PathPoint.prototype.toggleUseHandle = function(h){
 		//debug('TOGGLEUSEHANDLE - before:\n'+json(this));
 
@@ -205,7 +206,7 @@
 			this.useh2 = !this.useh2;
 			history_put('Use Handle 2 : ' + this.useh2);
 		}
-		_UI.mss.calcMaxes();
+		_UI.ss.calcMaxes();
 		redraw('pointDetails');
 
 		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
@@ -492,6 +493,7 @@
 		// Exact Middle Point
 		_UI.glypheditctx.fillStyle = accent.l65;
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
+
 	};
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
@@ -555,6 +557,7 @@
 				_UI.glypheditctx.stroke();
 			}
 		}
+
 	};
 
 
@@ -563,7 +566,6 @@
 //-------------------------------------------------------
 
 	function Coord(oa){
-		oa = oa || {};
 		this.objtype = 'coord';
 		this.x = parseFloat(oa.x) || 0;
 		this.y = parseFloat(oa.y) || 0;
