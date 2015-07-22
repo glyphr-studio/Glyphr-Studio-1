@@ -23,7 +23,7 @@
 			for(var i=(scs.length-1); i>=0; i--){
 				ts = scs[i];
 
-				if(_UI.ss.isSelected(ts)) {
+				if(_UI.ms.shapes.isSelected(ts)) {
 					if(ts.objtype === 'componentinstance')	content += '<tr class="componentlayersel"';
 					else content += '<tr class="layersel"';
 				} else {
@@ -65,18 +65,18 @@
 		// debug('\t wishapes ' + wishapes);
 
 		if(wishapes && wishapes[num]){
-			 if(_UI.eventhandlers.multi) _UI.ss.toggle(wishapes[num]);
-			 else _UI.ss.select(wishapes[num]);
+			 if(_UI.eventhandlers.multi) _UI.ms.shapes.toggle(wishapes[num]);
+			 else _UI.ms.shapes.select(wishapes[num]);
 		} else {
-			_UI.ss.clear();
-			_UI.ss.clear();
+			_UI.ms.shapes.clear();
+			_UI.ms.shapes.clear();
 		}
 		// debug(' selectShape - END\n');
 	}
 
 	function updateLayerActions(){
 		var pop = _UI.popout;
-		var selshapes = _UI.ss.getMembers().length;
+		var selshapes = _UI.ms.shapes.getMembers().length;
 		var numshapes = getSelectedWorkItemShapes().length;
 
 		var shapeactions ="<h3>shapes</h3>";
@@ -127,7 +127,7 @@
 //-------------------
 	function moveShapeUp(){
 		var wishapes = getSelectedWorkItemShapes();
-		var si = wishapes.indexOf(_UI.ss.getSingleton());
+		var si = wishapes.indexOf(_UI.ms.shapes.getSingleton());
 		if(si > -1 && si < wishapes.length-1){
 			var tempshape = wishapes[si+1];
 			wishapes[si+1] = wishapes[si];
@@ -138,7 +138,7 @@
 
 	function moveShapeDown(){
 		var wishapes = getSelectedWorkItemShapes();
-		var si = wishapes.indexOf(_UI.ss.getSingleton());
+		var si = wishapes.indexOf(_UI.ms.shapes.getSingleton());
 		if(si > 0 && si < wishapes.length){
 			var tempshape = wishapes[si-1];
 			wishapes[si-1] = wishapes[si];

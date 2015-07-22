@@ -14,6 +14,7 @@
 
 
 	function PathPoint(oa){
+		oa = oa || {};
 		this.objtype = 'pathpoint';
 
 		this.P = oa.P? new Coord(oa.P) : new Coord({'x':100, 'y':100});
@@ -206,7 +207,7 @@
 			this.useh2 = !this.useh2;
 			history_put('Use Handle 2 : ' + this.useh2);
 		}
-		_UI.ss.calcMaxes();
+		_UI.ms.shapes.calcMaxes();
 		redraw('pointDetails');
 
 		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
@@ -567,6 +568,8 @@
 
 	function Coord(oa){
 		this.objtype = 'coord';
+		oa = oa || {};
+		
 		this.x = parseFloat(oa.x) || 0;
 		this.y = parseFloat(oa.y) || 0;
 		this.xlock = oa.xlock || false;

@@ -70,45 +70,62 @@
 	};
 
 
+
+//-------------------------------------------------------		
+// Multiselect POINTS		
+//-------------------------------------------------------		
+	
+// Initialize fake Shape of multiselected Points		
+_UI.ms.points = new MultiSelect();		
+_UI.ms.points.shape = new Shape({'name': 'multiselected points', 'path': new Path()});		
+	
+_UI.ms.points.getShape = function() {		
+	this.shape.path = this.members;		
+	this.shape.calcMaxes();		
+	return this.shape;		
+};
+
+
+
 //-------------------------------------------------------
 // Multiselect SHAPES
 //-------------------------------------------------------
 
 	// Initialize fake Glyph of multiselected shapes
-	_UI.ss = new MultiSelect();
-	_UI.ss.glyph = new Glyph({'name': 'multiselected shapes'});
+	_UI.ms.shapes = new MultiSelect();
+	_UI.ms.shapes.glyph = new Glyph({'name': 'multiselected shapes'});
 
-	_UI.ss.getGlyph = function() {
+	_UI.ms.shapes.getGlyph = function() {
 		this.glyph.shapes = this.members;
 		this.glyph.calcGlyphMaxes();
 		return this.glyph;
 	};
 
 	// Wrapper functions
-	_UI.ss.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
+	_UI.ms.shapes.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
 
-	_UI.ss.setShapePosition = function(nx, ny, force) { this.getGlyph().setGlyphPosition(nx, ny, force); };
+	_UI.ms.shapes.setShapePosition = function(nx, ny, force) { this.getGlyph().setGlyphPosition(nx, ny, force); };
 
-	_UI.ss.updateShapeSize = function(dw, dh, ratiolock) { 
+	_UI.ms.shapes.updateShapeSize = function(dw, dh, ratiolock) { 
 		_UI.debug = true;
 		if(this.members.length === 1) this.members[0].updateShapeSize(dw, dh, ratiolock);
 		else if (this.members.length > 1) this.getGlyph().updateGlyphSize(dw, dh, ratiolock);
 		_UI.debug = false;
 	};
 
-	_UI.ss.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
+	_UI.ms.shapes.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
 
-	_UI.ss.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
+	_UI.ms.shapes.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
 
-	_UI.ss.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
+	_UI.ms.shapes.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
 
-	_UI.ss.getAttribute = function(attr) {
+	_UI.ms.shapes.getAttribute = function(attr) {
 		if(this.members.length === 1) return this.members[0][attr];
 		else if (this.members.length > 1) return this.getGlyph()[attr] || false;
 		else return false;
 	};
 
-	_UI.ss.isOverBoundingBoxHandle = function(px, py) {
+	_UI.ms.shapes.isOverBoundingBoxHandle = function(px, py) {
 		// debug('\n SelectedShapes.isOverBoundingBoxHandle - START');
 		// debug('\t passed x/y: ' + px + '/' + py);
 		
@@ -124,18 +141,18 @@
 		return c;
 	};
 
-	_UI.ss.calcMaxes = function(){
+	_UI.ms.shapes.calcMaxes = function(){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].calcMaxes();
 		}
 	};
 
-	_UI.ss.getMaxes = function(){
+	_UI.ms.shapes.getMaxes = function(){
 		if(this.members.length === 1) return this.members[0].getMaxes();
 		else return this.getGlyph().maxes;
 	};
 
-	_UI.ss.drawShape = function(lctx, view){
+	_UI.ms.shapes.drawShape = function(lctx, view){
 		var failed = false;
 		var drewshape = false;
 		for(var m=0; m<this.members.length; m++){
@@ -146,13 +163,13 @@
 		return !failed;
 	};
 
-	_UI.ss.reverseWinding = function(){
+	_UI.ms.shapes.reverseWinding = function(){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].reverseWinding();
 		}
 	};
 
-	_UI.ss.drawSelectOutline = function(){
+	_UI.ms.shapes.drawSelectOutline = function(){
 		if(this.members.length === 1){
 			this.members[0].drawSelectOutline();
 		} else {
@@ -162,7 +179,7 @@
 		}
 	};
 
-	_UI.ss.drawBoundingBox = function(){
+	_UI.ms.shapes.drawBoundingBox = function(){
 		if(this.members.length === 1){
 			this.members[0].drawBoundingBox();
 		} else if(this.members.length > 1){
@@ -176,7 +193,7 @@
 		}
 	};
 
-	_UI.ss.drawBoundingBoxHandles = function(){
+	_UI.ms.shapes.drawBoundingBoxHandles = function(){
 		if(this.members.length === 1){
 			this.members[0].drawBoundingBoxHandles();
 		} else if(this.members.length > 1){
@@ -193,29 +210,29 @@
 	// Global path accessor functions
 	// THESE ASSUME THE FIRST MEMBER IS A SINGLETON
 
-	_UI.ss.deletePathPoint = function(){ 
+	_UI.ms.shapes.deletePathPoint = function(){ 
 		if(this.members[0]){
 			// this.members[0].path.deletePathPoint();
 			this.members[0].calcMaxes();
 		}
 	};
 
-	_UI.ss.insertPathPoint = function() { 
+	_UI.ms.shapes.insertPathPoint = function() { 
 		if(this.members[0]){
 			// this.members[0].path.insertPathPoint();
 			this.members[0].calcMaxes();
 		}
 	};
 
-	_UI.ss.selectPathPoint = function(index) { if(this.members[0]) this.members[0].path.selectPathPoint(index); };
+	_UI.ms.shapes.selectPathPoint = function(index) { if(this.members[0]) this.members[0].path.selectPathPoint(index); };
 
-	_UI.ss.deSelectPathPoints = function(){
+	_UI.ms.shapes.deSelectPathPoints = function(){
 		for(var m=0; m<this.members.length; m++){
 			if(this.members[m].path) this.members[m].path.selectPathPoint(false);
 		}
 	};
 
-	_UI.ss.sp = function(){
+	_UI.ms.shapes.sp = function(){
 		if(this.members[0]) return this.members[0].path.sp();
 		else return false;
 	};

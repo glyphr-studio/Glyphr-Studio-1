@@ -269,7 +269,7 @@
 			ch.shapes.push(nci);
 			ch.calcGlyphMaxes();
 			if(select) {
-				_UI.ss.select(nci);
+				_UI.ms.shapes.select(nci);
 				_UI.selectedtool = 'shaperesize';
 			}
 
@@ -286,7 +286,7 @@
 	}
 
 	function turnComponentIntoShapes(){
-		var selshape = _UI.ss.getSingleton();
+		var selshape = _UI.ms.shapes.getSingleton();
 		var shapes = selshape.getTransformedGlyph().shapes;
 
 		deleteShape();
