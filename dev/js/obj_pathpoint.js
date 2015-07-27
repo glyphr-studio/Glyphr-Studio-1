@@ -23,7 +23,7 @@
 		// this.Q = oa.Q? new Coord(oa.Q) : false;	// Remembering Quadratic sinlge handle for Import SVG
 
 		this.type = oa.type || 'corner';		// corner, flat, symmetric
-		this.selected = oa.selected || false;
+		// this.selected = oa.selected || false;
 
 		if(isval(oa.useh1) && oa.useh1) this.useh1 = true;
 		else this.useh1 = false;
@@ -97,7 +97,6 @@
 		}
 
 		//this.roundAll();
-
 	};
 
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
@@ -195,7 +194,6 @@
 		}
 		return re;
 	};
-
 
 	PathPoint.prototype.toggleUseHandle = function(h){
 		//debug('TOGGLEUSEHANDLE - before:\n'+json(this));
@@ -494,7 +492,6 @@
 		// Exact Middle Point
 		_UI.glypheditctx.fillStyle = accent.l65;
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x).makeCrisp()), (sy_cy(this.P.y).makeCrisp()), 1, 1);
-
 	};
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
@@ -558,7 +555,6 @@
 				_UI.glypheditctx.stroke();
 			}
 		}
-
 	};
 
 

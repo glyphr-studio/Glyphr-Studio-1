@@ -85,6 +85,8 @@ _UI.ms.points.getShape = function() {
 	return this.shape;		
 };
 
+_UI.ms.points.updateShapePosition = function(dx, dy, force){ this.getShape().updateShapePosition(dx, dy, force); };
+
 
 
 //-------------------------------------------------------
