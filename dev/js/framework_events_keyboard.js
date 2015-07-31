@@ -43,7 +43,7 @@
 	}
 
 	function keypress(event){
-
+		// debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
 		if(_UI.navhere === 'openproject') return;
 
@@ -91,9 +91,13 @@
 			eh.multi = true;
 			eh.lastTool = _UI.selectedtool;
 			_UI.selectedtool = 'shaperesize';
-			if(overcanvas) setCursor('pointerPlus');
+			if(overcanvas) {
+				setCursor('pointerPlus');
+				// debug('\t setCursor finished for pointerPlus');
+			}
 			// debug('\t eh.lastTool = ' + eh.lastTool);
 			redraw('Event Handler - Keydown Ctrl for multi select');
+			return;
 		}
 
 		// Space
@@ -213,6 +217,7 @@
 			if(kc === 'b') clickTool('pathedit');
 
 		}
+		// debug(' keypress - END\n');
 	}
 
 	function getKeyFromEvent (event) {

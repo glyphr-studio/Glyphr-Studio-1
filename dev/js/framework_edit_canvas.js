@@ -284,17 +284,22 @@
 		if(cur.indexOf(name+'-resize') > -1){
 			// debug('\t FOUND -resize CURSOR');
 			if(canResize(name)) name+='-resize';
+			// debug('\t SET -resize CURSOR');
 		}
 
+		getEditDocument().body.style.cursor = 'auto';
 		if(_UI.cursors[name]){
 			// debug('\t FOUND CUSTOM CURSOR:\t'+name);
 			getEditDocument().body.style.cursor = _UI.cursors[name];
+			// debug('\t SET CUSTOM CURSOR:\t'+name);
 		} else if (cur.indexOf(name) > -1) {
 			// debug('\t FOUND BUILT-IN CURSOR:\t'+name);
 			getEditDocument().body.style.cursor = name;
+			// debug('\t SET BUILT-IN CURSOR:\t'+name);
 		} else {
 			// debug('\t DEFAULT TO auto');
-			getEditDocument().body.style.cursor = 'auto';
+			// getEditDocument().body.style.cursor = 'auto';
+			// debug('\t SET TO auto');
 		}
 
 		// debug(' setCursor - END\n');

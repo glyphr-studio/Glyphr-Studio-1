@@ -9,6 +9,7 @@
 	_UI.eventhandlers = {
 		'currtool': false,
 		'tempnewbasicshape' : false,
+		'dragselectarea': false,
 		'mousex' : 0,
 		'mousey' : 0,
 		'ismouseovercec' : false,
@@ -98,11 +99,12 @@
 
 
 	// ---------------------------------------------------------
-	// shape resize - resizes whole shapes
+	// shape resize - resizes whole shapes (Arrow / Pointer)
 	// ---------------------------------------------------------
 	function Tool_ShapeEdit(){
 		this.dragging = false;
 		this.resizing = false;
+		this.dragselecting = false;
 		this.didstuff = false;
 		this.clickedshape = false;
 		_UI.eventhandlers.handle = false;
@@ -130,15 +132,18 @@
 				setCursor(eh.handle);
 				this.resizing = true;
 				this.dragging = false;
+				this.dragselecting = false;
 
 			} else if(this.clickedshape){
 				// debug('\t clicked on shape = true');
 				this.dragging = true;
 				this.resizing = false;
+				this.dragselecting = false;
 
 			} else if (!eh.multi){
 				// debug('\t clicked on nothing');
 				clickEmptySpace();
+				this.dragselecting = true;
 			}
 
 			redraw('Event Handler Tool_ShapeEdit mousedown');
@@ -337,7 +342,7 @@
 
 
 	// ---------------------------------------------------------
-	// new path - adds many points to a new path
+	// new path - adds many points to a new path (Pen Plus)
 	// ---------------------------------------------------------
 	function Tool_NewPath(){
 		this.dragging = false;
@@ -456,7 +461,7 @@
 
 
 	// ---------------------------------------------------------
-	// Path Edit - selects points and moves points and handles
+	// Path Edit - selects points and moves points and handles (Pen)
 	// ---------------------------------------------------------
 	function Tool_PathEdit(){
 		this.dragging = false;
@@ -568,7 +573,7 @@
 
 
 	// ---------------------------------------------------------
-	// path add point - adds points to an existing path
+	// path add point - adds points to an existing path (Pen Plus)
 	// ---------------------------------------------------------
 	function Tool_PathAddPoint(){
 		this.addpoint = false;
@@ -806,6 +811,14 @@
 		_UI.eventhandlers.tempnewbasicshape.ymax += (dy);
 		_UI.eventhandlers.tempnewbasicshape.xmax += (dw+dx);
 		_UI.eventhandlers.tempnewbasicshape.ymin += (dh+dy);
+	}
+
+	function updateDragSelectArea(dx,dy,dw,dh){
+		//debug('updateDragSelectArea dx/dy/dw/dh = '+dx+' '+dy+' '+dw+' '+dh);
+		_UI.eventhandlers.dragselectarea.xmin += (dx);
+		_UI.eventhandlers.dragselectarea.ymax += (dy);
+		_UI.eventhandlers.dragselectarea.xmax += (dw+dx);
+		_UI.eventhandlers.dragselectarea.ymin += (dh+dy);
 	}
 
 	function canResize(pc){
