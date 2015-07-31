@@ -39,7 +39,6 @@
 			updateCursor();
 			redraw('Event Handler - Keyup Spacebar for pan toggle');
 		}
-
 	}
 
 	function keypress(event){

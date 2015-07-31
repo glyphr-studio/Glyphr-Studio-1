@@ -87,6 +87,13 @@ _UI.ms.points.getShape = function() {
 
 _UI.ms.points.updateShapePosition = function(dx, dy, force){ this.getShape().updateShapePosition(dx, dy, force); };
 
+_UI.ms.points.drawHandles = function(drawH1, drawH2, accent) {
+	// body...
+};
+
+_UI.ms.points.drawPoint = function(sel, accent) {
+	// body...
+};
 
 
 //-------------------------------------------------------

@@ -674,8 +674,7 @@
 		} else {
 			// Draw Path Points
 			if(!sh.path) return;
-			var sep = sh.path.sp(true, 'DRAWSELECTOUTLINE');
-			var pp = sh.path.pathpoints;
+			// var sep = sh.path.sp(true, 'DRAWSELECTOUTLINE');
 
 			// Draw path selection outline
 			_UI.glypheditctx.lineWidth = thickness;
@@ -686,27 +685,29 @@
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
 
-			var ssm = _UI.ms.shapes.getMembers();
+			var mss = _UI.ms.shapes.getMembers();
+			var msp = _UI.ms.points.getMembers();
 			if( ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')) &&
-				(ssm.length === 1 && ssm[0].objtype !== 'componentinstance') ){
+				(mss.length === 1 && mss[0].objtype !== 'componentinstance') ){
 
-				if(sep !== false){
+				if(msp !== false){
 					// Draw Handles
-					//debug('DRAWSELECTOUTLINE - new path added, sep=' + sep + ' pathpoints: ' + JSON.stringify(sh.path.pathpoints))
-					pp[sep].drawHandles(true, true, accent);
+					//debug('DRAWSELECTOUTLINE - new path added, msp=' + msp + ' pathpoints: ' + JSON.stringify(sh.path.pathpoints))
+					msp.drawHandles(true, true, accent);
 
-					// Draw prev/next handles
+/*					// Draw prev/next handles
 					var prev = sep-1;
 					if (prev === -1) prev = pp.length-1;
 					pp[prev].drawHandles(false, true, accent);
 
-					// debugging SVG Import
-					//pp[sep].drawQuadraticHandle(pp[prev].P);
-
 					pp[(sep+1) % pp.length].drawHandles(true, false, accent);
+*/
 				}
 
 				// Draw points
+				msp.drawPoint(sel, accent);
+/*
+				var pp = sh.path.pathpoints;
 				for(var s=0; s<pp.length; s++){
 					// debug('\n\t draw point ' + s + ' path.sp=' + sh.path.sp(false) + ' pp.selected=' + pp[s].selected);
 					var sel = (sh.path.sp(false) && pp[s].selected);
@@ -714,6 +715,7 @@
 					if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
 					else pp[s].drawPoint(sel, accent);
 				}
+*/			
 			}
 		}
 
