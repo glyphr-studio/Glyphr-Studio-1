@@ -24,6 +24,7 @@
 			//debug('NEW PATH : Hydrating Path Points, length ' + oa.pathpoints.length);
 			for (var i = 0; i < oa.pathpoints.length; i++) {
 				this.pathpoints[i] = new PathPoint(oa.pathpoints[i]);
+				this.pathpoints[i].parentpath = this;
 			}
 		}
 		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
@@ -161,34 +162,6 @@
 
 	Path.prototype.getMaxes = function() {
 		return clone(this.maxes);
-	};
-
-
-//  -----------------------------------
-//  GET ATTRIBUTES
-//  -----------------------------------
-
-	// Selected Point - returns the selected point object
-	Path.prototype.sp = function(wantindex, calledby){
-		//debug('SP - Called By : ' + calledby);
-
-		if(!this.pathpoints) {
-			//debug('SP - returning false, this.pathpoints = ' + JSON.stringify(this.pathpoints));
-			return false;
-		}
-
-		for(var p=0; p<this.pathpoints.length; p++){
-			var thisp = this.pathpoints[p];
-			if(thisp.selected){
-				if(wantindex){
-					return p;
-				} else {
-					return thisp;
-				}
-			}
-		}
-
-		return false;
 	};
 
 
@@ -566,7 +539,7 @@
 			http://antigrain.com/research/adaptive_bezier/index.html
 		*/
 
-		var pp1i = pointnum || this.sp(true, 'insert path point');
+		var pp1i = pointnum || 0;
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
 		var pp2 = this.pathpoints[pp2i];
@@ -683,38 +656,13 @@
 		}
 	};
 
-	Path.prototype.deletePathPoint = function(){
-		var pp = this.pathpoints;
-
-		if(pp.length > 1){
-			for(var j=0; j<pp.length; j++){
-				if(pp[j].selected){
-					pp.splice(j, 1);
-					if(j>0) {
-						pp[j-1].selected = true;
-					} else {
-						pp[0].selected = true;
-					}
-				}
-			}
-			this.calcMaxes();
-		} else {
-			_UI.selectedtool = 'pathedit';
-			deleteShape();
-		}
-	};
-
 	Path.prototype.selectPathPoint = function(index){
-		for(var j=0; j<this.pathpoints.length; j++){
-			this.pathpoints[j].selected = false;
-		}
-
 		if(index === false){
 			return false;
 		} else {
 			index = (index === -1)? (this.pathpoints.length-1) : Math.abs(index);
 			index = index % this.pathpoints.length;
-			this.pathpoints[index].selected = true;
+			_UI.ms.points.select(this.pathpoints[index]);
 			
 			return this.pathpoints[index];
 		}

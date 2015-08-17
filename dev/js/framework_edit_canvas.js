@@ -209,9 +209,6 @@
 			clickEmptySpace();
 		} else if(ctool === "pathedit"){
 			setCursor('pen');
-			var singleton = _UI.ms.shapes.getSingleton();
-			if(singleton && singleton.path) {singleton.selectPathPoint(0);}
-			//debug("clickTool() - setting selectPathPoint = 0");
 		} else if (ctool === "shaperesize"){
 			setCursor('pointer');
 			// _UI.ms.shapes.calcMaxes();
@@ -303,6 +300,24 @@
 		}
 
 		// debug(' setCursor - END\n');
+	}
+
+	function getEditMode() {
+		var tool = _UI.selectedtool;
+		if(tool === 'pan') tool = _UI.eventhandlers.lastTool;
+
+		if(tool === 'newrect' || tool === 'newoval' || tool === 'newpath'){
+			return 'new';
+
+		} else if (tool === 'shaperesize'){
+			return 'pointer';
+
+		} else if (tool === 'pathedit' || tool === 'pathaddpoint'){
+			return 'pen';
+
+		} else if (tool === 'kern'){
+			return 'kern';
+		}
 	}
 
 	function mouseovercec() {
@@ -674,7 +689,6 @@
 		} else {
 			// Draw Path Points
 			if(!sh.path) return;
-			// var sep = sh.path.sp(true, 'DRAWSELECTOUTLINE');
 
 			// Draw path selection outline
 			_UI.glypheditctx.lineWidth = thickness;
@@ -709,8 +723,7 @@
 /*
 				var pp = sh.path.pathpoints;
 				for(var s=0; s<pp.length; s++){
-					// debug('\n\t draw point ' + s + ' path.sp=' + sh.path.sp(false) + ' pp.selected=' + pp[s].selected);
-					var sel = (sh.path.sp(false) && pp[s].selected);
+					var sel = (pp[s].selected);
 
 					if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
 					else pp[s].drawPoint(sel, accent);

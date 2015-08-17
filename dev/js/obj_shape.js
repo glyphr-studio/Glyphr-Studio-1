@@ -332,8 +332,8 @@
 			}
 
 			_UI.ms.shapes.select(wishapes[i] || wishapes[wishapes.length-1]);
-			var singleton = _UI.ms.shapes.getSingleton();
-			if(singleton && singleton.objtype === 'componentinstance') clickTool('shaperesize');
+			var singleshape = _UI.ms.shapes.getSingleton();
+			if(singleshape && singleshape.objtype === 'componentinstance') clickTool('shaperesize');
 		}
 		
 		updateCurrentGlyphWidth();

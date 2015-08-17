@@ -21,7 +21,8 @@
 
 			if(_UI.loadsampleproject && _UI.sampleproject){
 				debug('\t >>> Using sample project');
-				importGlyphrProjectFromText(_UI.sampleproject);
+				var sp = (_UI.hasOwnProperty(''+_UI.loadsampleproject)? _UI[_UI.loadsampleproject] : _UI.sampleproject);
+				importGlyphrProjectFromText(sp);
 				_UI.loadsampleproject = false;
 				_UI.sampleproject = false;
 			} else {
@@ -332,10 +333,12 @@ function saveFile(fname, buffer, ftype) {
 // Common Functions
 //-------------------
 	// returns a full new copy of any object
+	// 'parentpath' is a PathPoint property that is a pointer to it's parent Path
+	// causes infinite loops when cloning objects.  Kind of a hack.
 	function clone(cobj){
 		var newObj = (cobj instanceof Array) ? [] : {};
 		for (var i in cobj) {
-			if (cobj[i] && typeof cobj[i] === 'object') {
+			if (cobj[i] && typeof cobj[i] === 'object' && i !== 'parentpath') {
 				newObj[i] = clone(cobj[i]);
 			} else newObj[i] = cobj[i];
 		}

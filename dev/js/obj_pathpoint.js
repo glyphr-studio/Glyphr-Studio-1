@@ -44,7 +44,6 @@
 // PATH POINT METHODS
 //-------------------------------------------------------
 
-
 	PathPoint.prototype.setPathPointPosition = function(controlpoint, nx, ny){
 		var dx = 0;
 		var dy = 0;
@@ -139,60 +138,6 @@
 		}
 
 		//this.roundAll();
-	};
-
-	PathPoint.prototype.getPx = function() {
-		var re = this.P.x;
-		if(isNaN(re)){
-			re = 0;
-			debug('PathPoint NaN found P.x - falling back to 0');
-		}
-		return re;
-	};
-
-	PathPoint.prototype.getPy = function() {
-		var re = this.P.y;
-		if(isNaN(re)){
-			re = 0;
-			debug('PathPoint NaN found P.y - falling back to 0');
-		}
-		return re;
-	};
-
-	PathPoint.prototype.getH1x = function() {
-		var re = this.useh1? this.H1.x : this.P.x;
-		if(isNaN(re)){
-			re = this.P.x || (this.H1.x || 0);
-			debug('PathPoint NaN found H1.x - falling back to ' + re);
-		}
-		return re;
-	};
-
-	PathPoint.prototype.getH1y = function() {
-		var re = this.useh1? this.H1.y : this.P.y;
-		if(isNaN(re)){
-			re = this.P.y || (this.H1.y || 0);
-			debug('PathPoint NaN found H1.y - falling back to ' + re);
-		}
-		return re;
-	};
-
-	PathPoint.prototype.getH2x = function() {
-		var re = this.useh2? this.H2.x : this.P.x;
-		if(isNaN(re)){
-			re = this.P.x || (this.H2.x || 0);
-			debug('PathPoint NaN found H2.x - falling back to ' + re);
-		}
-		return re;
-	};
-
-	PathPoint.prototype.getH2y = function() {
-		var re = this.useh2? this.H2.y : this.P.y;
-		if(isNaN(re)){
-			re = this.P.y || (this.H2.y || 0);
-			debug('PathPoint NaN found H2.y - falling back to ' + re);
-		}
-		return re;
 	};
 
 	PathPoint.prototype.toggleUseHandle = function(h){
@@ -302,69 +247,6 @@
 		//debug('MAKEFLAT - returns ' + json(this));
 	};
 
-	PathPoint.prototype.getHandleAngle = function(hn){
-		var adj = (this.P.x-hn.x) || 0;
-		var opp = (this.P.y-hn.y) || 0;
-		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
-		var result = Math.acos(adj / hyp);
-		//debug('GETHANDLEANGLE - adj / opp / hyp / re: ' + adj + ' ' + opp + ' ' + hyp + ' ' + result);
-		return result;
-	};
-
-	PathPoint.prototype.getHandleLength = function(hn){
-		//debug('GETHANDLELENGTH - hn= ' + json(hn));
-		var adj = this.P.x-hn.x;
-		var opp = this.P.y-hn.y;
-		var result = Math.sqrt( (adj*adj) + (opp*opp) );
-		return result;
-	};
-
-	PathPoint.prototype.findQuadraticSymmetric = function() {
-		if(this.Q){
-			return {
-				'x' : ((this.P.x - this.Q.x) + this.P.x),
-				'y' : ((this.P.y - this.Q.y) + this.P.y)
-			};
-		} else return false;
-	};
-
-	PathPoint.prototype.makeSymmetric = function(hold){
-		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
-
-		if(!hold){
-			hold = this.useh1? 'H1' : 'H2';
-			if(!(this.useh1 || this.useh2)){
-				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
-					// Handles and points are all in the same place
-					this.H2.x-=200;
-					this.H1.x+=200;
-					this.type = 'symmetric';
-					this.useh1 = true;
-					this.useh2 = true;
-					return;
-				}
-			}
-		}
-
-		switch(hold){
-			case 'H1' :
-				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
-				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
-				break;
-			case 'H2' :
-				this.H1.x = ((this.P.x - this.H2.x) + this.P.x);
-				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
-				break;
-		}
-
-		this.type = 'symmetric';
-		this.useh1 = true;
-		this.useh2 = true;
-
-		//this.roundAll();
-		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
-	};
-
 	PathPoint.prototype.resolvePointType = function(){
 		// debug('\n PathPoint.resolvePointType - START');
 		// debug(this);
@@ -415,6 +297,16 @@
 		this.H1.y = this.P.y;
 	};
 
+	PathPoint.prototype.getPointNum = function() {
+		var parr = this.parentpath.pathpoints;
+
+		for(var p=0; p<parr.length; p++){
+			if(parr[p] === this) return p;
+		}
+
+		return false;
+	};
+
 	PathPoint.prototype.roundAll = function(){
 		this.P.x = round(this.P.x, 9);
 		this.P.y = round(this.P.y, 9);
@@ -423,6 +315,135 @@
 		this.H2.x = round(this.H2.x, 9);
 		this.H2.y = round(this.H2.y, 9);
 	};
+
+	PathPoint.prototype.findQuadraticSymmetric = function() {
+		if(this.Q){
+			return {
+				'x' : ((this.P.x - this.Q.x) + this.P.x),
+				'y' : ((this.P.y - this.Q.y) + this.P.y)
+			};
+		} else return false;
+	};
+
+	PathPoint.prototype.makeSymmetric = function(hold){
+		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
+
+		if(!hold){
+			hold = this.useh1? 'H1' : 'H2';
+			if(!(this.useh1 || this.useh2)){
+				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
+					// Handles and points are all in the same place
+					this.H2.x-=200;
+					this.H1.x+=200;
+					this.type = 'symmetric';
+					this.useh1 = true;
+					this.useh2 = true;
+					return;
+				}
+			}
+		}
+
+		switch(hold){
+			case 'H1' :
+				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
+				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
+				break;
+			case 'H2' :
+				this.H1.x = ((this.P.x - this.H2.x) + this.P.x);
+				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
+				break;
+		}
+
+		this.type = 'symmetric';
+		this.useh1 = true;
+		this.useh2 = true;
+
+		//this.roundAll();
+		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
+	};
+
+
+
+//-------------------------------------------------------
+// GETTERS
+//-------------------------------------------------------
+
+	PathPoint.prototype.getPx = function() {
+		var re = this.P.x;
+		if(isNaN(re)){
+			re = 0;
+			debug('PathPoint NaN found P.x - falling back to 0');
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getPy = function() {
+		var re = this.P.y;
+		if(isNaN(re)){
+			re = 0;
+			debug('PathPoint NaN found P.y - falling back to 0');
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH1x = function() {
+		var re = this.useh1? this.H1.x : this.P.x;
+		if(isNaN(re)){
+			re = this.P.x || (this.H1.x || 0);
+			debug('PathPoint NaN found H1.x - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH1y = function() {
+		var re = this.useh1? this.H1.y : this.P.y;
+		if(isNaN(re)){
+			re = this.P.y || (this.H1.y || 0);
+			debug('PathPoint NaN found H1.y - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH2x = function() {
+		var re = this.useh2? this.H2.x : this.P.x;
+		if(isNaN(re)){
+			re = this.P.x || (this.H2.x || 0);
+			debug('PathPoint NaN found H2.x - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getH2y = function() {
+		var re = this.useh2? this.H2.y : this.P.y;
+		if(isNaN(re)){
+			re = this.P.y || (this.H2.y || 0);
+			debug('PathPoint NaN found H2.y - falling back to ' + re);
+		}
+		return re;
+	};
+
+	PathPoint.prototype.getHandleAngle = function(hn){
+		var adj = (this.P.x-hn.x) || 0;
+		var opp = (this.P.y-hn.y) || 0;
+		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
+		var result = Math.acos(adj / hyp);
+		//debug('GETHANDLEANGLE - adj / opp / hyp / re: ' + adj + ' ' + opp + ' ' + hyp + ' ' + result);
+		return result;
+	};
+
+	PathPoint.prototype.getHandleLength = function(hn){
+		//debug('GETHANDLELENGTH - hn= ' + json(hn));
+		var adj = this.P.x-hn.x;
+		var opp = this.P.y-hn.y;
+		var result = Math.sqrt( (adj*adj) + (opp*opp) );
+		return result;
+	};
+
+
+
+//-------------------------------------------------------
+// DRAW
+//-------------------------------------------------------
 
 	PathPoint.prototype.drawPoint = function(sel, accent) {
 		// debug('\n PathPoint.drawPoint - START');

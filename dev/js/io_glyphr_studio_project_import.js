@@ -38,7 +38,7 @@
 		var major = vn[0]*1;
 		var minor = vn[1]*1;
 		var patch = vn[2]*1;
-		// debug("\t versionnum found " + vn);
+		debug("\t versionnum found " + vn);
 
 		// Check for future versions
 		if(major > 1){ error_TimeTraveller(); return; }
@@ -49,19 +49,22 @@
 			major = 1;
 			minor = 0;
 		}
+		debug('\t done with beta updates');
 
 		// Roll upgrades through v1
 		if(major === 1){
 
 			// Check for future versions
-			if(minor > 1){ error_TimeTraveller(); return; }
+			if(minor > 2){ error_TimeTraveller(); return; }
 
 			// Roll through minor versions
 			switch (minor) {
 				case 0:	// no updates
 				case 1:	// no updates
+				case 2:	// no updates
 			}
 		}
+		debug('\t done with v1 minor updates');
 
 		// Update the version
 		fcontent.projectsettings.versionnum = _UI.thisGlyphrStudioVersionNum;
@@ -161,7 +164,6 @@
 		// debug(fc);
 		// debug(' migrate_0_5_to_1_0 - END\n');
 		return fc;
-
 	}
 
 	function charToGlyph(gl) {
@@ -258,7 +260,7 @@
 //	-------------------------------
 
 	function hydrateGlyphrProject(data) {
-		// debug("\n hydrateGlyphrProject - START");
+		debug("\n hydrateGlyphrProject - START");
 		// debug("\t passed: ");
 		// debug(data);
 
@@ -275,7 +277,7 @@
 		}
 		_GP.projectsettings.projectid = _GP.projectsettings.projectid || genProjectID();
 
-		// debug('\t merged projectsettings');
+		debug('\t finished merging projectsettings');
 		// debug(_GP.projectsettings);
 
 		// Guides
@@ -285,12 +287,11 @@
 				_GP.projectsettings.guides[g] = new Guide(dataguides[g]);
 			}
 		}
-
-		// debug('\t hydrated guides');
-		// debug(_GP.projectsettings.guides);
+		debug('\t finished hydrating guides');
 
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
+		debug('\t finished merging metadata');
 
 		// Components
 		for (var com in data.components) {
@@ -298,13 +299,17 @@
 				_GP.components[com] = new Glyph(data.components[com]);
 			}
 		}
+		debug('\t finished hydrating components');
 
 		// Glyphs
 		for (var gl in data.glyphs) {
 			if(data.glyphs.hasOwnProperty(gl)){
+				debug('\t\t starting glyph ' + gl);
 				_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);				
+				debug('\t\t finished glyph ' + gl);
 			}
 		}
+		debug('\t finished hydrating glyphs');
 
 		// Ligatures
 		for (var lig in data.ligatures) {
@@ -312,6 +317,7 @@
 				_GP.ligatures[lig] = new Glyph(data.ligatures[lig]);
 			}
 		}
+		debug('\t finished hydrating ligatures');
 
 		// Kerning
 		for (var pair in data.kerning){
@@ -319,10 +325,11 @@
 				_GP.kerning[pair] = new HKern(data.kerning[pair]);
 			}
 		}
+		debug('\t finished hydrating kern pairs');
 
 		// debug('\t hydrated: ');
 		// debug(_GP);
-		// debug("hydrateGlyphrProject - END\n");
+		debug("hydrateGlyphrProject - END\n");
 
 		finalizeGlyphrProject();
 		//navigate();
@@ -369,7 +376,6 @@
 		finalizeGlyphrProject();
 		//navigate();
 	}
-
 
 	function finalizeGlyphrProject(){
 		// debug("\nfinalizeGlyphrProject \t START");

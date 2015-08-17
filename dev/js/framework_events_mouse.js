@@ -168,18 +168,17 @@
 						_UI.ms.shapes.select(this.clickedshape);
 					}
 
-					this.clickedshape.selectPathPoint(false);
 					if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
 					_UI.navprimaryhere = 'npAttributes';
 				}
 
-				var singleton = _UI.ms.shapes.getSingleton();
+				var singleshape = _UI.ms.shapes.getSingleton();
 
-				if(singleton){
-					cur = singleton.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
+				if(singleshape){
+					cur = singleshape.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 					if(!cur) cur = isOverShape(eh.mousex, eh.mousey)? 'pointerSquare' : 'pointer';
-					dx = singleton.xlock? 0 : dx;
-					dy = singleton.ylock? 0 : dy;
+					dx = singleshape.xlock? 0 : dx;
+					dy = singleshape.ylock? 0 : dy;
 				}
 
 				_UI.ms.shapes.updateShapePosition(dx, dy);
@@ -215,7 +214,6 @@
 			}
 		};
 
-
 		this.mouseup = function () {
 			// debug('Mouse Up');
 			var eh = _UI.eventhandlers;
@@ -232,8 +230,6 @@
 			if(this.clickedshape && !this.didstuff){
 				if(eh.multi) _UI.ms.shapes.toggle(this.clickedshape);
 				else _UI.ms.shapes.select(this.clickedshape);
-
-				this.clickedshape.selectPathPoint(false);
 
 				if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
 				else setCursor('pointerSquare');
@@ -348,13 +344,12 @@
 		this.dragging = false;
 		this.firstpoint = true;
 		this.currpt = {};
-		this.singleton = false;
+		this.newshape = false;
 
 		this.mousedown = function (ev) {
 			debug('\n Tool_NewPath.mousedown - START');
 
 			var eh = _UI.eventhandlers;
-			this.singleton = _UI.ms.shapes.getSingleton();
 			var newpoint = new PathPoint({
 				'P':new Coord({'x':cx_sx(eh.mousex), 'y':cy_sy(eh.mousey)}),
 				'H1':new Coord({'x':cx_sx(eh.mousex-100), 'y':cy_sy(eh.mousey)}),
@@ -372,13 +367,12 @@
 				
 				// make a new shape with the new path
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
-				var newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
-				this.currpt = newshape.path.selectPathPoint(0);
-				this.singleton = _UI.ms.shapes.getSingleton();
+				this.newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
+				this.currpt = this.newshape.path.selectPathPoint(0);
 				
-			} else if(this.singleton){
+			} else if(this.newshape){
 
-				if(this.singleton.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
+				if(this.newshape.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
 					//clicked on an existing control point in this path
 					//if first point - close the path
 					_UI.selectedtool = 'pathedit';
@@ -394,7 +388,7 @@
 					return;
 				}
 
-				this.currpt = this.singleton.path.addPathPoint(newpoint, false);
+				this.currpt = this.newshape.path.addPathPoint(newpoint, false);
 			}
 
 			this.firstpoint = false;
@@ -426,7 +420,7 @@
 
 				redraw('Event Handler Tool_NewPath mousemove');
 
-			} else if(this.singleton && this.singleton.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
+			} else if(this.newshape && this.newshape.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
 			 	setCursor('penSquare');
 
 			} else {
@@ -438,12 +432,12 @@
 
 			setCursor('penPlus');
 			
-			if(this.singleton && this.singleton.path.length > 2){
-				this.singleton.path.winding = this.singleton.path.findWinding();
+			if(this.newshape && this.newshape.path.length > 2){
+				this.newshape.path.winding = this.newshape.path.findWinding();
 			}
 
 			if(_UI.eventhandlers.uqhaschanged){
-				if(this.singleton) this.singleton.path.calcMaxes();
+				if(this.newshape) this.newshape.path.calcMaxes();
 				updateCurrentGlyphWidth();
 				// For new shape tools, mouse up always adds to the undo-queue
 				history_put('New Path tool');
@@ -466,13 +460,13 @@
 	function Tool_PathEdit(){
 		this.dragging = false;
 		this.controlpoint = false;
-		this.singleton = false;
+		this.singleshape = false;
 
 		this.mousedown = function (ev) {
 			var eh = _UI.eventhandlers;
 			var s = getClickedShape(eh.mousex, eh.mousey);
-			var singleton = _UI.ms.shapes.getSingleton();
-			this.controlpoint = singleton? singleton.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey)) : false;
+			var singleshape = _UI.ms.shapes.getSingleton();
+			this.controlpoint = singleshape? singleshape.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey)) : false;
 
 			if(this.controlpoint){
 				this.dragging = true;
@@ -548,9 +542,9 @@
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 
-			var singleton = _UI.ms.shapes.getSingleton();
-			if(singleton){
-				var cp = singleton.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
+			var singleshape = _UI.ms.shapes.getSingleton();
+			if(singleshape){
+				var cp = singleshape.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
 				if(cp === 'P') setCursor('penSquare');
 				if(cp === 'H1' || cp === 'H2') setCursor('penCircle');
 			}
@@ -580,11 +574,11 @@
 
 		this.mousedown = function(ev) {
 
-			var singleton = _UI.ms.shapes.getSingleton();
+			var singleshape = _UI.ms.shapes.getSingleton();
 			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 
-			if(this.addpoint && singleton && singleton.objtype !== 'componentinstance'){
-				singleton.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+			if(this.addpoint && singleshape && singleshape.objtype !== 'componentinstance'){
+				singleshape.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
 				history_put('Added point to path');
 
 			} else if(s){
@@ -608,9 +602,9 @@
 		};
 
 		this.mousemove = function(ev) {
-			var singleton = _UI.ms.shapes.getSingleton();
-			if(singleton){
-				var pt = singleton.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
+			var singleshape = _UI.ms.shapes.getSingleton();
+			if(singleshape){
+				var pt = singleshape.path.getClosestPointOnCurve({'x':cx_sx(_UI.eventhandlers.mousex), 'y':cy_sy(_UI.eventhandlers.mousey)});
 				if(pt && pt.distance < 20){
 					this.addpoint = pt;
 					var ptsize = _GP.projectsettings.pointsize;
@@ -711,7 +705,7 @@
 	// Helper Functions
 
 	function clickEmptySpace(){
-		_UI.ms.shapes.deSelectPathPoints();
+		_UI.ms.points.clear();
 		_UI.ms.shapes.clear();
 	}
 

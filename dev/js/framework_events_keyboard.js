@@ -181,14 +181,14 @@
 			// del
 			if(kc==='del' || kc==='backspace'){
 				event.preventDefault();
-				var singleton = _UI.ms.shapes.getSingleton();
+				var mode = getEditMode();
 
-				if(singleton && singleton.objtype !== 'componentinstance' && singleton.path.sp(false)){
-					singleton.path.deletePathPoint();
+				if(mode === 'pen'){
+					_UI.ms.points.deletePathPoints();
 					history_put('Delete Path Point');
 					redraw('Keypress DEL or BACKSPACE');
-				} else if (_UI.ms.shapes){
-					deleteShape();
+				} else if (mode === 'pointer'){
+					_UI.ms.shapes.deleteShapes();
 					history_put('Delete Shape');
 					redraw('Keypress DEL or BACKSPACE');
 				}
@@ -235,9 +235,9 @@
 			getSelectedKern().value += (mx || my);
 			redraw('Nudge');
 		} else if(_UI.ms.shapes.count()){
-			var singleton = _UI.ms.shapes.getSingleton();
-			if(singleton && singleton.path.sp()){
-				singleton.path.sp().updatePathPointPosition('P', mx, my);
+			var singleshape = _UI.ms.shapes.getSingleton();
+			if(singleshape && singleshape.path.sp()){
+				singleshape.path.sp().updatePathPointPosition('P', mx, my);
 			} else {
 				_UI.ms.shapes.updateShapePosition(mx, my);
 			}

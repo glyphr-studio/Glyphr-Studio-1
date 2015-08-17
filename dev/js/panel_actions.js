@@ -47,7 +47,7 @@
 
 		var pointactions = "<h3>path point</h3>";
 		pointactions += "<button onclick='_UI.ms.shapes.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
-		pointactions += "<button class='"+(ss.length? "": "buttondis")+"' onclick='_UI.ms.shapes.deletePathPoint(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
+		pointactions += "<button class='"+(ss.length? "": "buttondis")+"' onclick='_UI.ms.points.deletePathPoints(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
 		pointactions += "<button onclick='_UI.ms.shapes.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together
@@ -63,7 +63,7 @@
 		if(!pop) content += "</td>";
 
 		var ispointsel = false;
-		if(ss.length === 1 && ss[0].objtype !== 'componentinstance') ispointsel = ss[0].path.sp(false);
+		if(ss.length === 1 && ss[0].objtype !== 'componentinstance') ispointsel = (_UI.ms.points.count() === 1);
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);

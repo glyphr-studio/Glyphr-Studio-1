@@ -43,10 +43,10 @@
 				// debug(" \t regular shape selected");
 				content += shapeDetails(ss[0]);
 
-				var ispointsel = ss[0].path.sp(false);
+				var ispointsel = (_UI.ms.points.count() === 1);
 				if(!(_UI.selectedtool === 'pathedit' || _UI.selectedtool === 'pathaddpoint')) ispointsel = false;
 
-				if(ispointsel){ content += pointDetails(ss[0]); }
+				if(ispointsel){ content += pointDetails(_UI.ms.points.getSingleton()); }
 			}
 		} else {
 			// Many shapes selected
@@ -355,8 +355,7 @@
 		return content;
 	}
 
-	function pointDetails(s){
-		var tp = s.path.sp();
+	function pointDetails(tp){
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
 
@@ -365,7 +364,7 @@
 
 		content += '<tr>'+
 			'<td class="leftcol"> selected point </td>'+
-			'<td><input type="number" id="pointnum" class="lockpad" value="' + s.path.sp(true) + '" onchange="_UI.focuselement=this.id; _UI.ms.shapes.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
+			'<td><input type="number" id="pointnum" class="lockpad" value="' + _UI.msS.points.getSingletonPointNumber() + '" onchange="_UI.focuselement=this.id; _UI.ms.shapes.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
 		'</tr>';
 
 		content += '<tr><td> point type </td><td>';

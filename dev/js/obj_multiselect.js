@@ -75,25 +75,55 @@
 // Multiselect POINTS		
 //-------------------------------------------------------		
 	
-// Initialize fake Shape of multiselected Points		
-_UI.ms.points = new MultiSelect();		
-_UI.ms.points.shape = new Shape({'name': 'multiselected points', 'path': new Path()});		
-	
-_UI.ms.points.getShape = function() {		
-	this.shape.path = this.members;		
-	this.shape.calcMaxes();		
-	return this.shape;		
-};
+	// Initialize fake Shape of multiselected Points		
+	_UI.ms.points = new MultiSelect();		
+	_UI.ms.points.shape = new Shape({'name': 'multiselected points', 'path': new Path()});		
+		
+	_UI.ms.points.getShape = function() {		
+		this.shape.path = this.members;		
+		this.shape.calcMaxes();		
+		return this.shape;		
+	};
 
-_UI.ms.points.updateShapePosition = function(dx, dy, force){ this.getShape().updateShapePosition(dx, dy, force); };
+	_UI.ms.points.updateShapePosition = function(dx, dy, force){ this.getShape().updateShapePosition(dx, dy, force); };
 
-_UI.ms.points.drawHandles = function(drawH1, drawH2, accent) {
-	// body...
-};
+	_UI.ms.points.deletePoints = function() {
+		var point, path, pindex;
 
-_UI.ms.points.drawPoint = function(sel, accent) {
-	// body...
-};
+		for(var sp=0; sp<this.members.length; sp++){
+			point = this.members[sp];
+			pindex = path.indexOf(point);
+			path = point.parentpath;
+
+			if(pindex > -1){
+				path.pathpoints.splice(pindex, 1);
+				path.calcMaxes();
+			}
+
+			
+		}
+
+		// if(this.pathpoints.length === 0) deleteShape();
+	};
+
+	_UI.ms.points.getSingletonPointNumber = function() {
+		if(!this.members[0]) return false;
+		else return this.members[0].getPointNum();
+	};
+
+	_UI.ms.points.drawHandles = function(drawH1, drawH2, accent) {
+		// body...
+	};
+
+	_UI.ms.points.drawPoint = function(sel, accent) {
+		// body...
+	};
+
+	_UI.ms.points.changePointType = function(t) {
+		// body...
+	};
+
+
 
 
 //-------------------------------------------------------
@@ -132,6 +162,10 @@ _UI.ms.points.drawPoint = function(sel, accent) {
 		if(this.members.length === 1) return this.members[0][attr];
 		else if (this.members.length > 1) return this.getGlyph()[attr] || false;
 		else return false;
+	};
+
+	_UI.ms.shapes.deleteShapes = function() {
+		// body...
 	};
 
 	_UI.ms.shapes.isOverBoundingBoxHandle = function(px, py) {
@@ -219,32 +253,11 @@ _UI.ms.points.drawPoint = function(sel, accent) {
 	// Global path accessor functions
 	// THESE ASSUME THE FIRST MEMBER IS A SINGLETON
 
-	_UI.ms.shapes.deletePathPoint = function(){ 
-		if(this.members[0]){
-			// this.members[0].path.deletePathPoint();
-			this.members[0].calcMaxes();
-		}
-	};
-
 	_UI.ms.shapes.insertPathPoint = function() { 
 		if(this.members[0]){
 			// this.members[0].path.insertPathPoint();
 			this.members[0].calcMaxes();
 		}
 	};
-
-	_UI.ms.shapes.selectPathPoint = function(index) { if(this.members[0]) this.members[0].path.selectPathPoint(index); };
-
-	_UI.ms.shapes.deSelectPathPoints = function(){
-		for(var m=0; m<this.members.length; m++){
-			if(this.members[m].path) this.members[m].path.selectPathPoint(false);
-		}
-	};
-
-	_UI.ms.shapes.sp = function(){
-		if(this.members[0]) return this.members[0].path.sp();
-		else return false;
-	};
-
 
 // end of file

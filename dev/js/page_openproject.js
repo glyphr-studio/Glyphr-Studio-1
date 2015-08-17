@@ -117,7 +117,6 @@
 			contentnew.style.display = 'block';
 			tabnew.style.borderBottomColor = 'rgb(0,140,210)';
 		}
-
 	}
 
 	function handleDrop(evt) {

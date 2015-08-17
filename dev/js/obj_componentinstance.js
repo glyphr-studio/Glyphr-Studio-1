@@ -147,8 +147,6 @@
 
 	ComponentInstance.prototype.calcMaxes = function() { return this.getTransformedGlyph().calcGlyphMaxes(); };
 
-	ComponentInstance.prototype.selectPathPoint = function() { return false; };
-
 	ComponentInstance.prototype.reverseWinding = function() { this.reversewinding = !this.reversewinding; };
 
 	ComponentInstance.prototype.drawShape = function(lctx, view){
