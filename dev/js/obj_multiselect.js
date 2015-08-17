@@ -9,7 +9,7 @@
 
 
 //-------------------------------------------------------
-// Selected Shapes
+// COMMON MULTI-SELECT OBJECT
 //-------------------------------------------------------
 	function MultiSelect(){
 		this.members = [];
@@ -72,7 +72,7 @@
 
 
 //-------------------------------------------------------		
-// Multiselect POINTS		
+// SELECTED POINTS	
 //-------------------------------------------------------		
 	
 	// Initialize fake Shape of multiselected Points		
@@ -80,7 +80,7 @@
 	_UI.ms.points.shape = new Shape({'name': 'multiselected points', 'path': new Path()});		
 		
 	_UI.ms.points.getShape = function() {		
-		this.shape.path = this.members;		
+		this.shape.path = new Path({'pathpoints': this.members});		
 		this.shape.calcMaxes();		
 		return this.shape;		
 	};
@@ -111,12 +111,19 @@
 		else return this.members[0].getPointNum();
 	};
 
-	_UI.ms.points.drawHandles = function(drawH1, drawH2, accent) {
-		// body...
+	_UI.ms.points.draw_PathPointHandles = function() {
+		var sh = this.getShape();
+		draw_PathPointHandles(sh.path.pathpoints);
 	};
 
-	_UI.ms.points.drawPoint = function(sel, accent) {
-		// body...
+	_UI.ms.points.draw_PathPoints = function(sel) {
+		// ('\n MS.points.draw_PathPoints - START');
+		var sh = this.getShape();
+		// ('\t shape is ' + json(sh));
+
+		draw_PathPoints(sh.path.pathpoints, sel);
+
+		// (' MS.points.draw_PathPoints - END\n');
 	};
 
 	_UI.ms.points.changePointType = function(t) {
@@ -127,7 +134,7 @@
 
 
 //-------------------------------------------------------
-// Multiselect SHAPES
+// SELECTED SHAPES
 //-------------------------------------------------------
 
 	// Initialize fake Glyph of multiselected shapes
@@ -206,25 +213,37 @@
 		return !failed;
 	};
 
+	_UI.ms.shapes.draw_PathPoints = function(sel) {
+		debug('\n MS.shapes.draw_PathPoints - START');
+		var s;
+		for(var m=0; m<this.members.length; m++){
+			s = this.members[m];
+			// debug('\t drawing points on shape ' + m + ' as ' + s.path.pathpoints);
+			if(s.objtype !== 'componentinstance') draw_PathPoints(this.members[m].path.pathpoints, sel);
+		}
+
+		debug(' MS.shapes.draw_PathPoints - END\n');
+	};
+
 	_UI.ms.shapes.reverseWinding = function(){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].reverseWinding();
 		}
 	};
 
-	_UI.ms.shapes.drawSelectOutline = function(){
+	_UI.ms.shapes.draw_PathOutline = function(){
 		if(this.members.length === 1){
-			this.members[0].drawSelectOutline();
+			this.members[0].draw_PathOutline();
 		} else {
 			for(var m=0; m<this.members.length; m++){
-				this.members[m].drawSelectOutline(false, _UI.multiselectthickness);
+				this.members[m].draw_PathOutline(false, _UI.multiselectthickness);
 			}
 		}
 	};
 
-	_UI.ms.shapes.drawBoundingBox = function(){
+	_UI.ms.shapes.draw_BoundingBox = function(){
 		if(this.members.length === 1){
-			this.members[0].drawBoundingBox();
+			this.members[0].draw_BoundingBox();
 		} else if(this.members.length > 1){
 			var bmaxes = clone(_UI.mins);
 
@@ -232,13 +251,13 @@
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
 			}
 
-			drawBoundingBox(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
+			draw_BoundingBox(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
 		}
 	};
 
-	_UI.ms.shapes.drawBoundingBoxHandles = function(){
+	_UI.ms.shapes.draw_BoundingBoxHandles = function(){
 		if(this.members.length === 1){
-			this.members[0].drawBoundingBoxHandles();
+			this.members[0].draw_BoundingBoxHandles();
 		} else if(this.members.length > 1){
 			var bmaxes = clone(_UI.mins);
 
@@ -246,7 +265,7 @@
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
 			}
 
-			drawBoundingBoxHandles(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
+			draw_BoundingBoxHandles(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
 		}
 	};
 

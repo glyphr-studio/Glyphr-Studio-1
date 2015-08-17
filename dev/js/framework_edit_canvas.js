@@ -657,8 +657,8 @@
 // Drawing controls
 //------------------------------
 
-	function drawSelectOutline(sh, accent, thickness) {
-		// debug('\n drawSelectOutline - START');
+	function draw_PathOutline(sh, accent, thickness) {
+		// debug('\n draw_PathOutline - START');
 		// debug('\t shape name = ' + sh.name);
 		// debug('\t accent.l65 = ' + accent.l65);
 		// debug('\t selectedtool = ' + _UI.selectedtool);
@@ -672,7 +672,7 @@
 		_UI.glypheditctx.fillStyle = 'transparent';
 
 		if(_UI.selectedtool==='newrect'){
-			drawBoundingBox(sh.getMaxes(), accent);
+			draw_BoundingBox(sh.getMaxes(), accent);
 
 		} else if (_UI.selectedtool==='newoval'){
 			_UI.glypheditctx.strokeStyle = accent.l65;
@@ -698,45 +698,32 @@
 			sh.path.drawPath(_UI.glypheditctx);
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
-
-			var mss = _UI.ms.shapes.getMembers();
-			var msp = _UI.ms.points.getMembers();
-			if( ((_UI.selectedtool === 'pathedit')||(_UI.selectedtool==='newpath')||(_UI.selectedtool==='pathaddpoint')) &&
-				(mss.length === 1 && mss[0].objtype !== 'componentinstance') ){
-
-				if(msp !== false){
-					// Draw Handles
-					//debug('DRAWSELECTOUTLINE - new path added, msp=' + msp + ' pathpoints: ' + JSON.stringify(sh.path.pathpoints))
-					msp.drawHandles(true, true, accent);
-
-/*					// Draw prev/next handles
-					var prev = sep-1;
-					if (prev === -1) prev = pp.length-1;
-					pp[prev].drawHandles(false, true, accent);
-
-					pp[(sep+1) % pp.length].drawHandles(true, false, accent);
-*/
-				}
-
-				// Draw points
-				msp.drawPoint(sel, accent);
-/*
-				var pp = sh.path.pathpoints;
-				for(var s=0; s<pp.length; s++){
-					var sel = (pp[s].selected);
-
-					if(s===0) pp[s].drawDirectionalityPoint(sel, pp[(s+1)%pp.length], accent);
-					else pp[s].drawPoint(sel, accent);
-				}
-*/			
-			}
 		}
 
-		// debug(' drawSelectOutline - END\n');
+		// debug(' draw_PathOutline - END\n');
 	}
 
-	function drawBoundingBox(maxes, accent, thickness) {
-		// debug('\n drawBoundingBox - START');
+	function draw_PathPoints(pparr, sel, accent) {
+		// debug('\n draw_PathPoints - START');
+		pparr = pparr || [];
+
+		for(var p=0; p<pparr.length; p++){
+			pparr[p].drawPoint(sel, accent);
+		}
+
+		// debug(' draw_PathPoints - END\n');
+	}
+
+	function draw_PathPointHandles(pparr, accent) {
+		pparr = pparr || [];
+
+		for(var p=0; p<pparr.length; p++){
+			pparr[p].drawHandles(true, true, accent);
+		}
+	}
+
+	function draw_BoundingBox(maxes, accent, thickness) {
+		// debug('\n draw_BoundingBox - START');
 		// debug('\t accent: ' + accent.l65);
 		//draw bounding box and 8points
 		accent = accent || _UI.colors.blue;
@@ -760,10 +747,10 @@
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.lineWidth = thickness;
 		_UI.glypheditctx.strokeRect(lx,ty,w,h);
-		// debug(' drawBoundingBox - END\n');
+		// debug(' draw_BoundingBox - END\n');
 	}
 
-	function drawBoundingBoxHandles(maxes, accent, thickness) {
+	function draw_BoundingBoxHandles(maxes, accent, thickness) {
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
 		var ps = _GP.projectsettings.pointsize;

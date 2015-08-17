@@ -37,6 +37,7 @@
 		_UI.redrawing = true;
 		
 		var sg = getSelectedWorkItem();
+		var editmode = getEditMode();
 
 		if(sg) sg.calcGlyphMaxes();
 		// debug('\t Selected WI ' + sg.name);
@@ -53,17 +54,22 @@
 			// _UI.debug = false;
 		}
 
-		_UI.ms.shapes.drawSelectOutline();
-		if(_UI.selectedtool === 'shaperesize'){
-			_UI.ms.shapes.drawBoundingBox();
-			_UI.ms.shapes.drawBoundingBoxHandles();
-		}
+		_UI.ms.shapes.draw_PathOutline();
+		
+		if(editmode === 'pointer'){
+			_UI.ms.shapes.draw_BoundingBox();
+			_UI.ms.shapes.draw_BoundingBoxHandles();
 
+		} else if (editmode === 'pen'){
+			_UI.ms.shapes.draw_PathPoints(false);
+			_UI.ms.points.draw_PathPointHandles();
+			_UI.ms.points.draw_PathPoints(true);
 
-		if(_UI.eventhandlers.hoverpoint){
-			var hp = _UI.eventhandlers.hoverpoint;
-			_UI.glypheditctx.fillStyle = hp.fill;
-			_UI.glypheditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
+			if(_UI.eventhandlers.hoverpoint){
+				var hp = _UI.eventhandlers.hoverpoint;
+				_UI.glypheditctx.fillStyle = hp.fill;
+				_UI.glypheditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
+			}
 		}
 		
 		_UI.redrawing = false;

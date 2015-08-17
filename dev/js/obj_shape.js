@@ -62,27 +62,27 @@
 
 
 //	-------------------------------------------------------
-//	DRAWING THE SELECTION OUTLINE AND BOUNDING BOXE
+//	DRAWING THE SELECTION OUTLINE AND BOUNDING BOX
 //	-------------------------------------------------------
-	Shape.prototype.drawSelectOutline = function(accent, thickness){
-		// debug('\n Shape.drawSelectOutline - START');
+	Shape.prototype.draw_PathOutline = function(accent, thickness){
+		// debug('\n Shape.draw_PathOutline - START');
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		drawSelectOutline(this, accent, thickness);
+		draw_PathOutline(this, accent, thickness);
 	};
 
-	Shape.prototype.drawBoundingBox = function(accent, thickness) {
-		// debug('\n Shape.drawBoundingBox - START');
+	Shape.prototype.draw_BoundingBox = function(accent, thickness) {
+		// debug('\n Shape.draw_BoundingBox - START');
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		drawBoundingBox(this.path.maxes, accent, thickness);
+		draw_BoundingBox(this.path.maxes, accent, thickness);
 	};
 
-	Shape.prototype.drawBoundingBoxHandles = function(accent, thickness){
-		// debug('\n Shape.drawBoundingBoxHandles - START');
+	Shape.prototype.draw_BoundingBoxHandles = function(accent, thickness){
+		// debug('\n Shape.draw_BoundingBoxHandles - START');
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		drawBoundingBoxHandles(this.path.maxes, accent, thickness);
+		draw_BoundingBoxHandles(this.path.maxes, accent, thickness);
 	};
 
 

@@ -192,30 +192,30 @@
 		return g.makeOpenTypeJSpath(otpath);
 	};
 
-	ComponentInstance.prototype.drawSelectOutline = function(accent, thickness){
-		// debug('\n ComponentInstance.drawSelectOutline - START');
+	ComponentInstance.prototype.draw_PathOutline = function(accent, thickness){
+		// debug('\n ComponentInstance.draw_PathOutline - START');
 		accent = accent || _UI.colors.green;
 		thickness = thickness || 1;
 		var g = this.getTransformedGlyph();
 		for(var s=0; s<g.shapes.length; s++){
-			drawSelectOutline(g.shapes[s], accent, thickness);
+			draw_PathOutline(g.shapes[s], accent, thickness);
 		}
 	};
 
-	ComponentInstance.prototype.drawBoundingBox = function(accent, thickness) {
-		// debug('\n ComponentInstance.drawBoundingBox - START');
+	ComponentInstance.prototype.draw_BoundingBox = function(accent, thickness) {
+		// debug('\n ComponentInstance.draw_BoundingBox - START');
 		accent = accent || _UI.colors.green;
 		thickness = thickness || 1;
 		var g = this.getTransformedGlyph();
-		drawBoundingBox(g.maxes, accent, thickness);
+		draw_BoundingBox(g.maxes, accent, thickness);
 	};
 
-	ComponentInstance.prototype.drawBoundingBoxHandles = function(accent, thickness){
-		// debug('\n ComponentInstance.drawBoundingBoxHandles - START');
+	ComponentInstance.prototype.draw_BoundingBoxHandles = function(accent, thickness){
+		// debug('\n ComponentInstance.draw_BoundingBoxHandles - START');
 		accent = accent || _UI.colors.green;
 		thickness = thickness || 1;
 		var g = this.getTransformedGlyph();
-	 	drawBoundingBoxHandles(g.maxes, accent, thickness);
+	 	draw_BoundingBoxHandles(g.maxes, accent, thickness);
 	};
 
 	ComponentInstance.prototype.isHere = function(px, py){
