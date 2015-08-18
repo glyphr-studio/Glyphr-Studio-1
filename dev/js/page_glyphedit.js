@@ -41,7 +41,8 @@
 
 		if(sg) sg.calcGlyphMaxes();
 		// debug('\t Selected WI ' + sg.name);
-		
+
+		// draw grids
 		drawGrid();
 		drawGuides();
 
