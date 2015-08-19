@@ -81,6 +81,7 @@
 		
 		// Only allow the following stuff for canvas edit pages
 		if(!onCanvasEditPage()) return;
+		var em = getEditMode();
 
 		// Ctrl
 		if((event.ctrlKey || kc==='ctrl') && !eh.multi){
@@ -88,12 +89,12 @@
 			// debug('\t selectedtool = ' + _UI.selectedtool);
 			event.preventDefault();
 			eh.multi = true;
-			eh.lastTool = _UI.selectedtool;
-			_UI.selectedtool = 'shaperesize';
+
 			if(overcanvas) {
-				setCursor('pointerPlus');
-				// debug('\t setCursor finished for pointerPlus');
+				if(em === 'pointer') setCursor('pointerPlus');
+				if(em === 'pen') setCursor('penPlus');
 			}
+			
 			// debug('\t eh.lastTool = ' + eh.lastTool);
 			redraw('Event Handler - Keydown Ctrl for multi select');
 			return;

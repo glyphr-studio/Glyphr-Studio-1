@@ -364,7 +364,7 @@
 
 		content += '<tr>'+
 			'<td class="leftcol"> selected point </td>'+
-			'<td><input type="number" id="pointnum" class="lockpad" value="' + _UI.msS.points.getSingletonPointNumber() + '" onchange="_UI.focuselement=this.id; _UI.ms.shapes.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
+			'<td><input type="number" id="pointnum" class="lockpad" value="' + _UI.ms.points.getSingletonPointNumber() + '" onchange="_UI.focuselement=this.id; _UI.ms.shapes.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
 		'</tr>';
 
 		content += '<tr><td> point type </td><td>';

@@ -495,42 +495,32 @@
 
 		this.mousemove = function (ev) {
 			var eh = _UI.eventhandlers;
+			var sp = _UI.ms.points;
+			var singlepoint = sp.getSingleton();
 
 			if (this.dragging) {
-				var sp = _UI.ms.shapes.sp();
 
 				if(eh.toolhandoff){
-					var p = _UI.ms.shapes.getSingleton().path;
-					sp = p.selectPathPoint(0);
-					sp.useh2 = true;
-					sp.H2.x = cx_sx(eh.mousex);
-					sp.H2.y = cy_sy(eh.mousey);
+					singlepoint.useh2 = true;
+					singlepoint.H2.x = cx_sx(eh.mousex);
+					singlepoint.H2.y = cy_sy(eh.mousey);
 					eh.toolhandoff = false;
 				}
 
 				// Moving points if mousedown
-				var dx = 0;
-				var dy = 0;
 				var dz = getView('Event Handler Tool_PathEdit mousemove').dz;
+				var dx = (eh.mousex-eh.lastx)/dz;
+				var dy = (eh.lasty-eh.mousey)/dz;
 
-				switch (this.controlpoint){
-					case 'P':
-						if(!sp.P.xlock) dx = (eh.mousex-eh.lastx)/dz;
-						if(!sp.P.ylock) dy = (eh.lasty-eh.mousey)/dz;
-						setCursor('penSquare');
-						break;
+				if(this.controlpoint === 'P'){ 
+					setCursor('penSquare');
+				} else if (this.controlpoint === 'H1' || this.controlpoint === 'H2'){
+					setCursor('penCircle');
+				}
 
-					case 'H1':
-						if(!sp.H1.xlock) dx = (eh.mousex-eh.lastx)/dz;
-						if(!sp.H1.ylock) dy = (eh.lasty-eh.mousey)/dz;
-						setCursor('penCircle');
-						break;
-
-					case 'H2':
-						if(!sp.H2.xlock) dx = (eh.mousex-eh.lastx)/dz;
-						if(!sp.H2.ylock) dy = (eh.lasty-eh.mousey)/dz;
-						setCursor('penCircle');
-						break;
+				if(singlepoint){
+					if(singlepoint[this.controlpoint].xlock) dx = 0;
+					if(singlepoint[this.controlpoint].ylock) dy = 0;
 				}
 
 				sp.updatePathPointPosition(this.controlpoint, dx, dy);
@@ -542,24 +532,24 @@
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 
-			var singleshape = _UI.ms.shapes.getSingleton();
-			if(singleshape){
-				var cp = singleshape.path.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
-				if(cp === 'P') setCursor('penSquare');
-				if(cp === 'H1' || cp === 'H2') setCursor('penCircle');
-			}
+			var cp = sp.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
+			if(cp === 'P') setCursor('penSquare');
+			if(cp === 'H1' || cp === 'H2') setCursor('penCircle');
+			if(!cp && eh.multi) setCursor('penPlus');
 		};
 
 		this.mouseup = function () {
+			var eh = _UI.eventhandlers;			
 			this.dragging = false;
-			_UI.eventhandlers.lastx = -100;
-			_UI.eventhandlers.lasty = -100;
+			_UI.ms.points.virtualsingleton = false;
+			eh.lastx = -100;
+			eh.lasty = -100;
 
-			if(_UI.eventhandlers.uqhaschanged) {
+			if(eh.uqhaschanged) {
 				_UI.ms.shapes.calcMaxes();
 				updateCurrentGlyphWidth();
 				history_put('Path Edit tool');
-				_UI.eventhandlers.uqhaschanged = false;
+				eh.uqhaschanged = false;
 				redraw('Event Handler Tool_PathEdit mouseup');
 			}
 		};

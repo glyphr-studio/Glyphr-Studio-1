@@ -13,6 +13,7 @@
 //-------------------------------------------------------
 	function MultiSelect(){
 		this.members = [];
+		this.virtualsingleton = false;
 	}
 
 	MultiSelect.prototype.select = function(obj) {
@@ -22,7 +23,8 @@
 
 	MultiSelect.prototype.clear = function(){
 		this.members = [];
-		if (this.glyph) this.glyph.ratiolock = false;
+		if(this.glyph) this.glyph.ratiolock = false;
+		this.virtualsingleton = false;
 	};
 
 	MultiSelect.prototype.add = function(obj){
@@ -77,7 +79,7 @@
 	
 	// Initialize fake Shape of multiselected Points		
 	_UI.ms.points = new MultiSelect();		
-	_UI.ms.points.shape = new Shape({'name': 'multiselected points', 'path': new Path()});		
+	_UI.ms.points.shape = new Shape({'name': 'multiselected points', 'path': new Path()});
 		
 	_UI.ms.points.getShape = function() {		
 		this.shape.path = new Path({'pathpoints': this.members});		
@@ -90,8 +92,8 @@
 	_UI.ms.points.deletePoints = function() {
 		var point, path, pindex;
 
-		for(var sp=0; sp<this.members.length; sp++){
-			point = this.members[sp];
+		for(var m=0; m<this.members.length; m++){
+			point = this.members[m];
 			pindex = path.indexOf(point);
 			path = point.parentpath;
 
@@ -99,8 +101,6 @@
 				path.pathpoints.splice(pindex, 1);
 				path.calcMaxes();
 			}
-
-			
 		}
 
 		// if(this.pathpoints.length === 0) deleteShape();
@@ -130,7 +130,25 @@
 		// body...
 	};
 
+	_UI.ms.points.isOverControlPoint = function(x, y, dontselect){
+		var re = false;
+		for(var m=0; m<this.members.length; m++){
+			re = this.members[m].isOverControlPoint(x, y, dontselect);
+			if(re) return re;
+		}
 
+		return false;
+	};
+
+	_UI.ms.points.updatePathPointPosition = function(controlpoint, dx, dy){
+		if(controlpoint === 'P'){
+			for(var m=0; m<this.members.length; m++){
+				this.members[m].updatePathPointPosition(controlpoint, dx, dy);
+			}
+		} else if(this.virtualsingleton){
+			this.virtualsingleton.updatePathPointPosition(controlpoint, dx, dy);
+		}
+	};
 
 
 //-------------------------------------------------------
@@ -214,7 +232,7 @@
 	};
 
 	_UI.ms.shapes.draw_PathPoints = function(sel) {
-		debug('\n MS.shapes.draw_PathPoints - START');
+		// debug('\n MS.shapes.draw_PathPoints - START');
 		var s;
 		for(var m=0; m<this.members.length; m++){
 			s = this.members[m];
@@ -222,7 +240,7 @@
 			if(s.objtype !== 'componentinstance') draw_PathPoints(this.members[m].path.pathpoints, sel);
 		}
 
-		debug(' MS.shapes.draw_PathPoints - END\n');
+		// debug(' MS.shapes.draw_PathPoints - END\n');
 	};
 
 	_UI.ms.shapes.reverseWinding = function(){
