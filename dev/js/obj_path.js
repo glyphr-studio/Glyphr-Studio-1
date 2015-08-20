@@ -335,16 +335,13 @@
 //  CANVAS HELPER FUNCTIONS
 //  -----------------------------------
 
-	Path.prototype.isOverControlPoint = function(x, y, dontselect){
+	Path.prototype.isOverControlPoint = function(x, y){
 		var a = this.pathpoints || [];
 		var re = false;
 
 		for(var k=a.length-1; k>=0; k--){
 			re = a[k].isOverControlPoint(x, y);
-			if(re) {
-				if(!dontselect) _UI.ms.points.add(a[k]);
-				return re;
-			}
+			if(re) return re;
 		}
 
 		//debug('ISOVERCONTROLPOINT() - Returning FALSE');

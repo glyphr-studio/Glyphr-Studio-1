@@ -64,11 +64,7 @@
 	};
 
 	MultiSelect.prototype.isSelected = function(obj) {
-		for(var m=0; m<this.members.length; m++){
-			if(this.members[m] === obj) return true;
-		}
-
-		return false;
+		return this.members.indexOf(obj) > -1;
 	};
 
 
@@ -130,16 +126,6 @@
 		// body...
 	};
 
-	_UI.ms.points.isOverControlPoint = function(x, y, dontselect){
-		var re = false;
-		for(var m=0; m<this.members.length; m++){
-			re = this.members[m].isOverControlPoint(x, y, dontselect);
-			if(re) return re;
-		}
-
-		return false;
-	};
-
 	_UI.ms.points.updatePathPointPosition = function(controlpoint, dx, dy){
 		if(controlpoint === 'P'){
 			for(var m=0; m<this.members.length; m++){
@@ -150,6 +136,22 @@
 		}
 	};
 
+	function selectShapesThatHaveSelectedPoints() {
+		_UI.ms.shapes.clear();
+		var points = _UI.ms.points.getMembers();
+		var shapes = getSelectedWorkItemShapes();
+		var path;
+
+		if(points.length === 0) return;
+
+		for(var p=0; p<points.length; p++){
+			path = points[p].parentpath;
+
+			for(var s=0; s<shapes.length; s++){
+				if(path === shapes[s].path) _UI.ms.shapes.add(shapes[s]);
+			}
+		}
+	}
 
 //-------------------------------------------------------
 // SELECTED SHAPES
@@ -191,6 +193,16 @@
 
 	_UI.ms.shapes.deleteShapes = function() {
 		// body...
+	};
+
+	_UI.ms.shapes.isOverControlPoint = function(x, y){
+		var re = false;
+		for(var m=0; m<this.members.length; m++){
+			re = this.members[m].path.isOverControlPoint(x, y);
+			if(re) return re;
+		}
+
+		return false;
 	};
 
 	_UI.ms.shapes.isOverBoundingBoxHandle = function(px, py) {

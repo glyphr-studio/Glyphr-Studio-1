@@ -145,22 +145,23 @@
 
 		if( ((this.P.x+hp) > x) && ((this.P.x-hp) < x) && ((this.P.y+hp) > y) && ((this.P.y-hp) < y) ){
 			//debug('PathPoint.isOverControlPoint - Returning P1');
-			return 'P';
+			
+			return {point:this, type:'P'};
 		}
 
 		if(this.useh1){
 			if( ((this.H1.x+hp) > x) && ((this.H1.x-hp) < x) && ((this.H1.y+hp) > y) && ((this.H1.y-hp) < y) ){
 				//debug('PathPoint.isOverControlPoint - Returning H1');
-				_UI.ms.points.virtualsingleton = this;
-				return 'H1';
+				// _UI.ms.points.virtualsingleton = this;
+				return {point:this, type:'H1'};
 			}
 		}
 
 		if(this.useh2){
 			if( ((this.H2.x+hp) > x) && ((this.H2.x-hp) < x) && ((this.H2.y+hp) > y) && ((this.H2.y-hp) < y) ){
 				//debug('PathPoint.isOverControlPoint - Returning H2');
-				_UI.ms.points.virtualsingleton = this;
-				return 'H2';
+				// _UI.ms.points.virtualsingleton = this;
+				return {point:this, type:'H2'};
 			}
 		}
 
