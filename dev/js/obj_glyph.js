@@ -54,11 +54,6 @@
 
 
 //-------------------------------------------------------
-// GLYPH METHODS
-//-------------------------------------------------------
-
-
-//-------------------------------------------------------
 // TRANSFORM & MOVE
 //-------------------------------------------------------
 	Glyph.prototype.setGlyphPosition = function(nx, ny, force){
@@ -439,7 +434,29 @@
 		return otpath;
 	};
 
+	Glyph.prototype.draw_GhostPathPoints = function() {
+		var allpoints = [];
 
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].objtype !== 'componentinstance'){
+				allpoints = allpoints.concat(this.shapes[s].path.pathpoints);
+			}
+		}
+
+		draw_PathPoints(allpoints, false, _UI.colors.blue);
+	};
+
+	Glyph.prototype.isOverControlPoint = function(x, y) {
+		var re = false;
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].objtype !== 'componentinstance'){
+				re = this.shapes[s].path.isOverControlPoint(x, y);
+				if(re) return re;
+			}
+		}
+
+		return false;
+	};
 
 //-------------------------------------------------------
 // HELPERS

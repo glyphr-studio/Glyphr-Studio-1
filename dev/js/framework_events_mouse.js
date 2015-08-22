@@ -463,10 +463,10 @@
 
 		this.mousedown = function (ev) {
 			var eh = _UI.eventhandlers;
-			var s = getClickedShape(eh.mousex, eh.mousey);
-			this.controlpoint = _UI.ms.shapes.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
 			eh.lastx = eh.mousex;
 			eh.lasty = eh.mousey;
+			this.controlpoint = getSelectedWorkItem().isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
+			var s = getClickedShape(eh.mousex, eh.mousey);
 
 			if(this.controlpoint){
 				this.dragging = true;
@@ -480,12 +480,12 @@
 				}
 
 				selectShapesThatHaveSelectedPoints();
-			
-			} else if (s){
-				_UI.ms.points.clear();
-				_UI.ms.shapes.select(s);
-				_UI.navprimaryhere = 'npAttributes';
 
+			} else if (s){
+				// _UI.ms.points.clear();
+				_UI.ms.shapes.select(s);
+				// _UI.navprimaryhere = 'npAttributes';
+				
 			} else {
 				_UI.ms.shapes.calcMaxes();
 				clickEmptySpace();

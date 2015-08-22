@@ -15,19 +15,8 @@
 
 		// Ctrl
 		if(kc === 'ctrl' || event.ctrlKey){
-			// debug('\t CTRL');
-
-			if(_UI.ms.shapes.getMembers().length < 2){
-				// debug('\t Shapes < 2 setting to ' + eh.lastTool);
-				_UI.selectedtool = eh.lastTool;
-				if(_UI.selectedtool === 'shaperesize') setCursor('pointer');
-				else updateCursor();
-			} else {
-				// debug('\t Shapes > 2, setting to pointer');
-				_UI.selectedtool = 'shaperesize';
-				setCursor('pointer');
-			}
-			
+			// debug('\t CTRL');			
+			updateCursor();
 			eh.multi = false;
 			redraw('Event Handler - Keyup Ctrl for multi select');
 		}

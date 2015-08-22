@@ -62,6 +62,7 @@
 			_UI.ms.shapes.draw_BoundingBoxHandles();
 
 		} else if (editmode === 'pen'){
+			if(_UI.eventhandlers.multi) sg.draw_GhostPathPoints();
 			_UI.ms.shapes.draw_PathPoints(false);
 			_UI.ms.points.draw_PathPointHandles();
 			_UI.ms.points.draw_PathPoints(true);

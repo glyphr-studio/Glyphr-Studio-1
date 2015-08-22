@@ -249,7 +249,7 @@
 		for(var m=0; m<this.members.length; m++){
 			s = this.members[m];
 			// debug('\t drawing points on shape ' + m + ' as ' + s.path.pathpoints);
-			if(s.objtype !== 'componentinstance') draw_PathPoints(this.members[m].path.pathpoints, sel);
+				if(s.objtype !== 'componentinstance') draw_PathPoints(this.members[m].path.pathpoints, sel);
 		}
 
 		// debug(' MS.shapes.draw_PathPoints - END\n');
