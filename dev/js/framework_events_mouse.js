@@ -59,10 +59,6 @@
 			//debug('EVENTHANDLER - Raw mouse event x/y = ' + ev.layerX + ' / ' + ev.layerY);
 			mouseovercec();
 
-			// Fixes a Chrome cursor problem
-			document.onselectstart = function () { return false; };
-
-
 			if (ev.offsetX || ev.offsetX) {
 				// IE, Chrome, (Opera?)
 				_UI.eventhandlers.mousex = ev.offsetX;

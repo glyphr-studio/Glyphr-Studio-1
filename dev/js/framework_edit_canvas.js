@@ -323,8 +323,6 @@
 	function mouseovercec() {
 		// debug('\n mouseovercec - START');
 		_UI.eventhandlers.ismouseovercec = true;
-		// Fixes a Chrome cursor problem
-		document.onselectstart = function () { return false; };
 		updateCursor();
 		// debug(' mouseovercec - END\n');
 	}
