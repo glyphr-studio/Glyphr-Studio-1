@@ -99,7 +99,7 @@
 		contentload.style.display = 'none';
 		contentexamples.style.display = 'none';
 		// contentrecent.style.display = 'none';
-		
+
 		tabnew.style.borderBottomColor = 'rgb(229,234,239)';
 		tabload.style.borderBottomColor = 'rgb(229,234,239)';
 		tabexamples.style.borderBottomColor = 'rgb(229,234,239)';
@@ -178,8 +178,15 @@
 	}
 
 	function handleMessage(evt) {
-		_UI.droppedFileContent = evt.data;
-		ioSVG_importSVGfont(false);
+		// assume strings are SVG fonts
+		if ( typeof evt.data === 'string' ) {
+			_UI.droppedFileContent = evt.data;
+			ioSVG_importSVGfont(false);
+
+		// assume array buffers are otf fonts
+		} else if ( evt.data instanceof ArrayBuffer )  {
+			ioOTF_importOTFfont(false, evt.data);
+		}
 	}
 
 	function handleDragOver(evt) {

@@ -86,7 +86,7 @@
 			return '\n\nOh Noes!\nUnless you specifically saved your Glyphr Project, all your progress will be lost.\n\n';
 		} else {
 			return;
-		}		
+		}
 	}
 
 //-------------------
@@ -376,7 +376,7 @@ function saveFile(fname, buffer, ftype) {
 	function isval(val){
 		if(val === 0) return true;
 		else if (val === false) return true;
-		else if (JSON.stringify(val) === '{}') return false;
+		else if ( typeof val === 'object' && Object.keys(val).length === 0 ) return false;
 		else return !!val;
 
 		//return ((typeof val !== "undefined") && (val !== null));
