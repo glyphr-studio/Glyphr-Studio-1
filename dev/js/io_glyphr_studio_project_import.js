@@ -14,7 +14,7 @@
 //	-------------------------------
 
 	function importGlyphrProjectFromText(textcontent){
-		debug('\n importGlyphrProjectFromText - START');
+		// debug('\n importGlyphrProjectFromText - START');
 
 		var fcontent;
 		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
@@ -38,7 +38,7 @@
 		var major = vn[0]*1;
 		var minor = vn[1]*1;
 		var patch = vn[2]*1;
-		debug("\t versionnum found " + vn);
+		// debug("\t versionnum found " + vn);
 
 		// Check for future versions
 		if(major > 1){ error_TimeTraveller(); return; }
@@ -49,7 +49,7 @@
 			major = 1;
 			minor = 0;
 		}
-		debug('\t done with beta updates');
+		// debug('\t done with beta updates');
 
 		// Roll upgrades through v1
 		if(major === 1){
@@ -64,7 +64,7 @@
 				case 2:	// no updates
 			}
 		}
-		debug('\t done with v1 minor updates');
+		// debug('\t done with v1 minor updates');
 
 		// Update the version
 		fcontent.projectsettings.versionnum = _UI.thisGlyphrStudioVersionNum;
@@ -72,7 +72,7 @@
 
 		// Hydrate after all updates
 		hydrateGlyphrProject(fcontent);
-		debug(' importGlyphrProjectFromText - END\n');
+		// debug(' importGlyphrProjectFromText - END\n');
 	}
 
 	function error_NoVersionFound(){
@@ -92,29 +92,29 @@
 //	------------------------
 
 	function migrate_betas_to_v1 (fcontent, minor) {
-		debug('\n migrate_betas_to_v1 - START');
+		// debug('\n migrate_betas_to_v1 - START');
 		// debug(fcontent);
 		// Start rolling upgrades
 
 		switch (minor){
 			case 3:
-				debug("\t Minor Version === 3");
+				// debug("\t Minor Version === 3");
 				fcontent = migrate_0_3_to_0_4(fcontent);
 				minor = 4;
-				debug('\t migrated to 0.4');
+				// debug('\t migrated to 0.4');
 			case 4:
-				debug("\t Minor Version === 4");
+				// debug("\t Minor Version === 4");
 				fcontent = migrate_0_4_to_0_5(fcontent);
 				minor = 5;
-				debug('\t migrated to 0.5');
+				// debug('\t migrated to 0.5');
 			case 5:
-				debug("\t Minor Version === 5");
+				// debug("\t Minor Version === 5");
 				fcontent = migrate_0_5_to_1_0(fcontent);
 
-				debug('\t migrated to 1.0');
+				// debug('\t migrated to 1.0');
 		}
 
-		debug(' migrate_betas_to_v1 - END\n');
+		// debug(' migrate_betas_to_v1 - END\n');
 		return fcontent;
 	}
 
@@ -260,7 +260,7 @@
 //	-------------------------------
 
 	function hydrateGlyphrProject(data) {
-		debug("\n hydrateGlyphrProject - START");
+		// debug("\n hydrateGlyphrProject - START");
 		// debug("\t passed: ");
 		// debug(data);
 
@@ -277,7 +277,7 @@
 		}
 		_GP.projectsettings.projectid = _GP.projectsettings.projectid || genProjectID();
 
-		debug('\t finished merging projectsettings');
+		// debug('\t finished merging projectsettings');
 		// debug(_GP.projectsettings);
 
 		// Guides
@@ -287,11 +287,11 @@
 				_GP.projectsettings.guides[g] = new Guide(dataguides[g]);
 			}
 		}
-		debug('\t finished hydrating guides');
+		// debug('\t finished hydrating guides');
 
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
-		debug('\t finished merging metadata');
+		// debug('\t finished merging metadata');
 
 		// Components
 		for (var com in data.components) {
@@ -299,17 +299,17 @@
 				_GP.components[com] = new Glyph(data.components[com]);
 			}
 		}
-		debug('\t finished hydrating components');
+		// debug('\t finished hydrating components');
 
 		// Glyphs
 		for (var gl in data.glyphs) {
 			if(data.glyphs.hasOwnProperty(gl)){
-				debug('\t\t starting glyph ' + gl);
+				// debug('\t\t starting glyph ' + gl);
 				_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);				
-				debug('\t\t finished glyph ' + gl);
+				// debug('\t\t finished glyph ' + gl);
 			}
 		}
-		debug('\t finished hydrating glyphs');
+		// debug('\t finished hydrating glyphs');
 
 		// Ligatures
 		for (var lig in data.ligatures) {
@@ -317,7 +317,7 @@
 				_GP.ligatures[lig] = new Glyph(data.ligatures[lig]);
 			}
 		}
-		debug('\t finished hydrating ligatures');
+		// debug('\t finished hydrating ligatures');
 
 		// Kerning
 		for (var pair in data.kerning){
@@ -325,11 +325,11 @@
 				_GP.kerning[pair] = new HKern(data.kerning[pair]);
 			}
 		}
-		debug('\t finished hydrating kern pairs');
+		// debug('\t finished hydrating kern pairs');
 
 		// debug('\t hydrated: ');
 		// debug(_GP);
-		debug("hydrateGlyphrProject - END\n");
+		// debug("hydrateGlyphrProject - END\n");
 
 		finalizeGlyphrProject();
 		//navigate();

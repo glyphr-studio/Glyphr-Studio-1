@@ -364,27 +364,35 @@
 				// make a new shape with the new path
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 				this.newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
-				this.currpt = this.newshape.path.selectPathPoint(0);
+				this.currpt = newpoint;
+				_UI.ms.points.select(newpoint);
+				_UI.ms.shapes.select(this.newshape);
 				
 			} else if(this.newshape){
 
 				if(this.newshape.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
 					//clicked on an existing control point in this path
 					//if first point - close the path
-					_UI.selectedtool = 'pathedit';
-					eh.eh_pathedit.dragging = true;
-					eh.eh_pathedit.controlpoint = 'H2';
-					eh.toolhandoff = true;
 					this.dragging = false;
 					this.firstpoint = false;
 					this.currpt = {};
+					
+					eh.eh_pathedit.dragging = true;
+					eh.eh_pathedit.controlpoint = {type:'H2'};
+					eh.toolhandoff = true;
 					eh.lastx = eh.mousex;
 					eh.lasty = eh.mousey;
+
+					_UI.selectedtool = 'pathedit';
+					_UI.ms.points.select(this.newshape.path.pathpoints[0]);
+					debug('\t _UI.ms.points.members.length ' + _UI.ms.points.members.length);
+
 					redraw('Event Handler Tool_NewPath mousedown');
 					return;
 				}
 
 				this.currpt = this.newshape.path.addPathPoint(newpoint, false);
+				_UI.ms.points.toggle(this.currpt);
 			}
 
 			this.firstpoint = false;
@@ -491,6 +499,7 @@
 		};
 
 		this.mousemove = function (ev) {
+			debug('\n Tool_PathEdit.mousemove - START');
 			var eh = _UI.eventhandlers;
 			var sp = _UI.ms.points;
 			var singlepoint = sp.getSingleton();
@@ -498,6 +507,7 @@
 			if(this.dragging) {
 
 				if(eh.toolhandoff){
+					debug('\t _UI.ms.points.members.length ' + singlepoint);
 					singlepoint.useh2 = true;
 					singlepoint.H2.x = cx_sx(eh.mousex);
 					singlepoint.H2.y = cy_sy(eh.mousey);

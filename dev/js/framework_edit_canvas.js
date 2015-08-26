@@ -31,12 +31,6 @@
 		the redraw, for debugging purposes.
 	*/
 	function redraw(calledby){
-		// debug('\n::::::::::::::::::::::\n REDRAW \t START');
-		// debug('\t navhere: ' + _UI.navhere);
-		// debug('\t called By: ' + calledby);
-		// debug('\t selected char: ' + _UI.selectedglyph);
-		var start = Date.now();
-
 		if(_UI.redrawing){
 			// this is totally a hack
 			// debug('\t RETURNING because _UI.redrawing = ' + _UI.redrawing);
@@ -46,8 +40,6 @@
 		_UI.redrawing = false;
 		reqAniFrame(redrawUnit);
 		_UI.redrawing = false;
-
-		// debug('REDRAW DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
 	}
 
 	function reqAniFrame(fun) {
@@ -61,8 +53,6 @@
 	}
 
 	function redrawUnit() {
-		// debug('\n::::::::::::::::::::::\n REDRAW UNIT \t START');
-		var start = Date.now();
 		_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 
 		switch (_UI.navhere){
@@ -81,7 +71,6 @@
 			if(fe) fe.focus();
 		}
 		_UI.focuselement = false;
-		// debug('REDRAW UNIT DONE\t' + (Date.now() - start) + ' ms\n::::::::::::::::::::::\n\n');
 	}
 
 
@@ -306,18 +295,11 @@
 		var tool = _UI.selectedtool;
 		if(tool === 'pan') tool = _UI.eventhandlers.lastTool;
 
-		if(tool === 'newrect' || tool === 'newoval' || tool === 'newpath'){
-			return 'new';
-
-		} else if (tool === 'shaperesize'){
-			return 'pointer';
-
-		} else if (tool === 'pathedit' || tool === 'pathaddpoint'){
-			return 'pen';
-
-		} else if (tool === 'kern'){
-			return 'kern';
-		}
+		if(tool === 'newrect' || tool === 'newoval')	return 'newbasicshape';
+		else if (tool === 'newpath')	return 'newpath';
+		else if (tool === 'shaperesize')	return 'pointer';
+		else if (tool === 'pathedit' || tool === 'pathaddpoint')	return 'pen';
+		else if (tool === 'kern')	return 'kern';
 	}
 
 	function mouseovercec() {

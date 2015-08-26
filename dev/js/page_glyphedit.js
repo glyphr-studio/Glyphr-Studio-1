@@ -72,6 +72,10 @@
 				_UI.glypheditctx.fillStyle = hp.fill;
 				_UI.glypheditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
 			}
+		} else if (editmode === 'newpath'){
+			_UI.ms.shapes.draw_PathPoints(false);
+			_UI.ms.points.draw_PathPointHandles();
+			_UI.ms.points.draw_PathPoints(true);
 		}
 		
 		_UI.redrawing = false;
