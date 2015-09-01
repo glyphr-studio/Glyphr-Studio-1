@@ -46,9 +46,9 @@
 		layeractions += "<button onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
-		pointactions += "<button onclick='_UI.ms.shapes.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
+		pointactions += "<button onclick='_UI.ms.points.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
 		pointactions += "<button class='"+(ss.length? "": "buttondis")+"' onclick='_UI.ms.points.deletePathPoints(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
-		pointactions += "<button onclick='_UI.ms.shapes.sp().resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
+		pointactions += "<button onclick='_UI.ms.points.resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
 
 		// Put it all together
 		content += "<table class='actionsgrid'><tr>";
@@ -63,7 +63,7 @@
 		if(!pop) content += "</td>";
 
 		var ispointsel = false;
-		if(ss.length === 1 && ss[0].objtype !== 'componentinstance') ispointsel = (_UI.ms.points.count() === 1);
+		if(_UI.ms.points.count() > 0) ispointsel = true;
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
 		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);

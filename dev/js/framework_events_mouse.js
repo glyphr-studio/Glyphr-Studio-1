@@ -59,14 +59,16 @@
 			//debug('EVENTHANDLER - Raw mouse event x/y = ' + ev.layerX + ' / ' + ev.layerY);
 			mouseovercec();
 
+			var eh = _UI.eventhandlers;
+
 			if (ev.offsetX || ev.offsetX) {
 				// IE, Chrome, (Opera?)
-				_UI.eventhandlers.mousex = ev.offsetX;
-				_UI.eventhandlers.mousey = ev.offsetY;
+				eh.mousex = ev.offsetX;
+				eh.mousey = ev.offsetY;
 			} else if (ev.layerX || ev.layerX) {
 				// Firefox
-				_UI.eventhandlers.mousex = ev.layerX;
-				_UI.eventhandlers.mousey = ev.layerY;
+				eh.mousex = ev.layerX;
+				eh.mousey = ev.layerY;
 			}
 
 			//debug('EV_CANVAS offsetx / offsety / layerx / layery: ' +  ev.offsetX + ' ' + ev.offsetY + ' ' + ev.layerX + ' ' + ev.layerY);
@@ -76,19 +78,19 @@
 			// Switch Tool function
 
 			switch(_UI.selectedtool){
-				case 'pathedit' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pathedit; break;
-				case 'shaperesize' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_shapeedit; break;
-				case 'pan' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pantool; break;
-				case 'pathaddpoint' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pathaddpoint; break;
-				case 'newpath' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_addpath; break;
-				case 'newrect' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_addrectoval; break;
-				case 'newoval' : _UI.eventhandlers.currtool = _UI.eventhandlers.eh_addrectoval; break;
-				case 'kern': _UI.eventhandlers.currtool = _UI.eventhandlers.eh_kern; break;
-				case _UI.selectedtool: _UI.eventhandlers.currtool = _UI.eventhandlers.eh_pathedit;
+				case 'pathedit' : eh.currtool = eh.eh_pathedit; break;
+				case 'shaperesize' : eh.currtool = eh.eh_shapeedit; break;
+				case 'pan' : eh.currtool = eh.eh_pantool; break;
+				case 'pathaddpoint' : eh.currtool = eh.eh_pathaddpoint; break;
+				case 'newpath' : eh.currtool = eh.eh_addpath; break;
+				case 'newrect' : eh.currtool = eh.eh_addrectoval; break;
+				case 'newoval' : eh.currtool = eh.eh_addrectoval; break;
+				case 'kern': eh.currtool = eh.eh_kern; break;
+				case _UI.selectedtool: eh.currtool = eh.eh_pathedit;
 			}
 
-			// Call the event handler of the _UI.eventhandlers.currtool.
-			_UI.eventhandlers.currtool[ev.type](ev);
+			// Call the event handler of the eh.currtool.
+			eh.currtool[ev.type](ev);
 		}
 	}
 
@@ -499,7 +501,7 @@
 		};
 
 		this.mousemove = function (ev) {
-			debug('\n Tool_PathEdit.mousemove - START');
+			// debug('\n Tool_PathEdit.mousemove - START');
 			var eh = _UI.eventhandlers;
 			var sp = _UI.ms.points;
 			var singlepoint = sp.getSingleton();

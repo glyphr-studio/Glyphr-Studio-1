@@ -37,12 +37,6 @@
 		// debug('\n History.pull - START');
 		// debug('\t queue.length ' + this.queue.length);
 
-		var si = false;
-		if(_UI.ms.shapes) {
-			si = getSelectedWorkItemShapes().indexOf(_UI.ms.shapes);
-			// debug('\t sel shape number is ' + si);
-		}
-
 		var top = this.queue.length? this.queue.pop().state : this.initialstate;
 		_GP[this.parentname] = clone(top);
 		this.currstate = clone(top);
@@ -52,22 +46,18 @@
 
 		} else if (_UI.navhere === 'components'){
 			if(!_GP.components[_UI.selectedcomponent]){
-				si = false;
 				_UI.selectedcomponent = getFirstID(_GP.components);
 			}
 		} else if (_UI.navhere === 'ligatures'){
 			if(!_GP.ligatures[_UI.selectedligature]){
-				si = false;
 				_UI.selectedligature = getFirstID(_GP.ligatures);
 			}
 		}
 
-		if(isval(si)) {
-			selectShape(si);
-			redraw('history_pull');
-		} else {
-			_UI.ms.shapes.clear();
-		}
+		_UI.ms.shapes.clear();
+		_UI.ms.points.clear();
+		redraw('history_pull');
+
 
 		// debug('\t after redraw');
 

@@ -69,7 +69,6 @@
 			 else _UI.ms.shapes.select(wishapes[num]);
 		} else {
 			_UI.ms.shapes.clear();
-			_UI.ms.shapes.clear();
 		}
 		// debug(' selectShape - END\n');
 	}

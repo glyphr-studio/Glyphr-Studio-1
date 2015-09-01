@@ -453,7 +453,7 @@
 
 		if(!newpp) {
 			// No pathpoint passed to function - make a new one
-			newpp = new PathPoint({});
+			newpp = new PathPoint({'parentpath':this});
 
 			if(addtostart){
 				//Adds new pathpoint to start of path
@@ -550,7 +550,7 @@
 			nP = new Coord({'x':x1234, 'y':y1234});
 			nH1 = new Coord({'x':x123, 'y':y123});
 			nH2 = new Coord({'x':x234, 'y':y234});
-			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true, 'parentpath':this});
 
 			// Update P1
 			if(pp1.type === 'symmetric') pp1.type = 'flat';
@@ -567,7 +567,7 @@
 			nP = new Coord({'x':pp1.P.x+d, 'y':pp1.P.y+d});
 			nH1 = new Coord({'x':pp1.getH2x()+d, 'y':pp1.getH2y()+d});
 			nH2 = new Coord({'x':pp1.getH1x()+d, 'y':pp1.getH1y()+d});
-			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':pp1.type});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':pp1.type, 'parentpath':this});
 		}
 
 		// Insert
@@ -769,7 +769,6 @@
 		}
 	};
 
-
 	Path.prototype.checkForNaN = function() {
 		for(var pp = 0; pp < this.pathpoints.length; pp++){
 			var tp = this.pathpoints[pp];
@@ -781,4 +780,5 @@
 		}
 		return false;
 	};
+
 // end of file

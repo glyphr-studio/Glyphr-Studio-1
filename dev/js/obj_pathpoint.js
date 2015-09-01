@@ -21,9 +21,8 @@
 		this.H1 = oa.H1? new Coord(oa.H1) : new Coord({'x':0, 'y':0});
 		this.H2 = oa.H2? new Coord(oa.H2) : new Coord({'x':200, 'y':200});
 		// this.Q = oa.Q? new Coord(oa.Q) : false;	// Remembering Quadratic sinlge handle for Import SVG
-
 		this.type = oa.type || 'corner';		// corner, flat, symmetric
-		// this.selected = oa.selected || false;
+		this.parentpath = oa.parentpath || false;
 
 		if(isval(oa.useh1) && oa.useh1) this.useh1 = true;
 		else this.useh1 = false;

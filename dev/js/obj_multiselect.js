@@ -32,11 +32,15 @@
 	};
 
 	MultiSelect.prototype.remove = function(obj) {
-		for(var m=0; m<this.members.length; m++){
-			if(this.members[m] === obj) {
-				this.members.splice(m, 1);
-			}
-		}
+		this.members = this.members.filter(function (m) {
+			return m !== object;
+		});
+	};
+
+	MultiSelect.prototype.removeMissing = function() {
+		this.members = this.members.filter(function (m) {
+			return typeof m === 'object';
+		});
 	};
 
 	MultiSelect.prototype.toggle = function(obj) {
@@ -85,19 +89,20 @@
 
 	_UI.ms.points.updateShapePosition = function(dx, dy, force){ this.getShape().updateShapePosition(dx, dy, force); };
 
-	_UI.ms.points.deletePoints = function() {
+	_UI.ms.points.deletePathPoints = function() {
 		var point, path, pindex;
 
 		for(var m=0; m<this.members.length; m++){
 			point = this.members[m];
-			pindex = path.indexOf(point);
 			path = point.parentpath;
+			pindex = point.getPointNum();
 
 			if(pindex > -1){
 				path.pathpoints.splice(pindex, 1);
 				path.calcMaxes();
 			}
 		}
+		this.clear();
 
 		// if(this.pathpoints.length === 0) deleteShape();
 	};
@@ -123,7 +128,26 @@
 	};
 
 	_UI.ms.points.changePointType = function(t) {
-		// body...
+		for(var m=0; m<this.members.length; m++){
+			this.members[m].changePointType(t);
+		}
+	};
+	
+	_UI.ms.points.insertPathPoint = function() {
+		var path, pp;
+
+		for(var m=0; m<this.members.length; m++){
+			path = this.members[m].parentpath;
+			pp = this.members[m].getPointNum();
+			path.insertPathPoint(false, pp);
+		}
+	};	
+
+	_UI.ms.points.resetHandles = function() {
+		
+		for(var m=0; m<this.members.length; m++){
+			this.members[m].resentHandles();
+		}
 	};
 
 	_UI.ms.points.updatePathPointPosition = function(controlpoint, dx, dy){
@@ -296,16 +320,6 @@
 			}
 
 			draw_BoundingBoxHandles(bmaxes, _UI.colors.gray, _UI.multiselectthickness);
-		}
-	};
-
-	// Global path accessor functions
-	// THESE ASSUME THE FIRST MEMBER IS A SINGLETON
-
-	_UI.ms.shapes.insertPathPoint = function() { 
-		if(this.members[0]){
-			// this.members[0].path.insertPathPoint();
-			this.members[0].calcMaxes();
 		}
 	};
 

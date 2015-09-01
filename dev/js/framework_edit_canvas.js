@@ -90,6 +90,7 @@
 		var patheditclass = '';
 		var pathaddpointclass = '';
 		var penclickable = true;
+		var penaddpointclickable = true;
 		var onglyph = (_UI.navhere === 'glyph edit');
 		var oncom = (_UI.navhere === 'components');
 		var onlig = (_UI.navhere === 'ligatures');
@@ -101,6 +102,7 @@
 		} else if (type === 'componentinstance'){
 			patheditclass = 'buttondis';
 			penclickable = false;
+			penaddpointclickable = false;
 		}
 
 		if(_UI.selectedtool === 'pathaddpoint'){
@@ -108,6 +110,12 @@
 		} else if (type === 'componentinstance'){
 			pathaddpointclass = 'buttondis';
 			penclickable = false;
+			penaddpointclickable = false;
+		}
+
+		if(_UI.ms.shapes.count() > 1){
+			pathaddpointclass = 'buttondis';
+			penaddpointclickable = false;
 		}
 
 		var st = _UI.selectedtool;
@@ -144,7 +152,7 @@
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penclickable})+"</button>";
+		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penaddpointclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+"</button>";
 		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+"</button>";
 		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 
