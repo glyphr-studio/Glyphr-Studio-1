@@ -1,12 +1,12 @@
 // start of file
 /**
 	Object > Path
-	A Path is a collection of Path Points, plus 
-	a few properties like selected point, winding, 
+	A Path is a collection of Path Points, plus
+	a few properties like selected point, winding,
 	and maxes.
-	Higher level objects should only have access to 
-	a Shape object, not direct access to a Shape's 
-	Path object. This is to enable Shape objects and 
+	Higher level objects should only have access to
+	a Shape object, not direct access to a Shape's
+	Path object. This is to enable Shape objects and
 	Component Instance objects to be used
 	interchangeably, even though Component Instance
 	objects don't have a Path.
@@ -82,7 +82,7 @@
 
 		var neww = Math.max((oldw + dw), 1);
 		var newh = Math.max((oldh + dh), 1);
-		
+
 		var ratiodh = (newh/oldh);
 		var ratiodw = (neww/oldw);
 
@@ -125,11 +125,11 @@
 
 		if(nx !== false) nx = parseFloat(nx);
 		if(ny !== false) ny = parseFloat(ny);
-		
+
 		var dx = (nx !== false)? ((nx*1) - this.maxes.xmin) : 0;
 		var dy = (ny !== false)? ((ny*1) - this.maxes.ymax) : 0;
 		// debug('\t dx dy: ' + dx + ' ' + dy);
-		
+
 		this.updatePathPosition(dx,dy,force);
 
 		// debug(' Path.setPathPosition - END\n');
@@ -271,7 +271,7 @@
 
 		re += 'M' + (this.pathpoints[0].getPx()) + ',' + (this.pathpoints[0].getPy());
 		// debug('GENPATHPOSTSCRIPT:\n\t ' + re);
-		
+
 		if(re.indexOf('NaN') > -1){
 			console.warn(glyphname + ' PathPoint 0 MOVE has NaN: ' + re);
 			// debug(this.pathpoints[0]);
@@ -355,7 +355,7 @@
 
 		var hp = _GP.projectsettings.pointsize/getView('Path.isOverFirstPoint').dz;
 		// debug('\t Checking ' + a.P.x + '/' + a.P.y + ' around ' + hp);
-		
+
 		if(!a) return false;
 
 		if( ((a.P.x+hp) > x) && ((a.P.x-hp) < x) && ((a.P.y+hp) > y) && ((a.P.y-hp) < y) ){
@@ -454,6 +454,10 @@
 		if(!newpp) {
 			// No pathpoint passed to function - make a new one
 			newpp = new PathPoint({'parentpath':this});
+			newpp.H1.x = newpp.P.x;
+			newpp.H1.y = newpp.P.y-100;
+			newpp.H2.x = newpp.P.x+100;
+			newpp.H2.y = newpp.P.y;
 
 			if(addtostart){
 				//Adds new pathpoint to start of path
@@ -462,14 +466,11 @@
 
 					newpp.P.x = firstpp.P.x-200;
 					newpp.P.y = firstpp.P.y-200;
-					newpp.H1.x = newpp.P.x;
-					newpp.H1.y = newpp.P.y-100;
-					newpp.H2.x = newpp.P.x+100;
-					newpp.H2.y = newpp.P.y;
 				}
 
 				this.pathpoints.unshift(newpp);
 				re = this.selectPathPoint(0);
+
 			} else {
 				// Adds new pathpoint to end of path
 				if(this.pathpoints.length > 0){
@@ -477,10 +478,6 @@
 
 					newpp.P.x = lastpp.P.x+200;
 					newpp.P.y = lastpp.P.y+200;
-					newpp.H1.x = newpp.P.x;
-					newpp.H1.y = newpp.P.y-100;
-					newpp.H2.x = newpp.P.x+100;
-					newpp.H2.y = newpp.P.y;
 				}
 
 				this.pathpoints.push(newpp);
@@ -511,7 +508,7 @@
 
 			P0112_1223 = (1-t)*P01_12 + t*P12_23
 
-			First Bézier will be defined by: P_0, P0_1, P01_12, P0112_1223; 
+			First Bézier will be defined by: P_0, P0_1, P01_12, P0112_1223;
 			Second Bézier is defined by: P0112_1223, P12_23, P2_3, P3.
 
 			Diagrams here:
@@ -642,7 +639,7 @@
 			index = (index === -1)? (this.pathpoints.length-1) : Math.abs(index);
 			index = index % this.pathpoints.length;
 			_UI.ms.points.select(this.pathpoints[index]);
-			
+
 			return this.pathpoints[index];
 		}
 	};
@@ -650,7 +647,7 @@
 
 
 //	----------------------------------
-//	Calc Maxes 
+//	Calc Maxes
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
@@ -729,7 +726,7 @@
 		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3);
 	}
 
-	
+
 
 
 //  -----------------------------------

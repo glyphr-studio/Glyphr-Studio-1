@@ -33,7 +33,7 @@
 
 	MultiSelect.prototype.remove = function(obj) {
 		this.members = this.members.filter(function (m) {
-			return m !== object;
+			return m !== obj;
 		});
 	};
 

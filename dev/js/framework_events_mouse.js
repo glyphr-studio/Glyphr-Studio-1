@@ -353,7 +353,6 @@
 				'H1':new Coord({'x':cx_sx(eh.mousex-100), 'y':cy_sy(eh.mousey)}),
 				'H2':new Coord({'x':cx_sx(eh.mousex+100), 'y':cy_sy(eh.mousey)}),
 				'type':'flat',
-				'selected':true,
 				'useh1':false,
 				'useh2':false}
 			);
@@ -394,7 +393,7 @@
 				}
 
 				this.currpt = this.newshape.path.addPathPoint(newpoint, false);
-				_UI.ms.points.toggle(this.currpt);
+				_UI.ms.points.select(this.currpt);
 			}
 
 			this.firstpoint = false;

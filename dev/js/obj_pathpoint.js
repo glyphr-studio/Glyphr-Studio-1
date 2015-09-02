@@ -327,6 +327,8 @@
 	PathPoint.prototype.getPointNum = function() {
 		var parr = this.parentpath.pathpoints;
 
+		if(!parr) return false;
+		
 		for(var p=0; p<parr.length; p++){
 			if(parr[p] === this) return p;
 		}

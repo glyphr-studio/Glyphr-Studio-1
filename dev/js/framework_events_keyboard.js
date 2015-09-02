@@ -9,17 +9,18 @@
 		var kc = getKeyFromEvent(event);
 		// debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		if(!onCanvasEditPage()) return;
-
+		
 		var eh = _UI.eventhandlers;
 		// debug('\t eh.lastTool = ' + eh.lastTool);
 
 		// Ctrl
-		if(kc === 'ctrl' || event.ctrlKey){
+		if(kc === 'ctrl'){
 			// debug('\t CTRL');			
 			updateCursor();
 			eh.multi = false;
 			redraw('Event Handler - Keyup Ctrl for multi select');
 		}
+		
 
 		// Space
 		if(kc === 'space' && eh.ismouseovercec){
@@ -28,6 +29,8 @@
 			updateCursor();
 			redraw('Event Handler - Keyup Spacebar for pan toggle');
 		}
+
+
 	}
 
 	function keypress(event){
@@ -89,6 +92,7 @@
 			return;
 		}
 
+
 		// Space
 		if(kc === 'space' && overcanvas){
 			event.preventDefault();
@@ -111,27 +115,27 @@
 		}
 
 		// z
-		if(kc==='undo' || (event.ctrlKey && kc==='z')){
+		if(kc==='undo' || (eh.multi && kc==='z')){
 			event.preventDefault();
 			history_pull();
 		}
 
 		// plus
-		if(event.ctrlKey && kc==='plus'){
+		if(eh.multi && kc==='plus'){
 			event.preventDefault();
 			viewZoom(1.1);
 			redraw('Zoom Keyboard Shortcut');
 		}
 
 		// minus
-		if(event.ctrlKey && kc==='minus'){
+		if(eh.multi && kc==='minus'){
 			event.preventDefault();
 			viewZoom(0.9);
 			redraw('Zoom Keyboard Shortcut');
 		}
 
 		// 0
-		if(event.ctrlKey && kc==='0'){
+		if(eh.multi && kc==='0'){
 			event.preventDefault();
 			setView(clone(_UI.defaultview));
 			redraw('Zoom Keyboard Shortcut');
@@ -185,13 +189,13 @@
 			}
 
 			// ctrl + c
-			if(event.ctrlKey && kc==='c'){
+			if(eh.multi && kc==='c'){
 				event.preventDefault();
 				copyShape();
 			}
 
 			// ctrl + v
-			if(event.ctrlKey && kc==='v'){
+			if(eh.multi && kc==='v'){
 				event.preventDefault();
 				pasteShape();
 				history_put('Paste Shape');
