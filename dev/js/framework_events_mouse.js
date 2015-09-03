@@ -479,7 +479,7 @@
 					else if(!_UI.ms.points.isSelected(this.controlpoint.point)) _UI.ms.points.select(this.controlpoint.point);
 					setCursor('penSquare');
 				} else {
-					_UI.ms.points.virtualsingleton = this.controlpoint.point;
+					_UI.ms.points.handlesingleton = this.controlpoint.point;
 					setCursor('penCircle');
 				}
 
@@ -502,20 +502,21 @@
 			// debug('\n Tool_PathEdit.mousemove - START');
 			var eh = _UI.eventhandlers;
 			var sp = _UI.ms.points;
-			var singlepoint = sp.getSingleton();
 
 			if(this.dragging) {
+				// debug('\t Dragging');
 
 				if(eh.toolhandoff){
 					eh.toolhandoff = false;
-					// debug(singlepoint);
-					singlepoint.useh2 = true;
-					singlepoint.H2.x = cx_sx(eh.mousex);
-					singlepoint.H2.y = cy_sy(eh.mousey);
 					this.controlpoint = {
 						'type': 'H2',
-						'point': singlepoint
+						'point': sp.getSingleton()
 					};
+					this.controlpoint.point.useh2 = true;
+					this.controlpoint.point.H2.x = cx_sx(eh.mousex);
+					this.controlpoint.point.H2.y = cy_sy(eh.mousey);
+					_UI.ms.points.handlesingleton = this.controlpoint.point;
+
 					// debug('\t TOOLHANDOFF controlpoint.type = ' + this.controlpoint.type);
 				}
 
@@ -528,9 +529,9 @@
 				else setCursor('penCircle');
 
 
-				if(singlepoint){
-					if(singlepoint[this.controlpoint.type].xlock) dx = 0;
-					if(singlepoint[this.controlpoint.type].ylock) dy = 0;
+				if(sp.getMembers().length === 1){
+					if(this.controlpoint.point[this.controlpoint.type].xlock) dx = 0;
+					if(this.controlpoint.point[this.controlpoint.type].ylock) dy = 0;
 				}
 
 				// debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
@@ -547,12 +548,14 @@
 			if(cp.type === 'P') setCursor('penSquare');
 			else if(_UI.ms.points.isSelected(cp.point)) setCursor('penCircle');
 			if(!cp && eh.multi) setCursor('penPlus');
+
+			// debug(' Tool_PathEdit.mousemove - END\n');
 		};
 
 		this.mouseup = function () {
 			var eh = _UI.eventhandlers;
 			this.dragging = false;
-			_UI.ms.points.virtualsingleton = false;
+			_UI.ms.points.handlesingleton = false;
 			eh.lastx = -100;
 			eh.lasty = -100;
 

@@ -13,7 +13,7 @@
 //-------------------------------------------------------
 	function MultiSelect(){
 		this.members = [];
-		this.virtualsingleton = false;
+		this.handlesingleton = false;
 	}
 
 	MultiSelect.prototype.isSelectable = function(obj) {
@@ -36,7 +36,7 @@
 	MultiSelect.prototype.clear = function(){
 		this.members = [];
 		if(this.glyph) this.glyph.ratiolock = false;
-		this.virtualsingleton = false;
+		this.handlesingleton = false;
 	};
 
 	MultiSelect.prototype.add = function(obj){
@@ -167,8 +167,8 @@
 			for(var m=0; m<this.members.length; m++){
 				this.members[m].updatePathPointPosition(controlpoint, dx, dy);
 			}
-		} else if(this.virtualsingleton){
-			this.virtualsingleton.updatePathPointPosition(controlpoint, dx, dy);
+		} else if(this.handlesingleton){
+			this.handlesingleton.updatePathPointPosition(controlpoint, dx, dy);
 		}
 	};
 
