@@ -143,14 +143,14 @@
 		var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
 
 		if( ((this.P.x+hp) > x) && ((this.P.x-hp) < x) && ((this.P.y+hp) > y) && ((this.P.y-hp) < y) ){
-			//debug('PathPoint.isOverControlPoint - Returning P1');
+			// debug('PathPoint.isOverControlPoint - Returning P1');
 			
 			return {point:this, type:'P'};
 		}
 
 		if(this.useh1){
 			if( ((this.H1.x+hp) > x) && ((this.H1.x-hp) < x) && ((this.H1.y+hp) > y) && ((this.H1.y-hp) < y) ){
-				//debug('PathPoint.isOverControlPoint - Returning H1');
+				// debug('PathPoint.isOverControlPoint - Returning H1');
 				// _UI.ms.points.virtualsingleton = this;
 				return {point:this, type:'H1'};
 			}
@@ -158,7 +158,7 @@
 
 		if(this.useh2){
 			if( ((this.H2.x+hp) > x) && ((this.H2.x-hp) < x) && ((this.H2.y+hp) > y) && ((this.H2.y-hp) < y) ){
-				//debug('PathPoint.isOverControlPoint - Returning H2');
+				// debug('PathPoint.isOverControlPoint - Returning H2');
 				// _UI.ms.points.virtualsingleton = this;
 				return {point:this, type:'H2'};
 			}
@@ -361,9 +361,11 @@
 
 	PathPoint.prototype.resetHandles = function(){
 		this.type = 'flat';
-		this.H2.x = this.P.x - 300;
+		this.useh1 = true;
+		this.useh2 = true;
+		this.H2.x = this.P.x - 100;
 		this.H2.y = this.P.y;
-		this.H1.x = this.P.x + 300;
+		this.H1.x = this.P.x + 100;
 		this.H1.y = this.P.y;
 	};
 

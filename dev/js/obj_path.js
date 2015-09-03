@@ -344,7 +344,6 @@
 			if(re) return re;
 		}
 
-		//debug('ISOVERCONTROLPOINT() - Returning FALSE');
 		return false;
 	};
 

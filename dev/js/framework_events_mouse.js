@@ -5,7 +5,6 @@
 	events for all pages can be found here.
 **/
 
-
 	_UI.eventhandlers = {
 		'currtool': false,
 		'tempnewbasicshape' : false,
@@ -487,20 +486,20 @@
 				selectShapesThatHaveSelectedPoints();
 
 			} else if (s){
-				// _UI.ms.points.clear();
+				clickEmptySpace();
 				_UI.ms.shapes.select(s);
-				// _UI.navprimaryhere = 'npAttributes';
 
 			} else {
 				_UI.ms.shapes.calcMaxes();
 				clickEmptySpace();
 			}
 
+			if(_UI.ms.shapes.getMembers().length) _UI.navprimaryhere = 'npAttributes';
 			redraw('Event Handler Tool_PathEdit mousedown');
 		};
 
 		this.mousemove = function (ev) {
-			debug('\n Tool_PathEdit.mousemove - START');
+			// debug('\n Tool_PathEdit.mousemove - START');
 			var eh = _UI.eventhandlers;
 			var sp = _UI.ms.points;
 			var singlepoint = sp.getSingleton();
@@ -509,7 +508,7 @@
 
 				if(eh.toolhandoff){
 					eh.toolhandoff = false;
-					debug(singlepoint);
+					// debug(singlepoint);
 					singlepoint.useh2 = true;
 					singlepoint.H2.x = cx_sx(eh.mousex);
 					singlepoint.H2.y = cy_sy(eh.mousey);
@@ -517,7 +516,7 @@
 						'type': 'H2',
 						'point': singlepoint
 					};
-					debug('\t TOOLHANDOFF controlpoint.type = ' + this.controlpoint.type);
+					// debug('\t TOOLHANDOFF controlpoint.type = ' + this.controlpoint.type);
 				}
 
 				// Moving points if mousedown
@@ -534,7 +533,7 @@
 					if(singlepoint[this.controlpoint.type].ylock) dy = 0;
 				}
 
-				debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
+				// debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
 				sp.updatePathPointPosition(this.controlpoint.type, dx, dy);
 				_UI.ms.shapes.calcMaxes();
 

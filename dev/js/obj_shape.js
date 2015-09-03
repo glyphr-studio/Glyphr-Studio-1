@@ -133,6 +133,8 @@
 	Shape.prototype.setShapeSize = function(nx, ny, ratiolock) { this.path.setPathSize(nx, ny, ratiolock); };
 
 	Shape.prototype.selectPathPoint = function(p) { this.path.selectPathPoint(p); };
+	
+	Shape.prototype.isOverControlPoint = function(x, y) { return this.path.isOverControlPoint(x, y); };
 
 	Shape.prototype.flipEW = function(mid) { this.path.flipEW(mid); };
 
