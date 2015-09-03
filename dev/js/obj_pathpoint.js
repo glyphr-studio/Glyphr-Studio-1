@@ -183,6 +183,49 @@
 		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
 	};
 
+	PathPoint.prototype.setPointType = function(type) {
+		if(type === 'symmetric') this.makeSymmetric();
+		else if (type === 'flat') this.makeFlat();
+		else this.type = 'corner';
+	};
+
+	PathPoint.prototype.makeSymmetric = function(hold){
+		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
+
+		if(!hold){
+			hold = this.useh1? 'H1' : 'H2';
+			if(!(this.useh1 || this.useh2)){
+				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
+					// Handles and points are all in the same place
+					this.H2.x-=200;
+					this.H1.x+=200;
+					this.type = 'symmetric';
+					this.useh1 = true;
+					this.useh2 = true;
+					return;
+				}
+			}
+		}
+
+		switch(hold){
+			case 'H1' :
+				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
+				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
+				break;
+			case 'H2' :
+				this.H1.x = ((this.P.x - this.H2.x) + this.P.x);
+				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
+				break;
+		}
+
+		this.type = 'symmetric';
+		this.useh1 = true;
+		this.useh2 = true;
+
+		//this.roundAll();
+		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
+	};
+
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug('MAKEFLAT - hold ' + hold + ' starts as ' + JSON.stringify(this));
 
@@ -354,42 +397,6 @@
 		} else return false;
 	};
 
-	PathPoint.prototype.makeSymmetric = function(hold){
-		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
-
-		if(!hold){
-			hold = this.useh1? 'H1' : 'H2';
-			if(!(this.useh1 || this.useh2)){
-				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
-					// Handles and points are all in the same place
-					this.H2.x-=200;
-					this.H1.x+=200;
-					this.type = 'symmetric';
-					this.useh1 = true;
-					this.useh2 = true;
-					return;
-				}
-			}
-		}
-
-		switch(hold){
-			case 'H1' :
-				this.H2.x = ((this.P.x - this.H1.x) + this.P.x);
-				this.H2.y = ((this.P.y - this.H1.y) + this.P.y);
-				break;
-			case 'H2' :
-				this.H1.x = ((this.P.x - this.H2.x) + this.P.x);
-				this.H1.y = ((this.P.y - this.H2.y) + this.P.y);
-				break;
-		}
-
-		this.type = 'symmetric';
-		this.useh1 = true;
-		this.useh2 = true;
-
-		//this.roundAll();
-		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
-	};
 
 
 

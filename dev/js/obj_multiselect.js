@@ -16,8 +16,16 @@
 		this.virtualsingleton = false;
 	}
 
+	MultiSelect.prototype.isSelectable = function(obj) {
+		if(obj && (obj.objtype === 'pathpoint' || obj.objtype === 'shape')) return true;
+		else {
+			debug('MultiSelect - cannot select \n' + obj.objtype);
+			return false;
+		}
+	};
+
 	MultiSelect.prototype.select = function(obj) {
-		if(obj)	this.members = [obj];
+		if(this.isSelectable(obj))	this.members = [obj];
 		else this.clear();
 	};
 
@@ -28,7 +36,7 @@
 	};
 
 	MultiSelect.prototype.add = function(obj){
-		if(this.members.indexOf(obj) < 0) this.members.push(obj);
+		if(this.isSelectable(obj) && this.members.indexOf(obj) < 0) this.members.push(obj);
 	};
 
 	MultiSelect.prototype.remove = function(obj) {
@@ -127,9 +135,9 @@
 		// (' MS.points.draw_PathPoints - END\n');
 	};
 
-	_UI.ms.points.changePointType = function(t) {
+	_UI.ms.points.setPointType = function(t) {
 		for(var m=0; m<this.members.length; m++){
-			this.members[m].changePointType(t);
+			this.members[m].setPointType(t);
 		}
 	};
 	
@@ -143,10 +151,10 @@
 		}
 	};	
 
-	_UI.ms.points.resetHandles = function() {
-		
+	_UI.ms.points.resetHandles = function() {	
 		for(var m=0; m<this.members.length; m++){
-			this.members[m].resentHandles();
+			debug(this.members[m]);
+			this.members[m].resetHandles();
 		}
 	};
 

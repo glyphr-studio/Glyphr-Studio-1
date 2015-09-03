@@ -377,16 +377,16 @@
 			'<td>x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ms.shapes.sp().P.xlock', tp.P.xlock, 'Pxlock')+
+					lockUI('_UI.ms.points.getSingleton().P.xlock', tp.P.xlock, 'Pxlock')+
 					'<input type="number" id="pointx" step="'+svc+'" '+
-					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.shapes.sp().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
+					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
 					' value="' + round(tp.P.x, 3) + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
-					lockUI('_UI.ms.shapes.sp().P.ylock', tp.P.ylock, 'Pylock')+
+					lockUI('_UI.ms.points.getSingleton().P.ylock', tp.P.ylock, 'Pylock')+
 					'<input type="number" id="pointy" step="'+svc+'" '+
-					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.shapes.sp().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
+					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
 					' value="' + round(tp.P.y, 3) + '" >'+
 				'</div>'+
 			'</td>'+
@@ -396,23 +396,23 @@
 		var issymmetric = tp.type === 'symmetric';
 
 		// HANDLE 1
-		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI("_UI.ms.shapes.sp().useh1", tp.useh1, true))+' handle 1 <span class="unit">(before the point)</span></h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI("_UI.ms.points.getSingleton().useh1", tp.useh1, true))+' handle 1 <span class="unit">(before the point)</span></h3></td></tr>';
 
 		if(tp.useh1){
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ms.shapes.sp().H1.xlock', tp.H1.xlock, 'H1xlock')+
+						lockUI('_UI.ms.points.getSingleton().H1.xlock', tp.H1.xlock, 'H1xlock')+
 						'<input type="number" id="handle1x" step="'+svc+'" '+
-						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.shapes.sp().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H1.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ms.shapes.sp().H1.ylock', tp.H1.ylock, 'H1ylock')+
+						lockUI('_UI.ms.points.getSingleton().H1.ylock', tp.H1.ylock, 'H1ylock')+
 						'<input type="number" id="handle1y" step="'+svc+'" '+
-						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.shapes.sp().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H1.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+
@@ -425,23 +425,23 @@
 		}
 
 		// HANDLE 2
-		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI('_UI.ms.shapes.sp().useh2', tp.useh2, true))+' handle 2 <span class="unit">(after the point)</span></h3></td></tr>';
+		content += '<tr><td colspan=2 class="detailtitle"><h3>'+(issymmetric? '<input type="checkbox" checked disabled>' : checkUI('_UI.ms.points.getSingleton().useh2', tp.useh2, true))+' handle 2 <span class="unit">(after the point)</span></h3></td></tr>';
 
 		if(tp.useh2){
 			content += '<tr>'+
 				'<td>x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ms.shapes.sp().H2.xlock', tp.H2.xlock, 'H2xlock')+
+						lockUI('_UI.ms.points.getSingleton().H2.xlock', tp.H2.xlock, 'H2xlock')+
 						'<input type="number" id="handle2x" step="'+svc+'" '+
-						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.shapes.sp().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H2.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
-						lockUI('_UI.ms.shapes.sp().H2.ylock', tp.H2.ylock, 'H2ylock')+
+						lockUI('_UI.ms.points.getSingleton().H2.ylock', tp.H2.ylock, 'H2ylock')+
 						'<input type="number" id="handle2y" step="'+svc+'" '+
-						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.shapes.sp().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
 						' value="' + round(tp.H2.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+
