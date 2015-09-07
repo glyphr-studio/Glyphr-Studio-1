@@ -134,7 +134,7 @@
 				meta[m] = meta[m] || '""';
 				content += '<tr>';
 				content += '<td class="propname" style="padding-top:8px;">' + m.replace(/_/g, '-') + '</td>';
-				content += '<td><input type="text" value="'+escapeTableValue(meta[m])+'" onchange="_GP.metadata.'+m+' = this.value;"/></td>';
+				content += '<td><input type="text" value="'+escapeTableValue(meta[m])+'" onchange="_GP.metadata.'+m+' = removeEmptyStringInputs(this.value);"/></td>';
 				content += '<td class="prophelp" style="padding-top:8px;">'+_UI.metadatahelp[m]+'</td>';
 				content += '</tr>';
 			}
@@ -146,6 +146,11 @@
 		content += '</div>';
 		getEditDocument().getElementById('mainwrapper').innerHTML = content;
 		updateCustomRangeTable();
+	}
+
+	function removeEmptyStringInputs(val) {
+		if(val === '""' || val === "''") return '';
+		else return trim(val);
 	}
 
 	function escapeTableValue(val) {

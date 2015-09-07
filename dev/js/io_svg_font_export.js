@@ -81,11 +81,14 @@
 
 		// Metadata properties
 		for(var d in md){if(md.hasOwnProperty(d)){
-			con += t;
-			con += d.replace(/_/g, '-');
-			con += '="';
-			con += md[d];
-			con += '"\n';
+			if(md[d] !== '{{sectionbreak}}'){
+				con += t;
+				con += d.replace(/_/g, '-');
+				con += '=';
+				// con += md[d] === '""'? '' : md[d];
+				con += typeof md[d] === 'string'? JSON.stringify(removeEmptyStringInputs(md[d])) : ('"'+md[d]+'"');
+				con += '\n';
+			}
 		}}
 		con = con.substring(0, con.length-1);
 		con += '>';
