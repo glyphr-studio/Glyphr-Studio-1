@@ -7,7 +7,6 @@
 **/
 
 
-
 //-------------------------------------------------------
 // COMMON MULTI-SELECT OBJECT
 //-------------------------------------------------------
@@ -147,12 +146,17 @@
 
 	_UI.ms.points.insertPathPoint = function() {
 		var path, pp;
+		var newpoints = [];
 
 		for(var m=0; m<this.members.length; m++){
 			path = this.members[m].parentpath;
 			pp = this.members[m].getPointNum();
-			path.insertPathPoint(false, pp);
+			newpoints.push(path.insertPathPoint(false, pp));
 		}
+
+		this.clear();
+
+		for(var n=0; n<newpoints.length; n++) this.add(newpoints[n]);
 	};
 
 	_UI.ms.points.resetHandles = function() {
@@ -173,7 +177,7 @@
 	};
 
 	function selectShapesThatHaveSelectedPoints() {
-		// debug('\n selectShapesThatHaveSelectedPoints - START');
+		debug('\n selectShapesThatHaveSelectedPoints - START');
 		_UI.ms.shapes.clear();
 		var points = _UI.ms.points.getMembers();
 		var shapes = getSelectedWorkItemShapes();
@@ -182,18 +186,23 @@
 
 		if(points.length === 0) return;
 
+		debug('\t selected points ' + points);
+		debug('\t WI shapes ' + shapes);
+		
 		for(var p=0; p<points.length; p++){
 			path = points[p].parentpath;
 
 			for(var s=0; s<shapes.length; s++){
-				if(path === shapes[s].path) {
-					_UI.ms.shapes.add(shapes[s]);
-					count++;
+				if(shapes[s].objtype !== 'componentinstance'){
+					if(path === shapes[s].path) {
+						_UI.ms.shapes.add(shapes[s]);
+						count++;
+					}
 				}
 			}
 		}
 
-		// debug(' selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
+		debug(' selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
 	}
 
 //-------------------------------------------------------
@@ -238,11 +247,11 @@
 		// body...
 	};
 
-	_UI.ms.shapes.isOverControlPoint = function(x, y){
+	_UI.ms.shapes.isOverControlPoint = function(x, y, nohandles){
 		if(this.members.length === 0) return false;
 		var re = false;
 		for(var m=0; m<this.members.length; m++){
-			re = this.members[m].isOverControlPoint(x, y);
+			re = this.members[m].isOverControlPoint(x, y, nohandles);
 			if(re) return re;
 		}
 

@@ -32,7 +32,6 @@
 		this.maxes = oa.maxes || clone(_UI.mins);
 
 		// Setup the object
-		this.selectPathPoint(false);
 		if(this.pathpoints) this.calcMaxes();
 
 		// debug(' PATH - END\n');
@@ -335,12 +334,12 @@
 //  CANVAS HELPER FUNCTIONS
 //  -----------------------------------
 
-	Path.prototype.isOverControlPoint = function(x, y){
+	Path.prototype.isOverControlPoint = function(x, y, nohandles){
 		var a = this.pathpoints || [];
 		var re = false;
 
 		for(var k=a.length-1; k>=0; k--){
-			re = a[k].isOverControlPoint(x, y);
+			re = a[k].isOverControlPoint(x, y, nohandles);
 			if(re) return re;
 		}
 
@@ -568,9 +567,10 @@
 
 		// Insert
 		this.pathpoints.splice(pp2i, 0, ppn);
-		this.selectPathPoint(pp2i);
+		// this.selectPathPoint(pp2i);
 
 		this.calcMaxes();
+		return ppn;
 	};
 
 	Path.prototype.getClosestPointOnCurve = function(coord) {
@@ -632,11 +632,16 @@
 	};
 
 	Path.prototype.selectPathPoint = function(index){
+		index = parseInt(index);
+
 		if(index === false){
 			return false;
 		} else {
-			index = (index === -1)? (this.pathpoints.length-1) : Math.abs(index);
+			if(index === -1) index = this.pathpoints.length-1;
+			else index = Math.abs(index);
+
 			index = index % this.pathpoints.length;
+
 			_UI.ms.points.select(this.pathpoints[index]);
 
 			return this.pathpoints[index];

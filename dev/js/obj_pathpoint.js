@@ -139,7 +139,7 @@
 		//this.roundAll();
 	};
 
-	PathPoint.prototype.isOverControlPoint = function(x, y) {
+	PathPoint.prototype.isOverControlPoint = function(x, y, nohandles) {
 		var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
 
 		if( ((this.P.x+hp) > x) && ((this.P.x-hp) < x) && ((this.P.y+hp) > y) && ((this.P.y-hp) < y) ){
@@ -148,14 +148,14 @@
 			return {point:this, type:'P'};
 		}
 
-		if(this.useh1){
+		if(this.useh1 && !nohandles){
 			if( ((this.H1.x+hp) > x) && ((this.H1.x-hp) < x) && ((this.H1.y+hp) > y) && ((this.H1.y-hp) < y) ){
 				// debug('PathPoint.isOverControlPoint - Returning H1');
 				return {point:this, type:'H1'};
 			}
 		}
 
-		if(this.useh2){
+		if(this.useh2 && !nohandles){
 			if( ((this.H2.x+hp) > x) && ((this.H2.x-hp) < x) && ((this.H2.y+hp) > y) && ((this.H2.y-hp) < y) ){
 				// debug('PathPoint.isOverControlPoint - Returning H2');
 				return {point:this, type:'H2'};

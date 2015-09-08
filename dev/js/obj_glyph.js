@@ -434,23 +434,24 @@
 		return otpath;
 	};
 
-	Glyph.prototype.draw_GhostPathPoints = function() {
+	Glyph.prototype.draw_MultiSelectAffordances = function() {
 		var allpoints = [];
 
 		for(var s=0; s<this.shapes.length; s++){
 			if(this.shapes[s].objtype !== 'componentinstance'){
 				allpoints = allpoints.concat(this.shapes[s].path.pathpoints);
+				this.shapes[s].draw_PathOutline(_UI.colors.blue, 1);
 			}
 		}
 
 		draw_PathPoints(allpoints, false, _UI.colors.blue);
 	};
 
-	Glyph.prototype.isOverControlPoint = function(x, y) {
+	Glyph.prototype.isOverControlPoint = function(x, y, nohandles) {
 		var re = false;
 		for(var s=0; s<this.shapes.length; s++){
 			if(this.shapes[s].objtype !== 'componentinstance'){
-				re = this.shapes[s].path.isOverControlPoint(x, y);
+				re = this.shapes[s].path.isOverControlPoint(x, y, nohandles);
 				if(re) return re;
 			}
 		}

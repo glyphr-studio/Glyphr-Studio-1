@@ -544,7 +544,7 @@
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 
-			var cp = _UI.ms.shapes.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), true);
+			var cp = _UI.ms.shapes.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
 			if(cp.type === 'P') setCursor('penSquare');
 			else if(_UI.ms.points.isSelected(cp.point)) setCursor('penCircle');
 			if(!cp && eh.multi) setCursor('penPlus');
@@ -586,7 +586,7 @@
 				history_put('Added point to path');
 
 			} else if(s){
-				s.selectPathPoint(false);
+				_UI.ms.points.clear();
 				if(_UI.eventhandlers.multi) _UI.ms.shapes.add(s);
 				else _UI.ms.shapes.select(s);
 
