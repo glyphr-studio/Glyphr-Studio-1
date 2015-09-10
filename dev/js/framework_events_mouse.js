@@ -469,7 +469,7 @@
 			var eh = _UI.eventhandlers;
 			eh.lastx = eh.mousex;
 			eh.lasty = eh.mousey;
-			this.controlpoint = getSelectedWorkItem().isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
+			this.controlpoint = getSelectedWorkItem().isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), eh.multi);
 			var s = getClickedShape(eh.mousex, eh.mousey);
 
 			if(this.controlpoint){
@@ -541,6 +541,7 @@
 				eh.lastx = eh.mousex;
 				eh.lasty = eh.mousey;
 				eh.uqhaschanged = true;
+				selectShapesThatHaveSelectedPoints();
 				redraw('Event Handler Tool_PathEdit mousemove');
 			}
 

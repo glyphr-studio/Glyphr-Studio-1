@@ -444,7 +444,7 @@
 			}
 		}
 
-		draw_PathPoints(allpoints, false, _UI.colors.blue);
+		draw_PathPoints(allpoints, _UI.colors.blue);
 	};
 
 	Glyph.prototype.isOverControlPoint = function(x, y, nohandles) {

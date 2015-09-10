@@ -47,12 +47,15 @@
 		drawGuides();
 
 		// load char info
-		if(sg) {
+		if(sg && sg.shapes.length) {
 			// _UI.debug = true;
 			// debug('========  START GLYPH DRAWING TO CANVAS  ==========');
 			sg.drawGlyph(_UI.glypheditctx, getView('Redraw'));
 			// debug('========  END OF GLYPH DRAWING TO CANVAS ==========\n\n');
 			// _UI.debug = false;
+		} else {
+			_UI.redrawing = false;
+			return;
 		}
 
 		_UI.ms.shapes.draw_PathOutline();
@@ -63,9 +66,9 @@
 
 		} else if (editmode === 'pen'){
 			if(_UI.eventhandlers.multi) sg.draw_MultiSelectAffordances();
-			_UI.ms.shapes.draw_PathPoints(false);
 			_UI.ms.points.draw_PathPointHandles();
-			_UI.ms.points.draw_PathPoints(true);
+			_UI.ms.shapes.draw_PathPoints();
+			// _UI.ms.points.draw_PathPoints();
 
 			if(_UI.eventhandlers.hoverpoint){
 				var hp = _UI.eventhandlers.hoverpoint;
@@ -73,9 +76,9 @@
 				_UI.glypheditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
 			}
 		} else if (editmode === 'newpath'){
-			_UI.ms.shapes.draw_PathPoints(false);
 			_UI.ms.points.draw_PathPointHandles();
-			_UI.ms.points.draw_PathPoints(true);
+			_UI.ms.shapes.draw_PathPoints();
+			// _UI.ms.points.draw_PathPoints();
 		}
 		
 		_UI.redrawing = false;

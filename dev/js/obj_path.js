@@ -562,10 +562,11 @@
 			nP = new Coord({'x':pp1.P.x+d, 'y':pp1.P.y+d});
 			nH1 = new Coord({'x':pp1.getH2x()+d, 'y':pp1.getH2y()+d});
 			nH2 = new Coord({'x':pp1.getH1x()+d, 'y':pp1.getH1y()+d});
-			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':pp1.type, 'parentpath':this});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':pp1.type});
 		}
 
 		// Insert
+		ppn.parentpath = this;
 		this.pathpoints.splice(pp2i, 0, ppn);
 		// this.selectPathPoint(pp2i);
 

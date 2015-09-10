@@ -22,7 +22,7 @@
 		this.H2 = oa.H2? new Coord(oa.H2) : new Coord({'x':200, 'y':200});
 		// this.Q = oa.Q? new Coord(oa.Q) : false;	// Remembering Quadratic sinlge handle for Import SVG
 		this.type = oa.type || 'corner';		// corner, flat, symmetric
-		this.parentpath = oa.parentpath || false;
+		// this.parentpath = oa.parentpath || false;
 
 		if(isval(oa.useh1) && oa.useh1) this.useh1 = true;
 		else this.useh1 = false;
@@ -408,7 +408,7 @@
 		var re = this.P.x;
 		if(isNaN(re)){
 			re = 0;
-			debug('PathPoint NaN found P.x - falling back to 0');
+			// debug('PathPoint NaN found P.x - falling back to 0');
 		}
 		return re;
 	};
@@ -417,7 +417,7 @@
 		var re = this.P.y;
 		if(isNaN(re)){
 			re = 0;
-			debug('PathPoint NaN found P.y - falling back to 0');
+			// debug('PathPoint NaN found P.y - falling back to 0');
 		}
 		return re;
 	};
@@ -426,7 +426,7 @@
 		var re = this.useh1? this.H1.x : this.P.x;
 		if(isNaN(re)){
 			re = this.P.x || (this.H1.x || 0);
-			debug('PathPoint NaN found H1.x - falling back to ' + re);
+			// debug('PathPoint NaN found H1.x - falling back to ' + re);
 		}
 		return re;
 	};
@@ -435,7 +435,7 @@
 		var re = this.useh1? this.H1.y : this.P.y;
 		if(isNaN(re)){
 			re = this.P.y || (this.H1.y || 0);
-			debug('PathPoint NaN found H1.y - falling back to ' + re);
+			// debug('PathPoint NaN found H1.y - falling back to ' + re);
 		}
 		return re;
 	};
@@ -444,7 +444,7 @@
 		var re = this.useh2? this.H2.x : this.P.x;
 		if(isNaN(re)){
 			re = this.P.x || (this.H2.x || 0);
-			debug('PathPoint NaN found H2.x - falling back to ' + re);
+			// debug('PathPoint NaN found H2.x - falling back to ' + re);
 		}
 		return re;
 	};
@@ -453,7 +453,7 @@
 		var re = this.useh2? this.H2.y : this.P.y;
 		if(isNaN(re)){
 			re = this.P.y || (this.H2.y || 0);
-			debug('PathPoint NaN found H2.y - falling back to ' + re);
+			// debug('PathPoint NaN found H2.y - falling back to ' + re);
 		}
 		return re;
 	};
@@ -481,14 +481,15 @@
 // DRAW
 //-------------------------------------------------------
 
-	PathPoint.prototype.drawPoint = function(sel, accent) {
+	PathPoint.prototype.drawPoint = function(accent) {
 		// debug('\n PathPoint.drawPoint - START');
-		// debug('\t sel='+sel+' accent='+json(accent));
+		// debug('\t sel = ' + _UI.ms.points.isSelected(this));
 
 		accent = accent || _UI.colors.blue;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
-		_UI.glypheditctx.fillStyle = sel? 'white' : accent.l65;
+		// _UI.glypheditctx.fillStyle = sel? 'white' : accent.l65;
+		_UI.glypheditctx.fillStyle = _UI.ms.points.isSelected(this)? 'white' : accent.l65;
 		_UI.glypheditctx.strokeStyle = accent.l65;
 
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
@@ -496,9 +497,10 @@
 		// debug(' PathPoint.drawPoint - END\n');
 	};
 
-	PathPoint.prototype.drawDirectionalityPoint = function(sel, next, accent){
+	PathPoint.prototype.drawDirectionalityPoint = function(accent, next){
 		accent = accent || _UI.colors.blue;
-		_UI.glypheditctx.fillStyle = sel? 'white' : accent.l65;
+		// _UI.glypheditctx.fillStyle = sel? 'white' : accent.l65;
+		_UI.glypheditctx.fillStyle = _UI.ms.points.isSelected(this)? 'white' : accent.l65;
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.lineWidth = 1;
 		var begin = {'x':this.P.x, 'y':this.P.y};

@@ -111,9 +111,10 @@
 			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
 
 			_UI.ms.shapes.clear();
+			_UI.ms.points.clear();
 
 			for(var s=0; s<newshapes.length; s++){
-				ts = newshapes[s];
+				ts = new Shape(newshapes[s]);
 
 				if(cbs.c === selwi) {
 					cbs.dx += 20;

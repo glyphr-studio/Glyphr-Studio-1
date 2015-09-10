@@ -690,12 +690,19 @@
 		// debug(' draw_PathOutline - END\n');
 	}
 
-	function draw_PathPoints(pparr, sel, accent) {
+	function draw_PathPoints(pparr, accent) {
 		// debug('\n draw_PathPoints - START');
 		pparr = pparr || [];
 
+
 		for(var p=0; p<pparr.length; p++){
-			pparr[p].drawPoint(sel, accent);
+			// debug('\t point ' + p + ' isSelected ' + _UI.ms.points.isSelected(pparr[p]));
+
+			if(p===0){
+				pparr[p].drawDirectionalityPoint(accent, pparr[(p+1)%pparr.length]);
+			} else {
+				pparr[p].drawPoint(accent);
+			}
 		}
 
 		// debug(' draw_PathPoints - END\n');

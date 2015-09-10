@@ -22,7 +22,7 @@
 			obj.objtype === 'componentinstance'
 		)) return true;
 		else {
-			debug('MultiSelect - cannot select \n' + obj.objtype);
+			// debug('MultiSelect - cannot select \n' + obj.objtype);
 			return false;
 		}
 	};
@@ -128,14 +128,14 @@
 		draw_PathPointHandles(sh.path.pathpoints);
 	};
 
-	_UI.ms.points.draw_PathPoints = function(sel) {
-		// ('\n MS.points.draw_PathPoints - START');
+	_UI.ms.points.draw_PathPoints = function() {
+		// debug('\n MS.points.draw_PathPoints - START');
 		var sh = this.getShape();
 		// ('\t shape is ' + json(sh));
 
-		draw_PathPoints(sh.path.pathpoints, sel);
+		draw_PathPoints(sh.path.pathpoints);
 
-		// (' MS.points.draw_PathPoints - END\n');
+		// debug(' MS.points.draw_PathPoints - END\n');
 	};
 
 	_UI.ms.points.setPointType = function(t) {
@@ -161,7 +161,7 @@
 
 	_UI.ms.points.resetHandles = function() {
 		for(var m=0; m<this.members.length; m++){
-			debug(this.members[m]);
+			// debug(this.members[m]);
 			this.members[m].resetHandles();
 		}
 	};
@@ -177,7 +177,7 @@
 	};
 
 	function selectShapesThatHaveSelectedPoints() {
-		debug('\n selectShapesThatHaveSelectedPoints - START');
+		// debug('\n selectShapesThatHaveSelectedPoints - START');
 		_UI.ms.shapes.clear();
 		var points = _UI.ms.points.getMembers();
 		var shapes = getSelectedWorkItemShapes();
@@ -186,8 +186,8 @@
 
 		if(points.length === 0) return;
 
-		debug('\t selected points ' + points);
-		debug('\t WI shapes ' + shapes);
+		// debug('\t selected points ' + points);
+		// debug('\t WI shapes ' + shapes);
 		
 		for(var p=0; p<points.length; p++){
 			path = points[p].parentpath;
@@ -202,7 +202,7 @@
 			}
 		}
 
-		debug(' selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
+		// debug(' selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
 	}
 
 //-------------------------------------------------------
@@ -296,13 +296,13 @@
 		return !failed;
 	};
 
-	_UI.ms.shapes.draw_PathPoints = function(sel) {
+	_UI.ms.shapes.draw_PathPoints = function() {
 		// debug('\n MS.shapes.draw_PathPoints - START');
 		var s;
 		for(var m=0; m<this.members.length; m++){
 			s = this.members[m];
 			// debug('\t drawing points on shape ' + m + ' as ' + s.path.pathpoints);
-				if(s.objtype !== 'componentinstance') draw_PathPoints(this.members[m].path.pathpoints, sel);
+				if(s.objtype !== 'componentinstance') draw_PathPoints(this.members[m].path.pathpoints);
 		}
 
 		// debug(' MS.shapes.draw_PathPoints - END\n');
