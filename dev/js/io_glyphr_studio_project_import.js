@@ -21,9 +21,10 @@
 
 		var vn = false;
 		var v = false;
-		if(fcontent.projectsettings){
-			vn = fcontent.projectsettings.versionnum;
-			v = fcontent.projectsettings.version;
+		var ps = fcontent.projectsettings;
+		if(ps){
+			vn = ps.versionnum;
+			v = ps.version;
 		}
 
 		// debug(fcontent);
@@ -32,7 +33,11 @@
 		if(!v) { error_NoVersionFound(); return; }
 
 		// Give pre-Beta-3 accurate version
-		if(!vn) vn = '0.3.0';
+		if(!vn) {
+			vn = '0.3.0';
+			ps.initialversionnum = '0.3.0';
+		}
+		if(!ps.initialversionnum) ps.initialversionnum = vn;
 
 		vn = vn.split(".");
 		var major = vn[0]*1;
@@ -67,8 +72,8 @@
 		// debug('\t done with v1 minor updates');
 
 		// Update the version
-		fcontent.projectsettings.versionnum = _UI.thisGlyphrStudioVersionNum;
-		fcontent.projectsettings.version = _UI.thisGlyphrStudioVersion;
+		ps.versionnum = _UI.thisGlyphrStudioVersionNum;
+		ps.version = _UI.thisGlyphrStudioVersion;
 
 		// Hydrate after all updates
 		hydrateGlyphrProject(fcontent);
@@ -202,11 +207,12 @@
 	function migrate_0_4_to_0_5(fc) {
 		// debug('\n migrate_0_4_to_0_5 - START');
 		var tc;
-		for(var i=0; i<fc.fontchars.length; i++){
+
+		for(var i in fc.fontchars){ if(fc.fontchars.hasOwnProperty(i)){
 			tc = fc.fontchars[i];
-			//debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
+			// debug("migrate_0_3_to_0_4 - fontchars " + i + " is " + tc);
 			tc.charwidth = tc.advancewidth || fc.projectsettings.upm || 1000;
-		}
+		}}
 		// debug(fc);
 		// debug(' migrate_0_4_to_0_5 - END\n');
 		return fc;

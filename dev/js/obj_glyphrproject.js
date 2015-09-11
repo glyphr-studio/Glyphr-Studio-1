@@ -14,6 +14,7 @@
 			// Internal Stuff
 			'version': _UI.thisGlyphrStudioVersion,			// project version
 			'versionnum': _UI.thisGlyphrStudioVersionNum,	// project number version
+			'initialversionnum': _UI.thisGlyphrStudioVersionNum,	// project number version that survives upgrades
 			'projectid': false,		// A unique ID for this project
 			
 			// Font Metrics
