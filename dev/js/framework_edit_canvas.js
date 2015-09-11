@@ -16,8 +16,8 @@
 		return ''+
 			'<div id="notation">&#x20E2;</div>' +
 			'<canvas id="glypheditcanvas" width=12 height=12 ></canvas>' +
-			'<div id="toolsarea">&#x20E2;</div>' +
-			'<div id="viewarea">&#x20E2;</div>' +
+			'<div id="toolsarea">(╯°□°）╯︵ ┻━┻</div>' +
+			'<div id="viewarea">&nbsp;</div>' +
 			makeFloatLogo();
 	}
 

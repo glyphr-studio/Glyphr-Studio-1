@@ -224,19 +224,19 @@
 	function nudge(dx, dy) {
 		var mx = (dx * _GP.projectsettings.spinnervaluechange);
 		var my = (dy * _GP.projectsettings.spinnervaluechange);
+		var em = getEditMode();
 
-		if(_UI.navhere === 'kerning'){
+		if(em === 'kern'){
 			getSelectedKern().value += (mx || my);
 			redraw('Nudge');
-		} else if(_UI.ms.shapes.count()){
-			var singleshape = _UI.ms.shapes.getSingleton();
-			if(singleshape && singleshape.path.sp()){
-				singleshape.path.sp().updatePathPointPosition('P', mx, my);
-			} else {
+		} else if(em === 'pointer'){
 				_UI.ms.shapes.updateShapePosition(mx, my);
-			}
-			redraw('Nudge');
+		} else if(em === 'pen'){
+				_UI.ms.points.updatePathPointPosition('P', mx, my);
 		}
+		
+		redraw('Nudge');
+		
 	}
 
 // end of file

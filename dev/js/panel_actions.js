@@ -106,15 +106,14 @@
 		var selwi = getSelectedWorkItemID();
 		
 		if(cbs){
-			var newshapes = clone(cbs.s);
+			var newshapes = [];
+			var sourceshapes = cbs.s;
 			var ts, newname, newsuffix, n;
 			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
 
-			_UI.ms.shapes.clear();
-			_UI.ms.points.clear();
 
-			for(var s=0; s<newshapes.length; s++){
-				ts = new Shape(newshapes[s]);
+			for(var s=0; s<sourceshapes.length; s++){
+				ts = new Shape(sourceshapes[s]);
 
 				if(cbs.c === selwi) {
 					cbs.dx += 20;
@@ -152,8 +151,11 @@
 					//debug("PASTESHAPE - pasted a component, added " + _UI.selectedglyph + " to usedin array.");
 				}
 
-				addShape(ts);
+				newshapes.push(addShape(ts));
 			}
+
+			_UI.ms.shapes.clear();
+			_UI.ms.points.clear();
 
 			for(var t=0; t<newshapes.length; t++) _UI.ms.shapes.add(newshapes[t]);
 		}

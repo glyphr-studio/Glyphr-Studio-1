@@ -47,7 +47,7 @@
 			}
 		}
 
-		this.calcGlyphMaxes();
+		if(this.calcGlyphMaxes) this.calcGlyphMaxes();
 		// debug(' GLYPH - END\n');
 	}
 

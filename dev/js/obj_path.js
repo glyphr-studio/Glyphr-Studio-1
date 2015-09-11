@@ -27,7 +27,11 @@
 				this.pathpoints[i].parentpath = this;
 			}
 		}
-		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
+		
+		if(isval(oa.winding)) this.winding = oa.winding;
+		else if (this.findWinding) this.findWinding();
+		else this.winding = 0;
+		
 		// internal
 		this.maxes = oa.maxes || clone(_UI.mins);
 
