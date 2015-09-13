@@ -127,18 +127,31 @@
 	function saveGlyphrProjectFile(){
 		// debug('SAVEGLYPHRPROJECTVILE');
 		// debug('\t ' + _GP.projectsettings.formatsavefile);
-		var jsonString;
+		
+		var savedata = cloneForSaveData(_GP);
 
-		if(_GP.projectsettings.formatsavefile) jsonString = json(_GP);
-		else jsonString = JSON.stringify(_GP);
+		if(_GP.projectsettings.formatsavefile) savedata = json(savedata);
+		else savedata = JSON.stringify(savedata);
 
-		//debug('saveGlyphrProjectFile - \n'+jsonString);
+		//debug('saveGlyphrProjectFile - \n'+savedata);
 		var fname =  _GP.projectsettings.name + ' - Glyphr Project - ' + genDateStampSuffix() + '.txt';
 
-		saveFile(fname, jsonString);
+		saveFile(fname, savedata);
 
 		closeDialog();
 		setProjectAsSaved();
+	}
+
+	function cloneForSaveData(cobj){
+		var newObj = (cobj instanceof Array) ? [] : {};
+		for (var i in cobj) {
+			if(i !== 'parentpath'){
+				if (cobj[i] && typeof cobj[i] === 'object') {
+					newObj[i] = cloneForSaveData(cobj[i]);
+				} else newObj[i] = cobj[i];
+			}		
+		}
+		return newObj;	
 	}
 
 	function genProjectID() {
