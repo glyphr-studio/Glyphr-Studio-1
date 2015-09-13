@@ -127,10 +127,10 @@
 	function saveGlyphrProjectFile(){
 		// debug('SAVEGLYPHRPROJECTVILE');
 		// debug('\t ' + _GP.projectsettings.formatsavefile);
-		var jsonString = clone(_GP, true);
+		var jsonString;
 
-		if(_GP.projectsettings.formatsavefile) jsonString = json(jsonString);
-		else jsonString = JSON.stringify(jsonString);
+		if(_GP.projectsettings.formatsavefile) jsonString = json(_GP);
+		else jsonString = JSON.stringify(_GP);
 
 		//debug('saveGlyphrProjectFile - \n'+jsonString);
 		var fname =  _GP.projectsettings.name + ' - Glyphr Project - ' + genDateStampSuffix() + '.txt';

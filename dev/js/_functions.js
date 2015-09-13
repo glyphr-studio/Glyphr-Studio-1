@@ -335,16 +335,12 @@ function saveFile(fname, buffer, ftype) {
 	// returns a full new copy of any object
 	// 'parentpath' is a PathPoint property that is a pointer to it's parent Path
 	// causes infinite loops when cloning objects.  Kind of a hack.
-	function clone(cobj, noparentpath){
+	function clone(cobj){
 		var newObj = (cobj instanceof Array) ? [] : {};
 		for (var i in cobj) {
-			if(i === 'parentpath'){
-				if(noparentpath) newObj[i] = false;
-				else newObj[i] = cobj[i];
-			} else {			
-				if (cobj[i] && typeof cobj[i] === 'object') newObj[i] = clone(cobj[i]);
-				else newObj[i] = cobj[i];
-			}
+			if (cobj[i] && typeof cobj[i] === 'object' && i !== 'parentpath') {
+				newObj[i] = clone(cobj[i]);
+			} else newObj[i] = cobj[i];
 		}
 		return newObj;
 	}
