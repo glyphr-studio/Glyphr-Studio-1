@@ -13,9 +13,9 @@
 // These are NOT SAVED with the project
 	var _UI = {
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
@@ -93,6 +93,11 @@
 		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
 		'redrawing': false,
+		'redraw': {
+			'redrawcanvas': true,
+			'redrawpanels': true,
+			'calledby': ''
+		},
 		'thumbsize': 50,
 		'thumbgutter': 5,
 		'showgrid': true,		// display the grid

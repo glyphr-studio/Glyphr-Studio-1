@@ -143,7 +143,7 @@
 				this.dragselecting = true;
 			}
 
-			redraw('Event Handler Tool_ShapeEdit mousedown');
+			redraw({calledby:'Event Handler Tool_ShapeEdit mousedown'});
 		};
 
 		this.mousemove = function (ev) {
@@ -207,7 +207,7 @@
 				eh.lastx = eh.mousex;
 				eh.lasty = eh.mousey;
 				eh.uqhaschanged = true;
-				redraw('Event Handler Tool_ShapeEdit mousemove');
+				redraw({calledby:'Event Handler Tool_ShapeEdit mousemove'});
 			}
 		};
 
@@ -250,7 +250,7 @@
 			eh.firsty = -100;
 			if(eh.uqhaschanged) history_put('Path Edit tool');
 			eh.uqhaschanged = false;
-			redraw('Event Handler Tool_ShapeEdit mouseup');
+			redraw({calledby:'Event Handler Tool_ShapeEdit mouseup'});
 			// debug('EVENTHANDLER - after Tool_ShapeEdit Mouse Up REDRAW');
 		};
 	}
@@ -280,7 +280,7 @@
 
 			this.dragging = true;
 
-			redraw('Event Handler Tool_NewBasicShape mousedown');
+			redraw({calledby:'Event Handler Tool_NewBasicShape mousedown'});
 			//debug('Tool_NewBasicShape MOUSEDOWN - after REDRAW');
 		};
 
@@ -292,7 +292,7 @@
 				_UI.eventhandlers.tempnewbasicshape.ymin = Math.min(_UI.eventhandlers.firsty, cy_sy(_UI.eventhandlers.mousey));
 
 				_UI.eventhandlers.uqhaschanged = true;
-				redraw('Event Handler Tool_NewBasicShape mousemove');
+				redraw({calledby:'Event Handler Tool_NewBasicShape mousemove'});
 				//debug('Tool_NewBasicShape MOUSEMOVE past redraw');
 			}
 		};
@@ -385,7 +385,7 @@
 					this.firstpoint = false;
 					this.currpt = {};
 
-					redraw('Event Handler Tool_NewPath mousedown');
+					redraw({calledby:'Event Handler Tool_NewPath mousedown'});
 					return;
 				}
 
@@ -398,7 +398,7 @@
 			eh.lastx = eh.mousex;
 			eh.lasty = eh.mousey;
 
-			redraw('Event Handler Tool_NewPath mousedown');
+			redraw({calledby:'Event Handler Tool_NewPath mousedown'});
 		};
 
 		this.mousemove = function (ev) {
@@ -421,7 +421,7 @@
 				eh.lasty = eh.mousey;
 				eh.uqhaschanged = true;
 
-				redraw('Event Handler Tool_NewPath mousemove');
+				redraw({calledby:'Event Handler Tool_NewPath mousemove'});
 
 			} else if(this.newshape && this.newshape.path.isOverFirstPoint(cx_sx(eh.mousex), cy_sy(eh.mousey))){
 			 	setCursor('penSquare');
@@ -446,7 +446,7 @@
 				// For new shape tools, mouse up always adds to the undo-queue
 				history_put('New Path tool');
 				_UI.eventhandlers.uqhaschanged = false;
-				redraw('Event Handler Tool_NewPath mouseup');
+				redraw({calledby:'Event Handler Tool_NewPath mouseup'});
 			}
 
 			this.dragging = false;
@@ -495,7 +495,7 @@
 			}
 
 			if(_UI.ms.shapes.getMembers().length) _UI.navprimaryhere = 'npAttributes';
-			redraw('Event Handler Tool_PathEdit mousedown');
+			redraw({calledby:'Event Handler Tool_PathEdit mousedown'});
 		};
 
 		this.mousemove = function (ev) {
@@ -542,7 +542,7 @@
 				eh.lasty = eh.mousey;
 				eh.uqhaschanged = true;
 				selectShapesThatHaveSelectedPoints();
-				redraw('Event Handler Tool_PathEdit mousemove');
+				redraw({calledby:'Event Handler Tool_PathEdit mousemove'});
 			}
 
 			var cp = _UI.ms.shapes.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
@@ -565,7 +565,7 @@
 				updateCurrentGlyphWidth();
 				history_put('Path Edit tool');
 				eh.uqhaschanged = false;
-				redraw('Event Handler Tool_PathEdit mouseup');
+				redraw({calledby:'Event Handler Tool_PathEdit mouseup'});
 			}
 		};
 	}
@@ -603,7 +603,7 @@
 			}
 
 			_UI.eventhandlers.hoverpoint = false;
-			redraw('Tool_PathAddPoint.mousedown');
+			redraw({calledby:'Tool_PathAddPoint.mousedown'});
 		};
 
 		this.mousemove = function(ev) {
@@ -628,7 +628,7 @@
 				closeNotation();
 			}
 
-			redraw('Tool_PathAddPoint.mousemove');
+			redraw({calledby:'Tool_PathAddPoint.mousemove'});
 		};
 
 		this.mouseup = function() {};
@@ -662,7 +662,7 @@
 			if (this.dragging) {
 				// Moving shapes if mousedown
 				setView({'dx' : (_UI.eventhandlers.mousex-this.deltax), 'dy' : (_UI.eventhandlers.mousey-this.deltay)});
-				redraw('Event Handler Tool_Pan mousemove');
+				redraw({calledby:'Event Handler Tool_Pan mousemove'});
 			}
 		};
 	}
@@ -696,7 +696,7 @@
 				var val = (1*sk.value);
 				sk.value = val + (1*(_UI.eventhandlers.mousex - this.deltax)/getView().dz);
 				this.deltax = (_UI.eventhandlers.mousex);
-				redraw();
+				redraw({calledby:'Kern.mousemove'});
 			}
 		};
 	}

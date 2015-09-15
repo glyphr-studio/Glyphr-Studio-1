@@ -172,7 +172,7 @@
 
 		history_put('component '+key);
 		_UI.focuselement = id;
-		redraw('componentInstanceDetails');
+		redraw({calledby:'componentInstanceDetails'});
 	}
 
 // end of file

@@ -56,7 +56,7 @@
 
 		_UI.ms.shapes.clear();
 		_UI.ms.points.clear();
-		redraw('history_pull');
+		redraw({calledby:'history_pull'});
 
 
 		// debug('\t after redraw');

@@ -103,7 +103,7 @@
 			if(g.name === 'horizontal guide') g.name = 'vertical guide';
 			else if(g.name === 'vertical guide') g.name = 'horizontal guide';
 		}
-		redraw();
+		redraw({calledby:'updateGuide'});
 	}
 
 	function removeGuide(id) {
@@ -111,7 +111,7 @@
 		var con = '<h1>Delete Guide</h1>';
 		con += 'Are you sure you want to remove the guide: ';
 		con += g.name + '?<br><br>';
-		con += '<button class="buttonsel" onclick="delete _GP.projectsettings.guides[\''+id+'\']; closeDialog(); redraw();">Delete Guide</button>';
+		con += '<button class="buttonsel" onclick="delete _GP.projectsettings.guides[\''+id+'\']; closeDialog(); redraw({calledby:\'removeGuide\'});">Delete Guide</button>';
 		con += '<button onclick="closeDialog();">Cancel</button>';
 
 		openDialog(con);
@@ -120,7 +120,7 @@
 	function showGuideSatChooser(ctx, id) {
 		var sc = new SatChooser({clickCallback:function(args){
 			_GP.projectsettings.guides[id].color = args.colorstring;
-			redraw();
+			redraw({calledby:'SatChooser.callback'});
 		}});
 		sc.show({elem:ctx});
 	}
@@ -139,7 +139,7 @@
 
 		g[id] = new Guide({});
 
-		redraw();
+		redraw({calledby:'newGuide'});
 	}
 
 // end of file

@@ -8,7 +8,7 @@
 	function loadPage_ligatures(){
 		// debug('\n loadPage_ligatures - START');
 
-		getEditDocument().getElementById("mainwrapper").innerHTML = editPage_Content();
+		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
 		initEventHandlers();
 		clickEmptySpace();
@@ -23,7 +23,7 @@
 		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
 		else _UI.selectedtool = 'pathaddpoint';
 
-		redraw("loadPage_ligatures");
+		redraw({calledby:'loadPage_ligatures'});
 	}
 
 	function showNewLigatureDialog() {
@@ -89,7 +89,7 @@
 		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'glyphhex':ffl});
 
 		_UI.selectedglyph = getFirstID(_GP.ligatures);
-		redraw();
+		redraw({calledby:'addCommonLigatures'});
 	}
 
 	function deleteLigatureConfirm(){
@@ -130,7 +130,7 @@
 		// history_put('Deleted ' + oldname);
 
 		// debug('\t after delete ' + _GP.ligatures);
-		redraw();
+		redraw({calledby:'deleteLigature'});
 
 		// debug('deleteLigature - END\n');
 	}

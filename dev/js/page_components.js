@@ -23,7 +23,7 @@
 		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
 		else _UI.selectedtool = 'pathaddpoint';
 
-		redraw("loadPage_components");
+		redraw({calledby:'loadPage_components'});
 	}
 
 
@@ -79,7 +79,7 @@
 		// history_put('Deleted ' + oldname);
 
 		// debug('\t after delete ' + _GP.components);
-		redraw();
+		redraw({calledby:'deleteComponent'});
 
 		// debug('deleteComponent - END\n');
 	}

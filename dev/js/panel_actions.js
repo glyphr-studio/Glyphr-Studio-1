@@ -22,23 +22,23 @@
 		// Generate Sections
 
 		var allactions = "<h3"+(pop? " style='margin-top:0px;'":"")+">universal</h3>";
-		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw(\"updateactions\");'>paste</button><br>";
+		allactions += "<button class='"+(_UI.clipboardshape? "": "buttondis")+"' onclick='pasteShape();history_put(\"Paste Shape\");redraw({calledby:\"updateactions\"});'>paste</button><br>";
 		allactions += "<button class='"+(history_length()? "": "buttondis")+"' onclick='history_pull()'>undo" + (history_length()? (" ("+history_length()+")") : "") + "</button><br>";
-		if(!_UI.popout) allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
+		if(!_UI.popout) allactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw({calledby:\"updateactions\"});'>add new shape</button></button><br>";
 		if(!_UI.popout) allactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
 		if(!_UI.popout) allactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
 		if(_UI.navhere === 'components') allactions += "<button onclick='showDialog_LinkComponentToGlyph();'>link component to a glyph</button><br>";
 
 		var shapeactions = ss.length > 1? "<h3>shapes</h3>" : "<h3>shape</h3>";
 		shapeactions += "<button onclick='copyShape()'>copy</button><br>";
-		shapeactions += "<button onclick='_UI.ms.shapes.flipEW();history_put(\"Flip Shape Horizontal\");redraw(\"updateactions\");'>flip horizontal</button><br>";
-		shapeactions += "<button onclick='_UI.ms.shapes.flipNS();history_put(\"Flip Shape Vertical\");redraw(\"updateactions\");'>flip vertical</button><br>";
-		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+		shapeactions += "<button onclick='_UI.ms.shapes.flipEW();history_put(\"Flip Shape Horizontal\");redraw({calledby:\"updateactions\"});'>flip horizontal</button><br>";
+		shapeactions += "<button onclick='_UI.ms.shapes.flipNS();history_put(\"Flip Shape Vertical\");redraw({calledby:\"updateactions\"});'>flip vertical</button><br>";
+		shapeactions += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw({calledby:\"updateactions\"});'>delete</button><br>";
 
 		if(ss.length === 1 && ss[0].objtype === 'componentinstance'){
-			shapeactions += "<button onclick='turnComponentIntoShapes();history_put(\"Unlinked Component\");redraw(\"turnComponentIntoShapes\");'>unlink this component</button><br>";
+			shapeactions += "<button onclick='turnComponentIntoShapes();history_put(\"Unlinked Component\");redraw({calledby:\"turnComponentIntoShapes\"});'>unlink this component</button><br>";
 		} else {
-			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();history_put(\"Turned Shape into a Component\");redraw(\"turnSelectedShapeIntoAComponent\");'>turn into a component</button><br>";
+			shapeactions += "<button onclick='turnSelectedShapeIntoAComponent();history_put(\"Turned Shape into a Component\");redraw({calledby:\"turnSelectedShapeIntoAComponent\"});'>turn into a component</button><br>";
 		}
 
 		var layeractions = "<h3>layer</h3>";
@@ -46,9 +46,9 @@
 		layeractions += "<button onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
 
 		var pointactions = "<h3>path point</h3>";
-		pointactions += "<button onclick='_UI.ms.points.insertPathPoint(); history_put(\"Insert Path Point\"); redraw(\"updateactions\");'>insert</button><br>";
-		pointactions += "<button class='"+(ss.length? "": "buttondis")+"' onclick='_UI.ms.points.deletePathPoints(); history_put(\"Delete Path Point\"); redraw(\"updateactions\");'>delete</button><br>";
-		pointactions += "<button onclick='_UI.ms.points.resetHandles(); history_put(\"Reset Path Point\"); redraw(\"updateactions\");'>reset handles</button><br>";
+		pointactions += "<button onclick='_UI.ms.points.insertPathPoint(); history_put(\"Insert Path Point\"); redraw({calledby:\"updateactions\"});'>insert</button><br>";
+		pointactions += "<button class='"+(ss.length? "": "buttondis")+"' onclick='_UI.ms.points.deletePathPoints(); history_put(\"Delete Path Point\"); redraw({calledby:\"updateactions\"});'>delete</button><br>";
+		pointactions += "<button onclick='_UI.ms.points.resetHandles(); history_put(\"Reset Path Point\"); redraw({calledby:\"updateactions\"});'>reset handles</button><br>";
 
 		// Put it all together
 		content += "<table class='actionsgrid'><tr>";
@@ -98,7 +98,7 @@
 			};
 			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape._UI.ms.shapes.name);
 		}
-		redraw('copyShape');
+		redraw({calledby:'copyShape', redrawcanvas:false});
 	}
 
 	function pasteShape(){
@@ -174,7 +174,7 @@
 		var swid = getSelectedWorkItemID();
 		if(chid !== swid){
 			getGlyph(chid).sendShapesTo(getSelectedWorkItemID());
-			redraw();
+			redraw({calledby:'pasteShapesFrom'});
 			history_put('Pasted Shapes to Glyph');
 			closeDialog();
 			showDialog_GetShapes('The shapes from "' + getGlyphName(chid) + '" were successfully pasted to glyph "' + getSelectedWorkItemName() + '".<br>');

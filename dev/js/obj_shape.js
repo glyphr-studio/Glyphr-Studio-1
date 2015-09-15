@@ -349,7 +349,7 @@
 		insertComponentInstance(newid);
 		_UI.selectedtool = 'shaperesize';
 		selectShape(getSelectedWorkItemShapes().length-1);
-		redraw('turnSelectedShapeIntoAComponent');
+		redraw({calledby:'turnSelectedShapeIntoAComponent'});
 	}
 
 	function getClickedShape(x,y){
@@ -417,7 +417,7 @@
 			openDialog('<h1>Invalid shape name</h1><br>Shape names must only contain alphanumeric glyphs or spaces.<br>');
 		}
 
-		redraw('Shape Name');
+		redraw({calledby:'Shape Name', redrawcanvas:false});
 	};
 
 

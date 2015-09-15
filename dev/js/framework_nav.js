@@ -196,7 +196,7 @@
 			}
 		}
 
-		// pages with redraw() call make_NavPanels_PopIn
+		// pages with redraw call make_NavPanels_PopIn
 		if(onCanvasEditPage()){
 			document.getElementById('mainwrapper').style.overflowY = 'hidden';
 		} else {

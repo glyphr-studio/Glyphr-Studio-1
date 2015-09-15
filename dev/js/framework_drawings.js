@@ -394,7 +394,7 @@
 		var re = "";
 
 		re += '<button class="pointtypebutton" style="background-color:'+bgcolor+';" ';
-		re += 'onclick="_UI.ms.points.setPointType(\''+type+'\'); history_put(\'Point Type: '+type+'\'); redraw(\'pointDetails\');" ';
+		re += 'onclick="_UI.ms.points.setPointType(\''+type+'\'); history_put(\'Point Type: '+type+'\'); redraw({calledby:\'pointDetails\'});" ';
 		re += 'title="point type: '+type+'" ';
 		re += '>';
 		re += '<svg version="1.1" ';
@@ -461,7 +461,7 @@
 				// 'debug(\'Clicked on checkbox '+varname+'\'); ' +
 				varname + ' = !' + varname + '; ' + 
 				//'history_put(\'Toggled '+idname+': '+!currbool+'\'); '+
-				'redraw(\'checkbox '+idname+'\'); ' +
+				'redraw({calledby:\'checkbox '+idname+'\'}); ' +
 			'">';
 		re += '<path fill="'+(currbool? selcolor : restcolor)+'" d="M17,12V8h-1V7h-1V6h-4v1h-1v1H9v4H8v8h10v-8H17z M15,12h-4V9h1V8h2v1h1V12z"/>';
 		re += '</svg>';
@@ -481,7 +481,7 @@
 
 		if(doredraw){
 			re += ' history_put(\'Toggled '+idname+': '+!currbool+'\');';
-			re += ' redraw(\'checkbox '+idname+'\');';
+			re += ' redraw({calledby:\'checkbox '+idname+'\'});';
 		}
 
 		re += '"/>';

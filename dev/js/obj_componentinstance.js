@@ -275,7 +275,7 @@
 
 			closeDialog();
 			history_put('insert component from glyphedit');
-			redraw('insertComponent');
+			redraw({calledby:'insertComponent'});
 			return true;
 		} else {
 			openDialog('<h1>Whoops</h1><div class="dialoglargetext">A circular link was found, components can\'t include links to themselves.<br>They can\'t handle the philosophical conundrum it poses.</div><br><br><button class="buttonsel" onclick="closeDialog();">Fine, I guess.</button>');
@@ -294,7 +294,7 @@
 		}
 
 		//debug('turnComponentIntoShapes - newshape \n'+json(newshape));
-		redraw('turnComponentIntoShapes');
+		redraw({calledby:'turnComponentIntoShapes'});
 	}
 
 //	UsedIn Array Stuff

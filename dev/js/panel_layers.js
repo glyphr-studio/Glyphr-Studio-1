@@ -31,7 +31,7 @@
 					else content += '<tr class="layer"';
 				}
 				
-				content += ' onclick="selectShape(' + i + '); redraw(\'updatelayers\'); ';
+				content += ' onclick="selectShape(' + i + '); redraw({calledby:\'updatelayers\'}); ';
 				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\');';
 				content += '">';
 
@@ -79,7 +79,7 @@
 		var numshapes = getSelectedWorkItemShapes().length;
 
 		var shapeactions ="<h3>shapes</h3>";
-		shapeactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw(\"updateactions\");'>add new shape</button></button><br>";
+		shapeactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw({calledby:\"updateactions\"});'>add new shape</button></button><br>";
 		shapeactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
 		shapeactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
 
@@ -103,7 +103,7 @@
 
 			content += '<td>';
 			content += shapeactions;
-			if(selshapes > 0) content += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw(\"updateactions\");'>delete</button><br>";
+			if(selshapes > 0) content += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw({calledby:\"updateactions\"});'>delete</button><br>";
 			content += "</td>";
 
 			if(numshapes > 1 && selshapes === 1){
@@ -131,7 +131,7 @@
 			var tempshape = wishapes[si+1];
 			wishapes[si+1] = wishapes[si];
 			wishapes[si] = tempshape;
-			redraw("moveShapeUp");
+			redraw({calledby:"moveShapeUp"});
 		}
 	}
 
@@ -142,7 +142,7 @@
 			var tempshape = wishapes[si-1];
 			wishapes[si-1] = wishapes[si];
 			wishapes[si] = tempshape;
-			redraw("moveShapeDown");
+			redraw({calledby:"moveShapeDown"});
 		}
 	}
 	

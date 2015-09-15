@@ -82,11 +82,11 @@
 			'<td class="leftcol">x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<input type="number" id="charx" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw({calledby:\'Glyph Details - X Position}\');}"'+
 				' value="' + round(sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="chary" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw({calledby:\'Glyph Details - Y Position}\');}"'+
 				' value="' + round(sc.maxes.ymax, 3) + '" >'+
 			'</td>'+
 		'</tr>';
@@ -95,11 +95,11 @@
 			'<td>width'+dimSplit()+'height</td>'+
 			'<td>'+
 				'<input type="number" id="charw" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(this.value,false,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Width : \'+this.value); redraw({calledby:\'Glyph Details - Width\'});}"'+
 				' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="charh" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(false,this.value,'+sc.ratiolock+'); history_put(\'Multi-selected Shapes Height : \'+this.value); redraw({calledby:\'Glyph Details - Height\'});}"'+
 				' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 			'</td>'+
 		'</tr>';
@@ -111,7 +111,7 @@
 
 		content += '<tr><td colspan=2>'+
 			'<table class="actionsgrid"><tr><td>'+			
-				'<button onclick="_UI.ms.shapes.reverseWinding();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
+				'<button onclick="_UI.ms.shapes.reverseWinding();history_put(\'Reverse Path Direction\');redraw({calledby:\'shapeDetails - Winding\')};">'+
 					'reverse winding'+
 				'</button>'+
 			'</td></tr></table>'+
@@ -134,11 +134,11 @@
 				'<td class="leftcol">x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<input type="number" id="charx" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw(\'Glyph Details - X Position\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw({calledby:\'Glyph Details - X Position}\');}"'+
 					' value="' + round(sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="chary" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw(\'Glyph Details - Y Position\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw({calledby:\'Glyph Details - Y Position}\');}"'+
 					' value="' + round(sc.maxes.ymax, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -147,11 +147,11 @@
 				'<td>width'+dimSplit()+'height</td>'+
 				'<td>'+
 					'<input type="number" id="charw" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw(\'Glyph Details - Width\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphSize(this.value,false,'+sc.ratiolock+'); history_put(\'Glyph Width : \'+this.value); redraw({calledby:\'Glyph Details - Width\'});}"'+
 					' value="' + round(sc.maxes.xmax-sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="charh" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw(\'Glyph Details - Height\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphSize(false,this.value,'+sc.ratiolock+'); history_put(\'Glyph Height : \'+this.value); redraw({calledby:\'Glyph Details - Height\'});}"'+
 					' value="' + round(sc.maxes.ymax-sc.maxes.ymin, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -163,8 +163,8 @@
 
 			content += '<tr><td colspan=2>'+
 				'<table class="actionsgrid"><tr><td>'+
-				'<button onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw(\'Glyph Details - FlipNS\');">Flip Vertical</button>'+
-				'<button onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw(\'Glyph Details - FlipEW\');">Flip Horizontal</button>'+
+				'<button onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">Flip Vertical</button>'+
+				'<button onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">Flip Horizontal</button>'+
 				'</td></tr></table>'+
 			'</td></tr>';
 		}
@@ -184,7 +184,7 @@
 					if(!sc.isautowide){
 						content += '<input type="number" id="charaw" step="'+svc+'" '+
 						'value="' + round(sc.glyphwidth, 3) + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw(\'glyphDetails\');">';
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw({calledby:{calledby:\'glyphDetails}\'});">';
 					} else {
 						content += '<input type="number" disabled="disabled" '+
 						'value="'+ round(sc.glyphwidth, 3) + '"/>';
@@ -209,7 +209,7 @@
 						if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
 						content += '<input type="number" id="charlsb" step="'+svc+'" '+
 						'value="' + sc.leftsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().leftsidebearing = (this.value*1); redraw(\'glyphDetails\');">';
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().leftsidebearing = (this.value*1); redraw({calledby:\'glyphDetails\'});">';
 					} else {
 						content +='<input type="number" disabled="disabled" '+
 						'value="'+ round(_GP.projectsettings.defaultlsb, 3) + '"/>';
@@ -234,7 +234,7 @@
 						if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
 						content += '<input type="number" id="charrsb" step="'+svc+'" '+
 						'value="' + sc.rightsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().rightsidebearing = (this.value*1); redraw(\'glyphDetails\');">';
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().rightsidebearing = (this.value*1); redraw({calledby:\'glyphDetails\'});">';
 					} else {
 						content +=	'<input type="number" disabled="disabled" '+
 						'value="'+round(_GP.projectsettings.defaultrsb, 3) + '"/>';
@@ -288,14 +288,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().xlock', s.xlock, 'ssxlock')+
 					'<input type="number" id="shapex" step="'+svc+'" '+
-					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw(\'shapeDetails - X Position\');}"')+
+					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw({calledby:\'shapeDetails - X Position}\');}"')+
 					' value="' + xval + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().ylock', s.ylock, 'ssylock')+
 					'<input type="number" id="shapey" step="'+svc+'" '+
-					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw(\'shapeDetails - Y Position\');}"')+
+					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw({calledby:\'shapeDetails - Y Position}\');}"')+
 					' value="' + yval + '" >'+
 				'</div>'+
 			'</td>'+
@@ -307,14 +307,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().wlock', s.wlock, 'sswlock')+
 					'<input type="number" id="shapew" step="'+svc+'" '+
-					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(this.value,false,_UI.ms.shapes.ratiolock); history_put(\'Shape Width : \'+this.value); redraw(\'shapeDetails - Width\');}"')+
+					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(this.value,false,_UI.ms.shapes.ratiolock); history_put(\'Shape Width : \'+this.value); redraw({calledby:\'shapeDetails - Width\'});}"')+
 					' value="' + wval + '" >'+
 				"</div>"+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().hlock', s.hlock, 'sshlock')+
 					'<input type="number" id="shapeh" step="'+svc+'" '+
-					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(false,this.value,_UI.ms.shapes.ratiolock); history_put(\'Shape Height : \'+this.value); redraw(\'shapeDetails - Height\');}"')+
+					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(false,this.value,_UI.ms.shapes.ratiolock); history_put(\'Shape Height : \'+this.value); redraw({calledby:\'shapeDetails - Height\'});}"')+
 					' value="' + hval + '" ></td>'+
 				'</div>'+
 			'</td>'+
@@ -337,7 +337,7 @@
 		content += '<tr>'+
 			'<td> overlap mode </td>'+
 			'<td>'+
-				'<button style="width:180px; height:26px; padding:0px;" onclick="_UI.ms.shapes.reverseWinding();history_put(\'Reverse Path Direction\');redraw(\'shapeDetails - Winding\');">'+
+				'<button style="width:180px; height:26px; padding:0px;" onclick="_UI.ms.shapes.reverseWinding();history_put(\'Reverse Path Direction\');redraw({calledby:\'shapeDetails - Winding\'});">'+
 				(s.path.winding===0?'unknown':(s.path.winding>0?'counterclockwise&ensp;&#8634':'clockwise&ensp;&#8635'))+
 				'</button>'+
 				'&ensp;'+helpUI(overlaphelptext)+
@@ -364,7 +364,7 @@
 
 		content += '<tr>'+
 			'<td class="leftcol"> selected point </td>'+
-			'<td><input type="number" id="pointnum" class="lockpad" value="' + _UI.ms.points.getSingletonPointNumber() + '" onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().parentpath.selectPathPoint(this.value); redraw(\'pointDetails\');"></td>'+
+			'<td><input type="number" id="pointnum" class="lockpad" value="' + _UI.ms.points.getSingletonPointNumber() + '" onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().parentpath.selectPathPoint(this.value); redraw({calledby:\'pointDetails\'});"></td>'+
 		'</tr>';
 
 		content += '<tr><td> point type </td><td>';
@@ -379,14 +379,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.points.getSingleton().P.xlock', tp.P.xlock, 'Pxlock')+
 					'<input type="number" id="pointx" step="'+svc+'" '+
-					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw(\'pointDetails\');"')+
+					(tp.P.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'P\', (this.value), \'null\'); history_put(\'Point X Position : \'+this.value); redraw({calledby:\'pointDetails\'});"')+
 					' value="' + round(tp.P.x, 3) + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.points.getSingleton().P.ylock', tp.P.ylock, 'Pylock')+
 					'<input type="number" id="pointy" step="'+svc+'" '+
-					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw(\'pointDetails\');"')+
+					(tp.P.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'P\', \'null\', (this.value)); history_put(\'Point Y Position : \'+this.value); redraw({calledby:\'pointDetails\'});"')+
 					' value="' + round(tp.P.y, 3) + '" >'+
 				'</div>'+
 			'</td>'+
@@ -405,14 +405,14 @@
 					'<div class="lockwrapper">'+
 						lockUI('_UI.ms.points.getSingleton().H1.xlock', tp.H1.xlock, 'H1xlock')+
 						'<input type="number" id="handle1x" step="'+svc+'" '+
-						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H1.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H1\', (this.value), \'null\'); history_put(\'H1 X Position : \'+round(this.value)); redraw({calledby:\'pointDetails\'});"')+
 						' value="' + round(tp.H1.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
 						lockUI('_UI.ms.points.getSingleton().H1.ylock', tp.H1.ylock, 'H1ylock')+
 						'<input type="number" id="handle1y" step="'+svc+'" '+
-						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H1.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H1\', \'null\', (this.value)); history_put(\'H1 Y Position : \'+round(this.value)); redraw({calledby:\'pointDetails\'});"')+
 						' value="' + round(tp.H1.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+
@@ -434,14 +434,14 @@
 					'<div class="lockwrapper">'+
 						lockUI('_UI.ms.points.getSingleton().H2.xlock', tp.H2.xlock, 'H2xlock')+
 						'<input type="number" id="handle2x" step="'+svc+'" '+
-						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H2.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H2\', (this.value), \'null\'); history_put(\'H2 X Position : \'+round(this.value)); redraw({calledby:\'pointDetails\'});"')+
 						' value="' + round(tp.H2.x, 3) + '" >'+
 					'</div>'+
 					dimSplit()+
 					'<div class="lockwrapper">'+
 						lockUI('_UI.ms.points.getSingleton().H2.ylock', tp.H2.ylock, 'H2ylock')+
 						'<input type="number" id="handle2y" step="'+svc+'" '+
-						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw(\'pointDetails\');"')+
+						(tp.H2.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; _UI.ms.points.getSingleton().setPathPointPosition(\'H2\', \'null\', (this.value)); history_put(\'H2 Y Position : \'+round(this.value)); redraw({calledby:\'pointDetails\'});"')+
 						' value="' + round(tp.H2.y, 3) + '" >'+
 					'</div>'+
 				'</td>'+

@@ -55,7 +55,7 @@
 		}
 
 		_UI.selectedkern = getFirstID(_GP.kerning);
-		redraw();
+		redraw({calledby:'addCommonKernPairs'});
 	}
 
 	function updateKernValue(id, val) {
@@ -75,7 +75,7 @@
 
 	function selectKern(id) {
 		_UI.selectedkern = id;
-		redraw();
+		redraw({calledby:'selectKern'});
 	}
 
 	function showNewKernPairDialog() {
@@ -110,7 +110,7 @@
 
 			closeDialog();
 			_UI.selectedkern = id;
-			redraw();
+			redraw({calledby:'createNewKernPair'});
 		}
 	}
 
@@ -128,7 +128,7 @@
 		con += 'Are you sure you want to remove the kern pair:<br><br>';
 		con += k.getName();
 		con += '<br><br>';
-		con += '<button class="buttonsel" onclick="delete _GP.kerning[\''+id+'\']; _UI.selectedkern = getFirstID(_GP.kerning); closeDialog(); redraw();">Delete Kern Pair</button>';
+		con += '<button class="buttonsel" onclick="delete _GP.kerning[\''+id+'\']; _UI.selectedkern = getFirstID(_GP.kerning); closeDialog(); redraw({calledby:\'deleteKernPairConfirm\'});">Delete Kern Pair</button>';
 		con += '<button onclick="closeDialog();">Cancel</button>';
 
 		openDialog(con);

@@ -176,7 +176,7 @@
 			history_put('Use Handle 2 : ' + this.useh2);
 		}
 		_UI.ms.shapes.calcMaxes();
-		redraw('pointDetails');
+		redraw({calledby:'pointDetails'});
 
 		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
 	};

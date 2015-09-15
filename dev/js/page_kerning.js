@@ -8,22 +8,22 @@
 	function loadPage_kerning(){
 
 		// debug("LOADING PAGE >> loadPage_kerning");
-		getEditDocument().getElementById("mainwrapper").innerHTML = editPage_Content();
+		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 
 		setupKerningEditCanvas();
 
 		initEventHandlers();
 
-		_UI.selectedtool = "kern";
+		_UI.selectedtool = 'kern';
 
-		redraw("loadPage_kerning");
+		redraw({calledby:'loadPage_kerning'});
 	}
 
 	function setupKerningEditCanvas(){
-		_UI.glypheditcanvas = getEditDocument().getElementById("glypheditcanvas");
+		_UI.glypheditcanvas = getEditDocument().getElementById('glypheditcanvas');
 		_UI.glypheditcanvas.height = _UI.glypheditcanvassize;
 		_UI.glypheditcanvas.width = _UI.glypheditcanvassize;
-		_UI.glypheditctx = _UI.glypheditcanvas.getContext("2d");
+		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		_UI.glypheditcanvas.onmouseout = mouseoutcec;
 		_UI.glypheditcanvas.onmouseover = mouseovercec;

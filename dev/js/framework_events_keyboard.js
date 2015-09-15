@@ -9,25 +9,25 @@
 		var kc = getKeyFromEvent(event);
 		// debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		if(!onCanvasEditPage()) return;
-		
+
 		var eh = _UI.eventhandlers;
 		// debug('\t eh.lastTool = ' + eh.lastTool);
 
 		// Ctrl
 		if(kc === 'ctrl'){
-			// debug('\t CTRL');			
+			// debug('\t CTRL');
 			updateCursor();
 			eh.multi = false;
-			redraw('Event Handler - Keyup Ctrl for multi select');
+			redraw({calledby:'Event Handler - Keyup Ctrl for multi select', redrawcanvas:false});
 		}
-		
+
 
 		// Space
 		if(kc === 'space' && eh.ismouseovercec){
 			_UI.selectedtool = eh.lastTool;
 			eh.isSpaceDown = false;
 			updateCursor();
-			redraw('Event Handler - Keyup Spacebar for pan toggle');
+			redraw({calledby:'Event Handler - Keyup Spacebar for pan toggle', redrawcanvas:false});
 		}
 
 
@@ -63,14 +63,14 @@
 			ioOTF_exportOTFfont();
 		}
 
-		// q 
+		// q
 		// for dev mode clear console
 		if(_UI.devmode && event.ctrlKey && kc==='q'){
 			event.preventDefault();
 			console.clear();
 		}
 
-		
+
 		// Only allow the following stuff for canvas edit pages
 		if(!onCanvasEditPage()) return;
 		var em = getEditMode();
@@ -86,9 +86,9 @@
 				if(em === 'pointer') setCursor('pointerPlus');
 				if(em === 'pen') setCursor('penPlus');
 			}
-			
+
 			// debug('\t eh.lastTool = ' + eh.lastTool);
-			redraw('Event Handler - Keydown Ctrl for multi select');
+			redraw({calledby:'Event Handler - Keydown Ctrl for multi select', redrawcanvas:false});
 			return;
 		}
 
@@ -124,21 +124,21 @@
 		if(eh.multi && kc==='plus'){
 			event.preventDefault();
 			viewZoom(1.1);
-			redraw('Zoom Keyboard Shortcut');
+			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// minus
 		if(eh.multi && kc==='minus'){
 			event.preventDefault();
 			viewZoom(0.9);
-			redraw('Zoom Keyboard Shortcut');
+			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// 0
 		if(eh.multi && kc==='0'){
 			event.preventDefault();
 			setView(clone(_UI.defaultview));
-			redraw('Zoom Keyboard Shortcut');
+			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// left
@@ -180,11 +180,11 @@
 				if(mode === 'pen'){
 					_UI.ms.points.deletePathPoints();
 					history_put('Delete Path Point');
-					redraw('Keypress DEL or BACKSPACE');
+					redraw({calledby:'Keypress DEL or BACKSPACE'});
 				} else if (mode === 'pointer'){
 					_UI.ms.shapes.deleteShapes();
 					history_put('Delete Shape');
-					redraw('Keypress DEL or BACKSPACE');
+					redraw({calledby:'Keypress DEL or BACKSPACE'});
 				}
 			}
 
@@ -199,7 +199,7 @@
 				event.preventDefault();
 				pasteShape();
 				history_put('Paste Shape');
-				redraw('Paste Shape');
+				redraw({calledby:'Paste Shape'});
 			}
 
 
@@ -228,15 +228,14 @@
 
 		if(em === 'kern'){
 			getSelectedKern().value += (mx || my);
-			redraw('Nudge');
 		} else if(em === 'pointer'){
 				_UI.ms.shapes.updateShapePosition(mx, my);
 		} else if(em === 'pen'){
 				_UI.ms.points.updatePathPointPosition('P', mx, my);
 		}
-		
-		redraw('Nudge');
-		
+
+		redraw({calledby:'Nudge'});
+
 	}
 
 // end of file

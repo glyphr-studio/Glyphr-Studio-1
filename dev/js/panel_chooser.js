@@ -145,6 +145,13 @@
 		return re;
 	}
 
+	/*
+		PERF NOTES
+		table layout load times: 97 78 83 76 97 70 77 73 70 66
+		div layout load times:   99 82 77 89 85 84 72 78 69 68
+
+	*/
+
 	function makeGlyphChooserButton(index, fname, selid){
 		// debug('\n makeGlyphChooserButton - START ' + index);
 		var onc = (fname + '(\'' + index + '\');');
@@ -154,7 +161,8 @@
 		// debug('\t getGlyph returned');
 		// debug(wi);
 		
-		var rv = '<table class="glyphselecttable" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'"><tr><td>';
+		// var rv = '<table class="glyphselect" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'"><tr><td>';
+		var rv = '<div class="glyphselect" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'">';
 
 		var issel = (index === selid);
 
@@ -180,7 +188,8 @@
 		}
 
 		rv += '<div class="glyphselectname">'+ (hexToHTML(index) || wi.name || '[no name])') +'</div>';
-		rv += '</td></tr></table>';
+		rv += '</div>';
+		// rv += '</td></tr></table>';
 
 		// debug(' makeGlyphChooserButton - END\n');
 		return rv;

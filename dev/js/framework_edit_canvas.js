@@ -30,7 +30,11 @@
 		It takes an optional 'calledby' variable, which is any string to identify what triggered
 		the redraw, for debugging purposes.
 	*/
-	function redraw(calledby){
+	function redraw(oa){
+		_UI.redraw.redrawcanvas = isval(oa.redrawcanvas) ? oa.redrawcanvas : true;
+		_UI.redraw.redrawpanels = isval(oa.redrawpanels) ? oa.redrawpanels : true;
+		_UI.redraw.calledby = oa.calledby || '';
+
 		if(_UI.redrawing){
 			// this is totally a hack
 			// debug('\t RETURNING because _UI.redrawing = ' + _UI.redrawing);
@@ -45,26 +49,37 @@
 	function reqAniFrame(fun) {
 		if(_UI.popout){
 			if(_UI.popout.requestAnimationFrame) _UI.popout.requestAnimationFrame(fun);
-			else fun();
+			else {
+				console.warn('no requestAnimationFrame');
+				fun();
+			}
 		} else {
 			if(window.requestAnimationFrame) window.requestAnimationFrame(fun);
-			else fun();
+			else {
+				console.warn('no requestAnimationFrame');
+				fun();
+			}
 		}
 	}
 
 	function redrawUnit() {
-		_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 
-		switch (_UI.navhere){
-			case 'glyph edit': redraw_GlyphEdit(); break;
-			case 'components': redraw_GlyphEdit(); break;
-			case 'ligatures': redraw_GlyphEdit(); break;
-			case 'kerning': redraw_Kerning(); break;
-			case 'test drive': redraw_TestDrive(); break;
+		if(_UI.redraw.redrawcanvas){
+			_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
+
+			switch (_UI.navhere){
+				case 'glyph edit': redraw_GlyphEdit(); break;
+				case 'components': redraw_GlyphEdit(); break;
+				case 'ligatures': redraw_GlyphEdit(); break;
+				case 'kerning': redraw_Kerning(); break;
+				case 'test drive': redraw_TestDrive(); break;
+			}
 		}
 
-		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
-		update_NavPanels();
+		if(_UI.redraw.redrawpanels){
+			if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
+			update_NavPanels();
+		}
 
 		if(_UI.focuselement) {
 			var fe = document.getElementById(_UI.focuselement);
@@ -137,8 +152,8 @@
 		zoom += "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
 		zoom += "<span style='width:15px; display:inline-block;'>&nbsp;</span>";
 		// Zoom
-		zoom += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
-		zoom += "<button title='zoom: fit to screen' class='tool' onclick='setView(clone(_UI.defaultview)); redraw(\"updatetools\");'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
+		zoom += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw({calledby:\"updatetools\"});'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
+		zoom += "<button title='zoom: fit to screen' class='tool' onclick='setView(clone(_UI.defaultview)); redraw({calledby:\"updatetools\"});'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
 		zoom += "<input type='number' title='zoom level' class='zoomreadout' value='" + round(getView("updatetools").dz*100, 2) + "' onchange='setViewZoom(this.value);'/>";
 		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
 		zoom += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
@@ -194,18 +209,18 @@
 
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
 
-		if(ctool === "newrect"){
+		if(ctool === 'newrect'){
 			setCursor('crosshairsSquare');
 			clickEmptySpace();
-		} else if (ctool === "newoval"){
+		} else if (ctool === 'newoval'){
 			setCursor('crosshairsCircle');
 			clickEmptySpace();
-		} else if (ctool === "newpath"){
+		} else if (ctool === 'newpath'){
 			setCursor('penPlus');
 			clickEmptySpace();
-		} else if(ctool === "pathedit"){
+		} else if(ctool === 'pathedit'){
 			setCursor('pen');
-		} else if (ctool === "shaperesize"){
+		} else if (ctool === 'shaperesize'){
 			setCursor('pointer');
 			// _UI.ms.shapes.calcMaxes();
 		}
@@ -214,7 +229,7 @@
 		closeNotation();
 		// updateCursor();
 
-		redraw("clicktool");
+		redraw({calledby:'clicktool', redrawpanels: false});
 	}
 
 	function updateCursor(tool){
@@ -438,7 +453,7 @@
 			'dy' : (_UI.eventhandlers.mousey-(deltay*zfactor))
 		});
 
-		redraw('viewZoom');
+		redraw({calledby:'viewZoom', redrawpanels:false});
 	}
 
 	function setViewZoom(zoom){
@@ -451,7 +466,7 @@
 			'dy' : v.dy
 		});
 
-		redraw('setViewZoom');
+		redraw({calledby:'setViewZoom', redrawpanels:false});
 	}
 
 	function resetThumbView(){
@@ -903,26 +918,22 @@
 //-------------------
 
 	function drawGrid(){
+		var xs = {
+			'xmax': _UI.glypheditcanvassize,
+			'xmin': 0,
+			'ymax': _UI.glypheditcanvassize,
+			'ymin': 0
+		};
+
+		// background white square
+		_UI.glypheditctx.fillStyle = 'white';
+		_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
+
 		if(_UI.showgrid){
 			var ps = _GP.projectsettings;
 			var v = getView('grid');
-			// var zupm = (ps.upm * v.dz);
-			// var gutter = ((_UI.glypheditcanvassize*v.dz) - zupm)/2;
-			// var zasc = (ps.ascent * v.dz);
-			var xs = {};
-			xs.xmax = _UI.glypheditcanvassize;
-			xs.xmin = 0;
-			xs.ymax = _UI.glypheditcanvassize;
-			xs.ymin = 0;
-			//debug('GRID: zupm:' + zupm + ' gutter:' + gutter + ' zasc:' + zasc + ' xs:' + JSON.stringify(xs));
-
-			// background white square
-			_UI.glypheditctx.fillStyle = 'white';
-			_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
-
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.glypheditctx.lineWidth = 1;
-
 
 			var l = Math.floor(_GP.projectsettings.colors.gridlightness / 100 * 255);
 			_UI.glypheditctx.strokeStyle = 'rgb('+l+','+l+','+l+')';
