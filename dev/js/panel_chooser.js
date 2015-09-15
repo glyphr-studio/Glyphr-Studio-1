@@ -12,14 +12,9 @@
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
-
-		var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs').replace('import svg', 'glyphs')]);
-		if(choices !== '<div class="charchooserwrapper"></div>' &&
-			choices !== '<div class="charchooserwrapper"><div class="glyphselectsectionbreak"></div></div>'){
-			content += '<div class="panel_section">';
-			content += choices;
-			content += '</div>';
-		}
+		content += '<div class="panel_section" id="glyphchooserchoices">';
+		// content += 'Loading...';
+		content += '</div>';
 		
 		if(_UI.navhere === 'ligatures'){
 			var emptyligs = getLength(_GP.ligatures) === 0;
@@ -37,6 +32,14 @@
 			if(!emptycoms) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
 			content += '</div>';
 		}
+
+		setTimeout(function(){
+			var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs').replace('import svg', 'glyphs')]);
+			if (choices !== '<div class="charchooserwrapper"></div>' &&
+				choices !== '<div class="charchooserwrapper"><div class="glyphselectsectionbreak"></div></div>'){
+					document.getElementById('glyphchooserchoices').innerHTML = choices;
+			}
+		}, 1);
 
 		return content;
 	}
