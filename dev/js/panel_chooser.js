@@ -1,8 +1,8 @@
  // start of file
 /**
 	Panel > Chooser
-	Shows a list of all the Glyphs to choose from 
-	for whatever the current page is.  Also has 
+	Shows a list of all the Glyphs to choose from
+	for whatever the current page is.  Also has
 	the logic for creating Glyph chooser dialogs.
 **/
 
@@ -12,11 +12,39 @@
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
+
+		if(_UI.navhere === 'glyph edit' && pluralGlyphRange()){
+			content += '<div class="glyphrangedropdown" onclick="showGlyphRangeChooser();">';
+
+			if(!isNaN(parseInt(_UI.selectedglyphrange))){
+				content += 'Custom Range ' + (_UI.selectedglyphrange+1);
+			} else {
+				switch(_UI.selectedglyphrange){
+					case 'basiclatin': content += 'Basic Latin'; break;
+					case 'latinsuppliment': content += 'Latin Suppliment'; break;
+					case 'latinextendeda': content += 'Latin Extended-A'; break;
+					case 'latinextendedb': content += 'Latin Extended-B'; break;
+				}
+			}
+			// content += '&emsp;&#x25BC;';
+			content += '<span>&#x2572;&#x2571;</span>';
+			content += '</div>';
+		}
+
 		content += '<div class="panel_section" id="glyphchooserchoices">';
-		// content += 'Loading...';
-		content += '</div>';
-		
-		if(_UI.navhere === 'ligatures'){
+
+		if(_UI.navhere === 'glyph edit'){
+			content += 'Loading...';
+			setTimeout(function(){
+				var choices = makeGenericGlyphChooserContent(fname, _UI.selectedglyphrange);
+				if (choices !== '<div class="charchooserwrapper"></div>' &&
+					choices !== '<div class="charchooserwrapper"><div class="glyphselectsectionbreak"></div></div>'){
+						document.getElementById('glyphchooserchoices').innerHTML = choices;
+				}
+			}, 1);
+
+		} else if(_UI.navhere === 'ligatures'){
+			content += makeGenericGlyphChooserContent(fname, 'ligatures');
 			var emptyligs = getLength(_GP.ligatures) === 0;
 			content += '<div class="panel_section" ';
 			content += emptyligs? 'style="padding-top:-10px;">' : '>';
@@ -24,7 +52,9 @@
 			if(!emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete selected ligature</button><br>';
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
+
 		} else if(_UI.navhere === 'components'){
+			content += makeGenericGlyphChooserContent(fname, 'components');
 			var emptycoms = getLength(_GP.components) === 0;
 			content += '<div class="panel_section" ';
 			content += emptycoms? 'style="padding-top:-10px;">' : '>';
@@ -33,119 +63,106 @@
 			content += '</div>';
 		}
 
-		setTimeout(function(){
-			var choices = makeGenericGlyphChooserContent(fname, [_UI.navhere.replace('glyph edit', 'glyphs').replace('import svg', 'glyphs')]);
-			if (choices !== '<div class="charchooserwrapper"></div>' &&
-				choices !== '<div class="charchooserwrapper"><div class="glyphselectsectionbreak"></div></div>'){
-					document.getElementById('glyphchooserchoices').innerHTML = choices;
-			}
-		}, 1);
+		content += '</div>';
 
 		return content;
 	}
 
-	function makeGenericGlyphChooserContent(funname, showarr) {
+	function showGlyphRangeChooser() {
+		var content = '';
+		var gr = _GP.projectsettings.glyphrange;
+
+		if(gr.basiclatin) content += '<button class="navtargetbutton glyphrangechooserbutton" onclick="_UI.selectedglyphrange = \'basiclatin\'; redraw({calledby:\'selectGlyphRange\', redrawcanvas:false});">Basic Latin</button>';
+		if(gr.latinsuppliment) content += '<button class="navtargetbutton glyphrangechooserbutton" onclick="_UI.selectedglyphrange = \'latinsuppliment\'; redraw({calledby:\'selectGlyphRange\', redrawcanvas:false});">Latin Suppliment</button>';
+		if(gr.latinextendeda) content += '<button class="navtargetbutton glyphrangechooserbutton" onclick="_UI.selectedglyphrange = \'latinextendeda\'; redraw({calledby:\'selectGlyphRange\', redrawcanvas:false});">Latin Extended-A</button>';
+		if(gr.latinextendedb) content += '<button class="navtargetbutton glyphrangechooserbutton" onclick="_UI.selectedglyphrange = \'latinextendedb\'; redraw({calledby:\'selectGlyphRange\', redrawcanvas:false});">Latin Extended-B</button>';
+	
+		for(var c=0; c<gr.custom.length; c++){
+			content += '<button class="navtargetbutton glyphrangechooserbutton" onclick="_UI.selectedglyphrange = '+c+'; redraw({calledby:\'selectGlyphRange\', redrawcanvas:false});">Custom Range '+(c+1)+'</button>';
+		}
+
+		document.getElementById('glyphchooserchoices').innerHTML = content;
+	}
+
+	function pluralGlyphRange() {
+		var gr = _GP.projectsettings.glyphrange;
+		var count = gr.custom.length;
+		if(gr.basiclatin) count++;
+		if(gr.latinextendeda) count++;
+		if(gr.latinextendedb) count++;
+		if(gr.latinsuppliment) count++;
+
+		return count > 1;
+	}
+
+	function makeGenericGlyphChooserContent(fname, show) {
 		// debug('\n makeGenericGlyphChooserContent - START');
 		// debug('\t passed fname ' + fname);
 
 		var selwi = getSelectedWorkItemID();
-		var re = '<div class="charchooserwrapper">';
-		var cr = _GP.projectsettings.glyphrange;
-		var showtitles = false;
-		var fname;
-		var showglyph = showarr.indexOf('glyphs') > -1;
-		var showcom = showarr.indexOf('components') > -1;
-		var showlig = showarr.indexOf('ligatures') > -1;
-		var reglyph = '';
-		var relig = '';
-		var recom = '';
+		var re = '';
 
-		if(showglyph && showlig || showglyph && showcom){
-			showtitles = true;
-		} else if (showglyph){
-			showtitles = (!cr.basiclatin || cr.latinsuppliment || cr.latinextendeda || cr.latinextendedb || cr.custom.length);
+		if(show === 'basiclatin'){
+			var bl = _UI.basiclatinorder;
+			for(var i=0; i<bl.length; i++){
+				re += makeGlyphChooserButton(bl[i], fname, selwi);
+			}
+			return re;
 		}
 
-		if(showglyph){
-			fname = funname? funname : 'selectGlyph';
-			if(cr.basiclatin){
-				var bl = _UI.basiclatinorder;
-				if(showtitles) reglyph += '<h3>basic latin</h3>';
-				for(var i=0; i<bl.length; i++){ reglyph += makeGlyphChooserButton(bl[i], fname, selwi); }
+		if(show === 'latinsuppliment'){
+			for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){
+				re += makeGlyphChooserButton(decToHex(s), fname, selwi);
 			}
+			return re;
+		}
 
-			if(cr.latinsuppliment){
-				if(showtitles) reglyph += '<h3>latin suppliment</h3>';
-				for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ reglyph += makeGlyphChooserButton(decToHex(s), fname, selwi); }
+		if(show === 'latinextendeda'){
+			for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){
+				re += makeGlyphChooserButton(decToHex(a), fname, selwi);
 			}
+			return re;
 
-			if(cr.latinextendeda){
-				if(showtitles) reglyph += '<h3>latin extended-a</h3>';
-				for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ reglyph += makeGlyphChooserButton(decToHex(a), fname, selwi); }
+		}
+
+		if(show === 'latinextendedb'){
+			for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){
+				re += makeGlyphChooserButton(decToHex(b), fname, selwi);
 			}
+			return re;
+		}
 
-			if(cr.latinextendedb){
-				if(showtitles) reglyph += '<h3>latin extended-b</h3>';
-				for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ reglyph += makeGlyphChooserButton(decToHex(b), fname, selwi); }
-			}
-
-			var cn;
-			if(cr.custom.length){
-				// debug('\t custom ranges: ' + cr.custom.length);
-				for(var c=0; c<cr.custom.length; c++){
-					reglyph += '<h3>custom range ' + (c+1) + '</h3>';
-					for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
-						cn = decToHex(range);
-						if(_GP.projectsettings.glyphrange.filternoncharpoints){
-							if(getUnicodeName(cn) !== '[name not found]') reglyph += makeGlyphChooserButton(cn, fname, selwi);
-						} else {
-							reglyph += makeGlyphChooserButton(cn, fname, selwi);
-						}
-					}
+		var cr = _GP.projectsettings.glyphrange;
+		var c = parseInt(show);
+		if(!isNaN(c)){
+			for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
+				cn = decToHex(range);
+				if(_GP.projectsettings.glyphrange.filternoncharpoints){
+					if(getUnicodeName(cn) !== '[name not found]') re += makeGlyphChooserButton(cn, fname, selwi);
+				} else {
+					re += makeGlyphChooserButton(cn, fname, selwi);
 				}
 			}
+			return re;
 		}
 
-		if(showlig && getFirstID(_GP.ligatures)){
-			fname = funname? funname : 'selectLigature';
-			if(showtitles) relig += '<h3>ligatures</h3>';
+		if(show === 'ligatures' && getFirstID(_GP.ligatures)){
 			sortLigatures();
 			var lig = _GP.ligatures;
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
-				relig += makeGlyphChooserButton(l, fname, selwi) ;
+				re += makeGlyphChooserButton(l, fname, selwi) ;
 			}}
+			return re;
 		}
 
-		if(showcom && getFirstID(_GP.components)){
-			fname = funname? funname : 'selectComponent';
-			if(showtitles) recom += '<h3>components</h3>';
+		if(show === 'components' && getFirstID(_GP.components)){
 			var com = _GP.components;
 			for(var d in com){ if(com.hasOwnProperty(d)){
 				recom += makeGlyphChooserButton(d, fname, selwi) ;
 			}}
+			return re;
 		}
 
-		for(var j=0; j<showarr.length; j++){
-			switch(showarr[j]){
-				case 'glyphs':
-					re += reglyph;
-					re += '<div class="glyphselectsectionbreak"></div>';
-					break;
-				case 'ligatures':
-					re += relig;
-					re += '<div class="glyphselectsectionbreak"></div>';
-					break;
-				case 'components':
-					re += recom;
-					re += '<div class="glyphselectsectionbreak"></div>';
-					break;
-			}
-		}
-
-		re += '</div>';
-		// debug('makeGenericGlyphChooserContent - END\n');
-
-		return re;
 	}
 
 	/*
@@ -159,11 +176,11 @@
 		// debug('\n makeGlyphChooserButton - START ' + index);
 		var onc = (fname + '(\'' + index + '\');');
 		// debug('\t constructed function: ' + onc);
-		
+
 		var wi = getGlyph(index);
 		// debug('\t getGlyph returned');
 		// debug(wi);
-		
+
 		// var rv = '<table class="glyphselect" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'"><tr><td>';
 		var rv = '<div class="glyphselect" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'">';
 

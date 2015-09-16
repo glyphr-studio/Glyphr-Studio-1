@@ -561,15 +561,39 @@
 		margin-top:8px;
 	}
 
-	.charchooserwrapper {
-		width:100%;
+	.glyphrangedropdown {
+		width: 100%;
+		margin-right: 1px;
+		font-size:18px;
+		padding:10px;
+		color: rgb(0,170,255);
+		background-color: rgb(155,221,255);
+		border-bottom:1px solid rgb(155,221,255);
 	}
 
-	.charchooserwrapper h3 {
-		display: block;
-		margin:0px 0px 10px 0px;
-		clear: both;
-		width: 100%;
+	.glyphrangedropdown span {
+		font-size: 10px;
+		position: relative;
+		top:-4px;
+		left:16px;
+		font-weight: bold;
+		color:inherit;
+	}
+
+	.glyphrangedropdown:hover {
+		background-color: rgb(225,245,255);
+		color:rgb(0,140,210);
+		border-bottom:1px solid rgb(0,140,210);
+		cursor: pointer;
+	}
+
+	.glyphrangechooserbutton {
+		text-transform:none !important;
+		padding:10px;
+	}
+
+	#glyphchooserchoices {
+		padding-top:11px;
 	}
 
 	.glyphselect {

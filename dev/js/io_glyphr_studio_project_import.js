@@ -296,7 +296,7 @@
 		// debug('\t finished hydrating guides');
 
 		// Metadata
-		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata);
+		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata, true);
 		// debug('\t finished merging metadata');
 
 		// Components
@@ -344,13 +344,16 @@
 	// Takes a template object of expected keys and default values
 	// and an object to import, and overwites template values if
 	// they exist in the imported object
-	function merge(template, importing) {
+	function merge(template, importing, trim) {
 		for(var a in template){
 			if(template.hasOwnProperty(a)){
 				if(typeof template[a] === 'object'){
 					if(importing.hasOwnProperty(a)) template[a] = merge(template[a], importing[a]);
 				} else {
-					if(importing.hasOwnProperty(a)) template[a] = importing[a];
+					if(importing.hasOwnProperty(a)){
+						if(typeof importing[a] === 'string' && trim) template[a] = removeEmptyStringInputs(importing[a]);
+						else template[a] = importing[a];
+					}
 				}
 			}
 		}

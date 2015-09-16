@@ -94,7 +94,7 @@
 
 			// Get the appropriate unicode decimal for this glyph
 			// debug('\n importOneGlyph - START');
-			debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
+			// debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
 
 			uni = decToHex(tglyph.unicode || 0);
 

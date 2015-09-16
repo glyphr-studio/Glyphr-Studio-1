@@ -620,7 +620,6 @@
 		_UI.selectedglyph = c;
 		clickEmptySpace();
 
-		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
 			navigate('npAttributes');
@@ -633,7 +632,6 @@
 		_UI.selectedcomponent = c;
 		clickEmptySpace();
 
-		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
 			navigate('npAttributes');
@@ -646,7 +644,6 @@
 		_UI.selectedligature = c;
 		clickEmptySpace();
 
-		//debug('SELECTGLYPH: shapelayers is now ' + JSON.stringify(getSelectedWorkItemShapes()));
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
 			navigate('npAttributes');

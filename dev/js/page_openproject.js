@@ -213,8 +213,7 @@
 		document.getElementById('examples_content').innerHTML = '<h2>Load an Example project</h2>Loading example project...';
 
 		setTimeout(function(){
-			var gp = usedefault? _UI.sampleproject : _UI.merriweathersans;
-			importGlyphrProjectFromText(gp);
+			hydrateGlyphrProject(usedefault? _UI.sampleproject.modegg : _UI.sampleproject.merriweathersans);
 			navigate();
 		}, 5);
 	}

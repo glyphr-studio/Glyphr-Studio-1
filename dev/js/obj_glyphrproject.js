@@ -32,7 +32,7 @@
 			'defaultrsb': 20,		// default right side bearing
 			'glyphrange': {			// canned and custom Unicode ranges
 				'basiclatin': true,
-				'latinsuppliment': false,
+				'latinsuppliment': true,
 				'latinextendeda': false,
 				'latinextendedb': false,
 				'custom': [],

@@ -19,12 +19,11 @@
 		if(_UI.devmode && _UI.devnav){
 			debug('\t >>> DEV NAV - to ' + _UI.devnav);
 
-			if(_UI.loadsampleproject && _UI.sampleproject){
+			if(_UI.loadsampleproject){
 				debug('\t >>> Using sample project');
-				var sp = (_UI.hasOwnProperty(''+_UI.loadsampleproject)? _UI[_UI.loadsampleproject] : _UI.sampleproject);
+				var sp = _UI.sampleproject[_UI.loadsampleproject];
 				importGlyphrProjectFromText(sp);
 				_UI.loadsampleproject = false;
-				_UI.sampleproject = false;
 			} else {
 				newGlyphrProject();
 			}

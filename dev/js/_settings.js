@@ -15,8 +15,8 @@
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': true,	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'glyph edit',		// navigate straight to a page
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'devnav': false,		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		// SelectedGlyph
@@ -25,7 +25,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1.02',
-		'thisGlyphrStudioVersionNum': '1.02.01',
+		'thisGlyphrStudioVersionNum': '1.02.02',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},
@@ -127,7 +127,7 @@
 
 		// page: glyphedit
 		'selectedglyph': false,	// f is 0x0066
-		'shapelayers': [],
+		'selectedglyphrange': 'basiclatin', 
 
 		// page: ligatures
 		'selectedligature': false,
