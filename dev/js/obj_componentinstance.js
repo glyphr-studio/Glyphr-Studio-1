@@ -239,7 +239,7 @@
 
 //	Insert Component
 	function showDialog_AddComponent(){
-		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', ['components', 'glyphs', 'ligatures']);
+		var thumbs = makeGenericGlyphChooserContent('insertComponentInstance', 'components');
 		if(thumbs){
 			var content = '<h1>Add Component</h1>';
 			content += 'Components are groups of shapes that can be re-used across many Glyphs.  Component Instances can be transformed while the Root Component remains unchanged.<br><br>';

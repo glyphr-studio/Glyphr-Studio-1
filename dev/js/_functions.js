@@ -22,7 +22,7 @@
 			if(_UI.loadsampleproject){
 				debug('\t >>> Using sample project');
 				var sp = _UI.sampleproject[_UI.loadsampleproject];
-				importGlyphrProjectFromText(sp);
+				hydrateGlyphrProject(sp);
 				_UI.loadsampleproject = false;
 			} else {
 				newGlyphrProject();
