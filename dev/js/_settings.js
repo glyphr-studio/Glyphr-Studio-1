@@ -1,12 +1,12 @@
 // start of file
 /**
 	Settings
-	These are the two global variables, _UI for, 
-	well, UI stuff, and anything that is not going 
-	to be saved or personalized.  _GP is all 
-	Glyphr Project settings, including font stuff 
-	and personalized stuff.  There are additional 
-	_UI properties declared in the event handler 
+	These are the two global variables, _UI for,
+	well, UI stuff, and anything that is not going
+	to be saved or personalized.  _GP is all
+	Glyphr Project settings, including font stuff
+	and personalized stuff.  There are additional
+	_UI properties declared in the event handler
 	file.
 **/
 
@@ -89,6 +89,19 @@
 			'shapes': false,	//Selected Shapes
 			'points': false		//Selected Points
 		},
+		'glyphchooser':{
+			'dropdown':false,
+			'panel':{
+				'fname':'selectGlyph',
+				'selectedrange': 'basiclatin',
+				'showall':false
+			},
+			'dialog':{
+				'fname':'selectGlyph',
+				'selectedrange': 'basiclatin',
+				'showall':true
+			}
+		},
 		'multiselectthickness': 2,
 		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
@@ -127,11 +140,10 @@
 
 		// page: glyphedit
 		'selectedglyph': false,	// f is 0x0066
-		'selectedglyphrange': 'basiclatin', 
 
 		// page: ligatures
 		'selectedligature': false,
-		
+
 		// page: components
 		'selectedcomponent': false,
 

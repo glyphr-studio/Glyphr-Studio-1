@@ -165,9 +165,12 @@
 		var content = '<h1>Get Shapes</h1>';
 		content += 'Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br>';
 		content += msg? msg : '';
-		var scroll = makeGenericGlyphChooserContent('pasteShapesFrom', 'glyphs');
+		_UI.glyphchooser.dialog = {
+			'fname':'pasteShapesFrom',
+			'selectedrange':'glyphs'
+		};
 
-		openBigDialog(content, scroll);
+		openBigDialog(content);
 	}
 
 	function pasteShapesFrom(chid) {
@@ -194,8 +197,13 @@
 		var content = '<h1>Link to Glyph</h1>';
 		content += 'Select a Glyph you would like to link to this Component.<br><br>';
 		content += msg? msg : 'There are currently ' + sls.usedin.length + ' instances of "' + sls.name + '" being used in various Glyphs.<br><br>';
-		var scroll = makeGenericGlyphChooserContent('linkComponentToGlyph', 'glyphs');
-		openBigDialog(content, scroll);
+		
+		_UI.glyphchooser.dialog = {
+			'fname':'linkComponentToGlyph',
+			'selectedrange':'glyphs'
+		};
+		
+		openBigDialog(content);
 	}
 
 	function linkComponentToGlyph(id){

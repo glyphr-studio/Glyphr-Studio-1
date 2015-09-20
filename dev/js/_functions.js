@@ -189,14 +189,18 @@
 		document.getElementById('dialog_bg').style.display='block';
 	}
 
-	function openBigDialog(content, scrollstuff){
+	function openBigDialog(content){
 		closeDialog();
 		document.body.focus();
 		document.getElementById('bigDialogLeftContent').innerHTML = content;
-		document.getElementById('bigDialogScrollContent').innerHTML = scrollstuff;
+		document.getElementById('bigDialogScrollContent').innerHTML = make_GlyphChooser(_UI.glyphchooser.dialog);
 
 		document.getElementById('big_dialog_box').style.display='block';
 		document.getElementById('dialog_bg').style.display='block';
+	}
+
+	function isBigDialogOpen() {
+		return document.getElementById('big_dialog_box').style.display === 'block';
 	}
 
 	function openNotation(content, x, y){
