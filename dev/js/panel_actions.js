@@ -167,7 +167,8 @@
 		content += msg? msg : '';
 		_UI.glyphchooser.dialog = {
 			'fname':'pasteShapesFrom',
-			'selectedrange':'glyphs'
+			'choices':'all',
+			'selected':'glyphs'
 		};
 
 		openBigDialog(content);
@@ -200,7 +201,8 @@
 		
 		_UI.glyphchooser.dialog = {
 			'fname':'linkComponentToGlyph',
-			'selectedrange':'glyphs'
+			'choices':'all',
+			'selected':'glyphs'
 		};
 		
 		openBigDialog(content);

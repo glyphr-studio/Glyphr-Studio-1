@@ -93,13 +93,13 @@
 			'dropdown':false,
 			'panel':{
 				'fname':'selectGlyph',
-				'selectedrange': 'basiclatin',
-				'showall':false
+				'selected': 'basiclatin',
+				'choices':'glyphs'
 			},
 			'dialog':{
 				'fname':'selectGlyph',
-				'selectedrange': 'basiclatin',
-				'showall':true
+				'selected': 'basiclatin',
+				'choices':'glyphs'
 			}
 		},
 		'multiselectthickness': 2,

@@ -561,7 +561,11 @@
 		margin-top:8px;
 	}
 
-	.glyphrangedropdown {
+	#glyphchooser {
+		padding:0px;
+	}
+
+	.glyphchooser-header {
 		width: 100%;
 		margin-right: 1px;
 		font-size:18px;
@@ -571,7 +575,7 @@
 		border-bottom:1px solid rgb(155,221,255);
 	}
 
-	.glyphrangedropdown span {
+	.glyphchooser-header span {
 		font-size: 10px;
 		position: relative;
 		top:-4px;
@@ -580,20 +584,25 @@
 		color:inherit;
 	}
 
-	.glyphrangedropdown:hover {
+	.glyphchooser-header:hover {
 		background-color: rgb(225,245,255);
 		color:rgb(0,140,210);
 		border-bottom:1px solid rgb(0,140,210);
 		cursor: pointer;
 	}
 
-	.glyphrangechooserbutton {
-		text-transform:none !important;
+	.glyphchooser-content {
 		padding:10px;
 	}
 
-	#glyphchooserchoices {
-		padding-top:11px;
+	.glyphchooser-dropdown {
+		margin-left:10px;
+	}
+
+	.glyphchooser-dropdownbutton {
+		text-transform:none !important;
+		padding:10px;
+		font-size:18px !important;
 	}
 
 	.glyphselect {

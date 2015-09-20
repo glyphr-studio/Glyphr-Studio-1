@@ -242,18 +242,15 @@
 		var show = getLength(_GP.components)? 'components' : 'glyphs';
 		_UI.glyphchooser.dialog = {
 			'fname':'insertComponentInstance',
-			'selectedrange': show
+			'choices':'all',
+			'selected': show
 		};
 
-		if(thumbs){
-			var content = '<h1>Add Component</h1>';
-			content += 'Components are groups of shapes that can be re-used across many Glyphs.  Component Instances can be transformed while the Root Component remains unchanged.<br><br>';
-			content += 'You can define and link to stand-alone Components, but you can also use Glyphs and Ligatures as if they were Root Components.<br><br>';
-			content += 'Choose a Glyph to insert as a Component Instance in this Glyph.';
-			openBigDialog(content);
-		} else {
-			openDialog('<h1>Add Component</h1><div class="dialoglargetext">No Components exist.  First, create some Components, then you can insert them into glyphs.</div>');
-		}
+		var content = '<h1>Add Component</h1>';
+		content += 'Components are groups of shapes that can be re-used across many Glyphs.  Component Instances can be transformed while the Root Component remains unchanged.<br><br>';
+		content += 'You can define and link to stand-alone Components, but you can also use Glyphs and Ligatures as if they were Root Components.<br><br>';
+		content += 'Choose a Glyph to insert as a Component Instance in this Glyph.';
+		openBigDialog(content);
 	}
 
 	function insertComponentInstance(cid, tochar){
