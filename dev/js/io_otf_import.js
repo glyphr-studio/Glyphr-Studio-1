@@ -241,10 +241,27 @@
 				}
 			}}
 
-			// Make a custom range for the rest
+			// Make a custom ranges for the rest, with logical separations
 			if(customglyphrange.length){
+				var maxvalley = 50;
+				var maxrange = 100;
 				customglyphrange = customglyphrange.sort();
-				_GP.projectsettings.glyphrange.custom.push({'begin':customglyphrange[0], 'end':customglyphrange[customglyphrange.length-1]});
+				var tbegin = customglyphrange[0];
+				var tend = customglyphrange[0];
+				var tcurr;
+
+				for(var c=0; c<customglyphrange.length; c++){
+					tcurr = customglyphrange[c];
+
+					if(((tcurr - tbegin) > maxrange) || ((tcurr - tend) > maxvalley)){
+						_GP.projectsettings.glyphrange.custom.push({'begin':tbegin, 'end':tend});
+						tbegin = tcurr;
+						tend = tcurr;
+					} else {
+						tend = tcurr;
+					}
+				}
+
 			}
 
 			// Import Font Settings
