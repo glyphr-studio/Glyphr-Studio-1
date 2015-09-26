@@ -246,8 +246,8 @@
 		// this.useh1 = true;
 		// this.useh2 = true;
 
-		var angle1 = this.getHandleAngle(this.H1);
-		var angle2 = this.getHandleAngle(this.H2);
+		var angle1 = this.getH1Angle();
+		var angle2 = this.getH2Angle();
 		var hyp1 = this.getHandleLength(this.H1);
 		var hyp2 = this.getHandleLength(this.H2);
 
@@ -320,10 +320,10 @@
 		// debug(this);
 
 		// corner, flat, symmetric
-		var a1 = round(this.getHandleAngle(this.H1),2);
-		var a2 = round((this.getHandleAngle(this.H2)+Math.PI)%(Math.PI*2),2);
+		var a1 = round(this.getH1Angle(),2);
+		var a2 = round(this.getH2Angle(),2);
 		// debug('\t comparing ' + a1 + ' === ' + a2);
-		if(a1 === a2){
+		if(a1 === (a2-180)){
 			// debug('\t Angle test passed... flat or symmetric');
 			if(this.getHandleLength(this.H1) === this.getHandleLength(this.H2)){
 				// debug('\t resolvePointType - setting to Symmetric');
@@ -458,14 +458,38 @@
 		return re;
 	};
 
-	PathPoint.prototype.getHandleAngle = function(hn){
-		var adj = (this.P.x-hn.x) || 0;
-		var opp = (this.P.y-hn.y) || 0;
-		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
-		var result = Math.acos(adj / hyp);
-		//debug('GETHANDLEANGLE - adj / opp / hyp / re: ' + adj + ' ' + opp + ' ' + hyp + ' ' + result);
-		return result;
+	PathPoint.prototype.getH1Angle = function(){
+		return getAngle(this.P, this.H1);
 	};
+
+	PathPoint.prototype.getH2Angle = function(){
+		return getAngle(this.P, this.H2);
+	};
+
+	function getAngle(p, h) {
+		var result = Math.atan((h.y - p.y)/(h.x - p.x)) * 180 / Math.PI;
+
+		if(h.x > p.x){
+			if(p.x === h.x) return 0;
+			else if(h.y > p.y){
+				return Math.abs(90-result);
+			} else {
+				return 90 - result;
+			}
+		} else if (h.x < p.x){
+			if(p.x === h.x) return 180;
+			else if(h.y < p.y){
+				return 180 + Math.abs(90-result);
+			} else {
+				return 270 - result;
+			}
+		} else {
+			if (h.y >= p.y) return 0;
+			else return 180;
+		}
+
+		return result;	
+	}
 
 	PathPoint.prototype.getHandleLength = function(hn){
 		//debug('GETHANDLELENGTH - hn= ' + json(hn));

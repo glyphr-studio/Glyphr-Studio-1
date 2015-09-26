@@ -420,7 +420,7 @@
 
 			content += '<tr>'+
 				'<td> angle <span class="unit">(degrees)</span></td>'+
-				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getHandleAngle(tp.H1)*180/Math.PI,3) || 0)+'"></td>'+
+				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH1Angle(),3) || 0)+'"></td>'+
 			'</tr>';
 		}
 
@@ -449,7 +449,7 @@
 
 			content += '<tr>'+
 				'<td> angle <span class="unit">(degrees)</span></td>'+
-				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getHandleAngle(tp.H2)*180/Math.PI,3) || 0)+'"></td>'+
+				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH2Angle(),3) || 0)+'"></td>'+
 			'</tr>';
 		}
 
