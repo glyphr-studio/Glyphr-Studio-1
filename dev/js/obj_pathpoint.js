@@ -379,10 +379,12 @@
 
 		coord.x -= about.x;
 		coord.y -= about.y;
-		coord.x = (coord.x * Math.cos(angle)) - (coord.y * Math.sin(angle));
-		coord.y = (coord.x * Math.sin(angle)) + (coord.y * Math.cos(angle));
-		coord.x += about.x;
-		coord.y += about.y;
+
+		var newx = (coord.x * Math.cos(angle)) - (coord.y * Math.sin(angle));
+		var newy = (coord.x * Math.sin(angle)) + (coord.y * Math.cos(angle));
+
+		coord.x = newx + about.x;
+		coord.y = newy + about.y;
 
 		debug('\t new coord x/y: ' + coord.x + '/' + coord.y);
 		debug(' rotate - END\n');
