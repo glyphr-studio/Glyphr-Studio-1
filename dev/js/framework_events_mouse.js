@@ -628,7 +628,7 @@
 				closeNotation();
 			}
 
-			redraw({calledby:'Tool_PathAddPoint.mousemove'});
+			redraw({calledby:'Tool_PathAddPoint.mousemove', redrawpanels:false});
 		};
 
 		this.mouseup = function() {};

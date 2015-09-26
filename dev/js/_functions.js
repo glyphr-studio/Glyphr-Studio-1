@@ -149,6 +149,7 @@
 	}
 
 	function json(obj, raw) {
+		obj = clone(obj);
 		if(raw) return JSON.stringify(obj);
 		else {
 			var j = JSON.stringify(obj, undefined, '\t');

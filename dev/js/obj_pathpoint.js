@@ -1,14 +1,14 @@
 // start of file
 /**
 	Object > Path Point
-	A collection of these units make up a Path, 
-	they have position and handles (or control 
-	points). There are a few Path Point types, and 
+	A collection of these units make up a Path,
+	they have position and handles (or control
+	points). There are a few Path Point types, and
 	individual handles can be shown or hidden.
 
 	(bottm of the file)
 	Object > Coordinate
-	A mini object that holds x/y position, as well 
+	A mini object that holds x/y position, as well
 	as if that point is locked or not.
 **/
 
@@ -144,7 +144,7 @@
 
 		if( ((this.P.x+hp) > x) && ((this.P.x-hp) < x) && ((this.P.y+hp) > y) && ((this.P.y-hp) < y) ){
 			// debug('PathPoint.isOverControlPoint - Returning P1');
-			
+
 			return {point:this, type:'P'};
 		}
 
@@ -248,8 +248,8 @@
 
 		var angle1 = this.getH1Angle();
 		var angle2 = this.getH2Angle();
-		var hyp1 = this.getHandleLength(this.H1);
-		var hyp2 = this.getHandleLength(this.H2);
+		var hyp1 = this.getH1Length();
+		var hyp2 = this.getH2Length();
 
 		if(angle1===angle2){
 			//debug('MAKEFLAT - Equal Angles, returning');
@@ -316,27 +316,27 @@
 	};
 
 	PathPoint.prototype.resolvePointType = function(){
-		// debug('\n PathPoint.resolvePointType - START');
-		// debug(this);
+		debug('\n PathPoint.resolvePointType - START');
+		debug(this);
 
 		// corner, flat, symmetric
 		var a1 = round(this.getH1Angle(),2);
 		var a2 = round(this.getH2Angle(),2);
-		// debug('\t comparing ' + a1 + ' === ' + a2);
+		debug('\t comparing ' + a1 + ' === ' + a2);
 		if(a1 === (a2-180)){
-			// debug('\t Angle test passed... flat or symmetric');
-			if(this.getHandleLength(this.H1) === this.getHandleLength(this.H2)){
-				// debug('\t resolvePointType - setting to Symmetric');
+			debug('\t Angle test passed... flat or symmetric');
+			if(this.getH1Length() === this.getH2Length()){
+				debug('\t resolvePointType - setting to Symmetric');
 				this.type = 'symmetric';
 			} else {
-				// debug('\t resolvePointType - setting to Flat');
+				debug('\t resolvePointType - setting to Flat');
 				this.type = 'flat';
 			}
 		} else {
-			// debug('\t resolvePointType - setting to Corner');
+			debug('\t resolvePointType - setting to Corner');
 			this.type = 'corner';
 		}
-		// debug(' pathPoint.resolvePointType - END\n');
+		debug(' pathPoint.resolvePointType - END\n');
 	};
 
 	PathPoint.prototype.makePointedTo = function(px, py, length){
@@ -357,6 +357,37 @@
 		//this.roundAll();
 	};
 
+	PathPoint.prototype.rotate = function(angle, about) {
+		debug('\n PathPoint.rotate - START');
+		rotate(this.P, angle, about);
+		rotate(this.H1, angle, about);
+		rotate(this.H2, angle, about);
+		debug('\t this.P ' + json(this.P, true));
+		debug(' PathPoint.rotate - END\n');
+	};
+
+	function rotate(coord, angle, about) {
+		debug('\n rotate - START');
+		// debug('\t coord ' + json(coord, true));
+		// debug('\t angle ' + angle);
+		// debug('\t about ' + json(about, true));
+
+		if(!angle || !coord) return;
+		about = about || {x:0, y:0};
+
+		angle = angle * Math.PI / 180;
+
+		coord.x -= about.x;
+		coord.y -= about.y;
+		coord.x = (coord.x * Math.cos(angle)) - (coord.y * Math.sin(angle));
+		coord.y = (coord.x * Math.sin(angle)) + (coord.y * Math.cos(angle));
+		coord.x += about.x;
+		coord.y += about.y;
+
+		debug('\t new coord x/y: ' + coord.x + '/' + coord.y);
+		debug(' rotate - END\n');
+	}
+
 	PathPoint.prototype.resetHandles = function(){
 		this.type = 'flat';
 		this.useh1 = true;
@@ -368,10 +399,12 @@
 	};
 
 	PathPoint.prototype.getPointNum = function() {
-		var parr = this.parentpath.pathpoints;
-
+		var parr = this.parentpath;
 		if(!parr) return false;
-		
+
+		parr = parr.pathpoints;
+		if(!parr) return false;
+
 		for(var p=0; p<parr.length; p++){
 			if(parr[p] === this) return p;
 		}
@@ -488,16 +521,23 @@
 			else return 180;
 		}
 
-		return result;	
+		return result;
 	}
 
-	PathPoint.prototype.getHandleLength = function(hn){
-		//debug('GETHANDLELENGTH - hn= ' + json(hn));
-		var adj = this.P.x-hn.x;
-		var opp = this.P.y-hn.y;
+	PathPoint.prototype.getH1Length = function() {
+		return getLength(this.P, this.H1);
+	};
+
+	PathPoint.prototype.getH2Length = function() {
+		return getLength(this.P, this.H2);
+	};
+
+	function getLength(p, h){
+		var adj = p.x - h.x;
+		var opp = p.y - h.y;
 		var result = Math.sqrt( (adj*adj) + (opp*opp) );
 		return result;
-	};
+	}
 
 
 
@@ -648,7 +688,7 @@
 	function Coord(oa){
 		this.objtype = 'coord';
 		oa = oa || {};
-		
+
 		this.x = parseFloat(oa.x) || 0;
 		this.y = parseFloat(oa.y) || 0;
 		this.xlock = oa.xlock || false;
@@ -656,7 +696,7 @@
 
 		if(oa && oa.x !== undefined && isNaN(oa.x)) console.log('NEW COORD >> initialized oa.x = ' + oa.x);
 		if(oa && oa.y !== undefined && isNaN(oa.y)) console.log('NEW COORD >> initialized oa.y = ' + oa.y);
-		
+
 	}
 
 // end of file

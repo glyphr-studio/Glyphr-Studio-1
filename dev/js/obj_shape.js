@@ -1,10 +1,10 @@
 // start of file
 /**
 	Object > Shape
-	The Shape object is the high level object that 
-	represents an outline.  The Glyph object treats 
-	Shape objects and Component Instance objects 
-	interchangeably - any method added to Shape 
+	The Shape object is the high level object that
+	represents an outline.  The Glyph object treats
+	Shape objects and Component Instance objects
+	interchangeably - any method added to Shape
 	should also be added to Component Instance.
 **/
 
@@ -45,7 +45,7 @@
 //	-------------------------------------------------------
 
 	Shape.prototype.getName = function() { return this.name; };
-	
+
 	Shape.prototype.drawShape = function(lctx, view){
 		//debug('drawShape');
 		if(this.visible){
@@ -129,9 +129,9 @@
 	Shape.prototype.setShapePosition = function(nx, ny, force) { this.path.setPathPosition(nx, ny, force); };
 
 	Shape.prototype.updateShapeSize = function(dx, dy, ratiolock) { this.path.updatePathSize(dx, dy, ratiolock); };
-	
+
 	Shape.prototype.setShapeSize = function(nx, ny, ratiolock) { this.path.setPathSize(nx, ny, ratiolock); };
-	
+
 	Shape.prototype.isOverControlPoint = function(x, y, nohandles) { return this.path.isOverControlPoint(x, y, nohandles); };
 
 	Shape.prototype.flipEW = function(mid) { this.path.flipEW(mid); };
@@ -146,6 +146,22 @@
 
 	Shape.prototype.getPath = function() { return clone(this.path); };
 
+	Shape.prototype.rotate = function(angle, about) {
+		debug('\n Shape.rotate - START');
+		about = about || this.getCenter();
+		this.path.rotate(angle, about);
+		debug('\t first p[0].P.x ' + this.path.pathpoints[0].P.x);
+		debug(' Shape.rotate - END\n');
+	};
+
+	Shape.prototype.getCenter = function() {
+		var m = this.getMaxes();
+		var re = {};
+		re.x = ((m.xmax - m.xmin) / 2) + m.xmin;
+		re.y = ((m.ymax - m.ymin) / 2) + m.ymin;
+
+		return re;
+	};
 
 //	-------------------------------------------------------
 //	NEW SHAPE FUNCTIONS
@@ -335,7 +351,7 @@
 			var singleshape = _UI.ms.shapes.getSingleton();
 			if(singleshape && singleshape.objtype === 'componentinstance') clickTool('shaperesize');
 		}
-		
+
 		updateCurrentGlyphWidth();
 		// debug(' deleteShape - END\n');
 	}
@@ -343,7 +359,7 @@
 	function turnSelectedShapeIntoAComponent(){
 		var s = clone(_UI.ms.shapes.getMembers());
 		var n = s.length === 1? ('Component ' + s[0].name) : ('Component ' + (getLength(_GP.components)+1));
-		
+
 		deleteShape();
 		var newid = createNewComponent(new Glyph({'shapes':s, 'name':n}));
 		insertComponentInstance(newid);
@@ -387,7 +403,7 @@
 //	----------------------------------------------
 	Shape.prototype.isHere = function(px, py){
 		var gctx = _UI.ishereghostctx;
-		
+
 		gctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 		gctx.fillStyle = 'rgba(0,0,255,0.2)';
 		gctx.beginPath();

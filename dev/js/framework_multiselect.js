@@ -166,6 +166,13 @@
 		}
 	};
 
+	_UI.ms.points.resolvePointType = function() {
+		for(var m=0; m<this.members.length; m++){
+			// debug(this.members[m]);
+			this.members[m].resolvePointType();
+		}
+	};
+
 	_UI.ms.points.updatePathPointPosition = function(controlpoint, dx, dy){
 		if(controlpoint === 'P'){
 			for(var m=0; m<this.members.length; m++){
@@ -188,7 +195,7 @@
 
 		// debug('\t selected points ' + points);
 		// debug('\t WI shapes ' + shapes);
-		
+
 		for(var p=0; p<points.length; p++){
 			path = points[p].parentpath;
 
@@ -232,6 +239,10 @@
 	};
 
 	_UI.ms.shapes.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
+
+	_UI.ms.shapes.rotate = function(angle, about) {
+		this.members[0].rotate(angle, about);
+	};
 
 	_UI.ms.shapes.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
 

@@ -167,6 +167,17 @@
 		return clone(this.maxes);
 	};
 
+	Path.prototype.rotate = function(angle, about) {
+		debug('\n Path.rotate - START');
+		for(var d=0; d<this.pathpoints.length; d++){
+			debug('\t starting point ' + d);
+			var pp = this.pathpoints[d];
+			pp.rotate(angle, about);
+			debug('\t p['+d+'].P.x ' + pp.P.x);
+		}
+		// this.calcMaxes();
+		debug(' Path.rotate - END\n');
+	};
 
 
 //  -----------------------------------
@@ -455,7 +466,8 @@
 
 		if(!newpp) {
 			// No pathpoint passed to function - make a new one
-			newpp = new PathPoint({'parentpath':this});
+			newpp = new PathPoint();
+			newpp.parentpath = this;
 			newpp.H1.x = newpp.P.x;
 			newpp.H1.y = newpp.P.y-100;
 			newpp.H2.x = newpp.P.x+100;
@@ -549,7 +561,7 @@
 			nP = new Coord({'x':x1234, 'y':y1234});
 			nH1 = new Coord({'x':x123, 'y':y123});
 			nH2 = new Coord({'x':x234, 'y':y234});
-			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true, 'parentpath':this});
+			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true});
 
 			// Update P1
 			if(pp1.type === 'symmetric') pp1.type = 'flat';

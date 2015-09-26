@@ -31,6 +31,7 @@
 		the redraw, for debugging purposes.
 	*/
 	function redraw(oa){
+		oa = oa || {};
 		_UI.redraw.redrawcanvas = isval(oa.redrawcanvas) ? oa.redrawcanvas : true;
 		_UI.redraw.redrawpanels = isval(oa.redrawpanels) ? oa.redrawpanels : true;
 		_UI.redraw.calledby = oa.calledby || '';
@@ -76,10 +77,9 @@
 			}
 		}
 
-		if(_UI.redraw.redrawpanels){
-			if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
-			update_NavPanels();
-		}
+		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
+
+		if(_UI.redraw.redrawpanels) update_NavPanels();
 
 		if(_UI.focuselement) {
 			var fe = document.getElementById(_UI.focuselement);
