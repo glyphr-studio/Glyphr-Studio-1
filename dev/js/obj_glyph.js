@@ -195,6 +195,23 @@
 		}
 	};
 
+	Glyph.prototype.rotate = function(angle, about) {
+		about = about || this.getCenter();
+
+		for(var s=0; s < this.shapes.length; s++){
+			this.shapes[s].rotate(angle, about);
+		}
+	};
+
+	Glyph.prototype.getCenter = function() {
+		var m = this.calcGlyphMaxes();
+		var re = {};
+		re.x = ((m.xmax - m.xmin) / 2) + m.xmin;
+		re.y = ((m.ymax - m.ymin) / 2) + m.ymin;
+
+		return re;
+	};
+
 	Glyph.prototype.reverseWinding = function() {
 		for(var s=0; s<this.shapes.length; s++){
 			this.shapes[s].reverseWinding();

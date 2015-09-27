@@ -138,14 +138,6 @@
 
 	Shape.prototype.flipNS = function(mid) { this.path.flipNS(mid); };
 
-	Shape.prototype.reverseWinding = function() { this.path.reverseWinding(); };
-
-	Shape.prototype.getMaxes = function() { return this.path.getMaxes(); };
-
-	Shape.prototype.calcMaxes = function() { this.path.calcMaxes(); };
-
-	Shape.prototype.getPath = function() { return clone(this.path); };
-
 	Shape.prototype.rotate = function(angle, about) {
 		debug('\n Shape.rotate - START');
 		about = about || this.getCenter();
@@ -162,6 +154,15 @@
 
 		return re;
 	};
+	
+	Shape.prototype.reverseWinding = function() { this.path.reverseWinding(); };
+
+	Shape.prototype.getMaxes = function() { return this.path.getMaxes(); };
+
+	Shape.prototype.calcMaxes = function() { this.path.calcMaxes(); };
+
+	Shape.prototype.getPath = function() { return clone(this.path); };
+
 
 //	-------------------------------------------------------
 //	NEW SHAPE FUNCTIONS
