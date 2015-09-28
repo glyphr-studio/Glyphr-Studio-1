@@ -1,4 +1,18 @@
 // start of file
+
+/**
+	Test Scenario
+	Just random code that runs once everything is
+	done loading to test recent features.
+**/
+	function testScenario() {
+		selectGlyph('0x004F');
+		getSelectedWorkItem().rotate(45);
+		redraw({});
+	}
+
+
+
 /**
 	Settings
 	These are the two global variables, _UI for,
@@ -15,7 +29,7 @@
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': 'merriweathersans',	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape

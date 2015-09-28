@@ -243,11 +243,9 @@
 		}
 
 		this.type = 'flat';
-		// this.useh1 = true;
-		// this.useh2 = true;
 
-		var angle1 = this.getH1Angle();
-		var angle2 = this.getH2Angle();
+		var angle1 = getMathAngle(this.P, this.H1);
+		var angle2 = getMathAngle(this.P, this.H2);
 		var hyp1 = this.getH1Length();
 		var hyp2 = this.getH2Length();
 
@@ -315,6 +313,14 @@
 		//debug('MAKEFLAT - returns ' + json(this));
 	};
 
+	function getMathAngle(p, h){
+		var adj = (p.x-h.x) || 0;
+		var opp = (p.y-h.y) || 0;
+		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
+		var result = Math.acos(adj / hyp);
+		return result;
+	}
+
 	PathPoint.prototype.resolvePointType = function(){
 		debug('\n PathPoint.resolvePointType - START');
 		debug(this);
@@ -367,6 +373,12 @@
 	};
 
 	function rotate(coord, angle, about) {
+		/**
+			Angle system: zero degrees is at 12 o'clock
+			and is positive in the clockwise direction.
+			This is different than the Math angle system.
+		**/
+
 		debug('\n rotate - START');
 		// debug('\t coord ' + json(coord, true));
 		// debug('\t angle ' + angle);
@@ -375,7 +387,7 @@
 		if(!angle || !coord) return;
 		about = about || {x:0, y:0};
 
-		angle = angle * Math.PI / 180;
+		angle = angle * Math.PI * -1 / 180;
 
 		coord.x -= about.x;
 		coord.y -= about.y;
@@ -502,6 +514,12 @@
 	};
 
 	function getAngle(p, h) {
+		/**
+			Angle system: zero degrees is at 12 o'clock
+			and is positive in the clockwise direction.
+			This is different than the Math angle system.
+		**/
+		
 		var result = Math.atan((h.y - p.y)/(h.x - p.x)) * 180 / Math.PI;
 
 		if(h.x > p.x){

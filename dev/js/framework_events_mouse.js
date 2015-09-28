@@ -583,7 +583,8 @@
 			var s = getClickedShape(_UI.eventhandlers.mousex, _UI.eventhandlers.mousey);
 
 			if(this.addpoint && singleshape && singleshape.objtype !== 'componentinstance'){
-				singleshape.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+				var p = singleshape.path.insertPathPoint(this.addpoint.split, this.addpoint.point);
+				if(p) _UI.ms.points.select(p);
 				history_put('Added point to path');
 
 			} else if(s){

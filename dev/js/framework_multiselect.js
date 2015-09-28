@@ -254,10 +254,6 @@
 		else return false;
 	};
 
-	_UI.ms.shapes.deleteShapes = function() {
-		// body...
-	};
-
 	_UI.ms.shapes.isOverControlPoint = function(x, y, nohandles){
 		if(this.members.length === 0) return false;
 		var re = false;

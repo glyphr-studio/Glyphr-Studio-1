@@ -34,6 +34,8 @@
 		var navto = _UI.devmode? _UI.devnavprimary : false;
 		navigate(navto);
 
+		testScenario();
+		
 		debug(' MAIN SETUP - END\n');
 	};
 
