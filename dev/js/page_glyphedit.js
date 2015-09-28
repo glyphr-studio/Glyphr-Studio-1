@@ -64,6 +64,10 @@
 			_UI.ms.shapes.draw_BoundingBox();
 			_UI.ms.shapes.draw_BoundingBoxHandles();
 
+		} else if (editmode === 'rotate'){
+			_UI.ms.shapes.draw_BoundingBox();
+			draw_RotationAffordance();
+
 		} else if (editmode === 'pen'){
 			if(_UI.eventhandlers.multi) sg.draw_MultiSelectAffordances();
 			_UI.ms.points.draw_PathPointHandles();

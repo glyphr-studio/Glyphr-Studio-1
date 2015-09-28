@@ -401,6 +401,76 @@ function saveFile(fname, buffer, ftype) {
 	}
 
 
+//--------------------------
+// Angle and Rotation Stuff
+//--------------------------
+
+	/**
+		Use JavaScript angle system by default:
+		Radians, top is positive bottom is negative
+		3 o'clock is zero, 9 o'clock is pi
+
+		Glyphr Studio angle system:
+		360 Degrees, 12 o'clock is zero, clockwise = positve
+	**/
+
+	function calculateAngle(h, p){
+		p = p || {x:0, y:0};
+		result = Math.atan2(h.y - p.y, h.x - p.x);
+
+		if(isNaN(result)){
+			console.warn('calculateAngle returned NaN\n' + json(h) + '\n' + json(p));
+			result = 0;
+		}
+
+		return result;
+	}
+
+	function calculateLength(h, p){
+		var adj = p.x - h.x;
+		var opp = p.y - h.y;
+		var result = Math.sqrt( (adj*adj) + (opp*opp) );
+		return result;
+	}
+
+	function rotate(coord, angle, about) {
+		// debug('\n rotate - START');
+		// debug('\t coord ' + json(coord, true));
+		// debug('\t angle ' + angle);
+		// debug('\t about ' + json(about, true));
+
+		if(!angle || !coord) return;
+		about = about || {x:0, y:0};
+
+		coord.x -= about.x;
+		coord.y -= about.y;
+
+		var newx = (coord.x * Math.cos(angle)) - (coord.y * Math.sin(angle));
+		var newy = (coord.x * Math.sin(angle)) + (coord.y * Math.cos(angle));
+
+		coord.x = newx + about.x;
+		coord.y = newy + about.y;
+
+		// debug('\t new coord x/y: ' + coord.x + '/' + coord.y);
+		// debug(' rotate - END\n');
+	}
+
+	//convert between degrees and radians
+	function rad(deg) {	return deg * Math.PI / 180; }
+	function deg(rad) {	return rad * 180 / Math.PI; }
+
+	// Shows the Glyphr Studio angle as opposed to the JavaScript angle
+	function calculateNiceAngle(angle) {
+		angle = deg(angle);
+		angle = 360 - angle;
+		angle -= 270;
+		angle = angle % 360;
+		if(angle < 0) angle += 360;
+
+		return angle;
+	}
+
+
 //-------------------
 // Object ID Stuff
 //-------------------

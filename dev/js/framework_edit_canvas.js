@@ -295,6 +295,8 @@
 			// debug('\t SET -resize CURSOR');
 		}
 
+		if(name === 'rotate') name = 'ew-resize';
+
 		getEditDocument().body.style.cursor = 'auto';
 		if(_UI.cursors[name]){
 			// debug('\t FOUND CUSTOM CURSOR:\t'+name);
@@ -319,7 +321,7 @@
 
 		if(tool === 'newrect' || tool === 'newoval')	return 'newbasicshape';
 		else if (tool === 'newpath')	return 'newpath';
-		else if (tool === 'shaperesize')	return 'pointer';
+		else if (tool === 'shaperesize')	return _UI.eventhandlers.handle === 'rotate'? 'rotate' : 'pointer';
 		else if (tool === 'pathedit' || tool === 'pathaddpoint')	return 'pen';
 		else if (tool === 'kern')	return 'kern';
 	}
@@ -367,7 +369,7 @@
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Studio Project file</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>e</span></td><td>export an Open Type font file</td></tr>"+
 			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>g</span></td><td>export a SVG font file</td></tr>"+
-			"</table>"+ 
+			"</table>"+
 
 			"</td></tr><tr><td>"+
 
@@ -759,64 +761,92 @@
 	function draw_BoundingBoxHandles(maxes, accent, thickness) {
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		var ps = _GP.projectsettings.pointsize;
 		var bb = getBoundingBoxHandleDimensions(maxes, thickness);
 
 		_UI.glypheditctx.fillStyle = 'white';
 		_UI.glypheditctx.lineWidth = 1;
 		_UI.glypheditctx.strokeStyle = accent.l65;
 
+		//rotate handle
+		var h = _UI.rotatehandleheight;
+		draw_Line({x:bb.midx + bb.hp, y:bb.topy}, {x:bb.midx + bb.hp, y:bb.topy - h});
+		draw_CircleHandle({x:bb.midx + bb.hp, y:bb.topy - h});
+
+
 		//upper left
-		if(canResize('nw')){
-			_UI.glypheditctx.fillRect(bb.leftx, bb.topy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.leftx, bb.topy, ps, ps);
-		}
+		if(canResize('nw')) draw_SquareHandle({x:bb.leftx, y:bb.topy});
 
 		//top
-		if(canResize('n')){
-			_UI.glypheditctx.fillRect(bb.midx, bb.topy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.midx, bb.topy, ps, ps);
-		}
+		if(canResize('n')) draw_SquareHandle({x:bb.midx, y:bb.topy});
 
 		//upper right
-		if(canResize('ne')){
-			_UI.glypheditctx.fillRect(bb.rightx, bb.topy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.rightx, bb.topy, ps, ps);
-		}
+		if(canResize('ne')) draw_SquareHandle({x:bb.rightx, y:bb.topy});
 
 		// right
-		if(canResize('e')){
-			_UI.glypheditctx.fillRect(bb.rightx, bb.midy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.rightx, bb.midy, ps, ps);
-		}
+		if(canResize('e')) draw_SquareHandle({x:bb.rightx, y:bb.midy});
 
 		//lower right
-		if(canResize('se')){
-			_UI.glypheditctx.fillRect(bb.rightx, bb.bottomy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.rightx, bb.bottomy, ps, ps);
-		}
+		if(canResize('se')) draw_SquareHandle({x:bb.rightx, y:bb.bottomy});
 
 		//bottom
-		if(canResize('s')){
-			_UI.glypheditctx.fillRect(bb.midx, bb.bottomy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.midx, bb.bottomy, ps, ps);
-		}
+		if(canResize('s')) draw_SquareHandle({x:bb.midx, y:bb.bottomy});
 
 		//lower left
-		if(canResize('sw')){
-			_UI.glypheditctx.fillRect(bb.leftx, bb.bottomy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.leftx, bb.bottomy, ps, ps);
-		}
+		if(canResize('sw')) draw_SquareHandle({x:bb.leftx, y:bb.bottomy});
 
 		//left
-		if(canResize('w')){
-			_UI.glypheditctx.fillRect(bb.leftx, bb.midy, ps, ps);
-			_UI.glypheditctx.strokeRect(bb.leftx, bb.midy, ps, ps);
-		}
+		if(canResize('w')) draw_SquareHandle({x:bb.leftx, y:bb.midy});
 
-		//Center Dot
-		_UI.glypheditctx.fillRect(bb.midx, bb.midy, ps, ps);
-		_UI.glypheditctx.strokeRect(bb.midx, bb.midy, ps, ps);
+		// //Center Dot
+		// _UI.glypheditctx.fillRect(bb.midx, bb.midy, ps, ps);
+		// _UI.glypheditctx.strokeRect(bb.midx, bb.midy, ps, ps);
+	}
+
+	function draw_RotationAffordance() {
+		var mx = _UI.eventhandlers.mousex;
+		var my = _UI.eventhandlers.mousey;
+		var ss = _UI.ms.shapes;
+		var center = ss.getCenter();
+		var maxes = ss.getMaxes();
+		var length = Math.abs(((sy_cy(maxes.ymax) - sy_cy(maxes.ymin)) / 2) + _UI.rotatehandleheight);
+		var angle = calculateAngle({x:mx, y:my}, center);
+
+		debug('\t Drag Angle ' + angle);
+
+		_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
+		draw_Line({x:(mx), y:(my)}, {x:sx_cx(center.x), y:sy_cy(center.y)});
+
+		_UI.glypheditctx.fillStyle = _UI.colors.blue.l95;
+		_UI.glypheditctx.arc(sx_cx(center.x), sy_cy(center.y), length, rad(270), angle, false);
+		_UI.glypheditctx.fill();
+		_UI.glypheditctx.closePath();
+
+		_UI.glypheditctx.beginPath();
+		_UI.glypheditctx.arc(sx_cx(center.x), sy_cy(center.y), length, 0, Math.PI*2, false);
+		_UI.glypheditctx.stroke();
+
+	}
+
+	function draw_Line(p1, p2) {
+		_UI.glypheditctx.beginPath();
+		_UI.glypheditctx.moveTo(p1.x, p1.y);
+		_UI.glypheditctx.lineTo(p2.x, p2.y);
+		_UI.glypheditctx.stroke();
+		_UI.glypheditctx.closePath();
+	}
+
+	function draw_SquareHandle(ul) {
+		var ps = _GP.projectsettings.pointsize;
+		_UI.glypheditctx.fillRect(ul.x, ul.y, ps, ps);
+		_UI.glypheditctx.strokeRect(ul.x, ul.y, ps, ps);
+	}
+
+	function draw_CircleHandle(center) {
+		_UI.glypheditctx.beginPath();
+		_UI.glypheditctx.arc(center.x, center.y, (_GP.projectsettings.pointsize/2), 0, Math.PI*2, true);
+		_UI.glypheditctx.fill();
+		_UI.glypheditctx.stroke();
+		_UI.glypheditctx.closePath();
 	}
 
 	function isOverBoundingBoxHandle(px, py, maxes, thickness) {
@@ -831,6 +861,12 @@
 		// debug('\t point size - ' + ps);
 		// debug('\t l/m/r x: ' + bb.leftx + ' / ' + bb.midx + ' / ' + bb.rightx);
 		// debug('\t t/m/b y: ' + bb.topy + ' / ' + bb.midy + ' / ' + bb.bottomy);
+
+		// rotation handle
+		if( ((px > bb.midx) && (px < bb.midx+ps)) &&
+			((py > bb.topy-_UI.rotatehandleheight) && (py < bb.topy-_UI.rotatehandleheight+ps)) ){
+			return 'rotate';
+		}
 
 		// upper left
 		if( ((px > bb.leftx) && (px < bb.leftx+ps)) &&
@@ -885,8 +921,8 @@
 	}
 
 	function getBoundingBoxHandleDimensions(maxes, thickness) {
-		var hp = _GP.projectsettings.pointsize/2;
 		var dimensions = {};
+		var hp = _GP.projectsettings.pointsize/2;
 		thickness = thickness || 1;
 
 		// Translation Fidelity - converting passed canvas values to saved value system
@@ -905,6 +941,8 @@
 			dimensions.topy -= thickness;
 			dimensions.bottomy += thickness;
 		}
+
+		dimensions.hp = hp;
 
 		return dimensions;
 	}

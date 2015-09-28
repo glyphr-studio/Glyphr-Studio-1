@@ -101,7 +101,9 @@
 	function Tool_ShapeEdit(){
 		this.dragging = false;
 		this.resizing = false;
+		this.rotating = false;
 		this.dragselecting = false;
+		this.center = {};
 		this.didstuff = false;
 		this.clickedshape = false;
 		_UI.eventhandlers.handle = false;
@@ -122,20 +124,26 @@
 			eh.handle = _UI.ms.shapes.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
 			// debug('\t clickshape: ' + this.clickedshape);
-			// debug('\t corner: ' + eh.handle);
+			debug('\t corner: ' + eh.handle);
+			this.resizing = false;
+			this.dragging = false;
+			this.rotating = false;
+			this.dragselecting = false;
 
-			if(eh.handle){
-				// debug('\t clicked on eh.handle: ' + eh.handle);
+			if (eh.handle){
+				if(eh.handle === 'rotate'){
+					debug('\t mousedown - setting rotating = true');
+					this.rotating = true;
+					this.center = _UI.ms.shapes.getCenter();
+				} else {
+					// debug('\t clicked on eh.handle: ' + eh.handle);
+					this.resizing = true;
+				}
 				setCursor(eh.handle);
-				this.resizing = true;
-				this.dragging = false;
-				this.dragselecting = false;
 
-			} else if(this.clickedshape){
+			} else if (this.clickedshape){
 				// debug('\t clicked on shape = true');
 				this.dragging = true;
-				this.resizing = false;
-				this.dragselecting = false;
 
 			} else if (!eh.multi){
 				// debug('\t clicked on nothing');
@@ -185,6 +193,9 @@
 			} else if (this.resizing){
 				// debug('\n Tool_ShapeEdit.mousemove - resizing');
 				eventHandler_ShapeResize();
+				this.didstuff = true;
+
+			} else if (this.rotating){
 				this.didstuff = true;
 
 			} else if (corner){
@@ -243,6 +254,8 @@
 			this.didstuff = false;
 			this.dragging = false;
 			this.resizing = false;
+			this.rotating = false;
+			this.center = {};
 			eh.handle = false;
 			eh.lastx = -100;
 			eh.lasty = -100;
@@ -730,7 +743,7 @@
 		var dw = (lx-mx);
 		var rl = s.getAttribute('ratiolock');
 
-		debug('\t eventHandler_ShapeResize dw/dh/rl: ' + dw + '/' + dh + '/' + rl);
+		// debug('\t eventHandler_ShapeResize dw/dh/rl: ' + dw + '/' + dh + '/' + rl);
 
 		// Check that the shape won't have negative dimensions
 		if(mx >= maxes.xmax && maxes.xmax-maxes.xmin+dw < 2) dw=0;

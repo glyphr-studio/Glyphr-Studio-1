@@ -7,7 +7,7 @@
 **/
 	function testScenario() {
 		selectGlyph('0x004F');
-		getSelectedWorkItem().rotate(45);
+		// getSelectedWorkItem().rotate(45);
 		redraw({});
 	}
 
@@ -117,6 +117,7 @@
 			}
 		},
 		'multiselectthickness': 2,
+		'rotatehandleheight': 40,
 		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
 		'redrawing': false,

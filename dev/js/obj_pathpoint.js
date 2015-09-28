@@ -227,6 +227,11 @@
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug('MAKEFLAT - hold ' + hold + ' starts as ' + JSON.stringify(this));
 
+		if(this.isFlat()) {
+			this.type = 'flat';
+			return;
+		}
+
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
 			if(!(this.useh1 || this.useh2)){
@@ -244,93 +249,58 @@
 
 		this.type = 'flat';
 
-		var angle1 = getMathAngle(this.P, this.H1);
-		var angle2 = getMathAngle(this.P, this.H2);
+		var angle1 = this.getH1Angle();
+		var angle2 = this.getH2Angle();
 		var hyp1 = this.getH1Length();
 		var hyp2 = this.getH2Length();
-
-		if(angle1===angle2){
-			//debug('MAKEFLAT - Equal Angles, returning');
-			return;
-		}
-
-		if(isNaN(angle1) || isNaN(angle2)) {
-			//debug('MAKEFLAT - NaN found, returning');
-			return;
-		}
-
-
 		//debug('MAKEFLAT - angle1 '+angle1+' angle2 '+angle2+' hyp1 '+hyp1+' hyp2 '+hyp2);
 
 		//new values
-		var newHx, newHy, mod, newadj1, newadj2;
+		var heald, moved, newHx, newHy, mod, newadj1, newadj2;
 
-		switch(hold){
-			case 'H1' :
-				//modifier
-				mod = (this.H1.y > this.P.y)? -1 : 1;
+		if(hold === 'H1'){
+			heald = this.H1;
+			moved = this.H2;
+		} else {
+			heald = this.H2;
+			moved = this.H1;
+		}
 
-				//get new x and y for H2
-				newadj2 = Math.cos(angle1) * hyp2;
-				newopp2 = Math.tan(angle1) * newadj2;
+		//modifier
+		mod = (heald.y > this.P.y)? -1 : 1;
 
-				//Set values
-				newHx =  (this.P.x + (newadj2));
-				newHy = (this.P.y + (newopp2*mod));
-				//debug('MAKEFLAT hold H1 - compute x/y ' + newHx + ' / ' + newHy);
-				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H2.x = newHx;
-					this.H2.y = newHy;
-				} else {
-					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
-					return;
-				}
-				break;
+		//get new x and y for H
+		newadj2 = Math.cos(angle1) * hyp2;
+		newopp2 = Math.tan(angle1) * newadj2;
 
-			case 'H2' :
-				//modifier
-				mod = (this.H2.y > this.P.y)? -1 : 1;
+		//Set values
+		newHx =  (this.P.x + (newadj2));
+		newHy = (this.P.y + (newopp2*mod));
 
-				//get new x and y for H2
-				newadj1 = Math.cos(angle2) * hyp1;
-				newopp1 = Math.tan(angle2) * newadj1;
-
-				//Set values
-				newHx =  (this.P.x + (newadj1));
-				newHy = (this.P.y + (newopp1*mod));
-				//debug('MAKEFLAT hold H2 - compute x/y ' + newHx + ' / ' + newHy);
-				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H1.x = newHx;
-					this.H1.y = newHy;
-				} else {
-					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
-					return;
-				}
-				break;
+		if(!isNaN(newHx) && !isNaN(newHy)){
+			moved.x = newHx;
+			moved.y = newHy;
+		} else {
+			//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+			return;
 		}
 
 		//this.roundAll();
 		//debug('MAKEFLAT - returns ' + json(this));
 	};
 
-	function getMathAngle(p, h){
-		var adj = (p.x-h.x) || 0;
-		var opp = (p.y-h.y) || 0;
-		var hyp = Math.sqrt( (adj*adj) + (opp*opp) );
-		var result = Math.acos(adj / hyp);
-		return result;
-	}
+	PathPoint.prototype.isFlat = function() {
+		var a1 = this.getH1Angle();
+		var a2 = this.getH2Angle();
+		// debug('\t comparing ' + a1 + ' / ' + a2);
+
+		 return (round((Math.abs(a1) + Math.abs(a2)), 2) === 3.14);
+	};
 
 	PathPoint.prototype.resolvePointType = function(){
 		debug('\n PathPoint.resolvePointType - START');
-		debug(this);
 
-		// corner, flat, symmetric
-		var a1 = round(this.getH1Angle(),2);
-		var a2 = round(this.getH2Angle(),2);
-		debug('\t comparing ' + a1 + ' === ' + a2);
-		if(a1 === (a2-180)){
-			debug('\t Angle test passed... flat or symmetric');
+		if(this.isFlat()){
 			if(this.getH1Length() === this.getH2Length()){
 				debug('\t resolvePointType - setting to Symmetric');
 				this.type = 'symmetric';
@@ -364,43 +334,13 @@
 	};
 
 	PathPoint.prototype.rotate = function(angle, about) {
-		debug('\n PathPoint.rotate - START');
+		// debug('\n PathPoint.rotate - START');
 		rotate(this.P, angle, about);
 		rotate(this.H1, angle, about);
 		rotate(this.H2, angle, about);
-		debug('\t this.P ' + json(this.P, true));
-		debug(' PathPoint.rotate - END\n');
+		// debug('\t this.P ' + json(this.P, true));
+		// debug(' PathPoint.rotate - END\n');
 	};
-
-	function rotate(coord, angle, about) {
-		/**
-			Angle system: zero degrees is at 12 o'clock
-			and is positive in the clockwise direction.
-			This is different than the Math angle system.
-		**/
-
-		debug('\n rotate - START');
-		// debug('\t coord ' + json(coord, true));
-		// debug('\t angle ' + angle);
-		// debug('\t about ' + json(about, true));
-
-		if(!angle || !coord) return;
-		about = about || {x:0, y:0};
-
-		angle = angle * Math.PI * -1 / 180;
-
-		coord.x -= about.x;
-		coord.y -= about.y;
-
-		var newx = (coord.x * Math.cos(angle)) - (coord.y * Math.sin(angle));
-		var newy = (coord.x * Math.sin(angle)) + (coord.y * Math.cos(angle));
-
-		coord.x = newx + about.x;
-		coord.y = newy + about.y;
-
-		debug('\t new coord x/y: ' + coord.x + '/' + coord.y);
-		debug(' rotate - END\n');
-	}
 
 	PathPoint.prototype.resetHandles = function(){
 		this.type = 'flat';
@@ -506,58 +446,29 @@
 	};
 
 	PathPoint.prototype.getH1Angle = function(){
-		return getAngle(this.P, this.H1);
+		return calculateAngle(this.H1, this.P);
 	};
 
 	PathPoint.prototype.getH2Angle = function(){
-		return getAngle(this.P, this.H2);
+		return calculateAngle(this.H2, this.P);
 	};
 
-	function getAngle(p, h) {
-		/**
-			Angle system: zero degrees is at 12 o'clock
-			and is positive in the clockwise direction.
-			This is different than the Math angle system.
-		**/
-		
-		var result = Math.atan((h.y - p.y)/(h.x - p.x)) * 180 / Math.PI;
+	PathPoint.prototype.getH1NiceAngle = function(){
+		return calculateNiceAngle(this.getH1Angle());
+	};
 
-		if(h.x > p.x){
-			if(p.x === h.x) return 0;
-			else if(h.y > p.y){
-				return Math.abs(90-result);
-			} else {
-				return 90 - result;
-			}
-		} else if (h.x < p.x){
-			if(p.x === h.x) return 180;
-			else if(h.y < p.y){
-				return 180 + Math.abs(90-result);
-			} else {
-				return 270 - result;
-			}
-		} else {
-			if (h.y >= p.y) return 0;
-			else return 180;
-		}
-
-		return result;
-	}
+	PathPoint.prototype.getH2NiceAngle = function(){
+		return calculateNiceAngle(this.getH2Angle());
+	};
 
 	PathPoint.prototype.getH1Length = function() {
-		return getLength(this.P, this.H1);
+		return calculateLength(this.H1, this.P);
 	};
 
 	PathPoint.prototype.getH2Length = function() {
-		return getLength(this.P, this.H2);
+		return calculateLength(this.H2, this.P);
 	};
 
-	function getLength(p, h){
-		var adj = p.x - h.x;
-		var opp = p.y - h.y;
-		var result = Math.sqrt( (adj*adj) + (opp*opp) );
-		return result;
-	}
 
 
 

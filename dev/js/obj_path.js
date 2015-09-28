@@ -168,15 +168,15 @@
 	};
 
 	Path.prototype.rotate = function(angle, about) {
-		debug('\n Path.rotate - START');
+		// debug('\n Path.rotate - START');
 		for(var d=0; d<this.pathpoints.length; d++){
-			debug('\t starting point ' + d);
+			// debug('\t starting point ' + d);
 			var pp = this.pathpoints[d];
 			pp.rotate(angle, about);
-			debug('\t p['+d+'].P.x ' + pp.P.x);
+			// debug('\t p['+d+'].P.x ' + pp.P.x);
 		}
-		// this.calcMaxes();
-		debug(' Path.rotate - END\n');
+		this.calcMaxes();
+		// debug(' Path.rotate - END\n');
 	};
 
 

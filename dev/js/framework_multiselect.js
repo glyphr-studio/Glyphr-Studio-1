@@ -281,6 +281,8 @@
 		return c;
 	};
 
+	_UI.ms.shapes.getCenter = function(){ return this.getGlyph().getCenter(); };
+
 	_UI.ms.shapes.calcMaxes = function(){
 		for(var m=0; m<this.members.length; m++){
 			this.members[m].calcMaxes();
