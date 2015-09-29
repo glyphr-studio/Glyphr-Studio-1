@@ -7,8 +7,8 @@
 **/
 	function testScenario() {
 		selectGlyph('0x004F');
-		// getSelectedWorkItem().rotate(45);
-		redraw({});
+		// getSelectedWorkItem().rotate(1.2);
+		// redraw({});
 	}
 
 

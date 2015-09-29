@@ -347,6 +347,18 @@
 		}
 	};
 
+	_UI.ms.shapes.draw_RotationAffordance = function(){
+		var ss;
+		if(this.members.length === 1){
+			ss = this.members[0];
+			draw_RotationAffordance(ss.getMaxes(), ss.getCenter(), false, false);
+
+		} else if(this.members.length > 1){
+			ss = this.getGlyph();
+			draw_RotationAffordance(ss.calcGlyphMaxes(), ss.getCenter(), _UI.colors.gray, _UI.multiselectthickness);
+		}
+	};
+
 	_UI.ms.shapes.draw_BoundingBoxHandles = function(){
 		if(this.members.length === 1){
 			this.members[0].draw_BoundingBoxHandles();

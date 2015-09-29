@@ -769,8 +769,10 @@
 
 		//rotate handle
 		var h = _UI.rotatehandleheight;
+		_UI.glypheditctx.lineWidth = thickness;
 		draw_Line({x:bb.midx + bb.hp, y:bb.topy}, {x:bb.midx + bb.hp, y:bb.topy - h});
-		draw_CircleHandle({x:bb.midx + bb.hp, y:bb.topy - h});
+		_UI.glypheditctx.lineWidth = 1;
+		draw_CircleHandle({x:bb.midx + bb.hp, y:bb.topy - h + bb.hp});
 
 
 		//upper left
@@ -802,37 +804,58 @@
 		// _UI.glypheditctx.strokeRect(bb.midx, bb.midy, ps, ps);
 	}
 
-	function draw_RotationAffordance() {
+	function draw_RotationAffordance(maxes, center, accent, thickness) {
+		accent = accent || _UI.colors.blue;
+		thickness = thickness || 1;
 		var mx = _UI.eventhandlers.mousex;
 		var my = _UI.eventhandlers.mousey;
 		var ss = _UI.ms.shapes;
-		var center = ss.getCenter();
-		var maxes = ss.getMaxes();
-		var length = Math.abs(((sy_cy(maxes.ymax) - sy_cy(maxes.ymin)) / 2) + _UI.rotatehandleheight);
-		var angle = calculateAngle({x:mx, y:my}, center);
+		var angle = calculateAngle({x:cx_sx(mx), y:cy_sy(my)}, center);
+		var starttopy = maxes.ymax + (_UI.rotatehandleheight / getView().dz);
 
-		debug('\t Drag Angle ' + angle);
+		var rotatehandle = {x:center.x, y:starttopy};
+		rotate(rotatehandle, angle, center);
+		rotate(rotatehandle, (Math.PI/-2), center);
 
-		_UI.glypheditctx.strokeStyle = _UI.colors.blue.l65;
-		draw_Line({x:(mx), y:(my)}, {x:sx_cx(center.x), y:sy_cy(center.y)});
+		debug('\t Drag Angle ' + calculateNiceAngle(angle));
 
-		_UI.glypheditctx.fillStyle = _UI.colors.blue.l95;
-		_UI.glypheditctx.arc(sx_cx(center.x), sy_cy(center.y), length, rad(270), angle, false);
-		_UI.glypheditctx.fill();
-		_UI.glypheditctx.closePath();
+		// Convert things to Canvas System
+		rotatehandle.x = sx_cx(rotatehandle.x);
+		rotatehandle.y = sy_cy(rotatehandle.y);
+		center.x = sx_cx(center.x);
+		center.y = sy_cy(center.y);
+		starttopy = sy_cy(starttopy);
+		var radius = calculateLength(center, rotatehandle);
+		
 
-		_UI.glypheditctx.beginPath();
-		_UI.glypheditctx.arc(sx_cx(center.x), sy_cy(center.y), length, 0, Math.PI*2, false);
-		_UI.glypheditctx.stroke();
+		var ctx = _UI.glypheditctx;
+		
+		// Pizza Pie Sweep
+		ctx.fillStyle = _UI.colors.blue.l65;
+		ctx.globalAlpha = 0.3;
+		ctx.beginPath();
+		ctx.moveTo(center.x, center.y);
+		ctx.arc(center.x, center.y, radius, (Math.PI/-2), (angle*-1), false);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fill();
+		ctx.globalAlpha = 1;
 
+		// rotate Handle		
+		ctx.strokeStyle = accent.l65;
+		ctx.fillStyle = 'white';
+		ctx.lineWidth = thickness;
+		draw_Line({x:rotatehandle.x, y:rotatehandle.y}, {x:center.x, y:center.y});
+		ctx.lineWidth = 1;
+		draw_CircleHandle(rotatehandle);
 	}
 
 	function draw_Line(p1, p2) {
 		_UI.glypheditctx.beginPath();
 		_UI.glypheditctx.moveTo(p1.x, p1.y);
 		_UI.glypheditctx.lineTo(p2.x, p2.y);
-		_UI.glypheditctx.stroke();
 		_UI.glypheditctx.closePath();
+		_UI.glypheditctx.stroke();
 	}
 
 	function draw_SquareHandle(ul) {
@@ -844,9 +867,9 @@
 	function draw_CircleHandle(center) {
 		_UI.glypheditctx.beginPath();
 		_UI.glypheditctx.arc(center.x, center.y, (_GP.projectsettings.pointsize/2), 0, Math.PI*2, true);
+		_UI.glypheditctx.closePath();
 		_UI.glypheditctx.fill();
 		_UI.glypheditctx.stroke();
-		_UI.glypheditctx.closePath();
 	}
 
 	function isOverBoundingBoxHandle(px, py, maxes, thickness) {

@@ -65,8 +65,7 @@
 			_UI.ms.shapes.draw_BoundingBoxHandles();
 
 		} else if (editmode === 'rotate'){
-			_UI.ms.shapes.draw_BoundingBox();
-			draw_RotationAffordance();
+			_UI.ms.shapes.draw_RotationAffordance();
 
 		} else if (editmode === 'pen'){
 			if(_UI.eventhandlers.multi) sg.draw_MultiSelectAffordances();
@@ -79,6 +78,7 @@
 				_UI.glypheditctx.fillStyle = hp.fill;
 				_UI.glypheditctx.fillRect(hp.x, hp.y, hp.size, hp.size);
 			}
+
 		} else if (editmode === 'newpath'){
 			_UI.ms.points.draw_PathPointHandles();
 			_UI.ms.shapes.draw_PathPoints();
