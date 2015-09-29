@@ -104,8 +104,6 @@
 		this.resizing = false;
 		this.rotating = false;
 		this.dragselecting = false;
-		this.center = {};
-		this.starttopy = 0;
 		this.didstuff = false;
 		this.clickedshape = false;
 		_UI.eventhandlers.handle = false;
@@ -126,7 +124,7 @@
 			eh.handle = _UI.ms.shapes.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
 
 			// debug('\t clickshape: ' + this.clickedshape);
-			debug('\t corner: ' + eh.handle);
+			// debug('\t corner: ' + eh.handle);
 			this.resizing = false;
 			this.dragging = false;
 			this.rotating = false;
@@ -134,10 +132,11 @@
 
 			if (eh.handle){
 				if(eh.handle === 'rotate'){
-					debug('\t mousedown - setting rotating = true');
+					// debug('\t mousedown - setting rotating = true');
 					this.rotating = true;
 					eh.rotationcenter = _UI.ms.shapes.getCenter();
-					this.starttopy = _UI.ms.shapes.getMaxes().ymax + (_UI.rotatehandleheight / getView().dz);
+					eh.rotationstarttopy = _UI.ms.shapes.getMaxes().ymax + (_UI.rotatehandleheight / getView().dz);
+					
 				} else {
 					// debug('\t clicked on eh.handle: ' + eh.handle);
 					this.resizing = true;
@@ -261,13 +260,13 @@
 			this.dragging = false;
 			this.resizing = false;
 			this.rotating = false;
-			this.center = {};
 			eh.handle = false;
 			eh.lastx = -100;
 			eh.lasty = -100;
 			eh.firstx = -100;
 			eh.firsty = -100;
 			eh.rotationcenter = false;
+			eh.rotationstarttopy = false;
 			if(eh.uqhaschanged) history_put('Path Edit tool');
 			eh.uqhaschanged = false;
 			redraw({calledby:'Event Handler Tool_ShapeEdit mouseup'});

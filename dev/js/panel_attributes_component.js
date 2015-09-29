@@ -135,14 +135,16 @@
 		content += '<tr>'+
 			'<td>&#916; rotation</td>'+
 			'<td>'+
-					'<input type="number" id="rot" step="'+svc+'" value="' + round(s.rotation, 1) + '" onchange="updateComponentInstanceDetail(\'rotation\', this.value, this.id);">' +
+					'<input type="number" id="rot" step="'+svc+'" value="' + round(-1*s.rotation, 1) + '" onchange="updateComponentInstanceDetail(\'rotation\', this.value, this.id);">' +
 			'</td>'+
 		'</tr>';
 
-		content += '<tr>'+
-			'<td> rotate first </td>'+
-			'<td>' + checkUI('_UI.ms.shapes.getSingleton().rotatefirst', s.rotatefirst, true) + '</td>'+
-		'</tr>';
+		if(s.rotation !== 0){
+			content += '<tr>'+
+				'<td> rotate first </td>'+
+				'<td>' + checkUI('_UI.ms.shapes.getSingleton().rotatefirst', s.rotatefirst, true) + '</td>'+
+			'</tr>';
+		}
 
 		// ROOT
 		var cr = getGlyph(s.link);
@@ -167,6 +169,7 @@
 
 	function updateComponentInstanceDetail(key, value, id) {
 		var oldval = _UI.ms.shapes[key];
+		if(key === 'rotation') value *= -1;
 		_UI.ms.shapes[key] = value;
 		var ts, w, h;
 

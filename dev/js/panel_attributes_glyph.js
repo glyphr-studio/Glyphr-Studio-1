@@ -82,11 +82,11 @@
 			'<td class="leftcol">x'+dimSplit()+'y</td>'+
 			'<td>'+
 				'<input type="number" id="charx" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw({calledby:\'Glyph Details - X Position}\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false, true); history_put(\'Multi-selected Shapes X Position : \'+this.value); redraw({calledby:\'Glyph Details - X Position\'});}"'+
 				' value="' + round(sc.maxes.xmin, 3) + '" >'+
 				dimSplit()+
 				'<input type="number" id="chary" step="'+svc+'" '+
-				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw({calledby:\'Glyph Details - Y Position}\');}"'+
+				'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value, true); history_put(\'Multi-selected Shapes Y Position : \'+this.value); redraw({calledby:\'Glyph Details - Y Position\'});}"'+
 				' value="' + round(sc.maxes.ymax, 3) + '" >'+
 			'</td>'+
 		'</tr>';
@@ -134,11 +134,11 @@
 				'<td class="leftcol">x'+dimSplit()+'y</td>'+
 				'<td>'+
 					'<input type="number" id="charx" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw({calledby:\'Glyph Details - X Position}\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(this.value, false, true); history_put(\'Glyph X Position : \'+this.value); redraw({calledby:\'Glyph Details - X Position\'});}"'+
 					' value="' + round(sc.maxes.xmin, 3) + '" >'+
 					dimSplit()+
 					'<input type="number" id="chary" step="'+svc+'" '+
-					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw({calledby:\'Glyph Details - Y Position}\');}"'+
+					'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){getSelectedWorkItem().setGlyphPosition(false, this.value, true); history_put(\'Glyph Y Position : \'+this.value); redraw({calledby:\'Glyph Details - Y Position\'});}"'+
 					' value="' + round(sc.maxes.ymax, 3) + '" >'+
 				'</td>'+
 			'</tr>';
@@ -288,14 +288,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().xlock', s.xlock, 'ssxlock')+
 					'<input type="number" id="shapex" step="'+svc+'" '+
-					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw({calledby:\'shapeDetails - X Position}\');}"')+
+					(s.xlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(this.value, false); history_put(\'Shape X Position : \'+this.value); redraw({calledby:\'shapeDetails - X Position\'});}"')+
 					' value="' + xval + '" >'+
 				'</div>'+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().ylock', s.ylock, 'ssylock')+
 					'<input type="number" id="shapey" step="'+svc+'" '+
-					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw({calledby:\'shapeDetails - Y Position}\');}"')+
+					(s.ylock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapePosition(false, this.value); history_put(\'Shape Y Position : \'+this.value); redraw({calledby:\'shapeDetails - Y Position\'});}"')+
 					' value="' + yval + '" >'+
 				'</div>'+
 			'</td>'+

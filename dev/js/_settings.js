@@ -6,13 +6,13 @@
 	done loading to test recent features.
 **/
 	function testScenario() {
-		debug('niceAngleToAngle');
-		debug('  0 >> ' + round(niceAngleToAngle(0), 2) + ' ==  1.57');
-		debug(' 89 >> ' + round(niceAngleToAngle(89), 2) + ' ==  0.02');
-		debug(' 91 >> ' + round(niceAngleToAngle(91), 2) + ' == -0.02');
-		debug('180 >> ' + round(niceAngleToAngle(180), 2) + ' == -1.57');
-		debug('269 >> ' + round(niceAngleToAngle(269), 2) + ' == -3.12');
-		debug('271 >> ' + round(niceAngleToAngle(271), 2) + ' ==  3.12');
+		// debug('niceAngleToAngle');
+		// debug('  0 >> ' + round(niceAngleToAngle(0), 2) + ' ==  1.57');
+		// debug(' 89 >> ' + round(niceAngleToAngle(89), 2) + ' ==  0.02');
+		// debug(' 91 >> ' + round(niceAngleToAngle(91), 2) + ' == -0.02');
+		// debug('180 >> ' + round(niceAngleToAngle(180), 2) + ' == -1.57');
+		// debug('269 >> ' + round(niceAngleToAngle(269), 2) + ' == -3.12');
+		// debug('271 >> ' + round(niceAngleToAngle(271), 2) + ' ==  3.12');
 	}
 
 
@@ -42,8 +42,8 @@
 		// all pages
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Version 1.02',
-		'thisGlyphrStudioVersionNum': '1.02.03',
+		'thisGlyphrStudioVersion': 'Version 1.03',
+		'thisGlyphrStudioVersionNum': '1.03.00',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},

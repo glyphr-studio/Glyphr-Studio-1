@@ -806,11 +806,11 @@
 		// _UI.glypheditctx.strokeRect(bb.midx, bb.midy, ps, ps);
 	}
 
-	function draw_RotationAffordance(center, accent, thickness) {
-		center = _UI.eventhandlers.center || center;
+	function draw_RotationAffordance(accent, thickness) {
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		var starttopy = _UI.eventhandlers.eh_shapeedit.starttopy;
+		var center = clone(_UI.eventhandlers.rotationcenter);
+		var starttopy = _UI.eventhandlers.rotationstarttopy;
 		var mx = _UI.eventhandlers.mousex;
 		var my = _UI.eventhandlers.mousey;
 		var ss = _UI.ms.shapes;

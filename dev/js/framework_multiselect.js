@@ -249,9 +249,7 @@
 
 	_UI.ms.shapes.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
 
-	_UI.ms.shapes.rotate = function(angle, about) {
-		this.getGlyph().rotate(angle, about);
-	};
+	_UI.ms.shapes.rotate = function(angle, about) { this.getGlyph().rotate(angle, about); };
 
 	_UI.ms.shapes.rotateable = function() {
 		if(this.members.length === 1) return true;
@@ -366,11 +364,11 @@
 		if(this.members.length === 1){
 			ss = this.members[0];
 			var accent = ss.objtype === 'componentinstance'? _UI.colors.green : _UI.colors.blue;
-			draw_RotationAffordance(ss.getCenter(), accent, false);
+			draw_RotationAffordance(accent, false);
 
 		} else if(this.members.length > 1){
 			ss = this.getGlyph();
-			draw_RotationAffordance(ss.getCenter(), _UI.colors.gray, _UI.multiselectthickness);
+			draw_RotationAffordance(_UI.colors.gray, _UI.multiselectthickness);
 		}
 	};
 

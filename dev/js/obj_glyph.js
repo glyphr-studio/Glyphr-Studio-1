@@ -201,6 +201,8 @@
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].rotate(angle, about);
 		}
+
+		this.calcGlyphMaxes();
 	};
 
 	Glyph.prototype.getCenter = function() {
