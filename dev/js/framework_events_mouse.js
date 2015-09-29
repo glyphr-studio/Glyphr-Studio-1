@@ -11,6 +11,7 @@
 		'dragselectarea': false,
 		'mousex' : 0,
 		'mousey' : 0,
+		'rotationcenter': false,
 		'ismouseovercec' : false,
 		'corner' : false,
 		'toolhandoff' : false,
@@ -104,6 +105,7 @@
 		this.rotating = false;
 		this.dragselecting = false;
 		this.center = {};
+		this.starttopy = 0;
 		this.didstuff = false;
 		this.clickedshape = false;
 		_UI.eventhandlers.handle = false;
@@ -134,7 +136,8 @@
 				if(eh.handle === 'rotate'){
 					debug('\t mousedown - setting rotating = true');
 					this.rotating = true;
-					this.center = _UI.ms.shapes.getCenter();
+					eh.rotationcenter = _UI.ms.shapes.getCenter();
+					this.starttopy = _UI.ms.shapes.getMaxes().ymax + (_UI.rotatehandleheight / getView().dz);
 				} else {
 					// debug('\t clicked on eh.handle: ' + eh.handle);
 					this.resizing = true;
@@ -196,9 +199,9 @@
 				this.didstuff = true;
 
 			} else if (this.rotating){
-				var a1 = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, this.center);
-				var a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, this.center);
-				_UI.ms.shapes.rotate((a1-a2), this.center);
+				var a1 = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
+				var a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, eh.rotationcenter);
+				_UI.ms.shapes.rotate((a1-a2), eh.rotationcenter);
 				this.didstuff = true;
 
 			} else if (corner){
@@ -264,6 +267,7 @@
 			eh.lasty = -100;
 			eh.firstx = -100;
 			eh.firsty = -100;
+			eh.rotationcenter = false;
 			if(eh.uqhaschanged) history_put('Path Edit tool');
 			eh.uqhaschanged = false;
 			redraw({calledby:'Event Handler Tool_ShapeEdit mouseup'});

@@ -2,8 +2,8 @@
 /**
 	Panel > Attributes > Component
 	Panel > Attributes > Component Instance
-	Builds attribute panels for Glyph objects on 
-	the components page, and also for Component 
+	Builds attribute panels for Glyph objects on
+	the components page, and also for Component
 	Instance objects.
 **/
 
@@ -69,7 +69,7 @@
 		content += '<tr><td class="leftcol"> instance name </td>'+
 			'<td style="margin-top:0px; padding-top:0px;">'+
 				'<input class="namewidth" id="comname" type="text" value="' + s.name + '" '+
-					'onchange="updateComponentInstanceDetail(\'name\', this.value, this.id);">' + 
+					'onchange="updateComponentInstanceDetail(\'name\', this.value, this.id);">' +
 			'</td>'+
 		'</tr>';
 
@@ -131,6 +131,19 @@
 			'<td>' + checkUI('_UI.ms.shapes.getSingleton().reversewinding', s.reversewinding, true) + '</td>'+
 		'</tr>';
 
+		// ROTATE
+		content += '<tr>'+
+			'<td>&#916; rotation</td>'+
+			'<td>'+
+					'<input type="number" id="rot" step="'+svc+'" value="' + round(s.rotation, 1) + '" onchange="updateComponentInstanceDetail(\'rotation\', this.value, this.id);">' +
+			'</td>'+
+		'</tr>';
+
+		content += '<tr>'+
+			'<td> rotate first </td>'+
+			'<td>' + checkUI('_UI.ms.shapes.getSingleton().rotatefirst', s.rotatefirst, true) + '</td>'+
+		'</tr>';
+
 		// ROOT
 		var cr = getGlyph(s.link);
 		content += '<tr><td colspan=2><h3>root component</h3></td></tr></table>';
@@ -142,7 +155,7 @@
 		content += '</td></tr>';
 		content += '</table>';
 
-		// content += '<tr><td> root name </td><td>' + 
+		// content += '<tr><td> root name </td><td>' +
 		// 	'<input type="text" disabled="disabled" value="' + getGlyphName(s.link) + '">'+
 		// '</td></tr>';
 		// content += '<tr><td colspan=2><button onclick="goToEditGlyph(\''+s.link+'\');">edit this component</button>';

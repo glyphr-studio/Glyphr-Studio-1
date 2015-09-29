@@ -226,16 +226,25 @@
 		return this.glyph;
 	};
 
+	_UI.ms.shapes.contains = function(objtypename) {
+		if(this.members.length === 0) return false;
+		var re = false;
+		for(var m=0; m<this.members.length; m++){
+			re = this.members[m].objtype === objtypename;
+			if(re) return true;
+		}
+
+		return false;
+	};
+
 	// Wrapper functions
 	_UI.ms.shapes.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
 
 	_UI.ms.shapes.setShapePosition = function(nx, ny, force) { this.getGlyph().setGlyphPosition(nx, ny, force); };
 
 	_UI.ms.shapes.updateShapeSize = function(dw, dh, ratiolock) {
-		_UI.debug = true;
 		if(this.members.length === 1) this.members[0].updateShapeSize(dw, dh, ratiolock);
 		else if (this.members.length > 1) this.getGlyph().updateGlyphSize(dw, dh, ratiolock);
-		_UI.debug = false;
 	};
 
 	_UI.ms.shapes.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
@@ -244,6 +253,11 @@
 		this.getGlyph().rotate(angle, about);
 	};
 
+	_UI.ms.shapes.rotateable = function() {
+		if(this.members.length === 1) return true;
+		else return !this.contains(('componentinstance'));
+	};
+	
 	_UI.ms.shapes.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
 
 	_UI.ms.shapes.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
@@ -351,11 +365,12 @@
 		var ss;
 		if(this.members.length === 1){
 			ss = this.members[0];
-			draw_RotationAffordance(ss.getMaxes(), ss.getCenter(), false, false);
+			var accent = ss.objtype === 'componentinstance'? _UI.colors.green : _UI.colors.blue;
+			draw_RotationAffordance(ss.getCenter(), accent, false);
 
 		} else if(this.members.length > 1){
 			ss = this.getGlyph();
-			draw_RotationAffordance(ss.calcGlyphMaxes(), ss.getCenter(), _UI.colors.gray, _UI.multiselectthickness);
+			draw_RotationAffordance(ss.getCenter(), _UI.colors.gray, _UI.multiselectthickness);
 		}
 	};
 

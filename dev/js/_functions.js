@@ -456,8 +456,8 @@ function saveFile(fname, buffer, ftype) {
 	}
 
 	//convert between degrees and radians
-	function rad(deg) {	return deg * Math.PI / 180; }
-	function deg(rad) {	return rad * 180 / Math.PI; }
+	function rad(deg) {	return (deg * Math.PI / 180) % Math.PI; }
+	function deg(rad) {	return (rad * 180 / Math.PI) % 360; }
 
 	// Shows the Glyphr Studio angle as opposed to the JavaScript angle
 	function calculateNiceAngle(angle) {
@@ -466,6 +466,17 @@ function saveFile(fname, buffer, ftype) {
 		angle -= 270;
 		angle = angle % 360;
 		if(angle < 0) angle += 360;
+
+		return angle;
+	}
+
+	function niceAngleToAngle(angle) {
+		angle += 90;
+		angle = angle % 360;
+		if(angle < 180) angle = 360 - angle;
+		else angle *=-1;
+
+		angle = rad(angle);
 
 		return angle;
 	}

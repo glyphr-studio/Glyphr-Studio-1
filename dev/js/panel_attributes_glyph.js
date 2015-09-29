@@ -419,8 +419,10 @@
 			'</tr>';
 
 			content += '<tr>'+
-				'<td> angle <span class="unit">(degrees)</span></td>'+
-				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH1NiceAngle(),3) || 0)+'"></td>'+
+				'<td> angle'+dimSplit()+'length </span></td>'+
+				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH1NiceAngle(),1) || 0)+'">'+
+				dimSplit()+
+				'<input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH1Length(),3) || 0)+'"></td>'+
 			'</tr>';
 		}
 
@@ -448,8 +450,10 @@
 			'</tr>';
 
 			content += '<tr>'+
-				'<td> angle <span class="unit">(degrees)</span></td>'+
-				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH2NiceAngle(),3) || 0)+'"></td>'+
+				'<td> angle'+dimSplit()+'length </span></td>'+
+				'<td><input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH2NiceAngle(),1) || 0)+'">'+
+				dimSplit()+
+				'<input type="number" class="lockpad" disabled="disabled" value="'+(round(tp.getH2Length(),3) || 0)+'"></td>'+
 			'</tr>';
 		}
 

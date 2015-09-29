@@ -48,13 +48,13 @@
 			return false;
 		}
 
-		if(this.rotatefirst) g.rotate(this.rotation);
+		if(this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
 		if(this.flipew) g.flipEW();
 		if(this.flipns) g.flipNS();
 		g.updateGlyphPosition(this.translatex, this.translatey, true);
 		g.updateGlyphSize(this.scalew, this.scaleh, false);
 		if(this.reversewinding) g.reverseWinding();
-		if(!this.rotatefirst) g.rotate(this.rotation);
+		if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
 		
 		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 		return g;
@@ -148,8 +148,14 @@
 	};
 
 	ComponentInstance.prototype.rotate = function(angle, about) {
-		about = about || this.getCenter();
-		this.getTransformedGlyph().rotate(angle, about);
+		// debug('\n ComponentInstance.rotate - START');
+		// debug('\t passed ' + angle);
+		var degrees = deg(angle);
+		// debug('\t deg ' + degrees);
+		// debug('\t was ' + this.rotation);
+		this.rotation = ((this.rotation + degrees) % 360);
+		// debug('\t is now ' + this.rotation);
+		// debug(' ComponentInstance.rotate - END\n');
 	};
 
 	ComponentInstance.prototype.getCenter = function() { return this.getTransformedGlyph().getCenter();	};

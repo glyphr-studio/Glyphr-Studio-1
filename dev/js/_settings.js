@@ -6,9 +6,13 @@
 	done loading to test recent features.
 **/
 	function testScenario() {
-		selectGlyph('0x004F');
-		// getSelectedWorkItem().rotate(1.2);
-		// redraw({});
+		debug('niceAngleToAngle');
+		debug('  0 >> ' + round(niceAngleToAngle(0), 2) + ' ==  1.57');
+		debug(' 89 >> ' + round(niceAngleToAngle(89), 2) + ' ==  0.02');
+		debug(' 91 >> ' + round(niceAngleToAngle(91), 2) + ' == -0.02');
+		debug('180 >> ' + round(niceAngleToAngle(180), 2) + ' == -1.57');
+		debug('269 >> ' + round(niceAngleToAngle(269), 2) + ' == -3.12');
+		debug('271 >> ' + round(niceAngleToAngle(271), 2) + ' ==  3.12');
 	}
 
 
@@ -29,7 +33,7 @@
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': 'merriweathersans',	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape

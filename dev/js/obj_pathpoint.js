@@ -256,7 +256,7 @@
 		//debug('MAKEFLAT - angle1 '+angle1+' angle2 '+angle2+' hyp1 '+hyp1+' hyp2 '+hyp2);
 
 		//new values
-		var heald, moved, newHx, newHy, mod, newadj1, newadj2;
+		var heald, moved, newHx, newHy, newadj1, newadj2;
 
 		if(hold === 'H1'){
 			heald = this.H1;
@@ -266,16 +266,13 @@
 			moved = this.H1;
 		}
 
-		//modifier
-		mod = (heald.y > this.P.y)? -1 : 1;
-
 		//get new x and y for H
 		newadj2 = Math.cos(angle1) * hyp2;
 		newopp2 = Math.tan(angle1) * newadj2;
 
 		//Set values
-		newHx =  (this.P.x + (newadj2));
-		newHy = (this.P.y + (newopp2*mod));
+		newHx =  (this.P.x + (newadj2*-1));
+		newHy = (this.P.y + (newopp2*-1));
 
 		if(!isNaN(newHx) && !isNaN(newHy)){
 			moved.x = newHx;
@@ -290,6 +287,9 @@
 	};
 
 	PathPoint.prototype.isFlat = function() {
+		if(this.P.x === this.H1.x && this.P.x === this.H2.x) return true;
+		if(this.P.y === this.H1.y && this.P.y === this.H2.y) return true;
+
 		var a1 = this.getH1Angle();
 		var a2 = this.getH2Angle();
 		// debug('\t comparing ' + a1 + ' / ' + a2);

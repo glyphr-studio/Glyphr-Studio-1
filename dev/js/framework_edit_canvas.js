@@ -768,11 +768,13 @@
 		_UI.glypheditctx.strokeStyle = accent.l65;
 
 		//rotate handle
-		var h = _UI.rotatehandleheight;
-		_UI.glypheditctx.lineWidth = thickness;
-		draw_Line({x:bb.midx + bb.hp, y:bb.topy}, {x:bb.midx + bb.hp, y:bb.topy - h});
-		_UI.glypheditctx.lineWidth = 1;
-		draw_CircleHandle({x:bb.midx + bb.hp, y:bb.topy - h + bb.hp});
+		if(_UI.ms.shapes.rotateable()){
+			var h = _UI.rotatehandleheight;
+			_UI.glypheditctx.lineWidth = thickness;
+			draw_Line({x:bb.midx + bb.hp, y:bb.topy}, {x:bb.midx + bb.hp, y:bb.topy - h});
+			_UI.glypheditctx.lineWidth = 1;
+			draw_CircleHandle({x:bb.midx + bb.hp, y:bb.topy - h + bb.hp});
+		}
 
 
 		//upper left
@@ -804,14 +806,15 @@
 		// _UI.glypheditctx.strokeRect(bb.midx, bb.midy, ps, ps);
 	}
 
-	function draw_RotationAffordance(maxes, center, accent, thickness) {
+	function draw_RotationAffordance(center, accent, thickness) {
+		center = _UI.eventhandlers.center || center;
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
+		var starttopy = _UI.eventhandlers.eh_shapeedit.starttopy;
 		var mx = _UI.eventhandlers.mousex;
 		var my = _UI.eventhandlers.mousey;
 		var ss = _UI.ms.shapes;
 		var angle = calculateAngle({x:cx_sx(mx), y:cy_sy(my)}, center);
-		var starttopy = maxes.ymax + (_UI.rotatehandleheight / getView().dz);
 
 		var rotatehandle = {x:center.x, y:starttopy};
 		rotate(rotatehandle, angle, center);
@@ -894,9 +897,11 @@
 		// debug('\t t/m/b y: ' + bb.topy + ' / ' + bb.midy + ' / ' + bb.bottomy);
 
 		// rotation handle
-		if( ((px > bb.midx) && (px < bb.midx+ps)) &&
-			((py > bb.topy-_UI.rotatehandleheight) && (py < bb.topy-_UI.rotatehandleheight+ps)) ){
-			return 'rotate';
+		if(_UI.ms.shapes.rotateable()){
+			if( ((px > bb.midx) && (px < bb.midx+ps)) &&
+				((py > bb.topy-_UI.rotatehandleheight) && (py < bb.topy-_UI.rotatehandleheight+ps)) ){
+				return 'rotate';
+			}
 		}
 
 		// upper left
