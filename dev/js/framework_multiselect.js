@@ -241,7 +241,7 @@
 	_UI.ms.shapes.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
 
 	_UI.ms.shapes.rotate = function(angle, about) {
-		this.members[0].rotate(angle, about);
+		this.getGlyph().rotate(angle, about);
 	};
 
 	_UI.ms.shapes.flipNS = function(mid) { this.getGlyph().flipNS(mid); };

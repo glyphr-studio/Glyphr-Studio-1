@@ -817,7 +817,7 @@
 		rotate(rotatehandle, angle, center);
 		rotate(rotatehandle, (Math.PI/-2), center);
 
-		debug('\t Drag Angle ' + calculateNiceAngle(angle));
+		// debug('\t Drag Angle ' + calculateNiceAngle(angle));
 
 		// Convert things to Canvas System
 		rotatehandle.x = sx_cx(rotatehandle.x);
@@ -831,7 +831,8 @@
 		var ctx = _UI.glypheditctx;
 		
 		// Pizza Pie Sweep
-		ctx.fillStyle = _UI.colors.blue.l65;
+		ctx.fillStyle = accent.l65;
+		ctx.strokeStyle = accent.l65;
 		ctx.globalAlpha = 0.3;
 		ctx.beginPath();
 		ctx.moveTo(center.x, center.y);
@@ -848,6 +849,13 @@
 		draw_Line({x:rotatehandle.x, y:rotatehandle.y}, {x:center.x, y:center.y});
 		ctx.lineWidth = 1;
 		draw_CircleHandle(rotatehandle);
+
+		// readout
+		ctx.font = '24px OpenSans';
+		ctx.fillStyle = accent.l65;
+		ctx.globalAlpha = 0.8;
+		ctx.fillText((''+round(calculateNiceAngle(angle),1)+'°'), center.x, starttopy-24);
+		ctx.globalAlpha = 1;
 	}
 
 	function draw_Line(p1, p2) {

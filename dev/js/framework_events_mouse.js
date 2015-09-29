@@ -196,6 +196,9 @@
 				this.didstuff = true;
 
 			} else if (this.rotating){
+				var a1 = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, this.center);
+				var a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, this.center);
+				_UI.ms.shapes.rotate((a1-a2), this.center);
 				this.didstuff = true;
 
 			} else if (corner){
@@ -246,7 +249,7 @@
 			}
 
 			// Resized a shape
-			if(_UI.ms.shapes && this.resizing) _UI.ms.shapes.calcMaxes();
+			if(this.resizing || this.rotating) _UI.ms.shapes.calcMaxes();
 			updateCurrentGlyphWidth();
 
 			// Finish Up
