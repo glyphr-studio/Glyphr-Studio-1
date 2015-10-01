@@ -109,6 +109,8 @@
 		// debug('\t translate was: ' + this.scalew + ' / ' + this.scaleh);
 		this.scalew = (1*this.scalew) + dw;
 		this.scaleh = (1*this.scaleh) + dh;
+
+		if(this.rotation === 0) this.rotatefirst = false;
 		// debug('\t translate now: ' + this.scalew + ' / ' + this.scaleh);
 		// debug(' ComponentInstance.updateShapeSize - END\n');
 	};
@@ -137,6 +139,7 @@
 			var g = this.getTransformedGlyph();
 			this.translatex += (((mid - g.maxes.xmax) + mid) - g.maxes.xmin);
 		}
+		if(this.rotation === 0) this.rotatefirst = false;
 	};
 
 	ComponentInstance.prototype.flipNS = function(mid) {
@@ -145,6 +148,7 @@
 			var g = this.getTransformedGlyph();
 			this.translatey += (((mid - g.maxes.ymax) + mid) - g.maxes.ymin);
 		}
+		if(this.rotation === 0) this.rotatefirst = false;
 	};
 
 	ComponentInstance.prototype.rotate = function(angle, about) {
@@ -153,7 +157,12 @@
 		var degrees = deg(angle);
 		// debug('\t deg ' + degrees);
 		// debug('\t was ' + this.rotation);
+
+		// if(this.flipew || this.flipns) degrees *= -1;
+
 		this.rotation = ((this.rotation + degrees) % 360);
+
+		if(this.scaleh === 0 && this.scalew === 0 && !this.flipew && !this.flipns) this.rotatefirst = true; 
 		// debug('\t is now ' + this.rotation);
 		// debug(' ComponentInstance.rotate - END\n');
 	};

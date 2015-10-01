@@ -60,13 +60,14 @@
 		if(major === 1){
 
 			// Check for future versions
-			if(minor > 2){ error_TimeTraveller(); return; }
+			if(minor > 3){ error_TimeTraveller(); return; }
 
 			// Roll through minor versions
 			switch (minor) {
 				case 0:	// no updates
 				case 1:	// no updates
 				case 2:	// no updates
+				case 3:	// no updates
 			}
 		}
 		// debug('\t done with v1 minor updates');

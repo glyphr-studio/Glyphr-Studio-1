@@ -202,6 +202,7 @@
 				var a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, eh.rotationcenter);
 				_UI.ms.shapes.rotate((a1-a2), eh.rotationcenter);
 				this.didstuff = true;
+				setCursor('rotate');
 
 			} else if (corner){
 				// debug('\n Tool_ShapeEdit.mousemove - corner ' + corner);

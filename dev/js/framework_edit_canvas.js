@@ -290,26 +290,20 @@
 		var cur = ['auto','default','none','context-menu','help','pointer','progress','wait','cell','crosshair','text','vertical-text','alias','copy','move','no-drop','not-allowed','e-resize','n-resize','ne-resize','nw-resize','s-resize','se-resize','sw-resize','w-resize','ew-resize','ns-resize','nesw-resize','nwse-resize','col-resize','row-resize','all-scroll','zoom-in','zoom-out','grab','grabbing'];
 
 		if(cur.indexOf(name+'-resize') > -1){
-			// debug('\t FOUND -resize CURSOR');
 			if(canResize(name)) name+='-resize';
 			// debug('\t SET -resize CURSOR');
 		}
 
-		if(name === 'rotate') name = 'ew-resize';
-
 		getEditDocument().body.style.cursor = 'auto';
+		
 		if(_UI.cursors[name]){
-			// debug('\t FOUND CUSTOM CURSOR:\t'+name);
 			getEditDocument().body.style.cursor = _UI.cursors[name];
 			// debug('\t SET CUSTOM CURSOR:\t'+name);
 		} else if (cur.indexOf(name) > -1) {
-			// debug('\t FOUND BUILT-IN CURSOR:\t'+name);
 			getEditDocument().body.style.cursor = name;
 			// debug('\t SET BUILT-IN CURSOR:\t'+name);
 		} else {
 			// debug('\t DEFAULT TO auto');
-			// getEditDocument().body.style.cursor = 'auto';
-			// debug('\t SET TO auto');
 		}
 
 		// debug(' setCursor - END\n');
