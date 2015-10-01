@@ -30,33 +30,39 @@
 	MultiSelect.prototype.select = function(obj) {
 		if(this.isSelectable(obj))	this.members = [obj];
 		else this.clear();
+		this.selectShapesThatHaveSelectedPoints();
 	};
 
 	MultiSelect.prototype.clear = function(){
 		this.members = [];
 		if(this.glyph) this.glyph.ratiolock = false;
 		this.handlesingleton = false;
+		this.selectShapesThatHaveSelectedPoints();
 	};
 
 	MultiSelect.prototype.add = function(obj){
 		if(this.isSelectable(obj) && this.members.indexOf(obj) < 0) this.members.push(obj);
+		this.selectShapesThatHaveSelectedPoints();
 	};
 
 	MultiSelect.prototype.remove = function(obj) {
 		this.members = this.members.filter(function (m) {
 			return m !== obj;
 		});
+		this.selectShapesThatHaveSelectedPoints();
 	};
 
 	MultiSelect.prototype.removeMissing = function() {
 		this.members = this.members.filter(function (m) {
 			return typeof m === 'object';
 		});
+		this.selectShapesThatHaveSelectedPoints();
 	};
 
 	MultiSelect.prototype.toggle = function(obj) {
 		if(this.isSelected(obj)) this.remove(obj);
 		else this.add(obj);
+		this.selectShapesThatHaveSelectedPoints();
 	};
 
 	MultiSelect.prototype.getType = function() {
@@ -183,7 +189,7 @@
 		}
 	};
 
-	function selectShapesThatHaveSelectedPoints() {
+	_UI.ms.points.selectShapesThatHaveSelectedPoints = function() {
 		// debug('\n selectShapesThatHaveSelectedPoints - START');
 		_UI.ms.shapes.clear();
 		var points = _UI.ms.points.getMembers();
@@ -210,7 +216,7 @@
 		}
 
 		// debug(' selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
-	}
+	};
 
 //-------------------------------------------------------
 // SELECTED SHAPES
@@ -237,6 +243,9 @@
 		return false;
 	};
 
+	_UI.ms.shapes.selectShapesThatHaveSelectedPoints = function() {};
+
+	
 	// Wrapper functions
 	_UI.ms.shapes.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
 

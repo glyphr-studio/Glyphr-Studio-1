@@ -814,7 +814,13 @@
 		rotate(rotatehandle, angle, center);
 		rotate(rotatehandle, (Math.PI/-2), center);
 
-		// debug('\t Drag Angle ' + calculateNiceAngle(angle));
+		debug('\t Drag Angle ' + round(angle, 2));
+
+		var counterclockwise = false;
+		if(Math.abs(angle) > (Math.PI/2)) {
+			counterclockwise = true;
+		}
+
 
 		// Convert things to Canvas System
 		rotatehandle.x = sx_cx(rotatehandle.x);
@@ -833,7 +839,7 @@
 		ctx.globalAlpha = 0.3;
 		ctx.beginPath();
 		ctx.moveTo(center.x, center.y);
-		ctx.arc(center.x, center.y, radius, (Math.PI/-2), (angle*-1), false);
+		ctx.arc(center.x, center.y, radius, (Math.PI/-2), (angle*-1), counterclockwise);
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
@@ -848,10 +854,14 @@
 		draw_CircleHandle(rotatehandle);
 
 		// readout
+		var readout = round(calculateNiceAngle(angle),1);
+		if(counterclockwise) readout -= 360;
+		readout = round(readout, 1);
+
 		ctx.font = '24px OpenSans';
 		ctx.fillStyle = accent.l65;
 		ctx.globalAlpha = 0.8;
-		ctx.fillText((''+round(calculateNiceAngle(angle),1)+'°'), center.x, starttopy-24);
+		ctx.fillText((''+readout+'°'), center.x, starttopy-24);
 		ctx.globalAlpha = 1;
 	}
 

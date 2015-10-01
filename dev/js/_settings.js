@@ -13,6 +13,7 @@
 		// debug('180 >> ' + round(niceAngleToAngle(180), 2) + ' == -1.57');
 		// debug('269 >> ' + round(niceAngleToAngle(269), 2) + ' == -3.12');
 		// debug('271 >> ' + round(niceAngleToAngle(271), 2) + ' ==  3.12');
+		_UI.selectedtool = 'shaperesize';
 	}
 
 
@@ -43,7 +44,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1.03',
-		'thisGlyphrStudioVersionNum': '1.03.00',
+		'thisGlyphrStudioVersionNum': '1.03.01',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},

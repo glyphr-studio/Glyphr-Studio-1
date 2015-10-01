@@ -503,7 +503,7 @@
 					setCursor('penCircle');
 				}
 
-				selectShapesThatHaveSelectedPoints();
+				// selectShapesThatHaveSelectedPoints();
 
 			} else if (s){
 				clickEmptySpace();
@@ -561,7 +561,7 @@
 				eh.lastx = eh.mousex;
 				eh.lasty = eh.mousey;
 				eh.uqhaschanged = true;
-				selectShapesThatHaveSelectedPoints();
+				// selectShapesThatHaveSelectedPoints();
 				redraw({calledby:'Event Handler Tool_PathEdit mousemove'});
 			}
 

@@ -343,7 +343,7 @@
 	};
 
 	PathPoint.prototype.resetHandles = function(){
-		this.type = 'flat';
+		this.type = 'corner';
 		this.useh1 = true;
 		this.useh2 = true;
 		this.H2.x = this.P.x - 100;

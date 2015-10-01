@@ -18,7 +18,7 @@
 			// debug('\t CTRL');
 			updateCursor();
 			eh.multi = false;
-			redraw({calledby:'Event Handler - Keyup Ctrl for multi select', redrawcanvas:false});
+			redraw({calledby:'Event Handler - Keyup Ctrl for multi select', redrawpanels: false});
 		}
 
 
@@ -88,7 +88,7 @@
 			}
 
 			// debug('\t eh.lastTool = ' + eh.lastTool);
-			redraw({calledby:'Event Handler - Keydown Ctrl for multi select', redrawcanvas:false});
+			redraw({calledby:'Event Handler - Keydown Ctrl for multi select', redrawpanels:false});
 			return;
 		}
 
