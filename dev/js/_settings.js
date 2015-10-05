@@ -34,7 +34,7 @@
 		// Internal Dev Stuff
 		'devmode': false,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
@@ -44,7 +44,7 @@
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
 		'thisGlyphrStudioVersion': 'Version 1.03',
-		'thisGlyphrStudioVersionNum': '1.03.01',
+		'thisGlyphrStudioVersionNum': '1.03.02',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},

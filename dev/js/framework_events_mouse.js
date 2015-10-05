@@ -364,7 +364,7 @@
 		this.newshape = false;
 
 		this.mousedown = function (ev) {
-			// debug('\n Tool_NewPath.mousedown - START');
+			debug('\n Tool_NewPath.mousedown - START');
 
 			var eh = _UI.eventhandlers;
 			var newpoint = new PathPoint({
@@ -377,16 +377,10 @@
 			});
 
 			if(this.firstpoint) {
-				// make a new path with one point
-				var newpath = new Path({'pathpoints':[newpoint]});
-
-				// make a new shape with the new path
+				// make a new shape with the new pathpoint
 				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
-				this.newshape = addShape(new Shape({'name': ('Path '+count), 'path': newpath}));
-				this.currpt = this.newshape.path.pathpoints[0];
-				_UI.ms.points.select(this.currpt);
-				_UI.ms.shapes.select(this.newshape);
-
+				this.newshape = addShape(new Shape({'name': ('Shape '+count), 'path':new Path()}));
+				this.currpt = this.newshape.path.addPathPoint(newpoint);
 
 			} else if(this.newshape){
 
@@ -410,7 +404,7 @@
 				}
 
 				this.currpt = this.newshape.path.addPathPoint(newpoint, false);
-				_UI.ms.points.select(this.currpt);
+				// _UI.ms.points.select(this.currpt);
 			}
 
 			this.firstpoint = false;
@@ -455,10 +449,6 @@
 		this.mouseup = function () {
 
 			setCursor('penPlus');
-
-			if(this.newshape && this.newshape.path.length > 2){
-				this.newshape.path.winding = this.newshape.path.findWinding();
-			}
 
 			if(_UI.eventhandlers.uqhaschanged){
 				if(this.newshape) this.newshape.path.calcMaxes();

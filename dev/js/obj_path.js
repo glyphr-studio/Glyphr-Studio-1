@@ -18,9 +18,9 @@
 		this.objtype = 'path';
 
 		// declare attributes
-		this.pathpoints = false;
+		// this.pathpoints = false;
+		this.pathpoints = [];
 		if(oa.pathpoints && oa.pathpoints.length){
-			this.pathpoints = [];
 			//debug('NEW PATH : Hydrating Path Points, length ' + oa.pathpoints.length);
 			for (var i = 0; i < oa.pathpoints.length; i++) {
 				this.pathpoints[i] = new PathPoint(oa.pathpoints[i]);
@@ -383,25 +383,31 @@
 	Path.prototype.findWinding = function(){
 		// debug('\n Path.findWinding - START');
 		var j,k,z;
-		var count = 0;
+		var count = -1;
 		var parr = this.pathpoints;
 
-		if (parr.length < 3) return 0;
+		if (parr.length === 2){
+			count = parr[1].P.x > parr[0].P.x? -1 : 1;
 
-		for (var i=0; i<parr.length; i++) {
-			j = (i + 1) % parr.length;
-			k = (i + 2) % parr.length;
-			z  = (parr[j].P.x - parr[i].P.x) * (parr[k].P.y - parr[j].P.y);
-			z -= (parr[j].P.y - parr[i].P.y) * (parr[k].P.x - parr[j].P.x);
+		} else if (parr.length > 2){
 
-			if (z < 0) count--;
-			else if (z > 0) count++;
+			for (var i=0; i<parr.length; i++) {
+				j = (i + 1) % parr.length;
+				k = (i + 2) % parr.length;
+				z  = (parr[j].P.x - parr[i].P.x) * (parr[k].P.y - parr[j].P.y);
+				z -= (parr[j].P.y - parr[i].P.y) * (parr[k].P.x - parr[j].P.x);
+
+				if (z < 0) count--;
+				else if (z > 0) count++;
+			}
 		}
 
 		// negative = clockwise
 		// positive = counterclockwise
 
 		// debug(' Path.findWinding - END returning: ' + count + '\n');
+
+		this.winding = count;
 		return count;
 	};
 
@@ -499,10 +505,12 @@
 			}
 		} else {
 			// Function was passed a new path point
+			newpp.parentpath = this;
 			this.pathpoints.push(newpp);
 			re = this.selectPathPoint(this.pathpoints.length-1);
 		}
 
+		this.findWinding();
 		this.calcMaxes();
 
 		// debug(' Path.addPathPoint - END - returning ' + re + '\n');

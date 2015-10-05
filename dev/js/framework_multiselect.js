@@ -28,9 +28,17 @@
 	};
 
 	MultiSelect.prototype.select = function(obj) {
-		if(this.isSelectable(obj))	this.members = [obj];
-		else this.clear();
-		this.selectShapesThatHaveSelectedPoints();
+		// debug('\n MultiSelect.select - START');
+		if(this.isSelectable(obj)){
+			// debug('\t selecting object');
+			this.members = [obj];
+			this.selectShapesThatHaveSelectedPoints();
+		} else {
+			// debug('\t this.isSelectable = false, clearing');
+			this.clear();
+		}
+
+		// debug(' MultiSelect.select - END\n');
 	};
 
 	MultiSelect.prototype.clear = function(){
@@ -190,7 +198,7 @@
 	};
 
 	_UI.ms.points.selectShapesThatHaveSelectedPoints = function() {
-		// debug('\n selectShapesThatHaveSelectedPoints - START');
+		// debug('\n MS.points.selectShapesThatHaveSelectedPoints - START');
 		_UI.ms.shapes.clear();
 		var points = _UI.ms.points.getMembers();
 		var shapes = getSelectedWorkItemShapes();
@@ -215,7 +223,7 @@
 			}
 		}
 
-		// debug(' selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
+		// debug(' MS.points.selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
 	};
 
 //-------------------------------------------------------
