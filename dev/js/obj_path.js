@@ -36,7 +36,7 @@
 		this.maxes = oa.maxes || clone(_UI.mins);
 
 		// Setup the object
-		if(this.pathpoints) this.calcMaxes();
+		if(this.pathpoints && this.calcMaxes) this.calcMaxes();
 
 		// debug(' PATH - END\n');
 	}
@@ -466,7 +466,7 @@
 	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
-		// debug('\n Path.addPathPoint - START');
+		debug('\n Path.addPathPoint - START');
 		// debug('\t newpp = ' + newpp);
 		var re = false;
 
@@ -511,9 +511,10 @@
 		}
 
 		this.findWinding();
+		debug('\t calling calcMaxes');
 		this.calcMaxes();
 
-		// debug(' Path.addPathPoint - END - returning ' + re + '\n');
+		debug(' Path.addPathPoint - END - returning ' + re + '\n');
 		return re;
 	};
 
