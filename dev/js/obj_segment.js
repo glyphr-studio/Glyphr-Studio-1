@@ -198,7 +198,7 @@
     	// Check to stop recursion
 		var s1m = s1.getFastMaxes();
 		var s2m = s2.getFastMaxes();
-		var threshold = 1;
+		var threshold = 10;
 
 		var s1w = (s1m.xmax - s1m.xmin);
 		var s1h = (s1m.ymax - s1m.ymin);
@@ -231,7 +231,7 @@
 		];
 
 		pairs = pairs.filter(function(p) {
-			return segmentsOverlap(p[0].getFastMaxes(), p[1].getFastMaxes());
+			return segmentsOverlap(p[0], p[1]);
 		});
 
 

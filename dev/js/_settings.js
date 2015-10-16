@@ -1,24 +1,6 @@
 // start of file
 
 /**
-	Test Scenario
-	Just random code that runs once everything is
-	done loading to test recent features.
-**/
-	function testScenario() {
-		// debug('niceAngleToAngle');
-		// debug('  0 >> ' + round(niceAngleToAngle(0), 2) + ' ==  1.57');
-		// debug(' 89 >> ' + round(niceAngleToAngle(89), 2) + ' ==  0.02');
-		// debug(' 91 >> ' + round(niceAngleToAngle(91), 2) + ' == -0.02');
-		// debug('180 >> ' + round(niceAngleToAngle(180), 2) + ' == -1.57');
-		// debug('269 >> ' + round(niceAngleToAngle(269), 2) + ' == -3.12');
-		// debug('271 >> ' + round(niceAngleToAngle(271), 2) + ' ==  3.12');
-		_UI.selectedtool = 'shaperesize';
-	}
-
-
-
-/**
 	Settings
 	These are the two global variables, _UI for,
 	well, UI stuff, and anything that is not going
@@ -34,11 +16,24 @@
 		// Internal Dev Stuff
 		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
-		// SelectedGlyph
+		'testOnLoad': function() {
+			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100+100, 'ymax':300+100, 'ymin':100+100})}));
+			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':600+100, 'xmin':400+100, 'ymax':600+100, 'ymin':400+100})}));
+		},
+		'testOnRedraw': function() {
+			var ss = getSelectedWorkItemShapes();
+			var intersects = findPathIntersections(ss[0].path, ss[1].path);
+
+			_UI.glypheditctx.fillStyle = _UI.colors.green.l65;
+			_UI.glypheditctx.strokeStyle = _UI.colors.green.l65;
+			for(var i=0; i<intersects.length; i++){
+				draw_CircleHandle(intersects[i]);
+			}
+		},
 
 		// all pages
 		'navhere': 'openproject',

@@ -344,18 +344,26 @@
 	};
 
 	Path.prototype.getSegment = function(num) {
+		// debug('\n Path.getSegment - START');
+		// debug('\t passed ' + num);
 		num = num || 0;
 		num = num % this.pathpoints.length;
+
+		// debug('\t validated as ' + num);
 
 		var pp1 = this.pathpoints[num];
 		var pp2 = this.pathpoints[(num+1)%this.pathpoints.length];
 
-		return new Segment({
+		var re = new Segment({
 			'p1x':pp1.P.x, 'p1y':pp1.P.y, 
 			'p2x':pp1.getH2x(), 'p2y':pp1.getH2y(), 
 			'p3x':pp2.getH1x(), 'p3y':pp2.getH1y(), 
 			'p4x':pp2.P.x, 'p4y':pp2.P.y
 		});
+
+		// debug(re);
+		// debug(' Path.getSegment - END\n');
+		return re;
 	};
 
 
@@ -481,7 +489,7 @@
 	};
 
 	Path.prototype.addPathPoint = function(newpp, addtostart){
-		debug('\n Path.addPathPoint - START');
+		// debug('\n Path.addPathPoint - START');
 		// debug('\t newpp = ' + newpp);
 		var re = false;
 
@@ -526,10 +534,10 @@
 		}
 
 		this.findWinding();
-		debug('\t calling calcMaxes');
+		// debug('\t calling calcMaxes');
 		this.calcMaxes();
 
-		debug(' Path.addPathPoint - END - returning ' + re + '\n');
+		// debug(' Path.addPathPoint - END - returning ' + re + '\n');
 		return re;
 	};
 

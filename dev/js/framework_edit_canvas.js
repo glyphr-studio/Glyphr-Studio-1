@@ -86,6 +86,8 @@
 			if(fe) fe.focus();
 		}
 		_UI.focuselement = false;
+
+		if(_UI.devmode && _UI.testOnRedraw) _UI.testOnRedraw();
 	}
 
 

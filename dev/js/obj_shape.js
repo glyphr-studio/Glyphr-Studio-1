@@ -217,18 +217,14 @@
 	}
 
 	function ovalPathFromMaxes(maxes){
-		//Default Circle size
-		var lx = 0;
-		var ty = _GP.projectsettings.xheight;
-		var rx = _GP.projectsettings.xheight;
-		var by = 0;
+		maxes = maxes || {};
 
-		if(maxes){
-			lx = maxes.xmin;
-			ty = maxes.ymax;
-			rx = maxes.xmax;
-			by = maxes.ymin;
-		}
+		//Default Circle size
+		lx = maxes.xmin || 0;
+		ty = maxes.ymax || _GP.projectsettings.xheight || 500;
+		rx = maxes.xmax || _GP.projectsettings.xheight || 500;
+		by = maxes.ymin || 0;
+
 
 		var hw = round((rx-lx)/2);
 		var hh = round((ty-by)/2);

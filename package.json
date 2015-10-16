@@ -1,5 +1,20 @@
 {
   "name": "Glyphr-Studio",
+  "scripts": {
+    "start": "nw"
+  },
+  "main":"dev/Glyphr_Studio.html",
+  "window": {
+    "title": "Glyphr Studio",
+    "icon": "glyphr_studio_logo.png",
+    "toolbar": false,
+    "frame": true,
+    "width": 1600,
+    "height": 900,
+    "position": "center",
+    "min_width": 1000,
+    "min_height": 700
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.10.0",
