@@ -56,6 +56,13 @@ module.exports = function(grunt) {
 		},
 		clean: {
 			build: "dist/build"
+		},
+		nwjs: {
+		  options: {
+		      platforms: ['win','osx'],
+		      buildDir: './node_modules/nw/nwjs', // Where the build version of my NW.js app is saved
+		  },
+		  src: ['./dev']
 		}
 	});
 
@@ -65,7 +72,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-nw-builder');
 
 	// Tasks
 	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
+	grunt.registerTask('lite', ['concat:merge', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
+	grunt.registerTask('nw', ['nwjs']);
 };
