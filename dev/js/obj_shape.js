@@ -397,6 +397,11 @@
 		return false;
 	}
 
+	function findShapeIntersections(s1, s2) {
+		if(s1.objtype === 'componentinstance' || s2.objtype === 'componentinstance') return false;
+		else return findPathIntersections(s1.path, s2.path);
+	}
+
 
 
 //	----------------------------------------------

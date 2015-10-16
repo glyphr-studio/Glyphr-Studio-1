@@ -343,6 +343,21 @@
 		return otpath;
 	};
 
+	Path.prototype.getSegment = function(num) {
+		num = num || 0;
+		num = num % this.pathpoints.length;
+
+		var pp1 = this.pathpoints[num];
+		var pp2 = this.pathpoints[(num+1)%this.pathpoints.length];
+
+		return new Segment({
+			'p1x':pp1.P.x, 'p1y':pp1.P.y, 
+			'p2x':pp1.getH2x(), 'p2y':pp1.getH2y(), 
+			'p3x':pp2.getH1x(), 'p3y':pp2.getH1y(), 
+			'p4x':pp2.P.x, 'p4y':pp2.P.y
+		});
+	};
+
 
 
 //  -----------------------------------
@@ -518,69 +533,35 @@
 		return re;
 	};
 
-	Path.prototype.insertPathPoint = function(split, pointnum) {
-		/*
-			Input Bézier curve defined by P0, P1, P2, P3
-
-			P0_1 = (1-t)*P0 + t*P1
-			P1_2 = (1-t)*P1 + t*P2
-			P2_3 = (1-t)*P2 + t*P3
-
-			P01_12 = (1-t)*P0_1 + t*P1_2
-			P12_23 = (1-t)*P1_2 + t*P2_3
-
-			P0112_1223 = (1-t)*P01_12 + t*P12_23
-
-			First Bézier will be defined by: P_0, P0_1, P01_12, P0112_1223;
-			Second Bézier is defined by: P0112_1223, P12_23, P2_3, P3.
-
-			Diagrams here:
-			http://antigrain.com/research/adaptive_bezier/index.html
-		*/
-
+	Path.prototype.insertPathPoint = function(t, pointnum) {
 		var pp1i = pointnum || 0;
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
 		var pp2 = this.pathpoints[pp2i];
 		var nP, nH1, nH2, ppn;
-		var fs = split || 0.5;
-		var rs = (1-fs);
+
 
 		if(this.pathpoints.length > 1){
-			// Do some math
-			var x12 = (pp1.P.x * rs) + (pp1.getH2x() * fs);
-			var y12 = (pp1.P.y * rs) + (pp1.getH2y() * fs);
-
-			var x23 = (pp1.getH2x() * rs) + (pp2.getH1x() * fs);
-			var y23 = (pp1.getH2y() * rs) + (pp2.getH1y() * fs);
-
-			var x34 = (pp2.getH1x() * rs) + (pp2.P.x * fs);
-			var y34 = (pp2.getH1y() * rs) + (pp2.P.y * fs);
-
-			var x123 = (x12 * rs) + (x23 * fs);
-			var y123 = (y12 * rs) + (y23 * fs);
-
-			var x234 = (x23 * rs) + (x34 * fs);
-			var y234 = (y23 * rs) + (y34 * fs);
-
-			var x1234 = (x123 * rs) + (x234 * fs);
-			var y1234 = (y123 * rs) + (y234 * fs);
+			var splits = this.getSegment(pp1i).split(t);
+			var s1 = splits[0];
+			var s2 = splits[1];
 
 			// New Point
-			nP = new Coord({'x':x1234, 'y':y1234});
-			nH1 = new Coord({'x':x123, 'y':y123});
-			nH2 = new Coord({'x':x234, 'y':y234});
+			nP = new Coord({'x':s1.p4x, 'y':s1.p4y});
+			nH1 = new Coord({'x':s1.p3x, 'y':s1.p3y});
+			nH2 = new Coord({'x':s2.p2x, 'y':s2.p2y});
 			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true});
 
 			// Update P1
 			if(pp1.type === 'symmetric') pp1.type = 'flat';
-			pp1.H2.x = x12;
-			pp1.H2.y = y12;
+			pp1.H2.x = s1.p2x;
+			pp1.H2.y = s1.p2y;
 
 			// Update P2
 			if(pp2.type === 'symmetric') pp2.type = 'flat';
-			pp2.H1.x = x34;
-			pp2.H1.y = y34;
+			pp2.H1.x = s2.p3x;
+			pp2.H1.y = s2.p3y;
+
 		} else {
 			//just make a random point
 			var d = 100;
@@ -683,79 +664,14 @@
 	Path.prototype.calcMaxes = function(){
 		this.maxes = clone(_UI.mins);
 
-		var pp1, pp2, tbounds;
+		var seg, tbounds;
 
 		for(var s=0; s<this.pathpoints.length; s++){
-			pp1 = this.pathpoints[s];
-			pp2 = this.pathpoints[(s+1)%this.pathpoints.length];
-
-			tbounds = getBounds(pp1.P.x, pp1.P.y, pp1.getH2x(), pp1.getH2y(), pp2.getH1x(), pp2.getH1y(), pp2.P.x, pp2.P.y);
-
+			seg = this.getSegment(s);
+			tbounds = seg.getMaxes();
 			this.maxes = getOverallMaxes([this.maxes, tbounds]);
 		}
 	};
-
-	function getBounds(x1, y1, cx1, cy1, cx2, cy2, x2, y2){
-		var bounds = {
-			'xmin' : Math.min(x1,x2),
-			'ymin' : Math.min(y1,y2),
-			'xmax' : Math.max(x1,x2),
-			'ymax' : Math.max(y1,y2)
-		};
-
-		var dcx0 = cx1 - x1;
-		var dcy0 = cy1 - y1;
-		var dcx1 = cx2 - cx1;
-		var dcy1 = cy2 - cy1;
-		var dcx2 = x2 - cx2;
-		var dcy2 = y2 - cy2;
-
-		var numerator, denominator, quadroot, root, t1, t2;
-
-		if(cx1<bounds.xmin || cx1>bounds.xmax || cx2<bounds.xmin || cx2>bounds.xmax) {
-			// X bounds
-			if(dcx0+dcx2 !== 2*dcx1) { dcx1+=0.01; }
-			numerator = 2*(dcx0 - dcx1);
-			denominator = 2*(dcx0 - 2*dcx1 + dcx2);
-			quadroot = (2*dcx1-2*dcx0)*(2*dcx1-2*dcx0) - 2*dcx0*denominator;
-			root = Math.sqrt(quadroot);
-			t1 =  (numerator + root) / denominator;
-			t2 =  (numerator - root) / denominator;
-			if(0<t1 && t1<1) { checkXbounds(bounds, getBezierValue(t1, x1, cx1, cx2, x2)); }
-			if(0<t2 && t2<1) { checkXbounds(bounds, getBezierValue(t2, x1, cx1, cx2, x2)); }
-		}
-
-		// Y bounds
-		if(cy1<bounds.ymin || cy1>bounds.ymax || cy2<bounds.ymin || cy2>bounds.ymax) {
-			if(dcy0+dcy2 !== 2*dcy1) { dcy1+=0.01; }
-			numerator = 2*(dcy0 - dcy1);
-			denominator = 2*(dcy0 - 2*dcy1 + dcy2);
-			quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;
-			root = Math.sqrt(quadroot);
-			t1 =  (numerator + root) / denominator;
-			t2 =  (numerator - root) / denominator;
-			if(0<t1 && t1<1) { checkYbounds(bounds, getBezierValue(t1, y1, cy1, cy2, y2)); }
-			if(0<t2 && t2<1) { checkYbounds(bounds, getBezierValue(t2, y1, cy1, cy2, y2)); }
-		}
-
-		return bounds;
-	}
-
-	function checkXbounds(bounds, value) {
-		if(bounds.xmin > value) { bounds.xmin = value; }
-		else if(bounds.xmax < value) { bounds.xmax = value; }
-	}
-
-	function checkYbounds(bounds, value) {
-		if(bounds.ymin > value) { bounds.ymin = value; }
-		else if(bounds.ymax < value) { bounds.ymax = value; }
-	}
-
-	function getBezierValue(t, p0, p1, p2, p3) {
-		var mt = (1-t);
-		return (mt*mt*mt*p0) + (3*mt*mt*t*p1) + (3*mt*t*t*p2) + (t*t*t*p3);
-	}
-
 
 
 
