@@ -35,6 +35,28 @@
 
 
 //	-----------------------------------
+//	Generic
+//	-----------------------------------
+	
+	Segment.prototype.drawSegment = function() {
+		var x = _UI.glypheditctx;
+
+		draw_BoundingBox(this.getFastMaxes(), _UI.colors.green, 1);
+
+		// x.strokeStyle = _UI.colors.green.l35;
+		// x.moveTo(sx_cx(this.p1x), sy_cy(this.p1y));
+		// x.bezierCurveTo(sx_cx(this.p2x), sy_cy(this.p2y), sx_cx(this.p3x), sy_cy(this.p3y), sx_cx(this.p4x), sy_cy(this.p4y));
+		// x.stroke();
+
+		x.strokeStyle = _UI.colors.green.l45;
+		x.fillStyle = _UI.colors.green.l45;
+		draw_CircleHandle({'x':sx_cx(this.p1x), 'y':sy_cy(this.p1y)});
+		draw_CircleHandle({'x':sx_cx(this.p2x), 'y':sy_cy(this.p2y)});
+		draw_CircleHandle({'x':sx_cx(this.p3x), 'y':sy_cy(this.p3y)});
+		draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
+	};
+
+//	-----------------------------------
 //	Splitting
 //	-----------------------------------
 
@@ -104,23 +126,28 @@
 	};
 
 	Segment.prototype.getMaxes = function() {
-		var bounds = this.getFastMaxes();
+		var bounds = {
+			'xmin' : Math.min(this.p1x,this.p4x),
+			'ymin' : Math.min(this.p1y,this.p4y),
+			'xmax' : Math.max(this.p1x,this.p4x),
+			'ymax' : Math.max(this.p1y,this.p4y)
+		};
 
-		var dcx0 = this.p2x - this.p1x;
-		var dcy0 = this.p2y - this.p1y;
-		var dcx1 = this.p3x - this.p2x;
-		var dcy1 = this.p3y - this.p2y;
-		var dcx2 = this.p4x - this.p3x;
-		var dcy2 = this.p4y - this.p3y;
+		var d1x = this.p2x - this.p1x;
+		var d1y = this.p2y - this.p1y;
+		var d2x = this.p3x - this.p2x;
+		var d2y = this.p3y - this.p2y;
+		var d3x = this.p4x - this.p3x;
+		var d3y = this.p4y - this.p3y;
 
 		var numerator, denominator, quadroot, root, t1, t2;
 
 		if(this.p2x<bounds.xmin || this.p2x>bounds.xmax || this.p3x<bounds.xmin || this.p3x>bounds.xmax) {
 			// X bounds
-			if(dcx0+dcx2 !== 2*dcx1) { dcx1+=0.01; }
-			numerator = 2*(dcx0 - dcx1);
-			denominator = 2*(dcx0 - 2*dcx1 + dcx2);
-			quadroot = (2*dcx1-2*dcx0)*(2*dcx1-2*dcx0) - 2*dcx0*denominator;
+			if(d1x+d3x !== 2*d2x) { d2x+=0.01; }
+			numerator = 2*(d1x - d2x);
+			denominator = 2*(d1x - 2*d2x + d3x);
+			quadroot = (2*d2x-2*d1x)*(2*d2x-2*d1x) - 2*d1x*denominator;
 			root = Math.sqrt(quadroot);
 			t1 =  (numerator + root) / denominator;
 			t2 =  (numerator - root) / denominator;
@@ -130,10 +157,10 @@
 
 		// Y bounds
 		if(this.p2y<bounds.ymin || this.p2y>bounds.ymax || this.p3y<bounds.ymin || this.p3y>bounds.ymax) {
-			if(dcy0+dcy2 !== 2*dcy1) { dcy1+=0.01; }
-			numerator = 2*(dcy0 - dcy1);
-			denominator = 2*(dcy0 - 2*dcy1 + dcy2);
-			quadroot = (2*dcy1-2*dcy0)*(2*dcy1-2*dcy0) - 2*dcy0*denominator;
+			if(d1y+d3y !== 2*d2y) { d2y+=0.01; }
+			numerator = 2*(d1y - d2y);
+			denominator = 2*(d1y - 2*d2y + d3y);
+			quadroot = (2*d2y-2*d1y)*(2*d2y-2*d1y) - 2*d1y*denominator;
 			root = Math.sqrt(quadroot);
 			t1 =  (numerator + root) / denominator;
 			t2 =  (numerator - root) / denominator;
@@ -198,7 +225,8 @@
     	// Check to stop recursion
 		var s1m = s1.getFastMaxes();
 		var s2m = s2.getFastMaxes();
-		var threshold = 10;
+		var threshold = 0.00001;
+		var precision = 3;
 
 		var s1w = (s1m.xmax - s1m.xmin);
 		var s1h = (s1m.ymax - s1m.ymin);
@@ -216,7 +244,10 @@
 				var x = ((s1m.xmin + s1w) + (s2m.xmin + s2w)) / 2;
 				var y = ((s1m.ymin + s1h) + (s2m.ymin + s2h)) / 2;
 
-				return [{'x':x, 'y':y}];
+				x = round(x, precision);
+				y = round(y, precision);
+
+				return [''+x+'/'+y];
 		}
 
 		// More recursion needed

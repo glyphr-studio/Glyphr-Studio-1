@@ -163,6 +163,7 @@
 
 	Shape.prototype.getPath = function() { return clone(this.path); };
 
+	Shape.prototype.getSegment = function(num) { return this.path.getSegment(num); };
 
 //	-------------------------------------------------------
 //	NEW SHAPE FUNCTIONS

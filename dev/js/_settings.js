@@ -26,13 +26,25 @@
 		},
 		'testOnRedraw': function() {
 			var ss = getSelectedWorkItemShapes();
-			var intersects = findPathIntersections(ss[0].path, ss[1].path);
+			var intersects = [];
+			var s1 = ss[0].getSegment(0);
+			var s2 = ss[1].getSegment(2);
 
-			_UI.glypheditctx.fillStyle = _UI.colors.green.l65;
-			_UI.glypheditctx.strokeStyle = _UI.colors.green.l65;
+			s1.drawSegment();
+			s2.drawSegment();
+
+			intersects = intersects.concat(findSegmentIntersections(s1, s2));
+			// var intersects = findPathIntersections(ss[0].path, ss[1].path);
+
+			_UI.glypheditctx.fillStyle = _UI.colors.gray.l65;
+			_UI.glypheditctx.strokeStyle = _UI.colors.gray.l65;
 			for(var i=0; i<intersects.length; i++){
-				draw_CircleHandle(intersects[i]);
+				var x = sx_cx(intersects[i].split('/')[0]);
+				var y = sy_cy(intersects[i].split('/')[1]);
+				draw_CircleHandle({'x':x, 'y':y});
 			}
+
+			debug(intersects);
 		},
 
 		// all pages
@@ -150,6 +162,12 @@
 			'xmin': 999999,
 			'ymax': -999999,
 			'ymin': 999999
+		},
+		'maxes': {
+			'xmax': 999999,
+			'xmin': -999999,
+			'ymax': 999999,
+			'ymin': -999999
 		},
 		'history': {},
 
