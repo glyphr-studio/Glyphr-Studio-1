@@ -41,19 +41,19 @@
 	Segment.prototype.drawSegment = function() {
 		var x = _UI.glypheditctx;
 
-		draw_BoundingBox(this.getFastMaxes(), _UI.colors.green, 1);
+		draw_BoundingBox(this.getFastMaxes(), _UI.colors.green, 2);
 
 		// x.strokeStyle = _UI.colors.green.l35;
 		// x.moveTo(sx_cx(this.p1x), sy_cy(this.p1y));
 		// x.bezierCurveTo(sx_cx(this.p2x), sy_cy(this.p2y), sx_cx(this.p3x), sy_cy(this.p3y), sx_cx(this.p4x), sy_cy(this.p4y));
 		// x.stroke();
 
-		x.strokeStyle = _UI.colors.green.l45;
-		x.fillStyle = _UI.colors.green.l45;
-		draw_CircleHandle({'x':sx_cx(this.p1x), 'y':sy_cy(this.p1y)});
-		draw_CircleHandle({'x':sx_cx(this.p2x), 'y':sy_cy(this.p2y)});
-		draw_CircleHandle({'x':sx_cx(this.p3x), 'y':sy_cy(this.p3y)});
-		draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
+		// x.strokeStyle = _UI.colors.green.l45;
+		// x.fillStyle = _UI.colors.green.l45;
+		// draw_CircleHandle({'x':sx_cx(this.p1x), 'y':sy_cy(this.p1y)});
+		// draw_CircleHandle({'x':sx_cx(this.p2x), 'y':sy_cy(this.p2y)});
+		// draw_CircleHandle({'x':sx_cx(this.p3x), 'y':sy_cy(this.p3y)});
+		// draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
 	};
 
 //	-----------------------------------
@@ -192,14 +192,13 @@
 //	Curve Intersections
 //	-----------------------------------
 
-	function segmentsOverlap(s1, s2) {
-		var s1m = s1.getFastMaxes();
-		var s2m = s2.getFastMaxes();
-
-		return (s1m.xmin < s2m.xmax && s1m.xmax > s2m.xmin && s1m.ymin < s2m.ymax && s1m.ymax > s2m.ymin);
+	function maxesOverlap(m1, m2) {
+		return (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
 	}
 
-    function findPathIntersections(p1, p2) {
+    function findPathIntersections(p1, p2) { 
+    	if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) return [];
+
 		var segoverlaps = [];
 		var intersects = [];
 		var re = [];
@@ -208,24 +207,29 @@
 		for(var bpp=0; bpp < p1.pathpoints.length; bpp++){
 			for(var tpp=0; tpp < p2.pathpoints.length; tpp++){
 				bs = p1.getSegment(bpp);
-				ts = p1.getSegment(tpp);
-				if(segmentsOverlap(bs, ts)) segoverlaps.push({'bottom':bs, 'top':ts});
+				ts = p2.getSegment(tpp);
+				if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())) segoverlaps.push({'bottom':bs, 'top':ts});
 			}
 		}
 
 		for(var v=0; v<segoverlaps.length; v++){
-			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top);
+			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
 			if(re.length > 0) intersects = intersects.concat(re);
 		}
 
       return intersects;
     }
 
-    function findSegmentIntersections(s1, s2) {
+    function findSegmentIntersections(s1, s2, depth) {
+
+    	// if(depth > 4) return [];
+    	s1.drawSegment();
+    	s2.drawSegment();
+
     	// Check to stop recursion
 		var s1m = s1.getFastMaxes();
 		var s2m = s2.getFastMaxes();
-		var threshold = 0.00001;
+		var threshold = 0.0001;
 		var precision = 3;
 
 		var s1w = (s1m.xmax - s1m.xmin);
@@ -262,14 +266,14 @@
 		];
 
 		pairs = pairs.filter(function(p) {
-			return segmentsOverlap(p[0], p[1]);
+			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes());
 		});
 
 
 		if(pairs.length === 0) return re;
 
 		pairs.forEach(function(p) {
-			re = re.concat( findSegmentIntersections(p[0], p[1]) );
+			re = re.concat( findSegmentIntersections(p[0], p[1], depth+1) );
 		});
 
 		re = re.filter(function(v,i) {

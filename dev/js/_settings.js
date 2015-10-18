@@ -27,14 +27,14 @@
 		'testOnRedraw': function() {
 			var ss = getSelectedWorkItemShapes();
 			var intersects = [];
-			var s1 = ss[0].getSegment(0);
-			var s2 = ss[1].getSegment(2);
+			// var s1 = ss[0].getSegment(0);
+			// var s2 = ss[1].getSegment(2);
 
-			s1.drawSegment();
-			s2.drawSegment();
+			// s1.drawSegment();
+			// s2.drawSegment();
 
-			intersects = intersects.concat(findSegmentIntersections(s1, s2));
-			// var intersects = findPathIntersections(ss[0].path, ss[1].path);
+			// intersects = intersects.concat(findSegmentIntersections(s1, s2));
+			intersects = findPathIntersections(ss[0].path, ss[1].path);
 
 			_UI.glypheditctx.fillStyle = _UI.colors.gray.l65;
 			_UI.glypheditctx.strokeStyle = _UI.colors.gray.l65;
