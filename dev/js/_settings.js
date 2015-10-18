@@ -13,19 +13,24 @@
 
 // These are NOT SAVED with the project
 	var _UI = {
+
+		// Version
+		'thisGlyphrStudioVersion': 'Version 1.03',
+		'thisGlyphrStudioVersionNum': '1.03.03',
+
 		// Internal Dev Stuff
-		'devmode': true,		// global switch for all the stuff below
+		'devmode': false,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
+		'loadsampleproject': 'merriweathersans',	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		'testOnLoad': function() {
-			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100+100, 'ymax':300+100, 'ymin':100+100})}));
-			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':600+100, 'xmin':400+100, 'ymax':600+100, 'ymin':400+100})}));
+			// addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100+100, 'ymax':300+100, 'ymin':100+100})}));
+			// addShape(new Shape({'path':ovalPathFromMaxes({'xmax':600+100, 'xmin':400+100, 'ymax':600+100, 'ymin':400+100})}));
 		},
 		'testOnRedraw': function() {
-			var ss = getSelectedWorkItemShapes();
+		/*	var ss = getSelectedWorkItemShapes();
 			var intersects = [];
 			// var s1 = ss[0].getSegment(0);
 			// var s2 = ss[1].getSegment(2);
@@ -44,14 +49,12 @@
 				draw_CircleHandle({'x':x, 'y':y});
 			}
 
-			debug(intersects);
+			debug(intersects);*/
 		},
 
 		// all pages
 		'navhere': 'openproject',
 		'navprimaryhere': 'npChooser',
-		'thisGlyphrStudioVersion': 'Version 1.03',
-		'thisGlyphrStudioVersionNum': '1.03.03',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},

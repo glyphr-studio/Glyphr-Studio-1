@@ -98,7 +98,7 @@
 	};
 
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force){
-		//debug('UPDATEPOINTPOSITION - cp / dx / dy / force: ' + controlpoint + ' / ' + dx + ' / ' + dy + ' / ' + force);
+		// debug('UPDATEPOINTPOSITION - cp / dx / dy / force:\n' + controlpoint + ' / ' + dx + ' / ' + dy + ' / ' + force);
 		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
 		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
@@ -124,6 +124,7 @@
 			case 'H1' :
 				this.H1.x += dx;
 				this.H1.y += dy;
+				// debug('\t Hold H1, updated to: ' + this.H1.x + ' ' + this.H1.y);
 				if(this.type === 'symmetric'){ this.makeSymmetric('H1'); }
 				else if (this.type === 'flat') { this.makeFlat('H1'); }
 				break;
@@ -224,9 +225,14 @@
 		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
 	};
 
-
 	PathPoint.prototype.makeFlat = function(hold){
-		//debug('MAKEFLAT - hold ' + hold + ' starts as ' + JSON.stringify(this));
+		// debug('\n PathPoint.makeFlat - START');
+		// debug('\t hold passed ' + hold);
+
+		if(this.isFlat()) {
+			this.type = 'flat';
+			return;
+		}
 
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
@@ -243,77 +249,47 @@
 			}
 		}
 
-		this.type = 'flat';
-		// this.useh1 = true;
-		// this.useh2 = true;
 
-		var angle1 = this.getHandleAngle(this.H1);
-		var angle2 = this.getHandleAngle(this.H2);
-		var hyp1 = this.getHandleLength(this.H1);
-		var hyp2 = this.getHandleLength(this.H2);
-
-		if(angle1===angle2){
-			//debug('MAKEFLAT - Equal Angles, returning');
-			return;
-		}
-
-		if(isNaN(angle1) || isNaN(angle2)) {
-			//debug('MAKEFLAT - NaN found, returning');
-			return;
-		}
-
-
-		//debug('MAKEFLAT - angle1 '+angle1+' angle2 '+angle2+' hyp1 '+hyp1+' hyp2 '+hyp2);
+		var angle1 = this.getH1Angle();
+		var angle2 = this.getH2Angle();
+		var hyp1 = this.getH1Length();
+		var hyp2 = this.getH2Length();
 
 		//new values
-		var newHx, newHy, mod, newadj1, newadj2;
+		var newHx, newHy, newadj, newopp;
 
-		switch(hold){
-			case 'H1' :
-				//modifier
-				mod = (this.H1.y > this.P.y)? -1 : 1;
+		if(hold === 'H1'){
+			//get new x and y for H2
+			newadj = Math.cos(angle1) * hyp2;
+			newopp = Math.tan(angle1) * newadj;
 
-				//get new x and y for H2
-				newadj2 = Math.cos(angle1) * hyp2;
-				newopp2 = Math.tan(angle1) * newadj2;
+			//Set values
+			newHx =  (this.P.x + (newadj*-1));
+			newHy = (this.P.y + (newopp*-1));
+			
+			if(!isNaN(newHx) && !isNaN(newHy)){
+				this.H2.x = newHx;
+				this.H2.y = newHy;
+			}
 
-				//Set values
-				newHx =  (this.P.x + (newadj2));
-				newHy = (this.P.y + (newopp2*mod));
-				//debug('MAKEFLAT hold H1 - compute x/y ' + newHx + ' / ' + newHy);
-				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H2.x = newHx;
-					this.H2.y = newHy;
-				} else {
-					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
-					return;
-				}
-				break;
+		} else if (hold === 'H2'){
+			//get new x and y for H2
+			newadj = Math.cos(angle2) * hyp1;
+			newopp = Math.tan(angle2) * newadj;
 
-			case 'H2' :
-				//modifier
-				mod = (this.H2.y > this.P.y)? -1 : 1;
+			//Set values
+			newHx =  (this.P.x + (newadj*-1));
+			newHy = (this.P.y + (newopp*-1));
+				
+			if(!isNaN(newHx) && !isNaN(newHy)){
+				this.H1.x = newHx;
+				this.H1.y = newHy;
+			}
+		}		
+		
+		this.type = 'flat';
 
-				//get new x and y for H2
-				newadj1 = Math.cos(angle2) * hyp1;
-				newopp1 = Math.tan(angle2) * newadj1;
-
-				//Set values
-				newHx =  (this.P.x + (newadj1));
-				newHy = (this.P.y + (newopp1*mod));
-				//debug('MAKEFLAT hold H2 - compute x/y ' + newHx + ' / ' + newHy);
-				if(!isNaN(newHx) && !isNaN(newHy)){
-					this.H1.x = newHx;
-					this.H1.y = newHy;
-				} else {
-					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
-					return;
-				}
-				break;
-		}
-
-		//this.roundAll();
-		//debug('MAKEFLAT - returns ' + json(this));
+		// debug(' PathPoint.makeFlat - END\n');
 	};
 
 	PathPoint.prototype.isFlat = function() {
@@ -328,21 +304,21 @@
 	};
 
 	PathPoint.prototype.resolvePointType = function(){
-		debug('\n PathPoint.resolvePointType - START');
+		// debug('\n PathPoint.resolvePointType - START');
 
 		if(this.isFlat()){
 			if(this.getH1Length() === this.getH2Length()){
-				debug('\t resolvePointType - setting to Symmetric');
+				// debug('\t resolvePointType - setting to Symmetric');
 				this.type = 'symmetric';
 			} else {
-				debug('\t resolvePointType - setting to Flat');
+				// debug('\t resolvePointType - setting to Flat');
 				this.type = 'flat';
 			}
 		} else {
-			debug('\t resolvePointType - setting to Corner');
+			// debug('\t resolvePointType - setting to Corner');
 			this.type = 'corner';
 		}
-		debug(' pathPoint.resolvePointType - END\n');
+		// debug(' pathPoint.resolvePointType - END\n');
 	};
 
 	PathPoint.prototype.makePointedTo = function(px, py, length){
