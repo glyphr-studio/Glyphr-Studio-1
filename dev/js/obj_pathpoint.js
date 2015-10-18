@@ -224,13 +224,9 @@
 		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
 	};
 
+
 	PathPoint.prototype.makeFlat = function(hold){
 		//debug('MAKEFLAT - hold ' + hold + ' starts as ' + JSON.stringify(this));
-
-		if(this.isFlat()) {
-			this.type = 'flat';
-			return;
-		}
 
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
@@ -248,38 +244,72 @@
 		}
 
 		this.type = 'flat';
+		// this.useh1 = true;
+		// this.useh2 = true;
 
-		var angle1 = this.getH1Angle();
-		var angle2 = this.getH2Angle();
-		var hyp1 = this.getH1Length();
-		var hyp2 = this.getH2Length();
+		var angle1 = this.getHandleAngle(this.H1);
+		var angle2 = this.getHandleAngle(this.H2);
+		var hyp1 = this.getHandleLength(this.H1);
+		var hyp2 = this.getHandleLength(this.H2);
+
+		if(angle1===angle2){
+			//debug('MAKEFLAT - Equal Angles, returning');
+			return;
+		}
+
+		if(isNaN(angle1) || isNaN(angle2)) {
+			//debug('MAKEFLAT - NaN found, returning');
+			return;
+		}
+
+
 		//debug('MAKEFLAT - angle1 '+angle1+' angle2 '+angle2+' hyp1 '+hyp1+' hyp2 '+hyp2);
 
 		//new values
-		var heald, moved, newHx, newHy, newadj1, newadj2;
+		var newHx, newHy, mod, newadj1, newadj2;
 
-		if(hold === 'H1'){
-			heald = this.H1;
-			moved = this.H2;
-		} else {
-			heald = this.H2;
-			moved = this.H1;
-		}
+		switch(hold){
+			case 'H1' :
+				//modifier
+				mod = (this.H1.y > this.P.y)? -1 : 1;
 
-		//get new x and y for H
-		newadj2 = Math.cos(angle1) * hyp2;
-		newopp2 = Math.tan(angle1) * newadj2;
+				//get new x and y for H2
+				newadj2 = Math.cos(angle1) * hyp2;
+				newopp2 = Math.tan(angle1) * newadj2;
 
-		//Set values
-		newHx =  (this.P.x + (newadj2*-1));
-		newHy = (this.P.y + (newopp2*-1));
+				//Set values
+				newHx =  (this.P.x + (newadj2));
+				newHy = (this.P.y + (newopp2*mod));
+				//debug('MAKEFLAT hold H1 - compute x/y ' + newHx + ' / ' + newHy);
+				if(!isNaN(newHx) && !isNaN(newHy)){
+					this.H2.x = newHx;
+					this.H2.y = newHy;
+				} else {
+					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					return;
+				}
+				break;
 
-		if(!isNaN(newHx) && !isNaN(newHy)){
-			moved.x = newHx;
-			moved.y = newHy;
-		} else {
-			//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
-			return;
+			case 'H2' :
+				//modifier
+				mod = (this.H2.y > this.P.y)? -1 : 1;
+
+				//get new x and y for H2
+				newadj1 = Math.cos(angle2) * hyp1;
+				newopp1 = Math.tan(angle2) * newadj1;
+
+				//Set values
+				newHx =  (this.P.x + (newadj1));
+				newHy = (this.P.y + (newopp1*mod));
+				//debug('MAKEFLAT hold H2 - compute x/y ' + newHx + ' / ' + newHy);
+				if(!isNaN(newHx) && !isNaN(newHy)){
+					this.H1.x = newHx;
+					this.H1.y = newHy;
+				} else {
+					//debug('\n\n NAN ENCOUNTERED IN MAKEFLAT\n\n');
+					return;
+				}
+				break;
 		}
 
 		//this.roundAll();
