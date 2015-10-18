@@ -544,7 +544,7 @@
 					if(this.controlpoint.point[this.controlpoint.type].ylock) dy = 0;
 				}
 
-				// debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
+				debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
 				sp.updatePathPointPosition(this.controlpoint.type, dx, dy);
 				_UI.ms.shapes.calcMaxes();
 
