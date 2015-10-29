@@ -184,7 +184,7 @@
 					if(!sc.isautowide){
 						content += '<input type="number" id="charaw" step="'+svc+'" '+
 						'value="' + round(sc.glyphwidth, 3) + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw({calledby:{calledby:\'glyphDetails}\'});">';
+						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw({calledby:{calledby:\'glyphDetails\'}});">';
 					} else {
 						content += '<input type="number" disabled="disabled" '+
 						'value="'+ round(sc.glyphwidth, 3) + '"/>';
