@@ -204,14 +204,32 @@
 		var re = [];
 		var bs, ts;
 
-		for(var bpp=0; bpp < p1.pathpoints.length; bpp++){
-			for(var tpp=0; tpp < p2.pathpoints.length; tpp++){
-				bs = p1.getSegment(bpp);
-				ts = p2.getSegment(tpp);
-				if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())) segoverlaps.push({'bottom':bs, 'top':ts});
+		function pushSegOverlaps(p1, p1p, p2, p2p) {
+			bs = p1.getSegment(p1p);
+			ts = p2.getSegment(p2p);
+			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())) segoverlaps.push({'bottom':bs, 'top':ts});	
+		}
+
+		function findPathSelfOverlaps(p) {
+			var npn;
+			for(var pn=0; pn < p.pathpoints.length; pn++){
+				npn = (p+1) % p.pathpoints.length;
+				pushSegOverlaps(p, pn, p, npn);
 			}
 		}
 
+		// Find path self-overlaps
+		findPathSelfOverlaps(p1);
+		findPathSelfOverlaps(p2);
+
+		// Find overlaps between paths
+		for(var bpp=0; bpp < p1.pathpoints.length; bpp++){
+			for(var tpp=0; tpp < p2.pathpoints.length; tpp++){
+				pushSegOverlaps(p1, bpp, p2, tpp);
+			}
+		}
+
+		// Use overlaps to find intersections
 		for(var v=0; v<segoverlaps.length; v++){
 			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
 			if(re.length > 0) intersects = intersects.concat(re);
