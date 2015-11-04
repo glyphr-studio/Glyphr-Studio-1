@@ -16,10 +16,10 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.03',
-		'thisGlyphrStudioVersionNum': '1.03.04',
+		'thisGlyphrStudioVersionNum': '1.03.05',
 
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
@@ -32,17 +32,11 @@
 		'testOnRedraw': function() {
 			var ss = getSelectedWorkItemShapes();
 			var intersects = [];
-			// var s1 = ss[0].getSegment(0);
-			// var s2 = ss[1].getSegment(2);
 
-			// s1.drawSegment();
-			// s2.drawSegment();
-
-			// intersects = intersects.concat(findSegmentIntersections(s1, s2));
 			intersects = findPathIntersections(ss[0].path, ss[1].path);
 
-			_UI.glypheditctx.fillStyle = _UI.colors.gray.l65;
-			_UI.glypheditctx.strokeStyle = _UI.colors.gray.l65;
+			_UI.glypheditctx.fillStyle = _UI.colors.error.medium;
+			_UI.glypheditctx.strokeStyle = _UI.colors.error.medium;
 			for(var i=0; i<intersects.length; i++){
 				var x = sx_cx(intersects[i].split('/')[0]);
 				var y = sy_cy(intersects[i].split('/')[1]);

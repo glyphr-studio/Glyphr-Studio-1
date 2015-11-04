@@ -37,7 +37,7 @@
 //	-----------------------------------
 //	Generic
 //	-----------------------------------
-	
+
 	Segment.prototype.drawSegment = function() {
 		var x = _UI.glypheditctx;
 
@@ -196,7 +196,9 @@
 		return (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
 	}
 
-    function findPathIntersections(p1, p2) { 
+    function findPathIntersections(p1, p2) {
+    	// debug('\n findPathIntersections - START');
+
     	if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) return [];
 
 		var segoverlaps = [];
@@ -205,24 +207,23 @@
 		var bs, ts;
 
 		function pushSegOverlaps(p1, p1p, p2, p2p) {
+			// debug('\t pushSegOverlaps - p1p ' + p1p + ' - p2p ' + p2p);
 			bs = p1.getSegment(p1p);
 			ts = p2.getSegment(p2p);
-			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())) segoverlaps.push({'bottom':bs, 'top':ts});	
-		}
 
-		function findPathSelfOverlaps(p) {
-			var npn;
-			for(var pn=0; pn < p.pathpoints.length; pn++){
-				npn = (p+1) % p.pathpoints.length;
-				pushSegOverlaps(p, pn, p, npn);
+
+			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())){
+				// debug('\t\t pushed!');
+				bs.drawSegment();
+				ts.drawSegment();
+				segoverlaps.push({'bottom':bs, 'top':ts});
 			}
 		}
 
-		// Find path self-overlaps
-		findPathSelfOverlaps(p1);
-		findPathSelfOverlaps(p2);
+		// Find overlaps within a single segment -- don't care about this case
+		// Find overlaps within a single path -- don't care about this case
 
-		// Find overlaps between paths
+		// Find overlaps between two paths
 		for(var bpp=0; bpp < p1.pathpoints.length; bpp++){
 			for(var tpp=0; tpp < p2.pathpoints.length; tpp++){
 				pushSegOverlaps(p1, bpp, p2, tpp);
@@ -237,6 +238,7 @@
 
       return intersects;
     }
+
 
     function findSegmentIntersections(s1, s2, depth) {
 
