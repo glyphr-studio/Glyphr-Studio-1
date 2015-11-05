@@ -1378,23 +1378,32 @@
 
 /*	ACTIONS		*/
 
-	.actionsgrid {
-		padding:0px 10px 30px 5px;
-		width:378px;
-	}
-
 	.actionsgrid td {
-		padding:0px 0px 12px 0px;
-		width:126px;
+		padding:0px 0px 2px 0px;
 	}
 
 	.actionsgrid button {
-		width:123px;
-		text-transform: lowercase;
-		text-align: left;
-		margin-bottom:2px;
+		background-color:rgb(204,209,214);
+		color:rgb(51,56,61);
+		padding:6px;
+		height:42px;
+		margin:0px 2px 2px 0px;
 	}
 
+	.actionsgrid button:hover {
+		background-color: rgb(178,183,188);
+		border-radius: 2px;
+		cursor:pointer;
+	}
+
+	.actionsgrid button[disabled]{
+		background-color:rgb(229,234,239);
+		cursor:default;
+	}
+
+	.actionsgrid h3 {
+		margin-bottom: 10px;
+	}
 
 /*	KERNING		*/
 	.kernrow {

@@ -109,14 +109,6 @@
 			'<td>'+checkUI('_UI.ms.shapes.getGlyph().ratiolock', sc.ratiolock, true)+'</td>'+
 		'</tr>';
 
-		content += '<tr><td colspan=2>'+
-			'<table class="actionsgrid"><tr><td>'+			
-				'<button onclick="_UI.ms.shapes.reverseWinding();history_put(\'Reverse Path Direction\');redraw({calledby:\'shapeDetails - Winding\')};">'+
-					'reverse winding'+
-				'</button>'+
-			'</td></tr></table>'+
-		'</td></tr>';
-
 		return content;
 	}
 
@@ -160,13 +152,6 @@
 				'<td> lock aspect ratio </td>'+
 				'<td>'+checkUI('getSelectedWorkItem().ratiolock', sc.ratiolock, true)+'</td>'+
 			'</tr>';
-
-			content += '<tr><td colspan=2>'+
-				'<table class="actionsgrid"><tr><td>'+
-				'<button onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">Flip Vertical</button>'+
-				'<button onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">Flip Horizontal</button>'+
-				'</td></tr></table>'+
-			'</td></tr>';
 		}
 
 		if (_UI.navhere === 'components') return content;
