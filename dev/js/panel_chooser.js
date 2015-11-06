@@ -8,7 +8,7 @@
 
 
 	function makePanel_GlyphChooser(){
-		// debug('\n makePanel_GlyphChooser - START');
+		//debug('\n makePanel_GlyphChooser - START');
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
@@ -50,18 +50,24 @@
 
 		content += '</div>';
 
-		// debug(' makePanel_GlyphChooser - END\n');
+		//debug(' makePanel_GlyphChooser - END\n');
 		return content;
 	}
 
 	function asyncLoadChooserPanel() {
+			//debug('asyncLoadChooserPanel OUTER');
 		setTimeout(function(){
+			//debug('asyncLoadChooserPanel INNER');
 			var np = document.getElementById('navarea_panel');
 			var gc = document.getElementById('glyphchooser');
 
-			if(np && gc) gc.innerHTML = make_GlyphChooser(_UI.glyphchooser.panel);
-			else asyncLoadChooserPanel();
-			
+			if(np){
+				if(gc && gc.innerHTML === '') {
+					gc.innerHTML = make_GlyphChooser(_UI.glyphchooser.panel);
+					asyncLoadChooserPanel();
+				}
+			} else asyncLoadChooserPanel();
+
 		}, 1);
 	}
 

@@ -280,8 +280,8 @@
 	}
 
 	function insertComponentInstance(cid, tochar){
-		debug('\n insertComponentInstance - START');
-		debug('\t cid: ' + cid + ' tochar: ' + tochar);
+		//debug('\n insertComponentInstance - START');
+		//debug('\t cid: ' + cid + ' tochar: ' + tochar);
 		
 		var select = !tochar;
 		tochar = tochar || getSelectedWorkItemID();

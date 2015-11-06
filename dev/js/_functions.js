@@ -9,7 +9,7 @@
 	window.onload = function() {
 		//console.clear();
 		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
-		debug('\n MAIN SETUP - START');
+		//debug('\n MAIN SETUP - START');
 
 		// Initialize Stuff
 		insertGlobalDOMElements();
@@ -17,10 +17,10 @@
 
 		// Navigate
 		if(_UI.devmode && _UI.devnav){
-			debug('\t >>> DEV NAV - to ' + _UI.devnav);
+			//debug('\t >>> DEV NAV - to ' + _UI.devnav);
 
 			if(_UI.loadsampleproject){
-				debug('\t >>> Using sample project');
+				//debug('\t >>> Using sample project');
 				var sp = _UI.sampleproject[_UI.loadsampleproject];
 				hydrateGlyphrProject(sp);
 				_UI.loadsampleproject = false;
@@ -36,7 +36,7 @@
 
 		if(_UI.devmode) _UI.testOnLoad();
 		
-		debug(' MAIN SETUP - END\n');
+		//debug(' MAIN SETUP - END\n');
 	};
 
 	function insertGlobalDOMElements(){

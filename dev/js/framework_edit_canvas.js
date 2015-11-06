@@ -31,10 +31,14 @@
 		the redraw, for debugging purposes.
 	*/
 	function redraw(oa){
+		//debug('\n REDRAW - START');
+		//debug('\t oa: ' + json(oa));
 		oa = oa || {};
 		_UI.redraw.redrawcanvas = isval(oa.redrawcanvas) ? oa.redrawcanvas : true;
 		_UI.redraw.redrawpanels = isval(oa.redrawpanels) ? oa.redrawpanels : true;
 		_UI.redraw.calledby = oa.calledby || '';
+
+		if(!_UI.redraw.redrawpanels && document.getElementById('navarea_panel').innerHTML === '') _UI.redraw.redrawpanels = true;
 
 		if(_UI.redrawing){
 			// this is totally a hack
@@ -45,6 +49,7 @@
 		_UI.redrawing = false;
 		reqAniFrame(redrawUnit);
 		_UI.redrawing = false;
+		//debug(' REDRAW - END\n');
 	}
 
 	function reqAniFrame(fun) {
@@ -64,6 +69,8 @@
 	}
 
 	function redrawUnit() {
+		//debug('\n redrawUnit - START');
+		//debug('\t _UI.redraw ' + json(_UI.redraw));
 
 		if(_UI.redraw.redrawcanvas){
 			_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
@@ -88,6 +95,7 @@
 		_UI.focuselement = false;
 
 		if(_UI.devmode && _UI.testOnRedraw) _UI.testOnRedraw();
+		//debug(' redrawUnit - END\n');
 	}
 
 
