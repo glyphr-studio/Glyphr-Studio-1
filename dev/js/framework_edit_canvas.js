@@ -816,7 +816,7 @@
 		rotate(rotatehandle, angle, center);
 		rotate(rotatehandle, (Math.PI/-2), center);
 
-		debug('\t Drag Angle ' + round(angle, 2));
+		// debug('\t Drag Angle ' + round(angle, 2));
 
 		var counterclockwise = false;
 		if(Math.abs(angle) > (Math.PI/2)) {

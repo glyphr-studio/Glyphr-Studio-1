@@ -255,6 +255,8 @@
 
 	
 	// Wrapper functions
+	_UI.ms.shapes.changeShapeName = function(n) { this.getSingleton().changeShapeName(n); };
+
 	_UI.ms.shapes.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
 
 	_UI.ms.shapes.setShapePosition = function(nx, ny, force) { this.getGlyph().setGlyphPosition(nx, ny, force); };

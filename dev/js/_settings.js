@@ -19,16 +19,16 @@
 		'thisGlyphrStudioVersionNum': '1.03.05',
 
 		// Internal Dev Stuff
-		'devmode': true,		// global switch for all the stuff below
+		'devmode': false,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		'testOnLoad': function() {
-			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100, 'ymax':300+100, 'ymin':100})}));
+/*			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100, 'ymax':300+100, 'ymin':100})}));
 			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':600+100, 'xmin':400, 'ymax':600+100, 'ymin':400})}));
-			_UI.selectedtool = 'pathedit';
+			_UI.selectedtool = 'pathedit';*/
 		},
 		'testOnRedraw': function() {
 /*			var ss = getSelectedWorkItemShapes();

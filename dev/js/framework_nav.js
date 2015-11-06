@@ -180,15 +180,27 @@
 		} else {
 			switch(nh){
 				// case 'openproject':  _UI.navprimaryhere = '';break;
- 				case 'glyph edit': 		_UI.navprimaryhere = 'npChooser'; break;
-				case 'components': 		_UI.navprimaryhere = 'npChooser'; break;
-				case 'ligatures': 		_UI.navprimaryhere = 'npChooser'; break;
+ 				case 'glyph edit':
+					_UI.navprimaryhere = 'npChooser'; 
+					_UI.glyphchooser.panel = {fname:'selectGlyph', selected:'glyphs', choices:'glyphs'};
+					break;
+				case 'components':
+					_UI.navprimaryhere = 'npChooser'; 
+					_UI.glyphchooser.panel = {fname:'selectComponent', selected:'components', choices:'components'};
+					break;
+				case 'ligatures':
+					_UI.navprimaryhere = 'npChooser'; 
+					_UI.glyphchooser.panel = {fname:'selectLigature', selected:'ligatures', choices:'ligatures'};
+					break;
+				case 'import svg': 		
+					_UI.navprimaryhere = 'npChooser'; 
+				 	_UI.glyphchooser.panel = {fname:'importSVG_selectGlyph', selected:'glyphs', choices:'all'};
+					break;
 				case 'kerning': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'test drive': 		_UI.navprimaryhere = 'npAttributes'; break;
 				case 'font settings': 	_UI.navprimaryhere = 'npNav'; break;
 				case 'project settings':_UI.navprimaryhere = 'npNav'; break;
 				case 'export font': 	_UI.navprimaryhere = 'npNav'; break;
-				case 'import svg': 		_UI.navprimaryhere = 'npChooser'; break;
 				case 'help': 			_UI.navprimaryhere = 'npNav'; break;
 				case 'about': 			_UI.navprimaryhere = 'npNav'; break;
 			}
@@ -248,8 +260,9 @@
 
 		switch(_UI.navprimaryhere){
 			case 'npChooser':
-				// debug('\t caught npChooser');
-				np.innerHTML = makePanel_GlyphChooser(); break;
+				// debug('\t case npChooser');
+				np.innerHTML = makePanel_GlyphChooser();
+				break;
 
 			case 'npAttributes':
 				// debug('\t case npAttributes');
@@ -270,6 +283,7 @@
 			case 'npGuides': np.innerHTML = makePanel_Guides(); break;
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
 		}
+
 		// debug(' make_NavPanels_PopIn - END\n');
 	}
 
