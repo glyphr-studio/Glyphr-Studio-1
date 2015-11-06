@@ -28,9 +28,10 @@
 		'testOnLoad': function() {
 			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100, 'ymax':300+100, 'ymin':100})}));
 			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':600+100, 'xmin':400, 'ymax':600+100, 'ymin':400})}));
+			_UI.selectedtool = 'pathedit';
 		},
 		'testOnRedraw': function() {
-			var ss = getSelectedWorkItemShapes();
+/*			var ss = getSelectedWorkItemShapes();
 			var intersects = [];
 
 			intersects = findPathIntersections(ss[0].path, ss[1].path);
@@ -43,7 +44,7 @@
 				draw_CircleHandle({'x':x, 'y':y});
 			}
 
-			debug(intersects);
+			debug(intersects);*/
 		},
 
 		// all pages

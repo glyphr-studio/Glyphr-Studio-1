@@ -66,7 +66,7 @@
 			content += '</td></tr>';
 		}
 
-		content += '</table><br>';
+		content += '</table>';
 		content += '</div>';
 
 		// debug(' makePanel_GlyphAttributes - END\n');

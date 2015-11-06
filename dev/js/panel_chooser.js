@@ -7,35 +7,43 @@
 **/
 
 
-	function makePanel_GlyphChooser(fname){
+	function makePanel_GlyphChooser(){
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
 		content += '<h1 class="paneltitle">chooser</h1>';
 		content += '</div>';
-
-		_UI.glyphchooser.fname = fname;
-
-		if(_UI.navhere === 'import svg'){
-			_UI.glyphchooser.panel.choices = 'all';
-			_UI.glyphchooser.panel.fname = 'importSVG_selectGlyph';
-		} else {
-			_UI.glyphchooser.panel.choices = 'glyphs';
-			_UI.glyphchooser.panel.fname = 'selectGlyph';
-		}
-
 		content += '<div class="panel_section" id="glyphchooser">';
 
-		if(_UI.navhere === 'glyph edit' || _UI.navhere === 'import svg'){
-			// content += '<div style="padding:10px;">Loading...</div>';
+		if(_UI.navhere === 'glyph edit'){
+			_UI.glyphchooser.panel = {
+				'fname':'selectGlyph',
+				'selected': 'glyphs',
+				'choices':'glyphs'
+			};
+
 			setTimeout(function(){
 				document.getElementById('glyphchooser').innerHTML = make_GlyphChooser(_UI.glyphchooser.panel);
 			}, 1);
 
-		} else if(_UI.navhere === 'ligatures'){
+		} else if(_UI.navhere === 'import svg'){
+			_UI.glyphchooser.panel = {
+				'fname':'importSVG_selectGlyph',
+				'selected': 'glyphs',
+				'choices':'all'
+			};
+
+			setTimeout(function(){
+				document.getElementById('glyphchooser').innerHTML = make_GlyphChooser(_UI.glyphchooser.panel);
+			}, 1);
+
+ 		} else if(_UI.navhere === 'ligatures'){
 			var emptyligs = getLength(_GP.ligatures) === 0;
 			if(!emptyligs) {
-				_UI.glyphchooser.panel.selected = 'ligatures';
-				_UI.glyphchooser.panel.choices = 'ligatures';
+				_UI.glyphchooser.panel = {
+					'fname':'selectLigature',
+					'selected': 'ligatures',
+					'choices':'ligatures'
+				};
 				content += make_GlyphChooser(_UI.glyphchooser.panel);
 			}
 			content += '<div class="panel_section" ';
@@ -48,8 +56,11 @@
 		} else if(_UI.navhere === 'components'){
 			var emptycoms = getLength(_GP.components) === 0;
 			if(!emptycoms) {
-				_UI.glyphchooser.panel.selected = 'components';
-				_UI.glyphchooser.panel.choices = 'components';
+				_UI.glyphchooser.panel = {
+					'fname':'selectComponent',
+					'selected': 'components',
+					'choices':'components'
+				};
 				content += make_GlyphChooser(_UI.glyphchooser.panel);
 			}
 			content += '<div class="panel_section" ';
@@ -170,7 +181,7 @@
 		}
 
 		if(ch === 'all') content += '<div style="height:12px;"></div>';
-		
+
 		if(ch === 'components' || ch === 'all'){
 			if(getLength(_GP.components)){
 				content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser(\'components\');">';
@@ -193,13 +204,16 @@
 	}
 
 	function pluralGlyphRange() {
+		debug('\n pluralGlyphRange - START');
 		var gr = _GP.projectsettings.glyphrange;
 		var count = gr.custom.length;
-		if(gr.basiclatin) count++;
-		if(gr.latinextendeda) count++;
-		if(gr.latinextendedb) count++;
-		if(gr.latinsuppliment) count++;
 
+		if(gr.basiclatin) { count++; debug('\t triggered basiclatin'); }
+		if(gr.latinextendeda) { count++; debug('\t triggered latinextendeda'); }
+		if(gr.latinextendedb) { count++; debug('\t triggered latinextendedb'); }
+		if(gr.latinsuppliment) { count++; debug('\t triggered latinsuppliment'); }
+
+		debug(' pluralGlyphRange - END - returning ' + count + '\n');
 		return count > 1;
 	}
 
@@ -282,13 +296,6 @@
 		return '[error: make_GlyphChooser_HeaderContent]';
 
 	}
-
-	/*
-		PERF NOTES
-		table layout load times: 97 78 83 76 97 70 77 73 70 66
-		div layout load times:   99 82 77 89 85 84 72 78 69 68
-
-	*/
 
 	function make_GlyphChooser_Button(index, fname, selid){
 		// debug('\n make_GlyphChooser_Button - START ' + index);

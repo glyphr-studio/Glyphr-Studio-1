@@ -431,7 +431,7 @@
 
 	/* Width = sum of panel widths +1 each for border */
 	.popout_table {
-		width:2372px;
+		width:2382px;
 		height:100%;
 		overflow-y:hidden;
 		display:block;
@@ -464,7 +464,11 @@
 	}
 
 	#popout_actions {
-		width:145px;
+		width:155px;
+	}
+
+	#popout_actions .panel_section {
+		width:150px;
 	}
 
 	#mainwrapper {
@@ -1378,30 +1382,31 @@
 
 /*	ACTIONS		*/
 
-	.actionsgrid td {
-		padding:0px 0px 2px 0px;
+	.actionsarea {
+		margin-top:12px;
+		width:100%;
 	}
 
-	.actionsgrid button {
+	.actionsarea button {
 		background-color:rgb(204,209,214);
 		color:rgb(51,56,61);
 		padding:6px;
 		height:42px;
-		margin:0px 2px 2px 0px;
+		margin:0px 4px 4px 0px;
 	}
 
-	.actionsgrid button:hover {
+	.actionsarea button:hover {
 		background-color: rgb(178,183,188);
 		border-radius: 2px;
 		cursor:pointer;
 	}
 
-	.actionsgrid button[disabled]{
+	.actionsarea button[disabled]{
 		background-color:rgb(229,234,239);
 		cursor:default;
 	}
 
-	.actionsgrid h3 {
+	.actionsarea h3 {
 		margin-bottom: 10px;
 	}
 

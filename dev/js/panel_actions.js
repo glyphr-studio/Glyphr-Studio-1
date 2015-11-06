@@ -3,7 +3,7 @@
 	Panel > Actions
 	Usually this is attached to the bottom of the
 	Glyph Attributes panel.  In two screen mode,
-	the Attributes panel get's its own column.
+	the Attributes panel gets its own column.
 **/
 
 
@@ -17,10 +17,9 @@
 
 		if(!existingWorkItem()){ return content + '</div></div>'; }
 
-		if(pop) content += '</div><div class="panel_section">';
 
 		// Generate Sections
-		var allactions = '<div style="height:12px;"></div>';
+		var allactions = '';
 		allactions += '<button title="Paste\nAdds the previously-copied shape or shapes into this glyph" '+(_UI.clipboardshape? '': 'disabled')+' onclick="pasteShape(); history_put(\'Paste Shape\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_Paste(!_UI.clipboardshape) + '</button>';
 		allactions += '<button title="Undo\nStep backwards in time one action" '+(history_length()? '': 'disabled')+' onclick="history_pull();">' + makeActionButton_Undo(!history_length()) + '</button>';
 
@@ -32,8 +31,13 @@
 
 		var shapeactions = ss.length > 1? '<h3>shapes</h3>' : '<h3>shape</h3>';
 		shapeactions += '<button title="Copy\nAdds a copy of the currently selected shape or shapes to the clipboard" onclick="copyShape();">' + makeActionButton_Copy() + '</button>';
-		shapeactions += '<button title="Delete\nRemoves the currently selected shape or shapes from this glyph" onclick="deleteShape(); history_put(\'Delete Shape\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_DeleteShape() + '</button>';
+		if(!_UI.popout) shapeactions += '<button title="Delete\nRemoves the currently selected shape or shapes from this glyph" onclick="deleteShape(); history_put(\'Delete Shape\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_DeleteShape() + '</button>';
 		shapeactions += '<button title="Reverse Overlap Mode\nToggles the clockwise or counterclockwise winding of the shape\'s path" onclick="_UI.ms.shapes.reverseWinding(); history_put(\'Reverse Path Direction\'); redraw({calledby:\'shapeDetails - Winding\')};">' + makeActionButton_ReverseWinding() + '</button>';
+		if(ss.length === 1 && ss[0].objtype === 'componentinstance'){
+			shapeactions += '<button title="Turn Component Instance into a Shape\nTakes the selected Component Instance, and un-links it from its Root Component,\nthen adds copies of all the Root Component\'s shapes as regular Shapes to this glyph" onclick="turnComponentIntoShapes(); history_put(\'Unlinked Component\'); redraw({calledby:\'turnComponentIntoShapes\'});">' + makeActionButton_SwitchShapeComponent(true) + '</button>';
+		} else {
+			shapeactions += '<button title="Turn Shape into a Component Instance\nTakes the selected shape and creates a Component out of it,\nthen links that Component to this glyph as a Component Instance" onclick="turnSelectedShapeIntoAComponent(); history_put(\'Turned Shape into a Component\'); redraw({calledby:\'turnSelectedShapeIntoAComponent\'});">' + makeActionButton_SwitchShapeComponent(false) + '</button>';
+		}
 		shapeactions += '<button title="Flip Horizontal\nReflects the currently selected shape or shapes horizontally" onclick="_UI.ms.shapes.flipEW(); history_put(\'Flip Shape Horizontal\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		shapeactions += '<button title="Flip Vertical\nReflects the currently selected shape or shapes vertically" onclick="_UI.ms.shapes.flipNS(); history_put(\'Flip Shape Vertical\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_FlipVertical() + '</button>';
 
@@ -46,13 +50,6 @@
 		boolactions += '<button title="Subtract Using Upper\nSelect two shapes, and the upper shape will be used to cut out an area from the lower shape" onclick="">' + makeActionButton_SubtractUsingTop() + '</button>';
 		boolactions += '<button title="Subtract Using Lower\nSelect two shapes, and the lower shape will be used to cut out an area from the upper shape" onclick="">' + makeActionButton_SubtractUsingBottom() + '</button>';
 
-
-		if(ss.length === 1 && ss[0].objtype === 'componentinstance'){
-			shapeactions += '<button title="Turn Component Instance into a Shape\nTakes the selected Component Instance, and un-links it from its Root Component,\nthen adds copies of all the Root Component\'s shapes as regular Shapes to this glyph" onclick="turnComponentIntoShapes(); history_put("Unlinked Component"); redraw({calledby:"turnComponentIntoShapes"});">' + makeActionButton_SwitchShapeComponent(true) + '</button>';
-		} else {
-			shapeactions += '<button title="Turn Shape into a Component Instance\nTakes the selected shape and creates a Component out of it,\nthen links that Component to this glyph as a Component Instance" onclick="turnSelectedShapeIntoAComponent(); history_put(\'Turned Shape into a Component\'); redraw({calledby:\'turnSelectedShapeIntoAComponent\'});">' + makeActionButton_SwitchShapeComponent(false) + '</button>';
-		}
-
 		var pointactions = '<h3>path point</h3>';
 		pointactions += '<button title="Insert Path Point\nAdds a new Path Point half way between the currently-selected point, and the next one" onclick="_UI.ms.points.insertPathPoint(); history_put(\'Insert Path Point\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_InsertPathPoint() + '</button>';
 		pointactions += '<button title="Delete Path Point\nRemoves the currently selected point or points from the path" class="'+(ss.length? '': 'buttondis')+'" onclick="_UI.ms.points.deletePathPoints(); history_put(\'Delete Path Point\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_DeletePathPoint() + '</button>';
@@ -64,31 +61,28 @@
 
 
 		// Put it all together
-		content += '<table class="actionsgrid"><tr>';
+		if(pop) content += '</div><div class="panel_section"><div class="actionsarea" style="margin-top:0px;">';
+		else content += '<div class="actionsarea">';
 
-		content += '<td>';
 		content += allactions;
-		if(!pop) content += '</td></tr>';
+		if(!pop) content += '<br>';
 
-		if(!pop) content += '<tr><td>';
 		if(ss.length === 0) content += glyphactions;
 		if(ss.length > 0) content += shapeactions;
 		if(ss.length === 2) content += boolactions;
 		if(ss.length === 1 && !pop) content += layeractions;
 
-		if(!pop) content += '</td></tr>';
+		if(!pop) content += '<br>';
 
 		var ispointsel = false;
 		if(_UI.ms.points.count() > 0) ispointsel = true;
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
 
-		//debug("UPDATEACTIONS - trying to get selected point, ispointsel = " + ispointsel);
-		if(!pop) content += '<tr><td>';
 		if(ispointsel){ content += pointactions; }
-		else if (!pop){ content += '&nbsp;';}
-		if(!pop) content += '</td></tr>';
+		if(!pop) content += '<br>';
 
-		content += '</table></div>';
+		content += '</div>';
+		content += '</div>';
 
 		return content;
 	}

@@ -30,7 +30,7 @@
 					if(ts.objtype === 'componentinstance') content += '<tr class="componentlayer"';
 					else content += '<tr class="layer"';
 				}
-				
+
 				content += ' onclick="selectShape(' + i + '); redraw({calledby:\'updatelayers\'}); ';
 				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\');';
 				content += '">';
@@ -66,7 +66,10 @@
 
 		if(wishapes && wishapes[num]){
 			 if(_UI.eventhandlers.multi) _UI.ms.shapes.toggle(wishapes[num]);
-			 else _UI.ms.shapes.select(wishapes[num]);
+			 else {
+			 	_UI.ms.points.clear();
+			 	_UI.ms.shapes.select(wishapes[num]);
+			 }
 		} else {
 			_UI.ms.shapes.clear();
 		}
@@ -74,48 +77,34 @@
 	}
 
 	function updateLayerActions(){
-		var pop = _UI.popout;
 		var selshapes = _UI.ms.shapes.getMembers().length;
 		var numshapes = getSelectedWorkItemShapes().length;
 
-		var shapeactions ="<h3>shapes</h3>";
-		shapeactions += "<button onclick='addShape();history_put(\"Add Shape\");redraw({calledby:\"updateactions\"});'>add new shape</button></button><br>";
-		shapeactions += "<button onclick='showDialog_AddComponent();'>add component</button><br>";
-		shapeactions += "<button onclick='showDialog_GetShapes();'>get shapes from another glyph</button><br>";
+		var shapeactions = '';
+		shapeactions += '<button title="Add Shape\nCreates a new default shape and adds it to this glyph" onclick="addShape(); history_put(\'Add Shape\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_AddShape(false) + '</button>';
+		shapeactions += '<button title="Add Component Instance\nChoose another Component or Glyph, and use it as a Component Instance in this glyph" onclick="showDialog_AddComponent();">'+ makeActionButton_AddShape(true) + '</button>';
+		shapeactions += '<button title="Get Shapes\nChoose another Glyph, and copy all the shapes from that glyph to this one" onclick="showDialog_GetShapes();">' + makeActionButton_PasteShapesFromAnotherGlyph() + '</button>';
+		if(selshapes > 0) shapeactions += '<button title="Delete\nRemoves the currently selected shape or shapes from this glyph" onclick="deleteShape(); history_put(\'Delete Shape\'); redraw({calledby:\'updateactions\'});">' + makeActionButton_DeleteShape() + '</button>';
 
-		var layeractions = "<h3>layers</h3>";
-		layeractions += "<button onclick='moveShapeUp();history_put(\"Move Shape Layer Up\");'>move up</button><br>";
-		layeractions += "<button onclick='moveShapeDown();history_put(\"Move Shape Layer Down\");'>move down</button><br>";
+		var layeractions = '';
+		layeractions += '<button title="Move Shape Up\nMoves the shape up in the shape layer order" onclick="moveShapeUp(); history_put(\'Move Shape Layer Up\');">' + makeActionButton_MoveLayerUp() + '</button>';
+		layeractions += '<button title="Move Shape Down\nMoves the shape down in the shape layer order" onclick="moveShapeDown(); history_put(\'Move Shape Layer Down\');">' + makeActionButton_MoveLayerDown() + '</button>';
 
 
 		var content = '';
-
-		if(pop && numshapes > 1 && selshapes === 1 ){
+		if(_UI.popout){
+			content += '<div class="actionsarea">';
+			content += '<h3>Actions</h3>';
+		} else {
 			content += '<h1 class="paneltitle">Actions</h1>';
-			content += '<td>';
-			content += layeractions;
-			content += "</td>";
-			content += "<td> &nbsp; </td><td> &nbsp; </td></tr></table>";
-
-		} else if (!pop){
-			content += '<h1 class="paneltitle">Actions</h1>';			
-			content += '<table class="actionsgrid"><tr>';
-
-			content += '<td>';
-			content += shapeactions;
-			if(selshapes > 0) content += "<button onclick='deleteShape();history_put(\"Delete Shape\");redraw({calledby:\"updateactions\"});'>delete</button><br>";
-			content += "</td>";
-
-			if(numshapes > 1 && selshapes === 1){
-				content += '<td>';
-				content += layeractions; 
-				content += "</td>";
-			} else {
-				content += "<td> &nbsp; </td>";
-			}
-
-			content += "<td> &nbsp; </td></tr></table>";
+			content += '<div class="actionsarea">';
 		}
+
+		content += shapeactions;
+		if(numshapes > 1 && selshapes === 1) content += layeractions;
+
+		content += '</div>';
+
 
 		return content;
 	}
@@ -145,5 +134,5 @@
 			redraw({calledby:"moveShapeDown"});
 		}
 	}
-	
+
 // end of file

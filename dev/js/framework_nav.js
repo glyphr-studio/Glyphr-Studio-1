@@ -121,8 +121,8 @@
 	function make_NavPanels_PopOut(){
 		// debug('\n make_NavPanels_PopOut - START');
 		//debug('\t\t primaryscreenlayout.innerhtml:\n' + document.getElementById('primaryScreenLayout').innerHTML);
-		var oncom = _UI.navhere === 'components';
 		var onge = _UI.navhere === 'glyph edit';
+		var oncom = _UI.navhere === 'components';
 		var onlig = _UI.navhere === 'ligatures';
 		var ontd = _UI.navhere === 'test drive';
 		var onkern = _UI.navhere === 'kerning';
@@ -130,9 +130,7 @@
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 
-		if(onge && !evmove) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser('selectGlyph');
-		else if(oncom) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser('selectComponent');
-		else if (onlig) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser('selectLigature');
+		if((onge || onlig || oncom) && !evmove) document.getElementById('popout_glyphchooser').innerHTML = makePanel_GlyphChooser();
 
 		document.getElementById('popout_history').innerHTML = makePanel_History();
 
@@ -251,13 +249,7 @@
 		switch(_UI.navprimaryhere){
 			case 'npChooser':
 				// debug('\t caught npChooser');
-				switch(_UI.navhere){
-					case 'glyph edit': np.innerHTML = makePanel_GlyphChooser('selectGlyph'); break;
-					case 'import svg': np.innerHTML = makePanel_GlyphChooser('importSVG_selectGlyph'); break;
-					case 'components': np.innerHTML = makePanel_GlyphChooser('selectComponent'); break;
-					case 'ligatures': np.innerHTML = makePanel_GlyphChooser('selectLigature'); break;
-				}
-				break;
+				np.innerHTML = makePanel_GlyphChooser(); break;
 
 			case 'npAttributes':
 				// debug('\t case npAttributes');
