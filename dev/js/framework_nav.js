@@ -462,7 +462,7 @@
 			} else if (navarr[i] === 'feature'){
 				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target="_blank">suggest a feature or improvement</a><br>');
 			} else if (navarr[i] === 'email'){
-				newsub += ('<a href="mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body='+genEmailContent()+'" class="navpanellink">email the glyphr studio team</a><br>');
+				newsub += ('<a href="mailto:mail@glyphrstudio.com&subject=Hi%20Glyphr%20Studio&body='+genEmailContent()+'" target="_blank" class="navpanellink">email the glyphr studio team</a><br>');
 			} else if (navarr[i] === 'issue'){
 				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target="_blank" class="navpanellink">create a new issue on github</a><br>');
 			} else {

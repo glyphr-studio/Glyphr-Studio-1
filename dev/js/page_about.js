@@ -13,7 +13,7 @@
 		"<div style='margin-bottom:18px;'>"+_UI.thisGlyphrStudioVersionNum+"</div>" +
 		"<table>"+
 		"<tr><td><i>Website: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='http://www.glyphrstudio.com' target='_blank'>glyphrstudio.com</a> for all the info.</td></tr>" +
-		"<tr><td><i>Email: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='mailto:mail@glyphrstudio.com'>mail@glyphrstudio.com</a> with any questions, and we'd be happy to help out.</td></tr>" +
+		"<tr><td><i>Email: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='mailto:mail@glyphrstudio.com' target='blank'>mail@glyphrstudio.com</a> with any questions, and we'd be happy to help out.</td></tr>" +
 		"<tr><td><i>Twitter: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://twitter.com/glyphrstudio' target='_blank'>@glyphrstudio</a> for short updates and announcements.</td></tr>" +
 		"<tr><td><i>Blog: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='http://www.glyphrstudio.com/blog/' target='_blank'>glyphrstudio.com/blog</a> for verbose updates and announcements.</td></tr>" +
 		"<tr><td><i>GitHub: &nbsp;&nbsp;&nbsp;</i></td><td> <a href='https://github.com/mattlag/Glyphr-Studio/' target='_blank'>github.com/mattlag/Glyphr-Studio</a> for dev and code related stuff.</td></tr>" +

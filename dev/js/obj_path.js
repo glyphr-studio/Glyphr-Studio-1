@@ -179,6 +179,11 @@
 		// debug(' Path.rotate - END\n');
 	};
 
+
+//  -----------------------------------
+//  OTHER METHODS
+//  -----------------------------------
+
 	Path.prototype.getNextPointNum = function(pnum) {
 		pnum = parseInt(pnum) || 0;
 		pnum += 1;
@@ -186,6 +191,7 @@
 
 		return pnum;
 	};
+
 
 //  -----------------------------------
 //  DRAWING

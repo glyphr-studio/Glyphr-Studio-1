@@ -326,39 +326,11 @@
 		updateCurrentGlyphWidth();
 	}
 
-	function deleteShape(){
-		// debug('\n deleteShape - START');
-		var wishapes = getSelectedWorkItemShapes();
-		var sels = _UI.ms.shapes.getMembers();
-		var curs, i;
-
-		if(sels.length === 0) _UI.ms.shapes.clear();
-		else {
-			for(var s=0; s<sels.length; s++){
-				curs = sels[s];
-
-				if(curs.objtype === 'componentinstance'){
-					removeFromUsedIn(curs.link, _UI.selectedglyph);
-				}
-
-				i = wishapes.indexOf(curs);
-				if(i > -1) wishapes.splice(i, 1);
-			}
-
-			_UI.ms.shapes.select(wishapes[i] || wishapes[wishapes.length-1]);
-			var singleshape = _UI.ms.shapes.getSingleton();
-			if(singleshape && singleshape.objtype === 'componentinstance') clickTool('shaperesize');
-		}
-
-		updateCurrentGlyphWidth();
-		// debug(' deleteShape - END\n');
-	}
-
 	function turnSelectedShapeIntoAComponent(){
 		var s = clone(_UI.ms.shapes.getMembers());
 		var n = s.length === 1? ('Component ' + s[0].name) : ('Component ' + (getLength(_GP.components)+1));
 
-		deleteShape();
+		_UI.ms.shapes.deleteShapes();
 		var newid = createNewComponent(new Glyph({'shapes':s, 'name':n}));
 		insertComponentInstance(newid);
 		_UI.selectedtool = 'shaperesize';

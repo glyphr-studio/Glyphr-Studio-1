@@ -196,10 +196,10 @@
 		return (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
 	}
 
-    function findPathIntersections(p1, p2) {
-    	// debug('\n findPathIntersections - START');
+	function findPathIntersections(p1, p2) {
+		// debug('\n findPathIntersections - START');
 
-    	if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) return [];
+		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) return [];
 
 		var segoverlaps = [];
 		var intersects = [];
@@ -214,8 +214,8 @@
 
 			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())){
 				// debug('\t\t pushed!');
-				bs.drawSegment();
-				ts.drawSegment();
+				// bs.drawSegment();
+				// ts.drawSegment();
 				segoverlaps.push({'bottom':bs, 'top':ts});
 			}
 		}
@@ -236,17 +236,16 @@
 			if(re.length > 0) intersects = intersects.concat(re);
 		}
 
-      return intersects;
-    }
+		return intersects;
+	}
 
+	function findSegmentIntersections(s1, s2, depth) {
 
-    function findSegmentIntersections(s1, s2, depth) {
+		// if(depth > 4) return [];
+		// s1.drawSegment();
+		// s2.drawSegment();
 
-    	// if(depth > 4) return [];
-    	s1.drawSegment();
-    	s2.drawSegment();
-
-    	// Check to stop recursion
+		// Check to stop recursion
 		var s1m = s1.getFastMaxes();
 		var s2m = s2.getFastMaxes();
 		var threshold = 0.0001;

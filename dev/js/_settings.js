@@ -15,37 +15,22 @@
 	var _UI = {
 
 		// Version
-		'thisGlyphrStudioVersion': 'Version 1.03',
-		'thisGlyphrStudioVersionNum': '1.03.05',
+		'thisGlyphrStudioVersion': 'Version 1.04',
+		'thisGlyphrStudioVersionNum': '1.04.00',
 
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': false,		// navigate straight to a page
+		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		'testOnLoad': function() {
-/*			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':300+100, 'xmin':100, 'ymax':300+100, 'ymin':100})}));
-			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':600+100, 'xmin':400, 'ymax':600+100, 'ymin':400})}));
-			_UI.selectedtool = 'pathedit';*/
+			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':400, 'xmin':100, 'ymax':400, 'ymin':100})}));
+			addShape(new Shape({'path':ovalPathFromMaxes({'xmax':700, 'xmin':200, 'ymax':700, 'ymin':200})}));
+			_UI.selectedtool = 'shaperesize';
 		},
-		'testOnRedraw': function() {
-/*			var ss = getSelectedWorkItemShapes();
-			var intersects = [];
-
-			intersects = findPathIntersections(ss[0].path, ss[1].path);
-
-			_UI.glypheditctx.fillStyle = _UI.colors.error.medium;
-			_UI.glypheditctx.strokeStyle = _UI.colors.error.medium;
-			for(var i=0; i<intersects.length; i++){
-				var x = sx_cx(intersects[i].split('/')[0]);
-				var y = sy_cy(intersects[i].split('/')[1]);
-				draw_CircleHandle({'x':x, 'y':y});
-			}
-
-			//debug(intersects);*/
-		},
+		'testOnRedraw': function() {},
 
 		// all pages
 		'navhere': 'openproject',

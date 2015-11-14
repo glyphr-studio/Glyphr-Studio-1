@@ -537,7 +537,7 @@ function saveFile(fname, buffer, ftype) {
 	function genEmailContent(){
 		var con = 'Have a feature idea or ran into an issue%3F We%27d be happy to help!';
 		con += '%0A%0A%0A%0A___________________________________________%0A';
-		con += 'version %09Glyphr Studio ' + _UI.thisGlyphrStudioVersion + '%0A';
+		con += 'version %09Glyphr Studio ' + _UI.thisGlyphrStudioVersionNum + '%0A';
 		//con += 'appCodeName %09' + navigator.appCodeName + '%0A';
 		con += 'app name %09' + navigator.appName + '%0A';
 		//con += 'appVersion %09' + navigator.appVersion + '%0A';

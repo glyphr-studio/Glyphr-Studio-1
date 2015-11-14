@@ -390,7 +390,29 @@
 		} else return false;
 	};
 
+	PathPoint.prototype.sharesPointPositionWith = function(path) {
+		debug('\n PathPoint.sharesPointPositionWith - START');
 
+		var precision = 0.1;
+		var tx = round(this.P.x * precision);
+		var ty = round(this.P.y * precision);
+		var px, py;
+
+		debug('\t this ' + tx + ' ' + ty);
+		for(var p=0; p<path.pathpoints.length; p++){
+			px = round(path.pathpoints[p].P.x * precision);
+			py = round(path.pathpoints[p].P.y * precision);
+			debug('\t with ' + px + ' ' + py);
+
+			if( (tx === px) && (ty === py)){
+				debug(' PathPoint.sharesPointPositionWith - END - returning ' + p + '\n');
+				return p;
+			}				
+		}
+
+		debug(' PathPoint.sharesPointPositionWith - END - returning false \n');
+		return false;
+	};
 
 
 //-------------------------------------------------------

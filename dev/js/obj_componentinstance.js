@@ -315,7 +315,7 @@
 		var selshape = _UI.ms.shapes.getSingleton();
 		var shapes = selshape.getTransformedGlyph().shapes;
 
-		deleteShape();
+		_UI.ms.shapes.deleteShapes();
 
 		for(var s=0; s<shapes.length; s++){
 			addShape(shapes[s]);

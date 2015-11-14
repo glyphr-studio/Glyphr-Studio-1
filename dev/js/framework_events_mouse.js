@@ -338,7 +338,7 @@
 				s.visible = true;
 				//updateCurrentGlyphWidth();
 			} else {
-				deleteShape();
+				_UI.ms.shapes.deleteShapes();
 			}
 
 			_UI.eventhandlers.firstx = -100;

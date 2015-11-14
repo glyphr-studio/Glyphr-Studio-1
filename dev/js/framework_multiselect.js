@@ -129,7 +129,6 @@
 		}
 		this.clear();
 
-		// if(this.pathpoints.length === 0) deleteShape();
 	};
 
 	_UI.ms.points.getSingletonPointNumber = function() {
@@ -253,8 +252,119 @@
 
 	_UI.ms.shapes.selectShapesThatHaveSelectedPoints = function() {};
 
-	
+	_UI.ms.shapes.combine = function() {
+		debug('\n ms.shapes.combine - START');
+
+		if(this.members.length !== 2) {
+			debug('\t members.length is not 2, returning');
+			return;
+		}
+		var orig1 = this.members[0];
+		var orig2 = this.members[1];
+		var shape1 = clone(orig1);
+		var shape2 = clone(orig2);
+
+		// Find intersections
+		var intersections = findPathIntersections(shape1.path, shape2.path);
+
+		if(intersections.length < 2) {
+			debug('\t zero or one intersections, returning');
+			return;
+		}
+
+		if(intersections.length % 2 !== 0) {
+			debug('\t number of intersections is ' + intersections.length + ' which is odd, returning');
+			return;
+		}
+
+
+		// Add points to each shape at intersection
+		var p, co = {x:0, y:0};
+		for(var i=0; i<intersections.length; i++){
+			co.x = intersections[i].split('/')[0] * 1;
+			co.y = intersections[i].split('/')[1] * 1;
+
+			p = shape1.path.getClosestPointOnCurve(co);
+			shape1.path.insertPathPoint(p.split, p.point);
+
+			p = shape2.path.getClosestPointOnCurve(co);
+			shape2.path.insertPathPoint(p.split, p.point);
+		}
+		debug('\t added overlap points');
+
+
+		// Travel the path points in one path adding them to the
+		// resulting combined path.  If a point is shared, switch
+		// which path is being traveled.  If the number of intersections
+		// is even, this will always end up on the first path.
+		var walk = shape1.path;
+		var other = shape2.path;
+		var result = new Path({});
+		var tp;
+
+		for(var cp=0; cp<walk.pathpoints.length; cp++){
+			debug('\t WALK STEP ' + cp);
+			tp = walk.pathpoints[cp];
+			result.addPathPoint(clone(tp));
+
+			var copoint = tp.sharesPointPositionWith(other);
+
+			debug('\t copoint returned ' + copoint);
+
+			if(copoint !== false){
+				var temp = walk;
+				walk = other;
+				other = temp;
+				cp = copoint;
+			}
+		}
+
+
+		// Everything worked, delete original shapes and add new ones
+		_UI.ms.points.clear();
+		_UI.ms.shapes.clear();
+		_UI.ms.shapes.select(orig1);
+		_UI.ms.shapes.toggle(orig2);
+		this.deleteShapes();
+
+		// addShape(shape1);
+		// addShape(shape2);
+		addShape(new Shape({name:'merged shape', path:result}));
+
+
+	};
+
+	_UI.ms.shapes.deleteShapes = function(){
+		// debug('\n deleteShape - START');
+		var wishapes = getSelectedWorkItemShapes();
+		var sels = this.getMembers();
+		var curs, i;
+
+		if(sels.length === 0) _UI.ms.shapes.clear();
+		else {
+			for(var s=0; s<sels.length; s++){
+				curs = sels[s];
+
+				if(curs.objtype === 'componentinstance'){
+					removeFromUsedIn(curs.link, _UI.selectedglyph);
+				}
+
+				i = wishapes.indexOf(curs);
+				if(i > -1) wishapes.splice(i, 1);
+			}
+
+			_UI.ms.shapes.select(wishapes[i] || wishapes[wishapes.length-1]);
+			var singleshape = _UI.ms.shapes.getSingleton();
+			if(singleshape && singleshape.objtype === 'componentinstance') clickTool('shaperesize');
+		}
+
+		updateCurrentGlyphWidth();
+		// debug(' deleteShape - END\n');
+	};
+
+
 	// Wrapper functions
+
 	_UI.ms.shapes.changeShapeName = function(n) { this.getSingleton().changeShapeName(n); };
 
 	_UI.ms.shapes.updateShapePosition = function(dx, dy, force){ this.getGlyph().updateGlyphPosition(dx, dy, force); };
@@ -274,7 +384,7 @@
 		if(this.members.length === 1) return true;
 		else return !this.contains(('componentinstance'));
 	};
-	
+
 	_UI.ms.shapes.flipNS = function(mid) { this.getGlyph().flipNS(mid); };
 
 	_UI.ms.shapes.flipEW = function(mid) { this.getGlyph().flipEW(mid); };
