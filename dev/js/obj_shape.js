@@ -371,6 +371,235 @@
 		else return findPathIntersections(s1.path, s2.path);
 	}
 
+	function combineShapes(s1, s2) {
+		debug('\n combineShapes - START');
+		var newshapes = [];
+
+
+		// Setup shapes
+		function setupShapeForCombining(shape, name) {
+			var re = clone(shape);
+
+			re.path.name = name;
+
+			for(var p=0; p<re.path.pathpoints.length; p++){
+				re.path.pathpoints[p].done = false;
+			}
+
+			return re;
+		}
+
+		var shape1 = setupShapeForCombining(s1, 'path1');
+		var shape2 = setupShapeForCombining(s2, 'path2');
+
+
+		// adjust winding
+		if( ((s1.path.winding > 0) && (s2.path.winding > 0)) || ((s1.path.winding < 0) && (s2.path.winding < 0)) ){}
+		else {
+			debug('\t Paths DO NOT have the same winding: ' + s1.path.winding + ' ' + s2.path.winding);
+			s2.path.reverseWinding();
+			debug('\t now they should: ' + s1.path.winding + ' ' + s2.path.winding);
+		}
+
+
+		// Find intersections
+		var intersections = findPathIntersections(shape1.path, shape2.path);
+
+		if(intersections.length < 2) {
+			debug('\t zero or one intersections, returning');
+			return;
+		}
+
+
+		// Add points to each shape at intersection
+		var p, id;
+		for(var i=0; i<intersections.length; i++){
+			intersections[i] = {
+				x: parseFloat(intersections[i].split('/')[0]),
+				y: parseFloat(intersections[i].split('/')[1])
+			};
+
+			id = 'overlap'+i;
+			p = shape1.path.getClosestPointOnCurve(intersections[i]);
+			p = shape1.path.insertPathPoint(p.split, p.point, id);
+			p.done = false;
+
+			p = shape2.path.getClosestPointOnCurve(intersections[i]);
+			p = shape2.path.insertPathPoint(p.split, p.point, id);
+			p.done = false;
+		}
+		debug('\t added overlap points');
+		debug('\t shape1 ' + shape1.name + ' ' + shape1.path.pathpoints.length);
+		debug(shape1);
+		debug('\t shape1 ' + shape2.name + ' ' + shape2.path.pathpoints.length);
+		debug(shape2);
+
+
+		// Travel the path points in one path adding them to the
+		// resulting combined path.  If a point is shared, switch
+		// which path is being traveled.  If the number of intersections
+		// is even, this will always end up on the first path.
+		var walk = shape1;
+		var other = shape2;
+
+		function outlineOneShape() {
+			var result = new Path({});
+			var cp = getFirstIntersectionPoint(walk.path);
+			var firstcp = cp;
+			var step = 0;
+			var tp, checknext;
+			var max = shape1.path.pathpoints.length + shape2.path.pathpoints.length;
+
+			debug('\t FIRST STEP POINT ' + firstcp);
+			debug('\t walk done starts: [' + walk.path.pathpoints.map(function(v){ return v.done; }) + ']');
+			debug('\t othe done starts: [' + other.path.pathpoints.map(function(v){ return v.done; }) + ']');
+			
+			while(true){
+				debug('\n --- WALKING ' + walk.name + ' POINT ' + cp);
+
+				if(step > max){
+					debug('\t HIT SHAPE THRASHING ERROR - both paths only have ' + max + ' possible points');
+					break;
+				}
+				tp = walk.path.pathpoints[cp];
+				if(tp.done) {
+					debug('\t tp.done = true, breaking');
+					break;
+				}
+
+				var copoint = getPointNumFromOverlapID(other.path, tp);
+				debug('\t copoint returned ' + copoint);
+
+				if(copoint !== false){
+					// Make the new point from half of each overlapping point
+					var newpoint = new PathPoint({
+						P: clone(tp.P),
+						H1: clone(tp.H1),
+						H2: clone(other.path.pathpoints[copoint].H2),
+						type: 'corner',
+						useh1: true,
+						useh2: true
+					});
+
+					// Flip the walk / other paths
+					// Also check for the pinched first point case
+					checknext = other.path.getNextPointNum(copoint);
+					var nextx = sx_cx(other.path.pathpoints[checknext].P.x);
+					var nexty = sy_cy(other.path.pathpoints[checknext].P.y);
+					if(!walk.isHere(nextx, nexty)){
+						debug('\t flipping other and walk');
+						other.path.pathpoints[copoint].done = true;
+						
+						var temp = walk;
+						walk = other;
+						other = temp;
+						cp = copoint;
+					} else {
+						debug('\t NOT FLIPPING - next other point is over walk');
+						other.path.pathpoints[copoint].done = true;
+						newpoint.H1 = clone(other.path.pathpoints[copoint].H1);
+						newpoint.H2 = clone(tp.H2);
+					}
+
+					result.addPathPoint(newpoint);
+					debug('\t added copoint at ' + newpoint.P.x + ',' + newpoint.P.y);
+
+
+				} else {
+					result.addPathPoint(new PathPoint(clone(tp)));
+					debug('\t added point at ' + tp.P.x + ',' + tp.P.y);
+				}
+
+				tp.done = true;
+				debug('\t walk done is now: [' + walk.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+				debug('\t othe done is now: [' + other.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+				debug('\t result.length is now: ' + result.pathpoints.length);
+
+				// Finish up loop
+				cp = walk.path.getNextPointNum(cp);
+				step++;
+			}
+
+			newshapes.push(new Shape({name:s1.name, path:result}));
+		}
+
+
+		// function removePointFromIntersections(pp) {
+		// 	debug('\n removePointFromIntersections - START');
+		// 	debug('\t removing ' + pp.x + ' ' + pp.y);
+		// 	debug('\t length before ' + intersections.length);
+		// 	// intersections = intersections.filter(function(v){return !pointsOverlap(v, pp);});
+
+		// 	for(var i=0; i<intersections.length; i++){
+		// 		if(pointsOverlap(intersections[i], pp)){
+		// 			intersections.splice(i, 1);
+		// 			break;
+		// 		}
+		// 	}
+		// 	debug('\t length afters ' + intersections.length);
+		// 	debug(' removePointFromIntersections - END\n');
+		// }
+
+		function getPointNumFromOverlapID(path, point) {
+			// debug('\n getPointNumFromOverlapID - START');
+			if(point.hasOwnProperty('customid')){
+				for(var i=0; i<path.pathpoints.length; i++){
+					if(path.pathpoints[i].hasOwnProperty('customid') && path.pathpoints[i].customid === point.customid){
+						// debug('\t found ' + i);
+						return i;
+					}
+				}
+				// debug(' getPointNumFromOverlapID - NO MATCHING OVERLAPID FOUND!! - ' + point.customid + ' - END\n');
+				return false;
+			}
+			// debug(' getPointNumFromOverlapID - point is not an overlap point - END\n');
+			return false;
+		}
+		
+		function getFirstIntersectionPoint(path) {
+			for(var i=0; i<path.pathpoints.length; i++){
+				// if(pointsOverlap(path.pathpoints[i].P, intersections[0])){
+				if(path.pathpoints[i].hasOwnProperty('customid') && !path.pathpoints[i].done){
+					debug('\n getFirstIntersectionPoint - returning point ' + i + ' at ' + json(path.pathpoints[i].P));
+					return i;
+				}
+			}
+
+			debug('\n getFirstIntersectionPoint - defaulting to 0');
+			return false;
+		}
+
+
+		// MAIN SHAPE FINDING LOOP
+
+		if(intersections.length % 2 !== 0) {
+			debug('\t number of intersections is ' + intersections.length + ', breaking');
+		} 
+
+		var maxshapes = Math.floor(intersections.length / 2);
+		var currshape = 0;
+		debug(json(intersections));
+
+		while(true){
+			debug('\t --- SHAPE OUTLINE ITERATION --- loop = ' + currshape + ' of ' + maxshapes);
+			if(currshape > maxshapes){
+				debug('\t TOO MANY SHAPES ERROR - should max at ' + maxshapes);
+				break;
+			}
+
+			if(getFirstIntersectionPoint(shape1.path) === false && getFirstIntersectionPoint(shape2.path) === false){
+				debug('\t ENDING OUTLINE - no more untouched intersection points');
+				break;
+			}
+
+			outlineOneShape();
+			currshape++;
+		}
+
+		debug(' combineShapes - returning ' + newshapes.length + ' shapes - END\n');
+
+		return newshapes;
+	}
 
 
 //	----------------------------------------------

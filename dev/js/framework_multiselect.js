@@ -259,79 +259,26 @@
 			debug('\t members.length is not 2, returning');
 			return;
 		}
+
 		var orig1 = this.members[0];
 		var orig2 = this.members[1];
-		var shape1 = clone(orig1);
-		var shape2 = clone(orig2);
+		var newshapes = combineShapes(orig1, orig2);
 
-		// Find intersections
-		var intersections = findPathIntersections(shape1.path, shape2.path);
 
-		if(intersections.length < 2) {
-			debug('\t zero or one intersections, returning');
-			return;
+		// If everything worked, delete original shapes and add new ones
+		if(newshapes.length){
+			_UI.ms.points.clear();
+			_UI.ms.shapes.clear();
+			_UI.ms.shapes.select(orig1);
+			_UI.ms.shapes.toggle(orig2);
+			this.deleteShapes();
+
+			// addShape(shape1);
+			// addShape(shape2);
+			newshapes.forEach(function(v){addShape(v);});
 		}
 
-		if(intersections.length % 2 !== 0) {
-			debug('\t number of intersections is ' + intersections.length + ' which is odd, returning');
-			return;
-		}
-
-
-		// Add points to each shape at intersection
-		var p, co = {x:0, y:0};
-		for(var i=0; i<intersections.length; i++){
-			co.x = intersections[i].split('/')[0] * 1;
-			co.y = intersections[i].split('/')[1] * 1;
-
-			p = shape1.path.getClosestPointOnCurve(co);
-			shape1.path.insertPathPoint(p.split, p.point);
-
-			p = shape2.path.getClosestPointOnCurve(co);
-			shape2.path.insertPathPoint(p.split, p.point);
-		}
-		debug('\t added overlap points');
-
-
-		// Travel the path points in one path adding them to the
-		// resulting combined path.  If a point is shared, switch
-		// which path is being traveled.  If the number of intersections
-		// is even, this will always end up on the first path.
-		var walk = shape1.path;
-		var other = shape2.path;
-		var result = new Path({});
-		var tp;
-
-		for(var cp=0; cp<walk.pathpoints.length; cp++){
-			debug('\t WALK STEP ' + cp);
-			tp = walk.pathpoints[cp];
-			result.addPathPoint(clone(tp));
-
-			var copoint = tp.sharesPointPositionWith(other);
-
-			debug('\t copoint returned ' + copoint);
-
-			if(copoint !== false){
-				var temp = walk;
-				walk = other;
-				other = temp;
-				cp = copoint;
-			}
-		}
-
-
-		// Everything worked, delete original shapes and add new ones
-		_UI.ms.points.clear();
-		_UI.ms.shapes.clear();
-		_UI.ms.shapes.select(orig1);
-		_UI.ms.shapes.toggle(orig2);
-		this.deleteShapes();
-
-		// addShape(shape1);
-		// addShape(shape2);
-		addShape(new Shape({name:'merged shape', path:result}));
-
-
+		debug(' ms.shapes.combine - END\n');
 	};
 
 	_UI.ms.shapes.deleteShapes = function(){

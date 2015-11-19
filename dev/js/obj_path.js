@@ -34,6 +34,7 @@
 		
 		// internal
 		this.maxes = oa.maxes || clone(_UI.mins);
+		this.segmentlengths = oa.segmentlengths || [];
 
 		// Setup the object
 		if(this.pathpoints && this.calcMaxes) this.calcMaxes();
@@ -188,6 +189,14 @@
 		pnum = parseInt(pnum) || 0;
 		pnum += 1;
 		pnum = pnum % this.pathpoints.length;
+
+		return pnum;
+	};
+
+	Path.prototype.getPreviousPointNum = function(pnum) {
+		pnum = parseInt(pnum) || 0;
+		pnum -= 1;
+		if(pnum < 0) pnum = pnum + this.pathpoints.length;
 
 		return pnum;
 	};
@@ -554,7 +563,7 @@
 		return re;
 	};
 
-	Path.prototype.insertPathPoint = function(t, pointnum) {
+	Path.prototype.insertPathPoint = function(t, pointnum, id) {
 		var pp1i = pointnum || 0;
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
@@ -594,6 +603,7 @@
 
 		// Insert
 		ppn.parentpath = this;
+		if(isval(id)) ppn.customid = id;
 		this.pathpoints.splice(pp2i, 0, ppn);
 		// this.selectPathPoint(pp2i);
 
@@ -602,12 +612,16 @@
 	};
 
 	Path.prototype.getClosestPointOnCurve = function(coord) {
-		var grains = 1000;
+		var grains = 10000;
 		var result = false;
 		var mindistance = 999999999;
-		var check, d;
+		var check, d, seglen;
+
+		// debug('\t segmentlengths ');
+		// debug(this.segmentlengths);
 
 		for(var pp=0; pp<this.pathpoints.length; pp++){
+			grains = this.segmentlengths[pp] * 100;
 			for(var t=0; t<1; t+=(1/grains)){
 				check = this.getCoordFromSplit(t, pp);
 				d = Math.sqrt( ((check.x-coord.x)*(check.x-coord.x)) + ((check.y-coord.y)*(check.y-coord.y)) );
@@ -691,6 +705,7 @@
 			seg = this.getSegment(s);
 			tbounds = seg.getMaxes();
 			this.maxes = getOverallMaxes([this.maxes, tbounds]);
+			this.segmentlengths[s] = seg.getLength();
 		}
 	};
 	

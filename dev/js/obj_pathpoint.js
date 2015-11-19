@@ -391,28 +391,36 @@
 	};
 
 	PathPoint.prototype.sharesPointPositionWith = function(path) {
-		debug('\n PathPoint.sharesPointPositionWith - START');
+		// debug('\n PathPoint.sharesPointPositionWith - START');
 
-		var precision = 0.1;
-		var tx = round(this.P.x * precision);
-		var ty = round(this.P.y * precision);
-		var px, py;
-
-		debug('\t this ' + tx + ' ' + ty);
 		for(var p=0; p<path.pathpoints.length; p++){
-			px = round(path.pathpoints[p].P.x * precision);
-			py = round(path.pathpoints[p].P.y * precision);
-			debug('\t with ' + px + ' ' + py);
-
-			if( (tx === px) && (ty === py)){
-				debug(' PathPoint.sharesPointPositionWith - END - returning ' + p + '\n');
+			if(pointsOverlap(path.pathpoints[p].P, this.P)){
+				// debug(' PathPoint.sharesPointPositionWith - END - returning ' + p + '\n');
 				return p;
 			}				
 		}
 
-		debug(' PathPoint.sharesPointPositionWith - END - returning false \n');
+		// debug(' PathPoint.sharesPointPositionWith - END - returning false \n');
 		return false;
 	};
+
+	function pointsOverlap(pp1, pp2) {
+		// debug('\n pointsOverlap - START');
+
+		var precision = 1;
+		var pp1x = round(pp1.x * precision);
+		var pp1y = round(pp1.y * precision);
+		var pp2x = round(pp2.x * precision);
+		var pp2y = round(pp2.y * precision);
+
+		// debug('\t ' + pp1.x + ',' + pp1.y + ' - ' + pp2.x + ',' + pp2.y);
+		// debug('\t ' + pp1x + ',' + pp1y + ' - ' + pp2x + ',' + pp2y);
+
+		var re =  ((pp1x === pp2x) && (pp1y === pp2y));
+		// debug('\t returning ' + re);
+
+		return re;
+	}
 
 
 //-------------------------------------------------------

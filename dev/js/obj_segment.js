@@ -35,7 +35,7 @@
 
 
 //	-----------------------------------
-//	Generic
+//	Methods
 //	-----------------------------------
 
 	Segment.prototype.drawSegment = function() {
@@ -55,10 +55,6 @@
 		// draw_CircleHandle({'x':sx_cx(this.p3x), 'y':sy_cy(this.p3y)});
 		// draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
 	};
-
-//	-----------------------------------
-//	Splitting
-//	-----------------------------------
 
 	Segment.prototype.split = function(t) {
 		var fs = t || 0.5;
@@ -108,6 +104,21 @@
 		];
 	};
 
+	Segment.prototype.getLength = function() {
+		// this function is only used as an approximation
+		// threshold in em units
+
+		var threshold = 10;
+		var a = Math.abs(this.p1x - this.p4x);
+		var b = Math.abs(this.p1y - this.p4y);
+		var d = Math.sqrt((a*a) + (b*b));
+
+		if(d < threshold) return d;
+		else {
+			var s = this.split();
+			return s[0].getLength() + s[1].getLength();
+		}
+	};
 
 
 //	-----------------------------------
@@ -248,8 +259,8 @@
 		// Check to stop recursion
 		var s1m = s1.getFastMaxes();
 		var s2m = s2.getFastMaxes();
-		var threshold = 0.0001;
-		var precision = 3;
+		var threshold = 0.00001;
+		var precision = 4;
 
 		var s1w = (s1m.xmax - s1m.xmin);
 		var s1h = (s1m.ymax - s1m.ymin);
