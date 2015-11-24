@@ -478,6 +478,32 @@
 		return false;
 	};
 
+	Glyph.prototype.getFlattenedGlyph = function() {
+		var reshapes = [];
+		var ts, tg;
+
+		for(var s=0; s<this.shapes.length; s++){
+			ts = this.shapes[s];
+
+			if(ts.objtype === 'shape'){
+				reshapes.push(clone(ts));
+
+			} else if (ts.objtype === 'componentinstance'){
+				tg = ts.getTransformedGlyph();
+				tg = tg.getFlattenedGlyph();
+				reshapes = reshapes.concat(tg.shapes);
+			} else {
+				debug('\n Glyph.getFlattenedGlyph - ERROR - none shape or ci in shapes array');
+			}
+		}
+
+		return new Glyph({'name':('flattened ' + this.name), 'shapes':reshapes});
+	};
+
+	Glyph.prototype.getCombinedGlyph = function() {
+		
+	};
+
 //-------------------------------------------------------
 // HELPERS
 //-------------------------------------------------------

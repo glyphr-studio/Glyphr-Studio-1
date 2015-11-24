@@ -27,11 +27,11 @@
 				this.pathpoints[i].parentpath = this;
 			}
 		}
-		
+
 		if(isval(oa.winding)) this.winding = oa.winding;
 		else if (this.findWinding) this.findWinding();
 		else this.winding = 0;
-		
+
 		// internal
 		this.maxes = oa.maxes || clone(_UI.mins);
 		this.segmentlengths = oa.segmentlengths || [];
@@ -180,9 +180,23 @@
 		// debug(' Path.rotate - END\n');
 	};
 
+	Path.prototype.isHere = function(px, py) {
+		var gctx = _UI.ishereghostctx;
+
+		gctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
+		gctx.fillStyle = 'rgba(0,0,255,0.2)';
+		gctx.beginPath();
+		this.drawPath(gctx);
+		gctx.closePath();
+		gctx.fill();
+
+		var imageData = gctx.getImageData(px, py, 1, 1);
+		//debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));
+		return (imageData.data[3] > 0);
+	};
 
 //  -----------------------------------
-//  OTHER METHODS
+//  METHODS
 //  -----------------------------------
 
 	Path.prototype.getNextPointNum = function(pnum) {
@@ -200,6 +214,115 @@
 
 		return pnum;
 	};
+
+//	-----------------------------------
+// 	Boolean Combine
+//	-----------------------------------
+
+	function maxesOverlap(m1, m2) {
+		return (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
+		// return (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
+	}
+
+	function findPathIntersections(p1, p2) {
+		debug('\n findPathIntersections - START');
+		var segoverlaps = [];
+		var intersects = [];
+		var re = [];
+		var bs, ts;
+
+		// Find overlaps at boundaries
+		intersects = intersects.concat(findPathPointIntersections(p1, p2));
+		intersects = intersects.concat(findPathPointBoundaryIntersections(p1, p2));
+		
+		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) {
+			debug(' findPathIntersections - paths dont\'t overlap - END\n');
+			return intersects;
+		}
+
+		function pushSegOverlaps(p1, p1p, p2, p2p) {
+			// debug('\t pushSegOverlaps - p1p ' + p1p + ' - p2p ' + p2p);
+			bs = p1.getSegment(p1p);
+			ts = p2.getSegment(p2p);
+
+
+			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())){
+				// debug('\t\t pushed!');
+				// bs.drawSegment();
+				// ts.drawSegment();
+				segoverlaps.push({'bottom':bs, 'top':ts});
+			}
+		}
+
+		// Find overlaps within a single segment -- don't care about this case
+		// Find overlaps within a single path -- don't care about this case
+
+		// Find overlaps between two paths
+		for(var bpp=0; bpp < p1.pathpoints.length; bpp++){
+			for(var tpp=0; tpp < p2.pathpoints.length; tpp++){
+				pushSegOverlaps(p1, bpp, p2, tpp);
+			}
+		}
+
+		// Use overlaps to find intersections
+		for(var v=0; v<segoverlaps.length; v++){
+			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
+			if(re.length > 0) intersects = intersects.concat(re);
+		}
+
+		debug('\t returning ' + intersects);
+		debug(' findPathIntersections - END\n');
+		return intersects;
+	}
+
+	function findPathPointBoundaryIntersections(p1, p2) {
+		re = [];
+
+		function check(chk, against) {
+			var m = against.getMaxes();
+			var tpp;
+			for(var pp=0; pp<chk.pathpoints.length; pp++){
+				tpp = chk.pathpoints[pp];
+				if(	(tpp.P.x === m.xmin) || (tpp.P.x === m.xmax) ||
+					(tpp.P.y === m.ymin) || (tpp.P.y === m.ymax) ){
+					if(against.isHere(sx_cx(tpp.P.x), sy_cy(tpp.P.y))){
+						re.push(''+tpp.P.x+'/'+tpp.P.y);
+					}
+				}
+			}
+		}
+
+		check(p1, p2);
+		check(p2, p1);
+
+		return re;
+	}
+
+	function findPathPointIntersections(p1, p2) {
+		debug('\n findPathPointIntersections - START');
+		var precision = 4;
+		var re = [];
+		var pp1x, pp1y, pp2x, pp2y;
+
+		for(var pp1=0; pp1<p1.pathpoints.length; pp1++){
+			for(var pp2=0; pp2<p2.pathpoints.length; pp2++){
+				pp1x = round(p1.pathpoints[pp1].getPx(), precision);
+				pp1y = round(p1.pathpoints[pp1].getPy(), precision);
+				pp2x = round(p2.pathpoints[pp2].getPx(), precision);
+				pp2y = round(p2.pathpoints[pp2].getPy(), precision);
+
+				if(pp1x === pp2x && pp1y === pp2y) re.push(''+pp1x+'/'+pp1y);
+			}
+		}
+
+		re = re.filter(function(v,i) {
+			return re.indexOf(v) === i;
+		});
+
+		debug('\t returning ' + re);
+		debug(' findPathPointIntersections - END\n');
+		return re;
+	}
 
 
 //  -----------------------------------
@@ -377,9 +500,9 @@
 		var pp2 = this.pathpoints[(num+1)%this.pathpoints.length];
 
 		var re = new Segment({
-			'p1x':pp1.P.x, 'p1y':pp1.P.y, 
-			'p2x':pp1.getH2x(), 'p2y':pp1.getH2y(), 
-			'p3x':pp2.getH1x(), 'p3y':pp2.getH1y(), 
+			'p1x':pp1.P.x, 'p1y':pp1.P.y,
+			'p2x':pp1.getH2x(), 'p2y':pp1.getH2y(),
+			'p3x':pp2.getH1x(), 'p3y':pp2.getH1y(),
 			'p4x':pp2.P.x, 'p4y':pp2.P.y
 		});
 
@@ -570,7 +693,6 @@
 		var pp2 = this.pathpoints[pp2i];
 		var nP, nH1, nH2, ppn;
 
-
 		if(this.pathpoints.length > 1){
 			var splits = this.getSegment(pp1i).split(t);
 			var s1 = splits[0];
@@ -708,7 +830,7 @@
 			this.segmentlengths[s] = seg.getLength();
 		}
 	};
-	
+
 
 
 //  -----------------------------------

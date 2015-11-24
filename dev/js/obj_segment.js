@@ -203,55 +203,11 @@
 //	Curve Intersections
 //	-----------------------------------
 
-	function maxesOverlap(m1, m2) {
-		return (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
-	}
-
-	function findPathIntersections(p1, p2) {
-		// debug('\n findPathIntersections - START');
-
-		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) return [];
-
-		var segoverlaps = [];
-		var intersects = [];
-		var re = [];
-		var bs, ts;
-
-		function pushSegOverlaps(p1, p1p, p2, p2p) {
-			// debug('\t pushSegOverlaps - p1p ' + p1p + ' - p2p ' + p2p);
-			bs = p1.getSegment(p1p);
-			ts = p2.getSegment(p2p);
-
-
-			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())){
-				// debug('\t\t pushed!');
-				// bs.drawSegment();
-				// ts.drawSegment();
-				segoverlaps.push({'bottom':bs, 'top':ts});
-			}
-		}
-
-		// Find overlaps within a single segment -- don't care about this case
-		// Find overlaps within a single path -- don't care about this case
-
-		// Find overlaps between two paths
-		for(var bpp=0; bpp < p1.pathpoints.length; bpp++){
-			for(var tpp=0; tpp < p2.pathpoints.length; tpp++){
-				pushSegOverlaps(p1, bpp, p2, tpp);
-			}
-		}
-
-		// Use overlaps to find intersections
-		for(var v=0; v<segoverlaps.length; v++){
-			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
-			if(re.length > 0) intersects = intersects.concat(re);
-		}
-
-		return intersects;
-	}
-
 	function findSegmentIntersections(s1, s2, depth) {
+		// debug('\n findSegmentIntersections - START');
+		// debug('\t depth ' + depth);
 
+		depth = depth || 0;
 		// if(depth > 4) return [];
 		// s1.drawSegment();
 		// s2.drawSegment();
@@ -299,18 +255,20 @@
 			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes());
 		});
 
-
-		if(pairs.length === 0) return re;
-
 		pairs.forEach(function(p) {
 			re = re.concat( findSegmentIntersections(p[0], p[1], depth+1) );
 		});
+
+		if(pairs.length === 0) return re;
 
 		re = re.filter(function(v,i) {
 			return re.indexOf(v) === i;
 		});
 
+		// debug('\t return length ' + re.length);
+		// debug(' findSegmentIntersections - END\n');
 		return re;
 	}
+
 
 // end of file

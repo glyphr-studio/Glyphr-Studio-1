@@ -38,8 +38,6 @@
 	Shape.prototype.getName = function() { return this.name; };
 
 
-
-
 //	-------------------------------------------------------
 //	DRAWING THE SHAPE
 //	-------------------------------------------------------
@@ -165,6 +163,7 @@
 
 	Shape.prototype.getSegment = function(num) { return this.path.getSegment(num); };
 
+
 //	-------------------------------------------------------
 //	NEW SHAPE FUNCTIONS
 //	-------------------------------------------------------
@@ -260,7 +259,6 @@
 
 		return new Path({'pathpoints':patharr});
 	}
-
 
 
 //	-----------------
@@ -366,10 +364,10 @@
 		return false;
 	}
 
-	function findShapeIntersections(s1, s2) {
-		if(s1.objtype === 'componentinstance' || s2.objtype === 'componentinstance') return false;
-		else return findPathIntersections(s1.path, s2.path);
-	}
+
+//	-----------------
+//	Boolean Combine
+//	-----------------
 
 	function combineShapes(s1, s2) {
 		debug('\n combineShapes - START');
@@ -406,8 +404,9 @@
 		var intersections = findPathIntersections(shape1.path, shape2.path);
 
 		if(intersections.length < 2) {
+			debug(intersections);
 			debug('\t zero or one intersections, returning');
-			return;
+			return [];
 		}
 
 
@@ -439,35 +438,45 @@
 		// resulting combined path.  If a point is shared, switch
 		// which path is being traveled.  If the number of intersections
 		// is even, this will always end up on the first path.
-		var walk = shape1;
-		var other = shape2;
+		var walk, other;
 
 		function outlineOneShape() {
+			walk = shape1;
+			other = shape2;
 			var result = new Path({});
 			var cp = getFirstIntersectionPoint(walk.path);
-			var firstcp = cp;
+			var firstpointid = walk.path.pathpoints[cp].customid;
 			var step = 0;
-			var tp, checknext;
+			var copoint, tp;
+			var othernextpt, othernextptnum;
 			var max = shape1.path.pathpoints.length + shape2.path.pathpoints.length;
+			function flipWalk() {
+				var temp = walk;
+				walk = other;
+				other = temp;
+				cp = copoint;						
+			}
 
-			debug('\t FIRST STEP POINT ' + firstcp);
-			debug('\t walk done starts: [' + walk.path.pathpoints.map(function(v){ return v.done; }) + ']');
-			debug('\t othe done starts: [' + other.path.pathpoints.map(function(v){ return v.done; }) + ']');
+			debug('\t FIRST STEP POINT ' + cp);
+			debug('\t walk done starts: [' + walk.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+			debug('\t othe done starts: [' + other.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
 			
 			while(true){
-				debug('\n --- WALKING ' + walk.name + ' POINT ' + cp);
+				debug('\n --- WALKING ' + (walk===shape1? 'shape1' : 'shape2') + ' ' + walk.name + ' POINT ' + cp);
 
 				if(step > max){
 					debug('\t HIT SHAPE THRASHING ERROR - both paths only have ' + max + ' possible points');
 					break;
 				}
+
 				tp = walk.path.pathpoints[cp];
+
 				if(tp.done) {
 					debug('\t tp.done = true, breaking');
 					break;
 				}
 
-				var copoint = getPointNumFromOverlapID(other.path, tp);
+				copoint = getPointNumFromOverlapID(other.path, tp);
 				debug('\t copoint returned ' + copoint);
 
 				if(copoint !== false){
@@ -482,28 +491,49 @@
 					});
 
 					// Flip the walk / other paths
-					// Also check for the pinched first point case
-					checknext = other.path.getNextPointNum(copoint);
-					var nextx = sx_cx(other.path.pathpoints[checknext].P.x);
-					var nexty = sy_cy(other.path.pathpoints[checknext].P.y);
-					if(!walk.isHere(nextx, nexty)){
-						debug('\t flipping other and walk');
-						other.path.pathpoints[copoint].done = true;
-						
-						var temp = walk;
-						walk = other;
-						other = temp;
-						cp = copoint;
-					} else {
-						debug('\t NOT FLIPPING - next other point is over walk');
-						other.path.pathpoints[copoint].done = true;
+					// Special cases: next point is overlapped by the other shape
+					other.path.pathpoints[copoint].done = true;
+					othernextptnum = other.path.getNextPointNum(copoint);
+					othernextpt = other.path.pathpoints[othernextptnum];
+					var nextx = sx_cx(othernextpt.P.x);
+					var nexty = sy_cy(othernextpt.P.y);
+
+					if(othernextpt.done){
+						if(othernextpt.customid === firstpointid){
+							debug('\t ENDING - next point is the first point');
+						} else {
+							debug('\t NOT FLIPPING - if flipped, the next walk point is done');
+							newpoint.H1 = clone(other.path.pathpoints[copoint].H1);
+							newpoint.H2 = clone(tp.H2);
+						}
+
+					} else if(othernextpt.hasOwnProperty('customid')){
+						var midpt = other.path.getSegment(copoint).split()[1];
+						var midx = midpt.p1x;
+						var midy = midpt.p1y;
+
+						if(!walk.isHere(sx_cx(midx), sy_cy(midy))){
+							debug('\t FLIPPING - next point is an overlap point');
+							flipWalk();
+
+						} else {
+							debug('\t NOT FLIPPING - next point would be an overlap point, but it crosses over an arm');
+							newpoint.H1 = clone(other.path.pathpoints[copoint].H1);
+							newpoint.H2 = clone(tp.H2);
+						}
+
+					} else if(walk.isHere(nextx, nexty)){
+						debug('\t NOT FLIPPING - if flipped, next walk point is over the other shape');
 						newpoint.H1 = clone(other.path.pathpoints[copoint].H1);
 						newpoint.H2 = clone(tp.H2);
+
+					} else {
+						debug('\t FLIPPING - regular case');
+						flipWalk();
 					}
 
 					result.addPathPoint(newpoint);
 					debug('\t added copoint at ' + newpoint.P.x + ',' + newpoint.P.y);
-
 
 				} else {
 					result.addPathPoint(new PathPoint(clone(tp)));
@@ -511,8 +541,8 @@
 				}
 
 				tp.done = true;
-				debug('\t walk done is now: [' + walk.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
-				debug('\t othe done is now: [' + other.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+				debug('\t shape1 done is now: [' + shape1.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+				debug('\t shape2 done is now: [' + shape2.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
 				debug('\t result.length is now: ' + result.pathpoints.length);
 
 				// Finish up loop
@@ -520,25 +550,9 @@
 				step++;
 			}
 
-			newshapes.push(new Shape({name:s1.name, path:result}));
+			newshapes.push(new Shape({name:s1.name + ' ' + (currshape+1), path:result}));
 		}
 
-
-		// function removePointFromIntersections(pp) {
-		// 	debug('\n removePointFromIntersections - START');
-		// 	debug('\t removing ' + pp.x + ' ' + pp.y);
-		// 	debug('\t length before ' + intersections.length);
-		// 	// intersections = intersections.filter(function(v){return !pointsOverlap(v, pp);});
-
-		// 	for(var i=0; i<intersections.length; i++){
-		// 		if(pointsOverlap(intersections[i], pp)){
-		// 			intersections.splice(i, 1);
-		// 			break;
-		// 		}
-		// 	}
-		// 	debug('\t length afters ' + intersections.length);
-		// 	debug(' removePointFromIntersections - END\n');
-		// }
 
 		function getPointNumFromOverlapID(path, point) {
 			// debug('\n getPointNumFromOverlapID - START');
@@ -557,31 +571,27 @@
 		}
 		
 		function getFirstIntersectionPoint(path) {
+			var tp;
 			for(var i=0; i<path.pathpoints.length; i++){
-				// if(pointsOverlap(path.pathpoints[i].P, intersections[0])){
-				if(path.pathpoints[i].hasOwnProperty('customid') && !path.pathpoints[i].done){
-					debug('\n getFirstIntersectionPoint - returning point ' + i + ' at ' + json(path.pathpoints[i].P));
+				tp = path.pathpoints[i];
+				if(tp.hasOwnProperty('customid') && !tp.done){
+					debug('\n getFirstIntersectionPoint - returning point ' + i + ' at ' + tp.P.x + ' , ' + tp.P.y);
 					return i;
 				}
 			}
 
-			debug('\n getFirstIntersectionPoint - defaulting to 0');
+			debug('\n getFirstIntersectionPoint - returning false');
 			return false;
 		}
 
 
 		// MAIN SHAPE FINDING LOOP
-
-		if(intersections.length % 2 !== 0) {
-			debug('\t number of intersections is ' + intersections.length + ', breaking');
-		} 
-
 		var maxshapes = Math.floor(intersections.length / 2);
 		var currshape = 0;
 		debug(json(intersections));
 
 		while(true){
-			debug('\t --- SHAPE OUTLINE ITERATION --- loop = ' + currshape + ' of ' + maxshapes);
+			debug('\n\n----------\nSHAPE OUTLINE ITERATION --- loop = ' + currshape + ' of ' + maxshapes);
 			if(currshape > maxshapes){
 				debug('\t TOO MANY SHAPES ERROR - should max at ' + maxshapes);
 				break;
@@ -605,20 +615,7 @@
 //	----------------------------------------------
 //	CANVAS HELPER FUNCTIONS
 //	----------------------------------------------
-	Shape.prototype.isHere = function(px, py){
-		var gctx = _UI.ishereghostctx;
-
-		gctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
-		gctx.fillStyle = 'rgba(0,0,255,0.2)';
-		gctx.beginPath();
-		this.drawShape(gctx);
-		gctx.closePath();
-		gctx.fill();
-
-		var imageData = gctx.getImageData(px, py, 1, 1);
-		//debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));
-		return (imageData.data[3] > 0);
-	};
+	Shape.prototype.isHere = function(px, py){ return this.path.isHere(px, py); };
 
 	Shape.prototype.isOverBoundingBoxHandle = function(px, py){
 		// debug('\n Shape.isOverBoundingBoxHandle - START');
