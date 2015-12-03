@@ -13,8 +13,10 @@
 		// Add metadata
 		var md = _GP.metadata;
 		var ps = _GP.projectsettings;
-		
+
 		options.unitsPerEm = ps.upm;
+		options.ascender = ps.ascent;
+		options.descender = ps.descent;
 		options.familyName = (md.font_family) || ' ';
 		options.styleName = (md.font_style) || ' ';
 		options.designer = (md.designer) || ' ';
@@ -28,17 +30,6 @@
 		options.copyright = (md.copyright) || ' ';
 		options.trademark = (md.trademark) || ' ';
 		options.glyphs = [];
-
-		/*
-			Hack to fix a bug where the exported font does 
-			not reflect the current changes unless its
-			name is different than the last exported font.
-			So, add whitespace char on every export.
-		*/
-			
-		options.familyName += _UI.unique;
-		_UI.unique += ' ';
-
 
 		// debug('\t NEW options ARG BEFORE GLYPHS');
 		// debug(options);

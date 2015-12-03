@@ -32,7 +32,7 @@
 		var shapeactions = ss.length > 1? '<h3>shapes</h3>' : '<h3>shape</h3>';
 		shapeactions += '<button title="Copy\nAdds a copy of the currently selected shape or shapes to the clipboard" onclick="copyShape();">' + makeActionButton_Copy() + '</button>';
 		if(!_UI.popout) shapeactions += '<button title="Delete\nRemoves the currently selected shape or shapes from this glyph" onclick="_UI.ms.shapes.deleteShapes(); history_put(\'Delete Shape\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeleteShape() + '</button>';
-		shapeactions += '<button title="Reverse Overlap Mode\nToggles the clockwise or counterclockwise winding of the shape\'s path" onclick="_UI.ms.shapes.reverseWinding(); history_put(\'Reverse Path Direction\'); redraw({calledby:\'shapeDetails - Winding\')};">' + makeActionButton_ReverseWinding() + '</button>';
+		shapeactions += '<button title="Reverse Overlap Mode\nToggles the clockwise or counterclockwise winding of the shape\'s path" onclick="_UI.ms.shapes.reverseWinding(); history_put(\'Reverse Path Direction\'); redraw({calledby:\'shapeDetails - Winding\'});">' + makeActionButton_ReverseWinding() + '</button>';
 		if(ss.length === 1 && ss[0].objtype === 'componentinstance'){
 			shapeactions += '<button title="Turn Component Instance into a Shape\nTakes the selected Component Instance, and un-links it from its Root Component,\nthen adds copies of all the Root Component\'s shapes as regular Shapes to this glyph" onclick="turnComponentIntoShapes(); history_put(\'Unlinked Component\'); redraw({calledby:\'turnComponentIntoShapes\'});">' + makeActionButton_SwitchShapeComponent(true) + '</button>';
 		} else {
@@ -55,10 +55,17 @@
 		pointactions += '<button title="Delete Path Point\nRemoves the currently selected point or points from the path" class="'+(ss.length? '': 'buttondis')+'" onclick="_UI.ms.points.deletePathPoints(); history_put(\'Delete Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeletePathPoint() + '</button>';
 		pointactions += '<button title="Reset Handles\nMoves the handles of the currently selected point or points to default locations" onclick="_UI.ms.points.resetHandles(); history_put(\'Reset Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_ResetPathPoint() + '</button>';
 
-		var glyphactions = '<h3>glyph actions</h3>';
+		var glyphactions = '<h3>glyph</h3>';
 		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
 
+		var devactions = '';
+		if(_UI.devmode){
+			if(_UI.testactions.length) devactions += '<h3>test</h3>';
+			for(var a=0; a<_UI.testactions.length; a++){
+				devactions += '<button onclick="'+_UI.testactions[a].onclick+'">'+_UI.testactions[a].name+'</button>';
+			}
+		}
 
 		// Put it all together
 		if(pop) content += '</div><div class="panel_section"><div class="actionsarea" style="margin-top:0px;">';
@@ -80,6 +87,8 @@
 
 		if(ispointsel){ content += pointactions; }
 		if(!pop) content += '<br>';
+
+		content += devactions;
 
 		content += '</div>';
 		content += '</div>';

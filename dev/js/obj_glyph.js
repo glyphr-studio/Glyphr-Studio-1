@@ -273,7 +273,6 @@
 	};
 
 
-
 //-------------------------------------------------------
 // COMPONENT STUFF
 //-------------------------------------------------------
@@ -478,7 +477,7 @@
 		return false;
 	};
 
-	Glyph.prototype.getFlattenedGlyph = function() {
+	Glyph.prototype.flattenGlyph = function() {
 		var reshapes = [];
 		var ts, tg;
 
@@ -490,19 +489,107 @@
 
 			} else if (ts.objtype === 'componentinstance'){
 				tg = ts.getTransformedGlyph();
-				tg = tg.getFlattenedGlyph();
+				tg = tg.flattenGlyph();
 				reshapes = reshapes.concat(tg.shapes);
 			} else {
-				debug('\n Glyph.getFlattenedGlyph - ERROR - none shape or ci in shapes array');
+				debug('\n Glyph.flattenGlyph - ERROR - none shape or ci in shapes array');
 			}
 		}
 
-		return new Glyph({'name':('flattened ' + this.name), 'shapes':reshapes});
+		this.shapes = reshapes;
+		this.calcGlyphMaxes();
+
+		return this;
 	};
 
-	Glyph.prototype.getCombinedGlyph = function() {
-		
+	Glyph.prototype.combineAllShapes = function() {
+		debug('\n Glyph.combineAllShapes - START');
+		var clock = [];
+		var anti = [];
+
+		function separateWindings(arr, tclock, tanti) {
+			var ts;
+			for(var s=0; s<arr.length; s++){
+				ts = arr[s];
+				if(ts.path.winding > 0) tanti.push(clone(ts));
+				else if(ts.path.winding < 0) tclock.push(clone(ts));
+				else debug('\t Glyph.combineAllShapes - WARNING - found a shape with winding=0');
+			}
+		}
+
+		function singlePass(arr) {
+			debug('\t singlePass');
+			debug('\t\t start arr len ' + arr.length);
+			var tc, nc, re;
+			var newarr = [];
+			var didstuff = false;
+			for(var c=0; c<arr.length; c++){
+				debug('\t\t loop ' + c);
+				tc = arr[c];
+				nc = arr[c+1] || false;
+
+				if(nc) {
+					re = combineShapes(tc, nc);
+					debug('\t\t combineShapes returned arr len ' + (re.length || re));
+					if(re !== false){
+						newarr = newarr.concat(re);
+						didstuff = true;
+						c++;
+					} else {
+						newarr.push(tc);
+					}
+				} else {
+					debug('\t\t no next, end of loop');
+					newarr.push(tc);
+				}
+			}
+
+			return {'arr':newarr, 'didstuff':didstuff};
+		}
+
+		// Main collapsing loop
+		var looping = true;
+		var count = 0;
+		var lr;
+		var tempclock = [];
+		var tempanti = [];
+
+		separateWindings(this.shapes, clock, anti);
+
+		while(looping && count < 8){
+			debug('\t loop ' + count);
+			tempclock = [];
+			tempanti = [];
+			looping = false;
+
+			lr = singlePass(clock);
+			separateWindings(lr.arr, tempclock, tempanti);
+			looping = lr.didstuff;
+			debug('\t clockwise didstuff ' + lr.didstuff);
+
+			lr = singlePass(anti);
+			separateWindings(lr.arr, tempclock, tempanti);
+			looping = looping || lr.didstuff;
+			debug('\t counter didstuff ' + lr.didstuff);
+
+			clock = tempclock;
+			anti = tempanti;
+			debug('\t finished: looping=' + looping + ' clock=' + clock.length + ' anti=' + anti.length);
+			count++;
+		}
+
+		// Finish up
+		var newarr = clock.concat(anti);
+		this.shapes = [];
+		for(var ns=0; ns<newarr.length; ns++) this.shapes.push(new Shape(newarr[ns]));
+		debug('\t new shapes');
+		debug(this.shapes);
+		this.calcGlyphMaxes();
+
+		debug(' Glyph.combineAllShapes - END\n');
+		return this;
 	};
+
 
 //-------------------------------------------------------
 // HELPERS
@@ -555,9 +642,6 @@
 
 		return false;
 	};
-
-
-
 
 
 //-------------------------------------------------------

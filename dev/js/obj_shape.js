@@ -406,7 +406,7 @@
 		if(intersections.length < 2) {
 			debug(intersections);
 			debug('\t zero or one intersections, returning');
-			return [];
+			return false;
 		}
 
 
@@ -436,8 +436,7 @@
 
 		// Travel the path points in one path adding them to the
 		// resulting combined path.  If a point is shared, switch
-		// which path is being traveled.  If the number of intersections
-		// is even, this will always end up on the first path.
+		// which path is being traveled.
 		var walk, other;
 
 		function outlineOneShape() {

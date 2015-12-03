@@ -225,21 +225,22 @@
 	}
 
 	function findPathIntersections(p1, p2) {
-		debug('\n findPathIntersections - START');
-		var segoverlaps = [];
+		// debug('\n findPathIntersections - START');
 		var intersects = [];
-		var re = [];
-		var bs, ts;
 
 		// Find overlaps at boundaries
 		intersects = intersects.concat(findPathPointIntersections(p1, p2));
 		intersects = intersects.concat(findPathPointBoundaryIntersections(p1, p2));
 		
+		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
+		
 		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) {
-			debug(' findPathIntersections - paths dont\'t overlap - END\n');
+			// debug(' findPathIntersections - paths dont\'t overlap - END\n');
 			return intersects;
 		}
 
+		var bs, ts;
+		var segoverlaps = [];
 		function pushSegOverlaps(p1, p1p, p2, p2p) {
 			// debug('\t pushSegOverlaps - p1p ' + p1p + ' - p2p ' + p2p);
 			bs = p1.getSegment(p1p);
@@ -265,13 +266,16 @@
 		}
 
 		// Use overlaps to find intersections
+		var re = [];
 		for(var v=0; v<segoverlaps.length; v++){
 			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
 			if(re.length > 0) intersects = intersects.concat(re);
 		}
 
-		debug('\t returning ' + intersects);
-		debug(' findPathIntersections - END\n');
+		// debug('\t returning ' + intersects);
+		// debug(' findPathIntersections - END\n');
+		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
+		
 		return intersects;
 	}
 
@@ -295,11 +299,13 @@
 		check(p1, p2);
 		check(p2, p1);
 
+		re = re.filter(function(v,i) { return re.indexOf(v) === i; });
+
 		return re;
 	}
 
 	function findPathPointIntersections(p1, p2) {
-		debug('\n findPathPointIntersections - START');
+		// debug('\n findPathPointIntersections - START');
 		var precision = 4;
 		var re = [];
 		var pp1x, pp1y, pp2x, pp2y;
@@ -315,12 +321,10 @@
 			}
 		}
 
-		re = re.filter(function(v,i) {
-			return re.indexOf(v) === i;
-		});
+		re = re.filter(function(v,i) { return re.indexOf(v) === i; });
 
-		debug('\t returning ' + re);
-		debug(' findPathPointIntersections - END\n');
+		// debug('\t returning ' + re);
+		// debug(' findPathPointIntersections - END\n');
 		return re;
 	}
 
@@ -548,7 +552,7 @@
 		return false;
 	};
 
-	Path.prototype.findWinding = function(){
+	Path.prototype.findWinding = function(secondtry){
 		// debug('\n Path.findWinding - START');
 		var j,k,z;
 		var count = -1;
@@ -575,6 +579,12 @@
 
 		// debug(' Path.findWinding - END returning: ' + count + '\n');
 
+		if(count === 0 && !secondtry){
+			this.reverseWinding();
+			count = this.findWinding(true) * -1;
+			this.reverseWinding();
+		}
+
 		this.winding = count;
 		return count;
 	};
@@ -594,7 +604,8 @@
 				}
 			}
 			this.pathpoints.reverse();
-			this.winding = this.findWinding();
+			this.winding *= -1;
+			if(this.winding === 0) this.findWinding(true);
 		}
 		// debug(' Path.reverseWinding - END\n');
 	};
