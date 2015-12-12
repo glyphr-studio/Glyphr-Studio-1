@@ -39,7 +39,7 @@
 		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToGlyph(k.leftgroup.join('')) + '"></td>';
 		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToGlyph(k.rightgroup.join('')) + '"></td>';
 		re += '<td><input class="kernvalue" type="number" id="'+id+'" value="' + k.value + '" onchange="_UI.focuselement=this.id; updateKernValue(\''+id+'\', this.value);"></td>';
-		re += '<td><button class="guideremove" onclick="deleteKernPairConfirm(\''+id+'\');">&times</button></td>';
+		re += '<td><button class="guideremove" onclick="deleteKernPair(\''+id+'\');">&times</button></td>';
 
 		re += '</tr></table>';
 		return re;
@@ -122,16 +122,13 @@
 		return chars;
 	}
 
-	function deleteKernPairConfirm(id) {
+	function deleteKernPair(id) {
 		var k = _GP.kerning[id];
-		var con = '<h1>Delete Kern Pair</h1>';
-		con += 'Are you sure you want to remove the kern pair:<br><br>';
-		con += k.getName();
-		con += '<br><br>';
-		con += '<button class="buttonsel" onclick="delete _GP.kerning[\''+id+'\']; _UI.selectedkern = getFirstID(_GP.kerning); closeDialog(); redraw({calledby:\'deleteKernPairConfirm\'});">Delete Kern Pair</button>';
-		con += '<button onclick="closeDialog();">Cancel</button>';
-
-		openDialog(con);
+		showToast('Deleted ' + k.getName());
+		
+		delete _GP.kerning[id]; 
+		_UI.selectedkern = getFirstID(_GP.kerning); 
+		redraw({calledby:'deleteKernPair'});
 	}
 
 // end of file

@@ -88,7 +88,7 @@
 
 		if(!sys){
 		re += '<td>';
-		re += '<button class="guideremove" onclick="removeGuide(\''+id+'\');">&times</button>';
+		re += '<button class="guideremove" onclick="deleteGuide(\''+id+'\');">&times</button>';
 		re += '</td>';
 		}
 
@@ -106,15 +106,12 @@
 		redraw({calledby:'updateGuide'});
 	}
 
-	function removeGuide(id) {
+	function deleteGuide(id) {
 		var g = _GP.projectsettings.guides[id];
-		var con = '<h1>Delete Guide</h1>';
-		con += 'Are you sure you want to remove the guide: ';
-		con += g.name + '?<br><br>';
-		con += '<button class="buttonsel" onclick="delete _GP.projectsettings.guides[\''+id+'\']; closeDialog(); redraw({calledby:\'removeGuide\'});">Delete Guide</button>';
-		con += '<button onclick="closeDialog();">Cancel</button>';
+		showToast('Deleted ' + g.name);
 
-		openDialog(con);
+		delete _GP.projectsettings.guides[id];
+		redraw({calledby:'deleteGuide'});
 	}
 
 	function showGuideSatChooser(ctx, id) {

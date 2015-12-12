@@ -734,9 +734,10 @@
 		margin-right:10px;
 	}
 
-/* ------- */
-/* Dialog */
-/* ----- */
+/* ----------------------------------------------- */
+/* Messaging UI
+/* Dialog - Notation - Error Message Box - Toast */
+/* -------------------------------------------- */
 
 	#dialog_bg{
 		display:none;
@@ -918,6 +919,25 @@
 	#errormessagecontent h3 {
 		color:rgb(105,45,55);
 	}
+
+	#toast {
+		display: none;
+		width:300px;
+		position: absolute;
+		right:307px;
+		margin: -50px 0px 0px 0px;
+		background-color: rgb(0,63,95);
+		color: rgb(155,221,255);
+		padding:10px 12px;
+		z-index: 1000;
+		text-align: center;
+		border-radius: 2px;
+	}
+
+	#toast a {
+		color: rgb(155,221,255);		
+	}
+
 
 
 /*	============================= */

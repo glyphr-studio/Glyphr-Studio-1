@@ -624,16 +624,21 @@
 	};
 
 	Shape.prototype.changeShapeName = function(sn){
+		debug('\n Shape.changeShapeName - START');
+		debug('\t passed: ' + sn);
 		sn = strSan(sn);
-		//debug('CHANGESHAPENAME - sanitized name: ' + sn);
+		debug('\t sanitized: ' + sn);
+
 		if(sn !== ''){
 			this.name = sn;
 			history_put('shape name');
 		} else {
-			openDialog('<h1>Invalid shape name</h1><br>Shape names must only contain alphanumeric glyphs or spaces.<br>');
+			showToast('Invalid shape name - shape names must only contain alphanumeric characters or spaces.');
 		}
 
 		redraw({calledby:'Shape Name', redrawcanvas:false});
+
+		debug(' Shape.changeShapeName - END\n');
 	};
 
 

@@ -16,18 +16,19 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.00',
+		'thisGlyphrStudioVersionNum': '1.04.02',
 
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': false,	// if sampleproject is present, load it and skip open project experience
-		'devnav': false,		// navigate straight to a page
+		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
+		'devnav': 'glyph edit',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
-			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(); history_put(\'combine\'); redraw();'}
+			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(); history_put(\'combine\'); redraw();'},
+			{'name': 'Toast', 'onclick': 'showToast(\'Test Toast!\', 2000);'}
 		],
 		'testOnLoad': function() {
 			// Glyph flattening test
@@ -171,6 +172,7 @@
 			'ymax': 999999,
 			'ymin': -999999
 		},
+		'timeout': false,
 		'history': {},
 
 		// page: glyphedit

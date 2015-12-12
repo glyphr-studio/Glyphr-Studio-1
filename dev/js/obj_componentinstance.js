@@ -66,6 +66,24 @@
 //	Component to Shape Paridy Functions
 //	-------------------------------------
 	ComponentInstance.prototype.getName = function() { return this.name; };
+
+	ComponentInstance.prototype.changeShapeName = function(sn){
+		debug('\n ComponentInstance.changeShapeName - START');
+		debug('\t passed: ' + sn);
+		sn = strSan(sn);
+		debug('\t sanitized: ' + sn);
+
+		if(sn !== ''){
+			this.name = sn;
+			history_put('component instance name');
+		} else {
+			showToast('Invalid component instance name - component instance names must only contain alphanumeric characters or spaces.');
+		}
+
+		redraw({calledby:'ComponentInstance Name', redrawcanvas:false});
+
+		debug(' ComponentInstance.changeShapeName - END\n');
+	};
 	
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
 		// debug('\n ComponentInstance.updateShapePosition - START');

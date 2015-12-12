@@ -19,62 +19,73 @@
 		var fcontent;
 		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
 
-		var vn = false;
+		var tempvn = false;
 		var v = false;
 		var ps = fcontent.projectsettings;
 		if(ps){
-			vn = ps.versionnum;
+			tempvn = ps.versionnum;
 			v = ps.version;
 		}
-
 		// debug(fcontent);
+
 
 		// Check for non Glyphr Project Files
 		if(!v) { error_NoVersionFound(); return; }
 
+
 		// Give pre-Beta-3 accurate version
-		if(!vn) {
-			vn = '0.3.0';
+		if(!tempvn) {
+			tempvn = '0.3.0';
 			ps.initialversionnum = '0.3.0';
 		}
-		if(!ps.initialversionnum) ps.initialversionnum = vn;
+		if(!ps.initialversionnum) ps.initialversionnum = tempvn;
 
-		vn = vn.split(".");
-		var major = vn[0]*1;
-		var minor = vn[1]*1;
-		var patch = vn[2]*1;
-		// debug("\t versionnum found " + vn);
+
+		// Start working with the project version number
+		function parseVersionNum(vn) {
+			vn = vn.split(".");
+			return {
+				'major' : (vn[0]*1),
+				'minor' : (vn[1]*1),
+				'patch' : (vn[2]*1)
+			};
+		}
+
+		var projvn = parseVersionNum(tempvn);
+		var currvn = parseVersionNum(_UI.thisGlyphrStudioVersionNum);
+		// debug("\t versionnum found " + tempvn);
+
 
 		// Check for future versions
-		if(major > 1){ error_TimeTraveller(); return; }
+		if(projvn.major > currvn.major){ error_TimeTraveller(); return; }
+
 
 		// Roll upgrades through Beta
-		if(major === 0) {
-			fcontent = migrate_betas_to_v1(fcontent, minor);
-			major = 1;
-			minor = 0;
+		if(projvn.major === 0) {
+			fcontent = migrate_betas_to_v1(fcontent, projvn.minor);
+			projvn.major = 1;
+			projvn.minor = 0;
 		}
 		// debug('\t done with beta updates');
 
+
 		// Roll upgrades through v1
-		if(major === 1){
+		if(projvn.major === 1){
 
 			// Check for future versions
-			if(minor > 3){ error_TimeTraveller(); return; }
+			if(projvn.minor > currvn.minor){ error_TimeTraveller(); return; }
 
 			// Roll through minor versions
-			switch (minor) {
-				case 0:	// no updates
-				case 1:	// no updates
-				case 2:	// no updates
-				case 3:	// no updates
-			}
+			// Currently no _GP.projectsettings changes require updating
+			// switch (projvn.minor) {}
 		}
 		// debug('\t done with v1 minor updates');
+
 
 		// Update the version
 		ps.versionnum = _UI.thisGlyphrStudioVersionNum;
 		ps.version = _UI.thisGlyphrStudioVersion;
+
 
 		// Hydrate after all updates
 		hydrateGlyphrProject(fcontent);

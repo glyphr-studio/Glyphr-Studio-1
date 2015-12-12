@@ -35,7 +35,7 @@
 		navigate(navto);
 
 		if(_UI.devmode) _UI.testOnLoad();
-		
+
 		//debug(' MAIN SETUP - END\n');
 	};
 
@@ -52,6 +52,8 @@
 		'<td id="bigDialogLeftContent"></td>'+
 		'<td style="height:9999px;"><div id="bigDialogScrollContent"></div></td>'+
 		'</tr></table>';
+
+		var toast = '<span id="toast"></span>';
 
 		var save = '<div id="npSave"></div>';
 		save += '<div id="saveFormatFlyout" style="display:none;">';
@@ -75,6 +77,7 @@
 		document.body.innerHTML = '<div id="primaryScreenLayout"></div>';
 		document.body.innerHTML += '<canvas id="ishereghostcanvas" height=10 width=10 ></canvas>';
 		document.body.innerHTML += save;
+		document.body.innerHTML += toast;
 		document.body.innerHTML += '<div id="dialog_bg" onclick="closeDialog();"></div>';
 		document.body.innerHTML += dialogbox;
 		document.body.innerHTML += bigdialogbox;
@@ -255,6 +258,82 @@
 	function closeErrorMessageBox(){
 		document.getElementById('errormessagecontent').innerHTML = "";
 		document.getElementById('errormessagebox').style.display = 'none';
+	}
+
+	function showToast(msg, dur) {
+		var step = -1;
+		var timestep = 10;
+		var divisor = 5;
+		var msgdiv = document.getElementById('toast');
+		var durration = dur || 3000;
+		msgdiv.innerHTML = msg || 'Howdy!';
+
+		var currtop = -50;
+		var finaltop = 15;
+		var curropacity = 0;
+		var finalopacity = 1;
+
+		function appearFinish() {
+			// debug('\t appearFinish');
+			currtop = finaltop;
+			curropacity = finalopacity;
+
+			msgdiv.style.marginTop = (finaltop + 'px');
+			msgdiv.style.opacity = finalopacity;
+
+			_UI.timeout = setTimeout(disappearStep, durration);
+		}
+
+		function appearStep() {
+			// debug('\t appearStep ' + step);
+			if(_UI.timeout) clearTimeout(_UI.timeout);
+
+			if(step < 0){
+				msgdiv.style.display = 'block';
+				msgdiv.style.marginTop = '-50px;';
+				msgdiv.style.opacity = '0.0';
+				msgdiv.style.borderBottomWidth = '0px';
+
+				step++;
+
+				_UI.timeout = setTimeout(appearStep, timestep);
+
+			} else if (step <= 20){
+				step++;
+				currtop = currtop + ((finaltop - currtop) / divisor);
+				curropacity = curropacity + ((finalopacity - curropacity) / divisor);
+
+				msgdiv.style.marginTop = (currtop + 'px');
+				msgdiv.style.opacity = curropacity;
+
+				_UI.timeout = setTimeout(appearStep, timestep);
+
+			} else {
+				appearFinish();
+			}
+		}
+
+		function disappearStep() {
+			// debug('\t appearStep ' + step);
+			if(step < 0){
+				msgdiv.style.display = 'none';
+				msgdiv.style.marginTop = '-50px;';
+				msgdiv.style.opacity = '0.0';
+				msgdiv.innerHTML = '0_o';
+
+			} else {
+				step--;
+				currtop = currtop - (currtop / divisor);
+				curropacity = curropacity - (curropacity / divisor);
+
+				msgdiv.style.marginTop = (currtop + 'px');
+				msgdiv.style.opacity = curropacity;
+
+				_UI.timeout = setTimeout(disappearStep, timestep);
+			}
+		}
+
+		appearStep();
 	}
 
 
