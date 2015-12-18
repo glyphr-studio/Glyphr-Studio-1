@@ -440,7 +440,7 @@ function saveFile(fname, buffer, ftype) {
 	// better rounding than Math.round
 	function round(num, dec){
 		if(!num) return 0;
-		dec = isval(dec)? dec : 0;
+		dec = dec || 0;
 		return Number(Math.round(num+'e'+dec)+'e-'+dec) || 0;
 	}
 

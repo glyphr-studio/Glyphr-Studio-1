@@ -308,16 +308,12 @@
 		// debug('\n findPathPointIntersections - START');
 		var precision = 4;
 		var re = [];
-		var pp1x, pp1y, pp2x, pp2y;
 
 		for(var pp1=0; pp1<p1.pathpoints.length; pp1++){
 			for(var pp2=0; pp2<p2.pathpoints.length; pp2++){
-				pp1x = round(p1.pathpoints[pp1].getPx(), precision);
-				pp1y = round(p1.pathpoints[pp1].getPy(), precision);
-				pp2x = round(p2.pathpoints[pp2].getPx(), precision);
-				pp2y = round(p2.pathpoints[pp2].getPy(), precision);
-
-				if(pp1x === pp2x && pp1y === pp2y) re.push(''+pp1x+'/'+pp1y);
+				if(pointsOverlap(p1.pathpoints[pp1].P, p2.pathpoints[pp2].P)){
+					re.push(''+p1.pathpoints[pp1].P.x+'/'+p1.pathpoints[pp1].P.y);
+				}
 			}
 		}
 
@@ -327,6 +323,13 @@
 		// debug(' findPathPointIntersections - END\n');
 		return re;
 	}
+
+	Path.prototype.containsPoint = function(c) {
+		for(var pp=0; pp<this.pathpoints.length; pp++){
+			if(pointsOverlap(c, this.pathpoints[pp].P)) return this.pathpoints[pp];
+		}
+		return false;
+	};
 
 
 //  -----------------------------------
@@ -697,7 +700,7 @@
 		return re;
 	};
 
-	Path.prototype.insertPathPoint = function(t, pointnum, id) {
+	Path.prototype.insertPathPoint = function(t, pointnum) {
 		var pp1i = pointnum || 0;
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
 		var pp2i = (pp1i+1)%this.pathpoints.length;
@@ -714,16 +717,19 @@
 			nH1 = new Coord({'x':s1.p3x, 'y':s1.p3y});
 			nH2 = new Coord({'x':s2.p2x, 'y':s2.p2y});
 			ppn = new PathPoint({'P':nP, 'H1':nH1, 'H2':nH2, 'type':'flat', 'useh1':true, 'useh2':true});
+			ppn.round();
 
 			// Update P1
 			if(pp1.type === 'symmetric') pp1.type = 'flat';
 			pp1.H2.x = s1.p2x;
 			pp1.H2.y = s1.p2y;
+			pp1.round();
 
 			// Update P2
 			if(pp2.type === 'symmetric') pp2.type = 'flat';
 			pp2.H1.x = s2.p3x;
 			pp2.H1.y = s2.p3y;
+			pp2.round();
 
 		} else {
 			//just make a random point
@@ -736,7 +742,6 @@
 
 		// Insert
 		ppn.parentpath = this;
-		if(isval(id)) ppn.customid = id;
 		this.pathpoints.splice(pp2i, 0, ppn);
 		// this.selectPathPoint(pp2i);
 

@@ -32,7 +32,10 @@
 		],
 		'testOnLoad': function() {
 			// Glyph flattening test
-			selectGlyph('0x0057');
+			selectGlyph('0x0056');
+			// getSelectedWorkItem().flattenGlyph();
+			// history_put('flatten');
+
 			// getSelectedWorkItem().shapes = getSelectedWorkItem().flattenGlyph().combineAllShapes().shapes;
 			// redraw({});
 
@@ -206,7 +209,8 @@
 			'linegap': false,
 			'padsize': 0,
 			'showglyphbox': false,
-			'showhorizontals': false
+			'showhorizontals': false,
+			'flattenglyphs': false
 		},
 
 		// page: import svg

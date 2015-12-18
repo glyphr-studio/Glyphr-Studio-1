@@ -266,7 +266,7 @@
 			//Set values
 			newHx =  (this.P.x + (newadj*-1));
 			newHy = (this.P.y + (newopp*-1));
-			
+
 			if(!isNaN(newHx) && !isNaN(newHy)){
 				this.H2.x = newHx;
 				this.H2.y = newHy;
@@ -280,13 +280,13 @@
 			//Set values
 			newHx =  (this.P.x + (newadj*-1));
 			newHy = (this.P.y + (newopp*-1));
-				
+
 			if(!isNaN(newHx) && !isNaN(newHy)){
 				this.H1.x = newHx;
 				this.H1.y = newHy;
 			}
-		}		
-		
+		}
+
 		this.type = 'flat';
 
 		// debug(' PathPoint.makeFlat - END\n');
@@ -337,6 +337,16 @@
 		//debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
 
 		//this.roundAll();
+	};
+
+	PathPoint.prototype.round = function(prec) {
+		prec = prec || 3;
+		this.P.x = round(this.P.x, prec);
+		this.P.y = round(this.P.y, prec);
+		this.H1.x = round(this.H1.x, prec);
+		this.H1.y = round(this.H1.y, prec);
+		this.H2.x = round(this.H2.x, prec);
+		this.H2.y = round(this.H2.y, prec);
 	};
 
 	PathPoint.prototype.rotate = function(angle, about) {
@@ -390,28 +400,14 @@
 		} else return false;
 	};
 
-	PathPoint.prototype.sharesPointPositionWith = function(path) {
-		// debug('\n PathPoint.sharesPointPositionWith - START');
-
-		for(var p=0; p<path.pathpoints.length; p++){
-			if(pointsOverlap(path.pathpoints[p].P, this.P)){
-				// debug(' PathPoint.sharesPointPositionWith - END - returning ' + p + '\n');
-				return p;
-			}				
-		}
-
-		// debug(' PathPoint.sharesPointPositionWith - END - returning false \n');
-		return false;
-	};
-
-	function pointsOverlap(pp1, pp2) {
+	function pointsOverlap(pp1, pp2, precision) {
 		// debug('\n pointsOverlap - START');
 
-		var precision = 1;
-		var pp1x = round(pp1.x * precision);
-		var pp1y = round(pp1.y * precision);
-		var pp2x = round(pp2.x * precision);
-		var pp2y = round(pp2.y * precision);
+		precision = precision || 3;
+		var pp1x = round(pp1.x, precision);
+		var pp1y = round(pp1.y, precision);
+		var pp2x = round(pp2.x, precision);
+		var pp2y = round(pp2.y, precision);
 
 		// debug('\t ' + pp1.x + ',' + pp1.y + ' - ' + pp2.x + ',' + pp2.y);
 		// debug('\t ' + pp1x + ',' + pp1y + ' - ' + pp2x + ',' + pp2y);
