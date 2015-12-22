@@ -16,10 +16,10 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.02',
+		'thisGlyphrStudioVersionNum': '1.04.03',
 
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
@@ -28,16 +28,13 @@
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(); history_put(\'combine\'); redraw();'},
+			{'name': 'Simple Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
 			{'name': 'Toast', 'onclick': 'showToast(\'Test Toast!\', 2000);'}
 		],
 		'testOnLoad': function() {
 			// Glyph flattening test
-			selectGlyph('0x0056');
-			// getSelectedWorkItem().flattenGlyph();
-			// history_put('flatten');
+			selectGlyph('0x0065');
 
-			// getSelectedWorkItem().shapes = getSelectedWorkItem().flattenGlyph().combineAllShapes().shapes;
-			// redraw({});
 
 			// Overlapping point-path test
 			// addShape(new Shape({'name':'small', 'path':rectPathFromMaxes({'xmax':200, 'xmin':100, 'ymax':400, 'ymin':100})}));
@@ -210,7 +207,8 @@
 			'padsize': 0,
 			'showglyphbox': false,
 			'showhorizontals': false,
-			'flattenglyphs': false
+			'flattenglyphs': false,
+			'cache':{}
 		},
 
 		// page: import svg

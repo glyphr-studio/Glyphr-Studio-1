@@ -1012,6 +1012,7 @@
 
 		// background white square
 		_UI.glypheditctx.fillStyle = 'white';
+		_UI.glypheditctx.globalAlpha = 1.0;
 		_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 
 		if(_UI.showgrid){

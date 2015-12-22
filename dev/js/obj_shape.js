@@ -369,8 +369,123 @@
 //	Boolean Combine
 //	-----------------
 
-	function combineShapes(s1, s2) {
-		debug('\n combineShapes - START');
+	function combineShapes(shape1, shape2) {
+		
+		// Find intersections
+		var intersections = findPathIntersections(shape1.path, shape2.path);
+
+		if(intersections.length < 2) {
+			debug(intersections);
+			debug('\t zero or one intersections, returning');
+			return [shape1, shape2];
+		}
+
+		// Insert one intersection into both shapes
+		var ix = intersections[0];
+		ix = {
+			x: parseFloat(ix.split('/')[0]),
+			y: parseFloat(ix.split('/')[1])
+		};
+
+		var p1 = shape1.path.containsPoint(ix);
+		if(!p1){
+			p1 = shape1.path.getClosestPointOnCurve(ix);
+			p1 = shape1.path.insertPathPoint(p1.split, p1.point);
+		}
+		p1.customid = 'overlap';
+
+		var p2 = shape2.path.containsPoint(ix);
+		if(!p2){
+			p2 = shape2.path.getClosestPointOnCurve(ix);
+			p2 = shape2.path.insertPathPoint(p2.split, p2.point);
+		}
+		p2.customid = 'overlap';
+
+
+		// Walk one shape until the overlap point is found
+		// Flip to the other shape, add all the points
+		// Flip back to the first shape, add remaining points
+
+		function getPointsBeforeOverlap(path) {
+			var re = [];
+			var pt = {};
+
+			for(var pp=0; pp<path.pathpoints.length; pp++){
+				pt = new PathPoint(path.pathpoints[pp]);
+				
+				if(path.pathpoints[pp].customid !== 'overlap') {
+					re.push(pt);
+
+				} else {
+					return {
+						'points': re,
+						'overlap': pt
+					};
+				}
+			}
+		}
+
+		function getPointsAfterOverlap(path) {
+			var re = [];
+			var ov = {};
+
+			for(var pp=0; pp<path.pathpoints.length; pp++){
+				if(path.pathpoints[pp].customid === 'overlap'){
+					ov = new PathPoint(path.pathpoints[pp]);
+
+					for(var pa=(pp+1); pa<path.pathpoints.length; pa++){
+						re.push(new PathPoint(path.pathpoints[pa]));
+					}
+
+					return {
+						'points': re,
+						'overlap': ov
+					};
+				}
+			}
+		}
+
+		var s1h1 = getPointsBeforeOverlap(shape1.path);
+		var s1h2 = getPointsAfterOverlap(shape1.path);
+		var s2h1 = getPointsBeforeOverlap(shape2.path);
+		var s2h2 = getPointsAfterOverlap(shape2.path);
+
+		var newpoints = [];
+
+		newpoints = newpoints.concat(s1h1.points);
+
+		newpoints.push(
+			new PathPoint({
+				P: clone(s1h1.overlap.P),
+				H1: clone(s1h1.overlap.H1),
+				H2: clone(s2h1.overlap.H2),
+				type: 'corner',
+				useh1: s1h1.overlap.useh1,
+				useh2: s2h1.overlap.useh2
+			})
+		);
+
+		newpoints = newpoints.concat(s2h2.points);
+		newpoints = newpoints.concat(s2h1.points);
+
+		newpoints.push(
+			new PathPoint({
+				P: clone(s2h1.overlap.P),
+				H1: clone(s2h1.overlap.H1),
+				H2: clone(s1h2.overlap.H2),
+				type: 'corner',
+				useh1: s2h1.overlap.useh1,
+				useh2: s1h2.overlap.useh2
+			})
+		);
+
+		newpoints = newpoints.concat(s1h2.points);
+
+		return [new Shape({path: new Path({pathpoints: newpoints})})];
+	}
+
+	function fancyCombineShapes(s1, s2) {
+		debug('\n fancyCombineShapes - START');
 		var newshapes = [];
 
 
@@ -421,7 +536,7 @@
 				y: parseFloat(ix.split('/')[1])
 			};
 
-			p1 = shape1.path.containsPoint(ix, id);
+			p1 = shape1.path.containsPoint(ix);
 			if(!p1){
 				p1 = shape1.path.getClosestPointOnCurve(ix);
 				p1 = shape1.path.insertPathPoint(p1.split, p1.point);
@@ -429,7 +544,7 @@
 			p1.customid = id;
 			p1.done = false;
 
-			p2 = shape2.path.containsPoint(ix, id);
+			p2 = shape2.path.containsPoint(ix);
 			if(!p2){
 				p2 = shape2.path.getClosestPointOnCurve(ix);
 				p2 = shape2.path.insertPathPoint(p2.split, p2.point);
@@ -639,7 +754,7 @@
 			currshape++;
 		}
 
-		debug(' combineShapes - returning ' + newshapes.length + ' shapes - END\n');
+		debug(' fancyCombineShapes - returning ' + newshapes.length + ' shapes - END\n');
 
 		return newshapes;
 	}

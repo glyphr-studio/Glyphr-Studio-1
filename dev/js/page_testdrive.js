@@ -7,7 +7,7 @@
 
 	/*
 		loadPage_testdrive
-		This function is called by the overall Navigate function, and populates 
+		This function is called by the overall Navigate function, and populates
 		page-level HTML.
 	*/
 	function loadPage_testdrive(){
@@ -27,6 +27,8 @@
 		_UI.testdrive.canvas.width = 800;
 		_UI.testdrive.canvas.height = 700;
 		_UI.testdrive.ctx = _UI.testdrive.canvas.getContext('2d');
+
+		_UI.testdrive.cache = {};
 
 		redraw_TestDrive();
 	}
@@ -53,7 +55,7 @@
 	}
 
 
-	/* 
+	/*
 		readraw_TestDrive
 		This function is called by the overall Redraw to update the canvas, or whatever
 		content is in the main Content Area
@@ -112,10 +114,18 @@
 
 					// debug('\t starting drawing ' + cc.name);
 					// debug(cc);
-					
-					if(_UI.testdrive.flattenglyphs) currx += new Glyph(cc).flattenGlyph().combineAllShapes().drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
-					else currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
-					
+
+					if(_UI.testdrive.flattenglyphs){
+						var ncc = new Glyph(cc).flattenGlyph().combineAllShapes();
+						currx += ncc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+
+					} else {
+						currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+					}
+
+
+
+
 					currx += (td.padsize*1*scale);
 					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
 					// debug('\t done drawing ' + cc.name);
@@ -246,7 +256,7 @@
 		content += '<tr><td> glyph spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> <label for="showglyphbox">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showglyphbox", _UI.testdrive.showglyphbox, true) + "</td></tr>";
 		content += '<tr><td> <label for="showhorizontals">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showhorizontals", _UI.testdrive.showhorizontals, true) + "</td></tr>";
-		content += '<tr><td> <label for="flattenglyphs">flatten glyphs</label> </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, true) + "</td></tr>";
+		content += '<tr><td> <label for="flattenglyphs">flatten glyphs</label> </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, false) + "</td></tr>";
 
 		content += '<tr><td colspan=2><button onclick="createimg();">generate png file</button></td></tr>';
 		content += '</table>';

@@ -353,12 +353,13 @@
 //-------------------------------------------------------
 // DRAWING AND EXPORTING
 //-------------------------------------------------------
-	Glyph.prototype.drawGlyph = function(lctx, view, uselsb){
+	Glyph.prototype.drawGlyph = function(lctx, view, uselsb, alpha){
 		// debug('\n Glyph.drawGlyph - START ' + this.name);
 
 		var sl = this.shapes;
 		var shape, drewshape;
 		var lsb = uselsb? this.getLSB() : 0;
+		alpha = alpha || 1;
 
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {
@@ -383,8 +384,11 @@
 		}
 
 		lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
+		lctx.globalAlpha = alpha;
 		lctx.closePath();
 		lctx.fill('nonzero');
+
+		lctx.globalAlpha = 1.0;
 
 		// debug(' Glyph.drawGlyph - END ' + this.name + '\n');
 		return (this.getTotalWidth()*view.dz);
@@ -530,6 +534,7 @@
 
 				if(nc) {
 					re = combineShapes(tc, nc);
+
 					debug('\t\t combineShapes returned arr len ' + (re.length || re));
 					if(re !== false){
 						newarr = newarr.concat(re);
@@ -589,6 +594,7 @@
 		debug(' Glyph.combineAllShapes - END\n');
 		return this;
 	};
+
 
 
 //-------------------------------------------------------

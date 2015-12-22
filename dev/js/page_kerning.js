@@ -51,20 +51,22 @@
 			// debug('\t Kern Pair ' + selkern.leftgroup[0] + ' | ' + selkern.rightgroup[0]);
 
 			// DRAW ALL RIGHT HAND GROUP
+			var ra = (1 / selkern.rightgroup.length);
 			for(var i=0; i<selkern.rightgroup.length; i++){
 				ch = getGlyph(selkern.rightgroup[i], true);
 				// debug('\t got rightgroup char ' + ch.name);
-				ch.drawGlyph(ctx, v, true);
+				ch.drawGlyph(ctx, v, true, ra);
 			}
 
 			// DRAW ALL LEFT HAND GROUP
+			var la = (1 / selkern.leftgroup.length);
 			for(var j=0; j<selkern.leftgroup.length; j++){
 				v = getView();
 				ch = getGlyph(selkern.leftgroup[j], true);
 				// debug('\t got leftgroup char ' + ch.name);
 				v.dx -= (ch.getTotalWidth()*v.dz);
 				v.dx += (selkern.value*v.dz);
-				ch.drawGlyph(ctx, v, true);
+				ch.drawGlyph(ctx, v, true, la);
 			}
 		}
 
