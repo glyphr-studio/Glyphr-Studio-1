@@ -68,6 +68,7 @@
 				'<title>Glyphr Studio - Canvas</title>'+
 			'</head>'+
 			'<body>'+
+				'<span id="toast"></span>'+
 				'<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
 			'</body>'+
 			'</html>');

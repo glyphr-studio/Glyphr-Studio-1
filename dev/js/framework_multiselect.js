@@ -273,9 +273,8 @@
 			_UI.ms.shapes.toggle(orig2);
 			this.deleteShapes();
 
-			// addShape(shape1);
-			// addShape(shape2);
 			newshapes.forEach(function(v){addShape(v);});
+			history_put('Combined shapes');
 		}
 
 		debug(' ms.shapes.combine - END\n');

@@ -264,7 +264,7 @@
 		var step = -1;
 		var timestep = 10;
 		var divisor = 5;
-		var msgdiv = document.getElementById('toast');
+		var msgdiv = getEditDocument().getElementById('toast');
 		var durration = dur || 3000;
 		msgdiv.innerHTML = msg || 'Howdy!';
 

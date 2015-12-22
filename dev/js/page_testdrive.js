@@ -116,8 +116,11 @@
 					// debug(cc);
 
 					if(_UI.testdrive.flattenglyphs){
-						var ncc = new Glyph(cc).flattenGlyph().combineAllShapes();
-						currx += ncc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+						if(!_UI.testdrive.cache.hasOwnProperty(contentarray[k])){
+							_UI.testdrive.cache[contentarray[k]] = new Glyph(cc).flattenGlyph().combineAllShapes();
+						}
+
+						currx += _UI.testdrive.cache[contentarray[k]].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 
 					} else {
 						currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
@@ -256,7 +259,8 @@
 		content += '<tr><td> glyph spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> <label for="showglyphbox">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showglyphbox", _UI.testdrive.showglyphbox, true) + "</td></tr>";
 		content += '<tr><td> <label for="showhorizontals">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showhorizontals", _UI.testdrive.showhorizontals, true) + "</td></tr>";
-		content += '<tr><td> <label for="flattenglyphs">flatten glyphs</label> </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, false) + "</td></tr>";
+		
+		if(_UI.devmode) content += '<tr><td> <label for="flattenglyphs">flatten glyphs</label> </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, false) + "</td></tr>";
 
 		content += '<tr><td colspan=2><button onclick="createimg();">generate png file</button></td></tr>';
 		content += '</table>';

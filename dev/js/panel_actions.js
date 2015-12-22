@@ -18,7 +18,7 @@
 		if(!existingWorkItem()){ return content + '</div></div>'; }
 
 
-		// Generate Sections
+		// UNIVERSAL ACTIONS
 		var allactions = '';
 		allactions += '<button title="Paste\nAdds the previously-copied shape or shapes into this glyph" '+(_UI.clipboardshape? '': 'disabled')+' onclick="pasteShape(); history_put(\'Paste Shape\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Paste(!_UI.clipboardshape) + '</button>';
 		allactions += '<button title="Undo\nStep backwards in time one action" '+(history_length()? '': 'disabled')+' onclick="history_pull();">' + makeActionButton_Undo(!history_length()) + '</button>';
@@ -29,6 +29,8 @@
 
 		if(_UI.navhere === 'components') allactions += '<button title="Link to Glyph\nChoose a glyph, and add this Component to that glyph as a Component Instance" onclick="showDialog_LinkComponentToGlyph();">' + makeActionButton_LinkToGlyph() + '</button>';
 
+
+		// SHAPE
 		var shapeactions = ss.length > 1? '<h3>shapes</h3>' : '<h3>shape</h3>';
 		shapeactions += '<button title="Copy\nAdds a copy of the currently selected shape or shapes to the clipboard" onclick="copyShape();">' + makeActionButton_Copy() + '</button>';
 		if(!_UI.popout) shapeactions += '<button title="Delete\nRemoves the currently selected shape or shapes from this glyph" onclick="_UI.ms.shapes.deleteShapes(); history_put(\'Delete Shape\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeleteShape() + '</button>';
@@ -41,24 +43,34 @@
 		shapeactions += '<button title="Flip Horizontal\nReflects the currently selected shape or shapes horizontally" onclick="_UI.ms.shapes.flipEW(); history_put(\'Flip Shape Horizontal\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		shapeactions += '<button title="Flip Vertical\nReflects the currently selected shape or shapes vertically" onclick="_UI.ms.shapes.flipNS(); history_put(\'Flip Shape Vertical\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_FlipVertical() + '</button>';
 
+
+		// LAYERS
 		var layeractions = '';
 		layeractions += '<button title="Move Shape Up\nMoves the shape up in the shape layer order" onclick="moveShapeUp(); history_put(\'Move Shape Layer Up\');">' + makeActionButton_MoveLayerUp() + '</button>';
 		layeractions += '<button title="Move Shape Down\nMoves the shape down in the shape layer order" onclick="moveShapeDown(); history_put(\'Move Shape Layer Down\');">' + makeActionButton_MoveLayerDown() + '</button>';
 
+
+		// COMBINE
 		var boolactions = '';
-		boolactions += '<button title="Combine\nSelect two shapes, and combine their paths into a single shape" onclick="_UI.ms.shapes.combine(); history_put(\'Combined shapes\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Combine() + '</button>';
+		boolactions += '<button title="Combine\nSelect two shapes, and combine their paths into a single shape" onclick="_UI.ms.shapes.combine(); redraw({calledby:\'actions panel\'});">' + makeActionButton_Combine() + '</button>';
 		// boolactions += '<button title="Subtract Using Upper\nSelect two shapes, and the upper shape will be used to cut out an area from the lower shape" onclick="">' + makeActionButton_SubtractUsingTop() + '</button>';
 		// boolactions += '<button title="Subtract Using Lower\nSelect two shapes, and the lower shape will be used to cut out an area from the upper shape" onclick="">' + makeActionButton_SubtractUsingBottom() + '</button>';
 
+
+		// PATH POINT
 		var pointactions = '<h3>path point</h3>';
 		pointactions += '<button title="Insert Path Point\nAdds a new Path Point half way between the currently-selected point, and the next one" onclick="_UI.ms.points.insertPathPoint(); history_put(\'Insert Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_InsertPathPoint() + '</button>';
 		pointactions += '<button title="Delete Path Point\nRemoves the currently selected point or points from the path" class="'+(ss.length? '': 'buttondis')+'" onclick="_UI.ms.points.deletePathPoints(); history_put(\'Delete Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeletePathPoint() + '</button>';
 		pointactions += '<button title="Reset Handles\nMoves the handles of the currently selected point or points to default locations" onclick="_UI.ms.points.resetHandles(); history_put(\'Reset Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_ResetPathPoint() + '</button>';
 
+
+		// GLYPH
 		var glyphactions = '<h3>glyph</h3>';
 		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
 
+
+		// DEV
 		var devactions = '';
 		if(_UI.devmode){
 			if(_UI.testactions.length) devactions += '<h3>test</h3>';
@@ -66,6 +78,7 @@
 				devactions += '<button onclick="'+_UI.testactions[a].onclick+'">'+_UI.testactions[a].name+'</button>';
 			}
 		}
+
 
 		// Put it all together
 		if(pop) content += '</div><div class="panel_section"><div class="actionsarea" style="margin-top:0px;">';

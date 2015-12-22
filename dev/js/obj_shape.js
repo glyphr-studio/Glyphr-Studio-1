@@ -376,7 +376,7 @@
 
 		if(intersections.length < 2) {
 			debug(intersections);
-			debug('\t zero or one intersections, returning');
+			showToast('The selected shapes do not have overlapping paths.');
 			return [shape1, shape2];
 		}
 

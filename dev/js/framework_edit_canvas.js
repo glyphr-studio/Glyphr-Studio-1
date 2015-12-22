@@ -38,7 +38,7 @@
 		_UI.redraw.redrawpanels = isval(oa.redrawpanels) ? oa.redrawpanels : true;
 		_UI.redraw.calledby = oa.calledby || '';
 
-		if(!_UI.redraw.redrawpanels && document.getElementById('navarea_panel').innerHTML === '') _UI.redraw.redrawpanels = true;
+		if(!_UI.redraw.redrawpanels && document.getElementById('navarea_panel') && document.getElementById('navarea_panel').innerHTML === '') _UI.redraw.redrawpanels = true;
 
 		if(_UI.redrawing){
 			// this is totally a hack

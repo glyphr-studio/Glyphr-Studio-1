@@ -224,20 +224,25 @@
 		// return (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
 	}
 
-	function findPathIntersections(p1, p2) {
+	function findPathIntersections(p1, p2, onlyfirst) {
 		// debug('\n findPathIntersections - START');
 		var intersects = [];
 
-		// Find overlaps at boundaries
-		intersects = intersects.concat(findPathPointIntersections(p1, p2));
-		intersects = intersects.concat(findPathPointBoundaryIntersections(p1, p2));
-		
-		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
-		
 		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) {
 			// debug(' findPathIntersections - paths dont\'t overlap - END\n');
 			return intersects;
 		}
+
+
+		// Find overlaps at boundaries
+		intersects = intersects.concat(findPathPointIntersections(p1, p2, onlyfirst));
+		if(intersects[0] && onlyfirst) return intersects[0];
+
+		intersects = intersects.concat(findPathPointBoundaryIntersections(p1, p2, onlyfirst));
+		if(intersects[0] && onlyfirst) return intersects[0];
+
+		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
+		
 
 		var bs, ts;
 		var segoverlaps = [];
@@ -269,7 +274,10 @@
 		var re = [];
 		for(var v=0; v<segoverlaps.length; v++){
 			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
-			if(re.length > 0) intersects = intersects.concat(re);
+			if(re.length > 0) {
+				if(onlyfirst) return re[0];
+				else intersects = intersects.concat(re);
+			}
 		}
 
 		// debug('\t returning ' + intersects);
@@ -279,7 +287,7 @@
 		return intersects;
 	}
 
-	function findPathPointBoundaryIntersections(p1, p2) {
+	function findPathPointBoundaryIntersections(p1, p2, onlyfirst) {
 		re = [];
 
 		function check(chk, against) {
@@ -304,7 +312,7 @@
 		return re;
 	}
 
-	function findPathPointIntersections(p1, p2) {
+	function findPathPointIntersections(p1, p2, onlyfirst) {
 		// debug('\n findPathPointIntersections - START');
 		var precision = 4;
 		var re = [];

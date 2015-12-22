@@ -19,7 +19,7 @@
 		'thisGlyphrStudioVersionNum': '1.04.03',
 
 		// Internal Dev Stuff
-		'devmode': true,		// global switch for all the stuff below
+		'devmode': false,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit',		// navigate straight to a page
@@ -28,7 +28,6 @@
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(); history_put(\'combine\'); redraw();'},
-			{'name': 'Simple Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
 			{'name': 'Toast', 'onclick': 'showToast(\'Test Toast!\', 2000);'}
 		],
 		'testOnLoad': function() {
