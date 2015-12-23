@@ -117,7 +117,7 @@
 
 					if(_UI.testdrive.flattenglyphs){
 						if(!_UI.testdrive.cache.hasOwnProperty(contentarray[k])){
-							_UI.testdrive.cache[contentarray[k]] = new Glyph(cc).flattenGlyph().combineAllShapes();
+							_UI.testdrive.cache[contentarray[k]] = new Glyph(cc).flattenGlyph().combineAllShapes(true);
 						}
 
 						currx += _UI.testdrive.cache[contentarray[k]].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);

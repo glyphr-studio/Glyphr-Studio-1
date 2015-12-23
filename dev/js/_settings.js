@@ -19,20 +19,21 @@
 		'thisGlyphrStudioVersionNum': '1.04.04',
 
 		// Internal Dev Stuff
-		'devmode': true,		// global switch for all the stuff below
-		'debug': true,			// show messages sent to the browser console
-		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'export font',		// navigate straight to a page
-		'devnavprimary': false, // navigate straight to a panel
-		'devselectedshape': false, // automatically select a shape
+		'devmode': true, 					// global switch for all the stuff below
+		'debug': true, 						// show messages sent to the browser console
+		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
+		'devnav': 'glyph edit', 			// navigate straight to a page
+		'devnavprimary': false, 			// navigate straight to a panel
+		'devselectedshape': false, 			// automatically select a shape
+		'usefancy': false, 					// use fancy shape outline method
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
-			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(); history_put(\'combine\'); redraw();'},
+			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
 			{'name': 'Toast', 'onclick': 'showToast(\'Test Toast!\', 2000);'}
 		],
 		'testOnLoad': function() {
 			// Glyph flattening test
-			selectGlyph('0x0065');
+			selectGlyph('0x0048');
 
 
 			// Overlapping point-path test

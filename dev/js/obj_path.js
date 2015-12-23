@@ -219,20 +219,13 @@
 // 	Boolean Combine
 //	-----------------------------------
 
-	function maxesOverlap(m1, m2) {
-		return (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
-		// return (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
-	}
+	Path.prototype.addPoints = function(parr) {
+		
+	};
 
 	function findPathIntersections(p1, p2, onlyfirst) {
 		// debug('\n findPathIntersections - START');
 		var intersects = [];
-
-		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) {
-			// debug(' findPathIntersections - paths dont\'t overlap - END\n');
-			return intersects;
-		}
-
 
 		// Find overlaps at boundaries
 		intersects = intersects.concat(findPathPointIntersections(p1, p2, onlyfirst));
@@ -242,8 +235,18 @@
 		if(intersects[0] && onlyfirst) return intersects[0];
 
 		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
-		
+		// debug('\t intersections');
+		// debug(intersects);
 
+		// Maxes within boundaries
+		if(!maxesOverlap(p1.getMaxes(), p2.getMaxes())) {
+			// debug(' findPathIntersections - paths dont\'t overlap - END\n');
+			// debug(p1.getMaxes());
+			// debug(p2.getMaxes());
+			return intersects;
+		}
+
+		// Continue with recursive overlap detection
 		var bs, ts;
 		var segoverlaps = [];
 		function pushSegOverlaps(p1, p1p, p2, p2p) {
@@ -270,20 +273,27 @@
 			}
 		}
 
+		// debug('\t segoverlaps ');
+		// debug(json(segoverlaps));
+
 		// Use overlaps to find intersections
 		var re = [];
 		for(var v=0; v<segoverlaps.length; v++){
+			// debug('\n\t SEGOVERLAPS ' + v);
 			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
 			if(re.length > 0) {
 				if(onlyfirst) return re[0];
 				else intersects = intersects.concat(re);
 			}
+			// debug('\t intersects is now');
+			// debug(intersects);
 		}
 
-		// debug('\t returning ' + intersects);
-		// debug(' findPathIntersections - END\n');
+		// debug('\t pre filter ' + intersects);
 		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
 		
+		// debug('\t returning ' + intersects);
+		// debug(' findPathIntersections - END\n');
 		return intersects;
 	}
 
@@ -339,6 +349,15 @@
 		return false;
 	};
 
+	function maxesOverlap(m1, m2, depth) {
+		// var inc = (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
+		var exc = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
+		// var iny = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
+		// var inx = (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
+		// var equ = (JSON.stringify(m1)===JSON.stringify(m2));
+
+		return exc;
+	}
 
 //  -----------------------------------
 //  DRAWING
@@ -360,7 +379,8 @@
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			pp = this.pathpoints[cp];
-			np = this.pathpoints[(cp+1) % this.pathpoints.length];
+			// np = this.pathpoints[(cp+1) % this.pathpoints.length];
+			np = this.pathpoints[this.getNextPointNum(cp)];
 
 			if(pp.type === 'symmetric') { pp.makeSymmetric('H1'); }
 			else if (pp.type === 'flat') { pp.makeFlat('H1'); }
@@ -408,7 +428,8 @@
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
-			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			// p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			p2 = this.pathpoints[this.getNextPointNum(cp)];
 
 			p1h2x = p1.getH2x() - p1.P.x;
 			p1h2y = p1.getH2y() - p1.P.y;
@@ -453,7 +474,8 @@
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
-			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			// p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			p2 = this.pathpoints[this.getNextPointNum(cp)];
 			trr = ' C' + round(p1.getH2x(), 9) + ',' + round(p1.getH2y(), 9) + ',' + round(p2.getH1x(), 9) + ',' + round(p2.getH1y(), 9) + ',' + round(p2.getPx(), 9) + ',' + round(p2.getPy(), 9);
 			// debug('\t ' + trr);
 
@@ -485,7 +507,8 @@
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			p1 = this.pathpoints[cp];
-			p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			// p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
+			p2 = this.pathpoints[this.getNextPointNum(cp)];
 			otpath.curveTo(
 				round(p1.getH2x()),
 				round(p1.getH2y()),
@@ -512,7 +535,8 @@
 		// debug('\t validated as ' + num);
 
 		var pp1 = this.pathpoints[num];
-		var pp2 = this.pathpoints[(num+1)%this.pathpoints.length];
+		// var pp2 = this.pathpoints[(num+1)%this.pathpoints.length];
+		var pp2 = this.pathpoints[this.getNextPointNum(num)];
 
 		var re = new Segment({
 			'p1x':pp1.P.x, 'p1y':pp1.P.y,
@@ -711,7 +735,8 @@
 	Path.prototype.insertPathPoint = function(t, pointnum) {
 		var pp1i = pointnum || 0;
 		var pp1 = (pp1i === false ? this.pathpoints[0] : this.pathpoints[pp1i]);
-		var pp2i = (pp1i+1)%this.pathpoints.length;
+		// var pp2i = (pp1i+1)%this.pathpoints.length;
+		var pp2i = this.getNextPointNum(pp1i);
 		var pp2 = this.pathpoints[pp2i];
 		var nP, nH1, nH2, ppn;
 
@@ -790,7 +815,8 @@
 	Path.prototype.getCoordFromSplit = function(split, pointnum) {
 		if(this.pathpoints.length > 1){
 			var pp1 = this.pathpoints[pointnum];
-			var pp2 = this.pathpoints[(pointnum+1)%this.pathpoints.length];
+			// var pp2 = this.pathpoints[(pointnum+1)%this.pathpoints.length];
+			var pp2 = this.pathpoints[this.getNextPointNum(pointnum)];
 			var fs = split || 0.5;
 			var rs = (1-fs);
 
@@ -853,6 +879,11 @@
 			this.maxes = getOverallMaxes([this.maxes, tbounds]);
 			this.segmentlengths[s] = seg.getLength();
 		}
+
+		this.maxes.xmax = round(this.maxes.xmax, 4);
+		this.maxes.xmin = round(this.maxes.xmin, 4);
+		this.maxes.ymax = round(this.maxes.ymax, 4);
+		this.maxes.ymin = round(this.maxes.ymin, 4);
 	};
 
 

@@ -205,12 +205,21 @@
 
 	function findSegmentIntersections(s1, s2, depth) {
 		// debug('\n findSegmentIntersections - START');
+		depth = depth || 0;
 		// debug('\t depth ' + depth);
 
-		depth = depth || 0;
-		// if(depth > 4) return [];
+
+		// if(depth > 15) {
+		// 	debug('\t fINDsEGMENTiNTERSECTIONS debug early return');
+		// 	return [];
+		// }
 		// s1.drawSegment();
 		// s2.drawSegment();
+
+
+		// Check for overlapping / coincident segments
+		var co = segmentsAreCoincident(s1, s2);
+		if(co) return [co];
 
 		// Check to stop recursion
 		var s1m = s1.getFastMaxes();
@@ -237,7 +246,11 @@
 				x = round(x, precision);
 				y = round(y, precision);
 
-				return [''+x+'/'+y];
+				co = ''+x+'/'+y;
+				// debug('\t hit bottom, found ' + co);
+				return [co];
+		} else {
+			// debug('\t more recursion needed at ' + depth);
 		}
 
 		// More recursion needed
@@ -252,8 +265,11 @@
 		];
 
 		pairs = pairs.filter(function(p) {
-			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes());
+			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes(), depth);
 		});
+
+		// debug('\t pairs after maxes overlap filter');
+		// debug(pairs);
 
 		pairs.forEach(function(p) {
 			re = re.concat( findSegmentIntersections(p[0], p[1], depth+1) );
@@ -265,10 +281,58 @@
 			return re.indexOf(v) === i;
 		});
 
+		// if(depth === 0) alert('break');
+
 		// debug('\t return length ' + re.length);
 		// debug(' findSegmentIntersections - END\n');
 		return re;
 	}
 
+	function segmentsAreCoincident(s1, s2) {
+		var s1m = s1.getFastMaxes();
+		var s2m = s2.getFastMaxes();
+		var re;
+
+		// Check if the two segments are overlapping horizontal or vertical lines
+		// If so, just return one point from the coincident lines
+
+		function areEqual(d1, d2, d3, d4) { return (d1===d2 && d1===d3 && d1===d4); }
+
+		if(areEqual(s1m.xmin, s1m.xmax, s2m.xmin, s2m.xmax)){
+			if(s1m.ymin < s2m.ymax && s1m.ymax > s2m.ymin){
+				if(s1.p1y > s2.p1y && s1.p1y < s2.p4y){
+					re = (''+s1.p1x+'/'+s1.p1y);
+					debug('\t Coincident returning ' + re);
+					return re;
+				}
+				
+				if(s2.p1y > s1.p1y && s2.p1y < s1.p4y){
+					re = (''+s2.p1x+'/'+s2.p1y);
+					debug('\t Coincident returning ' + re);
+					return re;
+				}
+				
+			}
+		}
+
+		if(areEqual(s1m.ymin, s1m.ymax, s2m.ymin, s2m.ymax)){
+			if(s1m.xmin < s2m.xmax && s1m.xmax > s2m.xmin){
+				if(s1.p1x > s2.p1x && s1.p1x < s2.p4x){
+					re = (''+s1.p1x+'/'+s1.p1y);
+					debug('\t Coincident returning ' + re);
+					return re;
+				}
+				
+				if(s2.p1x > s1.p1x && s2.p1x < s1.p4x){
+					re = (''+s2.p1x+'/'+s2.p1y);
+					debug('\t Coincident returning ' + re);
+					return re;
+				}
+				
+			}
+		}
+
+		return false;
+	}
 
 // end of file

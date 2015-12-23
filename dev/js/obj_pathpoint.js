@@ -442,6 +442,7 @@
 	};
 
 	PathPoint.prototype.getH1x = function() {
+		this.H1 = this.H1 || new Coord(this.P);
 		var re = this.useh1? this.H1.x : this.P.x;
 		if(isNaN(re)){
 			re = this.P.x || (this.H1.x || 0);
@@ -451,6 +452,7 @@
 	};
 
 	PathPoint.prototype.getH1y = function() {
+		this.H1 = this.H1 || new Coord(this.P);
 		var re = this.useh1? this.H1.y : this.P.y;
 		if(isNaN(re)){
 			re = this.P.y || (this.H1.y || 0);
@@ -460,6 +462,7 @@
 	};
 
 	PathPoint.prototype.getH2x = function() {
+		this.H2 = this.H2 || new Coord(this.P);
 		var re = this.useh2? this.H2.x : this.P.x;
 		if(isNaN(re)){
 			re = this.P.x || (this.H2.x || 0);
@@ -469,6 +472,7 @@
 	};
 
 	PathPoint.prototype.getH2y = function() {
+		this.H2 = this.H2 || new Coord(this.P);
 		var re = this.useh2? this.H2.y : this.P.y;
 		if(isNaN(re)){
 			re = this.P.y || (this.H2.y || 0);

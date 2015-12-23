@@ -508,6 +508,76 @@
 
 	Glyph.prototype.combineAllShapes = function(donttoast) {
 		// debug('\n Glyph.combineAllShapes - START');
+
+		// Sort shapes by winding
+		var tempshapes = clone(this.shapes);
+		tempshapes.sort(function(a,b){return a.path.winding - b.path.winding;});
+
+
+		// One pass through collapsing shapes down
+		function singlePass(arr) {
+			// debug('\t singlePass');
+			// debug('\t\t start arr len ' + arr.length);
+			var tc, nc, re;
+			var newarr = [];
+			var didstuff = false;
+			for(var c=0; c<arr.length; c++){
+				// debug('\t\t loop ' + c);
+				tc = arr[c];
+				nc = arr[c+1] || false;
+
+				if(nc) {
+					re = combineShapes(tc, nc, donttoast);
+					// re = fancyCombineShapes(tc, nc);
+
+					// debug('\t\t combineShapes returned arr len ' + (re.length || re));
+					if(re !== false){
+						newarr = newarr.concat(re);
+						didstuff = true;
+						c++;
+					} else {
+						newarr.push(tc);
+					}
+				} else {
+					// debug('\t\t no next, end of loop');
+					newarr.push(tc);
+				}
+			}
+
+			return {'arr':newarr, 'didstuff':didstuff};
+		}
+
+
+		// Main collapsing loop
+		var looping = true;
+		var count = 0;
+
+		while(looping && count < 8){
+			// debug('\t loop ' + count);
+			looping = false;
+
+			lr = singlePass(tempshapes);
+			looping = lr.didstuff;
+			tempshapes = lr.arr;
+			// debug('\t didstuff ' + lr.didstuff);
+			count++;
+		}
+
+
+		// Finish up
+		this.shapes = [];
+		for(var ns=0; ns<tempshapes.length; ns++) this.shapes.push(new Shape(tempshapes[ns]));
+		// debug('\t new shapes');
+		// debug(this.shapes);
+		this.calcGlyphMaxes();
+
+		debug(this.name + ' \t\t ' + this.shapes.length);
+		// debug(' Glyph.combineAllShapes - END\n');
+		return this;
+	};
+
+	Glyph.prototype.fancyCombineAllShapes = function(donttoast) {
+		// debug('\n Glyph.combineAllShapes - START');
 		var clock = [];
 		var anti = [];
 
@@ -534,6 +604,7 @@
 
 				if(nc) {
 					re = combineShapes(tc, nc, donttoast);
+					// re = fancyCombineShapes(tc, nc);
 
 					// debug('\t\t combineShapes returned arr len ' + (re.length || re));
 					if(re !== false){
@@ -591,6 +662,7 @@
 		// debug(this.shapes);
 		this.calcGlyphMaxes();
 
+		// debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
 		return this;
 	};
