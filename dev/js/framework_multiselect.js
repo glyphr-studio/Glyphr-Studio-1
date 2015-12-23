@@ -308,6 +308,9 @@
 		// debug(' deleteShape - END\n');
 	};
 
+	_UI.ms.shapes.align = function(edge) {
+		showToast('align ' + edge);
+	};
 
 	// Wrapper functions
 

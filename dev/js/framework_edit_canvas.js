@@ -180,11 +180,10 @@
 		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penaddpointclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+"</button>";
 		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+"</button>";
 		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
-
-		if(_UI.selectedtool === 'newpath'){
-			edittools += "<div style='height:5px;'>&nbsp;</div>";
-			edittools += "<button class='buttonsel' style='width:94px; font-size:.8em; padding:2px;' title='done editing path' onclick='clickTool(\"pathedit\");'>done editing path</button>";
-		}
+		edittools += "<br>";
+		
+		// Slice
+		var slice = "<button title='slice' class='" + (st==='slice'? "buttonsel " : " ") + "tool' onclick='clickTool(\"slice\");'/>"+makeToolButton({'name':'tool_slice', 'selected':(st==='slice')})+"</button>";
 
 		// Kern
 		var kern = "<button title='kern' class='" + (st==='kern'? "buttonsel " : " ") + "tool' onclick='clickTool(\"kern\");'/>"+makeToolButton({'name':'tool_kern', 'selected':(st==='kern')})+"</button>";
@@ -201,7 +200,15 @@
 		var sls = getSelectedWorkItem();
 		if(oncom && sls && !sls.shape) toolcontent += newshape;
 
-		if(onglyph || oncom || onlig) toolcontent += edittools;
+		if(onglyph || oncom || onlig) {
+			toolcontent += edittools;
+			// toolcontent += slice;
+
+			if(_UI.selectedtool === 'newpath'){
+				toolcontent += "<div style='height:5px;'>&nbsp;</div>";
+				toolcontent += "<button class='buttonsel' style='width:94px; font-size:.8em; padding:2px;' title='done editing path' onclick='clickTool(\"pathedit\");'>done editing path</button>";
+			}
+		}
 
 		if(onkern) toolcontent += kern;
 
@@ -230,6 +237,8 @@
 			clickEmptySpace();
 		} else if(ctool === 'pathedit'){
 			setCursor('pen');
+		} else if(ctool === 'slice'){
+			setCursor('slice');
 		} else if (ctool === 'shaperesize'){
 			setCursor('pointer');
 			// _UI.ms.shapes.calcMaxes();
@@ -272,6 +281,10 @@
 			} else if (tool === 'pathaddpoint'){
 				// debug('\t setting cursor to pen');
 				setCursor('penPlus');
+
+			} else if (tool === 'slice'){
+				// debug('\t setting cursor to slice');
+				setCursor('slice');
 
 			} else if (tool === 'pan'){
 				// debug('\t setting cursor to move');

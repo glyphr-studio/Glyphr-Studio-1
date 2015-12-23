@@ -52,6 +52,16 @@
 
 					'</table><br>';
 
+		
+		content += '<h2>Export Options</h2>'+
+					'<table class="settingstable projectsettings">'+
+
+					'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_GP.projectsettings.combineshapesonexport', ps.combineshapesonexport)+'</td>'+
+					'<td style="vertical-align:top;"><label for="combineshapesonexport">Combine all glyph shapes<br>Sometimes fonts behave better if there are less path outlines in a glyph.  This option will combine all overlapping shapes with the same winding into as few shapes as possible.</label><br><br></td></tr>'+
+
+					'</table><br>';
+
+
 		content += '</div>';
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = content;

@@ -16,13 +16,13 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.03',
+		'thisGlyphrStudioVersionNum': '1.04.04',
 
 		// Internal Dev Stuff
-		'devmode': false,		// global switch for all the stuff below
+		'devmode': true,		// global switch for all the stuff below
 		'debug': true,			// show messages sent to the browser console
 		'loadsampleproject': 'modegg',	// if sampleproject is present, load it and skip open project experience
-		'devnav': 'glyph edit',		// navigate straight to a page
+		'devnav': 'export font',		// navigate straight to a page
 		'devnavprimary': false, // navigate straight to a panel
 		'devselectedshape': false, // automatically select a shape
 		'testactions':[
@@ -132,7 +132,7 @@
 		},
 		'multiselectthickness': 2,
 		'rotatehandleheight': 40,
-		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, shaperesize, pan, newrect, newoval, newpath
+		'selectedtool': 'pathedit',	// pathedit, pathaddpoint, slice, shaperesize, pan, newrect, newoval, newpath
 		'focuselement': false,
 		'redrawing': false,
 		'redraw': {

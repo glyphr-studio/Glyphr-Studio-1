@@ -44,6 +44,16 @@
 		shapeactions += '<button title="Flip Vertical\nReflects the currently selected shape or shapes vertically" onclick="_UI.ms.shapes.flipNS(); history_put(\'Flip Shape Vertical\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_FlipVertical() + '</button>';
 
 
+		// ALIGN
+		var alignactions = '<br>';
+		alignactions += '<button title="Align Left\nMoves all the selected shapes so they are left aligned with the leftmost shape" onclick="_UI.ms.shapes.align(\'left\'); history_put(\'Align shapes left\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Align('left') + '</button>';
+		alignactions += '<button title="Align Center\nMoves all the selected shapes so they are center aligned between the leftmost and rightmost shape" onclick="_UI.ms.shapes.align(\'center\'); history_put(\'Align shapes center\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Align('center') + '</button>';
+		alignactions += '<button title="Align Right\nMoves all the selected shapes so they are right aligned with the rightmost shape" onclick="_UI.ms.shapes.align(\'right\'); history_put(\'Align shapes right\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Align('right') + '</button>';
+		alignactions += '<button title="Align Top\nMoves all the selected shapes so they are top aligned with the topmost shape" onclick="_UI.ms.shapes.align(\'top\'); history_put(\'Align shapes top\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Align('top') + '</button>';
+		alignactions += '<button title="Align Middle\nMoves all the selected shapes so they are middle aligned between the topmost and bottommost shape" onclick="_UI.ms.shapes.align(\'middle\'); history_put(\'Align shapes middle\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Align('middle') + '</button>';
+		alignactions += '<button title="Align Bottom\nMoves all the selected shapes so they are bottom aligned with the bottommost shape" onclick="_UI.ms.shapes.align(\'bottom\'); history_put(\'Align shapes bottom\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Align('bottom') + '</button>';
+
+
 		// LAYERS
 		var layeractions = '';
 		layeractions += '<button title="Move Shape Up\nMoves the shape up in the shape layer order" onclick="moveShapeUp(); history_put(\'Move Shape Layer Up\');">' + makeActionButton_MoveLayerUp() + '</button>';
@@ -91,6 +101,7 @@
 		if(ss.length > 0) content += shapeactions;
 		if(ss.length === 2) content += boolactions;
 		if(ss.length === 1 && !pop) content += layeractions;
+		if(_UI.devmode && ss.length > 1) content += alignactions;
 
 		if(!pop) content += '<br>';
 

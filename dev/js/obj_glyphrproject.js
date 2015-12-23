@@ -43,6 +43,7 @@
 			'pointsize': 7,					// path point square size
 			'spinnervaluechange': 1,		// how much spinner controls change a value
 			'renderpointssnappedtogrid': true, // OpenType.js requires all points be round numbers - project will still store decimals
+			'combineshapesonexport': false,	// combine overlapping shapes of the same winding into one shape
 			'showkeyboardtipsicon': true,	// button for keyboard tips on edit canvas
 			'stoppagenavigation': true,		// asks to save on window close or refresh
 			'formatsavefile': true,			// makes the JSON save file readable

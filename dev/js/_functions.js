@@ -63,12 +63,12 @@
 				'<span>Glyphr Studio Project File</span>' +
 			'</button>';
 
-		save += '<button onclick="ioOTF_exportOTFfont(); closeDialog();">' +
+		save += '<button onclick="closeDialog(); showToast(\'Exporting OTF font file...\'); setTimeout(ioOTF_exportOTFfont, 1);">' +
 				makeIcon({'name':'nav_exportotf', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
 				'<span>OTF Font</span>' +
 			'</button>';
 
-		save += '<button onclick="ioSVG_exportSVGfont(); closeDialog();">' +
+		save += '<button onclick="closeDialog(); showToast(\'Exporting SVG font file...\'); setTimeout(ioSVG_exportSVGfont, 1);">' +
 				makeIcon({'name':'nav_exportsvg', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
 				'<span>SVG Font</span>' +
 			'</button>';

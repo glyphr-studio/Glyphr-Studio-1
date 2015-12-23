@@ -139,18 +139,20 @@
 		return con;
 	}
 
-	function ioSVG_makeOneGlyphOrLigature(ch, uni) {
-		if(!ch.shapes.length) return '';
+	function ioSVG_makeOneGlyphOrLigature(gl, uni) {
+		if(!gl.shapes.length) return '';
 
 		uni = uni.split('0x');
 		uni.forEach(function(el, i, arr){if(el) arr[i] = '&#x'+el+';';});
 		uni = uni.join('');
-		var pathdata = ch.makeSVGpathData();
+
+		if(_GP.projectsettings.combineshapesonexport) gl = new Glyph(gl).flattenGlyph().combineAllShapes(true);
+		var pathdata = gl.makeSVGpathData();
 
 		var con = '\t\t\t';
-		con += '<glyph glyph-name="'+ch.name.replace(/ /g, '_')+'" ';
+		con += '<glyph glyph-name="'+gl.name.replace(/ /g, '_')+'" ';
 		con += 'unicode="'+uni+'" ';
-		con += 'horiz-adv-x="'+ch.getTotalWidth()+'" ';
+		con += 'horiz-adv-x="'+gl.getTotalWidth()+'" ';
 		con += 'd="'+pathdata+'" />\n';
 		return con;
 	}

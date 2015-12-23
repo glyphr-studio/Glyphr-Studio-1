@@ -8,6 +8,7 @@
 
 	function ioOTF_exportOTFfont() {
 		// debug('\n ioOTF_exportOTFfont - START');
+		// debug('\t combineshapesonexport = ' + _GP.projectsettings.combineshapesonexport);
 		var options = {};
 		
 		// Add metadata
@@ -64,7 +65,10 @@
 
 		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 			if(parseInt(c)){
-				tg = new Glyph(clone(_GP.glyphs[c]));
+				tg = new Glyph(_GP.glyphs[c]);
+
+				if(_GP.projectsettings.combineshapesonexport) tg.flattenGlyph().combineAllShapes(true);
+
 				if(tg.isautowide) tg.updateGlyphPosition(tg.getLSB(), 0);
 
 				tgpath = tg.makeOpenTypeJSpath(new opentype.Path());

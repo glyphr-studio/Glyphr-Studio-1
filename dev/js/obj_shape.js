@@ -369,14 +369,14 @@
 //	Boolean Combine
 //	-----------------
 
-	function combineShapes(shape1, shape2) {
+	function combineShapes(shape1, shape2, donttoast) {
 		
 		// Find intersections
 		var intersections = findPathIntersections(shape1.path, shape2.path);
 
 		if(intersections.length < 2) {
-			debug(intersections);
-			showToast('The selected shapes do not have overlapping paths.');
+			// debug(intersections);
+			if(!donttoast) showToast('The selected shapes do not have overlapping paths.');
 			return [shape1, shape2];
 		}
 
@@ -485,7 +485,7 @@
 	}
 
 	function fancyCombineShapes(s1, s2) {
-		debug('\n fancyCombineShapes - START');
+		// debug('\n fancyCombineShapes - START');
 		var newshapes = [];
 
 
@@ -509,9 +509,9 @@
 		// adjust winding
 		if( ((s1.path.winding > 0) && (s2.path.winding > 0)) || ((s1.path.winding < 0) && (s2.path.winding < 0)) ){}
 		else {
-			debug('\t Paths DO NOT have the same winding: ' + s1.path.winding + ' ' + s2.path.winding);
+			// debug('\t Paths DO NOT have the same winding: ' + s1.path.winding + ' ' + s2.path.winding);
 			s2.path.reverseWinding();
-			debug('\t now they should: ' + s1.path.winding + ' ' + s2.path.winding);
+			// debug('\t now they should: ' + s1.path.winding + ' ' + s2.path.winding);
 		}
 
 
@@ -519,8 +519,8 @@
 		var intersections = findPathIntersections(shape1.path, shape2.path);
 
 		if(intersections.length < 2) {
-			debug(intersections);
-			debug('\t zero or one intersections, returning');
+			// debug(intersections);
+			// debug('\t zero or one intersections, returning');
 			return false;
 		}
 
@@ -553,12 +553,12 @@
 			p2.done = false;
 		}
 
-		debug('\t intersections');
-		debug(json(intersections));
+		// debug('\t intersections');
+		// debug(json(intersections));
 
-		debug('\t added overlap points');
-		debug(shape1);
-		debug(shape2);
+		// debug('\t added overlap points');
+		// debug(shape1);
+		// debug(shape2);
 
 
 		// Travel the path points in one path adding them to the
@@ -591,16 +591,16 @@
 				newpoint.useh2 = tp.useh2;
 			}
 
-			debug('\t FIRST STEP POINT ' + cp);
-			debug('\t walk done starts: [' + walk.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
-			debug('\t othe done starts: [' + other.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+			// debug('\t FIRST STEP POINT ' + cp);
+			// debug('\t walk done starts: [' + walk.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+			// debug('\t othe done starts: [' + other.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
 
 			while(true){
-				debug('\n   --- STEP ' + step);
-				debug('   --- WALKING ' + (walk===shape1? 'shape1' : 'shape2') + ' ' + walk.name + ' POINT ' + cp);
+				// debug('\n   --- STEP ' + step);
+				// debug('   --- WALKING ' + (walk===shape1? 'shape1' : 'shape2') + ' ' + walk.name + ' POINT ' + cp);
 
 				if(step > max){
-					debug('\t HIT SHAPE THRASHING ERROR - both paths only have ' + max + ' possible points');
+					// debug('\t HIT SHAPE THRASHING ERROR - both paths only have ' + max + ' possible points');
 					break;
 				}
 
@@ -608,10 +608,10 @@
 				op = clone(other.path.pathpoints[copoint]);
 
 				copoint = getPointNumFromOverlapID(other.path, tp);
-				debug('\t copoint returned ' + copoint);
+				// debug('\t copoint returned ' + copoint);
 
 				if(tp.done) {
-					debug('\t tp.done = true, breaking');
+					// debug('\t tp.done = true, breaking');
 					break;
 				}
 
@@ -647,56 +647,56 @@
 
 						if(othernextpt.customid === firstpointid){
 							if(crossarm){
-								debug('\t NOT FLIPPING - next point is the first point, but it crosses an arm');
+								// debug('\t NOT FLIPPING - next point is the first point, but it crosses an arm');
 								dontFilpWalk();
 
 							} else {
-								debug('\t ENDING - next point is the first point');
+								// debug('\t ENDING - next point is the first point');
 							}
 
 						} else {
-							debug('\t NOT FLIPPING - if flipped, the next walk point is done');
+							// debug('\t NOT FLIPPING - if flipped, the next walk point is done');
 							dontFilpWalk();
 						}
 
 					} else if(othernextpt.hasOwnProperty('customid')){
 
 						if(crossarm) {
-							debug('\t NOT FLIPPING - next point would be an overlap point, but it crosses over an arm');
+							// debug('\t NOT FLIPPING - next point would be an overlap point, but it crosses over an arm');
 							dontFilpWalk();
 
 						} else {
-							debug('\t FLIPPING - next point is an overlap point');
+							// debug('\t FLIPPING - next point is an overlap point');
 							flipWalk();
 						}
 
 					} else if(walk.isHere(nextx, nexty)){
-						debug('\t NOT FLIPPING - if flipped, next walk point is over the other shape');
+						// debug('\t NOT FLIPPING - if flipped, next walk point is over the other shape');
 						dontFilpWalk();
 
 					} else {
-						debug('\t FLIPPING - regular case');
+						// debug('\t FLIPPING - regular case');
 						flipWalk();
 					}
 
 					result.addPathPoint(newpoint);
-					debug('\t added copoint at ' + newpoint.P.x + ',' + newpoint.P.y);
+					// debug('\t added copoint at ' + newpoint.P.x + ',' + newpoint.P.y);
 
 				} else {
-					debug('\t NO FLIPPING SPECIAL CASE - just adding the current point');
+					// debug('\t NO FLIPPING SPECIAL CASE - just adding the current point');
 					result.addPathPoint(new PathPoint(clone(tp)));
-					debug('\t added point at ' + tp.P.x + ',' + tp.P.y);
+					// debug('\t added point at ' + tp.P.x + ',' + tp.P.y);
 				}
 
 				tp.done = true;
-				debug('\t shape1 done is now: [' + shape1.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
-				debug('\t shape2 done is now: [' + shape2.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+				// debug('\t shape1 done is now: [' + shape1.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
+				// debug('\t shape2 done is now: [' + shape2.path.pathpoints.map(function(v){ return v.done? 1 : 0; }) + ']');
 				// debug('\t result.length is now: ' + result.pathpoints.length);
 
 				// Finish up loop
 				cp = walk.path.getNextPointNum(cp);
 				step++;
-				debug('\t next point num is ' + cp);
+				// debug('\t next point num is ' + cp);
 			}
 
 			newshapes.push(new Shape({name:s1.name + ' ' + (currshape+1), path:result}));
@@ -724,12 +724,12 @@
 			for(var i=0; i<path.pathpoints.length; i++){
 				tp = path.pathpoints[i];
 				if(tp.hasOwnProperty('customid') && !tp.done){
-					debug('\n getFirstIntersectionPoint - returning point ' + i + ' at ' + tp.P.x + ' , ' + tp.P.y);
+					// debug('\n getFirstIntersectionPoint - returning point ' + i + ' at ' + tp.P.x + ' , ' + tp.P.y);
 					return i;
 				}
 			}
 
-			debug('\n getFirstIntersectionPoint - returning false');
+			// debug('\n getFirstIntersectionPoint - returning false');
 			return false;
 		}
 
@@ -739,14 +739,14 @@
 		var currshape = 0;
 
 		while(true){
-			debug('\n\n----------\nSHAPE OUTLINE ITERATION --- loop = ' + currshape + ' of ' + maxshapes);
+			// debug('\n\n----------\nSHAPE OUTLINE ITERATION --- loop = ' + currshape + ' of ' + maxshapes);
 			if(currshape > maxshapes){
-				debug('\t TOO MANY SHAPES ERROR - should max at ' + maxshapes);
+				// debug('\t TOO MANY SHAPES ERROR - should max at ' + maxshapes);
 				break;
 			}
 
 			if(getFirstIntersectionPoint(shape1.path) === false && getFirstIntersectionPoint(shape2.path) === false){
-				debug('\t ENDING OUTLINE - no more untouched intersection points');
+				// debug('\t ENDING OUTLINE - no more untouched intersection points');
 				break;
 			}
 
@@ -754,7 +754,7 @@
 			currshape++;
 		}
 
-		debug(' fancyCombineShapes - returning ' + newshapes.length + ' shapes - END\n');
+		// debug(' fancyCombineShapes - returning ' + newshapes.length + ' shapes - END\n');
 
 		return newshapes;
 	}
@@ -773,10 +773,10 @@
 	};
 
 	Shape.prototype.changeShapeName = function(sn){
-		debug('\n Shape.changeShapeName - START');
-		debug('\t passed: ' + sn);
+		// debug('\n Shape.changeShapeName - START');
+		// debug('\t passed: ' + sn);
 		sn = strSan(sn);
-		debug('\t sanitized: ' + sn);
+		// debug('\t sanitized: ' + sn);
 
 		if(sn !== ''){
 			this.name = sn;
@@ -787,7 +787,7 @@
 
 		redraw({calledby:'Shape Name', redrawcanvas:false});
 
-		debug(' Shape.changeShapeName - END\n');
+		// debug(' Shape.changeShapeName - END\n');
 	};
 
 

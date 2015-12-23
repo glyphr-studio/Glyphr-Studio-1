@@ -19,18 +19,27 @@
 			'</ul>'+
 			'If you want to retain these features, be sure to also save a Glyphr Studio Project File.<br><br>';
 
+		content += '<h3>Export Options</h3>'+
+			'<table class="settingstable">'+
+			'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_GP.projectsettings.combineshapesonexport', _GP.projectsettings.combineshapesonexport)+'</td>'+
+			'<td style="vertical-align:top;"><label for="combineshapesonexport">Combine all glyph shapes<br>Sometimes fonts behave better if there are less path outlines in a glyph.  This option will combine all overlapping shapes with the same winding into as few shapes as possible.</label></td></tr>'+
+			'</table>';
+
+		content += '<br><br>';
+
 		content += '<table><tr><td style="padding-top:10px;">'+makeIcon({'name':'nav_exportotf', 'size':60, 'color':_UI.colors.blue.l35, 'hovercolor':false})+'</td><td style="padding-left:10px;">'+
 			'</td><td><h2>OTF Font</h2>'+
 			'Open Type Fonts are font files that can be installed on any computer, then used for things like word processing or graphics.<br>'+
-			'<button class="buttonsel" style="margin-top:10px;" onclick="ioOTF_exportOTFfont();">Export OTF Font</button>'+
+			'<button class="buttonsel" style="padding:6px 12px; font-size:1.1em; margin-top:10px;" onclick="showToast(\'Exporting OTF font file...\'); setTimeout(ioOTF_exportOTFfont, 1);">Export OTF Font</button>'+
 			'</td></tr></table>';
 
 		content += '<br><br><table><tr><td style="padding-top:10px;">'+makeIcon({'name':'nav_exportsvg', 'size':60, 'color':_UI.colors.blue.l35, 'hovercolor':false})+'</td><td style="padding-left:10px;">'+
 			'</td><td><h2>SVG Font</h2>'+
 			'Scalable Vector Graphics Fonts are text-file-based fonts that some browsers can use natively to display web page text.  You can also convert SVG Fonts to any other kind of font using free online services.<br>'+
-			'<button class="buttonsel" style="margin-top:10px;" onclick="ioSVG_exportSVGfont();">Export SVG Font</button>'+
-			'</td></tr></table><br><br><br>';
+			'<button class="buttonsel" style="padding:6px 12px; font-size:1.1em; margin-top:10px;" onclick="showToast(\'Exporting SVG font file...\'); setTimeout(ioSVG_exportSVGfont, 1);">Export SVG Font</button>'+
+			'</td></tr></table>';
 
+		content += '<br><br>';
 		content += '</div>';
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;

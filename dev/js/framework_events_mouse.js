@@ -35,6 +35,7 @@
 		_UI.eventhandlers.eh_addpath = new Tool_NewPath();
 		_UI.eventhandlers.eh_pathedit = new Tool_PathEdit();
 		_UI.eventhandlers.eh_pathaddpoint = new Tool_PathAddPoint();
+		_UI.eventhandlers.eh_slice = new Tool_Slice();
 		_UI.eventhandlers.eh_kern = new Tool_Kern();
 
 		// Mouse Event Listeners
@@ -85,6 +86,7 @@
 				case 'newpath' : eh.currtool = eh.eh_addpath; break;
 				case 'newrect' : eh.currtool = eh.eh_addrectoval; break;
 				case 'newoval' : eh.currtool = eh.eh_addrectoval; break;
+				case 'slice': eh.currtool = eh.eh_slice; break;
 				case 'kern': eh.currtool = eh.eh_kern; break;
 				case _UI.selectedtool: eh.currtool = eh.eh_pathedit;
 			}
@@ -97,7 +99,7 @@
 
 
 	// ---------------------------------------------------------
-	// shape resize - resizes whole shapes (Arrow / Pointer)
+	// Shape Resize - resizes whole shapes (Arrow / Pointer)
 	// ---------------------------------------------------------
 	function Tool_ShapeEdit(){
 		this.dragging = false;
@@ -277,7 +279,7 @@
 
 
 	// ---------------------------------------------------------
-	// new basic shape - adds many points to a new path
+	// New Basic Shape - adds many points to a new path
 	// ---------------------------------------------------------
 	function Tool_NewBasicShape(){
 		this.dragging = false;
@@ -355,7 +357,7 @@
 
 
 	// ---------------------------------------------------------
-	// new path - adds many points to a new path (Pen Plus)
+	// New Path - adds many points to a new path (Pen Plus)
 	// ---------------------------------------------------------
 	function Tool_NewPath(){
 		this.dragging = false;
@@ -582,7 +584,7 @@
 
 
 	// ---------------------------------------------------------
-	// path add point - adds points to an existing path (Pen Plus)
+	// Path Add Point - adds points to an existing path (Pen Plus)
 	// ---------------------------------------------------------
 	function Tool_PathAddPoint(){
 		this.addpoint = false;
@@ -638,6 +640,26 @@
 				_UI.eventhandlers.hoverpoint = false;
 				closeNotation();
 			}
+
+			redraw({calledby:'Tool_PathAddPoint.mousemove', redrawpanels:false});
+		};
+
+		this.mouseup = function() {};
+	}
+
+
+
+	// ---------------------------------------------------------
+	// Slice - cuts a shape along a certain line
+	// ---------------------------------------------------------
+	function Tool_Slice(){
+
+		this.mousedown = function(ev) {
+
+			redraw({calledby:'Tool_PathAddPoint.mousedown'});
+		};
+
+		this.mousemove = function(ev) {
 
 			redraw({calledby:'Tool_PathAddPoint.mousemove', redrawpanels:false});
 		};
