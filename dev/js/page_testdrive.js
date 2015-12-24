@@ -78,7 +78,7 @@
 		var pagepadding = 10;
 		var currx = pagepadding;
 		var curry = pagepadding + (ps.ascent*scale);
-		var cc, nc;
+		var cc, tc;
 
 		tctx.clearRect(0,0,5000,5000);
 		if(td.showhorizontals) drawLine(curry);
@@ -86,7 +86,9 @@
 		// debug('\t contentarray.length: ' + contentarray.length);
 
 		for(var k=0; k<contentarray.length; k++){
-			if(contentarray[k] === '\n'){
+			tc = contentarray[k];
+
+			if(tc === '\n'){
 				// reset X val
 				currx = pagepadding;
 
@@ -97,7 +99,7 @@
 				// draw baseline
 				if(td.showhorizontals) drawLine(curry);
 			} else {
-				cc = getGlyph(glyphToHex(contentarray[k]));
+				cc = getGlyph(glyphToHex(tc));
 				if(cc){
 					if(td.showglyphbox){
 						tctx.fillStyle = 'transparent';
@@ -116,21 +118,18 @@
 					// debug(cc);
 
 					if(_UI.testdrive.flattenglyphs){
-						if(!_UI.testdrive.cache.hasOwnProperty(contentarray[k])){
-							_UI.testdrive.cache[contentarray[k]] = new Glyph(cc).flattenGlyph().combineAllShapes(true);
+						if(!_UI.testdrive.cache.hasOwnProperty(tc)){
+							_UI.testdrive.cache[tc] = new Glyph(cc).flattenGlyph().combineAllShapes(true);
 						}
 
-						currx += _UI.testdrive.cache[contentarray[k]].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+						currx += _UI.testdrive.cache[tc].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 
 					} else {
 						currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
 					}
 
-
-
-
 					currx += (td.padsize*1*scale);
-					currx += calculateKernOffset(contentarray[k], contentarray[k+1])*scale;
+					currx += calculateKernOffset(tc, contentarray[k+1])*scale;
 					// debug('\t done drawing ' + cc.name);
 				}
 			}

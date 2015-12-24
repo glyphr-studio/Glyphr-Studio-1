@@ -22,10 +22,9 @@
 		'devmode': true, 					// global switch for all the stuff below
 		'debug': true, 						// show messages sent to the browser console
 		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		'devnav': 'glyph edit', 			// navigate straight to a page
+		'devnav': 'test drive', 			// navigate straight to a page
 		'devnavprimary': false, 			// navigate straight to a panel
 		'devselectedshape': false, 			// automatically select a shape
-		'usefancy': false, 					// use fancy shape outline method
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
@@ -33,7 +32,7 @@
 		],
 		'testOnLoad': function() {
 			// Glyph flattening test
-			selectGlyph('0x0048');
+			selectGlyph('0x004D');
 
 
 			// Overlapping point-path test
@@ -207,7 +206,7 @@
 			'padsize': 0,
 			'showglyphbox': false,
 			'showhorizontals': false,
-			'flattenglyphs': false,
+			'flattenglyphs': true,
 			'cache':{}
 		},
 

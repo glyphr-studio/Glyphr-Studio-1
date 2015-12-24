@@ -319,7 +319,6 @@
 		return re;
 	};
 
-
 	// This method is called on Glyphs just before they are deleted
 	// to clean up all the component instance linking
 	Glyph.prototype.deleteLinks = function(thisid) {
@@ -508,59 +507,71 @@
 
 	Glyph.prototype.combineAllShapes = function(donttoast) {
 		// debug('\n Glyph.combineAllShapes - START');
+		var tempshapes = [];
 
-		// Sort shapes by winding
-		var tempshapes = clone(this.shapes);
-		tempshapes.sort(function(a,b){return a.path.winding - b.path.winding;});
+		if(this.shapes.length === 1){
+			debug(this.name + ' \t\t ' + this.shapes.length);
+			return this;
+		}
 
+		if(this.shapes.length === 2){
+			tempshapes = combineShapes(this.shapes[0], this.shapes[1], donttoast);
+
+			if(!tempshapes){
+				debug(this.name + ' \t\t ' + this.shapes.length);
+				return this;
+			}
+		}
+
+		if(this.shapes.length > 2){
+			// Sort shapes by winding
+			tempshapes = clone(this.shapes);
+			tempshapes.sort(function(a,b){return a.path.winding - b.path.winding;});
+
+			// Main collapsing loop
+			var looping = true;
+			var count = 0;
+
+			while(looping && count < 8){
+				looping = false;
+
+				lr = singlePass(tempshapes);
+				looping = lr.didstuff;
+				tempshapes = lr.arr;
+				// debug('\t didstuff ' + lr.didstuff);
+				count++;
+			}
+		}
 
 		// One pass through collapsing shapes down
 		function singlePass(arr) {
-			// debug('\t singlePass');
+			// debug('\n\t SinglePass');
 			// debug('\t\t start arr len ' + arr.length);
-			var tc, nc, re;
+			var re;
 			var newarr = [];
 			var didstuff = false;
-			for(var c=0; c<arr.length; c++){
-				// debug('\t\t loop ' + c);
-				tc = arr[c];
-				nc = arr[c+1] || false;
 
-				if(nc) {
-					re = combineShapes(tc, nc, donttoast);
-					// re = fancyCombineShapes(tc, nc);
+			for(var outer=0; outer<arr.length; outer++){ for(var inner=0; inner<arr.length; inner++){
+				// debug('\t\t testing shape ' + outer + ' and ' + inner);
 
-					// debug('\t\t combineShapes returned arr len ' + (re.length || re));
+				if((outer !== inner) && arr[outer] && arr[inner]){
+					re = combineShapes(arr[outer], arr[inner], donttoast);
+
+					// debug('\t\t combineShapes returned ' + (re.length || re));
 					if(re !== false){
 						newarr = newarr.concat(re);
 						didstuff = true;
-						c++;
-					} else {
-						newarr.push(tc);
+						arr[outer] = false;
+						arr[inner] = false;
 					}
-				} else {
-					// debug('\t\t no next, end of loop');
-					newarr.push(tc);
 				}
-			}
+			}}
+
+			newarr = newarr.concat(arr.filter(function(v){return v;}));
+
+			// debug('\t singlepass didstuff = ' + didstuff);
 
 			return {'arr':newarr, 'didstuff':didstuff};
-		}
-
-
-		// Main collapsing loop
-		var looping = true;
-		var count = 0;
-
-		while(looping && count < 8){
-			// debug('\t loop ' + count);
-			looping = false;
-
-			lr = singlePass(tempshapes);
-			looping = lr.didstuff;
-			tempshapes = lr.arr;
-			// debug('\t didstuff ' + lr.didstuff);
-			count++;
 		}
 
 
@@ -572,97 +583,6 @@
 		this.calcGlyphMaxes();
 
 		debug(this.name + ' \t\t ' + this.shapes.length);
-		// debug(' Glyph.combineAllShapes - END\n');
-		return this;
-	};
-
-	Glyph.prototype.fancyCombineAllShapes = function(donttoast) {
-		// debug('\n Glyph.combineAllShapes - START');
-		var clock = [];
-		var anti = [];
-
-		function separateWindings(arr, tclock, tanti) {
-			var ts;
-			for(var s=0; s<arr.length; s++){
-				ts = arr[s];
-				if(ts.path.winding > 0) tanti.push(clone(ts));
-				else if(ts.path.winding < 0) tclock.push(clone(ts));
-				else debug('\t Glyph.combineAllShapes - WARNING - found a shape with winding=0');
-			}
-		}
-
-		function singlePass(arr) {
-			// debug('\t singlePass');
-			// debug('\t\t start arr len ' + arr.length);
-			var tc, nc, re;
-			var newarr = [];
-			var didstuff = false;
-			for(var c=0; c<arr.length; c++){
-				// debug('\t\t loop ' + c);
-				tc = arr[c];
-				nc = arr[c+1] || false;
-
-				if(nc) {
-					re = combineShapes(tc, nc, donttoast);
-					// re = fancyCombineShapes(tc, nc);
-
-					// debug('\t\t combineShapes returned arr len ' + (re.length || re));
-					if(re !== false){
-						newarr = newarr.concat(re);
-						didstuff = true;
-						c++;
-					} else {
-						newarr.push(tc);
-					}
-				} else {
-					// debug('\t\t no next, end of loop');
-					newarr.push(tc);
-				}
-			}
-
-			return {'arr':newarr, 'didstuff':didstuff};
-		}
-
-		// Main collapsing loop
-		var looping = true;
-		var count = 0;
-		var lr;
-		var tempclock = [];
-		var tempanti = [];
-
-		separateWindings(this.shapes, clock, anti);
-
-		while(looping && count < 8){
-			// debug('\t loop ' + count);
-			tempclock = [];
-			tempanti = [];
-			looping = false;
-
-			lr = singlePass(clock);
-			separateWindings(lr.arr, tempclock, tempanti);
-			looping = lr.didstuff;
-			// debug('\t clockwise didstuff ' + lr.didstuff);
-
-			lr = singlePass(anti);
-			separateWindings(lr.arr, tempclock, tempanti);
-			looping = looping || lr.didstuff;
-			// debug('\t counter didstuff ' + lr.didstuff);
-
-			clock = tempclock;
-			anti = tempanti;
-			// debug('\t finished: looping=' + looping + ' clock=' + clock.length + ' anti=' + anti.length);
-			count++;
-		}
-
-		// Finish up
-		var newarr = clock.concat(anti);
-		this.shapes = [];
-		for(var ns=0; ns<newarr.length; ns++) this.shapes.push(new Shape(newarr[ns]));
-		// debug('\t new shapes');
-		// debug(this.shapes);
-		this.calcGlyphMaxes();
-
-		// debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
 		return this;
 	};
