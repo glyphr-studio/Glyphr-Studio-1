@@ -509,6 +509,22 @@
 
 
 //-------------------------------------------------------
+// HELPERS
+//-------------------------------------------------------
+	function makePathPointFromSegments(seg1, seg2) {
+		var newpp = new PathPoint({
+			H1: new Coord({x: seg1.p3x, y: seg1.p3y}),
+			P: new Coord({x: seg2.p1x, y: seg2.p1y}),
+			H2: new Coord({x: seg2.p2x, y: seg2.p2y}),
+		});
+
+		newpp.resolvePointType();
+
+		return newpp;
+	}
+
+
+//-------------------------------------------------------
 // DRAW
 //-------------------------------------------------------
 

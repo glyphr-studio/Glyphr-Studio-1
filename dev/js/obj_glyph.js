@@ -508,6 +508,7 @@
 	Glyph.prototype.combineAllShapes = function(donttoast) {
 		// debug('\n Glyph.combineAllShapes - START');
 		var tempshapes = [];
+		var newshapes = [];
 
 		if(this.shapes.length === 1){
 			debug(this.name + ' \t\t ' + this.shapes.length);
@@ -575,9 +576,14 @@
 		}
 
 
+		// Collapse each shape's overlapping paths
+		// for(var ts=0; ts<tempshapes.length; ts++) newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
+		
+
 		// Finish up
-		this.shapes = [];
-		for(var ns=0; ns<tempshapes.length; ns++) this.shapes.push(new Shape(tempshapes[ns]));
+		// this.shapes = newshapes;
+		this.shapes = tempshapes;
+		
 		// debug('\t new shapes');
 		// debug(this.shapes);
 		this.calcGlyphMaxes();

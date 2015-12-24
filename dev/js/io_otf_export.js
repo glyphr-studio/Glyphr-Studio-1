@@ -7,7 +7,7 @@
 
 
 	function ioOTF_exportOTFfont() {
-		// debug('\n ioOTF_exportOTFfont - START');
+		debug('\n ioOTF_exportOTFfont - START');
 		// debug('\t combineshapesonexport = ' + _GP.projectsettings.combineshapesonexport);
 		var options = {};
 		
@@ -109,5 +109,5 @@
 		font.download();
 		setTimeout(function(){_UI.stoppagenavigation = true;}, 2000);
 
-		// debug(' ioOTF_exportOTFfont - END\n');
+		debug(' ioOTF_exportOTFfont - END\n');
 	}

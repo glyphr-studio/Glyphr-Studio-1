@@ -55,14 +55,14 @@
 		if(event.ctrlKey && kc==='g'){
 			event.preventDefault();
 			showToast('Exporting SVG font file...'); 
-			setTimeout(ioSVG_exportSVGfont, 1);
+			setTimeout(ioSVG_exportSVGfont, 500);
 		}
 
 		// e
 		if(event.ctrlKey && kc==='e'){
 			event.preventDefault();
 			showToast('Exporting OTF font file...'); 
-			setTimeout(ioOTF_exportOTFfont, 1);
+			setTimeout(ioOTF_exportOTFfont, 500);
 		}
 
 		// q

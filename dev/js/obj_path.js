@@ -191,7 +191,7 @@
 		gctx.fill();
 
 		var imageData = gctx.getImageData(px, py, 1, 1);
-		//debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));
+		// debug('ISHERE? alpha = ' + imageData.data[3] + '  returning: ' + (imageData.data[3] > 0));
 		return (imageData.data[3] > 0);
 	};
 
@@ -550,7 +550,13 @@
 		return re;
 	};
 
-
+	Path.prototype.getSegmentArr = function() {
+		var re = [];
+		for(var pp=0; pp<this.pathpoints.length; pp++){
+			re.push(this.getSegment(pp));
+		}
+		return re;
+	};
 
 //  -----------------------------------
 //  CANVAS HELPER FUNCTIONS

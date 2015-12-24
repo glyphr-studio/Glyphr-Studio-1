@@ -41,19 +41,20 @@
 	Segment.prototype.drawSegment = function() {
 		var x = _UI.glypheditctx;
 
-		draw_BoundingBox(this.getFastMaxes(), _UI.colors.green, 2);
+		// draw_BoundingBox(this.getFastMaxes(), _UI.colors.green, 2);
 
-		// x.strokeStyle = _UI.colors.green.l35;
+		// x.strokeStyle = _UI.colors.green.l55;
+		// x.lineWidth = 3;
 		// x.moveTo(sx_cx(this.p1x), sy_cy(this.p1y));
 		// x.bezierCurveTo(sx_cx(this.p2x), sy_cy(this.p2y), sx_cx(this.p3x), sy_cy(this.p3y), sx_cx(this.p4x), sy_cy(this.p4y));
 		// x.stroke();
 
-		// x.strokeStyle = _UI.colors.green.l45;
-		// x.fillStyle = _UI.colors.green.l45;
+		x.strokeStyle = _UI.colors.green.l45;
+		x.fillStyle = _UI.colors.green.l45;
 		// draw_CircleHandle({'x':sx_cx(this.p1x), 'y':sy_cy(this.p1y)});
 		// draw_CircleHandle({'x':sx_cx(this.p2x), 'y':sy_cy(this.p2y)});
 		// draw_CircleHandle({'x':sx_cx(this.p3x), 'y':sy_cy(this.p3y)});
-		// draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
+		draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
 	};
 
 	Segment.prototype.split = function(t) {
@@ -202,6 +203,22 @@
 //	-----------------------------------
 //	Curve Intersections
 //	-----------------------------------
+	function findAllSegmentIntersections(segarr) {
+		var ix = [];
+
+		for(var outer=0; outer<segarr.length; outer++){ 
+		for(var inner=0; inner<segarr.length; inner++){
+			if(inner !== outer){
+				ix = ix.concat(findSegmentIntersections(segarr[outer], segarr[inner]));
+			}
+		}}
+
+		ix = ix.filter(function(v,i) {
+			return ix.indexOf(v) === i;
+		});
+
+		return ix;
+	}
 
 	function findSegmentIntersections(s1, s2, depth) {
 		// debug('\n findSegmentIntersections - START');
