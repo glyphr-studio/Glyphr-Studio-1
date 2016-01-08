@@ -30,6 +30,7 @@
 		this.maxes = oa.maxes || clone(_UI.mins);
 		this.shapes = oa.shapes || [];
 		this.usedin = oa.usedin || [];
+		this.svg = oa.svg || false;
 
 		var lc = 0;
 		var cs = 0;
@@ -422,6 +423,8 @@
 	};
 
 	Glyph.prototype.makeSVGpathData = function() {
+		if(this.svg) return this.svg;
+
 		var sl = this.shapes;
 		var pathdata = '';
 		var lsb = this.getLSB();
@@ -444,6 +447,7 @@
 		}
 		if(trim(pathdata) === '') pathdata = 'M0,0Z';
 
+		this.svg = pathdata;
 		return pathdata;
 	};
 
@@ -527,7 +531,7 @@
 		if(this.shapes.length > 2){
 			// Sort shapes by winding
 			tempshapes = clone(this.shapes);
-			tempshapes.sort(function(a,b){return a.path.winding - b.path.winding;});
+			tempshapes.sort(function(a,b){return a.path.getWinding() - b.path.getWinding();});
 
 			// Main collapsing loop
 			var looping = true;
@@ -577,12 +581,14 @@
 
 
 		// Collapse each shape's overlapping paths
-		// for(var ts=0; ts<tempshapes.length; ts++) newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
-		
+		for(var ts=0; ts<tempshapes.length; ts++){
+			newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
+		}
+				
 
 		// Finish up
-		// this.shapes = newshapes;
-		this.shapes = tempshapes;
+		this.shapes = newshapes;
+		// this.shapes = tempshapes;
 		
 		// debug('\t new shapes');
 		// debug(this.shapes);
@@ -596,8 +602,15 @@
 
 
 //-------------------------------------------------------
-// HELPERS
+// METHODS
 //-------------------------------------------------------
+
+	Glyph.prototype.changed = function() {
+		this.svg = false;
+
+		for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed();
+	};
+
 	Glyph.prototype.map = function(indents) {
 		indents = indents || '   ';
 		var re = (indents + 'GLYPH ' + this.name + '\n');

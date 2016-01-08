@@ -28,12 +28,25 @@
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
+			{'name': 'Draw ix', 'onclick': 'getSelectedWorkItemShapes()[0].path.getPolySegment().showPoints();'},
+			{'name': 'Seg2 maxes', 'onclick': 'var s=_UI.ms.shapes.members[0].path.getSegment(1); s.drawSegmentPoints(); debug([s.getMaxes()]);debug([s]);'},
 			{'name': 'Toast', 'onclick': 'showToast(\'Test Toast!\', 2000);'}
 		],
 		'testOnLoad': function() {
-			// Glyph flattening test
-			selectGlyph('0x004D');
 
+			// Segment Test
+			// var s1 = new Segment({p1x:100, p1y:100, p2x:200, p2y:100, p3x:300, p3y:100, p4x:400, p4y:100});
+			// var s2 = new Segment({p1x:250, p1y:100, p2x:350, p2y:100, p3x:450, p3y:100, p4x:550, p4y:100});
+
+			// var re = findOverlappingLineSegmentIntersections(s1, s2);
+			// debug(re);
+
+			// Glyph flattening test
+			selectGlyph('0x0045');
+			getSelectedWorkItem().flattenGlyph();
+			history_put('flatten');
+			setView({dx:100, dy:700, dz:0.6});
+			redraw();
 
 			// Overlapping point-path test
 			// addShape(new Shape({'name':'small', 'path':rectPathFromMaxes({'xmax':200, 'xmin':100, 'ymax':400, 'ymin':100})}));
@@ -46,7 +59,7 @@
 			// Complex multi shape result test
 			// addShape(new Shape({"objtype":"shape","name":"DCOUNTER","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":58.25,"y":467.6382743362831,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":153.5,"y":456.2699115044247,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":65,"y":517.0774336283187,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":52,"y":564,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":59,"y":528.0442477876106,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":190,"y":564,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":316,"y":366.3805309734514,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":316,"y":512.3185840707964,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":316,"y":220.4424778761064,"xlock":false,"ylock":false},"type":"symmetric","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":66,"y":102,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":204,"y":102,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":59,"y":156.99115044247787,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":64.25,"y":212.24668141592923,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":63,"y":161.75,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":145.5,"y":222.55752212389382,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":246,"y":360.03539823008856,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":246,"y":287.06637168141594,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":246,"y":433.0044247787612,"xlock":false,"ylock":false},"type":"flat","useh1":true,"useh2":true}],"winding":-5,"maxes":{"xmax":316,"xmin":52,"ymax":564,"ymin":102}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false}));
 			// addShape(new Shape({"objtype":"shape","name":"DVERTICAL","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":16,"y":634,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":16,"y":485,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":41,"y":634,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":116,"y":634,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":91,"y":634,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":116,"y":485,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":116,"y":38,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":116,"y":187,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":91,"y":38,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":16,"y":38,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":41,"y":38,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":16,"y":187,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-5,"maxes":{"xmax":116,"xmin":16,"ymax":634,"ymin":38}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false}));
-			
+
 			_UI.selectedtool = 'shaperesize';
 		},
 		'testOnRedraw': function() {},
@@ -128,7 +141,8 @@
 				'fname':'selectGlyph',
 				'selected': 'basiclatin',
 				'choices':'glyphs'
-			}
+			},
+			'cache': false
 		},
 		'multiselectthickness': 2,
 		'rotatehandleheight': 40,
@@ -252,7 +266,7 @@
 			'font_variant': 'normal, small-caps',
 			'font_weight': 'normal, bold, or a number 100-900',
 			'font_stretch': 'normal, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded',
-			'panose_1': 'Uses ten digits to describe the font\'s visual style.  A good overview can be found here: <a href="http://www.monotype.com/services/pan2" target="_blank">monotype.com/services/pan2</a>.',
+			'panose_1': 'Uses ten digits to describe the font\'s visual style.  A good overview can be found here (archived): <a href="https://web.archive.org/web/20140913211804/http://www.monotype.com/services/pan2" target="_blank">monotype.com/services/pan2</a>.',
 			'stemv': 'Average measurement of vertical stems.',
 			'stemh': 'Average measurement of horizontal stems.',
 			'slope': 'If italic, this is the slant angle, measured counterclockwise from vertical. Or zero for non-italic fonts.',

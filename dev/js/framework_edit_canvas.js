@@ -633,11 +633,18 @@
 		return rechar? rechar.shapes : [];
 	}
 
+	function markSelectedWorkItemAsChanged() {
+		var wi = getSelectedWorkItem();
+
+		if(wi && wi.changed) wi.changed();
+	}
+
 	function selectGlyph(c, dontnavigate){
 		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedglyph = c;
 		clickEmptySpace();
+		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
@@ -650,6 +657,7 @@
 
 		_UI.selectedcomponent = c;
 		clickEmptySpace();
+		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
@@ -662,6 +670,7 @@
 
 		_UI.selectedligature = c;
 		clickEmptySpace();
+		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
@@ -749,8 +758,9 @@
 
 	function draw_BoundingBox(maxes, accent, thickness) {
 		// debug('\n draw_BoundingBox - START');
+		// debug(maxes);
 		// debug('\t accent: ' + accent.l65);
-		//draw bounding box and 8points
+
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
 		var lx = sx_cx(maxes.xmin);

@@ -29,6 +29,7 @@
 		this.currstate = clone(_GP[this.parentname]);
 
 		setProjectAsUnsaved();
+		markSelectedWorkItemAsChanged();
 
 		// debug(' History.put - END\n');
 	};

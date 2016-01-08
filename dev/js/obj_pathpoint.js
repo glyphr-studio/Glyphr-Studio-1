@@ -446,7 +446,7 @@
 		var re = this.useh1? this.H1.x : this.P.x;
 		if(isNaN(re)){
 			re = this.P.x || (this.H1.x || 0);
-			// debug('PathPoint NaN found H1.x - falling back to ' + re);
+			debug('PathPoint NaN found H1.x - falling back to ' + re);
 		}
 		return re;
 	};

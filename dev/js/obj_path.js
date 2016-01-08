@@ -28,9 +28,7 @@
 			}
 		}
 
-		if(isval(oa.winding)) this.winding = oa.winding;
-		else if (this.findWinding) this.findWinding();
-		else this.winding = 0;
+		this.winding = isval(oa.winding)? this.winding : this.getWinding();
 
 		// internal
 		this.maxes = oa.maxes || clone(_UI.mins);
@@ -154,6 +152,12 @@
 		this.calcMaxes();
 	};
 
+	Path.prototype.getWinding = function() {
+		if(isval(this.winding)) return this.winding;
+		else if (this.findWinding) this.findWinding();
+		else this.winding = 0;
+	};
+
 	Path.prototype.getHeight = function() {
 		var h = this.maxes.ymax - this.maxes.ymin;
 		return Math.max(h, 0);
@@ -195,6 +199,7 @@
 		return (imageData.data[3] > 0);
 	};
 
+
 //  -----------------------------------
 //  METHODS
 //  -----------------------------------
@@ -215,13 +220,12 @@
 		return pnum;
 	};
 
+	Path.prototype.changed = function() {};
+
+
 //	-----------------------------------
 // 	Boolean Combine
 //	-----------------------------------
-
-	Path.prototype.addPoints = function(parr) {
-		
-	};
 
 	function findPathIntersections(p1, p2, onlyfirst) {
 		// debug('\n findPathIntersections - START');
@@ -257,8 +261,8 @@
 
 			if(maxesOverlap(bs.getFastMaxes(), ts.getFastMaxes())){
 				// debug('\t\t pushed!');
-				// bs.drawSegment();
-				// ts.drawSegment();
+				// bs.drawSegmentOutline();
+				// ts.drawSegmentOutline();
 				segoverlaps.push({'bottom':bs, 'top':ts});
 			}
 		}
@@ -342,14 +346,28 @@
 		return re;
 	}
 
-	Path.prototype.containsPoint = function(c) {
+	Path.prototype.addPointsAtPathIntersections = function(first_argument) {
+		var polyseg = this.getPolySegment();
+
+		polyseg.splitSegmentsAtIntersections();
+
+		var newpath = polyseg.getPath();
+
+		this.pathpoints = clone(newpath.pathpoints);
+	};
+
+	Path.prototype.containsPoint = function(c, wantsecond) {
+
 		for(var pp=0; pp<this.pathpoints.length; pp++){
-			if(pointsOverlap(c, this.pathpoints[pp].P)) return this.pathpoints[pp];
+			if(pointsOverlap(c, this.pathpoints[pp].P)) {
+				if(wantsecond) wantsecond = false;
+				else return this.pathpoints[pp];
+			}
 		}
 		return false;
 	};
 
-	function maxesOverlap(m1, m2, depth) {
+	function maxesOverlap(m1, m2) {
 		// var inc = (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
 		var exc = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
 		// var iny = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
@@ -358,6 +376,7 @@
 
 		return exc;
 	}
+
 
 //  -----------------------------------
 //  DRAWING
@@ -545,18 +564,19 @@
 			'p4x':pp2.P.x, 'p4y':pp2.P.y
 		});
 
-		// debug(re);
+		// debug([re, re2]);
 		// debug(' Path.getSegment - END\n');
 		return re;
 	};
 
-	Path.prototype.getSegmentArr = function() {
-		var re = [];
+	Path.prototype.getPolySegment = function() {
+		var seg = [];
 		for(var pp=0; pp<this.pathpoints.length; pp++){
-			re.push(this.getSegment(pp));
+			seg.push(this.getSegment(pp));
 		}
-		return re;
+		return new PolySegment({segments: seg});
 	};
+
 
 //  -----------------------------------
 //  CANVAS HELPER FUNCTIONS
@@ -788,9 +808,10 @@
 		return ppn;
 	};
 
-	Path.prototype.getClosestPointOnCurve = function(coord) {
+	Path.prototype.getClosestPointOnCurve = function(coord, wantsecond) {
 		var grains = 10000;
-		var result = false;
+		var first = false;
+		var second = false;
 		var mindistance = 999999999;
 		var check, d, seglen;
 
@@ -803,8 +824,9 @@
 				check = this.getCoordFromSplit(t, pp);
 				d = Math.sqrt( ((check.x-coord.x)*(check.x-coord.x)) + ((check.y-coord.y)*(check.y-coord.y)) );
 				if(d < mindistance){
+					if(first && first.point !== pp) second = clone(first);
 					mindistance = d;
-					result = {
+					first = {
 						'point' : pp,
 						'split' : t,
 						'distance' : d,
@@ -815,37 +837,14 @@
 			}
 		}
 
-		return result;
+		return wantsecond? second : first;
 	};
 
-	Path.prototype.getCoordFromSplit = function(split, pointnum) {
+	Path.prototype.getCoordFromSplit = function(t, pointnum) {
 		if(this.pathpoints.length > 1){
-			var pp1 = this.pathpoints[pointnum];
-			// var pp2 = this.pathpoints[(pointnum+1)%this.pathpoints.length];
-			var pp2 = this.pathpoints[this.getNextPointNum(pointnum)];
-			var fs = split || 0.5;
-			var rs = (1-fs);
+			var seg = this.getSegment(pointnum);
+			return seg.getCoordFromSplit(t);
 
-			// Do some math
-			var x12 = (pp1.P.x * rs) + (pp1.getH2x() * fs);
-			var y12 = (pp1.P.y * rs) + (pp1.getH2y() * fs);
-
-			var x23 = (pp1.getH2x() * rs) + (pp2.getH1x() * fs);
-			var y23 = (pp1.getH2y() * rs) + (pp2.getH1y() * fs);
-
-			var x34 = (pp2.getH1x() * rs) + (pp2.P.x * fs);
-			var y34 = (pp2.getH1y() * rs) + (pp2.P.y * fs);
-
-			var x123 = (x12 * rs) + (x23 * fs);
-			var y123 = (y12 * rs) + (y23 * fs);
-
-			var x234 = (x23 * rs) + (x34 * fs);
-			var y234 = (y23 * rs) + (y34 * fs);
-
-			var x1234 = (x123 * rs) + (x234 * fs);
-			var y1234 = (y123 * rs) + (y234 * fs);
-
-			return {'x':x1234, 'y':y1234};
 		} else {
 			return this.pathpoints[0].P;
 		}

@@ -127,8 +127,8 @@
 				path.calcMaxes();
 			}
 		}
+		
 		this.clear();
-
 	};
 
 	_UI.ms.points.getSingletonPointNumber = function() {
@@ -224,6 +224,7 @@
 
 		// debug(' MS.points.selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
 	};
+
 
 //-------------------------------------------------------
 // SELECTED SHAPES

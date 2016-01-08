@@ -36,6 +36,8 @@
 
 		if(_UI.devmode) _UI.testOnLoad();
 
+		document.title = 'Glyphr Studio';
+
 		//debug(' MAIN SETUP - END\n');
 	};
 
@@ -148,8 +150,10 @@
 			if(typeof message === 'string'){
 				message = message.replace(/&lt;/gi, '<');
 				message = message.replace(/&gt;/gi, '>');
+				console.log(message);
+			} else if (typeof message === 'object'){
+				console.table(message);
 			}
-			console.log(message);
 		}
 	}
 
@@ -444,6 +448,20 @@ function saveFile(fname, buffer, ftype) {
 		if(!num) return 0;
 		dec = dec || 0;
 		return Number(Math.round(num+'e'+dec)+'e-'+dec) || 0;
+	}
+
+	// floating point numbers make me mad
+	function numSan(num) {
+		num = parseFloat(num);
+		var strnum = ''+num;
+
+		if(strnum.indexOf('0000') > -1 || strnum.indexOf('9999') > -1){
+			num = round(num, 6);
+		}
+
+		if(num < 0.0000 && num > 0) num = 0;
+
+		return num;
 	}
 
 	// removes illegal file name chars

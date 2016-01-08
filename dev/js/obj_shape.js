@@ -37,6 +37,9 @@
 
 	Shape.prototype.getName = function() { return this.name; };
 
+	Shape.prototype.changed = function() {
+		// this.path.changed();
+	};
 
 //	-------------------------------------------------------
 //	DRAWING THE SHAPE
@@ -380,11 +383,7 @@
 		}
 
 		// Insert one intersection into both shapes
-		var ix = intersections[0];
-		ix = {
-			x: parseFloat(ix.split('/')[0]),
-			y: parseFloat(ix.split('/')[1])
-		};
+		var ix = ixToCoord(intersections[0]);
 
 		var p1 = shape1.path.containsPoint(ix);
 		if(!p1){
@@ -411,7 +410,7 @@
 
 			for(var pp=0; pp<path.pathpoints.length; pp++){
 				pt = new PathPoint(path.pathpoints[pp]);
-				
+
 				if(path.pathpoints[pp].customid !== 'overlap') {
 					re.push(pt);
 
@@ -486,109 +485,33 @@
 	}
 
 	Shape.prototype.resolveSelfOverlaps = function() {
-		debug('\n Shape.resolveSelfOverlaps - START');
+		// debug('\n Shape.resolveSelfOverlaps - START');
 		// Add self intersects to path
-		var intersections = findAllSegmentIntersections(this.path.getSegmentArr());
-		var ix, p1, split;
-		var segments = [];
-		var newpoints = [];
+		var polyseg = this.path.getPolySegment();
 
-		debug('\t intersections.length = ' + intersections.length);
-
-		function addNextSegment(seg) {
-			var ts;
-			for(var s=0; s<segments.length; s++){
-				ts = clone(segments[s]);
-				debug('\t checking p4/ts: ' + round(seg.p4x, 3)+' = '+round(ts.p1x, 3)+' / '+round(seg.p4y, 3)+' = '+round(ts.p1y, 3));
-				
-				if(round(seg.p4x, 3) === round(ts.p1x, 3) && round(seg.p4y, 3) === round(ts.p1y, 3)){
-					newpoints.push(makePathPointFromSegments(seg, ts));
-					segments.splice(s, 1);
-					debug('\t Next Segment Found - newpoints.length = ' + newpoints.length);
-					debug('\t Next Segment should start ' + ts.p4x + ', ' + ts.p4y);
-					return ts;
-				}
-			}
-
-			debug('\t No next segment found - segments.length = ' + segments.length);
-			return false;
-		}
-			
-		if(intersections.length){
-			for(var i=0; i<intersections.length; i++){
-				ix = intersections[i];
-				ix = {
-					x: parseFloat(ix.split('/')[0]),
-					y: parseFloat(ix.split('/')[1])
-				};
-
-				p1 = this.path.containsPoint(ix);
-				if(!p1){
-					p1 = this.path.getClosestPointOnCurve(ix);
-					p1 = this.path.insertPathPoint(p1.split, p1.point);
-				}
-
-				draw_CircleHandle({'x':sx_cx(ix.x), 'y':sy_cy(ix.y)});
-			}
-			debug('\t added intersections to shape path');
-
-			// Filter out segments that are overlapping the shape	
-			var pt = 3;		
-			for(var pp=0; pp<this.path.pathpoints.length; pp++){
-				segments.push(this.path.getSegment(pp));
-				split = segments[pp].split();
-				split[0].drawSegment();
-
-				// Big hit dectection, to miss border paths
-				if(this.isHere(sx_cx(split[0].p4x), sy_cy(split[0].p4y)) &&
-					this.isHere(sx_cx(split[0].p4x), sy_cy(split[0].p4y + pt)) &&
-					this.isHere(sx_cx(split[0].p4x), sy_cy(split[0].p4y - pt)) &&
-					this.isHere(sx_cx(split[0].p4x + pt), sy_cy(split[0].p4y)) &&
-					this.isHere(sx_cx(split[0].p4x - pt), sy_cy(split[0].p4y)) ){
-					// alert('HIT');
-					segments[pp] = false;
-				} else {
-					// alert('MISS');
-				}
-			}
-			segments = segments.filter(function(v){return v;});
-			// filter out duplicate segments
-			debug('\t created segments');
-			debug(segments);
+		// debug(polyseg.segments);
+		
+		var didstuff = polyseg.splitSegmentsAtIntersections();
+		// debug(polyseg.segments);
+		if(!didstuff) return;
 
 
-			// Stitch the remaining together
-			var newshapes = [];
-			var nextseg = segments.splice(0, 1);
-			var count = 0;
+		polyseg.removeSegmentsOverlappingShape(this);
 
-			while(nextseg && count < 20){
-				debug('\t SEGMENT LOOP ' + count);
-				debug('\t segments.length = ' + segments.length);
-				nextseg = addNextSegment(nextseg);
-				
-				if(nextseg === false && newpoints.length){
-					debug('\t SEGMENT LOOP - pushing new shape');
-					newshapes.push(new Shape({path: new Path({pathpoints: newpoints})}));
-					debug(newshapes);
-					newpoints = [];
-				}
+		// var reshapes = [];
+		// reshapes.push(new Shape({'name':this.name, 'path':polyseg.getPath()}));
 
-				if(nextseg === false && segments.length) {
-					debug('\t SEGMENT LOOP - more segments, kicking off new nextseg');
-					nextseg = segments[0];
-				}
+		var resegs = polyseg.stitchSegmentsTogether();
+		
 
-				count++;
-			}
+		var reshapes = [];
+		resegs.forEach(function(v) {
+			reshapes.push(new Shape({'name':this.name, 'path':v.getPath()}));
+		});
 
-			debug(' Shape.resolveSelfOverlaps - END\n');
-			return newshapes;
 
-		} else {
-			debug(' Shape.resolveSelfOverlaps - no intersections - END\n');
-			return [this];
-		}
+		// debug(' Shape.resolveSelfOverlaps - END\n');
+		return reshapes;
 	};
 
 
@@ -646,5 +569,11 @@
 	Shape.prototype.checkForNaN = function() {
 		return this.path.checkForNaN();
 	};
+
+	Shape.prototype.drawSegments = function () {
+		var segs = this.path.getPolySegment();
+		segs.slowlyDrawSegments();
+	};
+
 
 // end of file

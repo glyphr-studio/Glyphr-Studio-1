@@ -8,7 +8,7 @@
 
 
 	function makePanel_GlyphChooser(){
-		// debug('\n makePanel_GlyphChooser - START');
+		debug('\n makePanel_GlyphChooser - START');
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
@@ -17,12 +17,15 @@
 		content += '<div class="panel_section" id="glyphchooser">';
 
 		var gcp = _UI.glyphchooser.panel;
+		// _UI.glyphchooser.cache = false;
 
 		if(_UI.navhere === 'glyph edit'){
 			asyncLoadChooserPanel();
+			// _UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
 
 		} else if(_UI.navhere === 'import svg'){
 			asyncLoadChooserPanel();
+			// _UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
 
  		} else if(_UI.navhere === 'ligatures'){
 			var emptyligs = getLength(_GP.ligatures) === 0;
@@ -50,25 +53,29 @@
 
 		content += '</div>';
 
-		// debug(' makePanel_GlyphChooser - END\n');
+		debug(' makePanel_GlyphChooser - END\n');
 		return content;
 	}
 
 	function asyncLoadChooserPanel() {
-			//debug('asyncLoadChooserPanel OUTER');
-		setTimeout(function(){
-			//debug('asyncLoadChooserPanel INNER');
+		debug(' asyncLoadChooserPanel - START');
+
+		function tryLoadChooserPanel(){
 			var np = _UI.popout? document.getElementById('popout_glyphchooser') : document.getElementById('navarea_panel');
 			var gc = document.getElementById('glyphchooser');
 
-			if(np){
-				if(gc && gc.innerHTML === '') {
-					gc.innerHTML = make_GlyphChooser(_UI.glyphchooser.panel);
-					asyncLoadChooserPanel();
-				}
-			} else asyncLoadChooserPanel();
+			if(_UI.glyphchooser.cache && np && gc && gc.innerHTML === '') {
+				gc.innerHTML = _UI.glyphchooser.cache;
+				debug(' tryLoadChooserPanel - SUCCESS\n');
+			} else {
+				debug(' tryLoadChooserPanel - TRYING AGAIN\n');
+				setTimeout(tryLoadChooserPanel, 10);
+			}
+		}
 
-		}, 1);
+		tryLoadChooserPanel();
+		_UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
+
 	}
 
 	function make_GlyphChooser(gcdata) {

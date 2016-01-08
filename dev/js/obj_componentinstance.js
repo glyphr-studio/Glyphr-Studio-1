@@ -21,7 +21,7 @@
 		this.translatey = parseFloat(oa.translatey) || 0;
 		this.scalew = parseFloat(oa.scalew) || 0;
 		this.scaleh = parseFloat(oa.scaleh) || 0;
-		this.flipew = oa.flipew || false; 
+		this.flipew = oa.flipew || false;
 		this.flipns = oa.flipns || false;
 		this.reversewinding = oa.reversewinding || false;
 		this.rotation = oa.rotation || 0;
@@ -34,11 +34,15 @@
 		this.ratiolock = oa.ratiolock || false;
 		this.visible = isval(oa.visible)? oa.visible : true;
 
+		this.transformedglyphcache = false;
+
 		//debug('COMPONENTINSTANCE - end');
 	}
 
 	ComponentInstance.prototype.getTransformedGlyph = function() {
 		// debug('\n ComponentInstance.getTransformedGlyph - START ' + this.name);
+
+		if(this.transformedglyphcache) return this.transformedglyphcache;
 
 		var og = getGlyph(this.link, true);
 		var g;
@@ -55,8 +59,11 @@
 		g.updateGlyphSize(this.scalew, this.scaleh, false);
 		if(this.reversewinding) g.reverseWinding();
 		if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
-		
+
 		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
+
+		this.transformedglyphcache = g;
+
 		return g;
 	};
 
@@ -84,7 +91,7 @@
 
 		debug(' ComponentInstance.changeShapeName - END\n');
 	};
-	
+
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
 		// debug('\n ComponentInstance.updateShapePosition - START');
 		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
@@ -94,6 +101,9 @@
 
 		this.translatex = (1*this.translatex) + dx;
 		this.translatey = (1*this.translatey) + dy;
+		
+		this.changed();
+		
 		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
 		// debug(' ComponentInstance.updateShapePosition - END\n');
 	};
@@ -129,6 +139,9 @@
 		this.scaleh = (1*this.scaleh) + dh;
 
 		if(this.rotation === 0) this.rotatefirst = false;
+		
+		this.changed();
+
 		// debug('\t translate now: ' + this.scalew + ' / ' + this.scaleh);
 		// debug(' ComponentInstance.updateShapeSize - END\n');
 	};
@@ -158,6 +171,8 @@
 			this.translatex += (((mid - g.maxes.xmax) + mid) - g.maxes.xmin);
 		}
 		if(this.rotation === 0) this.rotatefirst = false;
+		
+		this.changed();
 	};
 
 	ComponentInstance.prototype.flipNS = function(mid) {
@@ -167,6 +182,8 @@
 			this.translatey += (((mid - g.maxes.ymax) + mid) - g.maxes.ymin);
 		}
 		if(this.rotation === 0) this.rotatefirst = false;
+
+		this.changed();
 	};
 
 	ComponentInstance.prototype.rotate = function(angle, about) {
@@ -180,7 +197,10 @@
 
 		this.rotation = ((this.rotation + degrees) % 360);
 
-		if(this.scaleh === 0 && this.scalew === 0 && !this.flipew && !this.flipns) this.rotatefirst = true; 
+		if(this.scaleh === 0 && this.scalew === 0 && !this.flipew && !this.flipns) this.rotatefirst = true;
+		
+		this.changed();
+		
 		// debug('\t is now ' + this.rotation);
 		// debug(' ComponentInstance.rotate - END\n');
 	};
@@ -191,10 +211,13 @@
 
 	ComponentInstance.prototype.calcMaxes = function() { return this.getTransformedGlyph().calcGlyphMaxes(); };
 
-	ComponentInstance.prototype.reverseWinding = function() { this.reversewinding = !this.reversewinding; };
+	ComponentInstance.prototype.reverseWinding = function() {
+		this.reversewinding = !this.reversewinding;
+		this.changed();
+	};
 
 	ComponentInstance.prototype.drawShape = function(lctx, view){
-		/*		
+		/*
 		Have to iterate through shapes instead of using Glyph.drawGlyph
 		due to stacking shapes with appropriate winding
 		*/
@@ -281,6 +304,10 @@
 // COMPONENT INSTANCE METHODS
 //-------------------------------------------------------
 
+	ComponentInstance.prototype.changed = function() {
+		this.transformedglyphcache = false;
+	};
+
 //	Insert Component
 	function showDialog_AddComponent(){
 		var show = getLength(_GP.components)? 'components' : 'glyphs';
@@ -300,7 +327,7 @@
 	function insertComponentInstance(cid, tochar){
 		//debug('\n insertComponentInstance - START');
 		//debug('\t cid: ' + cid + ' tochar: ' + tochar);
-		
+
 		var select = !tochar;
 		tochar = tochar || getSelectedWorkItemID();
 		var ch = getGlyph(tochar, true);
