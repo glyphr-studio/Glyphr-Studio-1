@@ -36,7 +36,11 @@ module.exports = function(grunt) {
 				},
 				src: ['dist/build/Glyphr_Studio.min.css', 'dist/build/Glyphr_Studio.min.js'],
 				dest: 'dist/Glyphr_Studio_-_<%= pkg.version %>.html'
-			}
+			},
+			core: {
+				src: ['dev/js/_functions.js', 'dev/js/io_glyphr_studio_project_import.js', 'dev/js/obj_*.js'],
+				dest: 'dist/build/Glyphr_Studio_Core.js'
+			},
 		},
 		uglify: {
 			minimize: {
@@ -46,6 +50,14 @@ module.exports = function(grunt) {
 				},
 				src: 'dist/build/Glyphr_Studio.min.js',
 				dest: 'dist/build/Glyphr_Studio.min.js'
+			},
+			core: {
+				options: {
+					preserveComments: false,
+					mangle: true
+				},
+				src: 'dist/build/Glyphr_Studio_Core.js',
+				dest: 'dist/Glyphr_Studio_-_<%= pkg.version %>.core.min.js'
 			}
 		},
 		cssmin: {
@@ -75,7 +87,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-nw-builder');
 
 	// Tasks
-	grunt.registerTask('default', ['concat:merge', 'uglify', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
+	grunt.registerTask('default', ['concat:merge', 'uglify:minimize', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
 	grunt.registerTask('lite', ['concat:merge', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
 	grunt.registerTask('nw', ['nwjs']);
+	grunt.registerTask('core', ['concat:core', 'uglify:core', 'clean']);
 };

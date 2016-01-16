@@ -6,11 +6,13 @@
 	files.
 **/
 
-	window.onload = function() {
+	window.onload = _UI.coremode? coreMode_OnLoad : glyphrStudio_OnLoad;
+
+	function glyphrStudio_OnLoad() {
 		//console.clear();
 		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
 		//debug('\n MAIN SETUP - START');
-
+	
 		// Initialize Stuff
 		insertGlobalDOMElements();
 		setupGhostCanvas();
@@ -33,6 +35,7 @@
 
 		var navto = _UI.devmode? _UI.devnavprimary : false;
 		navigate(navto);
+
 
 		if(_UI.devmode) _UI.testOnLoad();
 

@@ -20,6 +20,7 @@
 
 		// Internal Dev Stuff
 		'devmode': true, 					// global switch for all the stuff below
+		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
 		'debug': true, 						// show messages sent to the browser console
 		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
 		'devnav': 'glyph edit', 			// navigate straight to a page
@@ -42,7 +43,7 @@
 			// debug(re);
 
 			// Glyph flattening test
-			selectGlyph('0x0045');
+			selectGlyph('0x0041');
 			getSelectedWorkItem().flattenGlyph();
 			history_put('flatten');
 			setView({dx:100, dy:700, dz:0.6});
