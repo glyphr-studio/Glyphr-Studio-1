@@ -122,10 +122,10 @@
 							_UI.testdrive.cache[tc] = new Glyph(cc).flattenGlyph().combineAllShapes(true);
 						}
 
-						currx += _UI.testdrive.cache[tc].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+						currx += _UI.testdrive.cache[tc].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry});
 
 					} else {
-						currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry}, true);
+						currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry});
 					}
 
 					currx += (td.padsize*1*scale);

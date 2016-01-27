@@ -30,9 +30,11 @@
 //	Methods
 //	-----------------------------------
 	PolySegment.prototype.drawPolySegmentOutline = function(dx, dy) {
-		this.segments.forEach(function(v) {
-			v.drawSegmentOutline('green', dx, dy);
-		});
+		var c;
+		for(var s=0; s<this.segments.length; s++){
+			c = makeRandomSaturatedColor();
+			this.segments[s].drawSegmentOutline(c, dx, dy);
+		}
 	};
 
 	PolySegment.prototype.drawPolySegmentPoints = function() {
@@ -92,16 +94,25 @@
 
 	PolySegment.prototype.splitSegment = function(seg, t) {
 		// debug('\n PolySegment.splitSegment - START');
-		// debug('\t split t = ' + t);
+		// if(typeof t === 'number') debug('\t ' + t);
+		// else debug('\t' + json(t, true));
+
 		var ns;
 
 		for(var s=0; s<this.segments.length; s++){
+
+			if(this.segments.length > 100){
+				// console.warn('\t Breaking, over 100');
+				return;
+			}
+
 			if(segmentsAreEqual(seg, this.segments[s])){
 				ns = this.segments[s].split(t);
-				debug('\t splitSegment adding at pos ' + s);
+				// debug('\t adding at pos ' + s);
 				// debug(ns);
 				// debug(this.segments);
 				this.segments.splice(s, 1, ns[0], ns[1]);
+				s++;
 				// debug(this.segments);
 			}
 		}
@@ -109,44 +120,135 @@
 		// debug(' PolySegment.splitSegment - END\n');
 	};
 
-	PolySegment.prototype.splitSegmentsAtIntersections = function() {
-		debug('\n PolySegment.splitSegmentsAtIntersections - START');
+	PolySegment.prototype.findIntersections = function() {
+		// debug('\n PolySegment.findIntersections - START');
+		// debug('\t ' + this.segments.length + ' segments');
+
+		var s1, s2;
+		var ix = [];
+
+		for(var i=0; i<this.segments.length; i++){
+			for(var j=i; j<this.segments.length; j++){
+				if(j !== i){
+					s1 = clone(this.segments[i]);
+					s2 = clone(this.segments[j]);
+
+					ix = ix.concat(findSegmentIntersections(s1, s2));
+				}
+			}
+		}
+		// debug(ix);
+		ix = ix.filter(duplicates);
+		// debug(ix);
+		// debug('\t found ' + ix.length + ' ix');
+		// debug(' PolySegment.findIntersections - END\n');
+		return ix;
+	};
+
+	PolySegment.prototype.drawIntersections = function(color) {
+		// debug('\n PolySegment.drawIntersections - START');
+		var ix = this.findIntersections();
+		var co;
+		var x = _UI.glypheditctx;
+
+		x.fillStyle = "rgb(200,50,60)";
+		x.globalAlpha = 1;
+
+		ix.forEach(function(v, i){
+			ix[i] = ixToCoord(v);
+			co = ix[i];
+			x.fillRect(sx_cx(co.x), sy_cy(co.y), 5, 5);
+		});
+
+		// debug(ix);
+		// debug(' PolySegment.drawIntersections - END\n');
+	};
+
+	PolySegment.prototype.splitSegmentsAtProvidedIntersections = function(ixarr) {
+		// debug('\n PolySegment.splitSegmentsAtProvidedIntersections - START');
+		// debug('\t length ' + this.segments.length);
+
+		ixarr.forEach(function(v, i) {
+			ixarr[i] = ixToCoord(v);
+		});
+
+		var result = [];
+
+		for(var s=0; s<this.segments.length; s++){
+			result = result.concat(this.segments[s].splitSegmentAtProvidedCoords(ixarr));
+		}
+
+		this.segments = result;
+
+		// debug('\t length ' + this.segments.length);
+		// debug(' PolySegment.splitSegmentsAtProvidedIntersections - END\n');
+	};
+
+	PolySegment.prototype.splitSegmentsAtIntersections = function(shape) {
+		// debug('\n PolySegment.splitSegmentsAtIntersections - START');
+		// debug(this.segments);
+
+		var ix = this.findIntersections();
+		// debug(ix);
+		if(ix.length === 0) return false;
+
+		this.splitSegmentsAtProvidedIntersections(ix);
+
+		this.removeDuplicateSegments();
+		this.removeSegmentsOverlappingShape(shape);
+		this.removeZeroLengthSegments();
+		this.removeRedundantSegments();
+
+		this.drawPolySegmentOutline();
+
+		// debug(this.segments);
+		// debug(' PolySegment.splitSegmentsAtIntersections - END\n');
+		return true;
+	};
+
+
+	PolySegment.prototype.splitSegmentsAtIntersections = function(shape) {
+		// debug('\n PolySegment.splitSegmentsAtIntersections - START');
 		// debug(this.segments);
 		var splitstuff = true;
 		var didstuff = false;
-		var count = 0;
+		var uniqueix = [];
+
 		function splitseg(poly, seg, co) {
 			if(seg.containsEndPoint(co)) return;
-			
+
 			if(seg.line){
 				poly.splitSegment(seg, co);
 				splitstuff = true;
 				didstuff = true;
 
 			} else {
-				var t = round(seg.getSplitFromCoord(co).split, 3);
+				var t = round(seg.getSplitFromCoord(co).split, 2);
 
 				if(t !== 0 && t !== 1){
 					poly.splitSegment(seg, t);
 					splitstuff = true;
 					didstuff = true;
 				}
-			}			
+			}
 		}
 
+		var count = 0;
 		while(splitstuff){
 
-			if(count === 4){
-				debug('\t BREAKING AT LOOP MAX 4');
+			if(count === 10){
+				// console.warn('\t BREAKING AT LOOP MAX 10');
 				break;
 			}
 
-			if(this.segments.length > 40){
-				debug('\t BREAKING AT SEGMENTS MAX 40');
+			if(this.segments.length > 100){
+				// console.warn('\t BREAKING AT SEGMENTS MAX 100');
 				break;
 			}
-			
-			debug('<><><><> LOOP ' + count + ' <><><><>');
+
+			// debug('<><><><> LOOP ' + count + ' <><><><>');
+			// debug('groupCollapsed');
+
 			splitstuff = false;
 			var ix, s1, s2, co;
 			var donearr = [];
@@ -169,13 +271,27 @@
 						s1 = clone(this.segments[i]);
 						s2 = clone(this.segments[j]);
 
-						// debug(' loop ' + i + ' > ' + j);
 						ix = findSegmentIntersections(s1, s2);
 
 						if(ix.length > 0){
-							co = ixToCoord(ix[0]);
-							splitseg(nps, s1, co);
-							splitseg(nps, s2, co);
+							if(ix.length > 1) {
+								// console.warn('More than one intersection');
+								// debug(ix);
+							}
+
+							if(count === 0){
+								uniqueix = uniqueix.concat(ix);
+								uniqueix = uniqueix.filter(duplicates);
+							}
+
+							for(var k=0; k<ix.length; k++){
+								if(uniqueix.indexOf(ix[k]) > -1){
+									// debug(' ix at loop ' + i + ' - ' + j);
+									co = ixToCoord(ix[k]);
+									splitseg(nps, s1, co);
+									splitseg(nps, s2, co);
+								}
+							}
 						}
 					}
 					// debug(donearr);
@@ -188,21 +304,24 @@
 			}
 
 			this.segments = nps.segments;
+			this.removeSegmentsOverlappingShape(shape);
 			this.removeZeroLengthSegments();
-			this.removeRedundantSegments();
 			this.removeDuplicateSegments();
+			this.removeRedundantSegments();
 
-			if(!splitstuff) debug('\t Didnt split anything, breaking on ' + count);
+			// if(count === 0) debug('\t uniqueix.length ' + uniqueix.length);
+			// if(!splitstuff) debug('\t Didnt split anything, breaking on ' + count);
 			count++;
+			// debug('groupEnd');
 		}
 
-		debug(' PolySegment.splitSegmentsAtIntersections - returning ' + didstuff + ' - END\n');
+		// debug(' PolySegment.splitSegmentsAtIntersections - returning ' + didstuff + ' - END\n');
 
 		return didstuff;
 	};
 
 	PolySegment.prototype.stitchSegmentsTogether = function() {
-		debug('\n PolySegment.stitchSegmentsTogether - START');
+		// debug('\n PolySegment.stitchSegmentsTogether - START');
 		// debug('\t STARTING');
 		// debug(this.segments);
 		// this.drawPolySegmentOutline();
@@ -302,35 +421,10 @@
 		}
 
 
-		debug(' PolySegment.stitchSegmentsTogether - END\n');
+		// debug(' PolySegment.stitchSegmentsTogether - END\n');
 		return newpolysegs;
 	};
 
-	PolySegment.prototype.showPoints = function() {
-		debug('\n PolySegment.showPoints - START');
-		var ix = [];
-
-		for(var x=0; x<this.segments.length; x++){
-		for(var y=x; y<this.segments.length; y++){
-			if(x !== y){
-				ix = ix.concat(findCrossingLineSegmentIntersections(this.segments[x], this.segments[y]));
-			}
-		}}
-
-		debug(ix);
-		var pt;
-
-		for(var i=0; i<ix.length; i++){
-			if(ix[i]){
-				pt = ixToCoord(ix[i]);
-				pt.x = sx_cx(pt.x);
-				pt.y = sx_cx(pt.y);
-				draw_CircleHandle(pt);
-			}
-		}
-
-		debug(' PolySegment.showPoints - END\n');
-	};
 
 
 //	-----------------------------------
@@ -338,13 +432,13 @@
 //	-----------------------------------
 
 	PolySegment.prototype.removeZeroLengthSegments = function() {
-		debug('\n PolySegment.removeZeroLengthSegments - START');
+		// debug('\n PolySegment.removeZeroLengthSegments - START');
 		var len = this.segments.length;
 		var prec = 2;
 		var s;
 
 		for(var t=0; t<this.segments.length; t++){
-			s = this.segments.length;
+			s = this.segments[t];
 
 			if( round(s.p1x, prec) === round(s.p1y, prec) &&
 				round(s.p1x, prec) === round(s.p2x, prec) &&
@@ -353,16 +447,18 @@
 				round(s.p1x, prec) === round(s.p3y, prec) &&
 				round(s.p1x, prec) === round(s.p4x, prec) &&
 				round(s.p1x, prec) === round(s.p4y, prec) ){
-				s = false;
+				s.objtype = 'ZERO';
 			}
 		}
 
-		this.segments = this.segments.filter(function(v){ return v; });
-		debug(' PolySegment.removeZeroLengthSegments - removed ' + (len-this.segments.length) + ' - END\n');
+		// debug(this.segments);
+
+		this.segments = this.segments.filter(function(v){ return v.objtype === 'segment'; });
+		// debug(' PolySegment.removeZeroLengthSegments - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
 	PolySegment.prototype.removeRedundantSegments = function() {
-		debug('\n PolySegment.removeRedundantSegments - START');
+		// debug('\n PolySegment.removeRedundantSegments - START');
 		var len = this.segments.length;
 
 		for(var s=0; s<this.segments.length; s++){
@@ -375,18 +471,18 @@
 		}}
 
 		this.segments = this.segments.filter(function(v){ return v; });
-		debug(' PolySegment.removeRedundantSegments - removed ' + (len-this.segments.length) + ' - END\n');
+		// debug(' PolySegment.removeRedundantSegments - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
 	PolySegment.prototype.removeDuplicateSegments = function() {
-		debug('\n PolySegment.removeDuplicateSegments - START');
+		// debug('\n PolySegment.removeDuplicateSegments - START');
 		var len = this.segments.length;
 
 		for(var x=0; x<this.segments.length; x++){
 		for(var y=x; y<this.segments.length; y++){
 			if(x !== y && this.segments[x] && this.segments[y]){
-				if(segmentsAreEqual(this.segments[x], this.segments[y])) this.segments[y].objtype = 'dupe';
-				if(segmentsAreEqual(this.segments[x], this.segments[y].getReverse())) this.segments[y].objtype = 'reverse dupe';
+				if(segmentsAreEqual(this.segments[x], this.segments[y])) this.segments[y].objtype = 'DUPE';
+				if(segmentsAreEqual(this.segments[x], this.segments[y].getReverse())) this.segments[y].objtype = 'REVERSE';
 			}
 		}}
 
@@ -394,11 +490,38 @@
 
 		this.segments = this.segments.filter(function(v){return v.objtype === 'segment';});
 
-		debug(' PolySegment.removeDuplicateSegments - removed ' + (len-this.segments.length) + ' - END\n');
+		// debug(' PolySegment.removeDuplicateSegments - removed ' + (len-this.segments.length) + ' - END\n');
+	};
+
+	PolySegment.prototype.combineInlineSegments = function() {
+		// debug('\n PolySegment.combineInlineSegments - START');
+		var len = this.segments.length;
+
+		var ts, ns;
+
+		for(var s=0; s < this.segments.length; s++){
+			ts = this.segments[s];
+			ns = (s === this.segments.length-1)? this.segments[0] : this.segments[s+1];
+
+			if(ts.line === ns.line){
+				this.segments[s] = new Segment({
+					'p1x': ts.p1x,
+					'p1y': ts.p1y,
+					'p4x': ns.p4x,
+					'p4y': ns.p4y
+				});
+
+				this.segments.splice(s+1, 1);
+
+				s--;
+			}
+		}
+
+		// debug(' PolySegment.combineInlineSegments - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
 	PolySegment.prototype.removeSegmentsOverlappingShape = function(shape) {
-		debug('\n PolySegment.removeSegmentsOverlappingShape - START');
+		// debug('\n PolySegment.removeSegmentsOverlappingShape - START');
 		var len = this.segments.length;
 
 		// debug('\t segments starting as ' + this.segments.length);
@@ -419,19 +542,19 @@
 				shape.isHere(sx_cx(tx + pt), sy_cy(ty)) &&
 				shape.isHere(sx_cx(tx - pt), sy_cy(ty)) ){
 				// alert('HIT ' + tx + ', ' + ty);
-				this.segments[s].drawSegmentPoints('rgb(255,0,0)', s);
+				// this.segments[s].drawSegmentPoints('rgb(255,0,0)', s);
 				this.segments[s].objtype = 'hit';
 			} else {
-				this.segments[s].drawSegmentPoints('rgb(0,255,0)', s);
+				// this.segments[s].drawSegmentPoints('rgb(0,255,0)', s);
 				// alert('MISS ' + tx + ', ' + ty);
 			}
 		}
 
-		debug(this.segments);
+		// debug(this.segments);
 		this.segments = this.segments.filter(function(v){return v.objtype === 'segment';});
 
-		alert('removeSegmentsOverlappingShape - hits and misses');
-		debug(' PolySegment.removeSegmentsOverlappingShape - removed ' + (len-this.segments.length) + ' - END\n');
+		// alert('removeSegmentsOverlappingShape - hits and misses');
+		// debug(' PolySegment.removeSegmentsOverlappingShape - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
 

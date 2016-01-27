@@ -153,7 +153,23 @@
 			if(typeof message === 'string'){
 				message = message.replace(/&lt;/gi, '<');
 				message = message.replace(/&gt;/gi, '>');
-				console.log(message);
+		
+				if(message === 'group') {
+					console.group(); 
+					return;
+				} else if(message === 'groupCollapsed'){
+					console.groupCollapsed();
+					return;
+				} else if(_UI.debugautogroup && message.indexOf('- START') > 0){
+					console.groupCollapsed(message.substr(2).replace(' - START', '')); 
+					return;
+				} else if(message === 'groupEnd'|| (_UI.debugautogroup && message.indexOf('- END') > 0)) {
+					console.groupEnd(message); 
+					return;
+				} else {
+					console.log(message);
+				}
+
 			} else if (typeof message === 'object'){
 				console.table(message);
 			}
@@ -268,7 +284,7 @@
 	}
 
 	function showToast(msg, dur) {
-		debug('\n showToast - START');
+		// debug('\n showToast - START');
 		var step = -1;
 		var timestep = 10;
 		var divisor = 5;
@@ -342,7 +358,7 @@
 		}
 
 		_UI.timeout = setTimeout(appearStep, 1);
-		debug(' showToast - END\n');
+		// debug(' showToast - END\n');
 	}
 
 
@@ -491,14 +507,35 @@ function saveFile(fname, buffer, ftype) {
 	}
 
 	function getOverallMaxes(maxarr) {
+		// debug('\n getOverallMaxes - START');
+		// debug('\t start');
+		// debug(maxarr);
+
 		var re = clone(_UI.mins);
+		var tm;
+
 		for(var m=0; m<maxarr.length; m++){
-			maxarr[m] = maxarr[m] || clone(_UI.mins);
-			re.xmax = Math.max(re.xmax, maxarr[m].xmax);
-			re.xmin = Math.min(re.xmin, maxarr[m].xmin);
-			re.ymax = Math.max(re.ymax, maxarr[m].ymax);
-			re.ymin = Math.min(re.ymin, maxarr[m].ymin);
+			// debug('\t pass ' + m);
+			tm = maxarr[m];
+			// debug([tm]);
+
+			// sanitize
+			if(!isval(tm.xmax)) tm.xmax = clone(_UI.mins.xmax);
+			if(!isval(tm.xmin)) tm.xmin = clone(_UI.mins.xmin);
+			if(!isval(tm.ymax)) tm.ymax = clone(_UI.mins.ymax);
+			if(!isval(tm.ymin)) tm.ymin = clone(_UI.mins.ymin);
+			// debug([tm]);
+
+			// find 
+			re.xmax = Math.max(re.xmax, tm.xmax);
+			re.xmin = Math.min(re.xmin, tm.xmin);
+			re.ymax = Math.max(re.ymax, tm.ymax);
+			re.ymin = Math.min(re.ymin, tm.ymin);
+			// debug([re]);
 		}
+
+		// debug(' getOverallMaxes - END\n');
+
 		return re;
 	}
 

@@ -263,7 +263,7 @@
 
 		var orig1 = this.members[0];
 		var orig2 = this.members[1];
-		var newshapes = combineShapes(orig1, orig2);
+		var newshapes = combineTwoShapes(orig1, orig2);
 
 
 		// If everything worked, delete original shapes and add new ones

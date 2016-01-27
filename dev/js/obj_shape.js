@@ -48,7 +48,9 @@
 	Shape.prototype.getName = function() { return this.name; };
 
 	Shape.prototype.drawShape = function(lctx, view){
-		//debug('drawShape');
+		// debug('\n Shape.drawShape - START');
+		// debug('\t view ' + json(view, true));
+
 		if(this.visible){
 			if((this.path.maxes.xmax === -1) &&
 					(lctx === _UI.glypheditctx) &&
@@ -58,6 +60,7 @@
 			this.path.drawPath(lctx, view);
 		}
 
+		// debug(' Shape.drawShape - returning true by default - END\n');
 		return true;
 	};
 
@@ -371,7 +374,75 @@
 //	-----------------
 //	Boolean Combine
 //	-----------------
-	function combineShapes(shape1, shape2, donttoast) {
+
+	function combineShapes(shapes, donttoast) {
+		// debug('\n combineShapes - START');
+		if(shapes.length <= 1) return shapes;
+
+		var tempshapes = [];
+
+		// Sort shapes by winding
+		tempshapes = clone(shapes);
+		tempshapes.sort(function(a,b){return a.path.getWinding() - b.path.getWinding();});
+
+		// One pass through collapsing shapes down
+		function singlePass(arr) {
+			// debug('\n\t SinglePass');
+			// debug('\t\t start arr len ' + arr.length);
+			var re;
+			var newarr = [];
+			var didstuff = false;
+
+			for(var outer=0; outer<arr.length; outer++){ for(var inner=0; inner<arr.length; inner++){
+				// debug('\t\t testing shape ' + outer + ' and ' + inner);
+
+				if((outer !== inner) && arr[outer] && arr[inner]){
+					re = combineTwoShapes(arr[outer], arr[inner], donttoast);
+
+					// debug('\t\t combineShapes returned ' + (re.length || re));
+					if(re !== false){
+						newarr = newarr.concat(re);
+						didstuff = true;
+						arr[outer] = false;
+						arr[inner] = false;
+					}
+				}
+			}}
+
+			newarr = newarr.concat(arr.filter(function(v){return v;}));
+
+			// debug('\t singlepass didstuff = ' + didstuff);
+
+			return {'arr':newarr, 'didstuff':didstuff};
+		}
+
+
+		// Main collapsing loop
+		var looping = true;
+		var count = 0;
+
+		while(looping && count < 20){
+			looping = false;
+
+			lr = singlePass(tempshapes);
+			looping = lr.didstuff;
+			tempshapes = lr.arr;
+			// debug('\t didstuff ' + lr.didstuff);
+			count++;
+		}
+
+
+		// Collapse each shape's overlapping paths
+		var newshapes = [];
+		for(var ts=0; ts<tempshapes.length; ts++){
+			newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
+		}
+
+		// debug(' combineShapes - END\n');
+		return newshapes;
+	}
+
+	function combineTwoShapes(shape1, shape2, donttoast) {
 		// debug('\n combineShapes - START');
 		// Find intersections
 		var intersections = findPathIntersections(shape1.path, shape2.path);
@@ -490,22 +561,19 @@
 		var polyseg = this.path.getPolySegment();
 
 		// debug(polyseg.segments);
-		
-		var didstuff = polyseg.splitSegmentsAtIntersections();
-		// debug(polyseg.segments);
+
+		var didstuff = polyseg.splitSegmentsAtIntersections(this);
 		if(!didstuff) return;
 
-
-		polyseg.removeSegmentsOverlappingShape(this);
 
 		// var reshapes = [];
 		// reshapes.push(new Shape({'name':this.name, 'path':polyseg.getPath()}));
 
 		var resegs = polyseg.stitchSegmentsTogether();
-		
 
 		var reshapes = [];
 		resegs.forEach(function(v) {
+			v.combineInlineSegments();
 			reshapes.push(new Shape({'name':this.name, 'path':v.getPath()}));
 		});
 

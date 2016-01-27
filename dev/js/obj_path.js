@@ -169,6 +169,16 @@
 	};
 
 	Path.prototype.getMaxes = function() {
+		// debug('\n Path.getMaxes - START');
+
+		if(hasNonValues(this.maxes)){
+			// debug('\t no cache, calcMaxes');
+			this.calcMaxes();
+		}
+
+		// debug('\t returning ' + json(this.maxes, true));
+		// debug(' Path.getMaxes - END\n');
+
 		return clone(this.maxes);
 	};
 
@@ -238,7 +248,7 @@
 		intersects = intersects.concat(findPathPointBoundaryIntersections(p1, p2, onlyfirst));
 		if(intersects[0] && onlyfirst) return intersects[0];
 
-		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
+		intersects = intersects.filter(duplicates);
 		// debug('\t intersections');
 		// debug(intersects);
 
@@ -294,7 +304,7 @@
 		}
 
 		// debug('\t pre filter ' + intersects);
-		intersects = intersects.filter(function(v,i) { return intersects.indexOf(v) === i; });
+		intersects = intersects.filter(duplicates);
 		
 		// debug('\t returning ' + intersects);
 		// debug(' findPathIntersections - END\n');
@@ -321,7 +331,7 @@
 		check(p1, p2);
 		check(p2, p1);
 
-		re = re.filter(function(v,i) { return re.indexOf(v) === i; });
+		re = re.filter(duplicates);
 
 		return re;
 	}
@@ -339,7 +349,7 @@
 			}
 		}
 
-		re = re.filter(function(v,i) { return re.indexOf(v) === i; });
+		re = re.filter(duplicates);
 
 		// debug('\t returning ' + re);
 		// debug(' findPathPointIntersections - END\n');
@@ -384,6 +394,7 @@
 
 	Path.prototype.drawPath = function(lctx, view) {
 		// debug('\n Path.drawPath - START');
+		// debug('\t view ' + json(view, true));
 
 		var snap = _GP.projectsettings.renderpointssnappedtogrid;
 		var currview = getView('Path.drawPath');
@@ -874,21 +885,38 @@
 //	----------------------------------
 
 	Path.prototype.calcMaxes = function(){
+		// debug('\n Path.calcMaxes - START');
+		// debug('\t before ' + json(this.maxes, true));
+
 		this.maxes = clone(_UI.mins);
 
 		var seg, tbounds;
 
 		for(var s=0; s<this.pathpoints.length; s++){
+			// debug('\t ++++++ starting seg ' + s);
+
 			seg = this.getSegment(s);
 			tbounds = seg.getMaxes();
+
+			// debug('\t tseg maxes ' + json(tbounds, true));
+			// debug('\t this maxes ' + json(this.maxes, true));
+
 			this.maxes = getOverallMaxes([this.maxes, tbounds]);
+
+			// debug('\t path maxes is now ' + json(this.maxes, true));
+
 			this.segmentlengths[s] = seg.getLength();
+
+			// debug('\t ++++++ ending seg ' + s);			
 		}
 
 		this.maxes.xmax = round(this.maxes.xmax, 4);
 		this.maxes.xmin = round(this.maxes.xmin, 4);
 		this.maxes.ymax = round(this.maxes.ymax, 4);
 		this.maxes.ymin = round(this.maxes.ymin, 4);
+
+		// debug('\t afters ' + json(this.maxes, true));
+		// debug(' Path.calcMaxes - END\n');
 	};
 
 

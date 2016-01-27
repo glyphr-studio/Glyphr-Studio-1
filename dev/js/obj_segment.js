@@ -43,7 +43,7 @@
 
 
 //	-----------------------------------
-//	Methods
+//	Drawing
 //	-----------------------------------
 
 	Segment.prototype.drawSegmentOutline = function(color, dx, dy) {
@@ -60,11 +60,13 @@
 		var p4x = sx_cx(this.p4x + dx);
 		var p4y = sy_cy(this.p4y + dy);
 
-		x.globalAlpha = 0.2;
+		x.globalAlpha = 0.6;
 		x.lineWidth = 3;
+		x.beginPath();
 		x.moveTo(p1x, p1y);
 		x.bezierCurveTo(p2x, p2y, p3x, p3y, p4x, p4y);
 		x.stroke();
+		x.closePath();
 	};
 
 	Segment.prototype.drawSegmentPoints = function(color, txt) {
@@ -98,20 +100,60 @@
 		// else draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
 	};
 
-	Segment.prototype.split = function(t) {
 
-		// Split at a coord?
-		if(typeof t === 'object' && isval(t.x) && isval(t.y) && this.line && this.line !== 'diagonal'){
+
+//	-----------------------------------
+//	Splitting
+//	-----------------------------------
+	Segment.prototype.split = function(sp) {
+
+		sp = sp || 0.5;
+
+		if(typeof sp === 'object' && isval(sp.x) && isval(sp.y)){
+			return this.splitAtCoord(sp);
+
+		} else if (!isNaN(sp)) {
+			return this.splitAtTime(sp);
+
+		}
+
+		return false;
+	};
+
+	Segment.prototype.splitAtCoord = function(co) {
+		// debug('\n Segment.splitAtCoord - START');
+
+		if(this.line && this.line !== 'diagonal'){
 			var newx, newy;
+			var online = false;
 
 			if(this.line === 'horizontal'){
-				newx = t.x;
-				newy = this.p1y;
+				if(round(co.y, 2) === round(this.p1y)){
+					if((co.x > Math.min(this.p1x, this.p4x)) && (co.x < Math.max(this.p1x, this.p4x))){
+						newx = co.x;
+						newy = this.p1y;
+						online = true;
+					}
+				}
+
 			} else if (this.line === 'vertical'){
-				newx = this.p1x;
-				newy = t.y;
+				if(round(co.x, 2) === round(this.p1x)){
+					if((co.y > Math.min(this.p1y, this.p4y)) && (co.y < Math.max(this.p1y, this.p4y))){
+						newx = this.p1x;
+						newy = co.y;
+						online = true;
+					}
+				}
 			}
 
+			if(!online){
+				// debug('\t not on the line');
+				// debug(' Segment.splitAtCoord - END\n');
+				return false;
+			}
+
+			// debug('\t returning simple line split');
+			// debug(' Segment.splitAtCoord - END\n');
 			return [
 				new Segment({
 					'p1x' : this.p1x,
@@ -126,10 +168,24 @@
 					'p4y' : this.p4y
 				})
 			];
+
+		} else if (this.pointIsWithinMaxes(co)){
+			var sp = this.getSplitFromCoord(co);
+
+			// debug('\t distance is ' + sp.distance);
+
+			if(sp.distance < 0.01){
+			// debug('\t splitting at ' + sp.split);
+				return this.splitAtTime(sp.split);
+			}
 		}
 
+		// debug(' Segment.splitAtCoord - returning false - END\n');
+		return false;
+	};
 
-		// Given a t value, not a coord
+	Segment.prototype.splitAtTime = function(t) {
+
 		var fs = t || 0.5;
 		var rs = (1-fs);
 
@@ -177,19 +233,45 @@
 		];
 	};
 
-	Segment.prototype.round = function(precision) {
-		precision = isval(precision)? precision : 3;
+	Segment.prototype.splitSegmentAtProvidedCoords = function(coords) {
+		// debug('\n Segment.splitSegmentAtProvidedCoords - START');
 
-		this.p1x = round(this.p1x, precision);
-		this.p1y = round(this.p1y, precision);
-		this.p2x = round(this.p2x, precision);
-		this.p2y = round(this.p2y, precision);
-		this.p3x = round(this.p3x, precision);
-		this.p3y = round(this.p3y, precision);
-		this.p4x = round(this.p4x, precision);
-		this.p4y = round(this.p4y, precision);
+		var segs = [new Segment(clone(this))];
+		var tr;
+
+		for(var x=0; x<coords.length; x++){
+			for(var s=0; s<segs.length; s++){
+				tr = segs[s].splitAtCoord(coords[x]);
+				if(tr){
+					segs.splice(s, 1, tr[0], tr[1]);
+					s++;
+					break;
+				}
+			}
+		}
+
+		// debug('\t split into ' + segs.length);
+		// debug(' Segment.splitSegmentAtProvidedCoords - END\n');
+
+		return segs;
 	};
 
+	Segment.prototype.pointIsWithinMaxes = function(co) {
+		var m = this.getMaxes();
+
+		var re = (co.x <= m.xmax &&
+			co.x >= m.xmin &&
+			co.y <= m.ymax &&
+			co.y >= m.ymin );
+
+		return re;
+	};
+
+
+
+//	-----------------------------------
+//	Getters
+//	-----------------------------------
 	Segment.prototype.getSplitFromCoord = function(coord) {
 		var grains = this.getLength() * 100;
 		var mindistance = 999999999;
@@ -277,6 +359,8 @@
 		else if(pt === 4) return {x:this.p4x, y:this.p4y};
 	};
 
+
+
 //	-----------------------------------
 //	Bounds
 //	-----------------------------------
@@ -294,6 +378,7 @@
 
 	Segment.prototype.getMaxes = function() {
 		// debug('\n Segment.getMaxes - START');
+		// debug(this);
 		
 		var bounds = {
 			'xmin' : Math.min(this.p1x, this.p4x),
@@ -468,9 +553,7 @@
 
 		if(pairs.length === 0) return re;
 
-		re = re.filter(function(v,i) {
-			return re.indexOf(v) === i;
-		});
+		re = re.filter(duplicates);
 
 		// if(depth === 0) alert('break');
 
@@ -535,11 +618,19 @@
 	}
 
 	function ixToCoord(ix) {
-		return {
+		// debug('\n ixToCoord - START');
+		// debug(ix);
+		var re = {
 			x: parseFloat(ix.split('/')[0]),
 			y: parseFloat(ix.split('/')[1])
 		};
+		// debug([re]);
+		// debug(' ixToCoord - END\n');
+		return re;
 	}
+
+	// a function for flitering out duplicates in arrays
+	function duplicates(v, i, a) { return a.indexOf(v) === i; }
 
 
 
@@ -568,14 +659,14 @@
 			round(s1.p4y, precision) === round(s2.p4y, precision) ){
 
 			if(s1.line && s2.line){
-				debug(' segmentsAreEqual - returning LINE true - END\n');
+				// debug(' segmentsAreEqual - returning LINE true - END\n');
 				return true;
 
 			} else if (	round(s1.p2x, precision) === round(s2.p2x, precision) &&
 						round(s1.p2y, precision) === round(s2.p2y, precision) &&
 						round(s1.p3x, precision) === round(s2.p3x, precision) &&
 						round(s1.p3y, precision) === round(s2.p3y, precision) ){		
-				debug(' segmentsAreEqual - returning FULLY true - END\n');
+				// debug(' segmentsAreEqual - returning FULLY true - END\n');
 				return true;
 			}
 		}
@@ -687,5 +778,17 @@
 		return re;
 	};
 
+	Segment.prototype.round = function(precision) {
+		precision = isval(precision)? precision : 3;
+
+		this.p1x = round(this.p1x, precision);
+		this.p1y = round(this.p1y, precision);
+		this.p2x = round(this.p2x, precision);
+		this.p2y = round(this.p2y, precision);
+		this.p3x = round(this.p3x, precision);
+		this.p3y = round(this.p3y, precision);
+		this.p4x = round(this.p4x, precision);
+		this.p4y = round(this.p4y, precision);
+	};
 
 // end of file

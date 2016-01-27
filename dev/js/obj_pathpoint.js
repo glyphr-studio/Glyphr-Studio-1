@@ -515,8 +515,11 @@
 		var newpp = new PathPoint({
 			H1: new Coord({x: seg1.p3x, y: seg1.p3y}),
 			P: new Coord({x: seg2.p1x, y: seg2.p1y}),
-			H2: new Coord({x: seg2.p2x, y: seg2.p2y}),
+			H2: new Coord({x: seg2.p2x, y: seg2.p2y})
 		});
+
+		if(newpp.H1.x !== newpp.P.x || newpp.H1.y !== newpp.P.y) newpp.useh1 = true;
+		if(newpp.H2.x !== newpp.P.x || newpp.H2.y !== newpp.P.y) newpp.useh2 = true;
 
 		newpp.resolvePointType();
 

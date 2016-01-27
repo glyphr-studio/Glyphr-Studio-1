@@ -8,7 +8,7 @@
 
 
 	function makePanel_GlyphChooser(){
-		debug('\n makePanel_GlyphChooser - START');
+		// debug('\n makePanel_GlyphChooser - START');
 
 		var content = '<div class="navarea_header">';
 		content += makePanelSuperTitle();
@@ -53,12 +53,12 @@
 
 		content += '</div>';
 
-		debug(' makePanel_GlyphChooser - END\n');
+		// debug(' makePanel_GlyphChooser - END\n');
 		return content;
 	}
 
 	function asyncLoadChooserPanel() {
-		debug(' asyncLoadChooserPanel - START');
+		// debug(' asyncLoadChooserPanel - START');
 
 		function tryLoadChooserPanel(){
 			var np = _UI.popout? document.getElementById('popout_glyphchooser') : document.getElementById('navarea_panel');
@@ -66,9 +66,9 @@
 
 			if(_UI.glyphchooser.cache && np && gc && gc.innerHTML === '') {
 				gc.innerHTML = _UI.glyphchooser.cache;
-				debug(' tryLoadChooserPanel - SUCCESS\n');
+				// debug(' tryLoadChooserPanel - SUCCESS\n');
 			} else {
-				debug(' tryLoadChooserPanel - TRYING AGAIN\n');
+				// debug(' tryLoadChooserPanel - TRYING AGAIN\n');
 				setTimeout(tryLoadChooserPanel, 10);
 			}
 		}

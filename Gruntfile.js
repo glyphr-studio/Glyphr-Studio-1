@@ -57,7 +57,8 @@ module.exports = function(grunt) {
 					mangle: true
 				},
 				src: 'dist/build/Glyphr_Studio_Core.js',
-				dest: 'dist/Glyphr_Studio_-_<%= pkg.version %>.core.min.js'
+				// dest: 'dist/Glyphr_Studio_-_<%= pkg.version %>.core.min.js'
+				dest: '../Glyphr-Studio-Test-Drive/app/Glyphr_Studio_-_<%= pkg.version %>.core.min.js'
 			}
 		},
 		cssmin: {

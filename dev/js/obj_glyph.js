@@ -48,7 +48,7 @@
 			}
 		}
 
-		if(this.calcGlyphMaxes) this.calcGlyphMaxes();
+		if(this.getGlyphMaxes) this.getGlyphMaxes();
 		// debug(' GLYPH - END\n');
 	}
 
@@ -247,10 +247,16 @@
 		// debug('\n Glyph.calcGlyphMaxes - START ' + this.name);
 
 		this.maxes = clone(_UI.mins);
+		var tm;
 
 		if(this.shapes.length > 0){
 			for(var jj=0; jj<this.shapes.length; jj++) {
-				this.maxes = getOverallMaxes([this.shapes[jj].getMaxes(), this.maxes]);
+				// debug('\t ++++++ START shape ' + jj + ' - ' + this.shapes[jj].name);
+				tm = this.shapes[jj].getMaxes();
+				// debug('\t before ' + json(tm, true));
+				this.maxes = getOverallMaxes([tm, this.maxes]);
+				// debug('\t afters ' + json(tm, true));
+				// debug('\t ++++++ END shape ' + jj + ' - ' + this.shapes[jj].name);
 			}
 		} else {
 			this.maxes = { 'xmax': 0, 'xmin': 0, 'ymax': 0, 'ymin': 0 };
@@ -259,7 +265,7 @@
 		this.calcGlyphWidth();
 
 		// debug(' Glyph.calcGlyphMaxes - END ' + this.name + '\n');
-		return this.maxes;
+		return clone(this.maxes);
 	};
 
 	Glyph.prototype.calcGlyphWidth = function(){
@@ -272,6 +278,29 @@
 		if(!this.isautowide) return this.glyphwidth;
 		else return this.glyphwidth + this.getLSB() + this.getRSB();
 	};
+
+	Glyph.prototype.getMaxes = function() {
+		// debug('\n Glyph.getMaxes - START ' + this.name);
+		if(hasNonValues(this.maxes)){
+				// debug('\t ^^^^^^ maxes found NaN, calculating...');
+				this.calcGlyphMaxes();
+				// debug('\t ^^^^^^ maxes found NaN, DONE calculating...');
+		}
+
+		// debug('\t returning ' + json(this.maxes));
+		// debug(' Glyph.getMaxes - END ' + this.name + '\n');
+		return clone(this.maxes);
+	};
+
+	function hasNonValues(obj) {
+		if(!obj) return true;
+
+		for(var v in obj){ if(obj.hasOwnProperty(v)){
+			if(!isval(obj[v])) return true;
+		}}
+
+		return false;
+	}
 
 
 //-------------------------------------------------------
@@ -353,12 +382,12 @@
 //-------------------------------------------------------
 // DRAWING AND EXPORTING
 //-------------------------------------------------------
-	Glyph.prototype.drawGlyph = function(lctx, view, uselsb, alpha){
+	Glyph.prototype.drawGlyph = function(lctx, view, alpha){
 		// debug('\n Glyph.drawGlyph - START ' + this.name);
+		// debug('\t view ' + json(view, true));
 
 		var sl = this.shapes;
 		var shape, drewshape;
-		var lsb = uselsb? this.getLSB() : 0;
 		alpha = alpha || 1;
 
 		lctx.beginPath();
@@ -511,94 +540,17 @@
 
 	Glyph.prototype.combineAllShapes = function(donttoast) {
 		// debug('\n Glyph.combineAllShapes - START');
-		var tempshapes = [];
-		var newshapes = [];
 
-		if(this.shapes.length === 1){
-			debug(this.name + ' \t\t ' + this.shapes.length);
-			return this;
-		}
+		this.shapes = combineShapes(this.shapes, donttoast);
 
-		if(this.shapes.length === 2){
-			tempshapes = combineShapes(this.shapes[0], this.shapes[1], donttoast);
-
-			if(!tempshapes){
-				debug(this.name + ' \t\t ' + this.shapes.length);
-				return this;
-			}
-		}
-
-		if(this.shapes.length > 2){
-			// Sort shapes by winding
-			tempshapes = clone(this.shapes);
-			tempshapes.sort(function(a,b){return a.path.getWinding() - b.path.getWinding();});
-
-			// Main collapsing loop
-			var looping = true;
-			var count = 0;
-
-			while(looping && count < 8){
-				looping = false;
-
-				lr = singlePass(tempshapes);
-				looping = lr.didstuff;
-				tempshapes = lr.arr;
-				// debug('\t didstuff ' + lr.didstuff);
-				count++;
-			}
-		}
-
-		// One pass through collapsing shapes down
-		function singlePass(arr) {
-			// debug('\n\t SinglePass');
-			// debug('\t\t start arr len ' + arr.length);
-			var re;
-			var newarr = [];
-			var didstuff = false;
-
-			for(var outer=0; outer<arr.length; outer++){ for(var inner=0; inner<arr.length; inner++){
-				// debug('\t\t testing shape ' + outer + ' and ' + inner);
-
-				if((outer !== inner) && arr[outer] && arr[inner]){
-					re = combineShapes(arr[outer], arr[inner], donttoast);
-
-					// debug('\t\t combineShapes returned ' + (re.length || re));
-					if(re !== false){
-						newarr = newarr.concat(re);
-						didstuff = true;
-						arr[outer] = false;
-						arr[inner] = false;
-					}
-				}
-			}}
-
-			newarr = newarr.concat(arr.filter(function(v){return v;}));
-
-			// debug('\t singlepass didstuff = ' + didstuff);
-
-			return {'arr':newarr, 'didstuff':didstuff};
-		}
-
-
-		// Collapse each shape's overlapping paths
-		for(var ts=0; ts<tempshapes.length; ts++){
-			newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
-		}
-				
-
-		// Finish up
-		this.shapes = newshapes;
-		// this.shapes = tempshapes;
-		
 		// debug('\t new shapes');
 		// debug(this.shapes);
-		this.calcGlyphMaxes();
+		this.changed();
 
-		debug(this.name + ' \t\t ' + this.shapes.length);
+		// debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
 		return this;
 	};
-
 
 
 //-------------------------------------------------------
@@ -609,6 +561,8 @@
 		this.svg = false;
 
 		for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed();
+
+		this.calcGlyphMaxes();
 	};
 
 	Glyph.prototype.map = function(indents) {

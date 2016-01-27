@@ -42,7 +42,10 @@
 	ComponentInstance.prototype.getTransformedGlyph = function() {
 		// debug('\n ComponentInstance.getTransformedGlyph - START ' + this.name);
 
-		if(this.transformedglyphcache) return this.transformedglyphcache;
+		if(this.transformedglyphcache){
+			// debug('\t returning glyph in transformedglyphcache');
+			return this.transformedglyphcache;
+		}
 
 		var og = getGlyph(this.link, true);
 		var g;
@@ -52,6 +55,8 @@
 			return false;
 		}
 
+		// debug('\t Modifying g.w ' + this.scalew + ' g.h ' + this.scaleh);
+		// debug('\t before maxes ' + json(g.maxes, true));
 		if(this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
 		if(this.flipew) g.flipEW();
 		if(this.flipns) g.flipNS();
@@ -60,6 +65,9 @@
 		if(this.reversewinding) g.reverseWinding();
 		if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
 
+		g.calcGlyphMaxes();
+
+		// debug('\t afters maxes ' + json(g.maxes, true));
 		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 
 		this.transformedglyphcache = g;
@@ -75,10 +83,10 @@
 	ComponentInstance.prototype.getName = function() { return this.name; };
 
 	ComponentInstance.prototype.changeShapeName = function(sn){
-		debug('\n ComponentInstance.changeShapeName - START');
-		debug('\t passed: ' + sn);
+		// debug('\n ComponentInstance.changeShapeName - START');
+		// debug('\t passed: ' + sn);
 		sn = strSan(sn);
-		debug('\t sanitized: ' + sn);
+		// debug('\t sanitized: ' + sn);
 
 		if(sn !== ''){
 			this.name = sn;
@@ -89,7 +97,7 @@
 
 		redraw({calledby:'ComponentInstance Name', redrawcanvas:false});
 
-		debug(' ComponentInstance.changeShapeName - END\n');
+		// debug(' ComponentInstance.changeShapeName - END\n');
 	};
 
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
@@ -207,7 +215,10 @@
 
 	ComponentInstance.prototype.getCenter = function() { return this.getTransformedGlyph().getCenter();	};
 
-	ComponentInstance.prototype.getMaxes = function() { return this.getTransformedGlyph().maxes; };
+	ComponentInstance.prototype.getMaxes = function() { 
+		// debug('\n ComponentInstance.getMaxes - ' + this.name);
+		return this.getTransformedGlyph().getMaxes(); 
+	};
 
 	ComponentInstance.prototype.calcMaxes = function() { return this.getTransformedGlyph().calcGlyphMaxes(); };
 
@@ -217,6 +228,8 @@
 	};
 
 	ComponentInstance.prototype.drawShape = function(lctx, view){
+		// debug('\n ComponentInstance.drawShape - START');
+		// debug('\t view ' + json(view, true));
 		/*
 		Have to iterate through shapes instead of using Glyph.drawGlyph
 		due to stacking shapes with appropriate winding
@@ -231,6 +244,7 @@
 			failed = failed || !drewshape;
 		}
 
+		// debug(' ComponentInstance.drawShape - returning ' + !failed + ' - END\n');
 		return !failed;
 	};
 

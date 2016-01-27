@@ -20,6 +20,7 @@
 
 		// Internal Dev Stuff
 		'devmode': true, 					// global switch for all the stuff below
+		'debugautogroup': false,			// try to console.group based on text strings
 		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
 		'debug': true, 						// show messages sent to the browser console
 		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
@@ -29,9 +30,7 @@
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
-			{'name': 'Draw ix', 'onclick': 'getSelectedWorkItemShapes()[0].path.getPolySegment().showPoints();'},
-			{'name': 'Seg2 maxes', 'onclick': 'var s=_UI.ms.shapes.members[0].path.getSegment(1); s.drawSegmentPoints(); debug([s.getMaxes()]);debug([s]);'},
-			{'name': 'Toast', 'onclick': 'showToast(\'Test Toast!\', 2000);'}
+			{'name': 'Draw IX', 'onclick': 'getSelectedWorkItemShapes()[0].path.getPolySegment().drawIntersections();'}
 		],
 		'testOnLoad': function() {
 

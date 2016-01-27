@@ -241,7 +241,7 @@
 	}
 
 	function make_NavPanels_PopIn(){
-		debug('\n make_NavPanels_PopIn - START');
+		// debug('\n make_NavPanels_PopIn - START');
 		// debug('\t navhere: ' + _UI.navhere + '\tnavprimaryhere: ' + _UI.navprimaryhere);
 
 		var np = document.getElementById('navarea_panel');
@@ -285,7 +285,7 @@
 			case 'npHistory': np.innerHTML = makePanel_History(); break;
 		}
 
-		debug(' make_NavPanels_PopIn - END\n');
+		// debug(' make_NavPanels_PopIn - END\n');
 	}
 
 
