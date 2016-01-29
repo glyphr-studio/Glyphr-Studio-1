@@ -122,7 +122,8 @@
 
 	Segment.prototype.splitAtCoord = function(co) {
 		// debug('\n Segment.splitAtCoord - START');
-
+		// debug('\t splitting at ' + json(co, true));
+		
 		if(this.line && this.line !== 'diagonal'){
 			var newx, newy;
 			var online = false;
@@ -244,8 +245,8 @@
 				tr = segs[s].splitAtCoord(coords[x]);
 				if(tr){
 					segs.splice(s, 1, tr[0], tr[1]);
-					s++;
-					break;
+					// s++;
+					// break;
 				}
 			}
 		}
@@ -499,7 +500,7 @@
 
 		// Complex segment intersections
 		var threshold = 0.00001;
-		var precision = 4;
+		var precision = 3;
 
 		var s1w = (s1m.xmax - s1m.xmin);
 		var s1h = (s1m.ymax - s1m.ymin);

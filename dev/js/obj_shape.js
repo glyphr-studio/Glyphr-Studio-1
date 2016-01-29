@@ -375,7 +375,7 @@
 //	Boolean Combine
 //	-----------------
 
-	function combineShapes(shapes, donttoast) {
+	function combineShapes(shapes, donttoast, dontresolveoverlaps) {
 		// debug('\n combineShapes - START');
 		if(shapes.length <= 1) return shapes;
 
@@ -431,11 +431,14 @@
 			count++;
 		}
 
-
-		// Collapse each shape's overlapping paths
 		var newshapes = [];
-		for(var ts=0; ts<tempshapes.length; ts++){
-			newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
+		if(dontresolveoverlaps){
+			newshapes = tempshapes;
+		} else {
+			// Collapse each shape's overlapping paths
+			for(var ts=0; ts<tempshapes.length; ts++){
+				newshapes = newshapes.concat(tempshapes[ts].resolveSelfOverlaps());
+			}
 		}
 
 		// debug(' combineShapes - END\n');
@@ -467,7 +470,7 @@
 		if(!p2){
 			p2 = shape2.path.getClosestPointOnCurve(ix);
 			p2 = shape2.path.insertPathPoint(p2.split, p2.point);
-		}
+		}	
 		p2.customid = 'overlap';
 
 
@@ -556,11 +559,11 @@
 	}
 
 	Shape.prototype.resolveSelfOverlaps = function() {
-		// debug('\n Shape.resolveSelfOverlaps - START');
+		debug('\n Shape.resolveSelfOverlaps - START');
 		// Add self intersects to path
 		var polyseg = this.path.getPolySegment();
 
-		// debug(polyseg.segments);
+		debug(polyseg.segments);
 
 		var didstuff = polyseg.splitSegmentsAtIntersections(this);
 		if(!didstuff) return;
@@ -572,13 +575,15 @@
 		var resegs = polyseg.stitchSegmentsTogether();
 
 		var reshapes = [];
-		resegs.forEach(function(v) {
-			v.combineInlineSegments();
-			reshapes.push(new Shape({'name':this.name, 'path':v.getPath()}));
-		});
+		var psn;
+		for(var ps=0; ps<resegs.length; ps++){
+			psn = resegs[ps];
+			// psn.combineInlineSegments();
+			reshapes.push(new Shape({'name':this.name, 'path':psn.getPath()}));
+		}
 
 
-		// debug(' Shape.resolveSelfOverlaps - END\n');
+		debug(' Shape.resolveSelfOverlaps - END\n');
 		return reshapes;
 	};
 

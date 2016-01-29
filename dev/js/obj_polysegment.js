@@ -64,6 +64,9 @@
 	};
 
 	PolySegment.prototype.getPath = function() {
+		// debug('\n PolySegment.getPath - START');
+		// debug(this.segments);
+
 		var pp = [];
 
 		pp.push(makePathPointFromSegments(this.segments[this.segments.length-1], this.segments[0]));
@@ -73,6 +76,9 @@
 			pp.push(makePathPointFromSegments(this.segments[s], ns));
 		}
 
+		// debug(pp);
+		// debug(' PolySegment.getPath - END\n');
+		
 		return new Path({pathpoints: pp});
 	};
 
@@ -139,8 +145,9 @@
 		}
 		// debug(ix);
 		ix = ix.filter(duplicates);
-		// debug(ix);
+
 		// debug('\t found ' + ix.length + ' ix');
+		// debug(ix);
 		// debug(' PolySegment.findIntersections - END\n');
 		return ix;
 	};
@@ -166,11 +173,13 @@
 
 	PolySegment.prototype.splitSegmentsAtProvidedIntersections = function(ixarr) {
 		// debug('\n PolySegment.splitSegmentsAtProvidedIntersections - START');
-		// debug('\t length ' + this.segments.length);
+		// debug('\t before length ' + this.segments.length);
 
 		ixarr.forEach(function(v, i) {
 			ixarr[i] = ixToCoord(v);
 		});
+
+		// debug(ixarr);
 
 		var result = [];
 
@@ -180,7 +189,7 @@
 
 		this.segments = result;
 
-		// debug('\t length ' + this.segments.length);
+		// debug('\t afters length ' + this.segments.length);
 		// debug(' PolySegment.splitSegmentsAtProvidedIntersections - END\n');
 	};
 
@@ -194,19 +203,22 @@
 
 		this.splitSegmentsAtProvidedIntersections(ix);
 
+		// debug('\t before filtering ' + this.segments.length);
 		this.removeDuplicateSegments();
 		this.removeSegmentsOverlappingShape(shape);
 		this.removeZeroLengthSegments();
 		this.removeRedundantSegments();
 
-		this.drawPolySegmentOutline();
+		// debug('\t afters filtering ' + this.segments.length);
+
+		// this.drawPolySegmentOutline();
+		// this.drawPolySegmentPoints();
 
 		// debug(this.segments);
 		// debug(' PolySegment.splitSegmentsAtIntersections - END\n');
 		return true;
 	};
-
-
+/*
 	PolySegment.prototype.splitSegmentsAtIntersections = function(shape) {
 		// debug('\n PolySegment.splitSegmentsAtIntersections - START');
 		// debug(this.segments);
@@ -319,7 +331,7 @@
 
 		return didstuff;
 	};
-
+*/
 	PolySegment.prototype.stitchSegmentsTogether = function() {
 		// debug('\n PolySegment.stitchSegmentsTogether - START');
 		// debug('\t STARTING');
@@ -336,8 +348,8 @@
 		var firstseglength = segs.length;
 
 		function addNextSegment(seg) {
-			// var prec = 1;
-			var ts;
+			var prec = 1;
+			var ts, re;
 			// debug('\n\t CHECKING ');
 			// debug([seg]);
 			// debug('\t AGAINST');
@@ -345,32 +357,34 @@
 
 			// first check all the segments in original flow order
 			for(var s=0; s<segs.length; s++){
-				ts = clone(segs[s]);
+				ts = segs[s];
 				// debug('\t checking p4/ts: ' + round(seg.p4x, prec)+', '+round(seg.p4y, prec)+' : \t'+round(ts.p1x, prec)+', '+round(ts.p1y, prec));
 
 				if(seg.preceeds(ts)){
-					orderedsegs.push(ts);
+					re = new Segment(clone(ts));
+					orderedsegs.push(re);
 					segs.splice(s, 1);
 
 					// debug('\t Next Segment should start ' + ts.p4x + ', ' + ts.p4y);
 					// debug('\t SEGMENT ' + s + ' FOUND and added to orderedsegs');
 
-					return clone(ts);
+					return re;
 				}
 			}
 
 			// if not, try all the segments reversed
 			for(var r=0; r<segs.length; r++){
-				ts = clone(segs[r].getReverse());
+				ts = segs[r].getReverse();
 
 				if(seg.preceeds(ts)){
-					orderedsegs.push(ts);
+					re = new Segment(clone(ts));
+					orderedsegs.push(re);
 					segs.splice(r, 1);
 
 					// debug('\t Next Segment should start ' + ts.p4x + ', ' + ts.p4y);
 					// debug('\t REVERSE SEGMENT ' + r + ' FOUND and added to orderedsegs');
 
-					return clone(ts);
+					return re;
 				}
 			}
 
@@ -380,6 +394,8 @@
 
 		// Main stitching loop
 		segs.splice(0, 1);
+		var nps;
+
 		while(nextseg && count < firstseglength){
 			// debug('\n\n>>>>>>>>>>>>>>\n SEGMENT LOOP ' + count);
 			// debug('\t ' + segs.length + ' segs');
@@ -388,17 +404,18 @@
 
 			nextseg = addNextSegment(nextseg);
 
-			if(nextseg === false && orderedsegs.length > 1){
+			if(nextseg === false || segs.length === 0){
 				// debug('\t NEXTSEG FALSE, PUSHING NEW POLYSEG');
-				newpolysegs.push(new PolySegment({segments: clone(orderedsegs)}));
-				// debug(newpolysegs);
+				nps = new PolySegment({segments: orderedsegs});
+				newpolysegs.push(nps);
+				// debug(nps.segments);
 				orderedsegs = [];
 			}
 
 			if(nextseg === false && segs.length) {
 				// debug('\t MORE SEGMENTS, kicking off new nextseg');
-				orderedsegs = [clone(segs[0])];
-				nextseg = clone(segs[0]);
+				orderedsegs = [new Segment(clone(segs[0]))];
+				nextseg = new Segment(clone(segs[0]));
 				segs.splice(0, 1);
 
 			} else if(segs.length === lastseglength){
@@ -417,7 +434,7 @@
 
 		if(orderedsegs.length > 1){
 			// debug('\t Pushing final orderedsegs to newpolyseg');
-			newpolysegs.push(new PolySegment({segments: clone(orderedsegs)}));
+			newpolysegs.push(new PolySegment({segments: orderedsegs}));
 		}
 
 

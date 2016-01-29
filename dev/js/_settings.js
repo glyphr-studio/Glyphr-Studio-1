@@ -29,7 +29,8 @@
 		'devselectedshape': false, 			// automatically select a shape
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
-			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine\'); redraw();'},
+			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true, true); history_put(\'combine\'); redraw();'},
+			{'name': 'Resolve', 'onclick': 'getSelectedWorkItem().resolveOverlapsForAllShapes(); history_put(\'resolve overlaps\');'},
 			{'name': 'Draw IX', 'onclick': 'getSelectedWorkItemShapes()[0].path.getPolySegment().drawIntersections();'}
 		],
 		'testOnLoad': function() {
@@ -42,9 +43,7 @@
 			// debug(re);
 
 			// Glyph flattening test
-			selectGlyph('0x0041');
-			getSelectedWorkItem().flattenGlyph();
-			history_put('flatten');
+			selectGlyph('0x0051');
 			setView({dx:100, dy:700, dz:0.6});
 			redraw();
 

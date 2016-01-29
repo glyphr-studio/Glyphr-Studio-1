@@ -206,15 +206,6 @@
 		this.calcGlyphMaxes();
 	};
 
-	Glyph.prototype.getCenter = function() {
-		var m = this.calcGlyphMaxes();
-		var re = {};
-		re.x = ((m.xmax - m.xmin) / 2) + m.xmin;
-		re.y = ((m.ymax - m.ymin) / 2) + m.ymin;
-
-		return re;
-	};
-
 	Glyph.prototype.reverseWinding = function() {
 		for(var s=0; s<this.shapes.length; s++){
 			this.shapes[s].reverseWinding();
@@ -236,6 +227,15 @@
 	Glyph.prototype.getRSB = function() {
 		if(this.rightsidebearing === false) return _GP.projectsettings.defaultrsb;
 		else return this.rightsidebearing;
+	};
+
+	Glyph.prototype.getCenter = function() {
+		var m = this.calcGlyphMaxes();
+		var re = {};
+		re.x = ((m.xmax - m.xmin) / 2) + m.xmin;
+		re.y = ((m.ymax - m.ymin) / 2) + m.ymin;
+
+		return re;
 	};
 
 
@@ -533,15 +533,17 @@
 		}
 
 		this.shapes = reshapes;
-		this.calcGlyphMaxes();
+		// this.calcGlyphMaxes();
 
 		return this;
 	};
 
-	Glyph.prototype.combineAllShapes = function(donttoast) {
+	Glyph.prototype.combineAllShapes = function(donttoast, dontresolveoverlaps) {
 		// debug('\n Glyph.combineAllShapes - START');
 
-		this.shapes = combineShapes(this.shapes, donttoast);
+		this.flattenGlyph();
+		
+		this.shapes = combineShapes(this.shapes, donttoast, dontresolveoverlaps);
 
 		// debug('\t new shapes');
 		// debug(this.shapes);
@@ -550,6 +552,19 @@
 		// debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
 		return this;
+	};
+
+	Glyph.prototype.resolveOverlapsForAllShapes = function() {
+
+		var newshapes = [];
+
+		for(var ts=0; ts<this.shapes.length; ts++){
+			newshapes = newshapes.concat(this.shapes[ts].resolveSelfOverlaps());
+		}
+
+		this.shapes = newshapes;
+
+		this.changed();
 	};
 
 
