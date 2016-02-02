@@ -146,7 +146,7 @@
 	function cloneForSaveData(cobj){
 		var newObj = (cobj instanceof Array) ? [] : {};
 		for (var i in cobj) {
-			if(i !== 'parentpath'){
+			if(i !== 'parentpath' && i !== 'cache'){
 				if (cobj[i] && typeof cobj[i] === 'object') {
 					newObj[i] = cloneForSaveData(cobj[i]);
 				} else newObj[i] = cobj[i];

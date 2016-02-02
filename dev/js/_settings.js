@@ -43,7 +43,7 @@
 			// debug(re);
 
 			// Glyph flattening test
-			selectGlyph('0x0051');
+			selectGlyph('0x0049');
 			setView({dx:100, dy:700, dz:0.6});
 			redraw();
 

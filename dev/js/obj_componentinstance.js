@@ -34,7 +34,9 @@
 		this.ratiolock = oa.ratiolock || false;
 		this.visible = isval(oa.visible)? oa.visible : true;
 
-		this.transformedglyphcache = false;
+		// cache
+		oa.cache = oa.cache || {};
+		this.cache.transformedglyph = oa.cache.transformedglyph || {};
 
 		//debug('COMPONENTINSTANCE - end');
 	}
@@ -42,9 +44,9 @@
 	ComponentInstance.prototype.getTransformedGlyph = function() {
 		// debug('\n ComponentInstance.getTransformedGlyph - START ' + this.name);
 
-		if(this.transformedglyphcache){
-			// debug('\t returning glyph in transformedglyphcache');
-			return this.transformedglyphcache;
+		if(this.cache.transformedglyph){
+			// debug('\t returning glyph in cache.transformedglyph');
+			return this.cache.transformedglyph;
 		}
 
 		var og = getGlyph(this.link, true);
@@ -70,7 +72,7 @@
 		// debug('\t afters maxes ' + json(g.maxes, true));
 		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 
-		this.transformedglyphcache = g;
+		this.cache.transformedglyph = g;
 
 		return g;
 	};
@@ -80,6 +82,8 @@
 //	-------------------------------------
 //	Component to Shape Paridy Functions
 //	-------------------------------------
+	ComponentInstance.prototype.changed = function() { this.cache = {}; };
+	
 	ComponentInstance.prototype.getName = function() { return this.name; };
 
 	ComponentInstance.prototype.changeShapeName = function(sn){
@@ -317,10 +321,6 @@
 //-------------------------------------------------------
 // COMPONENT INSTANCE METHODS
 //-------------------------------------------------------
-
-	ComponentInstance.prototype.changed = function() {
-		this.transformedglyphcache = false;
-	};
 
 //	Insert Component
 	function showDialog_AddComponent(){

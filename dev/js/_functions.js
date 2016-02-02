@@ -448,7 +448,7 @@ function saveFile(fname, buffer, ftype) {
 	function clone(cobj){
 		var newObj = (cobj instanceof Array) ? [] : {};
 		for (var i in cobj) {
-			if (cobj[i] && typeof cobj[i] === 'object' && i !== 'parentpath') {
+			if (cobj[i] && typeof cobj[i] === 'object' && i !== 'parentpath' && i !== 'cache') {
 				newObj[i] = clone(cobj[i]);
 			} else newObj[i] = cobj[i];
 		}

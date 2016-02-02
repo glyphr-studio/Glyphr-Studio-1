@@ -30,7 +30,6 @@
 		this.maxes = oa.maxes || clone(_UI.mins);
 		this.shapes = oa.shapes || [];
 		this.usedin = oa.usedin || [];
-		this.svg = oa.svg || false;
 
 		var lc = 0;
 		var cs = 0;
@@ -49,6 +48,11 @@
 		}
 
 		if(this.getGlyphMaxes) this.getGlyphMaxes();
+		
+		// cache
+		oa.cache = oa.cache || {};
+		this.cache.svg = oa.cache.svg || false;
+
 		// debug(' GLYPH - END\n');
 	}
 
@@ -452,7 +456,7 @@
 	};
 
 	Glyph.prototype.makeSVGpathData = function() {
-		if(this.svg) return this.svg;
+		if(this.cache.svg) return this.cache.svg;
 
 		var sl = this.shapes;
 		var pathdata = '';
@@ -476,7 +480,7 @@
 		}
 		if(trim(pathdata) === '') pathdata = 'M0,0Z';
 
-		this.svg = pathdata;
+		this.cache.svg = pathdata;
 		return pathdata;
 	};
 
@@ -549,7 +553,7 @@
 		// debug(this.shapes);
 		this.changed();
 
-		// debug(this.name + ' \t\t ' + this.shapes.length);
+		debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
 		return this;
 	};
@@ -573,7 +577,7 @@
 //-------------------------------------------------------
 
 	Glyph.prototype.changed = function() {
-		this.svg = false;
+		this.cache.svg = false;
 
 		for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed();
 

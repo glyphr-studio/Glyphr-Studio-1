@@ -37,9 +37,8 @@
 
 	Shape.prototype.getName = function() { return this.name; };
 
-	Shape.prototype.changed = function() {
-		// this.path.changed();
-	};
+	Shape.prototype.changed = function() { this.path.changed(); };
+
 
 //	-------------------------------------------------------
 //	DRAWING THE SHAPE
@@ -559,11 +558,11 @@
 	}
 
 	Shape.prototype.resolveSelfOverlaps = function() {
-		debug('\n Shape.resolveSelfOverlaps - START');
+		// debug('\n Shape.resolveSelfOverlaps - START');
 		// Add self intersects to path
 		var polyseg = this.path.getPolySegment();
 
-		debug(polyseg.segments);
+		// debug(polyseg.segments);
 
 		var didstuff = polyseg.splitSegmentsAtIntersections(this);
 		if(!didstuff) return;
@@ -583,7 +582,7 @@
 		}
 
 
-		debug(' Shape.resolveSelfOverlaps - END\n');
+		// debug(' Shape.resolveSelfOverlaps - END\n');
 		return reshapes;
 	};
 
