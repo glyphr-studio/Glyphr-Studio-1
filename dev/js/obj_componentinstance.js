@@ -36,7 +36,8 @@
 
 		// cache
 		oa.cache = oa.cache || {};
-		this.cache.transformedglyph = oa.cache.transformedglyph || {};
+		this.cache = {};
+		this.cache.transformedglyph = oa.cache.transformedglyph || false;
 
 		//debug('COMPONENTINSTANCE - end');
 	}
@@ -45,7 +46,7 @@
 		// debug('\n ComponentInstance.getTransformedGlyph - START ' + this.name);
 
 		if(this.cache.transformedglyph){
-			// debug('\t returning glyph in cache.transformedglyph');
+			// debug('\t returning glyph in cache.transformedglyph ');
 			return this.cache.transformedglyph;
 		}
 
@@ -83,7 +84,7 @@
 //	Component to Shape Paridy Functions
 //	-------------------------------------
 	ComponentInstance.prototype.changed = function() { this.cache = {}; };
-	
+
 	ComponentInstance.prototype.getName = function() { return this.name; };
 
 	ComponentInstance.prototype.changeShapeName = function(sn){

@@ -37,9 +37,20 @@
 
 		this.line = this.isLine();
 
+		// cache
+		oa.cache = oa.cache || {};
+		this.cache = {};
+		this.cache.length = oa.cache.length || false;
+
 		// debug(' SEGMENT - END\n');
 	}
 
+
+
+//	-----------------------------------
+//	Methods
+//	-----------------------------------
+	Segment.prototype.changed = function() { this.cache = {}; };
 
 
 //	-----------------------------------
@@ -300,18 +311,32 @@
 		// this function is only used as an approximation
 		// threshold in em units
 
+		if(this.cache && this.cache.length) return this.cache.length;
+
+		var re;
 		var threshold = 10;
 		var a = Math.abs(this.p1x - this.p4x);
 		var b = Math.abs(this.p1y - this.p4y);
 		var c = Math.sqrt((a*a) + (b*b));
 
-		if(this.line) return c;
+		if(this.line || c < threshold) {
+			this.cache.length = c;
+			return c;
 		
-		if(c < threshold) return c;
-		else {
+		} else {
 			var s = this.split();
-			return s[0].getLength() + s[1].getLength();
+			re = s[0].getLength() + s[1].getLength();
+			this.cache.length = re;
+			return re;
 		}
+	};
+
+	Segment.prototype.getQuickLength = function() {
+		var a = Math.abs(this.p1x - this.p4x);
+		var b = Math.abs(this.p1y - this.p4y);
+		var c = Math.sqrt((a*a) + (b*b));
+
+		return c;
 	};
 
 	Segment.prototype.getCoordFromSplit = function(t) {

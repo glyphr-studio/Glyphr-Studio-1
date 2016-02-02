@@ -48,9 +48,10 @@
 		}
 
 		if(this.getGlyphMaxes) this.getGlyphMaxes();
-		
+
 		// cache
 		oa.cache = oa.cache || {};
+		this.cache = {};
 		this.cache.svg = oa.cache.svg || false;
 
 		// debug(' GLYPH - END\n');
@@ -576,10 +577,12 @@
 // METHODS
 //-------------------------------------------------------
 
-	Glyph.prototype.changed = function() {
-		this.cache.svg = false;
+	Glyph.prototype.changed = function(descend) {
+		this.cache = {};
 
-		for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed();
+		if(descend){
+			for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed();
+		}
 
 		this.calcGlyphMaxes();
 	};

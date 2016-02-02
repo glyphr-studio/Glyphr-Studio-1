@@ -34,8 +34,8 @@
 		this.maxes = oa.maxes || clone(_UI.mins);
 
 		// cache
-		this.cache = {};
 		oa.cache = oa.cache || {};
+		this.cache = {};
 		this.cache.segments = oa.cache.segments || [];
 		this.cache.segmentlengths = oa.cache.segmentlengths || [];
 
@@ -235,7 +235,10 @@
 		return pnum;
 	};
 
-	Path.prototype.changed = function() { this.cache = {}; };
+	Path.prototype.changed = function() { 
+		this.cache = {}; 
+		this.calcMaxes();
+	};
 
 
 //	-----------------------------------
@@ -565,12 +568,13 @@
 		// debug('\n Path.getSegment - START');
 		// debug('\t passed ' + num);
 
-		// check cache
-		if(this.cache.segments[num]) return this.cache.segments[num];
-
 		// make a segment
 		num = num || 0;
 		num = num % this.pathpoints.length;
+
+		// check cache
+		if(this.cache.segments && this.cache.segments[num]) return this.cache.segments[num];
+		else this.cache.segments = [];
 
 		// debug('\t validated as ' + num);
 
@@ -589,6 +593,13 @@
 
 		// debug([re, re2]);
 		// debug(' Path.getSegment - END\n');
+		return re;
+	};
+
+	Path.prototype.getQuickSegmentLength = function(num) {
+		var re = this.getSegment(num);
+		re = re.getQuickLength();
+
 		return re;
 	};
 
@@ -838,11 +849,10 @@
 		var mindistance = 999999999;
 		var check, d, seglen;
 
-		// debug('\t segmentlengths ');
-		// debug(this.cache.segmentlengths);
-
 		for(var pp=0; pp<this.pathpoints.length; pp++){
-			grains = this.cache.segmentlengths[pp] * 100;
+			// grains = this.cache.segmentlengths[pp] * 100;
+			grains = this.getSegment(pp).getQuickLength() * 100;
+
 			for(var t=0; t<1; t+=(1/grains)){
 				check = this.getCoordFromSplit(t, pp);
 				d = Math.sqrt( ((check.x-coord.x)*(check.x-coord.x)) + ((check.y-coord.y)*(check.y-coord.y)) );
@@ -917,7 +927,7 @@
 
 			// debug('\t path maxes is now ' + json(this.maxes, true));
 
-			this.cache.segmentlengths[s] = seg.getLength();
+			this.cache.segments[s] = seg;
 
 			// debug('\t ++++++ ending seg ' + s);			
 		}
