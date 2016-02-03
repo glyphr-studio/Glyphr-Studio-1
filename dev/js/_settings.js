@@ -20,7 +20,7 @@
 
 		// Internal Dev Stuff
 		'devmode': true, 					// global switch for all the stuff below
-		'debugautogroup': false,			// try to console.group based on text strings
+		'debugautogroup': true,			// try to console.group based on text strings
 		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
 		'debug': true, 						// show messages sent to the browser console
 		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
@@ -36,17 +36,29 @@
 		],
 		'testOnLoad': function() {
 
+			// Navigate
+			selectGlyph('0x0075');
+			setView({dx:100, dy:700, dz:0.6});
+			redraw();
+
 			// Segment Test
 			// var s1 = new Segment({p1x:100, p1y:100, p2x:200, p2y:100, p3x:300, p3y:100, p4x:400, p4y:100});
 			// var s2 = new Segment({p1x:250, p1y:100, p2x:350, p2y:100, p3x:450, p3y:100, p4x:550, p4y:100});
 
-			// var re = findOverlappingLineSegmentIntersections(s1, s2);
+			// var s4 = new Segment({p1x:100, p1y:100, p4x:100, p4y:400});
+			// var s3 = new Segment({p1x:50, p1y:100, p2x:50, p2y:200, p3x:200, p3y:300, p4x:300, p4y:300});
+
+			// s3.drawSegmentPoints();
+			// s4.drawSegmentPoints();
+
+			// var re = findSegmentIntersections(s3, s4);
 			// debug(re);
 
-			// Glyph flattening test
-			selectGlyph('0x0062');
-			setView({dx:100, dy:700, dz:0.6});
-			redraw();
+
+			// draw_BoundingBox(s3.getFastMaxes());
+			// draw_BoundingBox(s4.getFastMaxes());
+			// s3.drawSegmentOutline();
+			// s4.drawSegmentOutline();
 
 			// Overlapping point-path test
 			// addShape(new Shape({'name':'small', 'path':rectPathFromMaxes({'xmax':200, 'xmin':100, 'ymax':400, 'ymin':100})}));

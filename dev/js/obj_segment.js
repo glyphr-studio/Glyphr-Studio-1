@@ -487,11 +487,11 @@
 
 
 		// if(depth > 15) {
-		// debug('\t fINDsEGMENTiNTERSECTIONS debug early return');
+			// debug('\t fINDsEGMENTiNTERSECTIONS debug early return');
 		// 	return [];
 		// }
-		// s1.drawSegmentOutline();
-		// s2.drawSegmentOutline();
+		s1.drawSegmentOutline();
+		s2.drawSegmentOutline();
 
 
 		// Check for overlapping / coincident segments
@@ -521,10 +521,12 @@
 			// debug('\t segments have non overlapping fastmaxes');
 			return [];
 		}
-
+		// debug('\t segments fastmaxes overlap');
+		// debug([s1m]);
+		// debug([s2m]);
 
 		// Complex segment intersections
-		var threshold = 0.00001;
+		var threshold = 0.00005;
 		var precision = 3;
 
 		var s1w = (s1m.xmax - s1m.xmin);
@@ -549,16 +551,16 @@
 				y = round(y, precision);
 
 				var ix = ''+x+'/'+y;
-				// debug('\t hit bottom, found ' + ix);
+				// debug('\t <<<<<<<<<<<<<<<<< hit bottom, found ' + ix);
 				return [ix];
 		} else {
-			// debug('\t more recursion needed at ' + depth);
+			// debug('\t not below threshold at ' + depth);
 		}
 
 		// More recursion needed
 		var re = [];
-		var s1split = s1.split();
-		var s2split = s2.split();
+		var s1split = s1.splitAtTime(0.5);
+		var s2split = s2.splitAtTime(0.5);
 		var pairs = [
 			[s1split[0], s2split[0]],
 			[s1split[0], s2split[1]],
@@ -567,10 +569,10 @@
 		];
 
 		pairs = pairs.filter(function(p) {
-			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes());
+			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes(), 'inclusive');
 		});
 
-		// debug('\t pairs after maxes overlap filter');
+		// debug('\t ' + pairs.length + ' pairs after maxes overlap filter');
 		// debug(pairs);
 
 		pairs.forEach(function(p) {

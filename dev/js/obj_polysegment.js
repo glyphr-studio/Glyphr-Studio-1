@@ -175,7 +175,7 @@
 		// debug('\n PolySegment.splitSegmentsAtProvidedIntersections - START');
 		// debug('\t before length ' + this.segments.length);
 		// debug(this.segments);
-		
+
 		ixarr.forEach(function(v, i) {
 			ixarr[i] = ixToCoord(v);
 		});
@@ -548,23 +548,30 @@
 		var pt = 3;
 		var tx, ty;
 
-		for(var s=0; s<this.segments.length; s++){
-			split = this.segments[s].split();
+		function testForHit(seg, split, shape){
+			split = seg.splitAtTime(split);
 			tx = split[0].p4x;
 			ty = split[0].p4y;
 
 			// Big hit dectection, to miss border paths
-			if(shape.isHere(sx_cx(tx), sy_cy(ty)) &&
-				shape.isHere(sx_cx(tx), sy_cy(ty + pt)) &&
-				shape.isHere(sx_cx(tx), sy_cy(ty - pt)) &&
-				shape.isHere(sx_cx(tx + pt), sy_cy(ty)) &&
-				shape.isHere(sx_cx(tx - pt), sy_cy(ty)) ){
-				// alert('HIT ' + tx + ', ' + ty);
+			var re = shape.isHere(sx_cx(tx), sy_cy(ty)) &&
+			shape.isHere(sx_cx(tx), sy_cy(ty + pt)) &&
+			shape.isHere(sx_cx(tx), sy_cy(ty - pt)) &&
+			shape.isHere(sx_cx(tx + pt), sy_cy(ty)) &&
+			shape.isHere(sx_cx(tx - pt), sy_cy(ty));
+			
+			// if (re) alert('HIT ' + tx + ', ' + ty);
+
+			return re;
+		}
+
+		for(var s=0; s<this.segments.length; s++){
+
+			if(testForHit(this.segments[s], 0.33, shape) || testForHit(this.segments[s], 0.66, shape)){
 				// this.segments[s].drawSegmentPoints('rgb(255,0,0)', s);
 				this.segments[s].objtype = 'hit';
 			} else {
 				// this.segments[s].drawSegmentPoints('rgb(0,255,0)', s);
-				// alert('MISS ' + tx + ', ' + ty);
 			}
 		}
 

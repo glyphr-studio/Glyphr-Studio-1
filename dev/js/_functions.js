@@ -161,7 +161,7 @@
 					console.groupCollapsed();
 					return;
 				} else if(_UI.debugautogroup && message.indexOf('- START') > 0){
-					console.groupCollapsed(message.substr(2).replace(' - START', '')); 
+					console.group(message.substr(2).replace(' - START', '')); 
 					return;
 				} else if(message === 'groupEnd'|| (_UI.debugautogroup && message.indexOf('- END') > 0)) {
 					console.groupEnd(message); 

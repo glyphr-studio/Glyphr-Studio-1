@@ -385,14 +385,17 @@
 		return false;
 	};
 
-	function maxesOverlap(m1, m2) {
-		// var inc = (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
-		var exc = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
+	function maxesOverlap(m1, m2, bx) {
+		bx = bx || 'exclusive';
+		var re;
+
+		if(bx === 'inclusive') re = (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
+		else if (bx === 'exclusive') re = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
 		// var iny = (m1.xmin < m2.xmax && m1.xmax > m2.xmin && m1.ymin <= m2.ymax && m1.ymax >= m2.ymin);
 		// var inx = (m1.xmin <= m2.xmax && m1.xmax >= m2.xmin && m1.ymin < m2.ymax && m1.ymax > m2.ymin);
 		// var equ = (JSON.stringify(m1)===JSON.stringify(m2));
 
-		return exc;
+		return re;
 	}
 
 
