@@ -552,7 +552,7 @@
 
 		// debug('\t new shapes');
 		// debug(this.shapes);
-		this.changed();
+		this.changed(true);
 
 		debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
@@ -569,7 +569,7 @@
 
 		this.shapes = newshapes;
 
-		this.changed();
+		this.changed(true);
 	};
 
 

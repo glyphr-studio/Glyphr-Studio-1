@@ -174,7 +174,8 @@
 	PolySegment.prototype.splitSegmentsAtProvidedIntersections = function(ixarr) {
 		// debug('\n PolySegment.splitSegmentsAtProvidedIntersections - START');
 		// debug('\t before length ' + this.segments.length);
-
+		// debug(this.segments);
+		
 		ixarr.forEach(function(v, i) {
 			ixarr[i] = ixToCoord(v);
 		});
@@ -211,7 +212,7 @@
 
 		// debug('\t afters filtering ' + this.segments.length);
 
-		// this.drawPolySegmentOutline();
+		this.drawPolySegmentOutline();
 		// this.drawPolySegmentPoints();
 
 		// debug(this.segments);

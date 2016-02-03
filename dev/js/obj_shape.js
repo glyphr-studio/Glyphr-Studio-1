@@ -565,7 +565,7 @@
 		// debug(polyseg.segments);
 
 		var didstuff = polyseg.splitSegmentsAtIntersections(this);
-		if(!didstuff) return;
+		if(!didstuff) return new Shape(clone(this));
 
 
 		// var reshapes = [];
@@ -578,7 +578,7 @@
 		for(var ps=0; ps<resegs.length; ps++){
 			psn = resegs[ps];
 			// psn.combineInlineSegments();
-			reshapes.push(new Shape({'name':this.name, 'path':psn.getPath()}));
+			if(psn.segments.length > 1) reshapes.push(new Shape({'name':this.name, 'path':psn.getPath()}));
 		}
 
 

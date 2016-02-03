@@ -71,7 +71,7 @@
 		var p4x = sx_cx(this.p4x + dx);
 		var p4y = sy_cy(this.p4y + dy);
 
-		x.globalAlpha = 0.6;
+		x.globalAlpha = 0.9;
 		x.lineWidth = 3;
 		x.beginPath();
 		x.moveTo(p1x, p1y);
@@ -140,7 +140,7 @@
 			var online = false;
 
 			if(this.line === 'horizontal'){
-				if(round(co.y, 2) === round(this.p1y)){
+				if(round(co.y, 2) === round(this.p1y, 2)){
 					if((co.x > Math.min(this.p1x, this.p4x)) && (co.x < Math.max(this.p1x, this.p4x))){
 						newx = co.x;
 						newy = this.p1y;
@@ -149,7 +149,7 @@
 				}
 
 			} else if (this.line === 'vertical'){
-				if(round(co.x, 2) === round(this.p1x)){
+				if(round(co.x, 2) === round(this.p1x, 2)){
 					if((co.y > Math.min(this.p1y, this.p4y)) && (co.y < Math.max(this.p1y, this.p4y))){
 						newx = this.p1x;
 						newy = co.y;
@@ -186,7 +186,7 @@
 
 			// debug('\t distance is ' + sp.distance);
 
-			if(sp.distance < 0.01){
+			if(sp.distance < 0.1){
 			// debug('\t splitting at ' + sp.split);
 				return this.splitAtTime(sp.split);
 			}
@@ -285,7 +285,7 @@
 //	Getters
 //	-----------------------------------
 	Segment.prototype.getSplitFromCoord = function(coord) {
-		var grains = this.getLength() * 100;
+		var grains = this.getQuickLength() * 100;
 		var mindistance = 999999999;
 		var re = {};
 		var check, d;
@@ -761,7 +761,7 @@
 	}
 
 	Segment.prototype.preceeds = function(s2, precision) {
-		precision = isval(precision)? precision : 1;
+		precision = isval(precision)? precision : 0;
 		if((round(this.p4x, precision) === round(s2.p1x, precision) && 
 			round(this.p4y, precision) === round(s2.p1y, precision)) ) {
 			return true;
