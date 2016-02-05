@@ -563,10 +563,26 @@
 		var polyseg = this.path.getPolySegment();
 
 		// debug(polyseg.segments);
+		var ix = polyseg.findIntersections();
+		// debug(ix);
+		if(ix.length === 0) return false;
 
-		var didstuff = polyseg.splitSegmentsAtIntersections(this);
-		if(!didstuff) return new Shape(clone(this));
+		var segnum = polyseg.segments.length;
 
+		polyseg.splitSegmentsAtProvidedIntersections(ix);
+		
+		if(segnum === polyseg.segments.length) return new Shape(clone(this));
+
+		// debug('\t before filtering ' + polyseg.segments.length);
+		polyseg.removeZeroLengthSegments();
+		polyseg.removeDuplicateSegments();
+		polyseg.removeSegmentsOverlappingShape(this);
+		polyseg.removeRedundantSegments();
+		polyseg.removeNonConnectingSegments();
+		// polyseg.combineInlineSegments();
+		// debug('\t afters filtering ' + polyseg.segments.length);
+
+		polyseg.drawPolySegmentOutline();
 
 		// var reshapes = [];
 		// reshapes.push(new Shape({'name':this.name, 'path':polyseg.getPath()}));
@@ -577,7 +593,6 @@
 		var psn;
 		for(var ps=0; ps<resegs.length; ps++){
 			psn = resegs[ps];
-			// psn.combineInlineSegments();
 			if(psn.segments.length > 1) reshapes.push(new Shape({'name':this.name, 'path':psn.getPath()}));
 		}
 

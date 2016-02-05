@@ -37,7 +37,7 @@
 		'testOnLoad': function() {
 
 			// Navigate
-			selectGlyph('0x0075');
+			selectGlyph('0x0041');
 			setView({dx:100, dy:700, dz:0.6});
 			redraw();
 
@@ -199,6 +199,7 @@
 		},
 		'timeout': false,
 		'history': {},
+		'combineprecision': 0.01,
 
 		// page: glyphedit
 		'selectedglyph': false,	// f is 0x0066

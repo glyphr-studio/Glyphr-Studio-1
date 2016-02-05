@@ -19,7 +19,12 @@
 		oa = oa || {};
 		this.objtype = 'polysegment';
 
-		this.segments = oa.segments || [];
+		this.segments = [];
+		oa.segments = oa.segments || [];
+		
+		for(var i=0; i<oa.segments.length; i++){
+			this.segments[i] = new Segment(oa.segments[i]);
+		}
 
 		// debug(' SEGMENT - END\n');
 	}
@@ -126,6 +131,11 @@
 		// debug(' PolySegment.splitSegment - END\n');
 	};
 
+
+
+//	-----------------------------------
+//	Intersections
+//	-----------------------------------
 	PolySegment.prototype.findIntersections = function() {
 		// debug('\n PolySegment.findIntersections - START');
 		// debug('\t ' + this.segments.length + ' segments');
@@ -194,196 +204,161 @@
 		// debug(' PolySegment.splitSegmentsAtProvidedIntersections - END\n');
 	};
 
-	PolySegment.prototype.splitSegmentsAtIntersections = function(shape) {
-		// debug('\n PolySegment.splitSegmentsAtIntersections - START');
-		// debug(this.segments);
 
-		var ix = this.findIntersections();
-		// debug(ix);
-		if(ix.length === 0) return false;
+	PolySegment.prototype.stitchSegmentsTogether = function() {
+		debug('\n PolySegment.stitchSegmentsTogether - START');
 
-		this.splitSegmentsAtProvidedIntersections(ix);
+		var source = new PolySegment(clone(this)).segments;
+		var sorted = [];
+		var result = [];
 
-		// debug('\t before filtering ' + this.segments.length);
-		this.removeDuplicateSegments();
-		this.removeSegmentsOverlappingShape(shape);
-		this.removeZeroLengthSegments();
-		this.removeRedundantSegments();
+		function getNextSegment(co) {
+			var ts, re;
 
-		// debug('\t afters filtering ' + this.segments.length);
+			for(var s=0; s<source.length; s++){
+				ts = source[s];
+				if(ts.objtype === 'segment'){
+					if(ts.containsStartPoint(co)){
+						re = new Segment(clone(ts));
+						ts.objtype = '-' + result.length + '.' + sorted.length;
+						return re;
+					}
+				}
+			}
 
-		this.drawPolySegmentOutline();
-		// this.drawPolySegmentPoints();
+			// if not, try all the segments reversed
+			for(var r=0; r<source.length; r++){
+				ts = source[r].getReverse();
+				if(source[r].objtype === 'segment'){
+					if(ts.containsStartPoint(co)){
+						re = new Segment(clone(ts));
+						source[r].objtype = 'R' + result.length + '.' + sorted.length;
+						return re;
+					}
+				}
+			}
 
-		// debug(this.segments);
-		// debug(' PolySegment.splitSegmentsAtIntersections - END\n');
-		return true;
-	};
-/*
-	PolySegment.prototype.splitSegmentsAtIntersections = function(shape) {
-		// debug('\n PolySegment.splitSegmentsAtIntersections - START');
-		// debug(this.segments);
-		var splitstuff = true;
-		var didstuff = false;
-		var uniqueix = [];
+			return false;
+		}
 
-		function splitseg(poly, seg, co) {
-			if(seg.containsEndPoint(co)) return;
+		function getNextUnusedSegmentP1() {
+			
+			for(var s=0; s<source.length; s++){
+				if(source[s].objtype === 'segment'){
+					return source[s].getCoord(1);
+				}
+			}
+		}
 
-			if(seg.line){
-				poly.splitSegment(seg, co);
-				splitstuff = true;
-				didstuff = true;
+		// Start ordering
+		var reseg;
+		var nextcoord = getNextUnusedSegmentP1();
+		// debug('\t starting loop');
+		// debug([nextcoord]);
+		// debug('\t source.length ' + source.length);
+
+		for(var i=0; i<source.length; i++){
+			reseg = getNextSegment(nextcoord);
+
+			if(reseg){
+				sorted.push(reseg);
+				nextcoord = reseg.getCoord(4);
+				debug('\t LOOP ' + i + ' added a segment, sorted total is ' + sorted.length);
 
 			} else {
-				var t = round(seg.getSplitFromCoord(co).split, 2);
+				debug('\t LOOP ' + i + ' NO NEXT SEGMENT FOUND');
+				if(sorted.length){
+					result.push(new PolySegment({segments:sorted}));
 
-				if(t !== 0 && t !== 1){
-					poly.splitSegment(seg, t);
-					splitstuff = true;
-					didstuff = true;
-				}
-			}
-		}
-
-		var count = 0;
-		while(splitstuff){
-
-			if(count === 10){
-				// console.warn('\t BREAKING AT LOOP MAX 10');
-				break;
-			}
-
-			if(this.segments.length > 100){
-				// console.warn('\t BREAKING AT SEGMENTS MAX 100');
-				break;
-			}
-
-			// debug('<><><><> LOOP ' + count + ' <><><><>');
-			// debug('groupCollapsed');
-
-			splitstuff = false;
-			var ix, s1, s2, co;
-			var donearr = [];
-			var nps = new PolySegment(clone(this));
-
-			// Initialize the done tracking arr
-			for(var a=0; a<this.segments.length; a++){
-				var c = [];
-				for(var b=0; b<this.segments.length; b++){
-					if(a === b) c.push(true);
-					else c.push(false);
-				}
-				donearr[a] = c;
-			}
-			// debug(donearr);
-
-			for(var i=0; i<this.segments.length; i++){
-				for(var j=0; j<this.segments.length; j++){
-					if(!donearr[i][j]){
-						s1 = clone(this.segments[i]);
-						s2 = clone(this.segments[j]);
-
-						ix = findSegmentIntersections(s1, s2);
-
-						if(ix.length > 0){
-							if(ix.length > 1) {
-								// console.warn('More than one intersection');
-								// debug(ix);
-							}
-
-							if(count === 0){
-								uniqueix = uniqueix.concat(ix);
-								uniqueix = uniqueix.filter(duplicates);
-							}
-
-							for(var k=0; k<ix.length; k++){
-								if(uniqueix.indexOf(ix[k]) > -1){
-									// debug(' ix at loop ' + i + ' - ' + j);
-									co = ixToCoord(ix[k]);
-									splitseg(nps, s1, co);
-									splitseg(nps, s2, co);
-								}
-							}
-						}
+					if(sorted[sorted.length-1].containsEndPoint(sorted[0].getCoord(1))){
+						debug('\t\t Pushed sorted polyseg, connected nicely');
+					} else {
+						// debug('\t\t Pushed sorted polyseg, OPEN LOOP');
 					}
-					// debug(donearr);
-					donearr[i][j] = true;
-					donearr[j][i] = true;
+
+					sorted = [];
+					nextcoord = getNextUnusedSegmentP1();
 				}
-
-				// debug('\t OUTER LOOP DONE ' + i);
-				// debug(this.segments);
 			}
-
-			this.segments = nps.segments;
-			this.removeSegmentsOverlappingShape(shape);
-			this.removeZeroLengthSegments();
-			this.removeDuplicateSegments();
-			this.removeRedundantSegments();
-
-			// if(count === 0) debug('\t uniqueix.length ' + uniqueix.length);
-			// if(!splitstuff) debug('\t Didnt split anything, breaking on ' + count);
-			count++;
-			// debug('groupEnd');
 		}
 
-		// debug(' PolySegment.splitSegmentsAtIntersections - returning ' + didstuff + ' - END\n');
+		// Fencepost
+		if(sorted.length){
+			debug('\t FINISHING');
+			result.push(new PolySegment({segments:sorted}));
 
-		return didstuff;
+			if(sorted[sorted.length-1].containsEndPoint(sorted[0].getCoord(1))){
+				debug('\t\t Pushed sorted polyseg, connected nicely');
+			} else {
+				debug('\t\t Pushed sorted polyseg, OPEN LOOP');
+			}
+		}
+
+		debug('\t SOURCE');
+		debug(source);
+
+		result.forEach(function(v, i) {
+			debug('\n\t RETURNING ' + i);
+			debug(v.segments);
+		});
+
+		debug(' PolySegment.stitchSegmentsTogether - END\n');
+
+		return result;
 	};
-*/
-	PolySegment.prototype.stitchSegmentsTogether = function() {
+
+	PolySegment.prototype.stitchSegmentsTogether1 = function() {
 		// debug('\n PolySegment.stitchSegmentsTogether - START');
 		// debug('\t STARTING');
 		// debug(this.segments);
 		// this.drawPolySegmentOutline();
 		// alert('Starting stitchSegmentsTogether');
 
-		var segs = this.segments;
-		var newpolysegs = [];
-		var orderedsegs = [clone(segs[0])];
-		var nextseg = clone(segs[0]);
+		var source = this.segments;
+		var destination = [clone(source[0])];
+		var results = [];
+
+		var nextseg = clone(source[0]);
 		var count = 0;
-		var lastseglength = segs.length;
-		var firstseglength = segs.length;
+		var lastseglength = source.length;
+		var firstseglength = source.length;
 
 		function addNextSegment(seg) {
-			var prec = 1;
+			var prec = 0.1;
 			var ts, re;
 			// debug('\n\t CHECKING ');
 			// debug([seg]);
 			// debug('\t AGAINST');
-			// debug(segs);
+			// debug(source);
 
 			// first check all the segments in original flow order
-			for(var s=0; s<segs.length; s++){
-				ts = segs[s];
+			for(var s=0; s<source.length; s++){
+				ts = source[s];
 				// debug('\t checking p4/ts: ' + round(seg.p4x, prec)+', '+round(seg.p4y, prec)+' : \t'+round(ts.p1x, prec)+', '+round(ts.p1y, prec));
 
-				if(seg.preceeds(ts)){
+				if(seg.preceeds(ts, prec)){
 					re = new Segment(clone(ts));
-					orderedsegs.push(re);
-					segs.splice(s, 1);
+					destination.push(re);
+					source.splice(s, 1);
 
 					// debug('\t Next Segment should start ' + ts.p4x + ', ' + ts.p4y);
-					// debug('\t SEGMENT ' + s + ' FOUND and added to orderedsegs');
+					// debug('\t SEGMENT ' + s + ' FOUND and added to destination');
 
 					return re;
 				}
 			}
 
 			// if not, try all the segments reversed
-			for(var r=0; r<segs.length; r++){
-				ts = segs[r].getReverse();
+			for(var r=0; r<source.length; r++){
+				ts = source[r].getReverse();
 
-				if(seg.preceeds(ts)){
+				if(seg.preceeds(ts, prec)){
 					re = new Segment(clone(ts));
-					orderedsegs.push(re);
-					segs.splice(r, 1);
+					destination.push(re);
+					source.splice(r, 1);
 
 					// debug('\t Next Segment should start ' + ts.p4x + ', ' + ts.p4y);
-					// debug('\t REVERSE SEGMENT ' + r + ' FOUND and added to orderedsegs');
+					// debug('\t REVERSE SEGMENT ' + r + ' FOUND and added to destination');
 
 					return re;
 				}
@@ -394,55 +369,54 @@
 		}
 
 		// Main stitching loop
-		segs.splice(0, 1);
+		source.splice(0, 1);
 		var nps;
 
 		while(nextseg && count < firstseglength){
 			// debug('\n\n>>>>>>>>>>>>>>\n SEGMENT LOOP ' + count);
-			// debug('\t ' + segs.length + ' segs');
-			// debug('\t ' + orderedsegs.length + ' orderedsegs');
-			// debug('\t ' + newpolysegs.length + ' newpolysegs');
+			// debug('\t ' + source.length + ' source');
+			// debug('\t ' + destination.length + ' destination');
+			// debug('\t ' + results.length + ' results');
 
 			nextseg = addNextSegment(nextseg);
 
-			if(nextseg === false || segs.length === 0){
+			if(nextseg === false || source.length === 0){
 				// debug('\t NEXTSEG FALSE, PUSHING NEW POLYSEG');
-				nps = new PolySegment({segments: orderedsegs});
-				newpolysegs.push(nps);
+				nps = new PolySegment({segments: destination});
+				results.push(nps);
 				// debug(nps.segments);
-				orderedsegs = [];
+				destination = [];
 			}
 
-			if(nextseg === false && segs.length) {
+			if(nextseg === false && source.length) {
 				// debug('\t MORE SEGMENTS, kicking off new nextseg');
-				orderedsegs = [new Segment(clone(segs[0]))];
-				nextseg = new Segment(clone(segs[0]));
-				segs.splice(0, 1);
+				destination = [new Segment(clone(source[0]))];
+				nextseg = new Segment(clone(source[0]));
+				source.splice(0, 1);
 
-			} else if(segs.length === lastseglength){
-				// debug('\t NO CHANGE - BREAKING - segs.length ' + segs.length);
+			} else if(source.length === lastseglength){
+				// debug('\t NO CHANGE - BREAKING - source.length ' + source.length);
 				break;
 
-			} else if(segs.length === 0){
+			} else if(source.length === 0){
 				// debug('\t NO MORE SEGMENTS - BREAKING');
 				break;
 			}
 
-			lastseglength = segs.length;
+			lastseglength = source.length;
 			count++;
 
 		}
 
-		if(orderedsegs.length > 1){
-			// debug('\t Pushing final orderedsegs to newpolyseg');
-			newpolysegs.push(new PolySegment({segments: orderedsegs}));
+		if(destination.length > 1){
+			// debug('\t Pushing final destination to newpolyseg');
+			results.push(new PolySegment({segments: destination}));
 		}
 
 
 		// debug(' PolySegment.stitchSegmentsTogether - END\n');
-		return newpolysegs;
+		return results;
 	};
-
 
 
 //	-----------------------------------
@@ -452,25 +426,27 @@
 	PolySegment.prototype.removeZeroLengthSegments = function() {
 		// debug('\n PolySegment.removeZeroLengthSegments - START');
 		var len = this.segments.length;
-		var prec = 2;
+		var prec = 1;
 		var s;
 
 		for(var t=0; t<this.segments.length; t++){
 			s = this.segments[t];
+			// debug('\t Segment ' + t);
+			// debug('\t checking x: ' + round(s.p1x, prec)+' '+round(s.p2x, prec)+' '+round(s.p3x, prec)+' '+round(s.p4x, prec));
+			// debug('\t checking y: '	+ round(s.p1y, prec)+' '+round(s.p2y, prec)+' '+round(s.p3y, prec)+' '+round(s.p4y, prec));
 
-			if( round(s.p1x, prec) === round(s.p1y, prec) &&
-				round(s.p1x, prec) === round(s.p2x, prec) &&
-				round(s.p1x, prec) === round(s.p2y, prec) &&
+			if( round(s.p1x, prec) === round(s.p2x, prec) &&
 				round(s.p1x, prec) === round(s.p3x, prec) &&
-				round(s.p1x, prec) === round(s.p3y, prec) &&
 				round(s.p1x, prec) === round(s.p4x, prec) &&
-				round(s.p1x, prec) === round(s.p4y, prec) ){
+				round(s.p1y, prec) === round(s.p2y, prec) &&
+				round(s.p1y, prec) === round(s.p3y, prec) &&
+				round(s.p1y, prec) === round(s.p4y, prec) ){
+				// debug('\t HIT');
 				s.objtype = 'ZERO';
 			}
 		}
 
 		// debug(this.segments);
-
 		this.segments = this.segments.filter(function(v){ return v.objtype === 'segment'; });
 		// debug(' PolySegment.removeZeroLengthSegments - removed ' + (len-this.segments.length) + ' - END\n');
 	};
@@ -483,12 +459,13 @@
 		for(var t=0; t<this.segments.length; t++){
 			if(s !== t && this.segments[s] && this.segments[t]){
 				if(this.segments[s].isRedundantTo(this.segments[t])){
-					this.segments[s] = false;
+					this.segments[s] = 'REDUNDANT';
 				}
 			}
 		}}
 
-		this.segments = this.segments.filter(function(v){ return v; });
+		// debug(this.segments);
+		this.segments = this.segments.filter(function(v){ return v.objtype === 'segment'; });
 		// debug(' PolySegment.removeRedundantSegments - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
@@ -505,37 +482,8 @@
 		}}
 
 		// debug(this.segments);
-
 		this.segments = this.segments.filter(function(v){return v.objtype === 'segment';});
-
 		// debug(' PolySegment.removeDuplicateSegments - removed ' + (len-this.segments.length) + ' - END\n');
-	};
-
-	PolySegment.prototype.combineInlineSegments = function() {
-		// debug('\n PolySegment.combineInlineSegments - START');
-		var len = this.segments.length;
-
-		var ts, ns;
-
-		for(var s=0; s < this.segments.length; s++){
-			ts = this.segments[s];
-			ns = (s === this.segments.length-1)? this.segments[0] : this.segments[s+1];
-
-			if(ts.line === ns.line){
-				this.segments[s] = new Segment({
-					'p1x': ts.p1x,
-					'p1y': ts.p1y,
-					'p4x': ns.p4x,
-					'p4y': ns.p4y
-				});
-
-				this.segments.splice(s+1, 1);
-
-				s--;
-			}
-		}
-
-		// debug(' PolySegment.combineInlineSegments - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
 	PolySegment.prototype.removeSegmentsOverlappingShape = function(shape) {
@@ -582,5 +530,60 @@
 		// debug(' PolySegment.removeSegmentsOverlappingShape - removed ' + (len-this.segments.length) + ' - END\n');
 	};
 
+	PolySegment.prototype.removeNonConnectingSegments = function() {
+		// debug('\n PolySegment.removeNonConnectingSegments - START');
+		var len = this.segments.length;
+		var test, against, t1, t4;
+		var precision = 0;
 
+		for(var t=0; t<this.segments.length; t++){
+			test = this.segments[t];
+			t1 = false;
+			t4 = false;
+
+			for(var a=0; a<this.segments.length; a++){
+				against = this.segments[a];
+				if(t !== a && against.objtype === 'segment'){
+					if(against.containsTerminalPoint(test.getCoord(1), precision)) t1 = true;
+					if(against.containsTerminalPoint(test.getCoord(4), precision)) t4 = true;
+					if(t1 && t4) break;					
+				}
+			}
+
+			if(!(t1 && t4)){
+				test.objtype = 'NON CONNECTING';
+			}
+		}
+
+		// debug(this.segments);
+		this.segments = this.segments.filter(function(v){return v.objtype === 'segment';});
+		// debug(' PolySegment.removeNonConnectingSegments - removed ' + (len-this.segments.length) + ' - END\n');
+	};
+
+	PolySegment.prototype.combineInlineSegments = function() {
+		// debug('\n PolySegment.combineInlineSegments - START');
+		var len = this.segments.length;
+
+		var ts, ns;
+
+		for(var s=0; s < this.segments.length; s++){
+			ts = this.segments[s];
+			ns = (s === this.segments.length-1)? this.segments[0] : this.segments[s+1];
+
+			if(ts.line === ns.line){
+				this.segments[s] = new Segment({
+					'p1x': ts.p1x,
+					'p1y': ts.p1y,
+					'p4x': ns.p4x,
+					'p4y': ns.p4y
+				});
+
+				this.segments.splice(s+1, 1);
+
+				s--;
+			}
+		}
+
+		// debug(' PolySegment.combineInlineSegments - removed ' + (len-this.segments.length) + ' - END\n');
+	};
 // end of file

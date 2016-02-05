@@ -22,13 +22,13 @@
 
 		this.p1x = numSan(oa.p1x) || 0;
 		this.p1y = numSan(oa.p1y) || 0;
-		
+
 		this.p2x = numSan(oa.p2x) || this.p1x || 0;
 		this.p2y = numSan(oa.p2y) || this.p1y || 0;
 
 		this.p3x = numSan(oa.p3x) || 0;
 		this.p3y = numSan(oa.p3y) || 0;
-		
+
 		this.p4x = numSan(oa.p4x) || 0;
 		this.p4y = numSan(oa.p4y) || 0;
 
@@ -134,7 +134,7 @@
 	Segment.prototype.splitAtCoord = function(co) {
 		// debug('\n Segment.splitAtCoord - START');
 		// debug('\t splitting at ' + json(co, true));
-		
+
 		if(this.line && this.line !== 'diagonal'){
 			var newx, newy;
 			var online = false;
@@ -182,11 +182,13 @@
 			];
 
 		} else if (this.pointIsWithinMaxes(co)){
-			var sp = this.getSplitFromCoord(co);
+			var threshold = 0.1;
+
+			var sp = this.getSplitFromCoord(co, threshold);
 
 			// debug('\t distance is ' + sp.distance);
 
-			if(sp.distance < 0.1){
+			if(sp && sp.distance < threshold){
 			// debug('\t splitting at ' + sp.split);
 				return this.splitAtTime(sp.split);
 			}
@@ -284,10 +286,10 @@
 //	-----------------------------------
 //	Getters
 //	-----------------------------------
-	Segment.prototype.getSplitFromCoord = function(coord) {
-		var grains = this.getQuickLength() * 100;
+	Segment.prototype.getSplitFromCoord = function(coord, threshold) {
+		var grains = this.getQuickLength() * 1000;
 		var mindistance = 999999999;
-		var re = {};
+		var re = false;
 		var check, d;
 
 		for(var t=0; t<1; t+=(1/grains)){
@@ -301,6 +303,8 @@
 					'x' : check.x,
 					'y' : check.y
 				};
+
+				if(threshold && re.distance < threshold) return re;
 			}
 		}
 
@@ -322,7 +326,7 @@
 		if(this.line || c < threshold) {
 			this.cache.length = c;
 			return c;
-		
+
 		} else {
 			var s = this.split();
 			re = s[0].getLength() + s[1].getLength();
@@ -405,7 +409,7 @@
 	Segment.prototype.getMaxes = function() {
 		// debug('\n Segment.getMaxes - START');
 		// debug(this);
-		
+
 		var bounds = {
 			'xmin' : Math.min(this.p1x, this.p4x),
 			'ymin' : Math.min(this.p1y, this.p4y),
@@ -490,8 +494,8 @@
 			// debug('\t fINDsEGMENTiNTERSECTIONS debug early return');
 		// 	return [];
 		// }
-		s1.drawSegmentOutline();
-		s2.drawSegmentOutline();
+		// s1.drawSegmentOutline();
+		// s2.drawSegmentOutline();
 
 
 		// Check for overlapping / coincident segments
@@ -512,6 +516,11 @@
 			}
 		}
 
+		// Edge case, find end points overlapping the other segment
+		var endpoints = [];
+		if(depth===0){
+			endpoints = findEndPointSegmentIntersections(s1, s2);
+		}
 
 		// Check to stop recursion
 		var s1m = s1.getFastMaxes();
@@ -579,8 +588,7 @@
 			re = re.concat( findSegmentIntersections(p[0], p[1], depth+1) );
 		});
 
-		if(pairs.length === 0) return re;
-
+		re = re.concat(endpoints);
 		re = re.filter(duplicates);
 
 		// if(depth === 0) alert('break');
@@ -629,7 +637,7 @@
 			var ry = numSan(s1.p1y + (t * d1y));
 
 			// debug('\t found ' + rx + ', ' + ry);
-			if(s1.containsEndPoint({x:rx, y:ry}) && s2.containsEndPoint({x:rx, y:ry})){
+			if(s1.containsTerminalPoint({x:rx, y:ry}) && s2.containsTerminalPoint({x:rx, y:ry})){
 				// debug('\t its an end point');
 				// debug(' findCrossingLineSegmentIntersections - END\n');
 				return [];
@@ -645,6 +653,25 @@
 		return [];
 	}
 
+	function findEndPointSegmentIntersections(s1, s2) {
+		// debug('\n findEndPointSegmentIntersections - START');
+		var s1s = s1.getCoord(1);
+		var s1e = s1.getCoord(4);
+		var s2s = s2.getCoord(1);
+		var s2e = s2.getCoord(4);
+
+		var re = [];
+
+		if(s1.containsPointOnCurve(s2s)) re.push(coordToIx(s2s));
+		if(s1.containsPointOnCurve(s2e)) re.push(coordToIx(s2e));
+		if(s2.containsPointOnCurve(s1s)) re.push(coordToIx(s1s));
+		if(s2.containsPointOnCurve(s1e)) re.push(coordToIx(s1e));
+
+		// debug('\t returning ' + re);
+		// debug(' findEndPointSegmentIntersections - END\n');
+		return re;
+	}
+
 	function ixToCoord(ix) {
 		// debug('\n ixToCoord - START');
 		// debug(ix);
@@ -657,6 +684,10 @@
 		return re;
 	}
 
+	function coordToIx(co) {
+		return (''+co.x+'/'+co.y);
+	}
+
 	// a function for flitering out duplicates in arrays
 	function duplicates(v, i, a) { return a.indexOf(v) === i; }
 
@@ -667,11 +698,11 @@
 //	-----------------------------------
 
 	Segment.prototype.isRedundantTo = function(s) {
-		// A segment is  Redundant redundant to another segment if 
+		// A segment is  Redundant redundant to another segment if
 		// it is completely overlapped by the other segment
-		
+
 		if(!this.line) return false;
-		
+
 		return (s.containsPointOnLine(this.getCoord(1)) && s.containsPointOnLine(this.getCoord(4)));
 	};
 
@@ -693,7 +724,7 @@
 			} else if (	round(s1.p2x, precision) === round(s2.p2x, precision) &&
 						round(s1.p2y, precision) === round(s2.p2y, precision) &&
 						round(s1.p3x, precision) === round(s2.p3x, precision) &&
-						round(s1.p3y, precision) === round(s2.p3y, precision) ){		
+						round(s1.p3y, precision) === round(s2.p3y, precision) ){
 				// debug(' segmentsAreEqual - returning FULLY true - END\n');
 				return true;
 			}
@@ -703,29 +734,52 @@
 		return false;
 	}
 
-	Segment.prototype.containsEndPoint = function(coord, precision) {
+	Segment.prototype.containsTerminalPoint = function(coord, precision) {
+		if(this.containsStartPoint(coord, precision)) return 'start';
+		if(this.containsEndPoint(coord, precision)) return 'end';
+		return false;
+	};
+
+	Segment.prototype.containsStartPoint = function(coord, precision) {
 		precision = isval(precision)? precision : 1;
-		
+
 		if(round(this.p1x, precision) === round(coord.x, precision) && round(this.p1y, precision) === round(coord.y, precision)){
 			return true;
 		}
 
-		if(round(this.p4x, precision) === round(coord.x, precision) && round(this.p4y, precision) === round(coord.y, precision)){
-			return true;
-		}
 		return false;
 	};
 
-	Segment.prototype.containsPointOnLine = function(pt, precision) {
+	Segment.prototype.containsEndPoint = function(coord, precision) {
+		precision = isval(precision)? precision : 1;
+
+		if(round(this.p4x, precision) === round(coord.x, precision) && round(this.p4y, precision) === round(coord.y, precision)){
+			return true;
+		}
+
+		return false;
+	};
+
+	Segment.prototype.containsPointOnCurve = function(pt, threshold) {
+		if(this.line) return this.containsPointOnLine(pt);
+
+		threshold = isval(threshold)? threshold : 0.01;
+		var t = this.getSplitFromCoord(pt, threshold);
+
+		if(t && t.distance < threshold) return true;
+		else return false;
+	};
+
+	Segment.prototype.containsPointOnLine = function(pt) {
 		// debug('\n Segment.containsPointOnLine - START');
 		// debug('\t checking ' + pt.x + ' \t' + pt.y);
-		precision = isval(precision)? precision : 1;
+
 		if(!this.line){
 			// debug('\t this is not a line, returning false');
 			return false;
 		}
 
-		if(this.containsEndPoint(pt)){
+		if(this.containsTerminalPoint(pt)){
 			// debug('\t this segment contains the point as an end point, returning false');
 			return false;
 		}
@@ -742,12 +796,12 @@
 		// debug('\t fallthrough returning false');
 		return false;
 	};
-	
+
 	function pointsAreCollinear(a, b, c, precision){
 		precision = isval(precision)? precision : 3;
 
 		var s1 =  (b.x - a.x) * (c.y - a.y);
-		var s2 =  (c.x - a.x) * (b.y - a.y); 
+		var s2 =  (c.x - a.x) * (b.y - a.y);
 
 		return round(s1, precision) === round(s2, precision);
 	}
@@ -764,11 +818,11 @@
 
 	Segment.prototype.preceeds = function(s2, precision) {
 		precision = isval(precision)? precision : 0;
-		if((round(this.p4x, precision) === round(s2.p1x, precision) && 
+		if((round(this.p4x, precision) === round(s2.p1x, precision) &&
 			round(this.p4y, precision) === round(s2.p1y, precision)) ) {
 			return true;
 		}
- 
+
 		return false;
 	};
 
@@ -802,7 +856,7 @@
 		// re += round(this.p2x, precision) + '\t' + round(this.p2y, precision) + '\n';
 		// re += round(this.p3x, precision) + '\t' + round(this.p3y, precision) + '\n';
 		re += round(this.p4x, precision) + '\t' + round(this.p4y, precision) + '\n';
-		
+
 		return re;
 	};
 
