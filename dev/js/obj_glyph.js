@@ -256,12 +256,16 @@
 
 		if(this.shapes.length > 0){
 			for(var jj=0; jj<this.shapes.length; jj++) {
-				// debug('\t ++++++ START shape ' + jj + ' - ' + this.shapes[jj].name);
-				tm = this.shapes[jj].getMaxes();
-				// debug('\t before ' + json(tm, true));
-				this.maxes = getOverallMaxes([tm, this.maxes]);
-				// debug('\t afters ' + json(tm, true));
-				// debug('\t ++++++ END shape ' + jj + ' - ' + this.shapes[jj].name);
+				// debug('\t ++++++ START shape ' + jj);
+				// debug(this.shapes[jj]);
+
+				if(this.shapes[jj].getMaxes){
+					tm = this.shapes[jj].getMaxes();
+					// debug('\t before ' + json(tm, true));
+					this.maxes = getOverallMaxes([tm, this.maxes]);
+					// debug('\t afters ' + json(tm, true));
+					// debug('\t ++++++ END shape ' + jj + ' - ' + this.shapes[jj].name);
+				}
 			}
 		} else {
 			this.maxes = { 'xmax': 0, 'xmin': 0, 'ymax': 0, 'ymin': 0 };
@@ -552,7 +556,7 @@
 
 		// debug('\t new shapes');
 		// debug(this.shapes);
-		this.changed(true);
+		this.changed();
 
 		debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END\n');
@@ -569,7 +573,7 @@
 
 		this.shapes = newshapes;
 
-		this.changed(true);
+		this.changed();
 	};
 
 

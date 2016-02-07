@@ -515,13 +515,16 @@
 		var newpp = new PathPoint({
 			H1: new Coord({x: seg1.p3x, y: seg1.p3y}),
 			P: new Coord({x: seg2.p1x, y: seg2.p1y}),
-			H2: new Coord({x: seg2.p2x, y: seg2.p2y})
+			H2: new Coord({x: seg2.p2x, y: seg2.p2y}),
+			useh1: true,
+			useh2: true
 		});
 
-		if(newpp.H1.x !== newpp.P.x || newpp.H1.y !== newpp.P.y) newpp.useh1 = true;
-		if(newpp.H2.x !== newpp.P.x || newpp.H2.y !== newpp.P.y) newpp.useh2 = true;
+		if(seg1.line || coordsAreEqual(newpp.H1, newpp.P)) newpp.useh1 = false;
+		if(seg2.line || coordsAreEqual(newpp.H2, newpp.P)) newpp.useh2 = false;
 
-		newpp.resolvePointType();
+		// newpp.resolvePointType();
+		
 
 		return newpp;
 	}
@@ -682,7 +685,34 @@
 
 		if(oa && oa.x !== undefined && isNaN(oa.x)) console.log('NEW COORD >> initialized oa.x = ' + oa.x);
 		if(oa && oa.y !== undefined && isNaN(oa.y)) console.log('NEW COORD >> initialized oa.y = ' + oa.y);
+	}
 
+	function coordsAreEqual(c1, c2, threshold) {
+		// debug('\n coordsAreEqual - START');
+		threshold = threshold || 1;
+		// debug('\t c1 ' + json(c1, true));
+		// debug('\t c2 ' + json(c2, true));
+		// debug('\t threshold ' + threshold);
+
+		if(c1.x === c2.x && c1.y === c2.y){
+			// debug('\t exact match');
+			return true;
+		}
+
+		var dx = Math.abs(c1.x - c2.x);
+		var dy = Math.abs(c1.y - c2.y);
+
+		// debug('\t dx ' + dx + '\tdy ' + dy);
+
+		if(dx <= threshold && dy <= threshold){
+			// debug('\t below threshold match');
+			return true;
+		}
+
+		// debug('\t not a match');
+		// debug(' coordsAreEqual - END\n');
+
+		return false;
 	}
 
 // end of file

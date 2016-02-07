@@ -50,7 +50,10 @@
 //	-----------------------------------
 //	Methods
 //	-----------------------------------
-	Segment.prototype.changed = function() { this.cache = {}; };
+	Segment.prototype.changed = function() { 
+		this.cache = {};
+		this.line = this.isLine();
+	};
 
 
 //	-----------------------------------
@@ -58,8 +61,8 @@
 //	-----------------------------------
 
 	Segment.prototype.drawSegmentOutline = function(color, dx, dy) {
-		var x = _UI.glypheditctx;
-		x.strokeStyle = color || _UI.colors.green.l65;
+		var ctx = _UI.glypheditctx;
+		ctx.strokeStyle = color || _UI.colors.green.l65;
 		dx = dx || 0;
 		dy = dy || 0;
 		var p1x = sx_cx(this.p1x + dx);
@@ -71,13 +74,13 @@
 		var p4x = sx_cx(this.p4x + dx);
 		var p4y = sy_cy(this.p4y + dy);
 
-		x.globalAlpha = 0.9;
-		x.lineWidth = 3;
-		x.beginPath();
-		x.moveTo(p1x, p1y);
-		x.bezierCurveTo(p2x, p2y, p3x, p3y, p4x, p4y);
-		x.stroke();
-		x.closePath();
+		ctx.globalAlpha = 0.9;
+		ctx.lineWidth = 3;
+		ctx.beginPath();
+		ctx.moveTo(p1x, p1y);
+		ctx.bezierCurveTo(p2x, p2y, p3x, p3y, p4x, p4y);
+		ctx.stroke();
+		ctx.closePath();
 	};
 
 	Segment.prototype.drawSegmentPoints = function(color, txt) {
@@ -135,6 +138,8 @@
 		// debug('\n Segment.splitAtCoord - START');
 		// debug('\t splitting at ' + json(co, true));
 
+		if(this.containsTerminalPoint(co, 0.1)) return false;
+
 		if(this.line && this.line !== 'diagonal'){
 			var newx, newy;
 			var online = false;
@@ -190,7 +195,16 @@
 
 			if(sp && sp.distance < threshold){
 			// debug('\t splitting at ' + sp.split);
-				return this.splitAtTime(sp.split);
+				// if(this.line === 'diagonal'){
+				// 	// debug('\t splitting diagonal');
+				// 	var re = this.splitAtTime(sp.split);
+				// 	re[0] = re[0].convertToLine();
+				// 	re[1] = re[1].convertToLine();
+				// 	return re;
+				// } else {
+					return this.splitAtTime(sp.split);
+				// }
+
 			}
 		}
 
@@ -199,7 +213,7 @@
 	};
 
 	Segment.prototype.splitAtTime = function(t) {
-
+		// debug('\n Segment.splitAtTime - START');
 		var fs = t || 0.5;
 		var rs = (1-fs);
 
@@ -247,7 +261,7 @@
 		];
 	};
 
-	Segment.prototype.splitSegmentAtProvidedCoords = function(coords) {
+	Segment.prototype.splitSegmentAtProvidedCoords = function(coords, threshold) {
 		// debug('\n Segment.splitSegmentAtProvidedCoords - START');
 
 		var segs = [new Segment(clone(this))];
@@ -255,11 +269,13 @@
 
 		for(var x=0; x<coords.length; x++){
 			for(var s=0; s<segs.length; s++){
-				tr = segs[s].splitAtCoord(coords[x]);
-				if(tr){
-					segs.splice(s, 1, tr[0], tr[1]);
-					// s++;
-					// break;
+				if(!segs[s].containsTerminalPoint(coords[x], threshold)){
+					tr = segs[s].splitAtCoord(coords[x]);
+					if(tr){
+						segs.splice(s, 1, tr[0], tr[1]);
+						// s++;
+						// break;
+					}					
 				}
 			}
 		}
@@ -281,6 +297,9 @@
 		return re;
 	};
 
+	Segment.prototype.convertToLine = function() {
+		return new Segment({p1x: this.p1x, p1y: this.p1y, p4x: this.p4x, p4y: this.p4y});
+	};
 
 
 //	-----------------------------------
@@ -706,25 +725,20 @@
 		return (s.containsPointOnLine(this.getCoord(1)) && s.containsPointOnLine(this.getCoord(4)));
 	};
 
-	function segmentsAreEqual(s1, s2, precision) {
+	function segmentsAreEqual(s1, s2, threshold) {
 		// debug('\n segmentsAreEqual - START');
-		precision = isval(precision)? precision : 1;
-		// debug('\t precision ' + precision);
+		threshold = threshold || 1;
 		// debug([s1, s2]);
 
-		if( round(s1.p1x, precision) === round(s2.p1x, precision) &&
-			round(s1.p1y, precision) === round(s2.p1y, precision) &&
-			round(s1.p4x, precision) === round(s2.p4x, precision) &&
-			round(s1.p4y, precision) === round(s2.p4y, precision) ){
+		if( coordsAreEqual(s1.getCoord(1), s2.getCoord(1), threshold) &&
+			coordsAreEqual(s1.getCoord(4), s2.getCoord(4), threshold) ){
 
 			if(s1.line && s2.line){
 				// debug(' segmentsAreEqual - returning LINE true - END\n');
 				return true;
 
-			} else if (	round(s1.p2x, precision) === round(s2.p2x, precision) &&
-						round(s1.p2y, precision) === round(s2.p2y, precision) &&
-						round(s1.p3x, precision) === round(s2.p3x, precision) &&
-						round(s1.p3y, precision) === round(s2.p3y, precision) ){
+			} else if ( coordsAreEqual(s1.getCoord(2), s2.getCoord(2), threshold) &&
+						coordsAreEqual(s1.getCoord(3), s2.getCoord(3), threshold) ) {
 				// debug(' segmentsAreEqual - returning FULLY true - END\n');
 				return true;
 			}
@@ -734,33 +748,26 @@
 		return false;
 	}
 
-	Segment.prototype.containsTerminalPoint = function(coord, precision) {
-		if(this.containsStartPoint(coord, precision)) return 'start';
-		if(this.containsEndPoint(coord, precision)) return 'end';
-		return false;
+	Segment.prototype.containsTerminalPoint = function(pt, threshold) {
+		threshold = threshold || 1;
+		if(this.containsStartPoint(pt, threshold)) return 'start';
+		else if(this.containsEndPoint(pt, threshold)) return 'end';
+		else return false;
 	};
 
-	Segment.prototype.containsStartPoint = function(coord, precision) {
-		precision = isval(precision)? precision : 1;
-
-		if(round(this.p1x, precision) === round(coord.x, precision) && round(this.p1y, precision) === round(coord.y, precision)){
-			return true;
-		}
-
-		return false;
+	Segment.prototype.containsStartPoint = function(pt, threshold) {
+		threshold = threshold || 1;
+		return coordsAreEqual(this.getCoord(1), pt, threshold);
 	};
 
-	Segment.prototype.containsEndPoint = function(coord, precision) {
-		precision = isval(precision)? precision : 1;
-
-		if(round(this.p4x, precision) === round(coord.x, precision) && round(this.p4y, precision) === round(coord.y, precision)){
-			return true;
-		}
-
-		return false;
+	Segment.prototype.containsEndPoint = function(pt, threshold) {
+		threshold = threshold || 1;
+		return coordsAreEqual(this.getCoord(4), pt, threshold);
 	};
 
 	Segment.prototype.containsPointOnCurve = function(pt, threshold) {
+		if(this.containsTerminalPoint(pt, threshold)) return true;
+
 		if(this.line) return this.containsPointOnLine(pt);
 
 		threshold = isval(threshold)? threshold : 0.01;
@@ -806,24 +813,9 @@
 		return round(s1, precision) === round(s2, precision);
 	}
 
-	function segmentsAreLinked(s1, s2, precision) {
-		precision = isval(precision)? precision : 1;
-		if((round(s1.p1x, precision) === round(s2.p4x, precision) && round(s1.p1y, precision) === round(s2.p4y, precision)) ||
-		  (round(s1.p4x, precision) === round(s2.p1x, precision) && round(s1.p4y, precision) === round(s2.p1y, precision)) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	Segment.prototype.preceeds = function(s2, precision) {
-		precision = isval(precision)? precision : 0;
-		if((round(this.p4x, precision) === round(s2.p1x, precision) &&
-			round(this.p4y, precision) === round(s2.p1y, precision)) ) {
-			return true;
-		}
-
-		return false;
+	Segment.prototype.preceeds = function(s2, threshold) {
+		threshold = threshold || 1;
+		return (coordsAreEqual(this.getCoord(4)), s2.getCoord(1), threshold);
 	};
 
 	Segment.prototype.isLine = function(precision) {

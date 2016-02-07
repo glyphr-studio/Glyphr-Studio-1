@@ -263,18 +263,18 @@
 
 		var orig1 = this.members[0];
 		var orig2 = this.members[1];
-		var newshapes = combineTwoShapes(orig1, orig2);
+		var ns = combineTwoShapes(orig1, orig2);
 
 
 		// If everything worked, delete original shapes and add new ones
-		if(newshapes.length){
+		if(ns){
 			_UI.ms.points.clear();
 			_UI.ms.shapes.clear();
 			_UI.ms.shapes.select(orig1);
 			_UI.ms.shapes.toggle(orig2);
 			this.deleteShapes();
 
-			newshapes.forEach(function(v){addShape(v);});
+			addShape(ns);
 			history_put('Combined shapes');
 		}
 
