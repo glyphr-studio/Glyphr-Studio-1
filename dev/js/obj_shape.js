@@ -382,12 +382,13 @@
 		
 		if(shapes.length <= 1){
 			// debug('\t length=1 - returning what was passed');
-			return shapes;
+			return false;
 		} else if(shapes.length === 2) {
 			tempshapes = combineTwoShapes(shapes[0], shapes[1], donttoast);
 			if(!tempshapes) {
 				// debug('\t length=2 - returning what was passed');
-				return shapes;
+				if(!donttoast) showToast('The selected shapes do not have overlapping paths.');
+				return false;
 			} else {
 				tempshapes = [tempshapes];	
 				// debug('\t length=2 - continuing with tempshapes from combineTwoShapes');
@@ -444,6 +445,11 @@
 
 				lr = singlePass(tempshapes);
 				looping = lr.didstuff;
+				if(!looping && count === 0){
+					if(!donttoast) showToast('The selected shapes do not have overlapping paths.');
+					return false;
+				}
+
 				tempshapes = lr.arr;
 				// debug('\t didstuff ' + lr.didstuff);
 				count++;
@@ -477,14 +483,13 @@
 		return newshapes;
 	}
 
-	function combineTwoShapes(shape1, shape2, donttoast) {
+	function combineTwoShapes(shape1, shape2) {
 		// debug('\n combineShapes - START');
 		// Find intersections
 		var intersections = findPathIntersections(shape1.path, shape2.path);
 
 		if(intersections.length < 1) {
 			// debug('\t no intersections, returning.');
-			if(!donttoast) showToast('The selected shapes do not have overlapping paths.');
 			return false;
 		}
 

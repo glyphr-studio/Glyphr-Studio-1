@@ -37,10 +37,10 @@
 		'testOnLoad': function() {
 
 			// Navigate
-			selectGlyph('0x0061');
-			setView({dx:100, dy:700, dz:0.6});
-			clickTool('pathedit');
-			redraw();
+			// selectGlyph('0x0061');
+			// setView({dx:100, dy:700, dz:0.6});
+			// clickTool('pathedit');
+			// redraw();
 
 
 			// Segment Test

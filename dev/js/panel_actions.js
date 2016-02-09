@@ -62,7 +62,7 @@
 
 		// COMBINE
 		var boolactions = '';
-		boolactions += '<button title="Combine\nSelect two shapes, and combine their paths into a single shape" onclick="_UI.ms.shapes.combine(); redraw({calledby:\'actions panel\'});">' + makeActionButton_Combine() + '</button>';
+		boolactions += '<button title="Combine\nSelect two shapes, and combine their paths into a single shape" onclick="combineSelectedShapes();">' + makeActionButton_Combine() + '</button>';
 		// boolactions += '<button title="Subtract Using Upper\nSelect two shapes, and the upper shape will be used to cut out an area from the lower shape" onclick="">' + makeActionButton_SubtractUsingTop() + '</button>';
 		// boolactions += '<button title="Subtract Using Lower\nSelect two shapes, and the lower shape will be used to cut out an area from the upper shape" onclick="">' + makeActionButton_SubtractUsingBottom() + '</button>';
 
@@ -99,7 +99,7 @@
 
 		if(ss.length === 0) content += glyphactions;
 		if(ss.length > 0) content += shapeactions;
-		if(ss.length === 2) content += boolactions;
+		if(ss.length > 1) content += boolactions;
 		if(ss.length === 1 && !pop) content += layeractions;
 		if(_UI.devmode && ss.length > 1) content += alignactions;
 
@@ -118,6 +118,20 @@
 		content += '</div>';
 
 		return content;
+	}
+
+
+//-------------------
+// Combine
+//-------------------
+
+	function combineSelectedShapes() {
+		showToast('Combining... ', 100); 
+
+		setTimeout(function() {
+			_UI.ms.shapes.combine();
+			redraw({calledby:'actions panel'});
+		}, 200);
 	}
 
 

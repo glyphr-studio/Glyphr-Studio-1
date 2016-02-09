@@ -548,18 +548,24 @@
 	};
 
 	Glyph.prototype.combineAllShapes = function(donttoast, dontresolveoverlaps) {
-		// debug('\n Glyph.combineAllShapes - START');
+		// debug('\n Glyph.combineAllShapes - START - ' + this.name);
 
 		this.flattenGlyph();
 		
-		this.shapes = combineShapes(this.shapes, donttoast, dontresolveoverlaps);
+		var cs = combineShapes(this.shapes, donttoast, dontresolveoverlaps);
 
-		// debug('\t new shapes');
-		// debug(this.shapes);
-		this.changed();
+		if(cs){		
+			// debug('\t new shapes');
 
-		debug(this.name + ' \t\t ' + this.shapes.length);
-		// debug(' Glyph.combineAllShapes - END\n');
+			this.shapes = cs;			
+			// debug(this.shapes);
+			
+			this.changed();
+
+			debug(this.name + ' \t\t ' + this.shapes.length);
+		}
+
+		// debug(' Glyph.combineAllShapes - END - ' + this.name + '\n');
 		return this;
 	};
 

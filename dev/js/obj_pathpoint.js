@@ -400,24 +400,6 @@
 		} else return false;
 	};
 
-	function pointsOverlap(pp1, pp2, precision) {
-		// debug('\n pointsOverlap - START');
-
-		precision = precision || 3;
-		var pp1x = round(pp1.x, precision);
-		var pp1y = round(pp1.y, precision);
-		var pp2x = round(pp2.x, precision);
-		var pp2y = round(pp2.y, precision);
-
-		// debug('\t ' + pp1.x + ',' + pp1.y + ' - ' + pp2.x + ',' + pp2.y);
-		// debug('\t ' + pp1x + ',' + pp1y + ' - ' + pp2x + ',' + pp2y);
-
-		var re =  ((pp1x === pp2x) && (pp1y === pp2y));
-		// debug('\t returning ' + re);
-
-		return re;
-	}
-
 
 //-------------------------------------------------------
 // GETTERS

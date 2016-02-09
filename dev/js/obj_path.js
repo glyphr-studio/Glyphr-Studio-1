@@ -351,7 +351,7 @@
 
 		for(var pp1=0; pp1<p1.pathpoints.length; pp1++){
 			for(var pp2=0; pp2<p2.pathpoints.length; pp2++){
-				if(pointsOverlap(p1.pathpoints[pp1].P, p2.pathpoints[pp2].P)){
+				if(coordsAreEqual(p1.pathpoints[pp1].P, p2.pathpoints[pp2].P, 0.01)){
 					re.push(''+p1.pathpoints[pp1].P.x+'/'+p1.pathpoints[pp1].P.y);
 				}
 			}
@@ -377,7 +377,7 @@
 	Path.prototype.containsPoint = function(c, wantsecond) {
 
 		for(var pp=0; pp<this.pathpoints.length; pp++){
-			if(pointsOverlap(c, this.pathpoints[pp].P)) {
+			if(coordsAreEqual(c, this.pathpoints[pp].P, 0.01)) {
 				if(wantsecond) wantsecond = false;
 				else return this.pathpoints[pp];
 			}

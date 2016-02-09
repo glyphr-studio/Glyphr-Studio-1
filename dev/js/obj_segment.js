@@ -537,7 +537,9 @@
 
 		// Edge case, find end points overlapping the other segment
 		var endpoints = [];
-		if(depth===0){
+		if(depth===0 && (s1.line || s2.line)){
+			// findEndPointSegmentIntersections is a perf hit
+			// only run if either s1 or s2 is a line segment
 			endpoints = findEndPointSegmentIntersections(s1, s2);
 		}
 
@@ -770,7 +772,7 @@
 
 		if(this.line) return this.containsPointOnLine(pt);
 
-		threshold = isval(threshold)? threshold : 0.01;
+		threshold = isval(threshold)? threshold : 0.1;
 		var t = this.getSplitFromCoord(pt, threshold);
 
 		if(t && t.distance < threshold) return true;

@@ -127,7 +127,7 @@
 				path.calcMaxes();
 			}
 		}
-		
+
 		this.clear();
 	};
 
@@ -236,7 +236,7 @@
 
 	_UI.ms.shapes.getGlyph = function() {
 		this.glyph.shapes = this.members;
-		this.glyph.calcGlyphMaxes();
+		this.glyph.changed();
 		return this.glyph;
 	};
 
@@ -255,26 +255,19 @@
 
 	_UI.ms.shapes.combine = function() {
 		debug('\n ms.shapes.combine - START');
+		
+		var ns = new Glyph(clone(_UI.ms.shapes.getGlyph()));
 
-		if(this.members.length !== 2) {
-			debug('\t members.length is not 2, returning');
-			return;
-		}
+		ns.flattenGlyph();
 
-		var orig1 = this.members[0];
-		var orig2 = this.members[1];
-		var ns = combineTwoShapes(orig1, orig2);
-
+		var cs = combineShapes(ns.shapes);
 
 		// If everything worked, delete original shapes and add new ones
-		if(ns){
-			_UI.ms.points.clear();
-			_UI.ms.shapes.clear();
-			_UI.ms.shapes.select(orig1);
-			_UI.ms.shapes.toggle(orig2);
+		if(cs){
 			this.deleteShapes();
 
-			addShape(ns);
+			for(var n=0; n<cs.length; n++) addShape(cs[n]);
+
 			history_put('Combined shapes');
 		}
 

@@ -251,6 +251,16 @@
 		if(!_UI.testdrive.linegap) _UI.testdrive.linegap = _GP.projectsettings.linegap;
 		if(!isval(_UI.testdrive.padsize)) _UI.testdrive.padsize = _GP.projectsettings.defaultlsb;
 
+		var flattenmessage = "<h1>Combine Glyphs Shapes</h1>"+
+			"In <a href=# onclick=navToProjectSettings()>Project Settings &rsaquo; Export Options</a> you have the option to combine all glyph shapes.<br>"+
+			"Having glyphs with many overlapping paths in a font can sometimes cause issues.<br>"+
+			"So, this setting will flatten each glyph as it&prime;s exported to your font.<br><br>"+
+			"Selecting this option in Test Drive here will <i>preview</i> how your glyph shapes will be <br>"+
+			"combined. This preview will not change your designs in Glyphr Studio. There is a<br>"+
+			"Combine Shapes action in Glyph Edit if you wish to permanently combine shapes.<br><br>"+
+			"As a warning, this process is time intensive, so the first time you type a letter<br>"+
+			"it may take a few seconds to render.";
+
 		var content = '<table class="detail">';
 		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input type="number" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td><input type="number" disabled="disabled" id="roughptsize" valu="75"/></td></tr>';
@@ -259,11 +269,16 @@
 		content += '<tr><td> <label for="showglyphbox">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showglyphbox", _UI.testdrive.showglyphbox, true) + "</td></tr>";
 		content += '<tr><td> <label for="showhorizontals">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showhorizontals", _UI.testdrive.showhorizontals, true) + "</td></tr>";
 		
-		if(_UI.devmode) content += '<tr><td> <label for="flattenglyphs">flatten glyphs</label> </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, false) + "</td></tr>";
+		content += '<tr><td> <label for="flattenglyphs">preview combine glyph shapes</label>' + helpUI(flattenmessage) + ' </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, false) + "</td></tr>";
 
 		content += '<tr><td colspan=2><button onclick="createimg();">generate png file</button></td></tr>';
 		content += '</table>';
 		return content;
+	}
+
+	function navToProjectSettings() { 
+		_UI.navhere = 'project settings';
+		navigate();
 	}
 
 	function changefontscale(newval){
