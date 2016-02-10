@@ -286,11 +286,18 @@
 	function showToast(msg, dur) {
 		// debug('\n showToast - START');
 		var step = -1;
+		var stepmax = 20;
 		var timestep = 10;
 		var divisor = 5;
 		var msgdiv = getEditDocument().getElementById('toast');
 		var durration = dur || 3000;
 		msgdiv.innerHTML = msg || 'Howdy!';
+
+		if(_UI.toasttimeout){
+			msgdiv.innerHTML = msg;
+			appearFinish();
+			return;
+		}
 
 		var currtop = -50;
 		var finaltop = 15;
@@ -301,17 +308,17 @@
 			// debug('\t appearFinish');
 			currtop = finaltop;
 			curropacity = finalopacity;
+			step = stepmax;
 
 			msgdiv.style.marginTop = (finaltop + 'px');
 			msgdiv.style.opacity = finalopacity;
-
-			_UI.timeout = setTimeout(disappearStep, durration);
+			
+			setToastTimeout(disappearStep, durration);
 		}
 
 		function appearStep() {
 			// debug('\t appearStep ' + step);
-			if(_UI.timeout) clearTimeout(_UI.timeout);
-
+			
 			if(step < 0){
 				msgdiv.style.display = 'block';
 				msgdiv.style.marginTop = '-50px;';
@@ -320,9 +327,9 @@
 
 				step++;
 
-				_UI.timeout = setTimeout(appearStep, timestep);
+				setToastTimeout(appearStep, timestep);
 
-			} else if (step <= 20){
+			} else if (step < stepmax){
 				step++;
 				currtop = currtop + ((finaltop - currtop) / divisor);
 				curropacity = curropacity + ((finalopacity - curropacity) / divisor);
@@ -330,7 +337,7 @@
 				msgdiv.style.marginTop = (currtop + 'px');
 				msgdiv.style.opacity = curropacity;
 
-				_UI.timeout = setTimeout(appearStep, timestep);
+				setToastTimeout(appearStep, timestep);
 
 			} else {
 				appearFinish();
@@ -344,6 +351,10 @@
 				msgdiv.style.marginTop = '-50px;';
 				msgdiv.style.opacity = '0.0';
 				msgdiv.innerHTML = '0_o';
+				if(_UI.toasttimeout) {
+					clearTimeout(_UI.toasttimeout);
+					_UI.toasttimeout = false;
+				}
 
 			} else {
 				step--;
@@ -353,14 +364,18 @@
 				msgdiv.style.marginTop = (currtop + 'px');
 				msgdiv.style.opacity = curropacity;
 
-				_UI.timeout = setTimeout(disappearStep, timestep);
+				setToastTimeout(disappearStep, timestep);
 			}
 		}
 
-		_UI.timeout = setTimeout(appearStep, 1);
+		setToastTimeout(appearStep, 1);
 		// debug(' showToast - END\n');
 	}
 
+	function setToastTimeout(fn, dur) {
+		if(_UI.toasttimeout) clearTimeout(_UI.toasttimeout);
+		_UI.toasttimeout = setTimeout(fn, dur);
+	}
 
 //-------------------
 // Saved Sate

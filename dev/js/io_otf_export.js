@@ -7,107 +7,162 @@
 
 
 	function ioOTF_exportOTFfont() {
-		debug('\n ioOTF_exportOTFfont - START');
+		// debug('\n ioOTF_exportOTFfont - START');
 		// debug('\t combineshapesonexport = ' + _GP.projectsettings.combineshapesonexport);
-		var options = {};
 		
-		// Add metadata
-		var md = _GP.metadata;
-		var ps = _GP.projectsettings;
+		function firstExportStep() {
+			// debug('\n firstExportStep - START');
 
-		options.unitsPerEm = ps.upm;
-		options.ascender = ps.ascent;
-		options.descender = ps.descent;
-		options.familyName = (md.font_family) || ' ';
-		options.styleName = (md.font_style) || ' ';
-		options.designer = (md.designer) || ' ';
-		options.designerURL = (md.designerURL) || ' ';
-		options.manufacturer = (md.manufacturer) || ' ';
-		options.manufacturerURL = (md.manufacturerURL) || ' ';
-		options.license = (md.license) || ' ';
-		options.licenseURL = (md.licenseURL) || ' ';
-		options.version = (md.version) || 'Version 0.001';
-		options.description = (md.description) || ' ';
-		options.copyright = (md.copyright) || ' ';
-		options.trademark = (md.trademark) || ' ';
-		options.glyphs = [];
+			// Add metadata
+			var md = _GP.metadata;
+			var ps = _GP.projectsettings;
 
-		// debug('\t NEW options ARG BEFORE GLYPHS');
-		// debug(options);
+			options.unitsPerEm = ps.upm;
+			options.ascender = ps.ascent;
+			options.descender = ps.descent;
+			options.familyName = (md.font_family) || ' ';
+			options.styleName = (md.font_style) || ' ';
+			options.designer = (md.designer) || ' ';
+			options.designerURL = (md.designerURL) || ' ';
+			options.manufacturer = (md.manufacturer) || ' ';
+			options.manufacturerURL = (md.manufacturerURL) || ' ';
+			options.license = (md.license) || ' ';
+			options.licenseURL = (md.licenseURL) || ' ';
+			options.version = (md.version) || 'Version 0.001';
+			options.description = (md.description) || ' ';
+			options.copyright = (md.copyright) || ' ';
+			options.trademark = (md.trademark) || ' ';
+			options.glyphs = [];
 
-		// Add Notdef
-		var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
-		if(_GP.upm !== 1000){
-			var delta = _GP.upm / 1000;
-			notdef.updateGlyphSize(delta, delta, true);
+			// debug('\t NEW options ARG BEFORE GLYPHS');
+			// debug(options);
+
+			// Add Notdef
+			var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
+			if(_GP.upm !== 1000){
+				var delta = _GP.upm / 1000;
+				notdef.updateGlyphSize(delta, delta, true);
+			}
+
+			// debug('\t notdef glyph and path:');
+			// debug(notdef);
+
+			var ndpath = notdef.makeOpenTypeJSpath();
+			// debug(ndpath);
+
+			options.glyphs.push(new opentype.Glyph({
+				name: '.notdef',
+				unicode: 0,
+				index: 0,
+				advanceWidth: round(notdef.getTotalWidth()),
+				xMin: round(notdef.maxes.xmin),
+				xMax: round(notdef.maxes.xmax),
+				yMin: round(notdef.maxes.ymin),
+				yMax: round(notdef.maxes.ymax),
+				path: ndpath
+			}));
+
+			// debug(' firstExportStep - END\n');
 		}
 
-		// debug('\t notdef glyph and path:');
-		// debug(notdef);
+		function populateExportList() {
+			// debug('\n populateExportList - START');
 
-		var ndpath = notdef.makeOpenTypeJSpath();
-		// debug(ndpath);
+			// Add Glyphs and Ligatures
+			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
+				if(parseInt(c)){
+					tg = new Glyph(clone(_GP.glyphs[c]));
+					exportarr.push({xg:tg, xc: c});
 
-		options.glyphs.push(new opentype.Glyph({
-			name: '.notdef',
-			unicode: 0,
-			index: 0,
-			advanceWidth: round(notdef.getTotalWidth()),
-			xMin: round(notdef.maxes.xmin),
-			xMax: round(notdef.maxes.xmax),
-			yMin: round(notdef.maxes.ymin),
-			yMax: round(notdef.maxes.ymax),
-			path: ndpath
-		}));
+				} else {
+					console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
+				}
+			}}
 
-		// Add Glyphs and Ligatures
-		var tg, tgpath, otglyph;
+			exportarr.sort(function(a,b){ return a.xc - b.xc; });
+			// debug(' populateExportList - END\n');
+		}
 
-		for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
-			if(parseInt(c)){
-				tg = new Glyph(_GP.glyphs[c]);
+		function generateOneGlyph() {
+			// export this glyph
+			var glyph = currexportglyph.xg;
+			var num = currexportglyph.xc;
+			var comb = _GP.projectsettings.combineshapesonexport;
 
-				if(_GP.projectsettings.combineshapesonexport) tg.flattenGlyph().combineAllShapes(true);
+			// debug('\n generateOneGlyph - START - ' + glyph.name);
 
-				if(tg.isautowide) tg.updateGlyphPosition(tg.getLSB(), 0);
+			showToast('Exporting<br>'+glyph.name, 999999);
 
-				tgpath = tg.makeOpenTypeJSpath(new opentype.Path());
+			if(comb) glyph.combineAllShapes(true);
 
-				otglyph = new opentype.Glyph({
-					name: getUnicodeShortName(''+decToHex(c)),
-					unicode: parseInt(c),
-					index: parseInt(c),
-					advanceWidth: round(tg.getTotalWidth()),
-					xMin: round(tg.maxes.xmin),
-					xMax: round(tg.maxes.xmax),
-					yMin: round(tg.maxes.ymin),
-					yMax: round(tg.maxes.ymax),
-					path: tgpath
-				});
+			if(glyph.isautowide) glyph.updateGlyphPosition(glyph.getLSB(), 0);
 
-				// debug(otglyph);
+			var tgpath = glyph.makeOpenTypeJSpath(new opentype.Path());
 
-				options.glyphs.push(otglyph);
+			var otglyph = new opentype.Glyph({
+				name: getUnicodeShortName(''+decToHex(num)),
+				unicode: parseInt(num),
+				index: parseInt(num),
+				advanceWidth: round(glyph.getTotalWidth()),
+				xMin: round(glyph.maxes.xmin),
+				xMax: round(glyph.maxes.xmax),
+				yMin: round(glyph.maxes.ymin),
+				yMax: round(glyph.maxes.ymax),
+				path: tgpath
+			});
+
+			// debug(otglyph);
+			options.glyphs.push(otglyph);
+
+
+			// start the next one
+			currexportnum++;
+
+			if(currexportnum < exportarr.length){
+				currexportglyph = exportarr[currexportnum];
+				setTimeout(generateOneGlyph, 10);
 			} else {
-				console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
+				showToast('Finalizing...', 10);
+				setTimeout(lastExportStep, 10);
 			}
-		}}
 
-		options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
-		
+			// debug(' generateOneGlyph - END\n');
+		}
 
-		// Create Font
-		// debug('\t NEW options ARG TO FONT');
-		// debug(options);
-		var font = new opentype.Font(options);
+		function lastExportStep() {	
+			// debug('\n lastExportStep - START');
+			options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
+			
+			// Create Font
+			// debug('\t NEW options ARG TO FONT');
+			// debug(options);
+			var font = new opentype.Font(options);
 
-		// debug('\t Font object:');
-		// debug(font);
+			// debug('\t Font object:');
+			// debug(font);
 
-		// Export
-		_UI.stoppagenavigation = false;
-		font.download();
-		setTimeout(function(){_UI.stoppagenavigation = true;}, 2000);
+			// Export
+			_UI.stoppagenavigation = false;
+			font.download();
+			setTimeout(function(){_UI.stoppagenavigation = true;}, 2000);
+			// debug(' lastExportStep - END\n');
+		}
 
-		debug(' ioOTF_exportOTFfont - END\n');
+
+
+		/*
+			MAIN EXPORT LOOP
+		*/
+		var options = {};
+		var exportarr = [];
+		var currexportnum = 0;
+		var currexportglyph ={};
+
+		firstExportStep();
+		populateExportList();
+		currexportglyph = exportarr[0];
+		generateOneGlyph();
+
+
+		// debug(' ioOTF_exportOTFfont - END\n');
 	}

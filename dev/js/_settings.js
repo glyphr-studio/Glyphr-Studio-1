@@ -200,6 +200,7 @@
 			'ymin': -999999
 		},
 		'timeout': false,
+		'toasttimeout': false,
 		'history': {},
 		'combineprecision': 0.01,
 
