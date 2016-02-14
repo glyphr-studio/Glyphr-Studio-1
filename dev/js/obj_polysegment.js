@@ -386,20 +386,37 @@
 			ty = split[0].p4y;
 
 			// Big hit dectection, to miss border paths
-			var re = shape.isHere(sx_cx(tx), sy_cy(ty)) &&
-			shape.isHere(sx_cx(tx), sy_cy(ty + pt)) &&
-			shape.isHere(sx_cx(tx), sy_cy(ty - pt)) &&
-			shape.isHere(sx_cx(tx + pt), sy_cy(ty)) &&
-			shape.isHere(sx_cx(tx - pt), sy_cy(ty));
-
+			// var re = shape.isHere(sx_cx(tx), sy_cy(ty)) &&
+			// shape.isHere(sx_cx(tx), sy_cy(ty + pt)) &&
+			// shape.isHere(sx_cx(tx), sy_cy(ty - pt)) &&
+			// shape.isHere(sx_cx(tx + pt), sy_cy(ty)) &&
+			// shape.isHere(sx_cx(tx - pt), sy_cy(ty));
 			// if (re) alert('HIT ' + tx + ', ' + ty);
 
-			return re;
+			if (!shape.isHere(sx_cx(tx), sy_cy(ty + pt))) return false;
+			if (!shape.isHere(sx_cx(tx), sy_cy(ty - pt))) return false;
+			if (!shape.isHere(sx_cx(tx + pt), sy_cy(ty))) return false;
+			if (!shape.isHere(sx_cx(tx - pt), sy_cy(ty))) return false;
+			if (!shape.isHere(sx_cx(tx), sy_cy(ty))) return false;
+
+			return true;
 		}
+
+		// function testPoint(ptx, pty, shape) {
+		// 	if(shape.isHere(ptx, pty)){
+		// 		_UI.canvasctx.fill = 'lime';
+		// 		draw_CircleHandle({'x':ptx, 'y':pty});
+		// 		return true;
+		// 	} else {
+		// 		_UI.canvasctx.fill = 'red';
+		// 		draw_CircleHandle({'x':ptx, 'y':pty});
+		// 		return false;
+		// 	}
+		// }
 
 		for(var s=0; s<this.segments.length; s++){
 
-			if(testForHit(this.segments[s], 0.33, shape) || testForHit(this.segments[s], 0.66, shape)){
+			if(testForHit(this.segments[s], 0.33, shape) && testForHit(this.segments[s], 0.66, shape)){
 				// this.segments[s].drawSegmentPoints('rgb(255,0,0)', s);
 				this.segments[s].objtype = 'hit';
 			} else {

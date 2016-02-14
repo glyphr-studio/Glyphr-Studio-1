@@ -601,7 +601,7 @@
 		var polyseg = this.path.getPolySegment();
 		var ix = polyseg.findIntersections();
 		// debug('\t intersections');
-		// debug([ix]);
+		// debug(json(ix, true));
 
 		if(ix.length === 0) return new Shape(clone(this));
 
@@ -621,7 +621,7 @@
 		// polyseg.combineInlineSegments();
 		// debug('\t afters filtering ' + polyseg.segments.length);
 
-		// polyseg.drawPolySegmentOutline();
+		polyseg.drawPolySegmentOutline();
 
 		// var reshapes = [];
 		// reshapes.push(new Shape({'name':this.name, 'path':polyseg.getPath()}));

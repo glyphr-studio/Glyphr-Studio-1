@@ -562,8 +562,8 @@
 			
 			this.changed();
 
-			debug(this.name + ' \t\t ' + this.shapes.length);
 		}
+		debug(this.name + ' \t\t ' + this.shapes.length);
 
 		// debug(' Glyph.combineAllShapes - END - ' + this.name + '\n');
 		return this;

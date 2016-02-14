@@ -19,7 +19,7 @@
 		'thisGlyphrStudioVersionNum': '1.04.04',
 
 		// Internal Dev Stuff
-		'devmode': true, 					// global switch for all the stuff below
+		'devmode': false, 					// global switch for all the stuff below
 		'debugautogroup': false,			// try to console.group based on text strings
 		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
 		'debug': true, 						// show messages sent to the browser console
@@ -37,10 +37,10 @@
 		'testOnLoad': function() {
 
 			// Navigate
-			// selectGlyph('0x0061');
-			// setView({dx:100, dy:700, dz:0.6});
+			selectGlyph('0x0061');
+			setView({dx:100, dy:700, dz:0.6});
 			// clickTool('pathedit');
-			// redraw();
+			redraw();
 
 
 			// Segment Test

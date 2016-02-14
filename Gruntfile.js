@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 	ver = ver.split("',")[0];
 	ver = ver || '0.0.0';
 
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: {version: ver},

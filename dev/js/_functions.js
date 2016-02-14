@@ -42,7 +42,7 @@
 		document.title = 'Glyphr Studio';
 
 		//debug(' MAIN SETUP - END\n');
-	};
+	}
 
 	function insertGlobalDOMElements(){
 
