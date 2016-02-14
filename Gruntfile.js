@@ -15,7 +15,16 @@ module.exports = function(grunt) {
 		pkg: {version: ver},
 		concat: {
 			merge: {
-				src: ['dev/js/*.js'],
+				src: [
+					'dev/js/_settings.js', 
+					'dev/js/_functions.js', 
+					'dev/js/obj_*.js', 
+					'dev/js/framework_*.js', 
+					'dev/js/io_*.js',
+					'dev/js/page_*.js',
+					'dev/js/panel_*.js',
+					'dev/js/lib_*.js'
+				],
 				dest: 'dist/build/Glyphr_Studio.min.js'
 			},
 			test: {

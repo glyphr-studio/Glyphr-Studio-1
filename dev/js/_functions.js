@@ -6,7 +6,7 @@
 	files.
 **/
 
-	window.onload = _UI.coremode? coreMode_OnLoad : glyphrStudio_OnLoad;
+	window.onload = (_UI && _UI.coremode)? coreMode_OnLoad : glyphrStudio_OnLoad;
 
 	function glyphrStudio_OnLoad() {
 		//console.clear();

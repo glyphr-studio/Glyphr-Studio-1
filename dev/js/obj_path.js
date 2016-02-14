@@ -28,7 +28,7 @@
 			}
 		}
 
-		this.winding = isval(oa.winding)? this.winding : this.getWinding();
+		this.winding = isval(oa.winding)? this.winding : this.findWinding();
 
 		// internal
 		this.maxes = oa.maxes || clone(_UI.mins);
