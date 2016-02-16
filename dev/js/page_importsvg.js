@@ -154,13 +154,13 @@
 
 		var tempchar = ioSVG_convertTagsToGlyph(svgin);
 		// debug('\t Convert Tags To Glyph returned');
-		// debug(JSON.parse(JSON.stringify(tempchar)));
+		// debug(tempchar);
 		if(!tempchar) return;
 
 		// Flip and Scale
 		tempchar.flipNS();
 		// debug('\t >><< AFTER FLIPNS');
-		// debug(JSON.parse(JSON.stringify(tempchar)));
+		// debug(tempchar);
 
 		//debug("IMPORTSVG_IMPORTCODE - scale / move " + so.scale + " / " + so.move);
 		var so = _UI.importsvg;
@@ -184,16 +184,17 @@
 			// debug('\t\n Scale to totalheight = ' + totalheight);
 			if(so.scale) tempchar.setGlyphSize(false, totalheight, true);
 			// debug('\t >><< AFTER SCALE');
-			// debug(JSON.parse(JSON.stringify(tempchar)));
+			// debug(tempchar);
 
 			// debug('\t\n move to chartop = ' + chartop);
 			if(so.move) tempchar.setGlyphPosition(0, chartop);
 			// debug('\t >><< AFTER MOVE');
-			// debug(JSON.parse(JSON.stringify(tempchar)));
+			// debug(tempchar);
 		}
 
 		// Add new Glyph Shapes
 		tempchar.sendShapesTo(getSelectedWorkItemID());
+		markSelectedWorkItemAsChanged();
 		history_put("Imported Paths from SVG to glyph "+getSelectedWorkItemName());
 
 		update_NavPanels();

@@ -147,7 +147,7 @@
 		uni = uni.join('');
 
 		if(_GP.projectsettings.combineshapesonexport) gl = new Glyph(gl).flattenGlyph().combineAllShapes(true);
-		var pathdata = gl.makeSVGpathData();
+		var pathdata = gl.getSVGpathData();
 
 		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+gl.name.replace(/ /g, '_')+'" ';

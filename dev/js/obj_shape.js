@@ -108,7 +108,7 @@
 		// re += '<rect x="0" y="-'+desc+'" height="'+desc+'" width="1000" fill="lime"/>';
 		// re += '<rect x="0" y="0" height="'+(upm-desc)+'" width="1000" fill="cyan"/>';
 		re += '<path d="';
-		re += this.path.makeSVGpathData();
+		re += this.path.getSVGpathData();
 		re += '"/>';
 		re += '</g>';
 		re += '</svg>';
@@ -288,7 +288,7 @@
 
 		sg.shapes.push(newshape);
 		_UI.ms.shapes.select(newshape);
-		sg.calcGlyphMaxes();
+		sg.changed();
 
 		_UI.navprimaryhere = 'npAttributes';
 

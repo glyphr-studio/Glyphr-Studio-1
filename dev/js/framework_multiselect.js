@@ -254,7 +254,7 @@
 	_UI.ms.shapes.selectShapesThatHaveSelectedPoints = function() {};
 
 	_UI.ms.shapes.combine = function() {
-		debug('\n ms.shapes.combine - START');
+		// debug('\n ms.shapes.combine - START');
 		
 		var ns = new Glyph(clone(_UI.ms.shapes.getGlyph()));
 
@@ -271,7 +271,7 @@
 			history_put('Combined shapes');
 		}
 
-		debug(' ms.shapes.combine - END\n');
+		// debug(' ms.shapes.combine - END\n');
 	};
 
 	_UI.ms.shapes.deleteShapes = function(){
@@ -307,6 +307,12 @@
 	};
 
 	// Wrapper functions
+
+	_UI.ms.shapes.changed = function(){
+		for(var m=0; m<this.members.length; m++){
+			this.members[m].changed();
+		}
+	};
 
 	_UI.ms.shapes.changeShapeName = function(n) { this.getSingleton().changeShapeName(n); };
 

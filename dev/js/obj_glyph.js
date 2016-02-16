@@ -16,7 +16,7 @@
 // GLYPH OBJECT
 //-------------------------------------------------------
 	function Glyph(oa){
-		// debug('\n GLYPH - START');
+		// debug('\n Glyph - START');
 		oa = oa || {};
 		this.objtype = 'glyph';
 
@@ -31,16 +31,18 @@
 		this.shapes = oa.shapes || [];
 		this.usedin = oa.usedin || [];
 
+		// debug('\t name: ' + this.name);
+
 		var lc = 0;
 		var cs = 0;
 		if(oa.shapes && oa.shapes.length){
 			for(var i=0; i<oa.shapes.length; i++) {
 				if(oa.shapes[i].objtype === 'componentinstance'){
-					//debug('GLYPH - hydrating ' + oa.shapes[i].name);
+					// debug('\t hydrating ci ' + oa.shapes[i].name);
 					this.shapes[i] = new ComponentInstance(oa.shapes[i]);
 					lc++;
 				} else {
-					//debug('GLYPH - hydrating ' + oa.shapes[i].name);
+					// debug('\t hydrating sh ' + oa.shapes[i].name);
 					this.shapes[i] = new Shape(oa.shapes[i]);
 					cs++;
 				}
@@ -54,7 +56,7 @@
 		this.cache = {};
 		this.cache.svg = oa.cache.svg || false;
 
-		// debug(' GLYPH - END\n');
+		// debug(' Glyph - END\n');
 	}
 
 
@@ -82,7 +84,8 @@
 		for(var i=0; i<cs.length; i++){
 			cs[i].updateShapePosition(dx, dy, force);
 		}
-		this.calcGlyphMaxes();
+
+		this.changed();
 
 		// debug(' Glyph.updateGlyphPosition - END ' + this.name + '\n\n');
 	};
@@ -176,7 +179,7 @@
 
 		}
 
-		this.calcGlyphMaxes();
+		this.changed();
 		// debug('\t Afters Maxes ' + json(this.maxes, true));
 		// debug(' Glyph.updateGlyphSize - END ' + this.name + '\n');
 	};
@@ -191,6 +194,8 @@
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].flipEW(mid);
 		}
+
+		this.changed();
 		// debug('\t maxes = ' + json(this.maxes, true));
 	};
 
@@ -199,6 +204,8 @@
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].flipNS(mid);
 		}
+
+		this.changed();
 	};
 
 	Glyph.prototype.rotate = function(angle, about) {
@@ -208,13 +215,15 @@
 			this.shapes[s].rotate(angle, about);
 		}
 
-		this.calcGlyphMaxes();
+		this.changed();
 	};
 
 	Glyph.prototype.reverseWinding = function() {
 		for(var s=0; s<this.shapes.length; s++){
 			this.shapes[s].reverseWinding();
 		}
+
+		this.changed();
 	};
 
 
@@ -235,7 +244,7 @@
 	};
 
 	Glyph.prototype.getCenter = function() {
-		var m = this.calcGlyphMaxes();
+		var m = this.getMaxes();
 		var re = {};
 		re.x = ((m.xmax - m.xmin) / 2) + m.xmin;
 		re.y = ((m.ymax - m.ymin) / 2) + m.ymin;
@@ -442,7 +451,7 @@
 		var charscale = (size-(gutter*2)) / size;
 		var gutterscale = (gutter / size) * emsquare;
 		var vbsize = emsquare - (gutter*2);
-		var pathdata = this.makeSVGpathData();
+		var pathdata = this.getSVGpathData();
 
 		// Assemble SVG
 		var re = '<svg version="1.1" ';
@@ -460,6 +469,14 @@
 		return re;
 	};
 
+	Glyph.prototype.getSVGpathData = function() {
+		if(this.cache.svgpathdata) return this.cache.svgpathdata;
+
+		this.cache.svgpathdata = this.makeSVGpathData();
+
+		return this.cache.svgpathdata;
+	};
+
 	Glyph.prototype.makeSVGpathData = function() {
 		if(this.cache.svg) return this.cache.svg;
 
@@ -474,11 +491,11 @@
 			if(shape.visible) {
 				if(shape.objtype === 'componentinstance'){
 					tg = shape.getTransformedGlyph();
-					if(tg) pathdata += tg.makeSVGpathData();
+					if(tg) pathdata += tg.getSVGpathData();
 				} else {
 					path = shape.getPath();
 					path.updatePathPosition(lsb, 0, true);
-					pathdata += path.makeSVGpathData('Glyph ' + this.name + ' Shape ' + shape.name);
+					pathdata += path.getSVGpathData('Glyph ' + this.name + ' Shape ' + shape.name);
 					if(j < sl.length-1) pathdata += ' ';
 				}
 			}
@@ -563,7 +580,7 @@
 			this.changed();
 
 		}
-		debug(this.name + ' \t\t ' + this.shapes.length);
+		// debug(this.name + ' \t\t ' + this.shapes.length);
 
 		// debug(' Glyph.combineAllShapes - END - ' + this.name + '\n');
 		return this;
@@ -587,11 +604,17 @@
 // METHODS
 //-------------------------------------------------------
 
-	Glyph.prototype.changed = function(descend) {
+	Glyph.prototype.changed = function(descend, ascend) {
 		this.cache = {};
 
+		if(ascend){
+			for(var g=0; g<this.usedin.length; g++){
+				getGlyph(this.usedin[g]).changed(descend, ascend);
+			}
+		}
+
 		if(descend){
-			for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed();
+			for(var s=0; s<this.shapes.length; s++) this.shapes[s].changed(descend, ascend);
 		}
 
 		this.calcGlyphMaxes();
@@ -758,10 +781,10 @@
 		var sc = getSelectedWorkItem();
 		if(!sc) return;
 		if(_UI.navhere === 'glyph edit'){
-			sc.calcGlyphMaxes();
+			sc.changed();
 		} else if (_UI.navhere === 'components' && sc) {
 			var lsarr = sc.usedin;
-			if(lsarr) for(var c=0; c<lsarr.length; c++) getGlyph(lsarr[c]).calcGlyphMaxes();
+			if(lsarr) for(var c=0; c<lsarr.length; c++) getGlyph(lsarr[c]).changed();
 		}
 	}
 

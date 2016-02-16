@@ -47,6 +47,7 @@
 
 		if(this.cache.transformedglyph){
 			// debug('\t returning glyph in cache.transformedglyph ');
+			// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 			return this.cache.transformedglyph;
 		}
 
@@ -58,23 +59,30 @@
 			return false;
 		}
 
-		// debug('\t Modifying g.w ' + this.scalew + ' g.h ' + this.scaleh);
-		// debug('\t before maxes ' + json(g.maxes, true));
-		if(this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
-		if(this.flipew) g.flipEW();
-		if(this.flipns) g.flipNS();
-		g.updateGlyphPosition(this.translatex, this.translatey, true);
-		g.updateGlyphSize(this.scalew, this.scaleh, false);
-		if(this.reversewinding) g.reverseWinding();
-		if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
+		// debug('\t DELTAS' + '\n\t translatex:\t' + this.translatex  + '\n\t translatey:\t' + this.translatey  + '\n\t scalew:\t' + this.scalew  + '\n\t scaleh:\t' + this.scaleh  + '\n\t flipew:\t' + this.flipew  + '\n\t flipns:\t' + this.flipns  + '\n\t reversewinding:\t' + this.reversewinding  + '\n\t rotation:\t' + this.rotation);
 
-		g.calcGlyphMaxes();
+		if(this.translatex || this.translatey || this.scalew || this.scaleh || this.flipew || this.flipns || this.reversewinding || this.rotation){
+			// debug('\t Modifying w ' + this.scalew + ' h ' + this.scaleh);
+			// debug('\t before maxes ' + json(g.maxes, true));
 
-		// debug('\t afters maxes ' + json(g.maxes, true));
-		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
+			if(this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
+			if(this.flipew) g.flipEW();
+			if(this.flipns) g.flipNS();
+			g.updateGlyphPosition(this.translatex, this.translatey, true);
+			g.updateGlyphSize(this.scalew, this.scaleh, false);
+			if(this.reversewinding) g.reverseWinding();
+			if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
+			g.changed();
+
+			// debug('\t afters maxes ' + json(g.maxes, true));
+		} else {
+			g.changed();
+			// debug('\t Not changing, no deltas');
+		}
 
 		this.cache.transformedglyph = g;
 
+		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 		return g;
 	};
 
@@ -83,7 +91,12 @@
 //	-------------------------------------
 //	Component to Shape Paridy Functions
 //	-------------------------------------
-	ComponentInstance.prototype.changed = function() { this.cache = {}; };
+	ComponentInstance.prototype.changed = function() { 
+		// debug('\n ComponentInstance.changed - START');
+		// debug('\t ' + this.name);
+		this.cache = {}; 
+		// debug(' ComponentInstance.changed - END\n');
+	};
 
 	ComponentInstance.prototype.getName = function() { return this.name; };
 
@@ -353,7 +366,7 @@
 
 			//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(nci));
 			ch.shapes.push(nci);
-			ch.calcGlyphMaxes();
+			ch.changed();
 			if(select) {
 				_UI.ms.shapes.select(nci);
 				_UI.selectedtool = 'shaperesize';

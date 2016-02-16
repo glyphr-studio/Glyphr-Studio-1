@@ -493,6 +493,14 @@
 		};
 	};
 
+	Path.prototype.getSVGpathData = function() {
+		if(this.cache.svgpathdata) return this.cache.svgpathdata;
+
+		this.cache.svgpathdata = this.makeSVGpathData();
+
+		return this.cache.svgpathdata;
+	};
+
 	Path.prototype.makeSVGpathData = function(glyphname) {
 		glyphname = glyphname || 'not specified';
 		// debug('\n Path.makeSVGpathData - START');

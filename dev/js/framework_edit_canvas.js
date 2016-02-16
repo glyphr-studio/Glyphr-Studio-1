@@ -634,9 +634,15 @@
 	}
 
 	function markSelectedWorkItemAsChanged() {
+		// debug('\n markSelectedWorkItemAsChanged - START');
 		var wi = getSelectedWorkItem();
 
-		if(wi && wi.changed) wi.changed();
+		if(wi && wi.changed) {
+			// debug('\t marking as changed');
+			wi.changed(true, true);
+		}
+
+		// debug(' markSelectedWorkItemAsChanged - END\n');
 	}
 
 	function selectGlyph(c, dontnavigate){

@@ -207,6 +207,7 @@
 		// debug('\t NEWSHAPES BEFORE GLYPH IS MADE');
 		// debug(JSON.parse(JSON.stringify(newshapes)));
 		var reglyph = new Glyph({'shapes':newshapes});
+		reglyph.changed(true);
 		// debug('\t SHAPES AFTER GLYPH IS MADE');
 		// debug(JSON.parse(JSON.stringify(reglyph.shapes)));
 		// debug(JSON.parse(JSON.stringify(reglyph)));
