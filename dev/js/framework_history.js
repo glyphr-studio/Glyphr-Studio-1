@@ -39,7 +39,10 @@
 		// debug('\t queue.length ' + this.queue.length);
 
 		var top = this.queue.length? this.queue.pop().state : this.initialstate;
-		_GP[this.parentname] = clone(top);
+
+		if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
+		else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
+		
 		this.currstate = clone(top);
 		
 		if (_UI.navhere === 'import svg'){

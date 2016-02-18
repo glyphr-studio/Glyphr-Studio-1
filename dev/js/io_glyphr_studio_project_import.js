@@ -1,10 +1,10 @@
 // start of file
 /**
 	IO > Import > Glyphr Studio Project
-	Handling backwards compatibility for old Glyphr 
-	Studio projects via rolling upgrades.  Once 
-	a project has the current format, they are 
-	'hydrated' from simple text / JSON to full 
+	Handling backwards compatibility for old Glyphr
+	Studio projects via rolling upgrades.  Once
+	a project has the current format, they are
+	'hydrated' from simple text / JSON to full
 	Glyphr Studio Objects, and saved to the _GP
 	global variable.
 **/
@@ -164,7 +164,7 @@
 		}}
 		// debug('\t DONE ls > glyph');
 
-		
+
 		// Switch from Char to Glyph
 		// Switch from Ligature to Glyph
 		// Update Glyphs to use Components not Linked Shapes
@@ -204,7 +204,7 @@
 				gshapes[s] = new ComponentInstance({'name':sh.name, 'link':sh.link, 'translatex':dx, 'translatey':dy, 'xlock':sh.xlock, 'ylock':sh.ylock});
 			}
 
-			
+
 			if(isval(gshapes[s].uselinkedshapexy)){
 				// debug('\t\t shape ' + gshapes[s].name + ' uselsxy: ' + typeof gshapes[s].uselinkedshapexy + ' ' + gshapes[s].uselinkedshapexy);
 				gshapes[s].usecomponentxy = gshapes[s].uselinkedshapexy;
@@ -273,6 +273,7 @@
 	}
 
 
+
 //	-------------------------------
 //	HYDRATE
 //	-------------------------------
@@ -285,65 +286,82 @@
 		_GP = new GlyphrProject();
 		// var oggp = new GlyphrProject();
 
+
 		// Project Settings
 		// merge settings to conform to current .projectsettings
 		// but not guides, because they can be custom
 		var dataguides = clone(data.projectsettings.guides);
+
 		if(data.projectsettings) {
 			_GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
 			_GP.projectsettings.glyphrange.custom = data.projectsettings.glyphrange.custom || [];
 		}
 		_GP.projectsettings.projectid = _GP.projectsettings.projectid || genProjectID();
-
 		// debug('\t finished merging projectsettings');
 		// debug(_GP.projectsettings);
 
+
 		// Guides
-		// Import all gudes
-		for (var g in dataguides) {
-			if(dataguides.hasOwnProperty(g)){
-				_GP.projectsettings.guides[g] = new Guide(dataguides[g]);
-			}
-		}
+		hydrateGlyphrObjectList(Guide, dataguides, _GP.projectsettings.guides);
 		// debug('\t finished hydrating guides');
+
+		// for (var g in dataguides) {
+		// 	if(dataguides.hasOwnProperty(g)){
+		// 		_GP.projectsettings.guides[g] = new Guide(dataguides[g]);
+		// 	}
+		// }
+
 
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata, true);
 		// debug('\t finished merging metadata');
 
+
 		// Components
-		for (var com in data.components) {
-			if(data.components.hasOwnProperty(com)){
-				_GP.components[com] = new Glyph(data.components[com]);
-			}
-		}
+		hydrateGlyphrObjectList(Glyph, data.components, _GP.components);
 		// debug('\t finished hydrating components');
 
+		// for (var com in data.components) {
+		// 	if(data.components.hasOwnProperty(com)){
+		// 		_GP.components[com] = new Glyph(data.components[com]);
+		// 	}
+		// }
+
+
 		// Glyphs
-		for (var gl in data.glyphs) {
-			if(data.glyphs.hasOwnProperty(gl)){
-				// debug('\t\t starting glyph ' + gl);
-				_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);				
-				// debug('\t\t finished glyph ' + gl);
-			}
-		}
+		hydrateGlyphrObjectList(Glyph, data.glyphs, _GP.glyphs);
 		// debug('\t finished hydrating glyphs');
 
+		// for (var gl in data.glyphs) {
+		// 	if(data.glyphs.hasOwnProperty(gl)){
+		// 		// debug('\t\t starting glyph ' + gl);
+		// 		_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);
+		// 		// debug('\t\t finished glyph ' + gl);
+		// 	}
+		// }
+
+
 		// Ligatures
-		for (var lig in data.ligatures) {
-			if(data.ligatures.hasOwnProperty(lig)){
-				_GP.ligatures[lig] = new Glyph(data.ligatures[lig]);
-			}
-		}
+		hydrateGlyphrObjectList(Glyph, data.ligatures, _GP.ligatures);
 		// debug('\t finished hydrating ligatures');
 
+		// for (var lig in data.ligatures) {
+		// 	if(data.ligatures.hasOwnProperty(lig)){
+		// 		_GP.ligatures[lig] = new Glyph(data.ligatures[lig]);
+		// 	}
+		// }
+
+
 		// Kerning
-		for (var pair in data.kerning){
-			if(data.kerning.hasOwnProperty(pair)){
-				_GP.kerning[pair] = new HKern(data.kerning[pair]);
-			}
-		}
+		hydrateGlyphrObjectList(HKern, data.kerning, _GP.kerning);
 		// debug('\t finished hydrating kern pairs');
+
+		// for (var pair in data.kerning){
+		// 	if(data.kerning.hasOwnProperty(pair)){
+		// 		_GP.kerning[pair] = new HKern(data.kerning[pair]);
+		// 	}
+		// }
+
 
 		// debug('\t hydrated: ');
 		// debug(_GP);
@@ -353,6 +371,17 @@
 		if(!_UI.coremode) finalizeGlyphrProject();
 		//navigate();
 	}
+
+
+	// Takes raw JSON objects, and initializes them as Glyphr Studio objects
+	function hydrateGlyphrObjectList(glyphrobject, source, destination) {
+		for (var key in source) {
+			if(source.hasOwnProperty(key)){
+				destination[key] = new glyphrobject(source[key]);
+			}
+		}
+	}
+
 
 	// Takes a template object of expected keys and default values
 	// and an object to import, and overwites template values if
@@ -373,6 +402,7 @@
 
 		return template;
 	}
+
 
 	function newGlyphrProject(){
 		var fn;
@@ -412,24 +442,23 @@
 		_UI.guides.rightgroup_xmin = new Guide(_UI.guides.rightgroup_xmin);
 
 		var ps = _GP.projectsettings;
-		ps.guides = {
-			'ascent': new Guide({name:'ascent', type:'horizontal', location: ps.ascent, editable:false, color: ps.colors.guide_med}),
-			'capheight': new Guide({name:'capheight', type:'horizontal', location: ps.capheight, editable:false, color: ps.colors.guide_light}),
-			'xheight': new Guide({name:'xheight', type:'horizontal', location: ps.xheight, editable:false, color: ps.colors.guide_light}),
-			'baseline': new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color: ps.colors.guide_dark}),
-			'descent': new Guide({name:'descent', type:'horizontal', location:( ps.ascent- ps.upm), editable:false, color: ps.colors.guide_med}),
-			'leftside': new Guide({name:'leftside', type:'vertical', location: ps.defaultlsb*-1, editable:false, color: ps.colors.guide_dark}),
-			'rightside': new Guide({name:'rightside', type:'vertical', location: ps.upm, editable:false, color: ps.colors.guide_dark}),
-			'zero': new Guide({name:'zero', type:'vertical', showname:false, location:0, editable:false, color: ps.colors.guide_med}),
-			'min': new Guide({name:'min', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_light}),
-			'max': new Guide({name:'max', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_light}),
-		};
+
+		ps.guides.ascent = ps.guides.ascent ||  new Guide({name:'ascent', type:'horizontal', location: ps.ascent, editable:false, color: ps.colors.guide_med});
+		ps.guides.capheight = ps.guides.capheight ||  new Guide({name:'capheight', type:'horizontal', location: ps.capheight, editable:false, color: ps.colors.guide_light});
+		ps.guides.xheight = ps.guides.xheight ||  new Guide({name:'xheight', type:'horizontal', location: ps.xheight, editable:false, color: ps.colors.guide_light});
+		ps.guides.baseline = ps.guides.baseline ||  new Guide({name:'baseline', type:'horizontal', location:0, editable:false, color: ps.colors.guide_dark});
+		ps.guides.descent = ps.guides.descent ||  new Guide({name:'descent', type:'horizontal', location:( ps.ascent- ps.upm), editable:false, color: ps.colors.guide_med});
+		ps.guides.leftside = ps.guides.leftside ||  new Guide({name:'leftside', type:'vertical', location: ps.defaultlsb*-1, editable:false, color: ps.colors.guide_dark});
+		ps.guides.rightside = ps.guides.rightside ||  new Guide({name:'rightside', type:'vertical', location: ps.upm, editable:false, color: ps.colors.guide_dark});
+		ps.guides.zero = ps.guides.zero ||  new Guide({name:'zero', type:'vertical', showname:false, location:0, editable:false, color: ps.colors.guide_med});
+		ps.guides.min = ps.guides.min ||  new Guide({name:'min', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_light});
+		ps.guides.max = ps.guides.max ||  new Guide({name:'max', type:'vertical', showname:false, location: ps.upm, editable:false, color: ps.colors.guide_light});
 
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
 		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);
 		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
-		
+
 		calculateDefaultView();
 		resetThumbView();
 

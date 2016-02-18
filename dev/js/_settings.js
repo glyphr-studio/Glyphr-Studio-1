@@ -16,7 +16,7 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.05',
+		'thisGlyphrStudioVersionNum': '1.04.06',
 
 		// Internal Dev Stuff
 		'devmode': false, 					// global switch for all the stuff below
@@ -24,7 +24,7 @@
 		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
 		'debug': true, 						// show messages sent to the browser console
 		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		'devnav': 'glyph edit', 			// navigate straight to a page
+		'devnav': false, 			// navigate straight to a page
 		'devnavprimary': false, 			// navigate straight to a panel
 		'devselectedshape': false, 			// automatically select a shape
 		'testactions':[
