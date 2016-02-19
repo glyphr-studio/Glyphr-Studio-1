@@ -305,12 +305,6 @@
 		hydrateGlyphrObjectList(Guide, dataguides, _GP.projectsettings.guides);
 		// debug('\t finished hydrating guides');
 
-		// for (var g in dataguides) {
-		// 	if(dataguides.hasOwnProperty(g)){
-		// 		_GP.projectsettings.guides[g] = new Guide(dataguides[g]);
-		// 	}
-		// }
-
 
 		// Metadata
 		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata, true);
@@ -321,46 +315,20 @@
 		hydrateGlyphrObjectList(Glyph, data.components, _GP.components);
 		// debug('\t finished hydrating components');
 
-		// for (var com in data.components) {
-		// 	if(data.components.hasOwnProperty(com)){
-		// 		_GP.components[com] = new Glyph(data.components[com]);
-		// 	}
-		// }
-
 
 		// Glyphs
 		hydrateGlyphrObjectList(Glyph, data.glyphs, _GP.glyphs);
 		// debug('\t finished hydrating glyphs');
-
-		// for (var gl in data.glyphs) {
-		// 	if(data.glyphs.hasOwnProperty(gl)){
-		// 		// debug('\t\t starting glyph ' + gl);
-		// 		_GP.glyphs[gl] = new Glyph(data.glyphs[gl]);
-		// 		// debug('\t\t finished glyph ' + gl);
-		// 	}
-		// }
 
 
 		// Ligatures
 		hydrateGlyphrObjectList(Glyph, data.ligatures, _GP.ligatures);
 		// debug('\t finished hydrating ligatures');
 
-		// for (var lig in data.ligatures) {
-		// 	if(data.ligatures.hasOwnProperty(lig)){
-		// 		_GP.ligatures[lig] = new Glyph(data.ligatures[lig]);
-		// 	}
-		// }
-
 
 		// Kerning
 		hydrateGlyphrObjectList(HKern, data.kerning, _GP.kerning);
 		// debug('\t finished hydrating kern pairs');
-
-		// for (var pair in data.kerning){
-		// 	if(data.kerning.hasOwnProperty(pair)){
-		// 		_GP.kerning[pair] = new HKern(data.kerning[pair]);
-		// 	}
-		// }
 
 
 		// debug('\t hydrated: ');
