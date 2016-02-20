@@ -17,9 +17,9 @@
 			var md = _GP.metadata;
 			var ps = _GP.projectsettings;
 
-			options.unitsPerEm = ps.upm;
-			options.ascender = ps.ascent;
-			options.descender = ps.descent;
+			options.unitsPerEm = ps.upm || 1000;
+			options.ascender = ps.ascent || 0.00001;
+			options.descender = ps.descent || -0.00001;
 			options.familyName = (md.font_family) || ' ';
 			options.styleName = (md.font_style) || ' ';
 			options.designer = (md.designer) || ' ';

@@ -16,7 +16,7 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.06',
+		'thisGlyphrStudioVersionNum': '1.04.07',
 
 		// Internal Dev Stuff
 		'devmode': false, 					// global switch for all the stuff below
