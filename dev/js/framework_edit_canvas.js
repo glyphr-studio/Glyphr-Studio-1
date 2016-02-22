@@ -75,7 +75,7 @@
 		if(_UI.redraw.redrawcanvas){
 			_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 
-			switch (_UI.navhere){
+			switch (_UI.current_page){
 				case 'glyph edit': redraw_GlyphEdit(); break;
 				case 'components': redraw_GlyphEdit(); break;
 				case 'ligatures': redraw_GlyphEdit(); break;
@@ -116,10 +116,10 @@
 		var pathaddpointclass = '';
 		var penclickable = true;
 		var penaddpointclickable = true;
-		var onglyph = (_UI.navhere === 'glyph edit');
-		var oncom = (_UI.navhere === 'components');
-		var onlig = (_UI.navhere === 'ligatures');
-		var onkern = (_UI.navhere === 'kerning');
+		var onglyph = (_UI.current_page === 'glyph edit');
+		var oncom = (_UI.current_page === 'components');
+		var onlig = (_UI.current_page === 'ligatures');
+		var onkern = (_UI.current_page === 'kerning');
 		var type = _UI.ms.shapes.getType();
 
 		if(_UI.selectedtool === 'pathedit'){
@@ -429,7 +429,7 @@
 
 	function setView(oa){
 
-		var sc = (_UI.navhere === 'kerning')? getSelectedKernID() : getSelectedWorkItemID();
+		var sc = (_UI.current_page === 'kerning')? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
@@ -448,7 +448,7 @@
 
 	function getView(calledby){
 		//debug('GETVIEW - called by ' + calledby);
-		var onkern = (_UI.navhere === 'kerning');
+		var onkern = (_UI.current_page === 'kerning');
 		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
@@ -547,23 +547,23 @@
 
 	function existingWorkItem() {
 		var len = 0;
-		var nph = _UI.navprimaryhere;
+		var nph = _UI.current_panel;
 
-		if(_UI.navhere === 'ligatures'){
+		if(_UI.current_page === 'ligatures'){
 			len = getLength(_GP.ligatures);
 			if(!len){
 				_UI.selectedligature = false;
 				if(nph !== 'npNav') nph = 'npChooser';
 				return false;
 			}
-		} else if (_UI.navhere === 'components'){
+		} else if (_UI.current_page === 'components'){
 			len = getLength(_GP.components);
 			if(!len){
 				_UI.selectedcomponent = false;
 				if(nph !== 'npNav') nph = 'npChooser';
 				return false;
 			}
-		} else if (_UI.navhere === 'kerning'){
+		} else if (_UI.current_page === 'kerning'){
 			len = getLength(_GP.kerning);
 			if(!len){
 				_UI.selectedkern = false;
@@ -577,10 +577,10 @@
 
 	function getSelectedWorkItem(){
 		// debug('\n getSelectedWorkItem - START');
-		// debug('\t navhere: ' + _UI.navhere);
+		// debug('\t current_page: ' + _UI.current_page);
 		var re;
 
-		switch(_UI.navhere){
+		switch(_UI.current_page){
 			case 'glyph edit':
 			case 'import svg':
 				re = getGlyph(_UI.selectedglyph, true);
@@ -609,7 +609,7 @@
 	}
 
 	function getSelectedWorkItemID(){
-		switch(_UI.navhere){
+		switch(_UI.current_page){
 			case 'glyph edit':
 			case 'import svg':	return _UI.selectedglyph;
 			case 'ligatures':	return _UI.selectedligature;
@@ -1089,8 +1089,8 @@
 		if(!getSelectedWorkItemID()) return;
 
 		var ps = _GP.projectsettings;
-		var onglyphedit = (_UI.navhere === 'glyph edit' || _UI.navhere === 'ligatures');
-		var onkern = (_UI.navhere === 'kerning');
+		var onglyphedit = (_UI.current_page === 'glyph edit' || _UI.current_page === 'ligatures');
+		var onkern = (_UI.current_page === 'kerning');
 		// debug('\t ps.guides: ');
 		// debug(ps.guides);
 

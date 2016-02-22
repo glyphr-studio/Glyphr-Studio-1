@@ -290,7 +290,7 @@
 		_UI.ms.shapes.select(newshape);
 		sg.changed();
 
-		_UI.navprimaryhere = 'npAttributes';
+		_UI.current_panel = 'npAttributes';
 
 		// debug('ADDSHAPE - returns:\n' + JSON.stringify(newshape));
 		return newshape;

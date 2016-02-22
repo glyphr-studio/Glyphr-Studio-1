@@ -14,7 +14,7 @@
 
 		content += '<h1 class="paneltitle">edit history</h1>';
 
-		var q = _UI.history[_UI.navhere].queue;
+		var q = _UI.history[_UI.current_page].queue;
 
 		content += '</div><div class="panel_section">';
 
@@ -43,7 +43,7 @@
 		
 		content += '<tr><td colspan=2  style="border-bottom:1px solid rgb(204,209,214);"></td></tr><tr>'+
 			'<td class="history_char">Initial State</td>'+
-			'<td class="history_date">'+new Date(_UI.history[_UI.navhere].initialdate).toLocaleString()+'</td>'+
+			'<td class="history_date">'+new Date(_UI.history[_UI.current_page].initialdate).toLocaleString()+'</td>'+
 			'</tr>';
 
 		content += '</table>';

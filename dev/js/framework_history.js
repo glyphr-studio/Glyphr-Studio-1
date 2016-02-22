@@ -45,14 +45,14 @@
 		
 		this.currstate = clone(top);
 		
-		if (_UI.navhere === 'import svg'){
+		if (_UI.current_page === 'import svg'){
 			update_NavPanels();
 
-		} else if (_UI.navhere === 'components'){
+		} else if (_UI.current_page === 'components'){
 			if(!_GP.components[_UI.selectedcomponent]){
 				_UI.selectedcomponent = getFirstID(_GP.components);
 			}
-		} else if (_UI.navhere === 'ligatures'){
+		} else if (_UI.current_page === 'ligatures'){
 			if(!_GP.ligatures[_UI.selectedligature]){
 				_UI.selectedligature = getFirstID(_GP.ligatures);
 			}
@@ -80,7 +80,7 @@
 	// Global Accessor Functions
 	function history_put(dsc){
 		if(onCanvasEditPage()){
-			var queue = _UI.navhere === 'import svg'? 'glyph edit' : _UI.navhere;
+			var queue = _UI.current_page === 'import svg'? 'glyph edit' : _UI.current_page;
 			_UI.history[queue].put(dsc);
 		}
 	}
@@ -89,13 +89,13 @@
 		if(onCanvasEditPage()){
 			closeDialog();
 			closeNotation();
-			_UI.history[_UI.navhere].pull();
+			_UI.history[_UI.current_page].pull();
 		}
 	}
 
 	function history_length() {
 		if(onCanvasEditPage()){
-			return _UI.history[_UI.navhere].queue.length || 0;
+			return _UI.history[_UI.current_page].queue.length || 0;
 		}
 
 		return 0;

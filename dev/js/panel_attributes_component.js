@@ -35,19 +35,19 @@
 		if (chid.indexOf('0x', 2) > -1){
 			// Ligature
 			_UI.selectedligature = chid;
-			_UI.navhere = 'ligatures';
+			_UI.current_page = 'ligatures';
 		} else if(chid.indexOf('0x') > -1){
 			// Glyph
 			_UI.selectedglyph = chid;
-			_UI.navhere = 'glyph edit';
+			_UI.current_page = 'glyph edit';
 		} else {
 			// Component
 			_UI.selectedcomponent = chid;
-			_UI.navhere = 'components';
+			_UI.current_page = 'components';
 		}
 
 		clickEmptySpace();
-		_UI.navprimaryhere = "npAttributes";
+		_UI.current_panel = "npAttributes";
 		navigate('npAttributes');
 		// debug(' goToEditGlyph - END\n');
 	}

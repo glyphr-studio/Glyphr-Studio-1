@@ -40,7 +40,7 @@
 			'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+_GP.projectsettings.overshoot+' em units)</label></td></tr>' +
 			'</table>';
 
-		if(_UI.navhere !== 'kerning'){
+		if(_UI.current_page !== 'kerning'){
 			content += '<br><h3 style=" margin-bottom:10px;">system guides</h3>';
 			content += system;
 			content += '<br><h3 style=" margin-bottom:10px;">custom guides</h3>';

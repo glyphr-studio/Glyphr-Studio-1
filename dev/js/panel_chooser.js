@@ -19,15 +19,15 @@
 		var gcp = _UI.glyphchooser.panel;
 		// _UI.glyphchooser.cache = false;
 
-		if(_UI.navhere === 'glyph edit'){
+		if(_UI.current_page === 'glyph edit'){
 			asyncLoadChooserPanel();
 			// _UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
 
-		} else if(_UI.navhere === 'import svg'){
+		} else if(_UI.current_page === 'import svg'){
 			asyncLoadChooserPanel();
 			// _UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
 
- 		} else if(_UI.navhere === 'ligatures'){
+ 		} else if(_UI.current_page === 'ligatures'){
 			var emptyligs = getLength(_GP.ligatures) === 0;
 			if(!emptyligs) {
 				content += make_GlyphChooser(gcp);
@@ -39,7 +39,7 @@
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
 
-		} else if(_UI.navhere === 'components'){
+		} else if(_UI.current_page === 'components'){
 			var emptycoms = getLength(_GP.components) === 0;
 			if(!emptycoms) {
 				content += make_GlyphChooser(gcp);
@@ -81,8 +81,8 @@
 	function make_GlyphChooser(gcdata) {
 		var con = '';
 
-		if( (_UI.navhere === 'glyph edit' && pluralGlyphRange()) ||
-			(_UI.navhere === 'import svg' && (pluralGlyphRange() || getLength(_GP.components) || getLength(_GP.ligatures))) ) {
+		if( (_UI.current_page === 'glyph edit' && pluralGlyphRange()) ||
+			(_UI.current_page === 'import svg' && (pluralGlyphRange() || getLength(_GP.components) || getLength(_GP.ligatures))) ) {
 				con += make_GlyphChooser_Header(gcdata.selected);
 		} 
 

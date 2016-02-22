@@ -21,8 +21,8 @@
 		content += '<div class="panel_section">';
 		content += '<table class="detail">';
 
-		if (_UI.navhere === 'components'){
-			// debug(" \t  detected navhere = components");
+		if (_UI.current_page === 'components'){
+			// debug(" \t  detected current_page = components");
 			content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin-top:0px;">component</h3></td></tr>';
 			content += '<tr><td class="leftcol">name</td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
@@ -54,7 +54,7 @@
 			content += multiSelectDetails();
 		}
 
-		if (_UI.navhere === 'components'){
+		if (_UI.current_page === 'components'){
 			content += '<tr><td colspan=2 class="detailtitle"><h3>glyphs that use this component</h3></td></tr>';
 			content += '<tr><td colspan=2>';
 			if(sc.usedin.length > 0){
@@ -154,7 +154,7 @@
 			'</tr>';
 		}
 
-		if (_UI.navhere === 'components') return content;
+		if (_UI.current_page === 'components') return content;
 
 
 		// AUTO GLYPH WIDTH

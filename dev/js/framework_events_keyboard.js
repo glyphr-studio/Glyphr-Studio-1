@@ -36,7 +36,7 @@
 	function keypress(event){
 		// debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
-		if(_UI.navhere === 'openproject') return;
+		if(_UI.current_page === 'openproject') return;
 
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
@@ -169,7 +169,7 @@
 
 
 		// Only allow above stuff on Kerning page
-		if(_UI.navhere === 'kerning') return;
+		if(_UI.current_page === 'kerning') return;
 
 		// Only do the below stuff if the canvas has focus
 

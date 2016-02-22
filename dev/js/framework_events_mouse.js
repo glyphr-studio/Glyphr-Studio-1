@@ -178,7 +178,7 @@
 					}
 
 					if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
-					_UI.navprimaryhere = 'npAttributes';
+					_UI.current_panel = 'npAttributes';
 				}
 
 				var singleshape = _UI.ms.shapes.getSingleton();
@@ -250,7 +250,7 @@
 				if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
 				else setCursor('pointerSquare');
 
-				_UI.navprimaryhere = 'npAttributes';
+				_UI.current_panel = 'npAttributes';
 			}
 
 			// Resized a shape
@@ -326,7 +326,7 @@
 			if ( (Math.abs(tnbs.xmax-tnbs.xmin) > _GP.projectsettings.pointsize) &&
 				(Math.abs(tnbs.ymax-tnbs.ymin) > _GP.projectsettings.pointsize) ){
 
-				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
+				var count = (_UI.current_page === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 				var s = _UI.ms.shapes.getSingleton();
 
 				if(_UI.selectedtool==='newrect'){
@@ -380,7 +380,7 @@
 
 			if(this.firstpoint) {
 				// make a new shape with the new pathpoint
-				var count = (_UI.navhere === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
+				var count = (_UI.current_page === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 				this.newshape = addShape(new Shape({'name': ('Shape '+count), 'path':new Path()}));
 				this.currpt = this.newshape.path.addPathPoint(newpoint);
 
@@ -506,7 +506,7 @@
 				clickEmptySpace();
 			}
 
-			if(_UI.ms.shapes.getMembers().length) _UI.navprimaryhere = 'npAttributes';
+			if(_UI.ms.shapes.getMembers().length) _UI.current_panel = 'npAttributes';
 			redraw({calledby:'Event Handler Tool_PathEdit mousedown'});
 		};
 
@@ -605,7 +605,7 @@
 				else _UI.ms.shapes.select(s);
 
 				if(s.objtype === 'componentinstance') clickTool('shaperesize');
-				_UI.navprimaryhere = 'npAttributes';
+				_UI.current_panel = 'npAttributes';
 
 			} else {
 				_UI.selectedtool = 'newpath';

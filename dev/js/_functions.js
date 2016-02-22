@@ -18,22 +18,22 @@
 		setupGhostCanvas();
 
 		// Navigate
-		if(_UI.devmode && _UI.devnav){
-			//debug('\t >>> DEV NAV - to ' + _UI.devnav);
+		if(_UI.devmode && _UI.dev_current_page){
+			//debug('\t >>> DEV NAV - to ' + _UI.dev_current_page);
 
-			if(_UI.loadsampleproject){
+			if(_UI.dev_sample_project){
 				//debug('\t >>> Using sample project');
-				var sp = _UI.sampleproject[_UI.loadsampleproject];
+				var sp = _UI.sampleproject[_UI.dev_sample_project];
 				hydrateGlyphrProject(sp);
-				_UI.loadsampleproject = false;
+				_UI.dev_sample_project = false;
 			} else {
 				newGlyphrProject();
 			}
 
-			_UI.navhere = _UI.devnav;
+			_UI.current_page = _UI.dev_current_page;
 		}
 
-		var navto = _UI.devmode? _UI.devnavprimary : false;
+		var navto = _UI.devmode? _UI.dev_current_panel : false;
 		navigate(navto);
 
 
@@ -136,10 +136,10 @@
 			var name;
 			// debug('\t selwi = ' + selwi.objtype);
 
-			content += '<h1 class="panelsupertitle">'+_UI.navhere.toUpperCase();
-			if (_UI.navprimaryhere === 'npChooser' ||
-				_UI.navprimaryhere === 'npGuides' ||
-				_UI.navprimaryhere === 'npHistory') return content + '</h1>';
+			content += '<h1 class="panelsupertitle">'+_UI.current_page.toUpperCase();
+			if (_UI.current_panel === 'npChooser' ||
+				_UI.current_panel === 'npGuides' ||
+				_UI.current_panel === 'npHistory') return content + '</h1>';
 
 			if(selwi){
 				name = (selwi.getName() || selwi.glyphhtml || selwi.shape.name || '[no shape outline yet]');
@@ -148,7 +148,7 @@
 				if(selwi.name) name = name.replace(/latin /i, '');
 				content += makeSuperTitleSeperator();
 				content += name;
-			} else if (_UI.navhere === 'kerning'){
+			} else if (_UI.current_page === 'kerning'){
 				// debug('\t selwi = false, on kerning');
 				name = getSelectedKern();
 				content += name? makeSuperTitleSeperator() + name.getName() : '';
@@ -434,7 +434,7 @@
 	}
 
 	function updateSaveIcon(){
-		if(_UI.navprimaryhere === 'npNav') return;
+		if(_UI.current_panel === 'npNav') return;
 
 		var savecolor = _UI.colors.gray.l90;
 		if(!_UI.projectsaved) savecolor = 'white';

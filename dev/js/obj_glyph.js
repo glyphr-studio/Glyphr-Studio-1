@@ -780,9 +780,9 @@
 	function updateCurrentGlyphWidth() {
 		var sc = getSelectedWorkItem();
 		if(!sc) return;
-		if(_UI.navhere === 'glyph edit'){
+		if(_UI.current_page === 'glyph edit'){
 			sc.changed();
-		} else if (_UI.navhere === 'components' && sc) {
+		} else if (_UI.current_page === 'components' && sc) {
 			var lsarr = sc.usedin;
 			if(lsarr) for(var c=0; c<lsarr.length; c++) getGlyph(lsarr[c]).changed();
 		}

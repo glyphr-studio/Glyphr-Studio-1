@@ -13,9 +13,9 @@
 		initEventHandlers();
 		clickEmptySpace();
 		
-		if(_UI.devmode && isval(_UI.devselectedshape)){
-			selectShape(_UI.devselectedshape);
-			_UI.devselectedshape = false;
+		if(_UI.devmode && isval(_UI.dev_selected_shape)){
+			selectShape(_UI.dev_selected_shape);
+			_UI.dev_selected_shape = false;
 		}
 
 		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);

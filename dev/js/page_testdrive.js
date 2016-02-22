@@ -39,7 +39,7 @@
 		the left panel - usually options for the Edit Canvas.
 	*/
 	function makePanel_TestDriveAttributes(){
-		if(_UI.navprimaryhere !== 'npAttributes') return;
+		if(_UI.current_panel !== 'npAttributes') return;
 
 		var content = '<div class="navarea_header">';
 		content += '<h1 class="panelsupertitle">TEST DRIVE</h1>';
@@ -67,7 +67,7 @@
 		var td = _UI.testdrive;
 		var ps = _GP.projectsettings;
 
-		if(_UI.navprimaryhere === 'npAttributes') changefontscale(td.fontsize);
+		if(_UI.current_panel === 'npAttributes') changefontscale(td.fontsize);
 		document.getElementById('tdtextarea').value = td.sampletext;
 
 		var contentarray = td.sampletext.split('');
@@ -277,7 +277,7 @@
 	}
 
 	function navToProjectSettings() { 
-		_UI.navhere = 'project settings';
+		_UI.current_page = 'project settings';
 		navigate();
 	}
 

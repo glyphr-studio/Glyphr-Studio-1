@@ -27,7 +27,7 @@
 		if(!_UI.popout) allactions += '<button title="Add Component Instance\nChoose another Component or Glyph, and use it as a Component Instance in this glyph" onclick="showDialog_AddComponent();">'+ makeActionButton_AddShape(true) + '</button>';
 		if(!_UI.popout) allactions += '<button title="Get Shapes\nChoose another Glyph, and copy all the shapes from that glyph to this one" onclick="showDialog_GetShapes();">' + makeActionButton_PasteShapesFromAnotherGlyph() + '</button>';
 
-		if(_UI.navhere === 'components') allactions += '<button title="Link to Glyph\nChoose a glyph, and add this Component to that glyph as a Component Instance" onclick="showDialog_LinkComponentToGlyph();">' + makeActionButton_LinkToGlyph() + '</button>';
+		if(_UI.current_page === 'components') allactions += '<button title="Link to Glyph\nChoose a glyph, and add this Component to that glyph as a Component Instance" onclick="showDialog_LinkComponentToGlyph();">' + makeActionButton_LinkToGlyph() + '</button>';
 
 
 		// SHAPE

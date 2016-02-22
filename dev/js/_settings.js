@@ -16,17 +16,17 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.07',
+		'thisGlyphrStudioVersionNum': '1.04.08',
 
 		// Internal Dev Stuff
-		'devmode': false, 					// global switch for all the stuff below
+		'devmode': true, 					// global switch for all the stuff below
+		'dev_sample_project': 'modegg', 		// if sampleproject is present, load it and skip open project experience
+		'dev_current_page': 'glyphr edit', 			// navigate straight to a page
+		'dev_current_panel': false, 			// navigate straight to a panel
+		'dev_selected_shape': false, 			// automatically select a shape
+		'debug': true, 						// show messages sent to the browser console
 		'debugautogroup': false,			// try to console.group based on text strings
 		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
-		'debug': true, 						// show messages sent to the browser console
-		'loadsampleproject': 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		'devnav': false, 			// navigate straight to a page
-		'devnavprimary': false, 			// navigate straight to a panel
-		'devselectedshape': false, 			// automatically select a shape
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true, true); history_put(\'combine\'); redraw();'},
@@ -79,8 +79,8 @@
 		'testOnRedraw': function() {},
 
 		// all pages
-		'navhere': 'openproject',
-		'navprimaryhere': 'npChooser',
+		'current_page': 'openproject',
+		'current_panel': 'npChooser',
 		'projectsaved': true,
 		'stoppagenavigation': true,
 		'icons': {},
