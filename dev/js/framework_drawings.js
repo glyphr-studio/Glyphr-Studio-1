@@ -56,9 +56,15 @@
 		if(oa.hovercolor === false) hovercolor = color;
 
 		var con;
-		if(oa.name === 'button_npNav') con = _UI.icons.button_npNavFrames[11];
-		else if(_UI.icons[oa.name].outline) con = _UI.icons[oa.name].outline;
-		else con = _UI.icons[oa.name];
+		if(oa.name === 'button_npNav'){
+			con = _UI.icons.button_npNavFrames[_UI.icons.button_npNavFrames.length-1];
+
+		} else if(_UI.icons[oa.name].outline){
+			con = _UI.icons[oa.name].outline;
+		
+		} else {
+			con = _UI.icons[oa.name];
+		}
 
 		var re = '<svg version="1.1" ';
 		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
@@ -94,6 +100,37 @@
 		// debug(' mouseOutIcon - END\n');
 	}
 
+	function goHamburger(ham) {
+		// debug('\n goHamburger - START');
+		// debug('\t passed ' + ham);
+
+		var step = 4;
+		var h = _UI.hamburger;
+		var con = document.getElementById('npNavContent');
+		var bg = document.getElementById('npNavBackground');
+		var len = _UI.icons.button_npNavFrames.length;
+		h.direction = ham? 1 : -1;
+
+		clearTimeout(h.timeout);
+
+		h.timeout = setTimeout(hamburgerStep, step);
+
+		function hamburgerStep() {
+			h.state = Math.max(0, Math.min(len-1, (h.state + h.direction)));
+			// debug('\t\t hamburgerStep ' + h.state);
+
+			con.innerHTML = _UI.icons.button_npNavFrames[h.state];
+			// con.style.fill = _UI.icons.button_npNavColors[len - h.state];
+			// bg.style.fill = _UI.icons.button_npNavColors[h.state];
+			
+			if(h.state !== 0 && h.state !== len-1){
+				h.timeout = setTimeout(hamburgerStep, step);
+			}
+		}
+
+		// debug(' goHamburger - END\n');
+	}
+	
 
 	_UI.icons.button_npNavFrames = [
 		'<g id="npNavContent"><path d="M39.5,20.9c0-5.5-2.4-10-6.8-12.5C28,5.7,22,5.7,17.3,8.4c-4.4,2.5-6.8,7-6.8,12.5c0,3.3,1.7,6.2,4.8,8.1c2.6,1.6,6,2.5,9.7,2.5c4.2,0,8.7-1.2,11.5-3.8V33c0,5.2-6,7.6-11.5,7.6c-5,0-10.3-1.9-11.3-6.1h1.8v-3h-5V33c0,3.3,1.7,6.2,4.8,8.1c2.6,1.6,6,2.5,9.7,2.5c7,0,14.5-3.3,14.5-10.6L39.5,20.9L39.5,20.9z M25,28.5c-5.5,0-11.5-2.4-11.5-7.6c0-4.4,1.9-7.9,5.3-9.9c3.7-2.1,8.7-2.1,12.4,0c3.4,2,5.3,5.5,5.3,9.9h0C36.5,26.1,30.5,28.5,25,28.5z"/></g>',
@@ -109,7 +146,26 @@
 		'<g id="npNavContent"><path d="M25,26.9c-4.5,0-9.1-0.3-13.2-0.8l0.4-3c8,1.1,17.6,1.1,25.6,0l0.4,3C34.1,26.7,29.5,26.9,25,26.9z"/><path d="M20.5,34.4c-2.9,0-5.6-0.2-7-0.8h-1.2v-3h1.9l0.4,0.2c1.3,0.7,10.3,0.9,13.9-0.2l0.3-0.1l9.1-1.1l0.4,3l-9,1.1C27.4,34.1,23.8,34.4,20.5,34.4z"/><path d="M37.7,19.7c-8-1.5-17.5-1.5-25.4,0l-0.6-2.9c8.3-1.6,18.2-1.6,26.6,0L37.7,19.7z"/></g>',
 		'<g id="npNavContent"><rect x="12" y="23.5" width="26" height="3"/><rect x="12" y="30.5" width="26" height="3"/><rect x="12" y="16.5" width="26" height="3"/></g>'
 	];
-	
+
+/*
+	_UI.icons.button_npNavFrames = [
+		'<g id="npNavContent"><path d="M31.2,11c-3.7-2.1-8.7-2.1-12.4,0c-3.4,2-5.3,5.5-5.3,9.9c0,5.2,6,7.6,11.5,7.6s11.5-2.4,11.5-7.6h0C36.5,16.5,34.6,13,31.2,11z"/><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.5,33c0,7.3-7.5,10.6-14.5,10.6c-3.7,0-7.1-0.9-9.7-2.5c-3.1-1.9-4.8-4.8-4.8-8.1v-1.5h5v3h-1.8c1,4.2,6.3,6.1,11.3,6.1c5.5,0,11.5-2.4,11.5-7.6v-5.4c-2.8,2.6-7.3,3.8-11.5,3.8c-3.7,0-7.1-0.9-9.7-2.5c-3.1-1.9-4.8-4.8-4.8-8.1c0-5.5,2.4-10,6.8-12.5C22,5.7,28,5.7,32.7,8.4c4.4,2.5,6.8,7,6.8,12.5h0V33z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.5,22l-0.9,11c-0.2,6.6-7.4,9.6-14,9.6c-0.1,0-0.1,0-0.2,0c-6.5-0.1-13.6-3.1-13.7-9.7l0-1.5h4.5v3h-1.2c1.1,3.6,6,5.2,10.5,5.3c0.1,0,0.1,0,0.2,0c5.4,0,10.9-2.3,11-6.8l0.4-5.2C33.2,29.9,29,31,25,31c-6.6,0-14-3-14.5-9.7l3-0.2C13.8,25.9,19.7,28,25,28s11.2-2.2,11.5-6.9l3,0.2C39.5,21.6,39.4,21.8,39.5,22L39.5,22z M36.5,20.7c-0.4-7.2-6-10.4-11.5-10.4s-11.1,3.2-11.5,10.4l-3-0.2C11,11.4,18.3,7.3,25,7.3s14,4.1,14.5,13.2L36.5,20.7z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.5,23.2L37.7,33c-0.5,6-7.3,8.8-13.5,8.8c-0.1,0-0.3,0-0.4,0c-6.2-0.1-12.7-2.9-12.9-8.9l-0.1-1.6h4v3h-0.6c1.2,2.9,5.6,4.4,9.6,4.4c5.2,0.1,10.6-2,10.9-6.1l0-0.2l0.9-4.9c-2.8,2-6.8,2.9-10.6,2.9h0c-6.5,0-13.5-2.7-14.5-8.7l3-0.5c0.7,4.3,6.5,6.2,11.5,6.2c5.1,0,10.8-1.9,11.5-6.2l3,0.5c-0.1,0.4-0.2,0.8-0.3,1.2L39.5,23.2z M36.5,20.5c-0.7-6.4-6.3-9.3-11.5-9.3c-5.2,0-10.8,2.9-11.5,9.3l-3-0.3c0.9-8.2,8.2-12,14.5-12c6.3,0,13.5,3.7,14.5,12L36.5,20.5z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.4,24.4l-2.7,8.7c-0.8,5.4-7.2,7.8-13,7.8c-0.2,0-0.4,0-0.7,0c-5.7-0.2-11.7-2.7-12-8L11,31.2h3.6l0,3c1.3,2.3,5.1,3.5,8.6,3.6c4.8,0.2,10.2-1.7,10.7-5.3l0.1-0.3l1.5-4.7c-3,1.8-6.9,2.5-10.3,2.5c-5.7,0-12.9-2-14.4-7.7l2.9-0.8c1.1,3.8,6.7,5.5,11.6,5.5s10.5-1.7,11.6-5.5l2.9,0.8c-0.2,0.6-0.4,1.2-0.7,1.7L39.4,24.4z M36.5,20.4c-1.1-5.7-6.6-8.2-11.5-8.2s-10.4,2.5-11.5,8.2l-2.9-0.6C12,12.4,18.8,9.1,25,9.1c6.2,0,13,3.3,14.5,10.7L36.5,20.4z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.4,25.6l-3.6,7.6c-1,4.7-7,6.8-12.5,6.8c-0.3,0-0.7,0-1,0c-6.3-0.3-10.7-3.1-11-7.1l-0.2-1.6h3.1v1.4l0,0c0.3,2.8,4.3,4.2,8.2,4.4c4.6,0.2,9.9-1.3,10.5-4.5L33,32l2.2-4.7c-3,1.7-6.9,2.4-10.2,2.4c-5.3,0-12.3-1.8-14.4-6.7l2.8-1.2c1.2,2.9,5.9,4.9,11.6,4.9s10.4-2,11.6-4.9l2.8,1.2c-0.3,0.7-0.8,1.4-1.3,2L39.4,25.6z M36.6,20.3c-1.6-5.3-7.2-7.2-11.6-7.2c-4.3,0-10,1.9-11.6,7.2l-2.9-0.9c1.7-5.7,7.4-9.3,14.4-9.3c7.1,0,12.8,3.7,14.4,9.3L36.6,20.3z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.2,26.8l-4.4,6.4c-1.3,4.1-6.8,5.8-12,5.8c-0.5,0-1,0-1.5,0c-5.7-0.4-9.5-2.8-10-6.2l-0.2-1.7h2.7v1.4l0.5-0.1c0.3,2.2,3.8,3.4,7.2,3.6c5.1,0.3,9.7-1.4,10.4-3.8l0.1-0.2l3.4-5c-3.1,1.7-7.1,2.3-10.5,2.3c-5.2,0-11.7-1.5-14.3-5.7l2.6-1.6c1.6,2.5,6.3,4.3,11.7,4.3s10.2-1.7,11.7-4.3l2.6,1.6c-0.5,0.8-1.1,1.4-1.8,2L39.2,26.8z M36.6,20.2C35,16.4,30.4,14,25,14c-5.4,0-10,2.4-11.6,6.2L10.6,19c2.1-4.9,7.7-8,14.4-8c6.6,0,12.3,3.1,14.4,8L36.6,20.2z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.1,28l-5.3,5.3c-1.5,3.3-6.5,4.8-11.4,4.8c-0.7,0-1.4,0-2.1-0.1c-4.9-0.4-8.2-2.4-8.8-5.3L11.3,31h2.3v1.4l1-0.2c0.3,1.4,2.7,2.5,6.1,2.8c4.9,0.4,9.7-1,10.5-3.1l0.1-0.3l5.6-5.6c-2.9,1.8-7.1,2.8-11.8,2.8c-6.3,0-11.5-1.7-14.1-4.6l2.2-2c2,2.2,6.6,3.6,11.9,3.6s9.9-1.4,11.9-3.6l2.2,2c-0.6,0.7-1.3,1.3-2.2,1.8L39.1,28z M36.7,20.1c-2-3.2-6.5-5.2-11.7-5.2c-5.2,0-9.7,2-11.7,5.2l-2.5-1.6c2.5-4.1,8-6.6,14.3-6.6c6.3,0,11.7,2.5,14.3,6.6L36.7,20.1z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M32.7,33.4C31,36,26.4,37.2,22,37.2c-1,0-1.9-0.1-2.8-0.2c-4.1-0.5-6.7-2-7.4-4.2l1.4-0.4l0-1.5h1.1l0.3,1.1c0.2,0.7,1.8,1.7,4.8,2.1c4.6,0.6,9.7-0.6,10.8-2.4l0.2-0.3l6.6-4.6l1.7,2.5L32.7,33.4z M25,28.3c-5.4,0-10.8-1.2-13.9-3.6l1.8-2.4c5.2,4,19,4,24.2,0l1.8,2.4C35.8,27.1,30.4,28.3,25,28.3z M36.9,20.1c-2.4-2.7-6.9-4.2-11.9-4.2c-5,0-9.5,1.6-11.9,4.2l-2.2-2c3-3.3,8.2-5.2,14.1-5.2s11.1,2,14.1,5.2L36.9,20.1z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M31.6,33.5c-2,2-6.4,2.7-10.1,2.7c-1.3,0-2.6-0.1-3.6-0.3c-3.1-0.5-5.1-1.5-5.8-3.1l0.9-0.4v-1.7h1.5l0.4,0.9c0.1,0.2,0.9,1,3.5,1.4c4.3,0.7,9.9-0.2,11.3-1.7l0.2-0.2l7.6-3.4l1.2,2.7L31.6,33.5z M25,27.9c-5.1,0-10.2-0.9-13.7-2.7l1.4-2.7c6.1,3.1,18.5,3.1,24.6,0l1.4,2.7C35.2,27,30.1,27.9,25,27.9z M37.1,20c-6-4.3-18.2-4.3-24.2,0l-1.8-2.4c7.1-5.2,20.6-5.2,27.8,0L37.1,20z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M30.4,33.6c-1.9,1.1-5.7,1.8-9.3,1.8c-3.3,0-6.5-0.5-8.1-1.7h-0.4v-0.4c-0.1-0.1-0.1-0.2-0.2-0.2l0.2-0.1v-2.2h1.8l0.4,0.6c1.2,1.3,11.2,1.6,14.1-0.4l0.2-0.1l8.4-2.3l0.8,2.9L30.4,33.6z M25,27.4c-4.8,0-9.6-0.6-13.4-1.7l0.9-2.9c7,2.1,18.1,2.1,25.1,0l0.9,2.9C34.6,26.8,29.8,27.4,25,27.4z M37.4,19.9c-7-3-17.9-3-24.8,0l-1.2-2.8c7.7-3.3,19.4-3.3,27.2,0L37.4,19.9z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M29.2,33.6c-1.9,0.5-5.4,0.9-8.7,0.9c-2.9,0-5.6-0.2-7-0.8h-1.2v-3h1.9l0.4,0.2c1.3,0.7,10.3,0.9,13.9-0.2l0.3-0.1l9.1-1.1l0.4,3L29.2,33.6z M25,26.9c-4.5,0-9.1-0.3-13.2-0.8l0.4-3c8,1.1,17.6,1.1,25.6,0l0.4,3C34.1,26.7,29.5,26.9,25,26.9z M37.7,19.7c-8-1.5-17.5-1.5-25.4,0l-0.6-2.9c8.3-1.6,18.2-1.6,26.6,0L37.7,19.7z"/></g>',
+		'<g id="npNavContent"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M12,16.5h26v3H12V16.5z M38,33.5H12v-3h26V33.5z M38,26.5H12v-3h26V26.5z"/</g>'
+	];
+	_UI.icons.button_npNavFramesBackground = '<g id="npNavBackground"><path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z"/></g>';
+	_UI.icons.button_npNavColors = ['#9bddff', '#8dd3f7', '#7fc9f0', '#71c0e8', '#63b6e0', '#55acd8', '#46a2d1', '#3898c9', '#2a8ec1', '#1c85b9', '#0e7bb2', '#0071aa'];
+*/
+
 	_UI.icons.button_npNav = '<path d="M45.2,4.8C41.4,1,35.5,1,25,1S8.6,1,4.8,4.8S1,14.5,1,25s0,16.4,3.8,20.2S14.5,49,25,49s16.4,0,20.2-3.8S49,35.5,49,25S49,8.6,45.2,4.8z M39.7,33c0,7.4-7.6,10.8-14.7,10.8c-7.1,0-14.7-3.4-14.7-10.8v-1.8h5.2v3.5H14c1.2,3.8,6.2,5.6,11,5.6c5.4,0,11.2-2.3,11.2-7.3v-4.8c-2.9,2.4-7.1,3.5-11.2,3.5c-7.1,0-14.7-3.4-14.7-10.8c0-9.7,7.4-14.7,14.7-14.7c7.3,0,14.7,5.1,14.7,14.7V33z"/><path d="M25,9.7c-5.4,0-11.2,3.5-11.2,11.2c0,5,5.8,7.3,11.2,7.3c5.4,0,11.2-2.3,11.2-7.3C36.2,13.2,30.4,9.7,25,9.7z"/>';
 
 	_UI.icons.button_npChooser = '<path d="M14.6,20.2v2.4H9.9v-1.7c-1.3,1.3-2.7,1.9-4.3,1.9c-1.2,0-2.3-0.4-3.2-1.2C1.5,20.8,1,19.7,1,18.5c0-1.3,0.5-2.3,1.5-3.2c1-0.8,2.1-1.3,3.5-1.3c1.3,0,2.5,0.4,3.7,1.2v-1.3c0-0.7-0.1-1.2-0.2-1.6c-0.1-0.4-0.4-0.7-0.9-1c-0.5-0.3-1.1-0.5-1.9-0.5c-1.3,0-2.3,0.5-2.9,1.6l-2.6-0.7c1.1-2.1,3.1-3.2,5.9-3.2c1,0,1.9,0.1,2.7,0.4c0.7,0.3,1.3,0.6,1.7,1.1c0.4,0.4,0.6,0.9,0.7,1.4c0.1,0.5,0.2,1.3,0.2,2.4v6.3H14.6z M9.7,17.5c-1.2-0.9-2.3-1.4-3.5-1.4c-0.7,0-1.4,0.2-1.9,0.6c-0.5,0.4-0.7,1-0.7,1.7c0,0.6,0.2,1.2,0.7,1.6c0.4,0.4,1,0.6,1.8,0.6c1.3,0,2.5-0.5,3.7-1.6V17.5z"/><path d="M17,22.6v-2.4h2.4V5.4H17V3h5v7.9c1.3-1.5,3-2.3,4.9-2.3c1.9,0,3.4,0.6,4.7,1.9c1.3,1.3,1.9,3,1.9,5.1c0,2-0.6,3.7-1.9,5.1c-1.2,1.4-2.8,2.1-4.8,2.1c-1.1,0-2.1-0.2-3-0.7c-0.9-0.5-1.5-1-1.9-1.6v2H17z M22.1,15.8c0,1.4,0.4,2.5,1.3,3.4c0.9,0.8,1.9,1.2,3,1.2c1.2,0,2.2-0.4,3.1-1.3c0.9-0.9,1.3-2.1,1.3-3.5c0-1.4-0.4-2.5-1.3-3.3c-0.9-0.8-1.9-1.2-3-1.2c-1.1,0-2.1,0.4-3,1.2C22.6,13.1,22.1,14.2,22.1,15.8z"/><path d="M48.6,8.8v5.1h-2.4c-0.1-1-0.5-1.7-1.2-2.3c-0.7-0.5-1.5-0.8-2.4-0.8c-1.2,0-2.2,0.4-2.9,1.3c-0.8,0.8-1.1,2-1.1,3.3c0,1.3,0.4,2.4,1.1,3.4c0.7,1,1.7,1.5,3.1,1.5c1.9,0,3.2-0.9,4.1-2.7l2.2,1c-1.2,2.7-3.4,4.1-6.4,4.1c-2.2,0-3.9-0.7-5.1-2.2c-1.2-1.5-1.9-3.2-1.9-5.1c0-2.1,0.7-3.8,2-5.1c1.4-1.3,2.9-2,4.7-2c1.5,0,2.8,0.4,3.8,1.3v-1H48.6z"/><path d="M8.8,36L6.1,39h1.8v2.4H1.3V39h2l4.1-4.6l-3.9-4.2H1.6v-2.4H8v2.4H6.3l2.4,2.7l2.4-2.7H9.7v-2.4h6.4v2.4h-2.2l-3.7,4.2l4.2,4.6h1.7v2.4H9.7V39h1.9L8.8,36z"/><path d="M26,41.2l-4.5-11h-2.3v-2.4H26v2.4h-1.6l2.9,7.5l2.9-7.5h-1.8v-2.4H35v2.4h-2l-6.7,17.3h-4.5v-2.3h2.7L26,41.2z"/><path d="M37.3,41.4v-2.2l8.5-9.2h-5.6v2.6h-2.3v-4.8H49v2.4l-8.6,9h6.2v-2.8H49v5H37.3z"/>';
@@ -296,7 +352,7 @@
 		'lightfill': _UI.colors.gray.l60,
 		'disfill': _UI.colors.gray.l90,
 		'blueoutline': _UI.colors.blue.l65,
-		'greenoutline': _UI.colors.green.l75, 
+		'greenoutline': _UI.colors.green.l75,
 		'grayoutline': _UI.colors.gray.l50,
 		'disoutline': _UI.colors.gray.l80,
 		'redx': _UI.colors.error.medium
@@ -407,7 +463,7 @@
 		re += '<path fill="'+fill+'" d="M11,29v-6c6.6,0,12-5.4,12-12h6v18H11z"/>';
 		re += '<path fill="'+blue+'" d="M28,12v16H12v-4c6.4-0.5,11.5-5.6,12-12H28 M30,10h-8.1c0,0.3,0.1,0.7,0.1,1c0,6.1-4.9,11-11,11c-0.3,0-0.7,0-1-0.1V30h20V10L30,10z"/>';
 		re += '<circle fill="'+sub+'" cx="11" cy="11" r="11"/>';
-		
+
 		re += '</svg>';
 
 		return re;
@@ -435,7 +491,7 @@
 
 		re += '<path fill="'+fill+'" d="M11,29v-8L10.1,21C4.9,20.5,1,16.2,1,11C1,5.5,5.5,1,11,1c5.2,0,9.5,3.9,10,9.1L21,11h8v18H11z"/>';
 		re += '<path fill="'+blue+'" d="M11,2c4.7,0,8.5,3.5,9,8.2l0.2,1.8h1.8H28v16H12v-6.1v-1.8L10.2,20C5.5,19.5,2,15.7,2,11C2,6,6,2,11,2M11,0C4.9,0,0,4.9,0,11c0,5.7,4.4,10.4,10,10.9V30h20V10h-8.1C21.4,4.4,16.7,0,11,0L11,0z"/>';
-	
+
 		re += '</svg>';
 
 		return re;
@@ -527,7 +583,7 @@
 		var blue = _UI.iconcolors.blueoutline;
 		var gray = _UI.iconcolors.grayoutline;
 		var fill = _UI.iconcolors.darkfill;
-		
+
 		re += '<polygon fill="'+fill+'" points="1,29 1,15.3 9.6,1 13,1 13,23.6 7.6,29"/>';
 		re += '<path fill="'+gray+'" d="M12,2v21.2L7.2,28H2V15.6L10.1,2H12 M14,0H9L0,15v15h8l6-6V0L14,0z"/>';
 		re += '<polygon fill="'+fill+'" points="22.4,29 17,23.6 17,1 20.4,1 29,15.3 29,29"/>';
@@ -547,7 +603,7 @@
 		re += '<path fill="'+gray+'" d="M17,2v19H2V10.8L10.8,2H17 M19,0h-9L0,10v13h19V0L19,0z"/>';
 		re += '<polygon fill="'+fill+'" points="12,29 12,17.4 21.4,8 29,8 29,29"/>';
 		re += '<path fill="'+blue+'" d="M28,9v19H13V17.8L21.8,9H28 M30,7h-9L11,17v13h19V7L30,7z"/>';
-	
+
 		re += '</svg>';
 
 		return re;
@@ -692,7 +748,7 @@
 
 	_UI.cursors.slice = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAfCAYAAADXwvzvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAN1JREFUeNpiYNB2/M9ABmACk2RoZmIgE4A1blk0g2RbKbORHFspt5FUW1E06mqokR84xNqKoZFYW7EGDjG2YtVIjK04o4OQrTg1ErIVbwLAZytejfhsJZjkcNlKUCMuW4lK5NhsJUojNluJzlbotrIQo0nezAlDjIUYDQ9P7QPTl2/cYvCJy/jPcHU/IwtQUBCo4D2yk4CSGBoIp1+gPx5+/Q/GW87eRKFhbJAaokMVZCsIwFyDzUZjbLaCQxSCjYlyLi4NjDhtZWA4A+WZAEPxLPEFp7ZjGj5pgAADAHXih9fZ4xdeAAAAAElFTkSuQmCC") 0 0, default';
 	_UI.cursors.rotate = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAfCAYAAAD0ma06AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAZVJREFUeNrclrFOw0AMQOMqG0KCL+gWUaFMjZgpMyMzK3wSM9/ATHfUThUCuvEFICHmcG7j4DjOna8JQmCpatXz+Z3PPtuQWOV4VnrXH+dgseFVev0sD8YnZ2/4++72xmvr/PJ6u+fh/nC8B+9dBwYrKD/KvMDV87ob7GBoB9dSbTPCrCAS0qN91YGBYLQOmutcgR3CC3QetTxGj7gttAEhGIHySTZbPa0/VO8m2b5bm0swQjVb37DlS+niV3/wv/zi6tR9Tw0ZOK10GzakvTpJpGINixULUHq3WbB4pcVf3JIEjmSWsYe8jIYpySZllAwhRhhKSsoik4rYkkcPPgzsf51FzGWkva8zMtbDxPDPATeF4McEHzirDvhwg822l4ci6NZ2NHgMf+Vad4FSIwiHRVT5naFVAQ/ngvCykUCWJKr0eLfQoNCCJslCdm1LrdRmoLous8RszTTYdHFc0GYUyxDlg3WOiQTVhqOQsLml0OoseGO6lYUF3AB5ijqYngwDd14pTXWB7gFRb3XANvV/5UuAAQBCI5UEkaELxQAAAABJRU5ErkJggg==") 14 15, default';
-	
+
 	_UI.cursors.pen = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAYAAABoMT8aAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAARJJREFUeNpiYNB2/M9AEQAZQIEhTCAiJzGagVxDwAZIS4gzbFk0g0xDoF54+PX//y1nb5LhHSQDyDMEqBimiTxDoBqRDSDNEDT/k2oIE4yhq6GGIQkSIxw7WPyO7ApCLmFCtxEbwO8SXP6Gxg4hlzCCDTi1Dy4gb+aEYj6yHAhcvnGLwScug4Hh6n5GDC9gAyAN+LyJYUB7ZREKG1e4wAALukBUoA/EJk01gpqxGoBsCNHZmRIAMsAEPeTJKROMsaVAdIycPjATFR5DsCUsqFoDvIbgSpHIqZIRq3cYGM5gS4XoABR2jHhzKR4DYAGPMxqBCckRW+yAxKDiJrD8QFRZAa+AIF4kDrQv3dxASCNAgAEAZ9VjjmJBijwAAAAASUVORK5CYII=") 0 0, default';
 	_UI.cursors.penCircle = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAcBJREFUeNpiYNB2/M8wAIAJTA6A5WCLcxKj6W452GJpCXGGLYtm0NlykGVA/PDr//9bzt78Ty/LmZA5uhpqdPQ50BKYT0G+ppfPmWA+pb/P0eIX5mta+5wJ2ZfogLY+xxK3yL6mlc8xUjU2QBuf44pXaGqnlc+Z0AV84jKwsqntcyZCCi7fuMVATHRQbHF7ZREKm1oWoQMWdIGoQB+IzzTVaGYpVouRLadbJUHv+thE3syJ7hYzQvOyMZA88/DUPryKYQ4EZSlwVru6nxGtTAgAkv1ArAAVeQDEhUB1G/AVJMbYiksQxlagQNUaIFvKZ+H7v3flDria+rlr/oPEoA5iINpyXCUY1lJM2/E+sqUwDBIDyWEPanTLgcEOYhIV9KDg1nYUAHLf41IPjSJFoNoHuFP11f1nMeIOT3yTAISBDhQmmJ2ABYgjNsNBYlBxE7gDr+7/AEpIa7bsxFA/b8VaEPUcymUnueaCxTc0KrCpBScuUIJCjl9o4iqGph8p3HGMXG4v3dxQ2dZXD+WagKMBv0PRsxPIp71AfACeva7uf0vQYgrqeAVwnKKCt8iJi5FmRRMkIcHi9CfMpzAAEGAAoeyCpVoYUnwAAAAASUVORK5CYII=") 0 0, default';
 	_UI.cursors.penMinus = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAVhJREFUeNpiYNB2/M8wAIAJTA6A5WCLcxKj6W452GJpCXGGLYtm0NlykGVA/PDr//9bzt78Ty/LmZA5uhpqdPQ50BKYT0G+ppfPmWA+pb/P0eIX5mta+5wJ2ZfogLY+xxK3yL6mlc8xUjU2QBuf44pXaGqnlc8ZwRaf2gcXkDdzQlGALAcCl2/cYvCJy2BguLqfkWpBjQ2ALCImOii2uL2yCIVNLYvQAQu6QFSgD8Rnmmo0sxSrxciW062SoHd9bIKekulj8dX9Z4m1HKQGhKlbmGg7GmMrLkEYW4ECVWtAE8txlWDUKMUYsVrOwHAGW6mFLejhJRgxjkAq7ViwSJ6FFaUELUUD+BwKVq/tyAs0/zPOfAwtQByBivejG4ZkoQnUkXgdgwZ4gfgz9qBGr7mgFuOzEE2PFJCUxCH7HKj3GV4fg8vqqqJGoIX1RFmIAJ/JlBvmACDAAPWLM0aWt73RAAAAAElFTkSuQmCC") 0 0, default';

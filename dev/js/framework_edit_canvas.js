@@ -347,6 +347,7 @@
 		// debug('\n mouseovercec - START');
 		_UI.eventhandlers.ismouseovercec = true;
 		updateCursor();
+		goHamburger(false);
 		// debug(' mouseovercec - END\n');
 	}
 
@@ -356,6 +357,7 @@
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () {};
 		updateCursor();
+		goHamburger(true);
 		// debug(' mouseoutcec - END\n');
 	}
 
