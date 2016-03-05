@@ -80,7 +80,8 @@
 
 		// all pages
 		'current_page': 'openproject',
-		'current_panel': 'npChooser',
+		'current_panel': false,
+		'last_panel': 'npChooser',
 		'hamburger':{
 			'state': 11,
 			'direction': -1,

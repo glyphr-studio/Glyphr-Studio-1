@@ -46,7 +46,7 @@
 			}
 			content += '<div class="panel_section" ';
 			content += emptycoms? 'style="padding-top:-10px;">' : '>';
-			content += '<button onclick="createNewComponent();history_put(\'Create New Component\');navigate(\'npAttributes\');">create new component</button><br>';
+			content += '<button onclick="createNewComponent();history_put(\'Create New Component\');navigate({panel:\'npAttributes\'});">create new component</button><br>';
 			if(!emptycoms) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
 			content += '</div>';
 		}

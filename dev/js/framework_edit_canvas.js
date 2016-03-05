@@ -347,7 +347,7 @@
 		// debug('\n mouseovercec - START');
 		_UI.eventhandlers.ismouseovercec = true;
 		updateCursor();
-		goHamburger(false);
+		if(_UI.hamburger.state !== 0 && _UI.current_panel !== 'npNav') goHamburger(false);
 		// debug(' mouseovercec - END\n');
 	}
 
@@ -357,7 +357,7 @@
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () {};
 		updateCursor();
-		goHamburger(true);
+		if(_UI.hamburger.state !== 11 && _UI.current_panel !== 'npNav') goHamburger(true);
 		// debug(' mouseoutcec - END\n');
 	}
 
@@ -424,6 +424,7 @@
 
 			return con;
 	}
+
 
 //-------------------
 // VIEW
@@ -656,7 +657,7 @@
 
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
-			navigate('npAttributes');
+			navigate({panel:'npAttributes'});
 		}
 	}
 
@@ -669,7 +670,7 @@
 
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
-			navigate('npAttributes');
+			navigate({panel:'npAttributes'});
 		}
 	}
 
@@ -682,7 +683,7 @@
 
 		if(!dontnavigate){
 			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
-			navigate('npAttributes');
+			navigate({panel:'npAttributes'});
 		}
 	}
 

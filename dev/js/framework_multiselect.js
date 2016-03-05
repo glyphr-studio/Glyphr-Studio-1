@@ -303,7 +303,8 @@
 	};
 
 	_UI.ms.shapes.align = function(edge) {
-		showToast('align ' + edge);
+		// showToast('align ' + edge);
+		this.getGlyph().alignShapes(edge);
 	};
 
 	// Wrapper functions

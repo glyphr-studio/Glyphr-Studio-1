@@ -47,8 +47,7 @@
 		}
 
 		clickEmptySpace();
-		_UI.current_panel = "npAttributes";
-		navigate('npAttributes');
+		navigate({panel:'npAttributes'});
 		// debug(' goToEditGlyph - END\n');
 	}
 

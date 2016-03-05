@@ -16,6 +16,7 @@
 		// Initialize Stuff
 		insertGlobalDOMElements();
 		setupGhostCanvas();
+		document.title = 'Glyphr Studio';
 
 		// Navigate
 		if(_UI.devmode && _UI.dev_current_page){
@@ -30,15 +31,11 @@
 				newGlyphrProject();
 			}
 
-			_UI.current_page = _UI.dev_current_page;
+			navigate({page:_UI.dev_current_page, panel:_UI.dev_current_panel});
 		}
 
-		var navto = _UI.devmode? _UI.dev_current_panel : false;
-		navigate(navto);
 
 
-
-		document.title = 'Glyphr Studio';
 
 		// Google Analytics
 		function setupga(i,s,o,g,r,a,m){

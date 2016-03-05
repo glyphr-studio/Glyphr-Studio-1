@@ -226,6 +226,35 @@
 		this.changed();
 	};
 
+	Glyph.prototype.alignShapes = function(edge) {
+
+		var target;
+
+		if(edge === 'top'){
+			target = -99999;
+
+			this.shapes.forEach(function(v) {
+				target = Math.max(target, v.getMaxes().ymax);
+			});
+
+			this.shapes.forEach(function(v) {
+				v.setShapePosition(false, target);
+			});
+
+		} else if (edge === 'middle'){
+
+		} else if (edge === 'bottom'){
+
+		} else if (edge === 'left'){
+
+		} else if (edge === 'center'){
+
+		} else if (edge === 'right'){
+
+		}
+
+		this.changed();
+	};
 
 
 //-------------------------------------------------------
@@ -568,15 +597,15 @@
 		// debug('\n Glyph.combineAllShapes - START - ' + this.name);
 
 		this.flattenGlyph();
-		
+
 		var cs = combineShapes(this.shapes, donttoast, dontresolveoverlaps);
 
-		if(cs){		
+		if(cs){
 			// debug('\t new shapes');
 
-			this.shapes = cs;			
+			this.shapes = cs;
 			// debug(this.shapes);
-			
+
 			this.changed();
 
 		}
@@ -640,12 +669,27 @@
 	};
 
 	Glyph.prototype.sendShapesTo = function(chid) {
+		debug('\n Glyph.sendShapesTo - START');
+
 		var destination = getGlyph(chid, true);
-		destination.shapes = clone(destination.shapes.concat(this.shapes));
-		destination.calcGlyphMaxes();
+		destination.shapes = destination.shapes.concat(this.shapes);
+		destination.changed();
+		var tc;
+
 		for(var c=0; c<this.shapes.length; c++){
-			if(this.shapes[c].objtype === 'componentinstance') addToUsedIn(this.shapes[c].link, chid);
+			tc = this.shapes[c];
+			if(tc.objtype === 'componentinstance'){
+				addToUsedIn(tc.link, chid);
+				tc = new ComponentInstance(clone(tc));
+			} else if(tc.objtype === 'shape'){
+				tc = new Shape(clone(tc));
+			}
 		}
+
+		debug('\t new shapes');
+		debug(destination.shapes);
+		debug(' Glyph.sendShapesTo - END\n');
+
 	};
 
 	Glyph.prototype.isHere = function(x, y) {

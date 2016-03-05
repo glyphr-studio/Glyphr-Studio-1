@@ -211,9 +211,9 @@
 		// debug('\t SHAPES AFTER GLYPH IS MADE');
 		// debug(JSON.parse(JSON.stringify(reglyph.shapes)));
 		// debug(JSON.parse(JSON.stringify(reglyph)));
-		// debug(reglyph);
+		debug(reglyph);
 
-		// debug(' ioSVG_convertTagsToGlyph - END\n');
+		debug(' ioSVG_convertTagsToGlyph - END\n');
 		return reglyph;
 	}
 
@@ -319,7 +319,7 @@
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({'command':command, 'data':dataarr});
 
-		// debug('\t chunkarr data is \n' + json(chunkarr, true));
+		debug('\t chunkarr data is \n' + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
@@ -360,6 +360,8 @@
 	}
 
 	function ioSVG_handlePathChunk(chunk, patharr, islastpoint){
+		debug('\n ioSVG_handlePathChunk - START');
+		debug('\t chunk: ' + json(chunk, true));
 		/*
 			Path Instructions: Capital is absolute, lowercase is relative
 			M m		MoveTo
@@ -393,44 +395,65 @@
 			var xx = prevx;
 			var yy = prevy;
 
-			switch(cmd){
-				case 'L':
-				case 'M':
-					// ABSOLUTE line to
-					// ABSOLUTE move to
-					xx = chunk.data[0];
-					yy = chunk.data[1];
-					break;
-				case 'l':
-				case 'm':
-					// relative line to
-					// relative move to
-					xx = chunk.data[0] + prevx;
-					yy = chunk.data[1] + prevy;
-					break;
-				case 'H':
-					// ABSOLUTE horizontal line to
-					xx = chunk.data[0];
-					break;
-				case 'h':
-					// relative horizontal line to
-					xx = chunk.data[0] + prevx;
-					break;
-				case 'V':
-					// ABSOLUTE vertical line to
-					yy = chunk.data[0];
-					break;
-				case 'v':
-					// relative vertical line to
-					yy = chunk.data[0] + prevy;
-					break;
+			while(chunk.data.length){
+				// Grab the next chunk of data and make sure it's length=2
+				currdata = [];
+				currdata = chunk.data.splice(0,2);
+				debug('\t command ' + cmd + ' while loop data ' + currdata);
+
+				if(currdata.length % 2 !== 0 && iscmd('MmLl')) {
+					showErrorMessageBox('Move or Line path command (M, m, L, l) was expecting 2 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
+					while(currdata.length<2) { currdata.push(currdata[currdata.length-1]+100); }
+				}
+
+				switch(cmd){
+					case 'L':
+					case 'M':
+						// ABSOLUTE line to
+						// ABSOLUTE move to
+						xx = currdata[0];
+						yy = currdata[1];
+						break;
+					case 'l':
+					case 'm':
+						// relative line to
+						// relative move to
+						xx = currdata[0] + prevx;
+						yy = currdata[1] + prevy;
+						break;
+					case 'H':
+						// ABSOLUTE horizontal line to
+						xx = currdata[0];
+						// chunk.data.unshift(currdata[1]);
+						break;
+					case 'h':
+						// relative horizontal line to
+						xx = currdata[0] + prevx;
+						// chunk.data.unshift(currdata[1]);
+						break;
+					case 'V':
+						// ABSOLUTE vertical line to
+						yy = currdata[0];
+						// chunk.data.unshift(currdata[1]);
+						break;
+					case 'v':
+						// relative vertical line to
+						yy = currdata[0] + prevy;
+						// chunk.data.unshift(currdata[1]);
+						break;
+				}
+
+				debug('\tlinear end xx yy\t' + xx + ' ' + yy);
+				p = new Coord({'x':xx, 'y':yy});
+				debug(p);
+
+
+				prevx = xx;
+				prevy = yy;
+
+				lastpoint.useh2 = false;
+				patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 			}
-
-			// debug('\tlinear end xx yy\t' + xx + ' ' + yy);
-			p = new Coord({'x':xx, 'y':yy});
-
-			lastpoint.useh2 = false;
-			patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 
 		} else if(iscmd('CcQqTt')){
 			// ABSOLUTE quadratic bezier curve to
@@ -550,6 +573,8 @@
 
 		// Finish up last point
 		if(islastpoint) added.resolvePointType();
+
+		debug(' ioSVG_handlePathChunk - END\n');
 
 		return patharr;
 	}
