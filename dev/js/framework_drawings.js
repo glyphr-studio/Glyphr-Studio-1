@@ -108,7 +108,6 @@
 
 		var h = _UI.hamburger;
 		var step = 4;
-		var con = document.getElementById('npNav');
 		var bg = document.getElementById('npNavBackground');
 		var len = _UI.icons.button_npNavFrames.length;
 		h.direction = ham? 1 : -1;
@@ -118,10 +117,11 @@
 		h.timeout = setTimeout(hamburgerStep, step);
 
 		function hamburgerStep() {
+			var con = document.getElementById('npNav');
 			h.state = Math.max(0, Math.min(len-1, (h.state + h.direction)));
 			// debug('\t\t hamburgerStep ' + h.state);
 
-			con.innerHTML = makeIcon({'name':'button_npNav', 'color': _UI.colors.blue.l85, 'hovercolor':_UI.colors.blue.l85});
+			if (con) con.innerHTML = makeIcon({'name':'button_npNav', 'color': _UI.colors.blue.l85, 'hovercolor':_UI.colors.blue.l85});
 			// con.style.fill = _UI.icons.button_npNavColors[len - h.state];
 			// bg.style.fill = _UI.icons.button_npNavColors[h.state];
 			

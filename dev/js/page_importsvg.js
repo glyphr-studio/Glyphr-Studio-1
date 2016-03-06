@@ -70,7 +70,7 @@
 		"</textarea><br><br>"+
 
 		"<button class='buttonsel' style='display:inline; padding-left:60px; padding-right:60px;' onclick='importSVG_importCode();'>Import SVG</button>"+
-		"<button style='display:inline; margin-left:60px; padding-left:20px; padding-right:20px;' onclick='navigate({page:\"glyph edit\"});'>go to glyph edit</button>"+
+		"<button style='display:inline; margin-left:60px; padding-left:20px; padding-right:20px;' onclick='importSVG_goToSelectedGlyph();'>edit the selected glyph</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='history_pull();'>undo</button>"+
 		"<button style='display:inline; margin-left:10px; padding-left:20px; padding-right:20px;' onclick='importSVG_clearCode();'>clear code</button>"+
 
@@ -83,6 +83,26 @@
 		getEditDocument().getElementById("droptarget").addEventListener('dragover', importSVG_handleDragOver, false);
 		getEditDocument().getElementById("droptarget").addEventListener('dragleave', importSVG_handleDragLeave, false);
 		getEditDocument().getElementById("droptarget").addEventListener('drop', importSVG_handleDrop, false);
+	}
+
+	function importSVG_goToSelectedGlyph() {
+		var sg = _UI.selectedsvgimporttarget;
+
+		if(sg.indexOf('0x', 2) > 0){
+			// Ligature
+			selectLigature(sg, false);
+			navigate({page:'ligatures', panel:'npAttributes'});
+
+		} else if (sg.indexOf('0x') === 0){
+			// Glyph
+			selectGlyph(sg, false);
+			navigate({page:'glyph edit', panel:'npAttributes'});
+
+		} else {
+			// Component
+			selectComponent(sg, false);
+			navigate({page:'components', panel:'npAttributes'});
+		}
 	}
 
 	function importSVG_codeAreaChange() {
@@ -141,7 +161,7 @@
 
 	function importSVG_selectGlyph(cid){
 		//debug("IMPORTSVG_SELECTGLYPH - selecting " + cid);
-		selectGlyph(cid, true);
+		selectSVGImportTarget(cid, true);
 		document.getElementById('importsvgselecttitle').innerHTML = "Target glyph: "+getSelectedWorkItemName();
 		update_NavPanels();
 	}

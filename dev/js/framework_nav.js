@@ -13,14 +13,25 @@
 //-------------------
 
 	function navigate(oa){
-		// debug('>>> NAVIGATE STARTED - to ' + _UI.current_page + ', nav object: ' + oa);
+		// debug('>>> NAVIGATE STARTED');
+		// debug([oa]);
+
+		oa = oa || {};
 
 		if(oa.page && _UI.current_page !== oa.page){
 			_UI.current_page = oa.page;
 			_UI.current_panel = false;
 		} else {
 			_UI.current_panel = oa.panel || _UI.current_panel;
+			// _UI.last_panel = oa.panel || _UI.last_panel;
 		}
+
+		if(!_UI.current_panel) setDefaultPanel();
+		if(onChooserPanelPage()) setDefaultGlyphChooserPanel();
+		if(oa.forcepanel) _UI.current_panel = oa.panel;
+		
+		// debug('\t page  set to ' + _UI.current_page);
+		// debug('\t panel set to ' + _UI.current_panel);
 
 		if(_UI.current_page === 'openproject'){
 			makeLayout_OpenProject();
@@ -88,7 +99,7 @@
         _UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
 		_UI.popout.onBeforeUnload = popIn;
 		_UI.popout.document.getElementById('mainwrapper').style.overflowY = 'hidden';
-		
+
 		// Paridy Functions
 		for(var f in window){ if(window.hasOwnProperty(f) && !_UI.popout[f]){
 			_UI.popout[f] = window[f];
@@ -180,16 +191,13 @@
 
 		mouseoutcec();
 
-		if(!_UI.current_panel) setDefaultPanel();
-
-
 		// pages with redraw call make_NavPanels_PopIn
 		if(onCanvasEditPage()){
 			document.getElementById('mainwrapper').style.overflowY = 'hidden';
 		} else {
 			make_NavPanels_PopIn();
 			document.getElementById('mainwrapper').style.overflowY = 'scroll';
-				
+
 			// Document Key Listeners
 			getEditDocument().addEventListener('keypress', keypress, false);
 			getEditDocument().addEventListener('keydown', keypress, false);
@@ -200,40 +208,63 @@
 	}
 
 	function setDefaultPanel() {
-		debug('\n setDefaultPanel - START');
-		debug('\t panel was ' + _UI.current_panel);
-		debug('\t on page ' + _UI.current_page);
+		// debug('\n setDefaultPanel - START');
+		// debug('\t panel was ' + _UI.current_panel);
+		// debug('\t on page ' + _UI.current_page);
 
 		var nh = _UI.current_page;
 
 		switch(nh){
-			// case 'openproject':  _UI.current_panel = '';break;
-				case 'glyph edit':
-				_UI.current_panel = 'npChooser'; 
+			case 'glyph edit': 		_UI.current_panel = 'npChooser';	break;
+			case 'components': 		_UI.current_panel = 'npChooser';	break;
+			case 'ligatures': 		_UI.current_panel = 'npChooser';	break;
+			case 'import svg': 		_UI.current_panel = 'npChooser';	break;
+			case 'kerning': 		_UI.current_panel = 'npAttributes'; break;
+			case 'test drive': 		_UI.current_panel = 'npAttributes'; break;
+			case 'font settings': 	_UI.current_panel = 'npNav'; 		break;
+			case 'project settings':_UI.current_panel = 'npNav'; 		break;
+			case 'export font': 	_UI.current_panel = 'npNav'; 		break;
+			case 'help': 			_UI.current_panel = 'npNav'; 		break;
+			case 'about': 			_UI.current_panel = 'npNav'; 		break;
+		}
+
+		// debug('\t panel is now ' + _UI.current_panel);
+		// debug(' setDefaultPanel - END\n');
+	}
+
+	function setDefaultGlyphChooserPanel() {
+		// debug('\n setDefaultGlyphChooserPanel - START');
+		var nh = _UI.current_page;
+
+		switch(nh){
+			case 'glyph edit':
+				// debug('\t case glyph edit');
 				_UI.glyphchooser.panel = {fname:'selectGlyph', selected:'glyphs', choices:'glyphs'};
 				break;
 			case 'components':
-				_UI.current_panel = 'npChooser'; 
+				// debug('\t case components');
 				_UI.glyphchooser.panel = {fname:'selectComponent', selected:'components', choices:'components'};
 				break;
 			case 'ligatures':
-				_UI.current_panel = 'npChooser'; 
+				// debug('\t case ligatures');
 				_UI.glyphchooser.panel = {fname:'selectLigature', selected:'ligatures', choices:'ligatures'};
 				break;
-			case 'import svg': 		
-				_UI.current_panel = 'npChooser'; 
+			case 'import svg':
+				// debug('\t case import svg');
 			 	_UI.glyphchooser.panel = {fname:'importSVG_selectGlyph', selected:'glyphs', choices:'all'};
 				break;
-			case 'kerning': 		_UI.current_panel = 'npAttributes'; break;
-			case 'test drive': 		_UI.current_panel = 'npAttributes'; break;
-			case 'font settings': 	_UI.current_panel = 'npNav'; break;
-			case 'project settings':_UI.current_panel = 'npNav'; break;
-			case 'export font': 	_UI.current_panel = 'npNav'; break;
-			case 'help': 			_UI.current_panel = 'npNav'; break;
-			case 'about': 			_UI.current_panel = 'npNav'; break;
 		}
-		debug('\t panel is now ' + _UI.current_panel);
-		debug(' setDefaultPanel - END\n');
+
+		// debug(' setDefaultGlyphChooserPanel - END\n');
+	}
+
+	function onChooserPanelPage() {
+		var nh = _UI.current_page;
+		return ( nh==='glyph edit' ||
+					nh==='components' ||
+					nh==='kerning' ||
+					nh==='import svg' ||
+					nh==='ligatures');
 	}
 
 	function onCanvasEditPage() {
@@ -262,6 +293,10 @@
 		np.innerHTML = '';
 		closeDialog();
 		updateSaveIcon();
+
+
+		if(!_UI.current_panel) setDefaultPanel();
+		// if(_UI.current_page === 'import svg') _UI.current_panel = 'npChooser';
 
 		if(onNoNavPage() || _UI.current_panel === 'npNav') {
 			_UI.current_panel = 'npNav';
@@ -428,12 +463,20 @@
 	}
 
 	function clickHamburger() {
+		// debug('\n clickHamburger - START');
+		// debug('\t current_panel: ' + _UI.current_panel);
+		// debug('\t last_panel: ' + _UI.last_panel);
+		
 		if(_UI.current_panel === 'npNav'){
 			navigate({panel:_UI.last_panel});
 		} else {
 			_UI.last_panel = _UI.current_panel;
 			navigate({panel:'npNav'});
 		}
+
+		// debug('\t current_panel: ' + _UI.current_panel);
+		// debug('\t last_panel: ' + _UI.last_panel);
+		// debug(' clickHamburger - END\n');
 	}
 
 	function makePanel_PageNav(){

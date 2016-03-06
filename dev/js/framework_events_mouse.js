@@ -695,7 +695,7 @@
 			if (this.dragging) {
 				// Moving shapes if mousedown
 				setView({'dx' : (_UI.eventhandlers.mousex-this.deltax), 'dy' : (_UI.eventhandlers.mousey-this.deltay)});
-				redraw({calledby:'Event Handler Tool_Pan mousemove'});
+				redraw({calledby:'Event Handler Tool_Pan mousemove', redrawpanels:false});
 			}
 		};
 	}

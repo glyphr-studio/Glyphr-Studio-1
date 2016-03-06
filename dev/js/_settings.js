@@ -15,13 +15,13 @@
 	var _UI = {
 
 		// Version
-		'thisGlyphrStudioVersion': 'Version 1.04',
-		'thisGlyphrStudioVersionNum': '1.04.08',
+		'thisGlyphrStudioVersion': 'Version 1.05',
+		'thisGlyphrStudioVersionNum': '1.05.00',
 
 		// Internal Dev Stuff
 		'devmode': true, 					// global switch for all the stuff below
-		'dev_sample_project': 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		'dev_current_page': 'glyph edit', 			// navigate straight to a page
+		'dev_sample_project': false, 		// if sampleproject is present, load it and skip open project experience
+		'dev_current_page': 'import svg', 			// navigate straight to a page
 		'dev_current_panel': false, 			// navigate straight to a panel
 		'dev_selected_shape': false, 			// automatically select a shape
 		'debug': true, 						// show messages sent to the browser console
@@ -247,6 +247,7 @@
 		},
 
 		// page: import svg
+		'selectedsvgimporttarget': false,
 		'importsvg': {
 			'scale': true,
 			'move': true,

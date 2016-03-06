@@ -79,9 +79,13 @@
 	}
 
 	function make_GlyphChooser(gcdata) {
+		// debug('\n make_GlyphChooser - START');
+		// debug([gcdata]);
+
 		var con = '';
 
-		if( (_UI.current_page === 'glyph edit' && pluralGlyphRange()) ||
+		if( (gcdata.choices === 'all') ||
+			(_UI.current_page === 'glyph edit' && pluralGlyphRange()) ||
 			(_UI.current_page === 'import svg' && (pluralGlyphRange() || getLength(_GP.components) || getLength(_GP.ligatures))) ) {
 				con += make_GlyphChooser_Header(gcdata.selected);
 		} 
@@ -89,6 +93,7 @@
 		if(_UI.glyphchooser.dropdown) con += make_GlyphChooser_DropDown(gcdata.choices);
 		else con += make_GlyphChooser_Content(gcdata);
 
+		// debug(' make_GlyphChooser - END\n');
 		return con;
 	}
 
@@ -131,7 +136,7 @@
 			}
 			_UI.glyphchooser.dropdown = !_UI.glyphchooser.dropdown;
 
-			redraw({calledby:'update_GlyphChooser'});
+			update_NavPanels();
 		}
 
 		// debug(' update_GlyphChooser - END\n');
@@ -230,7 +235,7 @@
 
 	function make_GlyphChooser_Content(gcdata) {
 		// debug('\n make_GlyphChooser_Content - START');
-		// debug('\t gcdata ' + json(gcdata));
+		// debug([gcdata]);
 
 		var fname = gcdata.fname || 'selectGlyph';
 		var sel = isval(gcdata.selected)? gcdata.selected : 'glyphs';

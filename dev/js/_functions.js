@@ -19,7 +19,7 @@
 		document.title = 'Glyphr Studio';
 
 		// Navigate
-		if(_UI.devmode && _UI.dev_current_page){
+		if(_UI.devmode){
 			//debug('\t >>> DEV NAV - to ' + _UI.dev_current_page);
 
 			if(_UI.dev_sample_project){
@@ -31,7 +31,7 @@
 				newGlyphrProject();
 			}
 
-			navigate({page:_UI.dev_current_page, panel:_UI.dev_current_panel});
+			navigate({page:(_UI.dev_current_page || 'openproject'), panel:_UI.dev_current_panel});
 		}
 
 

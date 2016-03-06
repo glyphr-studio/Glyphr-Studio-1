@@ -14,10 +14,10 @@
 
 	function editPage_Content(){
 		return ''+
-			'<div id="notation">&#x20E2;</div>' +
-			'<canvas id="glypheditcanvas" width=12 height=12 ></canvas>' +
-			'<div id="toolsarea">(╯°□°）╯︵ ┻━┻</div>' +
-			'<div id="viewarea">&nbsp;</div>' +
+			"<div id='notation'>&#x20E2;</div>" +
+			"<canvas id='glypheditcanvas' width=12 height=12 ></canvas>" +
+			"<div id='toolsarea' onMouseOver='mouseovercec();'> (╯°□°）╯︵ ┻━┻ </div>" +
+			"<div id='viewarea'>&nbsp;</div>" +
 			makeFloatLogo();
 	}
 
@@ -170,16 +170,16 @@
 
 		// New Shape
 		var newshape = '';
-		newshape += "<button title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
-		newshape += "<button title='new oval shape' class='" + (st==='newoval'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newoval\");'/>"+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+"</button>";
-		newshape += "<button title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";
+		newshape += "<button onMouseOver='mouseovercec();' title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
+		newshape += "<button onMouseOver='mouseovercec();' title='new oval shape' class='" + (st==='newoval'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newoval\");'/>"+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+"</button>";
+		newshape += "<button onMouseOver='mouseovercec();' title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";
 		newshape += "<br>";
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button title='add path point' class='" + pathaddpointclass + " tool' " + (penaddpointclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+"</button>";
-		edittools += "<button title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+"</button>";
-		edittools += "<button title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
+		edittools += "<button onMouseOver='mouseovercec();' title='add path point' class='" + pathaddpointclass + " tool' " + (penaddpointclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+"</button>";
+		edittools += "<button onMouseOver='mouseovercec();' title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+"</button>";
+		edittools += "<button onMouseOver='mouseovercec();' title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
 		edittools += "<br>";
 		
 		// Slice
@@ -585,9 +585,14 @@
 
 		switch(_UI.current_page){
 			case 'glyph edit':
-			case 'import svg':
+				if(!_UI.selectedglyph) _UI.selectedglyph = '0x0041';
 				re = getGlyph(_UI.selectedglyph, true);
 				// debug('\t case glyph edit, returning ' + re.name);
+				return re;
+			case 'import svg':
+				if(!_UI.selectedsvgimporttarget) _UI.selectedsvgimporttarget = '0x0041';
+				re = getGlyph(_UI.selectedsvgimporttarget, true);
+				// debug('\t case import svg, returning ' + re.name);
 				return re;
 			case 'ligatures':
 				re = getGlyph(_UI.selectedligature, true);
@@ -599,10 +604,7 @@
 				return re;
 			case 'kerning':
 				// debug('\t case KERN - selkern = ' + _UI.selectedkern);
-				if(!_UI.selectedkern) {
-					_UI.selectedkern = getFirstID(_GP.kerning);
-					// debug('\t no selected kern, setting to ' + _UI.selectedkern);
-				}
+				if(!_UI.selectedkern) _UI.selectedkern = getFirstID(_GP.kerning);
 				re = _GP.kerning[_UI.selectedkern] || false;
 				// debug('\t case kerning, returning ' + re);
 				return re;
@@ -613,11 +615,11 @@
 
 	function getSelectedWorkItemID(){
 		switch(_UI.current_page){
-			case 'glyph edit':
-			case 'import svg':	return _UI.selectedglyph;
+			case 'glyph edit': 	return _UI.selectedglyph;
+			case 'import svg':	return _UI.selectedsvgimporttarget;
 			case 'ligatures':	return _UI.selectedligature;
 			case 'components':	return _UI.selectedcomponent;
-			case 'kerning':	return _UI.selectedkern;
+			case 'kerning':		return _UI.selectedkern;
 		}
 
 		return false;
@@ -649,44 +651,54 @@
 	}
 
 	function selectGlyph(c, dontnavigate){
-		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
+		// debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedglyph = c;
 		clickEmptySpace();
 		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
-			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			// debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
 			navigate({panel:'npAttributes'});
 		}
 	}
 
 	function selectComponent(c, dontnavigate){
-		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
+		// debug('SELECTCOMPONENT - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedcomponent = c;
 		clickEmptySpace();
 		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
-			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			// debug('SELECTCOMPONENT: selecting ' + _GP.components[c].name + ' and navigating.');
 			navigate({panel:'npAttributes'});
 		}
 	}
 
 	function selectLigature(c, dontnavigate){
-		//debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
+		// debug('SELECTLIGATURE - selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedligature = c;
 		clickEmptySpace();
 		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
-			//debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			// debug('SELECTLIGATURE: selecting ' + _GP.ligatures[c].glyphhtml + ' and navigating.');
 			navigate({panel:'npAttributes'});
 		}
 	}
 
+	function selectSVGImportTarget(c, dontnavigate) {
+		// debug('SELECTSVGIMPORTTARGET - selecting ' + getGlyph(c, true).name + ' from value ' + c);
+
+		_UI.selectedsvgimporttarget = c;
+
+		if(!dontnavigate){
+			// debug('SELECTSVGIMPORTTARGET: selecting ' + c + ' and navigating.');
+			navigate({panel:'npAttributes'});
+		}
+	}
 
 
 //------------------------------
@@ -1117,58 +1129,60 @@
 			}}
 
 			var selwi = getSelectedWorkItem();
-			var t = _UI.eventhandlers.tempnewbasicshape;
-			var rl = t? Math.max(selwi.glyphwidth, t.xmax) :  selwi.glyphwidth;
-			var ll = Math.min(selwi.maxes.xmin, 0);
+			if(selwi){
+				var t = _UI.eventhandlers.tempnewbasicshape;
+				var rl = t? Math.max(selwi.glyphwidth, t.xmax) :  selwi.glyphwidth;
+				var ll = Math.min(selwi.maxes.xmin, 0);
 
-			// Update system guides
-			ps.guides.xheight.location = ps.xheight;
-			ps.guides.capheight.location = ps.capheight;
-			ps.guides.ascent.location = ps.ascent;
-			ps.guides.baseline.location = 0;
-			ps.guides.descent.location = ps.descent;
-			ps.guides.min.location = ll;
-			ps.guides.max.location = rl;
-			ps.guides.leftside.location = (getSelectedGlyphLeftSideBearing()*-1);
-			ps.guides.rightside.location = getSelectedGlyphRightSideBearing() + rl;
+				// Update system guides
+				ps.guides.xheight.location = ps.xheight;
+				ps.guides.capheight.location = ps.capheight;
+				ps.guides.ascent.location = ps.ascent;
+				ps.guides.baseline.location = 0;
+				ps.guides.descent.location = ps.descent;
+				ps.guides.min.location = ll;
+				ps.guides.max.location = rl;
+				ps.guides.leftside.location = (getSelectedGlyphLeftSideBearing()*-1);
+				ps.guides.rightside.location = getSelectedGlyphRightSideBearing() + rl;
 
-			// Minor Guidelines - Overshoots
-			if(_UI.showovershoots){
-				var os = ps.overshoot;
-				ps.guides.xheight.draw(-1*os);
-				ps.guides.ascent.draw(-1*os);
-				ps.guides.baseline.draw(os);
-				ps.guides.descent.draw(os);
-			}
-
-			// Horizontals
-			ps.guides.xheight.draw();
-			ps.guides.capheight.draw();
-			ps.guides.ascent.draw();
-			ps.guides.descent.draw();
-			ps.guides.baseline.draw();
-
-			// Verticals
-			ps.guides.zero.draw(0);
-			if(onglyphedit){
-				ps.guides.min.draw(0);
-				ps.guides.leftside.draw();
-				if(getSelectedWorkItemShapes().length || !selwi.isautowide){
-					ps.guides.max.draw(0);
-					ps.guides.rightside.draw();
+				// Minor Guidelines - Overshoots
+				if(_UI.showovershoots){
+					var os = ps.overshoot;
+					ps.guides.xheight.draw(-1*os);
+					ps.guides.ascent.draw(-1*os);
+					ps.guides.baseline.draw(os);
+					ps.guides.descent.draw(os);
 				}
-			}
 
-			// Out of bounds triangle
-			if(ps.guides.baseline.visible || ps.guides.leftside.visible){
-				var v = getView('guides');
-				_UI.glypheditctx.fillStyle = ps.guides.baseline.color;
-				_UI.glypheditctx.beginPath();
-				_UI.glypheditctx.moveTo(v.dx, v.dy-1);
-				_UI.glypheditctx.lineTo(v.dx, v.dy+(ps.pointsize*2)-1);
-				_UI.glypheditctx.lineTo(v.dx-(ps.pointsize*2), v.dy-1);
-				_UI.glypheditctx.closePath();
-				_UI.glypheditctx.fill();
+				// Horizontals
+				ps.guides.xheight.draw();
+				ps.guides.capheight.draw();
+				ps.guides.ascent.draw();
+				ps.guides.descent.draw();
+				ps.guides.baseline.draw();
+
+				// Verticals
+				ps.guides.zero.draw(0);
+				if(onglyphedit){
+					ps.guides.min.draw(0);
+					ps.guides.leftside.draw();
+					if(getSelectedWorkItemShapes().length || !selwi.isautowide){
+						ps.guides.max.draw(0);
+						ps.guides.rightside.draw();
+					}
+				}
+
+				// Out of bounds triangle
+				if(ps.guides.baseline.visible || ps.guides.leftside.visible){
+					var v = getView('guides');
+					_UI.glypheditctx.fillStyle = ps.guides.baseline.color;
+					_UI.glypheditctx.beginPath();
+					_UI.glypheditctx.moveTo(v.dx, v.dy-1);
+					_UI.glypheditctx.lineTo(v.dx, v.dy+(ps.pointsize*2)-1);
+					_UI.glypheditctx.lineTo(v.dx-(ps.pointsize*2), v.dy-1);
+					_UI.glypheditctx.closePath();
+					_UI.glypheditctx.fill();
+				}
 			}
 		}
 		// debug(' drawGuides - END\n');

@@ -319,7 +319,7 @@
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
 		chunkarr.push({'command':command, 'data':dataarr});
 
-		debug('\t chunkarr data is \n' + json(chunkarr, true));
+		// debug('\t chunkarr data is \n' + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
@@ -379,6 +379,7 @@
 		*/
 
 		var cmd = chunk.command;
+		var currdata = [];
 		var iscmd = function(str){ return str.indexOf(cmd) > -1; };
 		var p, h1;
 		var lastpoint = patharr[patharr.length-1] || new PathPoint({'P':new Coord({'x':0,'y':0})});
@@ -399,12 +400,12 @@
 				// Grab the next chunk of data and make sure it's length=2
 				currdata = [];
 				currdata = chunk.data.splice(0,2);
-				debug('\t command ' + cmd + ' while loop data ' + currdata);
 
 				if(currdata.length % 2 !== 0 && iscmd('MmLl')) {
 					showErrorMessageBox('Move or Line path command (M, m, L, l) was expecting 2 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<2) { currdata.push(currdata[currdata.length-1]+100); }
 				}
+				debug('\t command ' + cmd + ' while loop data ' + currdata);
 
 				switch(cmd){
 					case 'L':
@@ -443,17 +444,19 @@
 						break;
 				}
 
-				debug('\tlinear end xx yy\t' + xx + ' ' + yy);
+				debug('\t linear end xx yy\t' + xx + ' ' + yy);
 				p = new Coord({'x':xx, 'y':yy});
-				debug(p);
-
+				debug('\t new point ' + p.x + '\t' + p.y);
 
 				prevx = xx;
 				prevy = yy;
 
 				lastpoint.useh2 = false;
 				patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
+				lastpoint = patharr[patharr.length-1];
 			}
+
+			debug('\t completed while loop');
 
 		} else if(iscmd('CcQqTt')){
 			// ABSOLUTE quadratic bezier curve to
@@ -466,7 +469,7 @@
 				if(cmd === 'q') chunk.data = convertQuadraticToCubic(chunk.data, 0, 0);
 				else chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
 
-				// debug('\t Qq - chunk.data converted to ' + chunk.data);
+				debug('\t Qq - chunk.data converted to ' + chunk.data);
 			}
 
 			// ABSOLUTE quadratic symmetric bezier curve to
@@ -474,12 +477,12 @@
 			if(iscmd('Tt')) {
 				//lastpoint.makeSymmetric('H1');
 				var qh = lastpoint.findQuadraticSymmetric();
-				// debug('\t findQuadSymm returned ' + json(qh));
+				debug('\t findQuadSymm returned ' + json(qh));
 
 				chunk.data.unshift(qh.y);
 				chunk.data.unshift(qh.x);
 
-				// debug('\t Tt - chunk.data unshifted to ' + chunk.data);
+				debug('\t Tt - chunk.data unshifted to ' + chunk.data);
 
 				if(cmd === 't') {
 					chunk.data[0] -= prevx;
@@ -491,7 +494,7 @@
 					chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
 				}
 
-				// debug('\t Tt - chunk.data converted to ' + chunk.data);
+				debug('\t Tt - chunk.data converted to ' + chunk.data);
 			}
 
 			// ABSOLUTE bezier curve to
@@ -499,7 +502,7 @@
 				// The three subsiquent x/y points are relative to the last command's x/y point
 				// relative x/y point (n) is NOT relative to (n-1)
 
-			var currdata = [];
+			currdata = [];
 			// Loop through (potentially) PolyBeziers
 			while(chunk.data.length){
 				// Grab the next chunk of data and make sure it's length=6
@@ -509,9 +512,9 @@
 					showErrorMessageBox('Bezier path command (C or c) was expecting 6 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<6) { currdata.push(currdata[currdata.length-1]+100); }
 				}
+				debug('\t command ' + cmd + ' while loop data ' + currdata);
 
 				// default absolute for C
-				// debug('\tCc getting data values for new point px:' + currdata[4] + ' py:' + currdata[5]);
 
 				lastpoint.H2 = new Coord({'x': currdata[0], 'y': currdata[1]});
 				lastpoint.useh2 = true;
@@ -533,34 +536,53 @@
 					}
 				}
 
-				// debug('\tbezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+				debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
 				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'Q':clone(q), 'useh1':true, 'useh2':true, 'type':'corner'}));
+				lastpoint = patharr[patharr.length-1];
 			}
+
+			debug('\t completed while loop');
 
 		} else if (iscmd('Ss')){
 			// ABSOLUTE symmetric bezier curve to
 			// relative symmetric bezier curve to
-			lastpoint.makeSymmetric('H1');
-			lastpoint.useh2 = true;
 
-			// POLYBEZIER WHILE LOOP
 
-			h1 = new Coord({'x': chunk.data[0], 'y': chunk.data[1]});
-			p = new Coord({'x': chunk.data[2], 'y': chunk.data[3]});
+			currdata = [];
+			// Loop through (potentially) PolyBeziers
+			while(chunk.data.length){
+				// Grab the next chunk of data and make sure it's length=4
+				currdata = [];
+				currdata = chunk.data.splice(0,4);
+				if(currdata.length % 4 !== 0) {
+					showErrorMessageBox('Symmetric Bezier path command (S or s) was expecting 4 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
+					while(currdata.length<4) { currdata.push(currdata[currdata.length-1]+100); }
+				}
+				debug('\t command ' + cmd + ' while loop data ' + currdata);
 
-			// debug('\t point: ' + json(p, true));
+				lastpoint.makeSymmetric('H1');
+				lastpoint.useh2 = true;
 
-			if (iscmd('s')){
-				// Relative offset for st
-				h1.x += prevx;
-				h1.y += prevy;
-				p.x += prevx;
-				p.y += prevy;
+				h1 = new Coord({'x': chunk.data[0], 'y': chunk.data[1]});
+				p = new Coord({'x': chunk.data[2], 'y': chunk.data[3]});
+
+				debug('\t point: ' + json(p, true));
+
+				if (iscmd('s')){
+					// Relative offset for st
+					h1.x += prevx;
+					h1.y += prevy;
+					p.x += prevx;
+					p.y += prevy;
+				}
+
+				debug('\t bezier result px:'+p.x+' py:'+p.y+' h1x:'+h1.x+' h1y:'+h1.y);
+
+				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'type':'corner', 'useh1':true, 'useh2':true}));
+				lastpoint = patharr[patharr.length-1];
 			}
 
-			// debug('\tbezier result px:'+p.x+' py:'+p.y+' h1x:'+h1.x+' h1y:'+h1.y);
-
-			patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'type':'corner', 'useh1':true, 'useh2':true}));
+			debug('\t completed while loop');
 
 		} else if(iscmd('Zz')){
 			// End Path
@@ -568,11 +590,14 @@
 			showErrorMessageBox('Unrecognized path command '+cmd+', ignoring and moving on...');
 		}
 
-		var added = patharr[patharr.length-1];
-		// debug(added);
-
 		// Finish up last point
-		if(islastpoint) added.resolvePointType();
+		if(islastpoint){
+			var added = patharr[patharr.length-1];
+			added.resolvePointType();
+		}
+
+		debug('\t Resulting Path Chunk');
+		debug(json(patharr));
 
 		debug(' ioSVG_handlePathChunk - END\n');
 

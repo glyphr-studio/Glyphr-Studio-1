@@ -31,23 +31,24 @@
 	function goToEditGlyph(chid){
 		// debug('\n goToEditGlyph - START');
 		// debug('\t passed ' + chid);
+		var p;
 
 		if (chid.indexOf('0x', 2) > -1){
 			// Ligature
 			_UI.selectedligature = chid;
-			_UI.current_page = 'ligatures';
+			p = 'ligatures';
 		} else if(chid.indexOf('0x') > -1){
 			// Glyph
 			_UI.selectedglyph = chid;
-			_UI.current_page = 'glyph edit';
+			p = 'glyph edit';
 		} else {
 			// Component
 			_UI.selectedcomponent = chid;
-			_UI.current_page = 'components';
+			p = 'components';
 		}
 
 		clickEmptySpace();
-		navigate({panel:'npAttributes'});
+		navigate({page: p, panel:'npAttributes', 'forcepanel':true});
 		// debug(' goToEditGlyph - END\n');
 	}
 

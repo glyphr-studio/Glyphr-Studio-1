@@ -430,7 +430,7 @@
 		calculateDefaultView();
 		resetThumbView();
 
-		_UI.navhere = "glyph edit";
+		_UI.current_page = "glyph edit";
 
 
 		// debug("finalizeGlyphrProject \t END\n");

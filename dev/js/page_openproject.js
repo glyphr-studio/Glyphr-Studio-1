@@ -67,7 +67,7 @@
 		con += '<div class="openproject_tile" id="new_content" style="display: none;">'+
 					'<h2>Start a new Glyphr Project</h2>'+
 					'Project name: &nbsp; <input id="newprojectname" type="text" value="My Font"/><br>'+
-					'<button onclick="newGlyphrProject(); navigate();" class="buttonsel">Start a new font from scratch</button>'+
+					'<button onclick="newGlyphrProject(); navigate({page:\'glyph edit\'});" class="buttonsel">Start a new font from scratch</button>'+
 				'</div>';
 
 		// EXAMPLES
@@ -214,7 +214,7 @@
 
 		setTimeout(function(){
 			hydrateGlyphrProject(usedefault? _UI.sampleproject.modegg : _UI.sampleproject.merriweathersans);
-			navigate();
+			navigate({page: 'glyph edit'});
 		}, 5);
 	}
 
