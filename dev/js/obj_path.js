@@ -719,7 +719,7 @@
 	Path.prototype.flipNS = function(mid){
 		var ly = this.maxes.ymax;
 
-		mid = mid || (this.getHeight()/2)+this.maxes.ymin;
+		mid = isval(mid)? mid : (this.getHeight()/2)+this.maxes.ymin;
 		//debug('FLIPNS - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.ymin +','+ this.maxes.ymax + ','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){
@@ -736,7 +736,7 @@
 	Path.prototype.flipEW = function(mid){
 		var lx = this.maxes.xmin;
 
-		mid = mid || (this.getWidth()/2)+this.maxes.xmin;
+		mid = isval(mid)? mid : (this.getWidth()/2)+this.maxes.xmin;
 		//debug('flipEW - calculating mid: (b-t)/2 + t = mid: ' + this.maxes.xmax +','+ this.maxes.xmin +','+ mid);
 
 		for(var e=0; e<this.pathpoints.length; e++){

@@ -225,10 +225,10 @@
 		maxes = maxes || {};
 
 		//Default Circle size
-		lx = maxes.xmin || 0;
-		ty = maxes.ymax || _GP.projectsettings.xheight || 500;
-		rx = maxes.xmax || _GP.projectsettings.xheight || 500;
-		by = maxes.ymin || 0;
+		lx = isval(maxes.xmin)? maxes.xmin : 0;
+		ty = isval(maxes.ymax)? maxes.ymax : _GP.projectsettings.xheight || 500;
+		rx = isval(maxes.xmax)? maxes.xmax : _GP.projectsettings.xheight || 500;
+		by = isval(maxes.ymin)? maxes.ymin : 0;
 
 
 		var hw = round((rx-lx)/2);

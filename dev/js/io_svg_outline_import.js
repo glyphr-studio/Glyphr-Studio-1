@@ -12,6 +12,8 @@
 		// debug('\n ioSVG_convertTagsToGlyph - START');
 
 		var newshapes = [];
+		var ns;
+		var mid = (_GP.projectsettings.ascent / 2);
 		var parsedshape = {};
 		var data = {};
 		var shapecounter = 0;
@@ -36,91 +38,63 @@
 		// debug('\t shapetags from imported XML: ');
 		// debug(shapetags);
 
+		function pushShape(p, n) {
+			shapecounter++;
+			n = (n + ' ' + shapecounter);
+			newshapes.push(new Shape({'path':p, 'name':n}));
+		}
+
+
 		/*
 			GET PATH TAGS
 		*/
-
 		if(shapetags.path.length){
-			// debug('\t parsing PATH');
 			data = '';
-			parsedshape = {};
+			ppath = {};
+
 			for(var p=0; p<shapetags.path.length; p++){
-				// debug('\t STARTING DATA CHUNK ' + p);
-				data = shapetags.path[p].attributes.d;
-
-				// if(ioSVG_checkForIgnored(data)) error = true;
-
 				// Compound Paths are treated as different Glyphr Shapes
+				data = shapetags.path[p].attributes.d;
 				data = data.replace(/Z/gi,'z');
 				data = data.split('z');
-				// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
-						parsedshape = ioSVG_convertPathTag(data[d]);
-						shapecounter++;
-						parsedshape.name = ('Path ' + shapecounter);
-						newshapes.push(parsedshape);
-
-						// DEBUG WIERD NAN ERROR
-						// debug('\t\t\t >>>>>>>>>>');
-						// debug('\t\t\t shape ' + p + '-' + d + '\n\t\t\t' + data[d]);
-						// debug('\t\t\t resulted in');
-						// debug(parsedshape);
-						// debug('\t\t\t newshapes arr is now ');
-						// debug(JSON.parse(JSON.stringify(newshapes)));
-						// debug('\t\t\t >>>>>>>>>>');
-						// debug('\t\t\t \n\n');
+						ppath = ioSVG_convertPathTag(data[d]);
+						
+						if(ppath.pathpoints.length){
+							pushShape(ppath, 'Path');
+						}
 					}
-
-					// debug('\t\t newshapes arr is now ');
-					// debug(JSON.parse(JSON.stringify(newshapes)));
-					// debug('\t\t done with shape ' + p + '-' + d);
 				}
-
-				// debug('\t newshapes arr is now ');
-				// debug(JSON.parse(JSON.stringify(newshapes)));
-				// debug('\t DONE WITH DATA CHUNK ' + p);
 			}
-
-			// debug('\n\nDone with all data chunks, newshapes arr is now');
-			// debug(JSON.parse(JSON.stringify(newshapes)));
-			// debug('\n\n');
 		}
+
 
 		/*
 			GET RECT TAGS
 		*/
-
-		// debug('IMPORTSVG_IMPORTCODE - rect data: ');
-		// console.log(shapetags);
-
 		if(shapetags.rect.length){
-			// debug('\t parsing RECT');
 			data = {};
-			var rectmaxes = {};
-
+			var rectmaxes, x, y, w, h;
+			
 			for(var r=0; r<shapetags.rect.length; r++){
-				rectmaxes = {
-					'xmax': 0,
-					'xmin': 0,
-					'ymax': 0,
-					'ymin': 0
-				};
+				data = shapetags.rect[r].attributes || {};
+				x = data.x*1 || 0;
+				y = data.y*1 || 0;
+				w = data.width*1 || 0;
+				h = data.height*1 || 0;
 
-				// if(ioSVG_checkForIgnored(shapetags.rect[r])) error = true;
+				if(!(w===0 && h===0)){
+					rectmaxes = {
+						xmax: x+w,
+						xmin: x,
+						ymax: y+h,
+						ymin: y
+					};
 
-				data = shapetags.rect.attributes || {};
-
-				if(data.x) rectmaxes.xmin = data.x*1;
-				if(data.y) rectmaxes.ymin = data.y*1;
-				if(data.width) rectmaxes.xmax = rectmaxes.xmin + (data.width*1);
-				if(data.height) rectmaxes.ymax = rectmaxes.ymin + (data.height*1);
-
-				// debug('IMPORTSVG_IMPORTCODE - Rect maxes: ' + JSON.stringify(rectmaxes));
-
-				shapecounter++;
-				newshapes.push(new Shape({'path':rectPathFromMaxes(rectmaxes), 'name':('Rectangle ' + shapecounter)}));
+					pushShape(rectPathFromMaxes(rectmaxes), 'Rectangle');
+				}
 			}
 		}
 
@@ -132,65 +106,60 @@
 		poly = poly.concat(shapetags.polyline);
 
 		if(poly.length){
-			// debug('\t parsing POLY and POLYLINE');
 			data = {};
+			var pparr, tpp, tcoord;
+			
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
 
-				// if(ioSVG_checkForIgnored(data)) error = true;
-
 				if(data.length){
+					pparr = [];
 					data = data.split(' ');
-					// debug('IMPORTSVG_IMPORTCODE - polyline data.points: ' + JSON.stringify(data));
-					var pparr = [];
-					var tpp, tcoord;
+					
 					for(var co=0; co<data.length; co++){
 						tpp = data[co].split(',');
+						
 						if(tpp.length === 2){
 							tcoord = new Coord({'x':tpp[0], 'y':tpp[1]});
 							pparr.push(new PathPoint({'P':tcoord, 'H1':tcoord, 'H2':tcoord, 'useh1':false, 'useh2':false}));
 						}
 					}
-					// debug(json(pparr));
 
-					shapecounter++;
-					newshapes.push(new Shape({'path':new Path({'pathpoints':pparr}), 'name':('Polygon ' + shapecounter)}));
+					pushShape(new Path({'pathpoints':pparr}), 'Polygon');
 				}
 			}
 		}
 
+
 		/*
 			GET ELLIPSE OR CIRCLE TAGS
 		*/
-		var round = shapetags.circle;
-		round = round.concat(shapetags.ellipse);
+		var elli = shapetags.circle;
+		elli = elli.concat(shapetags.ellipse);
 
-		if(round.length){
-			// debug('\t parsing CIRCLE and ELLIPSE');
-			data = '';
-			var ellipsemaxes, radius;
-			for(var c=0; c<round.length; c++){
-				ellipsemaxes = {
-					'xmax': 0,
-					'xmin': 0,
-					'ymax': 0,
-					'ymin': 0
-				};
-				data = round[c].attributes;
-				// debug('IMPORTSVG_IMPORTCODE - rect data: ' + JSON.stringify(data));
+		if(elli.length){
+			data = {};
+			var ellipsemaxes, rx, ry, cx, cy;
+			
+			for(var c=0; c<elli.length; c++){
+				data = elli[c].attributes;
+				rx = data.r*1 || data.rx*1 || 0;
+				rx = Math.abs(rx);
+				ry = data.r*1 || data.ry*1 || 0;
+				ry = Math.abs(ry);
+				cx = data.cx*1 || 0;
+				cy = data.cy*1 || 0;
+				
+				if(!(rx===0 && ry===0)){
+					ellipsemaxes = {
+						xmin: cx-rx,
+						xmax: cx+rx,
+						ymin: cy-ry,
+						ymax: cy+ry
+					};
 
-				// if(ioSVG_checkForIgnored(shapetags[r])) error = true;
-
-				radius = data.r || data.rx;
-				ellipsemaxes.xmin = (data.cx*1) - (radius*1);
-				ellipsemaxes.xmax = (data.cx*1) + (radius*1);
-
-				radius = data.r || data.ry;
-				ellipsemaxes.ymin = (data.cy*1) - (radius*1);
-				ellipsemaxes.ymax = (data.cy*1) + (radius*1);
-
-				shapecounter++;
-				newshapes.push(new Shape({'path':ovalPathFromMaxes(ellipsemaxes), 'name':('Oval ' + shapecounter)}));
+					pushShape(ovalPathFromMaxes(ellipsemaxes), 'Oval');
+				}
 			}
 		}
 
@@ -204,13 +173,10 @@
 			showErrorMessageBox('A transform attribute was found.  It will be ignored, probably resulting in unexpected shape outlines.  Check the Import SVG section of the Help page.');
 		}
 
-		// debug('\t NEWSHAPES BEFORE GLYPH IS MADE');
-		// debug(JSON.parse(JSON.stringify(newshapes)));
+
 		var reglyph = new Glyph({'shapes':newshapes});
 		reglyph.changed(true);
-		// debug('\t SHAPES AFTER GLYPH IS MADE');
-		// debug(JSON.parse(JSON.stringify(reglyph.shapes)));
-		// debug(JSON.parse(JSON.stringify(reglyph)));
+
 		debug(reglyph);
 
 		debug(' ioSVG_convertTagsToGlyph - END\n');
@@ -344,14 +310,13 @@
 			// debug('\t AFTER:\nFirst Point: '+json(fp));
 		}
 
-		var newshape = new Shape({'path': new Path({'pathpoints':patharr})});
-		newshape.path.validate('IMPORTSVG');
-		newshape.calcMaxes();
+		var newpath = new Path({'pathpoints':patharr});
+		newpath.validate('IMPORTSVG');
 
 		// debug('\t unscaled shape:');
-		// debug(newshape);
+		// debug(newpath);
 		// debug(' ioSVG_convertTag - END\n');
-		return newshape;
+		return newpath;
 	}
 
 	function ioSVG_isPathCommand(c){

@@ -249,8 +249,8 @@
 		// page: import svg
 		'selectedsvgimporttarget': false,
 		'importsvg': {
-			'scale': true,
-			'move': true,
+			'scale': false,
+			'move': false,
 			'ascender': false,
 			'capheight': false,
 			'descender': false,

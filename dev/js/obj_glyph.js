@@ -188,7 +188,7 @@
 		// debug('\n Glyph.flipEW - START');
 		// debug('\t ' + this.name);
 		// debug('\t passed mid = ' + mid);
-		mid = mid || ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
+		mid = isval(mid)? mid : ((this.maxes.xmax - this.maxes.xmin) / 2) + this.maxes.xmin;
 		// debug('\t mid = ' + mid);
 		// debug('\t maxes = ' + json(this.maxes, true));
 		for(var s=0; s < this.shapes.length; s++){
@@ -200,7 +200,7 @@
 	};
 
 	Glyph.prototype.flipNS = function(mid){
-		mid = mid || ((this.maxes.ymax - this.maxes.ymin) / 2) + this.maxes.ymin;
+		mid = isval(mid)? mid : ((this.maxes.ymax - this.maxes.ymin) / 2) + this.maxes.ymin;
 		for(var s=0; s < this.shapes.length; s++){
 			this.shapes[s].flipNS(mid);
 		}
