@@ -19,9 +19,9 @@
 		'thisGlyphrStudioVersionNum': '1.05.00',
 
 		// Internal Dev Stuff
-		'devmode': true, 					// global switch for all the stuff below
+		'devmode': false, 					// global switch for all the stuff below
 		'dev_sample_project': false, 		// if sampleproject is present, load it and skip open project experience
-		'dev_current_page': 'import svg', 			// navigate straight to a page
+		'dev_current_page': false, 			// navigate straight to a page
 		'dev_current_panel': false, 			// navigate straight to a panel
 		'dev_selected_shape': false, 			// automatically select a shape
 		'debug': true, 						// show messages sent to the browser console
@@ -34,48 +34,7 @@
 			{'name': 'CombRes', 'onclick': 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine and resolve\'); redraw();'},
 			{'name': 'Draw IX', 'onclick': 'getSelectedWorkItemShapes()[0].path.getPolySegment().drawIntersections();'}
 		],
-		'testOnLoad': function() {
-
-			// Navigate
-			// selectGlyph('0x0061');
-			// setView({dx:100, dy:700, dz:0.6});
-			// clickTool('pathedit');
-			// redraw();
-
-
-			// Segment Test
-			// var s1 = new Segment({p1x:100, p1y:100, p2x:200, p2y:100, p3x:300, p3y:100, p4x:400, p4y:100});
-			// var s2 = new Segment({p1x:250, p1y:100, p2x:350, p2y:100, p3x:450, p3y:100, p4x:550, p4y:100});
-
-			// var s4 = new Segment({p1x:100, p1y:100, p4x:100, p4y:400});
-			// var s3 = new Segment({p1x:50, p1y:100, p2x:50, p2y:200, p3x:200, p3y:300, p4x:300, p4y:300});
-
-			// s3.drawSegmentPoints();
-			// s4.drawSegmentPoints();
-
-			// var re = findSegmentIntersections(s3, s4);
-			// debug(re);
-
-
-			// draw_BoundingBox(s3.getFastMaxes());
-			// draw_BoundingBox(s4.getFastMaxes());
-			// s3.drawSegmentOutline();
-			// s4.drawSegmentOutline();
-
-			// Overlapping point-path test
-			// addShape(new Shape({'name':'small', 'path':rectPathFromMaxes({'xmax':200, 'xmin':100, 'ymax':400, 'ymin':100})}));
-			// addShape(new Shape({'name':'BIG',   'path':rectPathFromMaxes({'xmax':350, 'xmin':150, 'ymax':400, 'ymin':300})}));
-
-			// Two circles test
-			// addShape(new Shape({'name':'small', 'path':ovalPathFromMaxes({'xmax':400, 'xmin':100, 'ymax':400, 'ymin':100})}));
-			// addShape(new Shape({'name':'BIG',   'path':ovalPathFromMaxes({'xmax':700, 'xmin':200, 'ymax':700, 'ymin':200})}));
-
-			// Complex multi shape result test
-			// addShape(new Shape({"objtype":"shape","name":"DCOUNTER","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":58.25,"y":467.6382743362831,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":153.5,"y":456.2699115044247,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":65,"y":517.0774336283187,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":52,"y":564,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":59,"y":528.0442477876106,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":190,"y":564,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":316,"y":366.3805309734514,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":316,"y":512.3185840707964,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":316,"y":220.4424778761064,"xlock":false,"ylock":false},"type":"symmetric","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":66,"y":102,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":204,"y":102,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":59,"y":156.99115044247787,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":64.25,"y":212.24668141592923,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":63,"y":161.75,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":145.5,"y":222.55752212389382,"xlock":false,"ylock":false},"type":"corner","useh1":true,"useh2":true},{"objtype":"pathpoint","P":{"objtype":"coord","x":246,"y":360.03539823008856,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":246,"y":287.06637168141594,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":246,"y":433.0044247787612,"xlock":false,"ylock":false},"type":"flat","useh1":true,"useh2":true}],"winding":-5,"maxes":{"xmax":316,"xmin":52,"ymax":564,"ymin":102}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false}));
-			// addShape(new Shape({"objtype":"shape","name":"DVERTICAL","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":16,"y":634,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":16,"y":485,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":41,"y":634,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":116,"y":634,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":91,"y":634,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":116,"y":485,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":116,"y":38,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":116,"y":187,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":91,"y":38,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":16,"y":38,"xlock":false,"ylock":false},"H1":{"objtype":"coord","x":41,"y":38,"xlock":false,"ylock":false},"H2":{"objtype":"coord","x":16,"y":187,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-5,"maxes":{"xmax":116,"xmin":16,"ymax":634,"ymin":38}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false}));
-
-
-		},
+		'testOnLoad': function() {},
 		'testOnRedraw': function() {},
 
 		// all pages
@@ -249,8 +208,8 @@
 		// page: import svg
 		'selectedsvgimporttarget': false,
 		'importsvg': {
-			'scale': false,
-			'move': false,
+			'scale': true,
+			'move': true,
 			'ascender': false,
 			'capheight': false,
 			'descender': false,

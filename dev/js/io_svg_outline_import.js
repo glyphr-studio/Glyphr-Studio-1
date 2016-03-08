@@ -107,22 +107,24 @@
 
 		if(poly.length){
 			data = {};
-			var pparr, tpp, tcoord;
+			var pparr, tpp, tcoord, px, py;
 			
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
 
 				if(data.length){
 					pparr = [];
-					data = data.split(' ');
+					// Parse in the points data, comma separating everything
+					data = data.replace(/(\s+)/g, ',');
+					data = data.split(',');
 					
-					for(var co=0; co<data.length; co++){
-						tpp = data[co].split(',');
+					for(var co=0; co<data.length; co+=2){
+						px = data[co] || 0;
+						py = data[co+1] || 0;
 						
-						if(tpp.length === 2){
-							tcoord = new Coord({'x':tpp[0], 'y':tpp[1]});
-							pparr.push(new PathPoint({'P':tcoord, 'H1':tcoord, 'H2':tcoord, 'useh1':false, 'useh2':false}));
-						}
+						tcoord = new Coord({'x':px, 'y':py});
+						pparr.push(new PathPoint({'P':tcoord, 'H1':tcoord, 'H2':tcoord, 'useh1':false, 'useh2':false}));
+						
 					}
 
 					pushShape(new Path({'pathpoints':pparr}), 'Polygon');
@@ -177,9 +179,9 @@
 		var reglyph = new Glyph({'shapes':newshapes});
 		reglyph.changed(true);
 
-		debug(reglyph);
+		// debug(reglyph);
 
-		debug(' ioSVG_convertTagsToGlyph - END\n');
+		// debug(' ioSVG_convertTagsToGlyph - END\n');
 		return reglyph;
 	}
 
@@ -313,7 +315,7 @@
 		var newpath = new Path({'pathpoints':patharr});
 		newpath.validate('IMPORTSVG');
 
-		// debug('\t unscaled shape:');
+		// debug('\t unscaled path:');
 		// debug(newpath);
 		// debug(' ioSVG_convertTag - END\n');
 		return newpath;
@@ -325,8 +327,8 @@
 	}
 
 	function ioSVG_handlePathChunk(chunk, patharr, islastpoint){
-		debug('\n ioSVG_handlePathChunk - START');
-		debug('\t chunk: ' + json(chunk, true));
+		// debug('\n ioSVG_handlePathChunk - START');
+		// debug('\t chunk: ' + json(chunk, true));
 		/*
 			Path Instructions: Capital is absolute, lowercase is relative
 			M m		MoveTo
@@ -348,8 +350,7 @@
 		var iscmd = function(str){ return str.indexOf(cmd) > -1; };
 		var p, h1;
 		var lastpoint = patharr[patharr.length-1] || new PathPoint({'P':new Coord({'x':0,'y':0})});
-		var prevx = lastpoint.P.x;
-		var prevy = lastpoint.P.y;
+		var prevx, prevy;
 
 		// debug('\t previous point: \t'+prevx+','+prevy);
 		// debug('\t'+cmd+' ['+chunk.data+']');
@@ -358,8 +359,8 @@
 		// handle command types
 		if(iscmd('MmLlHhVv')){
 
-			var xx = prevx;
-			var yy = prevy;
+			var xx = lastpoint.P.x;
+			var yy = lastpoint.P.y;
 
 			while(chunk.data.length){
 				// Grab the next chunk of data and make sure it's length=2
@@ -370,7 +371,10 @@
 					showErrorMessageBox('Move or Line path command (M, m, L, l) was expecting 2 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<2) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\t command ' + cmd + ' while loop data ' + currdata);
+
+				prevx = lastpoint.P.x;
+				prevy = lastpoint.P.y;
 
 				switch(cmd){
 					case 'L':
@@ -409,19 +413,16 @@
 						break;
 				}
 
-				debug('\t linear end xx yy\t' + xx + ' ' + yy);
+				// debug('\t linear end xx yy\t' + xx + ' ' + yy);
 				p = new Coord({'x':xx, 'y':yy});
-				debug('\t new point ' + p.x + '\t' + p.y);
-
-				prevx = xx;
-				prevy = yy;
+				// debug('\t new point ' + p.x + '\t' + p.y);
 
 				lastpoint.useh2 = false;
 				patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 				lastpoint = patharr[patharr.length-1];
 			}
 
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 
 		} else if(iscmd('CcQqTt')){
 			// ABSOLUTE quadratic bezier curve to
@@ -434,7 +435,7 @@
 				if(cmd === 'q') chunk.data = convertQuadraticToCubic(chunk.data, 0, 0);
 				else chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
 
-				debug('\t Qq - chunk.data converted to ' + chunk.data);
+				// debug('\t Qq - chunk.data converted to ' + chunk.data);
 			}
 
 			// ABSOLUTE quadratic symmetric bezier curve to
@@ -442,12 +443,12 @@
 			if(iscmd('Tt')) {
 				//lastpoint.makeSymmetric('H1');
 				var qh = lastpoint.findQuadraticSymmetric();
-				debug('\t findQuadSymm returned ' + json(qh));
+				// debug('\t findQuadSymm returned ' + json(qh));
 
 				chunk.data.unshift(qh.y);
 				chunk.data.unshift(qh.x);
 
-				debug('\t Tt - chunk.data unshifted to ' + chunk.data);
+				// debug('\t Tt - chunk.data unshifted to ' + chunk.data);
 
 				if(cmd === 't') {
 					chunk.data[0] -= prevx;
@@ -459,7 +460,7 @@
 					chunk.data = convertQuadraticToCubic(chunk.data, prevx, prevy);
 				}
 
-				debug('\t Tt - chunk.data converted to ' + chunk.data);
+				// debug('\t Tt - chunk.data converted to ' + chunk.data);
 			}
 
 			// ABSOLUTE bezier curve to
@@ -477,7 +478,7 @@
 					showErrorMessageBox('Bezier path command (C or c) was expecting 6 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<6) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\t command ' + cmd + ' while loop data ' + currdata);
 
 				// default absolute for C
 
@@ -489,6 +490,8 @@
 
 				if (iscmd('cqt')){
 					// Relative offset for c
+					prevx = lastpoint.P.x;
+					prevy = lastpoint.P.y;
 					lastpoint.H2.x += prevx;
 					lastpoint.H2.y += prevy;
 					h1.x += prevx;
@@ -501,12 +504,12 @@
 					}
 				}
 
-				debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+				// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
 				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'Q':clone(q), 'useh1':true, 'useh2':true, 'type':'corner'}));
 				lastpoint = patharr[patharr.length-1];
 			}
 
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 
 		} else if (iscmd('Ss')){
 			// ABSOLUTE symmetric bezier curve to
@@ -523,7 +526,7 @@
 					showErrorMessageBox('Symmetric Bezier path command (S or s) was expecting 4 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<4) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\t command ' + cmd + ' while loop data ' + currdata);
 
 				lastpoint.makeSymmetric('H1');
 				lastpoint.useh2 = true;
@@ -531,23 +534,25 @@
 				h1 = new Coord({'x': chunk.data[0], 'y': chunk.data[1]});
 				p = new Coord({'x': chunk.data[2], 'y': chunk.data[3]});
 
-				debug('\t point: ' + json(p, true));
+				// debug('\t point: ' + json(p, true));
 
 				if (iscmd('s')){
 					// Relative offset for st
+					prevx = lastpoint.P.x;
+					prevy = lastpoint.P.y;
 					h1.x += prevx;
 					h1.y += prevy;
 					p.x += prevx;
 					p.y += prevy;
 				}
 
-				debug('\t bezier result px:'+p.x+' py:'+p.y+' h1x:'+h1.x+' h1y:'+h1.y);
+				// debug('\t bezier result px:'+p.x+' py:'+p.y+' h1x:'+h1.x+' h1y:'+h1.y);
 
 				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'type':'corner', 'useh1':true, 'useh2':true}));
 				lastpoint = patharr[patharr.length-1];
 			}
 
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 
 		} else if(iscmd('Zz')){
 			// End Path
@@ -561,10 +566,10 @@
 			added.resolvePointType();
 		}
 
-		debug('\t Resulting Path Chunk');
-		debug(json(patharr));
+		// debug('\t Resulting Path Chunk');
+		// debug(json(patharr));
 
-		debug(' ioSVG_handlePathChunk - END\n');
+		// debug(' ioSVG_handlePathChunk - END\n');
 
 		return patharr;
 	}
