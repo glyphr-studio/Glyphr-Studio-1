@@ -16,17 +16,18 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.05',
-		'thisGlyphrStudioVersionNum': '1.05.00',
+		'thisGlyphrStudioVersionNum': '1.05.02',
 
 		// Internal Dev Stuff
 		'devmode': false, 					// global switch for all the stuff below
 		'dev_sample_project': false, 		// if sampleproject is present, load it and skip open project experience
 		'dev_current_page': false, 			// navigate straight to a page
-		'dev_current_panel': false, 			// navigate straight to a panel
-		'dev_selected_shape': false, 			// automatically select a shape
+		'dev_current_panel': false, 		// navigate straight to a panel
+		'dev_selected_shape': false, 		// automatically select a shape
 		'debug': true, 						// show messages sent to the browser console
 		'debugautogroup': false,			// try to console.group based on text strings
 		'coremode': false,					// Glyphr Studio Core is only the functionality, none of the UI
+		'telemetry': true,					// Load google analytics
 		'testactions':[
 			{'name': 'Flatten', 'onclick': 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{'name': 'Combine', 'onclick': 'getSelectedWorkItem().combineAllShapes(true, true); history_put(\'combine\'); redraw();'},

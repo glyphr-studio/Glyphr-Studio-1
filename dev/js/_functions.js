@@ -13,10 +13,12 @@
 		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
 		//debug('\n MAIN SETUP - START');
 	
+
 		// Initialize Stuff
 		insertGlobalDOMElements();
 		setupGhostCanvas();
 		document.title = 'Glyphr Studio';
+
 
 		// Navigate
 		if(_UI.devmode){
@@ -31,10 +33,13 @@
 				newGlyphrProject();
 			}
 
+			if(_UI.dev_current_page === 'import svg'){
+				_UI.importsvg.scale = false;
+				_UI.importsvg.move = false;
+			}
+			
 			navigate({page:(_UI.dev_current_page || 'openproject'), panel:_UI.dev_current_panel});
 		}
-
-
 
 
 		// Google Analytics
@@ -54,7 +59,7 @@
 		if(_UI.devmode) {
 			_UI.testOnLoad();
 
-		} else {
+		} else if (!_UI.devmonde && _UI.telemetry) {
 			try {
 				setupga(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 				ga('create', 'UA-71021902-1', 'auto');
@@ -64,7 +69,8 @@
 			}
 		}
 
-
+		navigate();
+		
 		//debug(' MAIN SETUP - END\n');
 	}
 
