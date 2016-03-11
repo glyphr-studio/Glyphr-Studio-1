@@ -669,7 +669,7 @@
 	};
 
 	Glyph.prototype.sendShapesTo = function(chid) {
-		debug('\n Glyph.sendShapesTo - START');
+		// debug('\n Glyph.sendShapesTo - START');
 
 		var destination = getGlyph(chid, true);
 		destination.shapes = destination.shapes.concat(this.shapes);
@@ -686,9 +686,9 @@
 			}
 		}
 
-		debug('\t new shapes');
-		debug(destination.shapes);
-		debug(' Glyph.sendShapesTo - END\n');
+		// debug('\t new shapes');
+		// debug(destination.shapes);
+		// debug(' Glyph.sendShapesTo - END\n');
 
 	};
 

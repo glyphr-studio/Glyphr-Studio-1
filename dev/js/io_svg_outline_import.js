@@ -327,8 +327,18 @@
 	}
 
 	function ioSVG_handlePathChunk(chunk, patharr, islastpoint){
-		debug('\n ioSVG_handlePathChunk - START');
-		debug('\t chunk: ' + json(chunk, true));
+		// debug('\n ioSVG_handlePathChunk - START');
+		// debug('\t chunk: ' + json(chunk, true));
+
+		var cmd = chunk.command;
+		var currdata = [];
+		var iscmd = function(str){ return str.indexOf(cmd) > -1; };
+		var p, a, nx, ny, h1;
+		var lastpoint = patharr[patharr.length-1] || new PathPoint({'P':new Coord({'x':0,'y':0})});
+		var prevx, prevy;
+
+		// debug('\t previous point: \t'+lastpoint.P.x+','+lastpoint.P.y);
+
 		/*
 			Path Instructions: Capital is absolute, lowercase is relative
 			M m		MoveTo
@@ -341,25 +351,17 @@
 			T t		Smooth Quadratic
 			Z z		Close Path
 
-			Possibly fail gracefully for these by moving to the final point
-			A a		ArcTo (don't support)
+			Partially supported, just draw a line to the end point
+			A a		ArcTo
 		*/
 
-		var cmd = chunk.command;
-		var currdata = [];
-		var iscmd = function(str){ return str.indexOf(cmd) > -1; };
-		var p, a, h1;
-		var lastpoint = patharr[patharr.length-1] || new PathPoint({'P':new Coord({'x':0,'y':0})});
-		var prevx, prevy;
 
-		debug('\t previous point: \t'+lastpoint.P.x+','+lastpoint.P.y);
-
-
-		// handle command types
 		if(iscmd('MmLlHhVv')){
-
-			var xx = lastpoint.P.x;
-			var yy = lastpoint.P.y;
+			// ABSOLUTE line methods
+			// relative line methods
+			
+			nx = lastpoint.P.x;
+			ny = lastpoint.P.y;
 
 			while(chunk.data.length){
 				// Grab the next chunk of data and make sure it's length=2
@@ -370,7 +372,7 @@
 					showErrorMessageBox('Move or Line path command (M, m, L, l) was expecting 2 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<2) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\n\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\n\t command ' + cmd + ' while loop data ' + currdata);
 
 				prevx = lastpoint.P.x;
 				prevy = lastpoint.P.y;
@@ -380,49 +382,95 @@
 					case 'M':
 						// ABSOLUTE line to
 						// ABSOLUTE move to
-						xx = currdata[0];
-						yy = currdata[1];
+						nx = currdata[0];
+						ny = currdata[1];
 						break;
 					case 'l':
 					case 'm':
 						// relative line to
 						// relative move to
-						xx = currdata[0] + prevx;
-						yy = currdata[1] + prevy;
+						nx = currdata[0] + prevx;
+						ny = currdata[1] + prevy;
 						break;
 					case 'H':
 						// ABSOLUTE horizontal line to
-						xx = currdata[0];
+						nx = currdata[0];
 						// chunk.data.unshift(currdata[1]);
 						break;
 					case 'h':
 						// relative horizontal line to
-						xx = currdata[0] + prevx;
+						nx = currdata[0] + prevx;
 						// chunk.data.unshift(currdata[1]);
 						break;
 					case 'V':
 						// ABSOLUTE vertical line to
-						yy = currdata[0];
+						ny = currdata[0];
 						// chunk.data.unshift(currdata[1]);
 						break;
 					case 'v':
 						// relative vertical line to
-						yy = currdata[0] + prevy;
+						ny = currdata[0] + prevy;
 						// chunk.data.unshift(currdata[1]);
 						break;
 				}
 
-				debug('\t linear end xx yy\t' + xx + ' ' + yy);
-				p = new Coord({'x':xx, 'y':yy});
-				debug('\t new point ' + p.x + '\t' + p.y);
+				// debug('\t linear end nx ny\t' + nx + ' ' + ny);
+				p = new Coord({'x':nx, 'y':ny});
+				// debug('\t new point ' + p.x + '\t' + p.y);
 
 				lastpoint.useh2 = false;
 				patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 				lastpoint = patharr[patharr.length-1];
 			}
 
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 
+		} else if (iscmd('Aa')){
+			// ABSOLUTE arc to 
+			// relative arc to 
+
+			showErrorMessageBox('Arc To path commands (A or a) are not directly supported.  A straight line will be drawn from the begining to the end of the arc.');
+			nx = lastpoint.P.x;
+			ny = lastpoint.P.y;
+
+			if(chunk.data.length % 7 !== 0) {
+				showErrorMessageBox('Arc To path command (A or a) was expecting 7 arguments, was passed ['+chunk.data+']\n<br>Failing "gracefully" by just drawing a line to the last two data points as if they were a coordinate.');
+				chunk.data.splice(0, chunk.data.length-2, 0,0,0,0,0);
+			}
+
+			while(chunk.data.length){
+				currdata = [];
+				currdata = chunk.data.splice(0,7);
+				currdata = currdata.splice(5,2);
+				// debug('\n\t command ' + cmd + ' while loop data ' + currdata);
+
+				prevx = lastpoint.P.x;
+				prevy = lastpoint.P.y;
+
+				nx = currdata[0];
+				ny = currdata[1];
+
+				if(cmd === 'a'){
+					nx += prevx;
+					ny += prevy;
+				}
+
+				// debug('\t linear end nx ny\t' + nx + ' ' + ny);
+				p = new Coord({'x':nx, 'y':ny});
+				// debug('\t new point ' + p.x + '\t' + p.y);
+
+				lastpoint.type = 'corner';
+				lastpoint.useh2 = true;
+				lastpoint.makePointedTo(p.x, p.y, false, 'H2', true);
+				
+				var pp = new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':true, 'useh2':true});
+				pp.makePointedTo(prevx, prevy, false, 'H1', true);
+				patharr.push(pp);
+				
+				lastpoint = patharr[patharr.length-1];
+			}
+
+			// debug('\t completed while loop');
 
 		} else if(iscmd('Qq')){
 			// ABSOLUTE quadratic bezier curve to
@@ -436,7 +484,7 @@
 					showErrorMessageBox('Quadratic Bezier path command (Q or q) was expecting 4 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<4) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\n\n\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\n\n\t command ' + cmd + ' while loop data ' + currdata);
 
 				if (iscmd('q')){
 					// Relative offset for q
@@ -452,7 +500,7 @@
 				q = new Coord({'x': currdata[0], 'y':currdata[1]});
 				currdata = [lastpoint.P.x, lastpoint.P.y].concat(currdata);
 				currdata = convertQuadraticToCubic(currdata);
-				debug('\t command ' + cmd + ' after Q>C cnvrt ' + currdata);
+				// debug('\t command ' + cmd + ' after Q>C cnvrt ' + currdata);
 
 				lastpoint.H2 = new Coord({'x': currdata[0], 'y': currdata[1]});
 				lastpoint.useh2 = true;
@@ -462,14 +510,14 @@
 				p = new Coord({'x': currdata[4], 'y': currdata[5]});
 
 
-				debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+				// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
 
 				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'Q':clone(q), 'useh1':true, 'useh2':true, 'type':'corner'}));
 				lastpoint = patharr[patharr.length-1];
 				
 			}
 			
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 			
 
 		} else if(iscmd('Tt')) {
@@ -486,7 +534,7 @@
 					showErrorMessageBox('Symmetric Bezier path command (T or t) was expecting 2 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<2) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\n\t command ' + cmd + ' while loop datas ' + currdata);
+				// debug('\n\t command ' + cmd + ' while loop datas ' + currdata);
 
 				if (iscmd('t')){
 					// Relative offset for t
@@ -499,9 +547,9 @@
 				q = new Coord(findSymmetricPoint(lastpoint.P, lastpoint.Q));
 				currdata = [lastpoint.P.x, lastpoint.P.y, q.x, q.y].concat(currdata);
 				
-				debug('\t command ' + cmd + ' before Q>C cnvrt ' + currdata);
+				// debug('\t command ' + cmd + ' before Q>C cnvrt ' + currdata);
 				currdata = convertQuadraticToCubic(currdata);
-				debug('\t command ' + cmd + ' afters Q>C cnvrt ' + currdata);
+				// debug('\t command ' + cmd + ' afters Q>C cnvrt ' + currdata);
 
 				lastpoint.H2 = new Coord({'x': currdata[0], 'y': currdata[1]});
 				lastpoint.useh2 = true;
@@ -510,14 +558,14 @@
 				h1 = new Coord({'x': currdata[2], 'y': currdata[3]});
 				p = new Coord({'x': currdata[4], 'y': currdata[5]});
 
-				debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+				// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
 
 				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'Q':clone(q), 'useh1':true, 'useh2':true, 'type':'corner'}));
 				lastpoint = patharr[patharr.length-1];
 				
 			}
 			
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 			
 
 		} else if(iscmd('Cc')){
@@ -536,7 +584,7 @@
 					showErrorMessageBox('Bezier path command (C or c) was expecting 6 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<6) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\n\n\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\n\n\t command ' + cmd + ' while loop data ' + currdata);
 
 				lastpoint.H2 = new Coord({'x': currdata[0], 'y': currdata[1]});
 				lastpoint.useh2 = true;
@@ -558,12 +606,12 @@
 
 				}
 
-				debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+				// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
 				patharr.push(new PathPoint({'P':clone(p), 'H1':clone(h1), 'H2':clone(p), 'useh1':true, 'useh2':true, 'type':'corner'}));
 				lastpoint = patharr[patharr.length-1];
 			}
 
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 
 
 		} else if (iscmd('Ss')){
@@ -580,7 +628,7 @@
 					showErrorMessageBox('Symmetric Bezier path command (S or s) was expecting 4 arguments, was passed ['+currdata+']\n<br>Failing "gracefully" by filling in default data.');
 					while(currdata.length<4) { currdata.push(currdata[currdata.length-1]+100); }
 				}
-				debug('\n\t command ' + cmd + ' while loop data ' + currdata);
+				// debug('\n\t command ' + cmd + ' while loop data ' + currdata);
 
 				lastpoint.makeSymmetric('H1');
 				lastpoint.useh2 = true;
@@ -588,7 +636,7 @@
 				h1 = new Coord({'x': currdata[0], 'y': currdata[1]});
 				p = new Coord({'x': currdata[2], 'y': currdata[3]});
 
-				debug('\t P before: ' + json(p, true));
+				// debug('\t P before: ' + json(p, true));
 
 				if (iscmd('s')){
 					// Relative offset for st
@@ -600,8 +648,8 @@
 					p.y += prevy;
 				}
 				
-				debug('\t P afters: ' + json(p, true));
-				debug('\t H1 after: ' + json(h1, true));
+				// debug('\t P afters: ' + json(p, true));
+				// debug('\t H1 after: ' + json(h1, true));
 
 				
 
@@ -609,7 +657,7 @@
 				lastpoint = patharr[patharr.length-1];
 			}
 
-			debug('\t completed while loop');
+			// debug('\t completed while loop');
 
 
 		} else if(iscmd('Zz')){
@@ -624,29 +672,29 @@
 			added.resolvePointType();
 		}
 
-		debug('\t Resulting Path Chunk');
-		debug(patharr);
+		// debug('\t Resulting Path Chunk');
+		// debug(patharr);
 
-		debug(' ioSVG_handlePathChunk - END\n');
+		// debug(' ioSVG_handlePathChunk - END\n');
 
 		return patharr;
 	}
 
 	function findSymmetricPoint(p, h){
-		debug('\n findSymmetricPoint - START');
+		// debug('\n findSymmetricPoint - START');
 		p = p || {x:0, y:0};
 		h = h || {x:0, y:0};
 
-		debug('\t p: ' + json(p, true));
-		debug('\t h: ' + json(h, true));
+		// debug('\t p: ' + json(p, true));
+		// debug('\t h: ' + json(h, true));
 
 		var re = {
 			'x' : ((p.x - h.x) + p.x),
 			'y' : ((p.y - h.y) + p.y)
 		};
 
-		debug('\t returning ' + json(re, true));
-		debug(' findSymmetricPoint - END\n');
+		// debug('\t returning ' + json(re, true));
+		// debug(' findSymmetricPoint - END\n');
 
 		return re;
 	}

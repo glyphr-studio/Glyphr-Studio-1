@@ -179,7 +179,7 @@
 
 		// Flip and Scale
 		var mid = _GP.projectsettings.ascent / 2;
-		debug('\t Flipping tempchar about ' + mid);
+		// debug('\t Flipping tempchar about ' + mid);
 		tempchar.flipNS(mid);
 		// debug('\t >><< AFTER FLIPNS');
 		// debug(tempchar);

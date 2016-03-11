@@ -321,22 +321,30 @@
 		// debug(' pathPoint.resolvePointType - END\n');
 	};
 
-	PathPoint.prototype.makePointedTo = function(px, py, length){
+	PathPoint.prototype.makePointedTo = function(px, py, length, handle, dontresolvetype){
 		//figure out angle
 		var adj1 = this.P.x-px;
 		var opp1 = this.P.y-py;
+
+		var ymod = (opp1 >= 0)? -1 : 1;
+		var xmod = -1;
+
 		var hyp1 = Math.sqrt( (adj1*adj1) + (opp1*opp1) );
 		var angle1 = Math.acos(adj1 / hyp1);
 
-		//debug('MAKEPOINTEDTO - x/y/l ' + px + ' ' + py + ' ' + length + ' - Before H1x/y ' + this.H1.x + ' ' + this.H1.y);
-		this.H1.x = this.P.x - Math.cos(angle1)*length;
-		this.H1.y = this.P.y - Math.sin(angle1)*length;
-		//debug('MAKEPOINTEDTO - after H1x/y ' + this.H1.x + ' ' + this.H1.y);
-		if(this.type === 'corner') this.makeFlat('H1');
-		else this.makeSymmetric('H1');
-		//debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		length = length || (hyp1/3);
+		handle = (handle==='H2')? 'H2' : 'H1';
 
-		//this.roundAll();
+		//debug('MAKEPOINTEDTO - x/y/l ' + px + ' ' + py + ' ' + length + ' - Before H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		this[handle].x = this.P.x + (Math.cos(angle1) * length * xmod);
+		this[handle].y = this.P.y + (Math.sin(angle1) * length * ymod);
+		//debug('MAKEPOINTEDTO - after H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		
+		if(!dontresolvetype){
+			if(this.type === 'corner') this.makeFlat(handle);
+			else this.makeSymmetric(handle);
+			//debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		}
 	};
 
 	PathPoint.prototype.round = function(prec) {

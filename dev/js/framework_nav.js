@@ -18,6 +18,8 @@
 
 		oa = oa || {};
 
+		clickEmptySpace();
+
 		if(oa.page && _UI.current_page !== oa.page){
 			_UI.current_page = oa.page;
 			_UI.current_panel = false;
@@ -537,9 +539,14 @@
 				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target="_blank">suggest a feature or improvement</a><br>');
 			} else if (navarr[i] === 'issue'){
 				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target="_blank" class="navpanellink">create a new issue on github</a><br>');
+			} else if(navarr[i] === _UI.current_page){
+				iconname = 'nav_'+navarr[i].replace(' ','');
+				newsub += '<button class="'+bc+'" onclick="clickHamburger();">'+
+					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
+					navarr[i]+'</button>';
 			} else {
 				iconname = 'nav_'+navarr[i].replace(' ','');
-				newsub += '<button class="'+bc+'" onclick="clickEmptySpace(); navigate({page:\''+navarr[i]+'\'});">'+
+				newsub += '<button class="'+bc+'" onclick="navigate({page:\''+navarr[i]+'\'});">'+
 					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
 					navarr[i]+'</button>';
 			}

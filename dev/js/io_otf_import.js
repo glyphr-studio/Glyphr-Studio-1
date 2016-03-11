@@ -89,8 +89,8 @@
 
 		var c=0;
 		function importOneGlyph(){
-			debug('\n\n=============================\n');
-			debug('\n importOneGlyph - START');
+			// debug('\n\n=============================\n');
+			// debug('\n importOneGlyph - START');
 			importStatus('Importing Glyph ' + c + ' of ' + importglyphs.length);
 
 			if(c >= importglyphs.length) {
@@ -103,23 +103,23 @@
 			tglyph = importglyphs[c];
 
 			// Get the appropriate unicode decimal for this glyph
-			debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
-			debug(tglyph);
+			// debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
+			// debug(tglyph);
 
 			uni = decToHex(tglyph.unicode || 0);
 
 			if(uni === false || uni === '0x0000'){
 				// Check for .notdef
-				debug('\t !!! Skipping '+tglyph.name+' NO UNICODE !!!');
+				// debug('\t !!! Skipping '+tglyph.name+' NO UNICODE !!!');
 				importglyphs.splice(c, 1);
 
 			} else if (filter && isOutOfBounds([uni])){
-				debug('\t !!! Skipping '+tglyph.name+' OUT OF BOUNDS !!!');
+				// debug('\t !!! Skipping '+tglyph.name+' OUT OF BOUNDS !!!');
 				importglyphs.splice(c, 1);
 
 			} else {
 
-				debug('\t GLYPH ' + c + '/'+importglyphs.length+'\t"'+tglyph.name + '" unicode: ' + uni);
+				// debug('\t GLYPH ' + c + '/'+importglyphs.length+'\t"'+tglyph.name + '" unicode: ' + uni);
 				/*
 				*
 				*	GLYPH IMPORT
@@ -130,7 +130,7 @@
 
 				// Import Path Data
 				data = flattenDataArray(tglyph.path.commands);
-				debug('\t Glyph has path data ' + data);
+				// debug('\t Glyph has path data ' + data);
 
 				if(data && data !== 'Z'){
 					// Move commands for a path are treated as different Glyphr Shapes
@@ -138,14 +138,14 @@
 					data = data.replace(/m/g,'~m');
 					data = data.split('~');
 
-					debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
+					// debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
 
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
-							debug('\t starting convertPathTag');
+							// debug('\t starting convertPathTag');
 							np = ioSVG_convertPathTag(data[d]);
-							debug('\t created shape from PathTag');
-							debug(np);
+							// debug('\t created shape from PathTag');
+							// debug(np);
 							shapecounter++;
 							newshapes.push(new Shape({'path':np, 'name':('Shape ' + shapecounter)}));
 						}
@@ -180,7 +180,7 @@
 			// finish loop
 			setTimeout(importOneGlyph, 1);
 
-			debug(' importOneGlyph - END\n');
+			// debug(' importOneGlyph - END\n');
 		}
 
 		function flattenDataArray(da) {
