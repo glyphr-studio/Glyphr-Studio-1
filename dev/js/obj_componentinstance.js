@@ -119,9 +119,9 @@
 	};
 
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
-		// debug('\n ComponentInstance.updateShapePosition - START');
-		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
-		// debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
+		debug('\n ComponentInstance.updateShapePosition - START');
+		debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
+		debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
 		dx = parseFloat(dx) || 0;
 		dy = parseFloat(dy) || 0;
 
@@ -130,19 +130,28 @@
 		
 		this.changed();
 		
-		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
-		// debug(' ComponentInstance.updateShapePosition - END\n');
+		debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
+		debug(' ComponentInstance.updateShapePosition - END\n');
 	};
 
 	ComponentInstance.prototype.setShapePosition = function(nx, ny, force) {
-		var og = getGlyph(this.link);
+		debug('\n ComponentInstance.setShapePosition - START');
+		debug('\t passed nx/ny/force: ' + nx + ' / ' + ny + ' / ' + force);
+		debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
+		var ogm = getGlyph(this.link).getMaxes();
+
 		nx = parseFloat(nx);
 		ny = parseFloat(ny);
 
-		if(!isNaN(nx)) this.translatex = (nx - og.maxes.xmin);
-		if(!isNaN(ny)) this.translatey = (ny - og.maxes.ymax);
+		debug('\t ogm ' + json(ogm, true));
+
+		if(!isNaN(nx)) this.translatex = (nx - ogm.xmin);
+		if(!isNaN(ny)) this.translatey = (ny - ogm.ymax);
 
 		this.changed();
+
+		debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
+		debug(' ComponentInstance.setShapePosition - END\n');
 	};
 
 	ComponentInstance.prototype.updateShapeSize = function(dw, dh, ratiolock) {
@@ -152,9 +161,9 @@
 		if(dh !== false) dh = parseFloat(dh) || 0;
 
 		if(ratiolock){
-			var ts = this.getTransformedGlyph();
-			var w = (ts.maxes.xmax - ts.maxes.xmin);
-			var h = (ts.maxes.ymax - ts.maxes.ymin);
+			var ts = this.getTransformedGlyph().getMaxes();
+			var w = (ts.xmax - ts.xmin);
+			var h = (ts.ymax - ts.ymin);
 
 			if(Math.abs(dw) > Math.abs(dh)){
 				dh = (dw * (h / w));
@@ -176,28 +185,28 @@
 	};
 
 	ComponentInstance.prototype.setShapeSize = function(nw, nh, ratiolock) {
-		var og = getGlyph(this.link);
-		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;
-		var dy = ny? ((ny*1) - og.maxes.ymax) : 0;
+		var og = getGlyph(this.link).getMaxes();
+		var dx = nx? ((nx*1) - og.xmin) : 0;
+		var dy = ny? ((ny*1) - og.ymax) : 0;
 
 		this.updateShapePosition(dx, dy, ratiolock);
 	};
 
 	ComponentInstance.prototype.getWidth = function() {
-		var g = this.getTransformedGlyph();
-		return g.maxes.xmax - g.maxes.xmin;
+		var g = this.getTransformedGlyph().getMaxes();
+		return g.xmax - g.xmin;
 	};
 
 	ComponentInstance.prototype.getHeight = function() {
-		var g = this.getTransformedGlyph();
-		return g.maxes.ymax - g.maxes.ymin;
+		var g = this.getTransformedGlyph().getMaxes();
+		return g.ymax - g.ymin;
 	};
 
 	ComponentInstance.prototype.flipEW = function(mid) {
 		this.flipew = !this.flipew;
 		if(mid){
-			var g = this.getTransformedGlyph();
-			this.translatex += (((mid - g.maxes.xmax) + mid) - g.maxes.xmin);
+			var g = this.getTransformedGlyph().getMaxes();
+			this.translatex += (((mid - g.xmax) + mid) - g.xmin);
 		}
 		if(this.rotation === 0) this.rotatefirst = false;
 		
@@ -207,8 +216,8 @@
 	ComponentInstance.prototype.flipNS = function(mid) {
 		this.flipns = !this.flipns;
 		if(mid){
-			var g = this.getTransformedGlyph();
-			this.translatey += (((mid - g.maxes.ymax) + mid) - g.maxes.ymin);
+			var g = this.getTransformedGlyph().getMaxes();
+			this.translatey += (((mid - g.ymax) + mid) - g.ymin);
 		}
 		if(this.rotation === 0) this.rotatefirst = false;
 
@@ -308,16 +317,16 @@
 		// debug('\n ComponentInstance.draw_BoundingBox - START');
 		accent = accent || _UI.colors.green;
 		thickness = thickness || 1;
-		var g = this.getTransformedGlyph();
-		draw_BoundingBox(g.maxes, accent, thickness);
+		var g = this.getTransformedGlyph().getMaxes();
+		draw_BoundingBox(g, accent, thickness);
 	};
 
 	ComponentInstance.prototype.draw_BoundingBoxHandles = function(accent, thickness){
 		// debug('\n ComponentInstance.draw_BoundingBoxHandles - START');
 		accent = accent || _UI.colors.green;
 		thickness = thickness || 1;
-		var g = this.getTransformedGlyph();
-	 	draw_BoundingBoxHandles(g.maxes, accent, thickness);
+		var g = this.getTransformedGlyph().getMaxes();
+	 	draw_BoundingBoxHandles(g, accent, thickness);
 	};
 
 	ComponentInstance.prototype.isHere = function(px, py){

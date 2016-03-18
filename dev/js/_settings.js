@@ -20,8 +20,8 @@
 
 		// Internal Dev Stuff
 		'devmode': false, 					// global switch for all the stuff below
-		'dev_sample_project': 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		'dev_current_page': 'glyph edit', 			// navigate straight to a page
+		'dev_sample_project': false, 		// if sampleproject is present, load it and skip open project experience
+		'dev_current_page': false, 			// navigate straight to a page
 		'dev_current_panel': false, 		// navigate straight to a panel
 		'dev_selected_shape': false, 		// automatically select a shape
 		'debug': true, 						// show messages sent to the browser console
@@ -36,9 +36,9 @@
 			{'name': 'Draw IX', 'onclick': 'getSelectedWorkItemShapes()[0].path.getPolySegment().drawIntersections();'}
 		],
 		'testOnLoad': function() {
-			_UI.selectedtool = 'shaperesize';
-			redraw();
-			console.clear();
+			// _UI.selectedtool = 'shaperesize';
+			// redraw();
+			// console.clear();
 		},
 		'testOnRedraw': function() {},
 
