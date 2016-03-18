@@ -136,10 +136,13 @@
 
 	ComponentInstance.prototype.setShapePosition = function(nx, ny, force) {
 		var og = getGlyph(this.link);
-		var dx = nx? ((nx*1) - og.maxes.xmin) : 0;
-		var dy = ny? ((ny*1) - og.maxes.ymax) : 0;
+		nx = parseFloat(nx);
+		ny = parseFloat(ny);
 
-		this.updateShapePosition(dx, dy, force);
+		if(!isNaN(nx)) this.translatex = (nx - og.maxes.xmin);
+		if(!isNaN(ny)) this.translatey = (ny - og.maxes.ymax);
+
+		this.changed();
 	};
 
 	ComponentInstance.prototype.updateShapeSize = function(dw, dh, ratiolock) {

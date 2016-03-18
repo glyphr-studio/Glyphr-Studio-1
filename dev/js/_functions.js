@@ -55,11 +55,8 @@
 			a.src = g;
 			m.parentNode.insertBefore(a,m);
 		}
-
-		if(_UI.devmode) {
-			_UI.testOnLoad();
-
-		} else if (!_UI.devmonde && _UI.telemetry) {
+		
+		if (!_UI.devmonde && _UI.telemetry) {
 			try {
 				setupga(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 				ga('create', 'UA-71021902-1', 'auto');
@@ -70,6 +67,8 @@
 		}
 
 		navigate();
+		
+		if(_UI.devmode) _UI.testOnLoad();
 		
 		//debug(' MAIN SETUP - END\n');
 	}

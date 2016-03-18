@@ -227,30 +227,88 @@
 	};
 
 	Glyph.prototype.alignShapes = function(edge) {
-
-		var target;
+		// debug('\n Glyph.alignShapes - START');
+		// debug('\t edge: ' + edge);
+		var target, offset;
 
 		if(edge === 'top'){
-			target = -99999;
+			target = -999999;
 
 			this.shapes.forEach(function(v) {
 				target = Math.max(target, v.getMaxes().ymax);
 			});
 
+			// debug('\t found TOP: ' + target);
+			
 			this.shapes.forEach(function(v) {
 				v.setShapePosition(false, target);
 			});
 
+
 		} else if (edge === 'middle'){
+			target = this.getCenter().y;
+
+			// debug('\t found MIDDLE: ' + target);
+
+			this.shapes.forEach(function(v) {
+				offset = v.getCenter().y;
+				v.updateShapePosition(false, (target - offset));
+			});
+
 
 		} else if (edge === 'bottom'){
+			target = 999999;
+
+			this.shapes.forEach(function(v) {
+				target = Math.min(target, v.getMaxes().ymin);
+			});
+
+			// debug('\t found BOTTOM: ' + target);
+
+			this.shapes.forEach(function(v) {
+				offset = v.getMaxes().ymin;
+				v.updateShapePosition(false, (target - offset));
+			});
+
 
 		} else if (edge === 'left'){
+			target = 999999;
+			
+			this.shapes.forEach(function(v) {
+				target = Math.min(target, v.getMaxes().xmin);
+			});
+
+			// debug('\t found LEFT: ' + target);
+
+			this.shapes.forEach(function(v) {
+				v.setShapePosition(target, false);
+			});
+
 
 		} else if (edge === 'center'){
+			target = this.getCenter().x;
+
+			// debug('\t found CENTER: ' + target);
+
+			this.shapes.forEach(function(v) {
+				offset = v.getCenter().x;
+				v.updateShapePosition((target - offset), false);
+			});
+
 
 		} else if (edge === 'right'){
+			target = -999999;
 
+			this.shapes.forEach(function(v) {
+				target = Math.max(target, v.getMaxes().xmax);
+			});
+
+			// debug('\t found RIGHT: ' + target);
+
+			this.shapes.forEach(function(v) {
+				offset = v.getMaxes().xmax;
+				v.updateShapePosition((target - offset), false);
+			});
 		}
 
 		this.changed();

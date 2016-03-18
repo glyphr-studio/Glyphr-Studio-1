@@ -1051,6 +1051,7 @@
 
 	.openproject_tile h2 {
 		display:block;
+		padding-right:0px;
 	}
 
 	.openproject_tile .buttonsel {

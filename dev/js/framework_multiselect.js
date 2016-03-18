@@ -304,7 +304,11 @@
 
 	_UI.ms.shapes.align = function(edge) {
 		// showToast('align ' + edge);
-		this.getGlyph().alignShapes(edge);
+		var g = this.getGlyph();
+		var gnum = g.shapes.length;
+		g.alignShapes(edge);
+
+		history_put('Aligned ' + gnum + ' shapes ' + edge);
 	};
 
 	// Wrapper functions

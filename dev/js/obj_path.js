@@ -143,10 +143,11 @@
 	};
 
 	Path.prototype.updatePathPosition = function(dx, dy, force){
+		// debug('\n Path.updatePathPosition - START');
 		force = isval(force)? force : false;
 		if(dx !== false) dx = parseFloat(dx) || 0;
 		if(dy !== false) dy = parseFloat(dy) || 0;
-		//debug('UPDATEPATHPOSITION - dx,dy,f\t'+dx+' , '+dy+' , '+force);
+		// debug('\t dx, dy, f\t'+dx+'\t'+dy+'\t'+force);
 
 		for(var d=0; d<this.pathpoints.length; d++){
 			var pp = this.pathpoints[d];
@@ -154,7 +155,8 @@
 			pp.updatePathPointPosition('P',dx,dy,force);
 		}
 
-		this.calcMaxes();
+		this.changed();
+		// debug(' Path.updatePathPosition - END\n');
 	};
 
 	Path.prototype.getWinding = function() {
@@ -195,7 +197,7 @@
 			pp.rotate(angle, about);
 			// debug('\t p['+d+'].P.x ' + pp.P.x);
 		}
-		this.calcMaxes();
+		this.changed();
 		// debug(' Path.rotate - END\n');
 	};
 
@@ -797,7 +799,7 @@
 
 		this.findWinding();
 		// debug('\t calling calcMaxes');
-		this.calcMaxes();
+		this.changed();
 
 		// debug(' Path.addPathPoint - END - returning ' + re + '\n');
 		return re;
@@ -849,7 +851,7 @@
 		this.pathpoints.splice(pp2i, 0, ppn);
 		// this.selectPathPoint(pp2i);
 
-		this.calcMaxes();
+		this.changed();
 		return ppn;
 	};
 
