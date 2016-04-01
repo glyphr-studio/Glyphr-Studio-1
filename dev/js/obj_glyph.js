@@ -381,7 +381,7 @@
 
 	Glyph.prototype.calcGlyphWidth = function(){
 		if(!this.isautowide) return;
-		this.glyphwidth = Math.max(this.getMaxes().xmax, 0);
+		this.glyphwidth = Math.max(this.maxes.xmax, 0);
 	};
 
 	Glyph.prototype.getTotalWidth = function() {
@@ -398,18 +398,20 @@
 			// debug('\t ^^^^^^ maxes found NaN, DONE calculating...');
 		}
 
-		if( this.maxes.xmin === _UI.maxes.xmin ||
-			this.maxes.xmin === _UI.mins.xmin ||
-			this.maxes.xmax === _UI.maxes.xmax ||
-			this.maxes.xmax === _UI.mins.xmax ||
-			this.maxes.ymin === _UI.maxes.ymin ||
-			this.maxes.ymin === _UI.mins.ymin ||
-			this.maxes.ymax === _UI.maxes.ymax ||
-			this.maxes.ymax === _UI.mins.ymax
-			){
-			this.calcGlyphMaxes();
+		if(this.shapes.length){
+			if( this.maxes.xmin === _UI.maxes.xmin ||
+				this.maxes.xmin === _UI.mins.xmin ||
+				this.maxes.xmax === _UI.maxes.xmax ||
+				this.maxes.xmax === _UI.mins.xmax ||
+				this.maxes.ymin === _UI.maxes.ymin ||
+				this.maxes.ymin === _UI.mins.ymin ||
+				this.maxes.ymax === _UI.maxes.ymax ||
+				this.maxes.ymax === _UI.mins.ymax
+				){
+				this.calcGlyphMaxes();
+			}
 		}
-
+		
 		// debug('\t returning ' + json(this.maxes));
 		// debug(' Glyph.getMaxes - END ' + this.name + '\n');
 		return clone(this.maxes);
