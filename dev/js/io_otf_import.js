@@ -70,7 +70,7 @@
 		Object.keys(font.glyphs.glyphs).forEach(function (key) {
 			importglyphs.push(font.glyphs.glyphs[key]);
 		});
-		
+
 
 
 		/*
