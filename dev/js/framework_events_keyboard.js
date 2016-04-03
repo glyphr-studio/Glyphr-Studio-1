@@ -94,6 +94,19 @@
 			return;
 		}
 
+		if(event.ctrlKey && kc==='a') {
+			for(var i in _GP.s) {
+				if(! _GP.glyphs[i].getShapes) return;
+
+				_GP.glyphs[i].getShapes().forEach(function(shape, i) {
+					_UI.ms.shapes.members.push(shape);
+					console.log(_UI.ms.shapes.members);
+				});
+			}
+			_UI.ms.points.selectShapesThatHaveSelectedPoints();
+			redraw({calledby:'Event Handler - Select all path points', redrawpanels:false});
+			return;
+		}
 
 		// Space
 		if(kc === 'space' && overcanvas){
@@ -146,25 +159,25 @@
 		// left
 		if(kc==='left' && overcanvas){
 			event.preventDefault();
-			nudge(-1,0);
+			nudge(-1,0, event);
 		}
 
 		// right
 		if(kc==='right' && overcanvas){
 			event.preventDefault();
-			nudge(1,0);
+			nudge(1,0, event);
 		}
 
 		// up
 		if(kc==='up' && overcanvas){
 			event.preventDefault();
-			nudge(0,1);
+			nudge(0,1, event);
 		}
 
 		// down
 		if(kc==='down' && overcanvas){
 			event.preventDefault();
-			nudge(0,-1);
+			nudge(0,-1, event);
 		}
 
 
@@ -223,7 +236,9 @@
 		return specialGlyphs[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();
 	}
 
-	function nudge(dx, dy) {
+	function nudge(dx, dy, ev) {
+		if(ev.ctrlKey) return;
+
 		var mx = (dx * _GP.projectsettings.spinnervaluechange);
 		var my = (dy * _GP.projectsettings.spinnervaluechange);
 		var em = getEditMode();
@@ -233,7 +248,9 @@
 		} else if(em === 'pointer'){
 				_UI.ms.shapes.updateShapePosition(mx, my);
 		} else if(em === 'pen'){
-				_UI.ms.points.updatePathPointPosition('P', mx, my);
+				_UI.ms.points.getMembers().forEach(function(o, i) {
+					o.updatePathPointPosition('P', mx, my);
+				});
 		}
 
 		redraw({calledby:'Nudge'});
