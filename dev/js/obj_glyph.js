@@ -791,6 +791,17 @@
 		return false;
 	};
 
+	Glyph.prototype.getPathPoints = function() {
+		var points = [];
+		this.shapes.forEach(function(shape, i) {
+			points = points.concat(shape.path.pathpoints);
+		});
+		return points;
+	};
+
+	Glyph.prototype.getShapes = function() {
+		return this.shapes;
+	};
 
 //-------------------------------------------------------
 // GLYPH FUNCTIONS

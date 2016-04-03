@@ -220,16 +220,14 @@
 // Dialog Box, Error Box, Notation
 //--------------------------------------
 	function closeDialog(){
-		document.getElementById('dialog_bg').style.display='none';
-
-		document.getElementById('dialog_box').style.display='none';
-		document.getElementById('dialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
-
-		document.getElementById('big_dialog_box').style.display='none';
-		document.getElementById('bigDialogLeftContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
-
-		document.getElementById('saveFormatFlyout').style.display='none';
 		if(!_UI.popout && document.getElementById('npSave')) document.getElementById('npSave').style.backgroundColor = 'transparent';
+		document.getElementById('dialog_bg').style.display='none';
+		document.getElementById('big_dialog_box').style.display='none';
+		document.getElementById('dialog_box').style.display='none';
+		document.getElementById('saveFormatFlyout').style.display='none';
+
+		document.getElementById('dialogRightContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
+		document.getElementById('bigDialogLeftContent').innerHTML = "<b>Error: unspecified dialog box content.</b>";
 
 		// document.body.focus();
 	}
@@ -598,6 +596,16 @@ function saveFile(fname, buffer, ftype) {
 		360 Degrees, 12 o'clock is zero, clockwise = positve
 	**/
 
+	function calculateAngleX(angle, y){
+		x = Math.tan(angle*y);
+		return x;
+	}
+
+	function calculateAngleY(angle, x){
+		y = Math.tan(angle*x);
+		return y;
+	}
+
 	function calculateAngle(h, p){
 		p = p || {x:0, y:0};
 		result = Math.atan2(h.y - p.y, h.x - p.x);
@@ -665,7 +673,12 @@ function saveFile(fname, buffer, ftype) {
 		return angle;
 	}
 
-
+	function async(fn, callback) {
+		setTimeout(function() {
+			fn();
+			callback && callback(fn() || undefined);
+		}, 0);
+	}
 //-------------------
 // Object ID Stuff
 //-------------------
@@ -777,5 +790,106 @@ function saveFile(fname, buffer, ftype) {
 
 		return 'rgb('+val.r+','+val.g+','+val.b+')';
 	}
+
+//-------------------
+// COMBINATORICS
+//-------------------
+
+/**
+ * K-combinations
+ *
+ * Get k-sized combinations of elements in a set.
+ *
+ * Usage:
+ *   k_combinations(set, k)
+ *
+ * Parameters:
+ *   set: Array of objects of any type. They are treated as unique.
+ *   k: size of combinations to search for.
+ *
+ * Return:
+ *   Array of found combinations, size of a combination is k.
+ *
+ * Examples:
+ *
+ *   k_combinations([1, 2, 3], 1)
+ *   -> [[1], [2], [3]]
+ *
+ *   k_combinations([1, 2, 3], 2)
+ *   -> [[1,2], [1,3], [2, 3]
+ *
+ *   k_combinations([1, 2, 3], 3)
+ *   -> [[1, 2, 3]]
+ *
+ *   k_combinations([1, 2, 3], 4)
+ *   -> []
+ *
+ *   k_combinations([1, 2, 3], 0)
+ *   -> []
+ *
+ *   k_combinations([1, 2, 3], -1)
+ *   -> []
+ *
+ *   k_combinations([], 0)
+ *   -> []
+ */
+function k_combinations(set, k) {
+	var i, j, combs, head, tailcombs;
+
+	if (k > set.length || k <= 0) {
+		return [];
+	}
+
+	if (k == set.length) {
+		return [set];
+	}
+
+	if (k == 1) {
+		combs = [];
+		for (i = 0; i < set.length; i++) {
+			combs.push([set[i]]);
+		}
+		return combs;
+	}
+
+	// Assert {1 < k < set.length}
+
+	combs = [];
+	for (i = 0; i < set.length - k + 1; i++) {
+		head = set.slice(i, i+1);
+		tailcombs = k_combinations(set.slice(i + 1), k - 1);
+		for (j = 0; j < tailcombs.length; j++) {
+			combs.push(head.concat(tailcombs[j]));
+		}
+	}
+	return combs;
+}
+
+k_permutations = function(set, maxLen, excludeTwins) {
+	// Copy initial values as arrays
+	var perm = set.map(function(val) {
+		return [val];
+	});
+	// Our permutation generator
+	var generate = function(perm, maxLen, currLen) {
+		// Reached desired length
+		if (currLen === maxLen) {
+			return perm;
+		}
+		// For each existing permutation
+		for (var i = 0, len = perm.length; i < len; i++) {
+			var currPerm = perm.shift();
+			// Create new permutation
+			for (var k = 0; k < set.length; k++) {
+				if(!(excludeTwins && currPerm[0] === set[k])) perm.push(currPerm.concat(set[k]));
+			}
+		}
+		// Recurse
+		return generate(perm, maxLen, currLen + 1);
+	};
+	// Start with size 1 because of initial values
+	return generate(perm, maxLen, 1);
+};
+
 
 // end of file
