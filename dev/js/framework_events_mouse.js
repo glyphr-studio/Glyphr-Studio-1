@@ -536,22 +536,18 @@
 				var dz = getView('Event Handler Tool_PathEdit mousemove').dz;
 				var dx = (eh.mousex-eh.lastx)/dz;
 				var dy = (eh.lasty-eh.mousey)/dz;
-				var controlpoint = this.controlpoint;
 
-				if(controlpoint.type === 'P') setCursor('penSquare');
+				if(this.controlpoint.type === 'P') setCursor('penSquare');
 				else setCursor('penCircle');
 
 
 				if(sp.getMembers().length === 1){
-					if(controlpoint.point[controlpoint.type].xlock) dx = 0;
-					if(controlpoint.point[controlpoint.type].ylock) dy = 0;
+					if(this.controlpoint.point[this.controlpoint.type].xlock) dx = 0;
+					if(this.controlpoint.point[this.controlpoint.type].ylock) dy = 0;
 				}
 
 				// debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
-				sp.getMembers().forEach(function(point, i) {
-					if(ev.ctrlKey) return;
-					point.updatePathPointPosition(controlpoint.type, dx, dy, ev);
-				});
+				sp.updatePathPointPosition(this.controlpoint.type, dx, dy);
 				_UI.ms.shapes.calcMaxes();
 
 				eh.lastx = eh.mousex;

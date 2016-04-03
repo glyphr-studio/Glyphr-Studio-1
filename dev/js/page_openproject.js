@@ -66,7 +66,7 @@
 		// NEW
 		con += '<div class="openproject_tile" id="new_content" style="display: none;">'+
 					'<h2>Start a new Glyphr Studio Project</h2>'+
-					'Project name: &nbsp; <input id="newprojectname" type="text" value="My Font" autofocus/><br>'+
+					'Project name: &nbsp; <input id="newprojectname" type="text" value="My Font"/><br>'+
 					'<button onclick="newGlyphrProject(); navigate({page:\'glyph edit\'});" class="buttonsel">Start a new font from scratch</button>'+
 				'</div>';
 

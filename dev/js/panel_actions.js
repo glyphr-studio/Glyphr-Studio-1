@@ -2,7 +2,7 @@
 /**
 	Panel > Actions
 	Usually this is attached to the bottom of the
-	Glyph Attributes panel screen mode,
+	Glyph Attributes panel.  In two screen mode,
 	the Attributes panel gets its own column.
 **/
 
@@ -72,35 +72,11 @@
 		pointactions += '<button title="Insert Path Point\nAdds a new Path Point half way between the currently-selected point, and the next one" onclick="_UI.ms.points.insertPathPoint(); history_put(\'Insert Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_InsertPathPoint() + '</button>';
 		pointactions += '<button title="Delete Path Point\nRemoves the currently selected point or points from the path" class="'+(ss.length? '': 'buttondis')+'" onclick="_UI.ms.points.deletePathPoints(); history_put(\'Delete Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeletePathPoint() + '</button>';
 		pointactions += '<button title="Reset Handles\nMoves the handles of the currently selected point or points to default locations" onclick="_UI.ms.points.resetHandles(); history_put(\'Reset Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_ResetPathPoint() + '</button>';
-		pointactions += '<h3>point align</h3>';
-		pointactions += '<button title="Align Vertically\nAlign points vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { console.log(o[0]),o[0].alignX(o[1]) }); history_put(\'Align Points Vertically\');">' + makeActionButton_AlignPointsX() + '</button>';
-		pointactions += '<button title="Align Horizontally\nAlign points horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignY(o[1]) }); history_put(\'Align Points Horizontally\');">' + makeActionButton_AlignPointsY() + '</button>';
-		pointactions += '<h3>point handle align</h3>';
-		pointactions += '<button title="Align Handles Vertically\nAlign handles vertically" onclick="k_combinations(_UI.ms.points.members, 1).forEach(function(o, i) { o[0].alignHV(); }); history_put(\'Align Handles Vertically\');">' + makeActionButton_AlignHandlesV() + '</button>';
-		pointactions += '<button title="Align Handles Horizontally\nAlign handles horizontally" onclick="k_combinations(_UI.ms.points.members, 1).forEach(function(o, i) { o[0].alignHH(); }); history_put(\'Align Handles Horizontally\');">' + makeActionButton_AlignHandlesH() + '</button>';
-		pointactions += '<br>';
-		pointactions += '<button title="Align Handles Double-Cross Horizontally\nAlign both opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHYCross(o[1]) }); history_put(\'Align Handles Double-Cross Horizontally\');">' + makeActionButton_AlignHandlesYCross() + '</button>';
-		pointactions += '<button title="Align 1-Handles Cross-Horizontally\nAlign first opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1YCross(o[1]) }); history_put(\'Align 1-Handles Cross-Horizontally\');">' + makeActionButton_AlignHandlesH1YCross() + '</button>';
-		pointactions += '<button title="Align 2-Handles Cross-Horizontally\nAlign second opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2YCross(o[1]) }); history_put(\'Align 1-Handles Cross-Horizontally\');">' + makeActionButton_AlignHandlesH2YCross() + '</button>';
-		pointactions += '<button title="Align Handles Horizontally\nAlign handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHY(o[1]) }); history_put(\'Align Handles Horizontally\');">' + makeActionButton_AlignHandlesHY() + '</button>';
-		pointactions += '<button title="Align 1-Handles Horizontally\nAlign first handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1Y(o[1]) }); history_put(\'Align 1-Handles Horizontally\');">' + makeActionButton_AlignHandlesH1Y() + '</button>';
-		pointactions += '<button title="Align 2-Handles Horizontally\nAlign second handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2Y(o[1]) }); history_put(\'Align 2-Handles Horizontally\');">' + makeActionButton_AlignHandlesH2Y() + '</button>';
-		pointactions += '<br>';
-		pointactions += '<button title="Align Handles Double-Cross Vertically\nAlign both opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHXCross(o[1]) }); history_put(\'Align Handles Double Cross Vertically\');">' + makeActionButton_AlignHandlesXCross() + '</button>';
-		pointactions += '<button title="Align 1-Handles Cross-Vertically\nAlign first opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1XCross(o[1]) }); history_put(\'Align 1-Handles Cross-Vertically\');">' + makeActionButton_AlignHandlesH1XCross() + '</button>';
-		pointactions += '<button title="Align 2-Handles Cross-Vertically\nAlign second opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2XCross(o[1]) }); history_put(\'Align 1-Handles Cross-Vertically\');">' + makeActionButton_AlignHandlesH2XCross() + '</button>';
-		pointactions += '<button title="Align Handles Vertically\nAlign handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHX(o[1]) }); history_put(\'Align Handles Vertically\');">' + makeActionButton_AlignHandlesHX() + '</button>';
-		pointactions += '<button title="Align 1-Handles Vertically\nAlign first handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1X(o[1]) }); history_put(\'Align 1-Handles Vertically\');">' + makeActionButton_AlignHandlesH1X() + '</button>';
-		pointactions += '<button title="Align 2-Handles Vertically\nAlign second handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2X(o[1]) }); history_put(\'Align 2-Handles Vertically\');">' + makeActionButton_AlignHandlesH2X() + '</button>';
-		pointactions += '<h3>point autofit</h3>';
-		pointactions += '<button title="Autofit XY\nTry to autofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetXY(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit XY\');">' + makeActionButton_AutofitXY() + '</button>';
-		pointactions += '<button title="Autofit X\nTry to autofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetX(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit X\');">' + makeActionButton_AutofitX() + '</button>';
-		pointactions += '<button title="Autofit Y\nTry to autofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetY(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit Y\');">' + makeActionButton_AutofitY() + '</button>';
 
 
-	// GLYPH
+		// GLYPH
 		var glyphactions = '<h3>glyph</h3>';
-	  glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
+		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
 
 
