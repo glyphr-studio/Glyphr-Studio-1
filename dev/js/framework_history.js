@@ -94,7 +94,7 @@
 		}
 	}
 
-	function history_length(span) {
+	function history_length() {
 		if(onCanvasEditPage()){
 			return _UI.history[_UI.current_page].queue.length || 0;
 		}
