@@ -2,8 +2,8 @@
 /**
 	History
 	An object that stores a Glyphr Studio Project
-	state, to enable undo.  History is saved per 
-	page... essentially, each page gets it's own 
+	state, to enable undo.  History is saved per
+	page... essentially, each page gets it's own
 	undo queue.
 **/
 
@@ -42,9 +42,9 @@
 
 		if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
 		else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
-		
+
 		this.currstate = clone(top);
-		
+
 		if (_UI.current_page === 'import svg'){
 			update_NavPanels();
 
@@ -60,19 +60,20 @@
 
 		_UI.ms.shapes.clear();
 		_UI.ms.points.clear();
+		make_NavPanels_PopIn();
 		redraw({calledby:'history_pull'});
 
 
 		// debug('\t after redraw');
 
 		var empty = true;
-		for(var q in _UI.history){ if(_UI.history.hasOwnProperty(q)){
-			if(_UI.history[q].queue.length){
-				empty = false;
-				break;
+		for (var q in _UI.history) {
+			if (_UI.history.hasOwnProperty(q) && _UI.history[q].queue.length) {
+					empty = false;
+					break;
 			}
-		}}
-		if(empty) setProjectAsSaved();
+		}
+		if (empty) setProjectAsSaved();
 
 		// debug(' History.pull - END\n');
 	};
@@ -93,7 +94,7 @@
 		}
 	}
 
-	function history_length() {
+	function history_length(span) {
 		if(onCanvasEditPage()){
 			return _UI.history[_UI.current_page].queue.length || 0;
 		}
