@@ -325,13 +325,21 @@
 		// debug(' ioOTF_importOTFfont - END\n');
 	}
 
-	function getTableValue(val) {
-		try {
-			if(Object.prototype.toString.call(val) === '[object Array]') val = val.join(' ');
-			return val;
-		} catch(err) {
-			return 0;
-		}
-	}
+ function getTableValue(val) {
+	 try {
+		 // fixes #238 .ttf import from Google Fonts
+		 if (typeof val === 'object' && typeof val.en === 'string') {
+			 return val.en;
+		 }
+
+		 if(Object.prototype.toString.call(val) === '[object Array]') {
+			 return val.join(' ');
+		 }
+
+
+	 } catch(err) {
+		 return 0;
+	 }
+ }
 
 // end of file
