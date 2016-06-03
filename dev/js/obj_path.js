@@ -509,7 +509,7 @@
 		// debug('\t Glyph ' + glyphname);
 		// debug('\t this.pathpoints: ' + json(this.pathpoints, true));
 
-		if(!this.pathpoints) return '';
+		if(!this.pathpoints || !this.pathpoints.length) return '';
 
 		re = '';
 		var p1, p2;

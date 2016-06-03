@@ -128,6 +128,9 @@
 			}
 		}
 
+		var wi = getSelectedWorkItem();
+		if(wi.objtype === 'glyph') wi.removeShapesWithZeroLengthPaths();
+		
 		this.clear();
 	};
 

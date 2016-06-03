@@ -55,8 +55,8 @@
 			for(var p=0; p<shapetags.path.length; p++){
 				// Compound Paths are treated as different Glyphr Shapes
 				data = shapetags.path[p].attributes.d;
-				data = data.replace(/Z/gi,'z');
-				data = data.split('z');
+				data = ioSVG_cleanPointData(data);
+				data = data.split(',z');
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
@@ -111,12 +111,11 @@
 			
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
+				data = ioSVG_cleanPointData(data);
+				data = data.split(',');
 
 				if(data.length){
 					pparr = [];
-					// Parse in the points data, comma separating everything
-					data = data.replace(/(\s+)/g, ',');
-					data = data.split(',');
 					
 					for(var co=0; co<data.length; co+=2){
 						px = data[co] || 0;
@@ -185,6 +184,56 @@
 		return reglyph;
 	}
 
+	function ioSVG_cleanPointData(data) {
+		// debug('\n ioSVG_cleanPointData - START');
+		// debug('\t dirty data\n\t ' + data);
+
+		// Parse in the path data, comma separating everything
+		data = data.replace(/(\s+)/g, ',');
+
+		// Normalize Z end path command
+		data = data.replace(/Z/gi,'z');
+
+		// Put commas between Path Commands and preceeding numbers
+		var curr = 0;
+		while(curr < data.length){
+			if(ioSVG_isPathCommand(data.charAt(curr))){
+				data = (data.slice(0,curr)+','+data.charAt(curr)+','+data.slice(curr+1));
+				curr++;
+			}
+			if(curr > 1000000) {
+				showErrorMessageBox('SVG path data longer than a million points is super uncool.');
+				return;
+			} else {
+				curr++;
+			}
+		}
+
+		// Clean up negative numbers, and scientific notation numbers
+		data = data.replace(/e-/g, '~~~');
+		data = data.replace(/-/g, ',-');
+		data = data.replace(/~~~/g, 'e-');
+
+		// Clean up  whitespace
+		// if(data.charAt(0) === ' ') data = data.slice(1);
+		data = data.replace(/(\s+)/g, '');
+
+		// Remove end Z commands
+		// debug('\t 2nd to last char ' + data.charAt(data.length-2));
+		if(data.charAt(data.length-2) === 'z') data = data.slice(0, -2);
+		
+		// Clean up commas
+		data = data.replace(/,+/g,',');
+		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
+		if(data.charAt(0) === ',') data = data.slice(1);
+
+
+		// debug('\t clean data\n\t ' + data);
+		// debug(' ioSVG_cleanPointData - END\n');
+
+		return data;
+	}
+
 	function ioSVG_getTags(obj, grabtags) {
 		// debug('\n ioSVG_getTags \t Start');
 		// debug('\t grabtags: ' + JSON.stringify(grabtags));
@@ -232,40 +281,15 @@
 
 	function ioSVG_convertPathTag(data) {
 		// debug('\n ioSVG_convertPathTag - START');
-		// debug('\t dirty data\n' + data);
-
-		// Parse in the path data, comma separating everything
-		data = data.replace(/(\s+)/g, ',');
-
-		var curr = 0;
-		while(curr < data.length){
-			if(ioSVG_isPathCommand(data.charAt(curr))){
-				data = (data.slice(0,curr)+','+data.charAt(curr)+','+data.slice(curr+1));
-				curr++;
-			}
-			if(curr > 99999) {
-				showErrorMessageBox('Data longer than 100,000 glyphs is super uncool.');
-				return;
-			} else {
-				curr++;
-			}
-		}
-
-		// Clean up negative numbers, and scientific notation numbers
-		data = data.replace(/e-/g, '~~~');
-		data = data.replace(/-/g, ',-');
-		data = data.replace(/~~~/g, 'e-');
-
-		// Clean up commas and whitespace
-		if(data.charAt(0) === ' ') data = data.slice(1);
-		data = data.replace(/,+/g,',');
-		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
-		if(data.charAt(0) === ',') data = data.slice(1);
-
-		// debug('\t clean data\n' + data);
+		// debug('\t passed data ' + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
+		if(data[data.length-1] === 'z') {
+			data.pop();
+			// debug('\t POPPED z ' + data);
+		}
+
 		var chunkarr = [];
 		var commandpos = 0;
 		var command;
@@ -275,16 +299,25 @@
 			if(ioSVG_isPathCommand(data[curr])){
 				dataarr = data.slice(commandpos+1, curr);
 				command = data[commandpos];
+
 				for(var i=0; i<dataarr.length; i++) dataarr[i] = Number(dataarr[i]);
+			
+				// debug('\t Handling command ' + command);
+				// debug('\t With data ' + dataarr);
+
 				chunkarr.push({'command':command, 'data':dataarr});
 				commandpos = curr;
 			}
 			curr++;
 		}
+
 		// Fencepost
 		dataarr = data.slice(commandpos+1, curr);
 		command = data[commandpos];
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
+		// debug('\t FENCEPOST');
+		// debug('\t Handling command ' + command);
+		// debug('\t With data ' + dataarr);
 		chunkarr.push({'command':command, 'data':dataarr});
 
 		// debug('\t chunkarr data is \n' + json(chunkarr, true));

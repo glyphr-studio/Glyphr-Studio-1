@@ -791,6 +791,15 @@
 		return false;
 	};
 
+	Glyph.prototype.removeShapesWithZeroLengthPaths = function() {
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].path && this.shapes[s].path.pathpoints.length === 0){
+				this.shapes.splice(s, 1);
+				s--;
+			}
+		}
+	};
+
 	Glyph.prototype.getPathPoints = function() {
 		var points = [];
 		this.shapes.forEach(function(shape, i) {
@@ -802,6 +811,7 @@
 	Glyph.prototype.getShapes = function() {
 		return this.shapes;
 	};
+
 
 //-------------------------------------------------------
 // GLYPH FUNCTIONS
