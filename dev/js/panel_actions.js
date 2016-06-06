@@ -100,7 +100,8 @@
 
 	// GLYPH
 		var glyphactions = '<h3>glyph</h3>';
-	  glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
+		glyphactions += '<button title="Combine all shapes\nCombines the paths of all shapes with the same winding into as few shapes as possible" onclick="combineAllGlyphShapes();">' + makeActionButton_Combine() + '</button>';
+		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
 
 
@@ -150,14 +151,24 @@
 //-------------------
 
 	function combineSelectedShapes() {
-		showToast('Combining... ', 100); 
+		showToast('Combining selected shapes... ', 100); 
 
 		setTimeout(function() {
 			_UI.ms.shapes.combine();
+			history_put('combine selected shapes'); 
 			redraw({calledby:'actions panel'});
 		}, 200);
 	}
 
+	function combineAllGlyphShapes() {
+		showToast('Combining all glyph shapes... ', 100); 
+		
+		setTimeout(function() {
+			getSelectedWorkItem().combineAllShapes(true); 
+			history_put('combine all glyph shapes'); 
+			redraw({calledby:'actions panel'});
+		}, 200);
+	}
 
 //-------------------
 // Copy Paste

@@ -232,8 +232,8 @@
 	};
 
 	Glyph.prototype.alignShapes = function(edge) {
-		debug('\n Glyph.alignShapes - START');
-		debug('\t edge: ' + edge);
+		// debug('\n Glyph.alignShapes - START');
+		// debug('\t edge: ' + edge);
 		var target, offset;
 
 		if(edge === 'top'){
@@ -243,7 +243,7 @@
 				target = Math.max(target, v.getMaxes().ymax);
 			});
 
-			debug('\t found TOP: ' + target);
+			// debug('\t found TOP: ' + target);
 			
 			this.shapes.forEach(function(v) {
 				v.setShapePosition(false, target);
@@ -253,7 +253,7 @@
 		} else if (edge === 'middle'){
 			target = this.getCenter().y;
 
-			debug('\t found MIDDLE: ' + target);
+			// debug('\t found MIDDLE: ' + target);
 
 			this.shapes.forEach(function(v) {
 				offset = v.getCenter().y;
@@ -268,7 +268,7 @@
 				target = Math.min(target, v.getMaxes().ymin);
 			});
 
-			debug('\t found BOTTOM: ' + target);
+			// debug('\t found BOTTOM: ' + target);
 
 			this.shapes.forEach(function(v) {
 				offset = v.getMaxes().ymin;
@@ -283,7 +283,7 @@
 				target = Math.min(target, v.getMaxes().xmin);
 			});
 
-			debug('\t found LEFT: ' + target);
+			// debug('\t found LEFT: ' + target);
 
 			this.shapes.forEach(function(v) {
 				v.setShapePosition(target, false);
@@ -293,7 +293,7 @@
 		} else if (edge === 'center'){
 			target = this.getCenter().x;
 
-			debug('\t found CENTER: ' + target);
+			// debug('\t found CENTER: ' + target);
 
 			this.shapes.forEach(function(v) {
 				offset = v.getCenter().x;
@@ -308,7 +308,7 @@
 				target = Math.max(target, v.getMaxes().xmax);
 			});
 
-			debug('\t found RIGHT: ' + target);
+			// debug('\t found RIGHT: ' + target);
 
 			this.shapes.forEach(function(v) {
 				offset = v.getMaxes().xmax;
@@ -317,7 +317,7 @@
 		}
 
 		this.changed();
-		debug(' Glyph.alignShapes - END\n');
+		// debug(' Glyph.alignShapes - END\n');
 	};
 
 

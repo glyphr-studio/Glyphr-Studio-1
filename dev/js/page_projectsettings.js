@@ -59,6 +59,9 @@
 					'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_GP.projectsettings.combineshapesonexport', ps.combineshapesonexport)+'</td>'+
 					'<td style="vertical-align:top;"><label for="combineshapesonexport">Combine all glyph shapes<br>Sometimes fonts behave better if there are less path outlines in a glyph.  This option will combine all overlapping shapes with the same winding into as few shapes as possible.</label><br><br></td></tr>'+
 
+					'<tr><td style="text-align:right; vertical-align:top;"><input type="text" value="'+(_GP.projectsettings.maxcombineshapesonexport)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.maxcombineshapesonexport=r; this.value=r;" style="width:40px; padding-left:4px; margin-top:0px;"/></td>'+
+					'<td>Maximum shapes to attempt to combine<br>Combining glyph shapes is a time-intensive process.  If a glyph has more than this number of shapes, combine will not be attempted, and overlapping shapes will be exported as-is.</td></tr>'+
+
 					'</table><br>';
 
 

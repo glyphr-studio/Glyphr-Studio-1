@@ -119,9 +119,9 @@
 	};
 
 	ComponentInstance.prototype.updateShapePosition = function(dx, dy, force) {
-		debug('\n ComponentInstance.updateShapePosition - START');
-		debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
-		debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
+		// debug('\n ComponentInstance.updateShapePosition - START');
+		// debug('\t passed dx/dy/force: ' + dx + ' / ' + dy + ' / ' + force);
+		// debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
 		dx = parseFloat(dx) || 0;
 		dy = parseFloat(dy) || 0;
 
@@ -130,28 +130,28 @@
 		
 		this.changed();
 		
-		debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
-		debug(' ComponentInstance.updateShapePosition - END\n');
+		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
+		// debug(' ComponentInstance.updateShapePosition - END\n');
 	};
 
 	ComponentInstance.prototype.setShapePosition = function(nx, ny, force) {
-		debug('\n ComponentInstance.setShapePosition - START');
-		debug('\t passed nx/ny/force: ' + nx + ' / ' + ny + ' / ' + force);
-		debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
+		// debug('\n ComponentInstance.setShapePosition - START');
+		// debug('\t passed nx/ny/force: ' + nx + ' / ' + ny + ' / ' + force);
+		// debug('\t translate was: ' + this.translatex + ' / ' + this.translatey);
 		var ogm = getGlyph(this.link).getMaxes();
 
 		nx = parseFloat(nx);
 		ny = parseFloat(ny);
 
-		debug('\t ogm ' + json(ogm, true));
+		// debug('\t ogm ' + json(ogm, true));
 
 		if(!isNaN(nx)) this.translatex = (nx - ogm.xmin);
 		if(!isNaN(ny)) this.translatey = (ny - ogm.ymax);
 
 		this.changed();
 
-		debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
-		debug(' ComponentInstance.setShapePosition - END\n');
+		// debug('\t translate now: ' + this.translatex + ' / ' + this.translatey);
+		// debug(' ComponentInstance.setShapePosition - END\n');
 	};
 
 	ComponentInstance.prototype.updateShapeSize = function(dw, dh, ratiolock) {

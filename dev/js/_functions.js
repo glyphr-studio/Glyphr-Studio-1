@@ -41,7 +41,6 @@
 			navigate({page:(_UI.dev_current_page || 'openproject'), panel:_UI.dev_current_panel});
 		}
 
-
 		// Google Analytics
 		function setupga(i,s,o,g,r,a,m){
 			i.GoogleAnalyticsObject = r;
@@ -55,8 +54,8 @@
 			a.src = g;
 			m.parentNode.insertBefore(a,m);
 		}
-		
-		if (!_UI.devmonde && _UI.telemetry) {
+
+		if (!_UI.devmode && _UI.telemetry) {
 			try {
 				setupga(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 				ga('create', 'UA-71021902-1', 'auto');
@@ -72,6 +71,7 @@
 		
 		//debug(' MAIN SETUP - END\n');
 	}
+
 
 	function insertGlobalDOMElements(){
 
@@ -310,7 +310,7 @@
 		document.getElementById('errormessagebox').style.display = 'none';
 	}
 
-	function showToast(msg, dur) {
+	function showToast(msg, dur, fn) {
 		// debug('\n showToast - START');
 		var step = -1;
 		var stepmax = 20;
@@ -319,6 +319,14 @@
 		var msgdiv = getEditDocument().getElementById('toast');
 		var durration = dur || 3000;
 		msgdiv.innerHTML = msg || 'Howdy!';
+
+		// debug('\t Typeof fn: ' + typeof fn);
+		console.log(fn);
+
+		if(fn && typeof fn === 'function') {
+			// debug('\t CALLING FUNCTION NOW');
+			setTimeout(fn, 100);
+		}
 
 		if(_UI.toasttimeout){
 			msgdiv.innerHTML = msg;
@@ -341,6 +349,7 @@
 			msgdiv.style.opacity = finalopacity;
 			
 			setToastTimeout(disappearStep, durration);
+			
 		}
 
 		function appearStep() {

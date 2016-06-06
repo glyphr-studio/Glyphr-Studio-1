@@ -93,7 +93,7 @@
 
 			showToast('Exporting<br>'+glyph.name, 999999);
 
-			if(comb) glyph.combineAllShapes(true);
+			if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
 
 			if(glyph.isautowide) glyph.updateGlyphPosition(glyph.getLSB(), 0);
 
