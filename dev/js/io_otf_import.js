@@ -134,9 +134,11 @@
 
 				if(data && data !== 'Z'){
 					// Move commands for a path are treated as different Glyphr Shapes
-					data = data.replace(/M/g,'~M');
-					data = data.replace(/m/g,'~m');
-					data = data.split('~');
+					data = data.replace(/M/g,',z M');
+					data = data.replace(/m/g,',z m');
+					
+					data = ioSVG_cleanPointData(data);
+					data = data.split(',z');
 
 					// debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
 
