@@ -550,7 +550,7 @@ function Tool_PathEdit(){
 
 			// debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
 			sp.getMembers().forEach(function(point, i) {
-				if(ev.ctrlKey) return;
+				if(ev.ctrlKey || ev.metaKey) return;
 				point.updatePathPointPosition(controlpoint.type, dx, dy, ev);
 			});
 			_UI.ms.shapes.calcMaxes();
@@ -888,7 +888,7 @@ function mousewheel(event){
 	var canzoom = onCanvasEditPage() && (document.getElementById('dialog_box').style.display !== 'block');
 
 	if(canzoom){
-		if(event.ctrlKey){
+		if(event.ctrlKey || event.metaKey){
 			event.preventDefault();
 			//debug('MOUSEWHEEL: canzoom=true and delta=' + delta );
 			if(delta > 0){ viewZoom(1.1); }
