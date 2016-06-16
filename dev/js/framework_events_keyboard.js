@@ -41,25 +41,26 @@
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
 		var kc = getKeyFromEvent(event);
+        var ctrlModifier = event.ctrlKey || event.metaKey;
 		// debug('Key Press:\t' + kc + ' from ' + event.which);
 		// debug(event);
 
 
 		// s
-		if(event.ctrlKey && kc==='s'){
+		if((ctrlModifier) && kc==='s'){
 			event.preventDefault();
 			saveGlyphrProjectFile();
 		}
 
 		// g
-		if(event.ctrlKey && kc==='g'){
+		if((ctrlModifier) && kc==='g'){
 			event.preventDefault();
 			showToast('Exporting SVG font file...'); 
 			setTimeout(ioSVG_exportSVGfont, 500);
 		}
 
 		// e
-		if(event.ctrlKey && kc==='e'){
+		if((ctrlModifier) && kc==='e'){
 			event.preventDefault();
 			showToast('Exporting OTF font file...'); 
 			setTimeout(ioOTF_exportOTFfont, 500);
@@ -67,7 +68,7 @@
 
 		// q
 		// for dev mode clear console
-		if(_UI.devmode && event.ctrlKey && kc==='q'){
+		if(_UI.devmode && (ctrlModifier) && kc==='q'){
 			event.preventDefault();
 			console.clear();
 		}
@@ -78,7 +79,7 @@
 		var em = getEditMode();
 
 		// Ctrl
-		if((event.ctrlKey || kc==='ctrl') && !eh.multi){
+		if((ctrlModifier || kc==='ctrl') && !eh.multi){
 			// debug('\t event.ctrlKey = true');
 			// debug('\t selectedtool = ' + _UI.selectedtool);
 			event.preventDefault();
@@ -94,7 +95,7 @@
 			return;
 		}
 
-		if(event.ctrlKey && kc==='a') {
+		if((ctrlModifier) && kc==='a') {
 			for(var i in _GP.s) {
 				if(! _GP.glyphs[i].getShapes) return;
 
@@ -130,27 +131,27 @@
 		}
 
 		// z
-		if(kc==='undo' || (eh.multi && kc==='z')){
+		if(kc==='undo' || ((eh.multi || event.metaKey) && kc==='z')){
 			event.preventDefault();
 			history_pull();
 		}
 
 		// plus
-		if(eh.multi && kc==='plus'){
+		if((eh.multi || event.metaKey) && kc==='plus'){
 			event.preventDefault();
 			viewZoom(1.1);
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// minus
-		if(eh.multi && kc==='minus'){
+		if((eh.multi || event.metaKey) && kc==='minus'){
 			event.preventDefault();
 			viewZoom(0.9);
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// 0
-		if(eh.multi && kc==='0'){
+		if((eh.multi || event.metaKey) && kc==='0'){
 			event.preventDefault();
 			setView(clone(_UI.defaultview));
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
@@ -204,13 +205,13 @@
 			}
 
 			// ctrl + c
-			if(eh.multi && kc==='c'){
+			if((eh.multi || event.metaKey) && kc==='c'){
 				event.preventDefault();
 				copyShape();
 			}
 
 			// ctrl + v
-			if(eh.multi && kc==='v'){
+			if((eh.multi || event.metaKey) && kc==='v'){
 				event.preventDefault();
 				pasteShape();
 				history_put('Paste Shape');
