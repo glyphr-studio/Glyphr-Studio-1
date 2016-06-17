@@ -549,7 +549,7 @@
 		otpath = otpath || new opentype.Path();
 		var p1, p2;
 
-		if(!this.pathpoints) {
+		if(!this.pathpoints || this.pathpoints.length == 0) {
 			otpath.close();
 			return otpath;
 		}
