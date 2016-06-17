@@ -16,10 +16,10 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.07',
-		'thisGlyphrStudioVersionNum': '1.07.05',
+		'thisGlyphrStudioVersionNum': '1.07.06',
 
 		// Internal Dev Stuff
-		'devmode': false, 					// global switch for all the stuff below
+		'devmode': true, 					// global switch for all the stuff below
 		'dev_sample_project': false, 		// if sampleproject is present, load it and skip open project experience
 		'dev_current_page': false, 			// navigate straight to a page
 		'dev_current_panel': false, 		// navigate straight to a panel

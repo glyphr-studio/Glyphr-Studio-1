@@ -191,8 +191,10 @@
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s+)/g, ',');
 
+
 		// Normalize Z end path command
 		data = data.replace(/Z/gi,'z');
+
 
 		// Put commas between Path Commands and preceeding numbers
 		var curr = 0;
@@ -209,24 +211,36 @@
 			}
 		}
 
+
 		// Clean up negative numbers, and scientific notation numbers
 		data = data.replace(/e-/g, '~~~');
 		data = data.replace(/-/g, ',-');
 		data = data.replace(/~~~/g, 'e-');
 
+
 		// Clean up  whitespace
 		// if(data.charAt(0) === ' ') data = data.slice(1);
 		data = data.replace(/(\s+)/g, '');
 
-		// Remove end Z commands
+
+		// Clean up some commas
+		data = data.replace(/,+/g,',');
+		if(data.charAt(0) === ',') data = data.slice(1);
+
+
+		// Remove extra Z commands
 		// debug('\t 2nd to last char ' + data.charAt(data.length-2));
 		if(data.charAt(data.length-2) === 'z') data = data.slice(0, -2);
-		
-		// Clean up commas
+		// if(data.substr(-2) === ',z') data = data.slice(0, -2);
+		// if(data.substr(0, 3) === ',z,') data = data.slice(3);
+		// debug('\t first two chars are |' + data.substr(0,2) + '|');
+		if(data.substring(0, 2) === 'z,') data = data.slice(2);
+
+
+		// Clean up commas again
 		data = data.replace(/,+/g,',');
 		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
 		if(data.charAt(0) === ',') data = data.slice(1);
-
 
 		// debug('\t clean data\n\t ' + data);
 		// debug(' ioSVG_cleanPointData - END\n');

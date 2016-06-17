@@ -84,12 +84,13 @@
 		}
 
 		function generateOneGlyph() {
+			// debug('\n generateOneGlyph - START');
 			// export this glyph
 			var glyph = currexportglyph.xg;
 			var num = currexportglyph.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
 
-			// debug('\n generateOneGlyph - START - ' + glyph.name);
+			// debug('\t ' + glyph.name);
 
 			showToast('Exporting<br>'+glyph.name, 999999);
 

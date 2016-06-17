@@ -130,17 +130,21 @@
 
 				// Import Path Data
 				data = flattenDataArray(tglyph.path.commands);
-				// debug('\t Glyph has path data ' + data);
+				// debug('\t Glyph has path data \n' + data);
 
-				if(data && data !== 'Z'){
+				if(data && data !== 'z'){
 					// Move commands for a path are treated as different Glyphr Shapes
-					data = data.replace(/M/g,',z M');
-					data = data.replace(/m/g,',z m');
+					data = data.replace(/M/g,',z,M');
+					data = data.replace(/m/g,',z,m');
 					
+					// debug(data);
 					data = ioSVG_cleanPointData(data);
+					// debug(data);
+					
 					data = data.split(',z');
 
 					// debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
+					// debug(data);
 
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
@@ -148,8 +152,12 @@
 							np = ioSVG_convertPathTag(data[d]);
 							// debug('\t created shape from PathTag');
 							// debug(np);
-							shapecounter++;
-							newshapes.push(new Shape({'path':np, 'name':('Shape ' + shapecounter)}));
+							if(np.pathpoints.length){
+								shapecounter++;
+								newshapes.push(new Shape({'path':np, 'name':('Shape ' + shapecounter)}));
+							} else {
+								// debug('\t !!!!!!!!!!!!!!!!!!\n\t data resulted in no path points: ' + data[d]);
+							}
 						}
 					}
 				}
