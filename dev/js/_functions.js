@@ -321,7 +321,7 @@
 		msgdiv.innerHTML = msg || 'Howdy!';
 
 		// debug('\t Typeof fn: ' + typeof fn);
-		console.log(fn);
+		// console.log(fn);
 
 		if(fn && typeof fn === 'function') {
 			// debug('\t CALLING FUNCTION NOW');
