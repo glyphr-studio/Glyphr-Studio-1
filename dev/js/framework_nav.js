@@ -89,7 +89,7 @@
 			'</head>'+
 			'<body>'+
 				'<span id="toast"></span>'+
-				'<div id="secondaryScreenLayout"><div id="mainwrapper"></div></div>'+
+				'<div id="secondaryScreenLayout"><div id="mainwrapper"></div>'+
 			'</body>'+
 			'</html>');
 
