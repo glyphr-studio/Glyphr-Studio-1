@@ -36,6 +36,7 @@
 
 			// debug('\t NEW options ARG BEFORE GLYPHS');
 			// debug(options);
+			// debug('\t options.version ' + options.version);
 
 			// Add Notdef
 			var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
@@ -140,7 +141,7 @@
 			var font = new opentype.Font(options);
 
 			// debug('\t Font object:');
-			// debug(font);
+			// debug(font.toTables());
 
 			// Export
 			_UI.stoppagenavigation = false;
