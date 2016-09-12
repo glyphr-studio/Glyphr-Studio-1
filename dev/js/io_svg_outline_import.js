@@ -185,8 +185,8 @@
 	}
 
 	function ioSVG_cleanPointData(data) {
-		// debug('\n ioSVG_cleanPointData - START');
-		// debug('\t dirty data\n\t ' + data);
+		debug('\n ioSVG_cleanPointData - START');
+		debug('\t dirty data\n\t ' + data);
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s+)/g, ',');
@@ -229,11 +229,11 @@
 
 
 		// Remove extra Z commands
-		// debug('\t 2nd to last char ' + data.charAt(data.length-2));
+		debug('\t 2nd to last char ' + data.charAt(data.length-2));
 		if(data.charAt(data.length-2) === 'z') data = data.slice(0, -2);
 		// if(data.substr(-2) === ',z') data = data.slice(0, -2);
 		// if(data.substr(0, 3) === ',z,') data = data.slice(3);
-		// debug('\t first two chars are |' + data.substr(0,2) + '|');
+		debug('\t first two chars are |' + data.substr(0,2) + '|');
 		if(data.substring(0, 2) === 'z,') data = data.slice(2);
 
 
@@ -242,8 +242,8 @@
 		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
 		if(data.charAt(0) === ',') data = data.slice(1);
 
-		// debug('\t clean data\n\t ' + data);
-		// debug(' ioSVG_cleanPointData - END\n');
+		debug('\t clean data\n\t ' + data);
+		debug(' ioSVG_cleanPointData - END\n');
 
 		return data;
 	}
@@ -294,14 +294,14 @@
 	}
 
 	function ioSVG_convertPathTag(data) {
-		// debug('\n ioSVG_convertPathTag - START');
-		// debug('\t passed data ' + data);
+		debug('\n ioSVG_convertPathTag - START');
+		debug('\t passed data ' + data);
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
 		if(data[data.length-1] === 'z') {
 			data.pop();
-			// debug('\t POPPED z ' + data);
+			debug('\t POPPED z ' + data);
 		}
 
 		var chunkarr = [];
@@ -316,8 +316,8 @@
 
 				for(var i=0; i<dataarr.length; i++) dataarr[i] = Number(dataarr[i]);
 			
-				// debug('\t Handling command ' + command);
-				// debug('\t With data ' + dataarr);
+				debug('\t Handling command ' + command);
+				debug('\t With data ' + dataarr);
 
 				chunkarr.push({'command':command, 'data':dataarr});
 				commandpos = curr;
@@ -329,18 +329,18 @@
 		dataarr = data.slice(commandpos+1, curr);
 		command = data[commandpos];
 		for(var j=0; j<dataarr.length; j++) dataarr[j] = Number(dataarr[j]);
-		// debug('\t FENCEPOST');
-		// debug('\t Handling command ' + command);
-		// debug('\t With data ' + dataarr);
+		debug('\t FENCEPOST');
+		debug('\t Handling command ' + command);
+		debug('\t With data ' + dataarr);
 		chunkarr.push({'command':command, 'data':dataarr});
 
-		// debug('\t chunkarr data is \n' + json(chunkarr, true));
+		debug('\t chunkarr data is \n' + json(chunkarr, true));
 
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			// debug('\n\t Path Chunk ' + c);
-			// debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
+			debug('\n\t Path Chunk ' + c);
+			debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
 			}
@@ -350,21 +350,21 @@
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
 		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
-			// debug('\t fp/lp same:\nFirst Point: '+json(fp)+'\nLast Point:  '+json(lp));
+			debug('\t fp/lp same:\nFirst Point: '+json(fp)+'\nLast Point:  '+json(lp));
 			fp.H1.x = lp.H1.x;
 			fp.H1.y = lp.H1.y;
 			fp.useh1 = lp.useh1;
 			patharr.pop();
 			fp.resolvePointType();
-			// debug('\t AFTER:\nFirst Point: '+json(fp));
+			debug('\t AFTER:\nFirst Point: '+json(fp));
 		}
 
 		var newpath = new Path({'pathpoints':patharr});
 		newpath.validate('IMPORTSVG');
 
-		// debug('\t unscaled path:');
-		// debug(newpath);
-		// debug(' ioSVG_convertTag - END\n');
+		debug('\t unscaled path:');
+		debug(newpath);
+		debug(' ioSVG_convertTag - END\n');
 		return newpath;
 	}
 
