@@ -8,7 +8,7 @@
 
 
 	function ioSVG_importSVGfont(filter) {
-		debug('\n ioSVG_importSVGfont - Start');
+		// debug('\n ioSVG_importSVGfont - Start');
 
 		document.getElementById('openprojecttableright').innerHTML = make_LoadingAnimation(false);
 
@@ -18,18 +18,18 @@
 		var sweep = document.getElementById('sweep');
 		var degrees = 0;
 		function importStatus(msg){
-			debug('\t>> import status >> ' + msg);
+			// debug('\t>> import status >> ' + msg);
 		    degrees = ((degrees + 2) % 360);
             sweep.style.transform = ('rotate('+degrees+'deg)');
             fis.innerHTML = msg;
 		}
 
-		var font, importglyphs, kerns;
+		var font, chars, kerns;
 		var svgdata = _UI.droppedFileContent;
 
 		function setupFontImport(){
 			importStatus('Reading font data...');
-			debug('\n setupFontImport - START');
+			// debug('\n setupFontImport - START');
 
 			_GP = new GlyphrProject();
 			var jsondata;
@@ -47,14 +47,14 @@
 					showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
 					return;
 				}
-				debug('\t Converted XML to JSON:');
-				debug(jsondata);
+				// debug('\t Converted XML to JSON:');
+				// debug(jsondata);
 			}
 
 			// Get Font
 			font = _UI.importingfont || ioSVG_getFirstTagInstance(jsondata, 'font');
-			debug('\t got font');
-			debug(font);
+			// debug('\t got font');
+			// debug(font);
 
 			// Check to see if it's actually a SVG Font
 			if(!font){
@@ -66,35 +66,31 @@
 
 			// Get Kerns
 			kerns = ioSVG_getTags(font, 'hkern');
-			debug('\t got kerns');
+			// debug('\t got kerns');
 
 			// Get Glyphs
-			importglyphs = ioSVG_getTags(font, 'glyph');
-			debug('\t got importglyphs');
-			debug(importglyphs);
+			chars = ioSVG_getTags(font, 'glyph');
+			// debug('\t got chars');
+			// debug(chars);
 
 			// test for range
-			if(importglyphs.length < _UI.overflowcount || filter){
+			if(chars.length < _UI.overflowcount || filter){
 				setTimeout(startFontImport, 1);
 				// Dump JSON
 				// saveFile('Parsed JSON', json(jsondata));
 			} else {
-				document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(importglyphs.length, kerns.length, 'ioSVG_importSVGfont');
+				document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(chars.length, kerns.length, 'ioSVG_importSVGfont');
 			}
-			debug(' setupFontImport - END\n');
+			// debug(' setupFontImport - END\n');
 		}
 
 		function startFontImport() {
-			debug('\n startFontImport - START');
-			importStatus('Importing Glyph 1 of ' + importglyphs.length);
+			// debug('\n startFontImport - START');
+			importStatus('Importing Glyph 1 of ' + chars.length);
 			setTimeout(importOneGlyph, 4);
-			debug(' startFontImport - END\n');
+			// debug(' startFontImport - END\n');
 		}
 
-		Object.keys(font.glyphs.glyphs).forEach(function (key) {
-			importglyphs.push(font.glyphs.glyphs[key]);
-		});
-		
 		/*
 		*
 		*	GLYPH IMPORT
@@ -111,82 +107,71 @@
 
 		var c=0;
 		function importOneGlyph(){
-			debug('\n\n=============================\n');
-			debug('\n importOneGlyph - START');
-			importStatus('Importing Glyph ' + c + ' of ' + importglyphs.length);
+			importStatus('Importing Glyph ' + c + ' of ' + chars.length);
 
-			if(c >= importglyphs.length) {
-				// setTimeout(importOneKern, 1);
-				startFinalizeFontImport();
+			if(c >= chars.length) {
+				setTimeout(importOneKern, 1);
 				return;
 			}
 
-			// One Glyph in the font
-			tglyph = importglyphs[c];
+			// One Glyph or Ligature in the font
+			tca = chars[c].attributes;
 
-			// Get the appropriate unicode decimal for this glyph
-			debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
-			debug(tglyph);
+			// Get the appropriate unicode decimal for this char
+			// debug('\n importOneGlyph - START');
+			// debug('\t starting  unicode \t' + tca.unicode + ' \t ' + tca['glyph-name']);
 
-			uni = decToHex(tglyph.unicode || 0);
+			uni = parseUnicodeInput(tca.unicode);
 
-			if(uni === false || uni === '0x0000'){
+			if(tca.unicode === ' ') uni = ['0x0020'];
+
+			if(uni === false){
 				// Check for .notdef
-				debug('\t !!! Skipping '+tglyph.name+' NO UNICODE !!!');
-				importglyphs.splice(c, 1);
+				// debug('\t !!! Skipping '+tca['glyph-name']+' NO UNICODE !!!');
+				chars.splice(c, 1);
 
-			} else if (filter && isOutOfBounds([uni])){
-				debug('\t !!! Skipping '+tglyph.name+' OUT OF BOUNDS !!!');
-				importglyphs.splice(c, 1);
+			} else if (filter && isOutOfBounds(uni)){
+				// debug('\t !!! Skipping '+tca['glyph-name']+' OUT OF BOUNDS !!!');
+				chars.splice(c, 1);
 
 			} else {
 
-				debug('\t GLYPH ' + c + '/'+importglyphs.length+'\t"'+tglyph.name + '" unicode: ' + uni);
+				// debug('\t GLYPH ' + c + '/'+chars.length+'\t unicode: ' + json(uni) + '\t attributes: ' + json(tca));
 				/*
 				*
-				*	GLYPH IMPORT
+				*	GLYPH OR LIGATURE IMPORT
 				*
 				*/
 				newshapes = [];
 				shapecounter = 0;
 
 				// Import Path Data
-				data = flattenDataArray(tglyph.path.commands);
-				debug('\t Glyph has path data \n' + data);
+				data = tca.d;
+				// debug('\t Glyph has path data ' + data);
+				if(data){
+					// Compound Paths are treated as different Glyphr Shapes
+					data = data.replace(/Z/gi,'z');
+					data = data.split('z');
 
-				if(data && data !== 'z'){
-					// Move commands for a path are treated as different Glyphr Shapes
-					data = data.replace(/M/g,',z,M');
-					data = data.replace(/m/g,',z,m');
-					
-					debug(data);
-					data = ioSVG_cleanPointData(data);
-					debug(data);
-					
-					data = data.split(',z');
+					// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
 
-					debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
-					debug(data);
-
+					// debug('\t data.length (shapes) = ' + data.length);
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
-							debug('\t starting convertPathTag');
-							np = ioSVG_convertPathTag(data[d]);
-							debug('\t created shape from PathTag');
-							debug(np);
-							if(np.pathpoints.length){
-								shapecounter++;
-								newshapes.push(new Shape({'path':np, 'name':('Shape ' + shapecounter)}));
-							} else {
-								debug('\t !!!!!!!!!!!!!!!!!!\n\t data resulted in no path points: ' + data[d]);
-							}
+							// debug('\t starting convertPathTag');
+							ns = ioSVG_convertPathTag(data[d]);
+							// debug('\t created shape from PathTag');
+							// debug(ns);
+							newshapes.push(ns);
+							shapecounter++;
+							newshapes[newshapes.length-1].name = ('Path ' + shapecounter);
 						}
 					}
 				}
 
 				// Get Advance Width
 				isautowide = true;
-				adv = parseInt(tglyph.advanceWidth);
+				adv = parseInt(tca['horiz-adv-x']);
 				if(adv){
 					if(!isNaN(adv) && adv > 0){
 						isautowide = false;
@@ -194,25 +179,31 @@
 				} else adv = false;
 
 
-				// Get some range data
-				// uni = uni[0];
-				minchar = Math.min(minchar, uni);
-				maxglyph = Math.max(maxglyph, uni);
-				if(1*uni > _UI.glyphrange.latinextendedb.end) customglyphrange.push(uni);
+				if(uni.length === 1){
+					// It's a GLYPH
+					// Get some range data
+					uni = uni[0];
+					minchar = Math.min(minchar, uni);
+					maxglyph = Math.max(maxglyph, uni);
+					if(1*uni > _UI.glyphrange.latinextendedb.end) customglyphrange.push(uni);
 
-				fc[uni] = new Glyph({'shapes':newshapes, 'glyphhex':uni, 'glyphwidth':adv, 'isautowide':isautowide});
-				if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.glyphrange.filternoncharpoints = false;
+					fc[uni] = new Glyph({'shapes':newshapes, 'glyphhex':uni, 'glyphwidth':adv, 'isautowide':isautowide});
+					if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.glyphrange.filternoncharpoints = false;
 
+				} else {
+					// It's a LIGATURE
+					uni = uni.join('');
+					fl[uni] = new Glyph({'shapes':newshapes, 'glyphhex':uni, 'glyphwidth':adv, 'isautowide':isautowide});
+				}
 
 				// Successfull loop, advance c
 				c++;
 			}
 
-
 			// finish loop
 			setTimeout(importOneGlyph, 1);
 
-			debug(' importOneGlyph - END\n');
+			// debug(' importOneGlyph - END\n');
 		}
 
 		/*
@@ -234,37 +225,37 @@
 
 			importStatus('Importing Kern Pair ' + k + ' of ' + kerns.length);
 
-			debug('\n Kern Import - START ' + k + '/' + kerns.length);
+			// debug('\n Kern Import - START ' + k + '/' + kerns.length);
 			leftgroup = [];
 			rightgroup = [];
 			tk = kerns[k];
-			debug('\t Kern Attributes: ' + json(tk.attributes, true));
+			// debug('\t Kern Attributes: ' + json(tk.attributes, true));
 
 			// Get members by name
-			leftgroup = getKernMembersByName(tk.attributes.g1, importglyphs, leftgroup, _UI.glyphrange.latinextendedb.end);
-			rightgroup = getKernMembersByName(tk.attributes.g2, importglyphs, rightgroup, _UI.glyphrange.latinextendedb.end);
+			leftgroup = getKernMembersByName(tk.attributes.g1, chars, leftgroup, _UI.glyphrange.latinextendedb.end);
+			rightgroup = getKernMembersByName(tk.attributes.g2, chars, rightgroup, _UI.glyphrange.latinextendedb.end);
 
-			debug('\t kern groups by name ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
+			// debug('\t kern groups by name ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
 
 			// Get members by Unicode
-			leftgroup = getKernMembersByUnicodeID(tk.attributes.u1, importglyphs, leftgroup, _UI.glyphrange.latinextendedb.end);
-			rightgroup = getKernMembersByUnicodeID(tk.attributes.u2, importglyphs, rightgroup, _UI.glyphrange.latinextendedb.end);
+			leftgroup = getKernMembersByUnicodeID(tk.attributes.u1, chars, leftgroup, _UI.glyphrange.latinextendedb.end);
+			rightgroup = getKernMembersByUnicodeID(tk.attributes.u2, chars, rightgroup, _UI.glyphrange.latinextendedb.end);
 
-			debug('\t kern groups parsed as ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
+			// debug('\t kern groups parsed as ' + json(leftgroup, true) + ' ' + json(rightgroup, true));
 
 			if(leftgroup.length && rightgroup.length){
 				newid = generateNewID(fk, 'kern');
 				kernval = tk.attributes.k || 0;
-				debug('\t Making a kern pair with k = ' + kernval);
+				// debug('\t Making a kern pair with k = ' + kernval);
 				fk[newid] = new HKern({'leftgroup':leftgroup, 'rightgroup':rightgroup, 'value':kernval});
-				debug('\t Made the new kern successfully.');
+				// debug('\t Made the new kern successfully.');
 				k++;
 			} else {
 				kerns.splice(k, 1);
-				debug('\t Kern ' + json(tk.attributes, true) + ' returned an empty group.');
+				// debug('\t Kern ' + json(tk.attributes, true) + ' returned an empty group.');
 			}
 
-			debug(' Kern Import - END\n');
+			// debug(' Kern Import - END\n');
 			setTimeout(importOneKern, 1);
 		}
 
@@ -335,10 +326,10 @@
 			finalizeGlyphrProject();
 			closeDialog();
 
-			debug(' ioSVG_importSVGfont - END\n');
+			// debug(' ioSVG_importSVGfont - END\n');
 			navigate();
 		}
-		debug(' ioSVG_importSVGfont - END\n');
+		// debug(' ioSVG_importSVGfont - END\n');
 	}
 
 	function make_LoadingAnimation() {
