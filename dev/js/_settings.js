@@ -16,7 +16,7 @@
 
 		// Version
 		'thisGlyphrStudioVersion': 'Version 1.07',
-		'thisGlyphrStudioVersionNum': '1.07.06',
+		'thisGlyphrStudioVersionNum': '1.07.07',
 
 		// Internal Dev Stuff
 		'devmode': true, 					// global switch for all the stuff below
@@ -225,7 +225,6 @@
 
 		// page: openproject
 		'droppedFileContent': false,
-		'importingfont': false,
 		'overflowcount': 326,
 		'spinning': true,
 		'importrange': {

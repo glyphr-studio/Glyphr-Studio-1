@@ -55,8 +55,7 @@
 			for(var p=0; p<shapetags.path.length; p++){
 				// Compound Paths are treated as different Glyphr Shapes
 				data = shapetags.path[p].attributes.d;
-				data = ioSVG_cleanPointData(data);
-				data = data.split(',z');
+				data = cleanAndFormatPathPointData(data);
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
@@ -111,8 +110,7 @@
 			
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
-				data = ioSVG_cleanPointData(data);
-				data = data.split(',');
+				data = cleanAndFormatPathPointData(data);
 
 				if(data.length){
 					pparr = [];
@@ -184,9 +182,24 @@
 		return reglyph;
 	}
 
-	function ioSVG_cleanPointData(data) {
-		// debug('\n ioSVG_cleanPointData - START');
+	function cleanAndFormatPathPointData(data) {
+		/*
+			Takes a string representing input from a <path> tag's
+			'd' attribute.
+
+			Returns an array of strings.  Each array element
+			representing one Glyphr Studio shape.  String will be 
+			comma separated Path Commands and Values
+
+		*/
+
+		// debug('\n cleanAndFormatPathPointData - START');
 		// debug('\t dirty data\n\t ' + data);
+
+		// Move commands for a path are treated as different Glyphr Shapes
+		data = data.replace(/M/g,',z,M');
+		data = data.replace(/m/g,',z,m');
+
 
 		// Parse in the path data, comma separating everything
 		data = data.replace(/(\s+)/g, ',');
@@ -242,8 +255,13 @@
 		if(data.charAt(data.length-1) === ',') data = data.slice(0, -1);
 		if(data.charAt(0) === ',') data = data.slice(1);
 
+
+		// Return an array
+		data = data.split(',z');
+
+
 		// debug('\t clean data\n\t ' + data);
-		// debug(' ioSVG_cleanPointData - END\n');
+		// debug(' cleanAndFormatPathPointData - END\n');
 
 		return data;
 	}
@@ -299,16 +317,12 @@
 
 		// Parse comma separated data into commands / data chunks
 		data = data.split(',');
-		if(data[data.length-1] === 'z') {
-			data.pop();
-			// debug('\t POPPED z ' + data);
-		}
-
 		var chunkarr = [];
 		var commandpos = 0;
 		var command;
 		var dataarr = [];
 		curr = 1;
+
 		while(curr <= data.length){
 			if(ioSVG_isPathCommand(data[curr])){
 				dataarr = data.slice(commandpos+1, curr);

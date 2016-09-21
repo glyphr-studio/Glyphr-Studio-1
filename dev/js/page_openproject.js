@@ -139,7 +139,8 @@
 		if(fname === 'otf' || fname === 'ttf'){
 			reader.onload = function(){
 				// debug('\n reader.onload::OTF or TTF - START');
-				ioOTF_importOTFfont(false, reader.result);
+				_UI.droppedFileContent = reader.result;
+				ioOTF_importOTFfont();
 				// debug(' reader.onload:: OTF or TTF - END\n');
 			};
 
@@ -148,14 +149,14 @@
 		} else if (fname === 'svg' || fname === 'txt'){
 			reader.onload = function() {
 				// debug('\n reader.onload::SVG or TXT - START');
+				_UI.droppedFileContent = reader.result;
 				if(fname === 'svg') {
 					// debug('\t File = .svg');
-					_UI.droppedFileContent = reader.result;
-					ioSVG_importSVGfont(false);
+					ioSVG_importSVGfont();
 
 				} else if(fname === 'txt') {
 					// debug('\t File = .txt');
-					importGlyphrProjectFromText(reader.result);
+					importGlyphrProjectFromText();
 					navigate();
 
 				}
@@ -179,13 +180,14 @@
 
 	function handleMessage(evt) {
 		// assume strings are SVG fonts
+		_UI.droppedFileContent = evt.data;
+		
 		if ( typeof evt.data === 'string' ) {
-			_UI.droppedFileContent = evt.data;
 			ioSVG_importSVGfont(false);
 
 		// assume array buffers are otf fonts
 		} else if ( evt.data instanceof ArrayBuffer )  {
-			ioOTF_importOTFfont(false, evt.data);
+			ioOTF_importOTFfont(false);
 		}
 	}
 

@@ -10,51 +10,45 @@
 	function ioSVG_importSVGfont(filter) {
 		// debug('\n ioSVG_importSVGfont - Start');
 
+		// Spinner Animation
 		document.getElementById('openprojecttableright').innerHTML = make_LoadingAnimation(false);
-
-		setTimeout(setupFontImport, 10);
-
 		var fis = document.getElementById('fontimportstatus');
 		var sweep = document.getElementById('sweep');
 		var degrees = 0;
+
 		function importStatus(msg){
-			// debug('\t>> import status >> ' + msg);
 		    degrees = ((degrees + 2) % 360);
             sweep.style.transform = ('rotate('+degrees+'deg)');
             fis.innerHTML = msg;
 		}
 
+
+		// Font Stuff
 		var font, chars, kerns;
-		var svgdata = _UI.droppedFileContent;
+
+		setTimeout(setupFontImport, 10);
 
 		function setupFontImport(){
-			importStatus('Reading font data...');
 			// debug('\n setupFontImport - START');
-
+			importStatus('Reading font data...');
 			_GP = new GlyphrProject();
-			var jsondata;
 
-			if(!_UI.importingfont){
+			try {
+				// Get Font
+				var svgdata = _UI.droppedFileContent;
 				// Convert unicode glyphs to decimal values
 				// DOM Parser does not return unicode values as text strings
 				// Kern groups containing '&#x' will get fuck'd
 				svgdata = svgdata.replace(/&#x/g, '0x');
-
-				try {
-					jsondata = convertXMLtoJSON(svgdata);
-				} catch (e){
-					loadPage_openproject();
-					showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
-					return;
-				}
-				// debug('\t Converted XML to JSON:');
-				// debug(jsondata);
+				var jsondata = convertXMLtoJSON(svgdata);
+				font = ioSVG_getFirstTagInstance(jsondata, 'font');
+			
+			} catch (e){
+				loadPage_openproject();
+				openproject_changeTab('load');
+				showErrorMessageBox('There was a problem reading the SVG file:<br>' + e.message);
+				return;
 			}
-
-			// Get Font
-			font = _UI.importingfont || ioSVG_getFirstTagInstance(jsondata, 'font');
-			// debug('\t got font');
-			// debug(font);
 
 			// Check to see if it's actually a SVG Font
 			if(!font){
@@ -66,12 +60,9 @@
 
 			// Get Kerns
 			kerns = ioSVG_getTags(font, 'hkern');
-			// debug('\t got kerns');
 
 			// Get Glyphs
 			chars = ioSVG_getTags(font, 'glyph');
-			// debug('\t got chars');
-			// debug(chars);
 
 			// test for range
 			if(chars.length < _UI.overflowcount || filter){
@@ -81,6 +72,7 @@
 			} else {
 				document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(chars.length, kerns.length, 'ioSVG_importSVGfont');
 			}
+			
 			// debug(' setupFontImport - END\n');
 		}
 
@@ -91,12 +83,13 @@
 			// debug(' startFontImport - END\n');
 		}
 
+
 		/*
 		*
 		*	GLYPH IMPORT
 		*
 		*/
-		var tca, data, uni, ns, cname, chtml, adv, isautowide;
+		var tca, data, uni, np, cname, chtml, adv, isautowide;
 		var maxglyph = 0;
 		var minchar = 0xffff;
 		var customglyphrange = [];
@@ -148,23 +141,24 @@
 				// Import Path Data
 				data = tca.d;
 				// debug('\t Glyph has path data ' + data);
-				if(data){
-					// Compound Paths are treated as different Glyphr Shapes
-					data = data.replace(/Z/gi,'z');
-					data = data.split('z');
+				if(data && data !== 'z'){
+					data = cleanAndFormatPathPointData(data);
 
 					// debug('\t split z, data into ' + data.length + ' Glyphr Studio shapes.');
-
-					// debug('\t data.length (shapes) = ' + data.length);
+					// debug(data);
+					
 					for(var d=0; d<data.length; d++){
 						if(data[d].length){
 							// debug('\t starting convertPathTag');
-							ns = ioSVG_convertPathTag(data[d]);
+							np = ioSVG_convertPathTag(data[d]);
 							// debug('\t created shape from PathTag');
-							// debug(ns);
-							newshapes.push(ns);
-							shapecounter++;
-							newshapes[newshapes.length-1].name = ('Path ' + shapecounter);
+							// debug(np);
+							if(np.pathpoints.length){
+								shapecounter++;
+								newshapes.push(new Shape({'path':np, 'name':('Shape ' + shapecounter)}));
+							} else {
+								// debug('\t !!!!!!!!!!!!!!!!!!\n\t data resulted in no path points: ' + data[d]);
+							}
 						}
 					}
 				}

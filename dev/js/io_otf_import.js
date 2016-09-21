@@ -5,57 +5,65 @@
 	and convert it to a Glyphr Studio Project.
 **/
 
-	function ioOTF_importOTFfont(filter, file) {
-		// debug('\n ioOTF_importOTFfont - START');
-		// debug('\t file = ' + file);
 
+	function ioOTF_importOTFfont(filter) {
+		// debug('\n ioOTF_importOTFfont - START');
 
 		// Spinner Animation
 		document.getElementById('openprojecttableright').innerHTML = make_LoadingAnimation(false);
-
 		var fis = document.getElementById('fontimportstatus');
 		var sweep = document.getElementById('sweep');
 		var degrees = 0;
 
 		function importStatus(msg){
-			if(msg) fis.innerHTML = msg;
-			spinSpinner();
-		}
-
-		function spinSpinner() {
 			degrees = ((degrees + 2) % 360);
 			sweep.style.transform = ('rotate('+degrees+'deg)');
+			if(msg) fis.innerHTML = msg;
 		}
 
+
 		// Font Stuff
-		_GP = new GlyphrProject();
 		var font = false;
+		var importglyphs = [];
+		
+		setTimeout(setupFontImport, 10);
 
-		if(!_UI.importingfont){
+		function setupFontImport() {
 			importStatus('Reading font data...');
-
+			_GP = new GlyphrProject();
+			
 			try {
-				// debug('\t TRY - start');
-				font = opentype.parse(file);
+				// Get Font
+				font = opentype.parse(_UI.droppedFileContent);
+			
 			} catch(err){
-				// debug('\t CATCH ERROR');
 				loadPage_openproject();
 				openproject_changeTab('load');
 				showErrorMessageBox('Something went wrong with opening the font file:<br><br>' + err);
-				// debug(' opentype.load:ERROR - END\n');
 				return;
 			}
-		} else {
-			font = _UI.importingfont;
-		}
+			
+			if(font && font.glyphs && font.glyphs.length){
+				// test for range
+				if((font.glyphs.length < _UI.overflowcount) || filter){
+					importStatus('Importing Glyph 1 of ' + font.glyphs.length);
+					setTimeout(startFontImport, 1);
+				} else {
+					document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(font.glyphs.length, 0, 'ioOTF_importOTFfont');
+				}
 
-		// test for range
-		if((font && font.glyphs.length < _UI.overflowcount) || filter){
-			importStatus('Importing Glyph 1 of ' + font.glyphs.length);
-			setTimeout(startFontImport, 1);
-		} else {
-			_UI.importingfont = font;
-			document.getElementById('openprojecttableright').innerHTML = make_ImportFilter(font.glyphs.length, 0, 'ioOTF_importOTFfont');
+				Object.keys(font.glyphs.glyphs).forEach(function (key) {
+					importglyphs.push(font.glyphs.glyphs[key]);
+				});
+
+			} else {
+				loadPage_openproject();
+				openproject_changeTab('load');
+				showErrorMessageBox('Something went wrong with opening the font file:<br><br>' + err);
+				return;
+			}
+
+			// debug('\t SetupFontImport - END\n');
 		}
 
 		function startFontImport() {
@@ -64,13 +72,6 @@
 			setTimeout(importOneGlyph, 4);
 			// debug(' startFontImport - END\n');
 		}
-
-		var importglyphs = [];
-
-		Object.keys(font.glyphs.glyphs).forEach(function (key) {
-			importglyphs.push(font.glyphs.glyphs[key]);
-		});
-
 
 
 		/*
@@ -133,15 +134,7 @@
 				// debug('\t Glyph has path data \n' + data);
 
 				if(data && data !== 'z'){
-					// Move commands for a path are treated as different Glyphr Shapes
-					data = data.replace(/M/g,',z,M');
-					data = data.replace(/m/g,',z,m');
-					
-					// debug(data);
-					data = ioSVG_cleanPointData(data);
-					// debug(data);
-					
-					data = data.split(',z');
+					data = cleanAndFormatPathPointData(data);
 
 					// debug('\t split data into ' + data.length + ' Glyphr Studio shapes.');
 					// debug(data);
@@ -185,7 +178,6 @@
 				// Successfull loop, advance c
 				c++;
 			}
-
 
 			// finish loop
 			setTimeout(importOneGlyph, 1);

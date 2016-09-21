@@ -13,11 +13,15 @@
 //	IMPORT FUNCTIONS
 //	-------------------------------
 
-	function importGlyphrProjectFromText(textcontent){
+	function importGlyphrProjectFromText(){
 		// debug('\n importGlyphrProjectFromText - START');
 
 		var fcontent;
-		try { fcontent = JSON.parse(textcontent); } catch(e) { fcontent = {}; }
+		try { 
+			fcontent = JSON.parse(_UI.droppedFileContent); 
+		} catch(e) { 
+			fcontent = {}; 
+		}
 
 		var tempvn = false;
 		var v = false;
