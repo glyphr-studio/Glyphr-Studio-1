@@ -301,6 +301,7 @@
 			_GP.projectsettings.glyphrange.custom = data.projectsettings.glyphrange.custom || [];
 		}
 		_GP.projectsettings.projectid = _GP.projectsettings.projectid || genProjectID();
+		_GP.projectsettings.descent = -1 * Math.abs(_GP.projectsettings.descent);
 		// debug('\t finished merging projectsettings');
 		// debug(_GP.projectsettings);
 
@@ -394,7 +395,7 @@
 		_GP.projectsettings.projectid = genProjectID();
 
 		getGlyph('0x0020', true).isautowide = false;
-		getGlyph('0x0020', true).glyphwidth = _GP.projectsettings.upm/2;
+		getGlyph('0x0020', true).glyphwidth = Math.round(_GP.projectsettings.upm/3);
 		getGlyph('0x0041', true);
 
 		finalizeGlyphrProject();
@@ -430,6 +431,9 @@
 		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 		_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);
 		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
+
+		var sp = getGlyph('0x0020', true);
+		if(!sp.isautowide && sp.glyphwidth === 0) sp.glyphwidth = Math.round(_GP.projectsettings.upm/3);
 
 		calculateDefaultView();
 		resetThumbView();

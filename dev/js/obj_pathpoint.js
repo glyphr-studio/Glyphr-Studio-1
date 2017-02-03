@@ -832,8 +832,8 @@
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.ylock || false;
 
-		if(oa && oa.x !== undefined && isNaN(oa.x)) console.log('NEW COORD >> initialized oa.x = ' + oa.x);
-		if(oa && oa.y !== undefined && isNaN(oa.y)) console.log('NEW COORD >> initialized oa.y = ' + oa.y);
+		if(oa && oa.x !== undefined && isNaN(oa.x)) console.warn('NEW COORD >> initialized oa.x = ' + oa.x);
+		if(oa && oa.y !== undefined && isNaN(oa.y)) console.warn('NEW COORD >> initialized oa.y = ' + oa.y);
 	}
 
 	function coordsAreEqual(c1, c2, threshold) {

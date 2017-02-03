@@ -31,6 +31,9 @@
 		var unsortedshapetags = ioSVG_getTags(jsondata, grabtags);
 		var shapetags = {};
 
+		// debug('\t unsorted shapetags from imported XML: ');
+		// debug(unsortedshapetags);
+
 		// get a sorted shapetags object
 		for(var g=0; g<grabtags.length; g++) shapetags[grabtags[g]] = [];
 		for(var s=0; s<unsortedshapetags.length; s++) shapetags[unsortedshapetags[s].name].push(unsortedshapetags[s]);
@@ -111,6 +114,10 @@
 			for(var po=0; po<poly.length; po++){
 				data = poly[po].attributes.points;
 				data = cleanAndFormatPathPointData(data);
+				data = data[0].split(',');
+				
+				// debug('\t Polyline or Polygon data, cleaned & formatted:');
+				// debug(data);
 
 				if(data.length){
 					pparr = [];

@@ -226,7 +226,7 @@
 		var re;
 		var chn = ch*1;
 		
-		if(chn > 0x4E00 && chn < 0xA000){
+		if(chn >= 0x4E00 && chn < 0xA000){
 			return 'CJK Unified Ideograph ' + ch.substr(2);
 		} else if(_UI && _UI.unicodenames){
 		 	re = _UI.unicodenames[ch] || '[name not found]';

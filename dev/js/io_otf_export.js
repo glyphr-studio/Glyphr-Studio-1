@@ -19,7 +19,7 @@
 
 			options.unitsPerEm = ps.upm || 1000;
 			options.ascender = ps.ascent || 0.00001;
-			options.descender = ps.descent || -0.00001;
+			options.descender = (-1 * Math.abs(ps.descent)) || -0.00001;
 			options.familyName = (md.font_family) || ' ';
 			options.styleName = (md.font_style) || ' ';
 			options.designer = (md.designer) || ' ';
@@ -90,8 +90,9 @@
 			var glyph = currexportglyph.xg;
 			var num = currexportglyph.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
+			var maxes = glyph.getMaxes();
 
-			// debug('\t ' + glyph.name);
+			// debug('\t ' + glyph.name);			
 
 			showToast('Exporting<br>'+glyph.name, 999999);
 
@@ -105,15 +106,17 @@
 				name: getUnicodeShortName(''+decToHex(num)),
 				unicode: parseInt(num),
 				index: parseInt(num),
-				advanceWidth: round(glyph.getTotalWidth()),
-				xMin: round(glyph.maxes.xmin),
-				xMax: round(glyph.maxes.xmax),
-				yMin: round(glyph.maxes.ymin),
-				yMax: round(glyph.maxes.ymax),
+				advanceWidth: round(glyph.getTotalWidth() || 1),	// has to be non-zero
+				xMin: round(maxes.xmin),
+				xMax: round(maxes.xmax),
+				yMin: round(maxes.ymin),
+				yMax: round(maxes.ymax),
 				path: tgpath
 			});
 
 			// debug(otglyph);
+
+			// Add this finshed glyph
 			options.glyphs.push(otglyph);
 
 

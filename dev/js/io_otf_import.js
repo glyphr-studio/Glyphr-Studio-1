@@ -253,26 +253,37 @@
 			}}
 
 			// Make a custom ranges for the rest, with logical separations
+			// debug('\t customglyphrange.length ' + customglyphrange.length);
+
 			if(customglyphrange.length){
+				var ranges = _GP.projectsettings.glyphrange.custom;
 				var maxvalley = 50;
 				var maxrange = 100;
 				customglyphrange = customglyphrange.sort();
-				var tbegin = customglyphrange[0];
-				var tend = customglyphrange[0];
-				var tcurr;
+				var rangestart = customglyphrange[0];
+				var rangeend = customglyphrange[0];
+				var current;
+				var fencepost = true;
 
 				for(var c=0; c<customglyphrange.length; c++){
-					tcurr = customglyphrange[c];
+					current = customglyphrange[c];
+					// debug('\t ' + current + ' \t ' + rangestart + ' \t ' + rangeend);
 
-					if(((tcurr - tbegin) > maxrange) || ((tcurr - tend) > maxvalley)){
-						_GP.projectsettings.glyphrange.custom.push({'begin':tbegin, 'end':tend});
-						tbegin = tcurr;
-						tend = tcurr;
+					if(((current - rangestart) > maxrange) || ((current - rangeend) > maxvalley)){
+						ranges.push({'begin':rangestart, 'end':rangeend});
+						rangestart = current;
+						rangeend = current;
+						fencepost = false;
+						// debug('\t new glyphrange ' + json(ranges));
 					} else {
-						tend = tcurr;
+						rangeend = current;
+						fencepost = true;
+						// debug('\t incrementing...');
 					}
 				}
 
+				if(fencepost) ranges.push({'begin':rangestart, 'end':rangeend});
+				// debug('\t new glyphrange ' + json(ranges));
 			}
 
 			// Import Font Settings
@@ -286,7 +297,7 @@
 			ps.name = fname;
 			ps.upm = 1*font.unitsPerEm || 1000;
 			ps.ascent = 1*font.ascender || 700;
-			ps.descent = 1*font.descender || 300;
+			ps.descent = -1*Math.abs(font.descender) || 300;
 			ps.capheight = 1*getTableValue(font.tables.os2.sCapHeight) || 675;
 			ps.xheight = 1*getTableValue(font.tables.os2.sxHeight) || 400;
 			ps.overshoot = round(ps.upm / 100);

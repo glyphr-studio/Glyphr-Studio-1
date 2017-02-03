@@ -11,6 +11,7 @@
 		var ps = _GP.projectsettings;
 		var md = _GP.metadata;
 		var family = md.font_family;
+		var familyid = family.replace(/ /g, '_');
 		var timestamp = genDateStampSuffix();
 		var timeoutput = timestamp.split('-');
 		timeoutput[0] = timeoutput[0].replace(/\./g, '-');
@@ -24,11 +25,12 @@
 			'\t\tProject: ' + ps.name + '\n'+
 			'\t\tFont exported on ' + timeoutput + '\n\n'+
 			'\t\tCreated with Glyphr Studio - the free, web-based font editor\n'+
-			'\t\tVersion: ' + _UI.thisGlyphrStudioVersion + '\n\n'+
+			'\t\t' + _UI.thisGlyphrStudioVersion + '\n'+
+			'\t\t' + _UI.thisGlyphrStudioVersionNum + '\n\n'+
 			'\t\tFind out more at www.glyphrstudio.com\n\n'+
 			'\t</metadata>\n'+
 			'\t<defs>\n'+
-			'\t\t<font id="'+family.replace(/ /g, '_')+'" horiz-adv-x="'+ps.upm+'">\n'+
+			'\t\t<font id="'+familyid+'" horiz-adv-x="'+ps.upm+'">\n'+
 			'\t\t\t<font-face\n'+ ioSVG_makeFontFace()+'\n'+
 			'\t\t\t\t<font-face-src>\n'+
 			'\t\t\t\t\t<font-face-name name="'+family+'" />\n'+
@@ -44,13 +46,20 @@
 		con += '\n';
 
 		con += '\t\t</font>\n'+
-			'\t</defs>\n';
+			'\t</defs>\n\n';
 
-		con += '\t<text x="100" y="150" style="font-size:48px; font-family:\''+family+'\', monospace;">'+family+'</text>\n';
-		con += '\t<text x="100" y="220" style="font-size:48px; font-family:\''+family+'\', monospace;">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>\n';
-		con += '\t<text x="100" y="290" style="font-size:48px; font-family:\''+family+'\', monospace;">abcdefghijklmnopqrstuvwxyz</text>\n';
-		con += '\t<text x="100" y="360" style="font-size:48px; font-family:\''+family+'\', monospace;">1234567890</text>\n';
-		con += '\t<text x="100" y="430" style="font-size:48px; font-family:\''+family+'\', monospace;">!\"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</text>\n';
+		// con += '\t<style type="text/css">\n';
+		// con += '\t\t@font-face {\n';
+		// con += '\t\t\tfont-family: "'+family+'", monospace;\n';
+		// con += '\t\t\tsrc: url(#'+familyid+');\n';
+		// con += '\t\t}\n';
+		// con += '\t</style>\n\n';
+
+		con += '\t<text x="100" y="150" style="font-size:48px;" font-family="'+family+'">'+family+'</text>\n';
+		con += '\t<text x="100" y="220" style="font-size:48px;" font-family="'+family+'">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>\n';
+		con += '\t<text x="100" y="290" style="font-size:48px;" font-family="'+family+'">abcdefghijklmnopqrstuvwxyz</text>\n';
+		con += '\t<text x="100" y="360" style="font-size:48px;" font-family="'+family+'">1234567890</text>\n';
+		con += '\t<text x="100" y="430" style="font-size:48px;" font-family="'+family+'">!\"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</text>\n';
 
 		con += '</svg>';
 
@@ -140,7 +149,8 @@
 	}
 
 	function ioSVG_makeOneGlyphOrLigature(gl, uni) {
-		if(!gl.shapes.length) return '';
+		// if(!gl.shapes.length && !gl.getTotalWidth()) return '';	// Results in lots of special unicoded glyphs with no shapes
+		if(!gl.shapes.length && uni!=0x0020) return '';
 
 		uni = uni.split('0x');
 		uni.forEach(function(el, i, arr){if(el) arr[i] = '&#x'+el+';';});
@@ -148,6 +158,7 @@
 
 		if(_GP.projectsettings.combineshapesonexport) gl = new Glyph(gl).flattenGlyph().combineAllShapes(true);
 		var pathdata = gl.getSVGpathData();
+		pathdata = pathdata || 'M0,0Z';
 
 		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+gl.name.replace(/ /g, '_')+'" ';
