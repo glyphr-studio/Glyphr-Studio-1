@@ -274,6 +274,7 @@
 			// debug('\t v: ' + v);
 			first = v.indexOf('.');
 			// debug('\t first: ' + first);
+			
 			if(first > -1){
 				second = v.indexOf('.', (first+1));
 				// debug('\t second: ' + second);
@@ -287,11 +288,17 @@
 					subsequence = subsequence.split(',');
 					// debug('\t subsequence: ' + subsequence);
 					returndata = returndata.concat(subsequence);
+				
+				} else {
+					// no two instances of '.'
+					returndata.push(v);
 				}
+			
 			} else {
 				// no two instances of '.'
 				returndata.push(v);
 			}
+			
 			first = -1;
 			second = -1;
 			subsequence = '';

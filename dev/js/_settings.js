@@ -21,7 +21,7 @@
 		// Internal Dev Stuff
 		'devmode': true, 					// global switch for all the stuff below
 		'dev_sample_project': false, 		// if sampleproject is present, load it and skip open project experience
-		'dev_current_page': 'import svg', 			// navigate straight to a page
+		'dev_current_page': false, 			// navigate straight to a page
 		'dev_current_panel': false, 		// navigate straight to a panel
 		'dev_selected_shape': false, 		// automatically select a shape
 		'debug': true, 						// show messages sent to the browser console
@@ -220,7 +220,7 @@
 			'descender': false,
 			'overshoot_top': false,
 			'overshoot_bottom': false,
-			'svgcode': '<path d="c 123.45.67.45.67.78.89.89.89.89.89.89.89"/>'
+			'svgcode': false,
 		},
 
 		// page: openproject

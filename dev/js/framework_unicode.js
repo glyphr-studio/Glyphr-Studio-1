@@ -122,6 +122,21 @@
 		}
 		return count;
 	}
+	
+	function validateHex(str) {
+		var green = '0123456789ABCDEF';
+		str = str.toString();
+		str = str.toUpperCase();
+		if(str.startsWith('0x')) str = str.substring(2);
+
+		if(str.length > 4) return false;
+
+		for(var c=0; c<str.length; c++){
+			if(green.indexOf(str.charAt(c)) === -1) return false;
+		}
+
+		return true;
+	}
 
 	function unicodeInputHelp() {
 		var re = '<h1>Using Unicode Values</h1>'+

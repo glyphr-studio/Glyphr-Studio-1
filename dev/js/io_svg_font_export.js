@@ -149,11 +149,24 @@
 	}
 
 	function ioSVG_makeOneGlyphOrLigature(gl, uni) {
-		// if(!gl.shapes.length && !gl.getTotalWidth()) return '';	// Results in lots of special unicoded glyphs with no shapes
-		if(!gl.shapes.length && uni!=0x0020) return '';
+		// if(!gl.shapes.length && !gl.getTotalWidth()) return '';	
+		// Results in lots of special unicoded glyphs with no shapes
+		if(!gl.shapes.length && uni!=0x0020) {
+			console.warn('Glyph ' + uni + ' not exported: No shapes.');
+			return ''
+		};
+
 
 		uni = uni.split('0x');
-		uni.forEach(function(el, i, arr){if(el) arr[i] = '&#x'+el+';';});
+		uni.forEach(function(v, i, a){
+			// only export glyph if it has a valid hexadecimal unicode
+			if(!validateHex(v)) {
+				console.warn('Glyph ' + uni.join('') + ' not exported: Bad hex value.');
+				return '';
+			}
+
+			if(v) a[i] = '&#x'+v+';';
+		});
 		uni = uni.join('');
 
 		if(_GP.projectsettings.combineshapesonexport) gl = new Glyph(gl).flattenGlyph().combineAllShapes(true);
