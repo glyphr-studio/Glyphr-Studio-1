@@ -63,7 +63,6 @@
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
 						ppath = ioSVG_convertPathTag(data[d]);
-						
 						if(ppath.pathpoints.length){
 							pushShape(ppath, 'Path');
 						}
@@ -199,6 +198,7 @@
 			comma separated Path Commands and Values
 
 		*/
+		var returndata = [];
 
 		// debug('\n cleanAndFormatPathPointData - START');
 		// debug('\t dirty data\n\t ' + data);
@@ -263,14 +263,50 @@
 		if(data.charAt(0) === ',') data = data.slice(1);
 
 
-		// Return an array
-		data = data.split(',z');
+		// Check for 'double decimal' numbers
+		data = data.split(',');
+		var first = -1;
+		var second = -1;
+		var subsequence = '';
+
+		data.forEach(function(v, i, a){
+			// Search for two instances of '.'
+			// debug('\t v: ' + v);
+			first = v.indexOf('.');
+			// debug('\t first: ' + first);
+			if(first > -1){
+				second = v.indexOf('.', (first+1));
+				// debug('\t second: ' + second);
+				if(second > -1){
+					returndata.push(v.slice(0, second));
+					subsequence = v.slice((second));
+					// debug('\t just the tail: ' + subsequence);
+					subsequence = subsequence.replace(/\./g, ',0.');
+					if(subsequence.charAt(0) === ',') subsequence = subsequence.slice(1);
+					// debug('\t added zeros: ' + subsequence);
+					subsequence = subsequence.split(',');
+					// debug('\t subsequence: ' + subsequence);
+					returndata = returndata.concat(subsequence);
+				}
+			} else {
+				// no two instances of '.'
+				returndata.push(v);
+			}
+			first = -1;
+			second = -1;
+			subsequence = '';
+		});
 
 
-		// debug('\t clean data\n\t ' + data);
+
+		// Make into an array
+		returndata = returndata.join(',');
+		returndata = returndata.split(',z');
+
+		// debug('\t clean data\n\t ' + returndata);
 		// debug(' cleanAndFormatPathPointData - END\n');
 
-		return data;
+		return returndata;
 	}
 
 	function ioSVG_getTags(obj, grabtags) {

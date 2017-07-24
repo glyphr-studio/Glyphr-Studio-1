@@ -637,7 +637,7 @@ function saveFile(fname, buffer, ftype) {
 	function rotate(coord, angle, about) {
 		// debug('\n rotate - START');
 		// debug('\t coord ' + json(coord, true));
-		// debug('\t angle ' + angle);
+		// debug('\t Math angle:\t' + angle);
 		// debug('\t about ' + json(about, true));
 
 		if(!angle || !coord) return;
@@ -688,6 +688,8 @@ function saveFile(fname, buffer, ftype) {
 			callback && callback(fn() || undefined);
 		}, 0);
 	}
+
+
 //-------------------
 // Object ID Stuff
 //-------------------
