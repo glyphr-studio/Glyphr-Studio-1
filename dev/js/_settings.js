@@ -36,9 +36,7 @@
 			{name: 'CombRes', onclick: 'getSelectedWorkItem().combineAllShapes(true); history_put(\'combine and resolve\'); redraw();'},
 			{name: 'Draw IX', onclick: 'getSelectedWorkItemShapes()[0].path.getPolySegment().drawIntersections();'}
 		],
-		testOnLoad: function() {
-			_GP.projectsettings.glyphrange.latinsuppliment = true;
-		},
+		testOnLoad: function() {},
 		testOnRedraw: function() {},
 
 		// all pages

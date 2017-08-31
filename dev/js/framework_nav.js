@@ -29,7 +29,7 @@
 		}
 
 		if(!_UI.current_panel) setDefaultPanel();
-		if(onChooserPanelPage()) setDefaultGlyphChooserPanel();
+		if(onChooserPanelPage()) setDefaultGlyphChooserPanel();		// HERE
 		if(oa.forcepanel) _UI.current_panel = oa.panel;
 		
 		// debug('\t page  set to ' + _UI.current_page);
@@ -241,7 +241,9 @@
 		switch(nh){
 			case 'glyph edit':
 				// debug('\t case glyph edit');
-				_UI.glyphchooser.panel = {fname:'selectGlyph', selected:'glyphs', choices:'glyphs'};
+				if(_UI.glyphchooser.panel.fname !== 'selectGlyph'){
+					_UI.glyphchooser.panel = {fname:'selectGlyph', selected:'glyphs', choices:'glyphs'};
+				}
 				break;
 			case 'components':
 				// debug('\t case components');
@@ -253,7 +255,9 @@
 				break;
 			case 'import svg':
 				// debug('\t case import svg');
-			 	_UI.glyphchooser.panel = {fname:'importSVG_selectGlyph', selected:'glyphs', choices:'all'};
+				if(_UI.glyphchooser.panel.fname !== 'importSVG_selectGlyph'){
+			 		_UI.glyphchooser.panel = {fname:'importSVG_selectGlyph', selected:'glyphs', choices:'all'};
+			 	}
 				break;
 		}
 

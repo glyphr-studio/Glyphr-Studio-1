@@ -652,16 +652,19 @@
 	}
 
 	function selectGlyph(c, dontnavigate){
-		// debug('SELECTGLYPH - selecting ' + getGlyph(c, true).name + ' from value ' + c);
+		// debug('\n selectGlyph - START');
+		// debug('\t selecting ' + getGlyph(c, true).name + ' from value ' + c);
 
 		_UI.selectedglyph = c;
 		clickEmptySpace();
 		markSelectedWorkItemAsChanged();
 
 		if(!dontnavigate){
-			// debug('SELECTGLYPH: selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
+			// debug('\t selecting ' + _GP.glyphs[c].glyphhtml + ' and navigating.');
 			navigate({panel:'npAttributes'});
 		}
+		
+		// debug(' selectGlyph - END\n');
 	}
 
 	function selectComponent(c, dontnavigate){

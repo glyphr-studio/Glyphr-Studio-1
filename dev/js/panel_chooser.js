@@ -127,7 +127,7 @@
 			} else {
 				switch(selrange){
 					case 'basiclatin': selectGlyph('0x0041', true); break;
-					case 'latinsuppliment': selectGlyph('0x0080', true); break;
+					case 'latinsuppliment': selectGlyph('0x00A0', true); break;
 					case 'latinextendeda': selectGlyph('0x0100', true); break;
 					case 'latinextendedb': selectGlyph('0x0180', true); break;
 					case 'components': selectGlyph(getFirstID(_GP.components), true); break;
