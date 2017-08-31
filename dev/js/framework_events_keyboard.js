@@ -8,14 +8,18 @@
 	function keyup(event){
 		var kc = getKeyFromEvent(event);
 		// debug('Key Up:\t\t' + kc + ' from ' + event.which);
+		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
+		// debug(event);
+		
 		if(!onCanvasEditPage()) return;
 
 		var eh = _UI.eventhandlers;
 		// debug('\t eh.lastTool = ' + eh.lastTool);
 
+        var ctrlModifier = event.ctrlKey || event.metaKey || event.which == 17;
+
 		// Ctrl
-		if(kc === 'ctrl'){
-			// debug('\t CTRL');
+		if(ctrlModifier){
 			updateCursor();
 			eh.multi = false;
 			redraw({calledby:'Event Handler - Keyup Ctrl for multi select', redrawpanels: false});
@@ -41,8 +45,10 @@
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
 		var kc = getKeyFromEvent(event);
-        var ctrlModifier = event.ctrlKey || event.metaKey;
+        var ctrlModifier = event.ctrlKey || event.metaKey || event.which == 17;
+        
 		// debug('Key Press:\t' + kc + ' from ' + event.which);
+		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
 		// debug(event);
 
 

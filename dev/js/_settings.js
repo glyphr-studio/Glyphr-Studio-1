@@ -37,7 +37,7 @@
 			{name: 'Draw IX', onclick: 'getSelectedWorkItemShapes()[0].path.getPolySegment().drawIntersections();'}
 		],
 		testOnLoad: function() {
-			addShape();
+			_GP.projectsettings.glyphrange.latinsuppliment = true;
 		},
 		testOnRedraw: function() {},
 

@@ -225,6 +225,7 @@
 		// debug('\t passed: ' + ctool + ' and _UI.selectedtool now is: ' + _UI.selectedtool);
 
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
+		_UI.eventhandlers.multi = false;
 
 		if(ctool === 'newrect'){
 			setCursor('crosshairsSquare');
