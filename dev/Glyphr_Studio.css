@@ -394,6 +394,11 @@
 	#navarea_panel a {
 		color:rgb(51, 56, 61);
 		text-decoration: underline;
+		text-decoration-color: rgba(51, 56, 61, 0.4);
+	}
+
+	#navarea_panel a:hover {
+		text-decoration-color: rgb(51, 56, 61);		
 	}
 
 	.panelsupertitle {
@@ -1018,8 +1023,7 @@
 
 	.splashvername,
 	.splashvernum,
-	.splashblurb,
-	.splashblurb a {
+	.splashblurb {
 		color:white;
 		width:350px;
 	}
@@ -1032,13 +1036,31 @@
 		font-size:.8em;
 	}
 
+	.splashvernum a {
+		color: white;
+		font-size:1em;
+		text-decoration: underline;
+	}
+
 	.splashblurb {
 		font-size:.6em;
+		margin-top:10px;
 	}
 
 	.splashblurb a {
+		color: white;
 		font-size:1em;
 		text-decoration:underline;
+	}
+
+	.splashvernum a,
+	.splashblurb a {
+		text-decoration-color: rgba(255,255,255,0.4);
+	}
+
+	.splashvernum a:hover,
+	.splashblurb a:hover {
+		text-decoration-color: white;
 	}
 
 	.openproject_tile {

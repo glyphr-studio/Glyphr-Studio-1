@@ -8,13 +8,20 @@
 
 	function loadPage_openproject(tab){
 		// debug("LOADING PAGE >> loadPage_openproject");
+		var recent = 1000*60*60*24*7;	// seven days in milliseconds
 
 		var ct = '<table style="height:100%; width:100%;"><tr>'+
 		'<td id="openprojecttableleft" vertical-align="middle">'+
-			'<div id="splashscreenlogo"></div>'+
-			'<div class="splashvername">'+_UI.thisGlyphrStudioVersion+'<br></div>'+
-			'<div class="splashvernum">'+_UI.thisGlyphrStudioVersionNum+'<br></div>'+
-			'<div class="splashblurb">'+
+			'<div id="splashscreenlogo"></div>';
+			
+			ct += '<span class="splashvername">'+_UI.thisGlyphrStudioVersion+'</span>';
+			
+			ct += '<span class="splashvernum">.'+_UI.thisGlyphrStudioVersionNum.split('.')[2];
+			
+			if((Date.now() - _UI.thisGlyphrStudioVersionDate) < recent) ct += ' - <a href="http://help.glyphrstudio.com/overview_updates.html" target="_blank">recently updated!</a>';
+			ct += '</span>';
+
+			ct += '<div class="splashblurb">'+
 				'For more informaiton visit <a href="http://www.glyphrstudio.com" target="_blank">www.glyphrstudio.com</a><br>'+
 				'Glyphr Studio is licensed under a <a href="https://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>, ' +
 				'which is a free / open source "copyleft" license. You are free to use, distribute, and modify Glyphr Studio as long as ' +
