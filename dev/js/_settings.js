@@ -17,12 +17,12 @@
 		// Version
 		thisGlyphrStudioVersion: 'Version 1.08',
 		thisGlyphrStudioVersionNum: '1.08.00',
-		thisGlyphrStudioVersionDate: 1504049779181,
+		thisGlyphrStudioVersionDate: 1504218012295,
 
 		// Internal Dev Stuff
-		devmode: true, 					// global switch for all the stuff below
+		devmode: false, 					// global switch for all the stuff below
 		dev_sample_project: false, 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: 'glyph edit', 			// navigate straight to a page
+		dev_current_page: false, 			// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 						// show messages sent to the browser console

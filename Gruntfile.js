@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 	apphtml = apphtml.split('<!--template_split-->');
 
 	var ver = grunt.file.read('dev/js/_settings.js');
-	ver = ver.split("'thisGlyphrStudioVersionNum': '")[1];
+	ver = ver.split("thisGlyphrStudioVersionNum: '")[1];
 	ver = ver.split("',")[0];
 	ver = ver || '0.0.0';
 
