@@ -292,14 +292,14 @@
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().wlock', s.wlock, 'sswlock')+
 					'<input type="number" id="shapew" step="'+svc+'" '+
-					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(this.value,false,_UI.ms.shapes.ratiolock); history_put(\'Shape Width : \'+this.value); redraw({calledby:\'shapeDetails - Width\'});}"')+
+					(s.wlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(this.value,false,'+s.ratiolock+'); history_put(\'Shape Width : \'+this.value); redraw({calledby:\'shapeDetails - Width\'});}"')+
 					' value="' + wval + '" >'+
 				"</div>"+
 				dimSplit()+
 				'<div class="lockwrapper">'+
 					lockUI('_UI.ms.shapes.getSingleton().hlock', s.hlock, 'sshlock')+
 					'<input type="number" id="shapeh" step="'+svc+'" '+
-					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(false,this.value,_UI.ms.shapes.ratiolock); history_put(\'Shape Height : \'+this.value); redraw({calledby:\'shapeDetails - Height\'});}"')+
+					(s.hlock? 'disabled="disabled"' : 'onchange="_UI.focuselement=this.id; if(!_UI.redrawing){_UI.ms.shapes.setShapeSize(false,this.value,'+s.ratiolock+'); history_put(\'Shape Height : \'+this.value); redraw({calledby:\'shapeDetails - Height\'});}"')+
 					' value="' + hval + '" ></td>'+
 				'</div>'+
 			'</td>'+

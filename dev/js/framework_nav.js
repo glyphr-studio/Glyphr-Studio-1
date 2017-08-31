@@ -29,9 +29,9 @@
 		}
 
 		if(!_UI.current_panel) setDefaultPanel();
-		if(onChooserPanelPage()) setDefaultGlyphChooserPanel();		// HERE
+		if(onChooserPanelPage()) setDefaultGlyphChooserPanel();
 		if(oa.forcepanel) _UI.current_panel = oa.panel;
-		
+
 		// debug('\t page  set to ' + _UI.current_page);
 		// debug('\t panel set to ' + _UI.current_panel);
 
@@ -472,7 +472,7 @@
 		// debug('\n clickHamburger - START');
 		// debug('\t current_panel: ' + _UI.current_panel);
 		// debug('\t last_panel: ' + _UI.last_panel);
-		
+
 		if(_UI.current_panel === 'npNav'){
 			navigate({panel:_UI.last_panel});
 		} else {
