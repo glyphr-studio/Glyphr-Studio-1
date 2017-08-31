@@ -722,6 +722,7 @@ _UI.unicodenames = {
 	'0x009F': 'Application Program Command',
 
 	// Latin-1 Suppliment
+	'0x00A0': 'Non-breaking space',
 	'0x00A1': 'Inverted Exclamation Mark',
 	'0x00A2': 'Cent sign',
 	'0x00A3': 'Pound sign',

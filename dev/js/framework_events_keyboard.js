@@ -97,7 +97,7 @@
 
 		if((ctrlModifier) && kc==='a') {
 			for(var i in _GP.s) {
-				if(! _GP.glyphs[i].getShapes) return;
+				if(!_GP.glyphs[i].getShapes) return;
 
 				_GP.glyphs[i].getShapes().forEach(function(shape, i) {
 					_UI.ms.shapes.members.push(shape);

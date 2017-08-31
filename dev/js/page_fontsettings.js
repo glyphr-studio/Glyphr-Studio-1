@@ -78,7 +78,7 @@
 
 		content += "<table class='settingstable'><tr>"+
 					"<td style='vertical-align:top;'>"+checkUI("_GP.projectsettings.glyphrange.latinsuppliment", ps.glyphrange.latinsuppliment)+"</td>"+
-					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode glyphs 0x0080 through 0x00FF<br>Note: glyphs 0x0080 - 0x00A0 are printing control codes, which fonts may use as other glyphs.</label></td></tr>"+
+					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode glyphs 0x00A0 through 0x00FF</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
 		content += "</div></td></tr></table>";

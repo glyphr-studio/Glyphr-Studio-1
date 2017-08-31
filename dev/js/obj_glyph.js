@@ -746,28 +746,36 @@
 		return re;
 	};
 
-	Glyph.prototype.sendShapesTo = function(chid) {
-		// debug('\n Glyph.sendShapesTo - START');
+	Glyph.prototype.copyShapesTo = function(destinationID, copyGlyphAttributes) {
+		// debug('\n Glyph.copyShapesTo - START');
 
-		var destination = getGlyph(chid, true);
-		destination.shapes = destination.shapes.concat(this.shapes);
-		destination.changed();
+		copyGlyphAttributes = copyGlyphAttributes || { srcAutoWidth: false, srcWidth: false, srcLSB: false, srcRSB: false};
+		var destinationGlyph = getGlyph(destinationID, true);
 		var tc;
 
 		for(var c=0; c<this.shapes.length; c++){
 			tc = this.shapes[c];
 			if(tc.objtype === 'componentinstance'){
-				addToUsedIn(tc.link, chid);
+				addToUsedIn(tc.link, destinationID);
 				tc = new ComponentInstance(clone(tc));
 			} else if(tc.objtype === 'shape'){
 				tc = new Shape(clone(tc));
 			}
+
+			destinationGlyph.shapes.push(tc);
 		}
 
-		// debug('\t new shapes');
-		// debug(destination.shapes);
-		// debug(' Glyph.sendShapesTo - END\n');
+		if(copyGlyphAttributes.srcAutoWidth) destinationGlyph.isautowide = this.isautowide;
+		if(copyGlyphAttributes.srcWidth) destinationGlyph.glyphwidth = this.glyphwidth;
+		if(copyGlyphAttributes.srcLSB) destinationGlyph.leftsidebearing = this.leftsidebearing;
+		if(copyGlyphAttributes.srcRSB) destinationGlyph.rightsidebearing = this.rightsidebearing;
 
+		showToast('Copied ' + this.shapes.length + ' shapes');
+		destinationGlyph.changed();
+
+		// debug('\t new shapes');
+		// debug(destinationGlyph.shapes);
+		// debug(' Glyph.copyShapesTo - END\n');
 	};
 
 	Glyph.prototype.isHere = function(x, y) {

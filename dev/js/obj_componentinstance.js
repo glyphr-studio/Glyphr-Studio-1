@@ -352,7 +352,7 @@
 	function showDialog_AddComponent(){
 		var show = getLength(_GP.components)? 'components' : 'glyphs';
 		_UI.glyphchooser.dialog = {
-			'fname':'insertComponentInstance',
+			'fname':'addComponent',
 			'choices':'all',
 			'selected': show
 		};
@@ -360,31 +360,43 @@
 		var content = '<h1>Add Component</h1>';
 		content += 'Components are groups of shapes that can be re-used across many Glyphs.  Component Instances can be transformed while the Root Component remains unchanged.<br><br>';
 		content += 'You can define and link to stand-alone Components, but you can also use Glyphs and Ligatures as if they were Root Components.<br><br>';
-		content += 'Choose a Glyph to insert as a Component Instance in this Glyph.';
+		content += 'Choose a Glyph to insert as a Component Instance in this Glyph.<br><br>';
+		content += initGetShapesDialogOptions('component');
 		openBigDialog(content);
 	}
 
-	function insertComponentInstance(cid, tochar){
-		//debug('\n insertComponentInstance - START');
-		//debug('\t cid: ' + cid + ' tochar: ' + tochar);
+	function addComponent(sourceComponentID) {
+		insertComponentInstance(sourceComponentID, false, _UI.glyphchooser.getshapesoptions);
+	}
 
-		var select = !tochar;
-		tochar = tochar || getSelectedWorkItemID();
-		var ch = getGlyph(tochar, true);
+	function insertComponentInstance(sourceComponentID, destinationGlyphID, copyGlyphAttributes){
+		// debug('\n insertComponentInstance - START');
+		// debug('\t sourceComponentID: ' + sourceComponentID + ' destinationGlyphID: ' + destinationGlyphID);
 
-		if(ch.canAddComponent(cid)){
-			var name = 'Instance of ' + getGlyphName(cid);
-			var nci = new ComponentInstance({'link':cid, 'name':name});
+		var select = !destinationGlyphID;
+		destinationGlyphID = destinationGlyphID || getSelectedWorkItemID();
+		copyGlyphAttributes = copyGlyphAttributes || { srcAutoWidth: false, srcWidth: false, srcLSB: false, srcRSB: false};
+		var destinationGlyph = getGlyph(destinationGlyphID, true);
 
-			//debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(nci));
-			ch.shapes.push(nci);
-			ch.changed();
+		if(destinationGlyph.canAddComponent(sourceComponentID)){
+			var name = 'Instance of ' + getGlyphName(sourceComponentID);
+			var nci = new ComponentInstance({'link':sourceComponentID, 'name':name});
+			var sourceComponentGlyph = getGlyph(sourceComponentID);
+
+			// debug('INSERT COMPONENT - JSON: \t' + JSON.stringify(nci));
+			destinationGlyph.shapes.push(nci);
+			destinationGlyph.changed();
 			if(select) {
 				_UI.ms.shapes.select(nci);
 				_UI.selectedtool = 'shaperesize';
 			}
 
-			addToUsedIn(cid, tochar);
+			addToUsedIn(sourceComponentID, destinationGlyphID);
+
+			if(copyGlyphAttributes.srcAutoWidth) destinationGlyph.isautowide = sourceComponentGlyph.isautowide;
+			if(copyGlyphAttributes.srcWidth) destinationGlyph.glyphwidth = sourceComponentGlyph.glyphwidth;
+			if(copyGlyphAttributes.srcLSB) destinationGlyph.leftsidebearing = sourceComponentGlyph.leftsidebearing;
+			if(copyGlyphAttributes.srcRSB) destinationGlyph.rightsidebearing = sourceComponentGlyph.rightsidebearing;
 
 			closeDialog();
 			history_put('insert component from glyphedit');

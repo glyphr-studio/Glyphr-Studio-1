@@ -72,7 +72,6 @@
 		//debug(' MAIN SETUP - END\n');
 	}
 
-
 	function insertGlobalDOMElements(){
 
 		var dialogbox = '<div id="dialog_box">' +

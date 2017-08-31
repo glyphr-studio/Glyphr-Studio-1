@@ -864,13 +864,13 @@
 		var ss = _UI.ms.shapes;
 		var angle = calculateAngle({x:cx_sx(mx), y:cy_sy(my)}, center);
 
-		debug('\t Init angle:\t' + angle);
+		// debug('\t Init angle:\t' + angle);
 
 		var rotatehandle = {x:center.x, y:starttopy};
 		rotate(rotatehandle, angle, center);
 		rotate(rotatehandle, (Math.PI/-2), center);
 
-		debug('\t Drag Angle:\t' + round(angle, 2));
+		// debug('\t Drag Angle:\t' + round(angle, 2));
 
 		var counterclockwise = false;
 		if(Math.abs(angle) > (Math.PI/2)) {
@@ -914,7 +914,7 @@
 		if(counterclockwise) readout -= 360;
 		readout = round(readout, 1);
 
-		debug('\t Readout angle:\t' + readout);
+		// debug('\t Readout angle:\t' + readout);
 
 		ctx.font = '24px OpenSans';
 		ctx.fillStyle = accent.l65;

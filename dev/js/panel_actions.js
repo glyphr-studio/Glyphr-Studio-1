@@ -251,25 +251,67 @@
 		var content = '<h1>Get Shapes</h1>';
 		content += 'Clicking a glyph will copy all the shapes in that glyph, and paste them into this glyph.<br><br>';
 		content += msg? msg : '';
+		content += initGetShapesDialogOptions();
+
 		_UI.glyphchooser.dialog = {
-			'fname':'pasteShapesFrom',
-			'choices':'all',
-			'selected':'glyphs'
+			fname:'pasteShapesFrom',
+			choices:'all',
+			selected:'glyphs'
 		};
 
 		openBigDialog(content);
 	}
 
-	function pasteShapesFrom(chid) {
-		var swid = getSelectedWorkItemID();
-		if(chid !== swid){
-			getGlyph(chid).sendShapesTo(getSelectedWorkItemID());
+	function initGetShapesDialogOptions(type) {
+		/*		
+		_UI.glyphchooser.getshapesoptions = {
+			srcAutoWidth: false,
+			srcWidth: false,
+			srcLSB: false,
+			srcRSB: false
+		};
+		*/
+		type = type || 'shapes';
+		var gso = _UI.glyphchooser.getshapesoptions;
+
+
+		var content = '<br><br><br><br><h3>Copy options</h3>';
+
+		if(type === 'shapes') content += 'When copying the shapes from the other glyph, also copy these attributes to this glyph:';
+		else content += 'When inserting the Component Instance, also copy these attributes from the Root Component to this glyph:';
+		
+		content += '<table class="settingstable projectsettings">';
+
+		content += 	'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_UI.glyphchooser.getshapesoptions.srcAutoWidth', gso.srcAutoWidth)+'</td>'+
+					'<td style="vertical-align:top;"><label for="srcAutoWidth">Auto-calculate Width</label><br><br></td></tr>';
+
+		content += 	'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_UI.glyphchooser.getshapesoptions.srcWidth', gso.srcWidth)+'</td>'+
+					'<td style="vertical-align:top;"><label for="srcWidth">Glyph Width</label><br><br></td></tr>';
+
+		content += 	'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_UI.glyphchooser.getshapesoptions.srcLSB', gso.srcLSB)+'</td>'+
+					'<td style="vertical-align:top;"><label for="srcLSB">Left Side Bearing</label><br><br></td></tr>';
+
+		content += 	'<tr><td style="text-align:right; vertical-align:top;">'+checkUI('_UI.glyphchooser.getshapesoptions.srcRSB', gso.srcRSB)+'</td>'+
+					'<td style="vertical-align:top;"><label for="srcRSB">Right Side Bearing</label><br><br></td></tr>';
+
+		content += '</table>';
+
+		return content;
+	}
+
+	function pasteShapesFrom(sourceGlyphID) {
+		var destinationGlyphID = getSelectedWorkItemID();
+		var sourceGlyph = getGlyph(sourceGlyphID);
+
+		if(sourceGlyphID !== destinationGlyphID && sourceGlyph){
+			sourceGlyph.copyShapesTo(destinationGlyphID, _UI.glyphchooser.getshapesoptions);
 			redraw({calledby:'pasteShapesFrom'});
-			history_put('Pasted Shapes to Glyph');
+			history_put('Copied shapes from "' + getGlyphName(sourceGlyphID) + '" to  "' + getSelectedWorkItemName());
+			if(_UI.selectedtool === 'pathaddpoint') _UI.selectedtool = 'shaperesize';
 			closeDialog();
-			showDialog_GetShapes('The shapes from "' + getGlyphName(chid) + '" were successfully pasted to glyph "' + getSelectedWorkItemName() + '".<br>');
+			
 		} else {
-			showDialog_GetShapes('Sorry, you can\'t paste shapes from the currently selected glyph.<br>');
+			showDialog_GetShapes('Sorry, you can\'t paste shapes from the glyph you selected.<br>');
 		}
 	}
 

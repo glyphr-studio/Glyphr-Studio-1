@@ -322,7 +322,7 @@
 		// debug('\t getGlyph returned');
 		// debug(wi);
 
-		var rv = '<div class="glyphselect" onclick="'+onc+'" title="'+wi.name+'&#13;'+index+'">';
+		var rv = '<div class="glyphselect" onclick="'+onc+'" title="'+(wi.name || getUnicodeName(index))+'&#13;'+index+'">';
 
 		var issel = (index === selid);
 

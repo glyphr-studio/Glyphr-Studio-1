@@ -215,7 +215,7 @@
 		}
 
 		// Add new Glyph Shapes
-		tempchar.sendShapesTo(getSelectedWorkItemID());
+		tempchar.copyShapesTo(getSelectedWorkItemID());
 		markSelectedWorkItemAsChanged();
 		history_put("Imported Paths from SVG to glyph "+getSelectedWorkItemName());
 
