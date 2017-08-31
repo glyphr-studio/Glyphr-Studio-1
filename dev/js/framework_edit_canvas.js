@@ -90,7 +90,7 @@
 
 		if(_UI.focuselement) {
 			var fe = document.getElementById(_UI.focuselement);
-			if(fe) fe.focus();
+			if(fe) fe.select();
 		}
 		_UI.focuselement = false;
 

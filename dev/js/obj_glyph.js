@@ -65,13 +65,15 @@
 // TRANSFORM & MOVE
 //-------------------------------------------------------
 	Glyph.prototype.setGlyphPosition = function(nx, ny, force){
-		// debug('SETGLYPHPOSITION nx/ny/force: ' + nx + ' ' + ny + ' ' + force);
+		// debug('Glyph.setGlyphPosition - START');
+		// debug('\t nx/ny/force: ' + nx + ' ' + ny + ' ' + force);
 		var m = this.getMaxes();
 		if(nx !== false) nx = parseFloat(nx);
 		if(ny !== false) ny = parseFloat(ny);
-		var dx = (nx)? (nx - m.xmin) : 0;
-		var dy = (ny)? (ny - m.ymax) : 0;
+		var dx = (nx !== false)? (nx - m.xmin) : 0;
+		var dy = (ny !== false)? (ny - m.ymax) : 0;
 		this.updateGlyphPosition(dx, dy, force);
+		// debug(' Glyph.setGlyphPosition - END\n');
 	};
 
 	Glyph.prototype.updateGlyphPosition = function(dx, dy, force){
@@ -99,8 +101,8 @@
 		if(nh !== false) nh = parseFloat(nh);
 		var ch = (m.ymax - m.ymin);
 		var cw = (m.xmax - m.xmin);
-		var dw = (nw)? (nw - cw) : 0;
-		var dh = (nh)? (nh - ch) : 0;
+		var dw = (nw !== false)? (nw - cw) : 0;
+		var dh = (nh !== false)? (nh - ch) : 0;
 
 		if(ratiolock){
 			if(Math.abs(nh) > Math.abs(nw)) dw = (cw*(nh/ch)) - cw;
