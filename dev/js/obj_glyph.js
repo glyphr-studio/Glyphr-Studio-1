@@ -327,6 +327,8 @@
 // GETTERS
 //-------------------------------------------------------
 	Glyph.prototype.getName = function() { return this.name; };
+	
+	Glyph.prototype.getHTML = function() { return this.glyphhtml || ''; };
 
 	Glyph.prototype.getLSB = function() {
 		if(this.leftsidebearing === false) return _GP.projectsettings.defaultlsb;

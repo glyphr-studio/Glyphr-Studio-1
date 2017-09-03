@@ -507,7 +507,7 @@
 		padding:0px;
 	}
 
-	#floatlogo {
+	#toolsarea_lowerright {
 		background-color:transparent;
 		position:fixed;
 		right:20px;
@@ -1153,51 +1153,78 @@
 
 
 /*	TOOLS		*/
-	#toolsarea {
+	#toolsarea_upperleft {
 		position:fixed;
 		left:490px;
 		top:15px;
 		z-index:10;
 	}
 
-	#viewarea {
+	#toolsarea_upperright {
 		position:fixed;
 		right:15px;
 		top:15px;
 		z-index:10;
 	}
 
-    #secondaryScreenLayout #toolsarea,
+    #secondaryScreenLayout #toolsarea_upperleft,
     #secondaryScreenLayout #keyboardtips {
         left: 15px;
     }
 
-	#toolsarea div,
-	#viewarea div {
+	#toolsarea_upperleft div,
+	#toolsarea_upperright div {
 		margin-right:0px;
 		word-spacing: 10px;
 	}
 
-	#toolsarea button,
-	#viewarea button {
+	#toolsarea_upperleft button,
+	#toolsarea_upperright button {
 		background-color: rgb(76,81,86);
 	}
 
-	#toolsarea .buttonsel,
-	#viewarea .buttonsel {
+	#toolsarea_upperleft .buttonsel,
+	#toolsarea_upperright .buttonsel {
 		background-color: rgb(80,196,255);
+	}
+
+	#toolsarea_lowerleft {
+		position:fixed;
+		bottom:10px;
+		left:490px;
+		top: auto;
+	}
+
+	.contextglyphs {
+		display:inline-block;
+		background-color:white;
+		position: relative;
+		top: -10px;
+	}
+
+	.contextglyphs span {
+		display:inline-block;
+		padding:0px 4px;
+	}
+
+	#contextglyphsleft,
+	#contextglyphsright {
+		width:100px;
+		padding:1px 4px;
+	}
+
+	#contextglyphsleft {
+		text-align: right;
 	}
 
 	#keyboardtips,
 	#keyboardtips:focus,
 	#keyboardtips:active {
-		position:fixed;
-		bottom:10px;
-		left:500px;
-		top: auto;
-		height:50px;
-		width:60px;
-		padding:0px 5px;
+		display: inline-block;
+		height:30px;
+		width:30px;
+		padding:0px;
+		margin-right:15px;
 		z-index:10;
 		background-color: transparent !important;
 		cursor: pointer;

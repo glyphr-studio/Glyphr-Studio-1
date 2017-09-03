@@ -35,7 +35,7 @@
 		}
 
 		function makeFloatLogo() {
-			return '<div id="floatlogo">'+makeGlyphrStudioLogo({'fill': _UI.colors.blue.l55})+'</div>';
+			return '<div id="toolsarea_lowerright">'+makeGlyphrStudioLogo({'fill': _UI.colors.blue.l55})+'</div>';
 		}
 
 

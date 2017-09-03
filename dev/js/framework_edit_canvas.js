@@ -16,8 +16,9 @@
 		return ''+
 			"<div id='notation'>&#x20E2;</div>" +
 			"<canvas id='glypheditcanvas' width=12 height=12 ></canvas>" +
-			"<div id='toolsarea' onMouseOver='mouseovercec();'> (╯°□°）╯︵ ┻━┻ </div>" +
-			"<div id='viewarea'>&nbsp;</div>" +
+			"<div id='toolsarea_upperleft' onMouseOver='mouseovercec();'> (ノ°□°)ノ︵ ┻━┻ </div>" +
+			"<div id='toolsarea_upperright'>&nbsp;</div>" +
+			"<div id='toolsarea_lowerleft'>&nbsp;</div>" +
 			makeFloatLogo();
 	}
 
@@ -108,7 +109,7 @@
 		if(!onCanvasEditPage()) return;
 
 		if(!getSelectedWorkItemID()){
-			getEditDocument().getElementById("toolsarea").innerHTML = '';
+			getEditDocument().getElementById("toolsarea_upperleft").innerHTML = '';
 			return;
 		}
 
@@ -121,6 +122,7 @@
 		var onlig = (_UI.current_page === 'ligatures');
 		var onkern = (_UI.current_page === 'kerning');
 		var type = _UI.ms.shapes.getType();
+		var selectedWorkItem = getSelectedWorkItem();
 
 		if(_UI.selectedtool === 'pathedit'){
 			patheditclass = 'buttonsel';
@@ -146,6 +148,7 @@
 		var st = _UI.selectedtool;
 
 
+		// UPPER RIGHT
 		// Pop In/Out
 		var pop = '';
 		if(onCanvasEditPage()){
@@ -168,6 +171,8 @@
 		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
 		zoom += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
 
+
+		// UPPER LEFT
 		// New Shape
 		var newshape = '';
 		newshape += "<button onMouseOver='mouseovercec();' title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
@@ -189,16 +194,32 @@
 		var kern = "<button title='kern' class='" + (st==='kern'? "buttonsel " : " ") + "tool' onclick='clickTool(\"kern\");'/>"+makeToolButton({'name':'tool_kern', 'selected':(st==='kern')})+"</button>";
 
 
+		// LOWER LEFT
+		// Keyboard Tips Button
+		var kbt = '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'width':30, 'height':30, 'color':'rgb(229,234,239)'})+'</button>';
+		
+		// Context Glyphs
+		var ctxg = '<div class="contextglyphs" title="context glyphs\ndisplay glyphs before or after the currently-selected glyph">';
+		ctxg += '<input id="contextglyphsleft"/>';
+		ctxg += '<span>' + selectedWorkItem.getHTML() + '</span>';
+		ctxg += '<input id="contextglyphsright"/>';
+		ctxg += '</div>';
+
+
+
+		//
 		// Put it all together
+		//
+
 		var toolcontent = '';
 		var viewcontent = '';
+		var contextcontent = '';
 
 		viewcontent += zoom;
 		viewcontent += pop;
 
 		if(onglyph || onlig) toolcontent += newshape;
-		var sls = getSelectedWorkItem();
-		if(oncom && sls && !sls.shape) toolcontent += newshape;
+		if(oncom && selectedWorkItem && !selectedWorkItem.shape) toolcontent += newshape;
 
 		if(onglyph || oncom || onlig) {
 			toolcontent += edittools;
@@ -212,10 +233,13 @@
 
 		if(onkern) toolcontent += kern;
 
-		if(_GP.projectsettings.showkeyboardtipsicon) toolcontent += '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'color':'rgb(229,234,239)'})+'</button>';
+		contextcontent += kbt;
+		if(onglyph || onlig) contextcontent += ctxg;
 
-		getEditDocument().getElementById("toolsarea").innerHTML = toolcontent;
-		getEditDocument().getElementById("viewarea").innerHTML = viewcontent;
+
+		getEditDocument().getElementById("toolsarea_upperleft").innerHTML = toolcontent;
+		getEditDocument().getElementById("toolsarea_upperright").innerHTML = viewcontent;
+		getEditDocument().getElementById("toolsarea_lowerleft").innerHTML = contextcontent;
 	}
 
 	function clickTool(ctool){
