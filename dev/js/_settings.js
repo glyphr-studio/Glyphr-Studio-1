@@ -172,6 +172,8 @@
 			ymax: 999999,
 			ymin: -999999
 		},
+		leftctxglyphs: '',
+		rightctxglyphs: '',
 		timeout: false,
 		toasttimeout: false,
 		history: {},

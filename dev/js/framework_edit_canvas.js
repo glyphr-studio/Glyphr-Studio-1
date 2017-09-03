@@ -200,9 +200,9 @@
 		
 		// Context Glyphs
 		var ctxg = '<div class="contextglyphs" title="context glyphs\ndisplay glyphs before or after the currently-selected glyph">';
-		ctxg += '<input id="contextglyphsleft"/>';
+		ctxg += '<input id="contextglyphsleft" onchange="updateContextGlyphs();"/>';
 		ctxg += '<span>' + selectedWorkItem.getHTML() + '</span>';
-		ctxg += '<input id="contextglyphsright"/>';
+		ctxg += '<input id="contextglyphsright" onchange="updateContextGlyphs();"/>';
 		ctxg += '</div>';
 
 
@@ -384,6 +384,12 @@
 		updateCursor();
 		if(_UI.hamburger.state !== 11 && _UI.current_panel !== 'npNav') goHamburger(true);
 		// debug(' mouseoutcec - END\n');
+	}
+
+	function updateContextGlyphs() {
+		_UI.leftctxglyphs = getEditDocument().getElementById('contextglyphsleft').value;
+		_UI.rightctxglyphs = getEditDocument().getElementById('contextglyphsright').value;
+		redraw({calledby: 'updateContextGlyphs', redrawpanels: false})
 	}
 
 	function toggleKeyboardTips(){

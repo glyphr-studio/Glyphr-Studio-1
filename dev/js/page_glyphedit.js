@@ -48,11 +48,10 @@
 
 		// load char info
 		if(sg && sg.shapes.length) {
-			// _UI.debug = true;
-			// debug('========  START GLYPH DRAWING TO CANVAS  ==========');
-			sg.drawGlyph(_UI.glypheditctx, getView('Redraw'));
-			// debug('========  END OF GLYPH DRAWING TO CANVAS ==========\n\n');
-			// _UI.debug = false;
+			var v = getView('Redraw');
+			sg.drawGlyph(_UI.glypheditctx, v);
+			drawContextGlyphs(v);
+
 		} else {
 			_UI.redrawing = false;
 			return;
@@ -89,4 +88,7 @@
 		// debug(' redraw_GlyphEdit - END\n');
 	}
 
+	function drawContextGlyphs(view) {
+		
+	}
 // end of file

@@ -70,72 +70,78 @@
 		if(_UI.current_panel === 'npAttributes') changefontscale(td.fontsize);
 		document.getElementById('tdtextarea').value = td.sampletext;
 
-		var contentarray = td.sampletext.split('');
-		contentarray = findAndMergeLigatures(contentarray);
+		var lines = td.sampletext.split('\n');
 		var tctx = td.ctx;
 		var scale = td.fontscale;
 		var textEm = (ps.upm*scale);
 		var pagepadding = 10;
-		var currx = pagepadding;
 		var curry = pagepadding + (ps.ascent*scale);
-		var cc, tc;
 
 		tctx.clearRect(0,0,5000,5000);
 		if(td.showhorizontals) drawLine(curry);
+		
+		var currline;
 
-		// debug('\t contentarray.length: ' + contentarray.length);
+		for(var i=0; i<lines.length; i++){
+			currline = lines.split('');
+			currline = findAndMergeLigatures(currline);
+			tc = glypharr[i];
 
-		for(var k=0; k<contentarray.length; k++){
-			tc = contentarray[k];
+			// calc Y val
+			curry += (textEm);
+			curry += ((td.linegap*1)*scale);
 
-			if(tc === '\n'){
-				// reset X val
-				currx = pagepadding;
+			// draw baseline
+			if(td.showhorizontals) drawLine(curry);
 
-				// calc Y val
-				curry += (textEm);
-				curry += ((td.linegap*1)*scale);
-
-				// draw baseline
-				if(td.showhorizontals) drawLine(curry);
-			} else {
-				cc = getGlyph(glyphToHex(tc));
-				if(cc){
-					if(td.showglyphbox){
-						tctx.fillStyle = 'transparent';
-						tctx.strokeStyle = _UI.colors.blue.l65;
-						tctx.lineWidth = 1;
-
-						tctx.strokeRect(
-							currx.makeCrisp(),
-							(curry.makeCrisp()-(ps.ascent*scale)),
-							round(cc.getTotalWidth()*scale),
-							round(textEm)
-						);
-					}
-
-					// debug('\t starting drawing ' + cc.name);
-					// debug(cc);
-
-					if(_UI.testdrive.flattenglyphs){
-						if(!_UI.testdrive.cache.hasOwnProperty(tc)){
-							_UI.testdrive.cache[tc] = (new Glyph(clone(cc))).combineAllShapes(true);
-						}
-
-						currx += _UI.testdrive.cache[tc].drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry});
-
-					} else {
-						currx += cc.drawGlyph(tctx, {'dz' : td.fontscale, 'dx' : currx, 'dy' : curry});
-					}
-
-					currx += (td.padsize*1*scale);
-					currx += calculateKernOffset(tc, contentarray[k+1])*scale;
-					// debug('\t done drawing ' + cc.name);
-				}
-			}
+			// draw glyphs
+			drawGlyphSequence(currline, tctx, pagepadding, curry, scale, td.padsize, td.showglyphbox, td.flattenglyphs);
 		}
 
 		_UI.redrawing = false;
+	}
+
+	function drawGlyphSequence(glypharr, ctx, currx, curry, scale, padsize, showglyphbox, flattenglyphs) {
+		var cc, tc;
+		glypharr = glypharr || [];
+		currx = currx || 0;
+		curry = curry || 0;
+		scale = scale || 1;
+		padsize = padsize || 0;
+
+		for(var g=0; g<glypharr.length; g++){
+			tc = glypharr[g];
+			cc = getGlyph(glyphToHex(tc));
+
+			if(cc){
+				if(showglyphbox){
+					ctx.fillStyle = 'transparent';
+					ctx.strokeStyle = _UI.colors.blue.l65;
+					ctx.lineWidth = 1;
+
+					ctx.strokeRect(
+						currx.makeCrisp(),
+						(curry.makeCrisp()-(ps.ascent*scale)),
+						round(cc.getTotalWidth()*scale),
+						round(textEm)
+					);
+				}
+
+				if(flattenglyphs){
+					if(!_UI.testdrive.cache.hasOwnProperty(tc)){
+						_UI.testdrive.cache[tc] = (new Glyph(clone(cc))).combineAllShapes(true);
+					}
+
+					currx += _UI.testdrive.cache[tc].drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+
+				} else {
+					currx += cc.drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+				}
+
+				currx += (padsize*1*scale);
+				currx += calculateKernOffset(tc, glypharr[g+1])*scale;
+			}
+		}
 	}
 
 	/*
