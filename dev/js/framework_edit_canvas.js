@@ -70,8 +70,8 @@
 	}
 
 	function redrawUnit() {
-		//debug('\n redrawUnit - START');
-		//debug('\t _UI.redraw ' + json(_UI.redraw));
+		debug('\n redrawUnit - START');
+		debug('\t _UI.redraw ' + json(_UI.redraw));
 
 		if(_UI.redraw.redrawcanvas){
 			_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);

@@ -18,7 +18,9 @@
 		var content = '<h1 class="pagetitle">Test Drive</h1><div class="pagecontent">' +
 			'<textarea id="tdtextarea" onkeyup="_UI.testdrive.sampletext=this.value; redraw_TestDrive()">'+_UI.testdrive.sampletext+'</textarea><br>' +
 			'<canvas id="tdcanvas"></canvas><br>' +
-			'<div id="genimg" style="display:none;"></div></div>';
+			'<div id="genimg" style="display:none;"></div>'+
+			'<canvas id="glypheditcanvas" style="display:none;"></canvas>'+
+			'</div>';
 
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		document.getElementById("tdtextarea").focus();
@@ -74,40 +76,38 @@
 		var tctx = td.ctx;
 		var scale = td.fontscale;
 		var textEm = (ps.upm*scale);
+		var linegap = ((td.linegap*1)*scale);
 		var pagepadding = 10;
-		var curry = pagepadding + (ps.ascent*scale);
+		var curry = -linegap;
 
-		tctx.clearRect(0,0,5000,5000);
-		if(td.showhorizontals) drawLine(curry);
-		
-		var currline;
+		tctx.clearRect(0,0,5000,5000);		
 
 		for(var i=0; i<lines.length; i++){
-			currline = lines.split('');
-			currline = findAndMergeLigatures(currline);
-			tc = glypharr[i];
 
 			// calc Y val
-			curry += (textEm);
-			curry += ((td.linegap*1)*scale);
-
-			// draw baseline
-			if(td.showhorizontals) drawLine(curry);
+			curry += (textEm + linegap);
 
 			// draw glyphs
-			drawGlyphSequence(currline, tctx, pagepadding, curry, scale, td.padsize, td.showglyphbox, td.flattenglyphs);
+			drawGlyphSequence(lines[i], tctx, pagepadding, curry, scale, td.padsize, td.showglyphbox, td.showhorizontals, td.flattenglyphs);
 		}
 
 		_UI.redrawing = false;
 	}
 
-	function drawGlyphSequence(glypharr, ctx, currx, curry, scale, padsize, showglyphbox, flattenglyphs) {
+	function drawGlyphSequence(glyphstring, ctx, currx, curry, scale, padsize, showglyphbox, showhorizontals, flattenglyphs) {
+		// debug('\n drawGlyphSequence - START');
+
 		var cc, tc;
-		glypharr = glypharr || [];
+		glyphstring = glyphstring || '';
 		currx = currx || 0;
 		curry = curry || 0;
 		scale = scale || 1;
 		padsize = padsize || 0;
+
+		var glypharr = glyphstring.split('');
+		glypharr = findAndMergeLigatures(glypharr);
+
+		if(showhorizontals) drawLine(curry);
 
 		for(var g=0; g<glypharr.length; g++){
 			tc = glypharr[g];
@@ -121,9 +121,9 @@
 
 					ctx.strokeRect(
 						currx.makeCrisp(),
-						(curry.makeCrisp()-(ps.ascent*scale)),
+						(curry.makeCrisp()-(_GP.projectsettings.ascent*scale)),
 						round(cc.getTotalWidth()*scale),
-						round(textEm)
+						round(_GP.projectsettings.upm*scale)
 					);
 				}
 
@@ -142,6 +142,8 @@
 				currx += calculateKernOffset(tc, glypharr[g+1])*scale;
 			}
 		}
+
+		// debug(' drawGlyphSequence - END\n');
 	}
 
 	/*

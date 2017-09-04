@@ -22,7 +22,7 @@
 		// Internal Dev Stuff
 		devmode: true, 					// global switch for all the stuff below
 		dev_sample_project: 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: 'glyph edit', 			// navigate straight to a page
+		dev_current_page: 'test drive', 			// navigate straight to a page
 		dev_current_panel: 'npAttributes', 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 						// show messages sent to the browser console
@@ -211,7 +211,7 @@
 			padsize: 0,
 			showglyphbox: false,
 			showhorizontals: false,
-			flattenglyphs: true,
+			flattenglyphs: false,
 			cache:{}
 		},
 
