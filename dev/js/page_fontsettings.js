@@ -24,7 +24,7 @@
 					"<tr><td>Cap height: </td><td><input type='number' value='"+ps.capheight+"' onchange='_GP.projectsettings.capheight = Math.abs(parseInt(this.value));'></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td>x Height: </td><td><input type='number' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = Math.abs(parseInt(this.value));'></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' value='"+ps.descent+"' onchange='_GP.projectsettings.descent = Math.abs(parseInt(this.value))*-1;'/></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"<tr><td>Total Units per Em: </td><td><input type='number' value='"+ps.upm+"' onchange='_GP.projectsettings.upm = Math.abs(parseInt(this.value));'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"<tr><td><b>Total Units per Em: </b></td><td><input type='number' value='"+ps.upm+"' onchange='_GP.projectsettings.upm = Math.abs(parseInt(this.value));'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table><br>";
 /*
 		content += "<h3>Line Gap</h3>" +
@@ -40,24 +40,6 @@
 					"<tr><td>Right Side Bearing: </td><td><input type='number' value='"+ps.defaultrsb+"' onchange='_GP.projectsettings.defaultrsb = Math.abs(parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"</table><br>";
 
-
-		content += "<h2>Grids and Guides</h2>";
-		content += "<h3>Grid System</h3>";
-		content += "Defining a grid system to use while editing glyphs in this font makes stuff a whole " +
-					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " +
-					"divide evenly into the Units per Em.<br>" +
-					"<table class='settingstable'>"+
-					"<tr><td>Units per Em:</td><td><input type='number' disabled='disabled' value='" + ps.upm + "'/></td><td><span class='unit'>(total)</span></td></tr>"+
-					"<tr><td>Grid Divisions</td><td><input type='number' value='"+ps.griddivisions+"' onchange='updateGridDivisions(this.value);'/></td><td><span class='unit'>(number)</span></td></tr>"+
-					"<tr><td>Grid Square Size:</td><td><input type='number' id='metirc-ssize' disabled='disabled' value='" + (ps.upm/ps.griddivisions) + "'/></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"</table><br>";
-
-		content += "<h3>Overshoot</h3>"+
-					"Round letters usually extend a little above the x height line and below the baseline. " +
-					"A light guideline will show this overshoot distance.<br>" +
-					"<table class='settingstable'>"+
-					"<tr><td>Overshoot:</td><td><input type='number' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
-					"</table><br>";
 
 
 

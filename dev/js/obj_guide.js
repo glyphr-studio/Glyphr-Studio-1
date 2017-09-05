@@ -29,6 +29,7 @@
 		delta = delta*1;
 		var ctx = _UI.glypheditctx;
 		var cansize = _UI.glypheditcanvassize;
+		var psc = _GP.projectsettings.colors;
 		var v = getView('guide');
 		var start = {x:0, y:0};
 		var end = {x:0, y:0};
@@ -59,6 +60,7 @@
 			label.y = 15;
 		}
 
+		ctx.globalAlpha = transparencyToAlpha(this.editable? psc.customguidetransparency : psc.systemguidetransparency);
 		// Draw Line
 		// debug('\t start: ' + JSON.stringify(start) + ' / end: ' + JSON.stringify(end));
 		ctx.strokeStyle = this.color;
@@ -76,6 +78,7 @@
 			_UI.glypheditctx.fillText(this.name, label.x, label.y);
 		}
 
+		ctx.globalAlpha = 1;
 		// debug('Guide.draw \t END\n');
 	};
 

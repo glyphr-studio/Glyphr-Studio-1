@@ -20,6 +20,24 @@
 					'<tr><td>Project Name:</td><td><input type="text" style="width:100%" value="' + ps.name + '" onchange="_GP.projectsettings.name = this.value;" /></td></tr>'+
 					'</table><br>';
 
+		content += "<h2>Grids and Guides</h2>";
+		content += "<h3>Grid System</h3>";
+		content += "Defining a grid system to use while editing glyphs in this font makes stuff a whole " +
+					"lot easier.  This number is the number of vertical and horizontal divisions to use, it should " +
+					"divide evenly into the Units per Em.<br>" +
+					"<table class='settingstable'>"+
+					"<tr><td>Units per Em:</td><td><input type='number' disabled='disabled' value='" + ps.upm + "'/></td><td><span class='unit'>(total)</span></td></tr>"+
+					"<tr><td>Grid Divisions</td><td><input type='number' value='"+ps.griddivisions+"' onchange='updateGridDivisions(this.value);'/></td><td><span class='unit'>(number)</span></td></tr>"+
+					"<tr><td>Grid Square Size:</td><td><input type='number' id='metirc-ssize' disabled='disabled' value='" + (ps.upm/ps.griddivisions) + "'/></td><td><span class='unit'>(em units)</span></td></tr>" +
+					"</table><br>";
+
+		content += "<h3>Overshoot</h3>"+
+					"Round letters usually extend a little above the x height line and below the baseline. " +
+					"A light guideline will show this overshoot distance.<br>" +
+					"<table class='settingstable'>"+
+					"<tr><td>Overshoot:</td><td><input type='number' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
+					"</table><br>";
+
 		content += '<h2>UI Behavior</h2>'+
 					'<table class="settingstable projectsettings">'+
 
@@ -47,7 +65,7 @@
 					'<tr><td style="text-align:right;"><input type="text" value="'+(_GP.projectsettings.pointsize)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.pointsize=r; this.value=r;" style="width:25px;"/></td>'+
 					'<td>Path Point and Handle size.</td></tr>'+
 
-					'<tr><td style="text-align:right;"><input type="text" value="'+(_GP.projectsettings.colors.gridlightness || 95)+'" onchange="var r=Math.max(1, Math.min(99, Math.round(parseInt(this.value)))); r=r||95; this.value=r; updateGridLightness(r);" style="width:25px;"/></td>'+
+					'<tr><td style="text-align:right;"><input type="text" value="'+(_GP.projectsettings.colors.gridtransparency || 95)+'" onchange="var r=Math.max(1, Math.min(99, Math.round(parseInt(this.value)))); r=r||95; this.value=r; updateGridLightness(r);" style="width:25px;"/></td>'+
 					'<td>% Grid lightness on the edit canvas.</td></tr>'+
 
 					'</table><br>';
@@ -72,7 +90,7 @@
 
 	function updateGridLightness(l) {
 		l = l || 95;
-		_GP.projectsettings.colors.gridlightness = l;
+		_GP.projectsettings.colors.gridtransparency = l;
 	}
 
 	function updateGridDivisions(val){

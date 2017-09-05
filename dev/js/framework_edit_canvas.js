@@ -70,8 +70,8 @@
 	}
 
 	function redrawUnit() {
-		debug('\n redrawUnit - START');
-		debug('\t _UI.redraw ' + json(_UI.redraw));
+		// debug('\n redrawUnit - START');
+		// debug('\t _UI.redraw ' + json(_UI.redraw));
 
 		if(_UI.redraw.redrawcanvas){
 			_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
@@ -1084,7 +1084,19 @@
 // Drawing Grid
 //-------------------
 
+	function transparencyToAlpha(transparency) {
+		var t = parseInt(transparency);
+		if(!t || isNaN(t)) return 1;
+
+		if(t > 100) return 0;
+		if(t < 0) return 1;
+
+		return ((100 - transparency) / 100);
+	}
+
 	function drawGrid(){
+		// debug('\n drawGrid - START');
+
 		var xs = {
 			'xmax': _UI.glypheditcanvassize,
 			'xmin': 0,
@@ -1103,9 +1115,9 @@
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
 			_UI.glypheditctx.lineWidth = 1;
 
-			var l = Math.floor(_GP.projectsettings.colors.gridlightness / 100 * 255);
-			_UI.glypheditctx.strokeStyle = 'rgb('+l+','+l+','+l+')';
-			//debug('GRID - gridsize set as: ' + gsize);
+			_UI.glypheditctx.globalAlpha = transparencyToAlpha(_GP.projectsettings.colors.gridtransparency);
+			_UI.glypheditctx.strokeStyle = 'rgb(0,0,0)';
+
 
 			var horizontal = function(y){
 				y = y.makeCrisp();
@@ -1133,6 +1145,7 @@
 			horizontal(xs.ymax);
 			for(var p=v.dy; p>=xs.ymin; p-=gsize){ horizontal(p); }
 
+			_UI.glypheditctx.globalAlpha = 1;
 		}
 	}
 
@@ -1172,6 +1185,7 @@
 				var rl = t? Math.max(selwi.glyphwidth, t.xmax) :  selwi.glyphwidth;
 				var ll = Math.min(selwi.maxes.xmin, 0);
 
+
 				// Update system guides
 				ps.guides.xheight.location = ps.xheight;
 				ps.guides.capheight.location = ps.capheight;
@@ -1192,13 +1206,6 @@
 					ps.guides.descent.draw(os);
 				}
 
-				// Horizontals
-				ps.guides.xheight.draw();
-				ps.guides.capheight.draw();
-				ps.guides.ascent.draw();
-				ps.guides.descent.draw();
-				ps.guides.baseline.draw();
-
 				// Verticals
 				ps.guides.zero.draw(0);
 				if(onglyphedit){
@@ -1209,17 +1216,25 @@
 						ps.guides.rightside.draw();
 					}
 				}
+				
+				// Horizontals
+				ps.guides.xheight.draw();
+				ps.guides.capheight.draw();
+				ps.guides.ascent.draw();
+				ps.guides.descent.draw();
+				ps.guides.baseline.draw();
 
 				// Out of bounds triangle
 				if(ps.guides.baseline.visible || ps.guides.leftside.visible){
+					var ctx = _UI.glypheditctx;
 					var v = getView('guides');
-					_UI.glypheditctx.fillStyle = ps.guides.baseline.color;
-					_UI.glypheditctx.beginPath();
-					_UI.glypheditctx.moveTo(v.dx, v.dy-1);
-					_UI.glypheditctx.lineTo(v.dx, v.dy+(ps.pointsize*2)-1);
-					_UI.glypheditctx.lineTo(v.dx-(ps.pointsize*2), v.dy-1);
-					_UI.glypheditctx.closePath();
-					_UI.glypheditctx.fill();
+					ctx.fillStyle = shiftColor(ps.guides.baseline.color, ps.colors.systemguidetransparency/100, true);
+					ctx.beginPath();
+					ctx.moveTo(v.dx-1, v.dy);
+					ctx.lineTo(v.dx-1, v.dy+(ps.pointsize*2));
+					ctx.lineTo(v.dx-1-(ps.pointsize*2), v.dy);
+					ctx.closePath();
+					ctx.fill();
 				}
 			}
 		}

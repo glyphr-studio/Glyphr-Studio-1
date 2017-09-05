@@ -56,7 +56,9 @@
 			'colors': {
 				'glyphfill': 'rgb(0,0,0)',			// shape base color
 				'glyphoutline': 'rgb(0,0,0)',		// shape outline color
-				'gridlightness': 96,				// grid base color for settings page
+				'gridtransparency': 96,				// transparency % for black grid lines
+				'systemguidetransparency': 50,		// transparency % for system guidelines
+				'customguidetransparency': 50,		// transparency % for custom guidelines
 				'guide_dark': 'rgb(204,81,0)',		// Dark OS Guideline
 				'guide_med': 'rgb(255,132,51)',		// Medium OS Guideline
 				'guide_light': 'rgb(255,193,153)',	// Light OS Guideline
