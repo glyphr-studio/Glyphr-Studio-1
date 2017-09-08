@@ -57,7 +57,7 @@
 			end.x = pos;
 			end.y = cansize;
 			label.x = pos + pad;
-			label.y = 15;
+			label.y = 11;
 		}
 
 		ctx.globalAlpha = transparencyToAlpha(this.editable? psc.customguidetransparency : psc.systemguidetransparency);

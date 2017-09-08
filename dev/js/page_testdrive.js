@@ -87,64 +87,84 @@
 			// calc Y val
 			curry += (textEm + linegap);
 
+			// draw a horizontal line for the whole row
+			if(td.showhorizontals) drawLine(curry);
+
 			// draw glyphs
-			drawGlyphSequence(lines[i], tctx, pagepadding, curry, scale, td.padsize, td.showglyphbox, td.showhorizontals, td.flattenglyphs);
+			drawGlyphSequence({glyphstring:lines[i], ctx:tctx, currx:pagepadding, curry:curry, scale:scale, drawFunction:drawOneTestDriveGlyphSequenceGlyph});
 		}
 
 		_UI.redrawing = false;
 	}
 
-	function drawGlyphSequence(glyphstring, ctx, currx, curry, scale, padsize, showglyphbox, showhorizontals, flattenglyphs) {
+	/*
+		Draws a single line of Glyphs
+		Function is re-used across different pages
+	*/
+	function drawGlyphSequence(oa){
 		// debug('\n drawGlyphSequence - START');
+		oa = oa || {};
+		var v = getView();
 
-		var cc, tc;
-		glyphstring = glyphstring || '';
-		currx = currx || 0;
-		curry = curry || 0;
-		scale = scale || 1;
-		padsize = padsize || 0;
+		var glyphstring = oa.glyphstring || '';
+		var currx = oa.currx || v.dx;
+		var curry = oa.curry || v.dy;
+		var scale = oa.scale || v.dz;
+		var drawFunction = oa.drawFunction || function(){};
 
 		var glypharr = glyphstring.split('');
 		glypharr = findAndMergeLigatures(glypharr);
 
-		if(showhorizontals) drawLine(curry);
-
 		for(var g=0; g<glypharr.length; g++){
-			tc = glypharr[g];
-			cc = getGlyph(glyphToHex(tc));
-
-			if(cc){
-				if(showglyphbox){
-					ctx.fillStyle = 'transparent';
-					ctx.strokeStyle = _UI.colors.blue.l65;
-					ctx.lineWidth = 1;
-
-					ctx.strokeRect(
-						currx.makeCrisp(),
-						(curry.makeCrisp()-(_GP.projectsettings.ascent*scale)),
-						round(cc.getTotalWidth()*scale),
-						round(_GP.projectsettings.upm*scale)
-					);
-				}
-
-				if(flattenglyphs){
-					if(!_UI.testdrive.cache.hasOwnProperty(tc)){
-						_UI.testdrive.cache[tc] = (new Glyph(clone(cc))).combineAllShapes(true);
-					}
-
-					currx += _UI.testdrive.cache[tc].drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
-
-				} else {
-					currx += cc.drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
-				}
-
-				currx += (padsize*1*scale);
-				currx += calculateKernOffset(tc, glypharr[g+1])*scale;
-			}
+			currx += drawFunction(glypharr[g], currx, curry, scale);
+			currx += calculateKernOffset(glypharr[g], glypharr[g+1])*scale;
 		}
 
 		// debug(' drawGlyphSequence - END\n');
 	}
+
+	function drawOneTestDriveGlyphSequenceGlyph(char, currx, curry, scale) {
+		var td = _UI.testdrive;
+		var glyph = getGlyph(glyphToHex(char));
+		var padsize = td.padsize || 0;
+		var showglyphbox = td.showglyphbox || false;
+		var showhorizontals = td.showhorizontals || false;
+		var flattenglyphs = td.flattenglyphs || false;
+		var ctx = _UI.testdrive.ctx;
+		var advanceWidth = 0;
+
+		if(glyph){
+			if(showglyphbox){
+				ctx.fillStyle = 'transparent';
+				ctx.strokeStyle = _UI.colors.blue.l65;
+				ctx.lineWidth = 1;
+
+				ctx.strokeRect(
+					currx.makeCrisp(),
+					(curry.makeCrisp()-(_GP.projectsettings.ascent*scale)),
+					round(glyph.getTotalWidth()*scale),
+					round(_GP.projectsettings.upm*scale)
+				);
+			}
+
+			if(flattenglyphs){
+				if(!_UI.testdrive.cache.hasOwnProperty(tc)){
+					_UI.testdrive.cache[tc] = (new Glyph(clone(glyph))).combineAllShapes(true);
+				}
+
+				advanceWidth = _UI.testdrive.cache[tc].drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+
+			} else {
+				advanceWidth = glyph.drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+			}
+
+			advanceWidth += (padsize*1*scale);
+		}
+
+		return advanceWidth;
+	}
+
+
 
 	/*
 		calculateKernOffset

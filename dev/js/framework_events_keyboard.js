@@ -41,6 +41,7 @@
 		// debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
 		if(_UI.current_page === 'openproject') return;
+		if(getEditDocument().activeElement.id === 'contextglyphs') return;
 
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;

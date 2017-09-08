@@ -42,7 +42,7 @@ function initEventHandlers() {
 	_UI.glypheditcanvas.addEventListener('mousedown', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mousemove', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mouseup',   ev_canvas, false);
-	_UI.glypheditcanvas.onmouseover = mouseovercec;
+	_UI.glypheditcanvas.customguidetransparency = mouseovercec;
 	_UI.glypheditcanvas.onmouseout = mouseoutcec;
 	_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
 	if (document.getElementById('navarea_panel')) {
@@ -416,6 +416,7 @@ function Tool_NewPath(){
 		eh.lasty = eh.mousey;
 
 		redraw({calledby:'Event Handler Tool_NewPath mousedown'});
+		// debug(' Tool_NewPath.mousedown - END\n');
 	};
 
 	this.mousemove = function (ev) {
@@ -450,7 +451,7 @@ function Tool_NewPath(){
 	};
 
 	this.mouseup = function () {
-
+		// debug('\n Tool_NewPath.mouseup - START');
 		setCursor('penPlus');
 
 		if(_UI.eventhandlers.uqhaschanged){
@@ -467,6 +468,7 @@ function Tool_NewPath(){
 		this.currpt = {};
 		_UI.eventhandlers.lastx = -100;
 		_UI.eventhandlers.lasty = -100;
+		// debug(' Tool_NewPath.mouseup - END\n');
 	};
 }
 
@@ -479,11 +481,14 @@ function Tool_PathEdit(){
 	this.controlpoint = false;
 
 	this.mousedown = function (ev) {
+		// debug('\n Tool_PathEdit.mousedown - START');
 		var eh = _UI.eventhandlers;
 		eh.lastx = eh.mousex;
 		eh.lasty = eh.mousey;
 		this.controlpoint = getSelectedWorkItem().isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), eh.multi);
 		var s = getClickedShape(eh.mousex, eh.mousey);
+
+		// debug(this.controlpoint);
 
 		if(this.controlpoint){
 			this.dragging = true;
@@ -509,49 +514,57 @@ function Tool_PathEdit(){
 
 		if(_UI.ms.shapes.getMembers().length) _UI.current_panel = 'npAttributes';
 		redraw({calledby:'Event Handler Tool_PathEdit mousedown'});
+		// debug(' Tool_PathEdit.mousedown - END\n');
 	};
 
 	this.mousemove = function (ev) {
 		// debug('\n Tool_PathEdit.mousemove - START');
-		var eh = _UI.eventhandlers,
-				sp = _UI.ms.points,
-				controlpoint = this.controlpoint;
+		var eh = _UI.eventhandlers;
+		var sp = _UI.ms.points;
+
+		if(eh.toolhandoff){
+			eh.toolhandoff = false;
+			this.controlpoint = {
+				'type': 'H2',
+				'point': sp.getSingleton()
+			};
+
+			this.controlpoint.point.useh2 = true;
+			this.controlpoint.point.H2.x = cx_sx(eh.mousex);
+			this.controlpoint.point.H2.y = cy_sy(eh.mousey);
+			_UI.ms.points.handlesingleton = this.controlpoint.point;
+
+			this.dragging = true;
+
+			// debug('\t TOOLHANDOFF this.controlpoint = ');
+			// debug(this.controlpoint);
+		}
 
 		if(this.dragging) {
 			// debug('\t Dragging');
 
-			if(eh.toolhandoff){
-				eh.toolhandoff = false;
-				controlpoint = {
-					'type': 'H2',
-					'point': sp.getSingleton()
-				};
-				controlpoint.point.useh2 = true;
-				controlpoint.point.H2.x = cx_sx(eh.mousex);
-				controlpoint.point.H2.y = cy_sy(eh.mousey);
-				_UI.ms.points.handlesingleton = this.controlpoint.point;
-
-				// debug('\t TOOLHANDOFF controlpoint.type = ' + this.controlpoint.type);
-			}
 
 			// Moving points if mousedown
 			var dz = getView('Event Handler Tool_PathEdit mousemove').dz;
 			var dx = (eh.mousex-eh.lastx)/dz;
 			var dy = (eh.lasty-eh.mousey)/dz;
+			var cpt = this.controlpoint.type;
 
-			if(controlpoint.type === 'P') setCursor('penSquare');
+			if(this.controlpoint.type === 'P') setCursor('penSquare');
 			else setCursor('penCircle');
 
-
 			if(sp.getMembers().length === 1){
-				if(controlpoint.point[this.controlpoint.type].xlock) dx = 0;
-				if(controlpoint.point[this.controlpoint.type].ylock) dy = 0;
+				// debug('\t this.controlpoint.point ' + this.controlpoint.point);
+				// debug('\t this.controlpoint.type ' + cpt);
+				var cpx = this.controlpoint.point[cpt];
+				if(cpx && cpx.xlock) dx = 0;
+				if(cpx && cpx.ylock) dy = 0;
 			}
 
-			// debug('\t UpdatePPP ' + this.controlpoint.type + '\t' + dx + '\t' + dy);
 			sp.getMembers().forEach(function(point, i) {
+			// debug('\t UpdatePPP ' + cpt + '\t' + dx + '\t' + dy);
 				if(ev.ctrlKey || ev.metaKey) return;
-				point.updatePathPointPosition(controlpoint.type, dx, dy, ev);
+				point.updatePathPointPosition(cpt, dx, dy, ev);
 			});
 			_UI.ms.shapes.calcMaxes();
 
@@ -571,8 +584,11 @@ function Tool_PathEdit(){
 	};
 
 	this.mouseup = function () {
+		// debug('\n Tool_PathEdit.mouseup - START');
 		var eh = _UI.eventhandlers;
 		this.dragging = false;
+		this.controlpoint = false;
+		eh.toolhandoff = false;
 		_UI.ms.points.handlesingleton = false;
 		eh.lastx = -100;
 		eh.lasty = -100;
@@ -584,6 +600,7 @@ function Tool_PathEdit(){
 			eh.uqhaschanged = false;
 			redraw({calledby:'Event Handler Tool_PathEdit mouseup'});
 		}
+		// debug(' Tool_PathEdit.mouseup - END\n');
 	};
 }
 

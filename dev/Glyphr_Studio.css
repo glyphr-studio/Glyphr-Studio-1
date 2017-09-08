@@ -1287,26 +1287,20 @@
 		top: auto;
 	}
 
-	.contextglyphs {
-		display:inline-block;
+	#contextglyphs {
+		position: fixed;
+		left: 595px;
+		top: 16px;
 		background-color:white;
-		position: relative;
-		top: -10px;
+		border-color: rgb(204, 209, 214);
+		height: 28px;
+		font-size: 20px;
+		padding: -2px 0px 2px 5px;
+		color: rgb(102,107,112);
 	}
 
-	.contextglyphs span {
-		display:inline-block;
-		padding:0px 4px;
-	}
-
-	#contextglyphsleft,
-	#contextglyphsright {
-		width:100px;
-		padding:1px 4px;
-	}
-
-	#contextglyphsleft {
-		text-align: right;
+	#contextglyphs:focus {
+		color: rgb(25,30,35);
 	}
 
 	#keyboardtips,

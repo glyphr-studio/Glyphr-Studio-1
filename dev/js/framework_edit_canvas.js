@@ -16,7 +16,7 @@
 		return ''+
 			"<div id='notation'>&#x20E2;</div>" +
 			"<canvas id='glypheditcanvas' width=12 height=12 ></canvas>" +
-			"<div id='toolsarea_upperleft' onMouseOver='mouseovercec();'> (ノ°□°)ノ︵ ┻━┻ </div>" +
+			"<div id='toolsarea_upperleft' onmouseover='mouseovercec();'> (ノ°□°)ノ︵ ┻━┻ </div>" +
 			"<div id='toolsarea_upperright'>&nbsp;</div>" +
 			"<div id='toolsarea_lowerleft'>&nbsp;</div>" +
 			makeFloatLogo();
@@ -36,6 +36,7 @@
 		//debug('\t oa: ' + json(oa));
 		oa = oa || {};
 		_UI.redraw.redrawcanvas = isval(oa.redrawcanvas) ? oa.redrawcanvas : true;
+		_UI.redraw.redrawtools = isval(oa.redrawtools) ? oa.redrawtools : true;
 		_UI.redraw.redrawpanels = isval(oa.redrawpanels) ? oa.redrawpanels : true;
 		_UI.redraw.calledby = oa.calledby || '';
 
@@ -91,7 +92,13 @@
 
 		if(_UI.focuselement) {
 			var fe = document.getElementById(_UI.focuselement);
-			if(fe) fe.select();
+			// if(fe) fe.select();
+			if(fe) {
+				// var l = fe.value.length;
+				// fe.selectionStart = l;
+				// fe.selectionEnd = l;
+				fe.focus();
+			}
 		}
 		_UI.focuselement = false;
 
@@ -107,6 +114,8 @@
 		// debug('\n update_ToolsArea - START');
 
 		if(!onCanvasEditPage()) return;
+
+		if(!_UI.redraw.redrawtools) return;
 
 		if(!getSelectedWorkItemID()){
 			getEditDocument().getElementById("toolsarea_upperleft").innerHTML = '';
@@ -152,59 +161,60 @@
 		// Pop In/Out
 		var pop = '';
 		if(onCanvasEditPage()){
-			pop += "<span style='width:15px; display:inline-block;'>&nbsp;</span>";
+			pop += '<span style="width:15px; display:inline-block;">&nbsp;</span>';
 			if(_UI.popout){
-				pop += "<button title='one screen mode' class='tool' onclick='popIn();'>"+makeToolButton({'name':'tool_popIn'})+"</button>";
+				pop += '<button title="one screen mode" class="tool" onclick="popIn();">'+makeToolButton({'name':'tool_popIn'})+'</button>';
 			} else {
-				pop += "<button title='two screen mode' class='tool' onclick='popOut();'>"+makeToolButton({'name':'tool_popOut'})+"</button>";
+				pop += '<button title="two screen mode" class="tool" onclick="popOut();">'+makeToolButton({'name':'tool_popOut'})+'</button>';
 			}
 		}
 
 		var zoom = '';
 		// Pan
-		zoom += "<button title='scroll and pan' class='" + (st==='pan'? "buttonsel " : " ") + "tool' onclick='clickTool(\"pan\");'/>"+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+"</button>";
-		zoom += "<span style='width:15px; display:inline-block;'>&nbsp;</span>";
+		zoom += '<button title="scroll and pan" class="' + (st==='pan'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'pan\');"/>'+makeToolButton({'name':'tool_pan', 'selected':(st==='pan')})+'</button>';
+		zoom += '<span style="width:15px; display:inline-block;">&nbsp;</span>';
 		// Zoom
-		zoom += "<button title='zoom: one to one' class='tool' onclick='setView({\"dz\":1});redraw({calledby:\"updatetools\"});'>"+makeToolButton({'name':'tool_zoom1to1'})+"</button>";
-		zoom += "<button title='zoom: fit to screen' class='tool' onclick='setView(clone(_UI.defaultview)); redraw({calledby:\"updatetools\"});'>"+makeToolButton({'name':'tool_zoomEm'})+"</button>";
-		zoom += "<input type='number' title='zoom level' class='zoomreadout' value='" + round(getView("updatetools").dz*100, 2) + "' onchange='setViewZoom(this.value);'/>";
-		zoom += "<button title='zoom: in' class='tool' onclick='viewZoom(1.1);'>"+makeToolButton({'name':'tool_zoomIn'})+"</button>";
-		zoom += "<button title='zoom: out' class='tool' onclick='viewZoom(.9);'>"+makeToolButton({'name':'tool_zoomOut'})+"</button>";
+		zoom += '<button title="zoom: one to one" class="tool" onclick="setView({dz:1});redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoom1to1'})+'</button>';
+		zoom += '<button title="zoom: fit to screen" class="tool" onclick="setView(clone(_UI.defaultview)); redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoomEm'})+'</button>';
+		zoom += '<input type="number" title="zoom level" class="zoomreadout" value="' + round(getView('updatetools').dz*100, 2) + '" onchange="setViewZoom(this.value);"/>';
+		zoom += '<button title="zoom: in" class="tool" onclick="viewZoom(1.1);">'+makeToolButton({'name':'tool_zoomIn'})+'</button>';
+		zoom += '<button title="zoom: out" class="tool" onclick="viewZoom(.9);">'+makeToolButton({'name':'tool_zoomOut'})+'</button>';
 
 
 		// UPPER LEFT
 		// New Shape
 		var newshape = '';
-		newshape += "<button onMouseOver='mouseovercec();' title='new rectangle shape' class='" + (st==='newrect'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newrect\");'/>"+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+"</button>";
-		newshape += "<button onMouseOver='mouseovercec();' title='new oval shape' class='" + (st==='newoval'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newoval\");'/>"+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+"</button>";
-		newshape += "<button onMouseOver='mouseovercec();' title='new path shape' class='" + (st==='newpath'? "buttonsel " : " ") + "tool' onclick='clickTool(\"newpath\");'/>"+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+"</button>";
-		newshape += "<br>";
+		newshape += '<button onmouseover="mouseovercec();" title="new rectangle shape" class="' + (st==='newrect'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'newrect\');"/>'+makeToolButton({'name':'tool_newRect', 'selected':(st==='newrect')})+'</button>';
+		newshape += '<button onmouseover="mouseovercec();" title="new oval shape" class="' + (st==='newoval'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'newoval\');"/>'+makeToolButton({'name':'tool_newOval', 'selected':(st==='newoval')})+'</button>';
+		newshape += '<button onmouseover="mouseovercec();" title="new path shape" class="' + (st==='newpath'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'newpath\');"/>'+makeToolButton({'name':'tool_newPath', 'selected':(st==='newpath')})+'</button>';
+		newshape += '<br>';
 
 		// Path and Shape Edit
 		var edittools = '';
-		edittools += "<button onMouseOver='mouseovercec();' title='add path point' class='" + pathaddpointclass + " tool' " + (penaddpointclickable? "onclick='clickTool(\"pathaddpoint\");'":"") + "/>"+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+"</button>";
-		edittools += "<button onMouseOver='mouseovercec();' title='path edit' class='" + patheditclass + " tool' " + (penclickable? "onclick='clickTool(\"pathedit\");'":"") + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+"</button>";
-		edittools += "<button onMouseOver='mouseovercec();' title='shape edit' class='" + (st==='shaperesize'? "buttonsel " : " ") + "tool' onclick='clickTool(\"shaperesize\");'/>"+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+"</button>";
-		edittools += "<br>";
+		edittools += '<button onmouseover="mouseovercec();" title="add path point" class="' + pathaddpointclass + ' tool" ' + (penaddpointclickable? 'onclick="clickTool(\'pathaddpoint\');"':'') + '/>'+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+'</button>';
+		edittools += '<button onmouseover="mouseovercec();" title="path edit" class="' + patheditclass + ' tool" ' + (penclickable? 'onclick="clickTool(\'pathedit\');"':'') + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+'</button>';
+		edittools += '<button onmouseover="mouseovercec();" title="shape edit" class="' + (st==='shaperesize'? 'buttonsel ' : " ") + 'tool" onclick="clickTool(\'shaperesize\');"/>'+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+'</button>';
+		edittools += '<br>';
+				
+		var donepath = '<div style="height:5px;">&nbsp;</div>';
+		donepath += '<button class="buttonsel" style="width:94px; font-size:.8em; padding:2px;" title="done editing path" onclick="clickTool(\'pathedit\');">done editing path</button>';
 		
 		// Slice
-		var slice = "<button title='slice' class='" + (st==='slice'? "buttonsel " : " ") + "tool' onclick='clickTool(\"slice\");'/>"+makeToolButton({'name':'tool_slice', 'selected':(st==='slice')})+"</button>";
+		// var slice = '<button title="slice" class="' + (st==='slice'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'slice\');"/>'+makeToolButton({'name':'tool_slice', 'selected':(st==='slice')})+'</button>';
 
 		// Kern
-		var kern = "<button title='kern' class='" + (st==='kern'? "buttonsel " : " ") + "tool' onclick='clickTool(\"kern\");'/>"+makeToolButton({'name':'tool_kern', 'selected':(st==='kern')})+"</button>";
+		var kern = '<button title="kern" class="' + (st==='kern'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'kern\');"/>'+makeToolButton({'name':'tool_kern', 'selected':(st==='kern')})+'</button>';
 
+		// Context Glyphs
+		var ctxg = '<input type="text" id="contextglyphs" oninput="updateContextGlyphs();" '+
+			'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ' +
+			'title="context glyphs\ndisplay glyphs before or after the currently-selected glyph" '+
+			'value="'+getContextGlyphString()+'"/>';
 
 		// LOWER LEFT
 		// Keyboard Tips Button
 		var kbt = '<button title="keyboard and mouse tips" onclick="toggleKeyboardTips();" id="keyboardtips">'+makeIcon({'name':'keyboard', 'size':50, 'width':30, 'height':30, 'color':'rgb(229,234,239)'})+'</button>';
 		
-		// Context Glyphs
-		var ctxg = '<div class="contextglyphs" title="context glyphs\ndisplay glyphs before or after the currently-selected glyph">';
-		ctxg += '<input id="contextglyphsleft" onchange="updateContextGlyphs();"/>';
-		ctxg += '<span>' + selectedWorkItem.getHTML() + '</span>';
-		ctxg += '<input id="contextglyphsright" onchange="updateContextGlyphs();"/>';
-		ctxg += '</div>';
-
 
 
 		//
@@ -213,7 +223,7 @@
 
 		var toolcontent = '';
 		var viewcontent = '';
-		var contextcontent = '';
+		var utilitiescontent = '';
 
 		viewcontent += zoom;
 		viewcontent += pop;
@@ -223,23 +233,18 @@
 
 		if(onglyph || oncom || onlig) {
 			toolcontent += edittools;
-			// toolcontent += slice;
-
-			if(_UI.selectedtool === 'newpath'){
-				toolcontent += "<div style='height:5px;'>&nbsp;</div>";
-				toolcontent += "<button class='buttonsel' style='width:94px; font-size:.8em; padding:2px;' title='done editing path' onclick='clickTool(\"pathedit\");'>done editing path</button>";
-			}
+			if(_UI.selectedtool === 'newpath') toolcontent += donepath;
 		}
 
 		if(onkern) toolcontent += kern;
+		if(onglyph || onlig) toolcontent += ctxg;
 
-		contextcontent += kbt;
-		if(onglyph || onlig) contextcontent += ctxg;
+		utilitiescontent += kbt;
 
 
 		getEditDocument().getElementById("toolsarea_upperleft").innerHTML = toolcontent;
 		getEditDocument().getElementById("toolsarea_upperright").innerHTML = viewcontent;
-		getEditDocument().getElementById("toolsarea_lowerleft").innerHTML = contextcontent;
+		getEditDocument().getElementById("toolsarea_lowerleft").innerHTML = utilitiescontent;
 	}
 
 	function clickTool(ctool){
@@ -387,9 +392,16 @@
 	}
 
 	function updateContextGlyphs() {
-		_UI.leftctxglyphs = getEditDocument().getElementById('contextglyphsleft').value;
-		_UI.rightctxglyphs = getEditDocument().getElementById('contextglyphsright').value;
-		redraw({calledby: 'updateContextGlyphs', redrawpanels: false})
+		var sg = getSelectedWorkItemID();
+		_UI.contextglyphs[sg] = getEditDocument().getElementById('contextglyphs').value;
+		redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
+	}
+
+	function getContextGlyphString() {
+		var sg = getSelectedWorkItemID();
+		var ctxglyphstring = _UI.contextglyphs[sg];
+
+		return ctxglyphstring || getSelectedWorkItem().getHTML();
 	}
 
 	function toggleKeyboardTips(){
@@ -454,6 +466,47 @@
 			"</td></tr></table>";
 
 			return con;
+	}
+
+
+//-------------------
+// CONTEXT GLYPHS
+//-------------------
+
+	function drawContextGlyphs(view) {
+		var ctxgs = getContextGlyphString();
+		var currglyph = String.fromCharCode(getSelectedWorkItemID());
+		var v = getView();
+
+		var splitarr = ctxgs.split(currglyph, 2);
+		var left = '';
+		var right = '';
+
+		if(splitarr.length === 1){
+			left = splitarr[0];
+
+		} else if (splitarr.length === 2) {
+			left = splitarr[0];
+			right = splitarr[1];
+		}
+
+		if(left) drawGlyphSequence({glyphstring: left, drawFunction:drawOneContextGlyph});
+		if(right) drawGlyphSequence({glyphstring: right, drawFunction:drawOneContextGlyph});
+		 
+	}
+
+	function drawOneContextGlyph(char, currx, curry, scale) {
+		var glyph = getGlyph(glyphToHex(char));
+		var ctx = _UI.glypheditctx;
+		var advanceWidth = 0;
+
+		if(glyph){
+			advanceWidth = glyph.drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+		} else {
+			advanceWidth = (_GP.projectsettings.upm*1*scale) / 2;
+		}
+
+		return advanceWidth;
 	}
 
 
@@ -1263,7 +1316,7 @@
 		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		_UI.glypheditcanvas.onmouseout = mouseoutcec;
-		_UI.glypheditcanvas.onmouseover = mouseovercec;
+		_UI.glypheditcanvas.customguidetransparency = mouseovercec;
 	}
 
 // end of file

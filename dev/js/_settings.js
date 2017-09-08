@@ -23,7 +23,7 @@
 		devmode: true, 					// global switch for all the stuff below
 		dev_sample_project: 'modegg', 		// if sampleproject is present, load it and skip open project experience
 		dev_current_page: 'glyph edit', 			// navigate straight to a page
-		dev_current_panel: 'npGuides', 		// navigate straight to a panel
+		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 						// show messages sent to the browser console
 		debugautogroup: false,			// try to console.group based on text strings
@@ -138,6 +138,7 @@
 		redrawing: false,
 		redraw: {
 			redrawcanvas: true,
+			redrawtools: true,
 			redrawpanels: true,
 			calledby: ''
 		},
@@ -145,7 +146,7 @@
 		thumbgutter: 5,
 		showgrid: true,		// display the grid
 		showguides: true,		// display guides
-		showguidelabels: true,// display guide labels
+		showguidelabels: true,	// display guide labels
 		showovershoots: true,	// display overshoot guides
 		clipboardshape: false,
 		glypheditcanvas: false,
@@ -172,8 +173,7 @@
 			ymax: 999999,
 			ymin: -999999
 		},
-		leftctxglyphs: '',
-		rightctxglyphs: '',
+		contextglyphs: {},
 		timeout: false,
 		toasttimeout: false,
 		history: {},
@@ -290,6 +290,7 @@
 // GLOBAL PROJECT VARIABLES
 //------------------------------
 // These ARE saved with the project
+// See obj_glyphrproject.js for reference
 
 	var _GP = {};
 

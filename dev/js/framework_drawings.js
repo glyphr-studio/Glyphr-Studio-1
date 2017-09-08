@@ -73,7 +73,7 @@
 		re += 'x="0px" y="0px" width="'+width+'px" height="'+height+'px" viewBox="0 0 ' + size + ' ' + size + '"> ';
 		re += '<defs></defs> ';
 		re += '<rect fill="transparent" width="'+width+'" height="'+height+'" ';
-		re += 'onmouseover="mouseOverIcon(\''+hovercolor+'\', this);" ';
+		re += 'customguidetransparency="mouseOverIcon(\''+hovercolor+'\', this);" ';
 		re += 'onmouseout="mouseOutIcon(\''+color+'\', this);" ';
 		re += '/> ';
 		re += '<g pointer-events="none" fill="'+color+'">';

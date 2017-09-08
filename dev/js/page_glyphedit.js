@@ -46,7 +46,7 @@
 		drawGrid();
 		drawGuides();
 
-		// load char info
+		// load glyph info
 		if(sg && sg.shapes.length) {
 			var v = getView('Redraw');
 			sg.drawGlyph(_UI.glypheditctx, v);
@@ -88,7 +88,4 @@
 		// debug(' redraw_GlyphEdit - END\n');
 	}
 
-	function drawContextGlyphs(view) {
-		
-	}
 // end of file
