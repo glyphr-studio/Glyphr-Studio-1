@@ -388,7 +388,7 @@
 		this.glyphwidth = Math.max(this.maxes.xmax, 0);
 	};
 
-	Glyph.prototype.getTotalWidth = function() {
+	Glyph.prototype.getAdvanceWidth = function() {
 		this.calcGlyphWidth();
 		if(!this.isautowide) return this.glyphwidth;
 		else return this.glyphwidth + this.getLSB() + this.getRSB();
@@ -549,7 +549,7 @@
 		lctx.globalAlpha = 1.0;
 
 		// debug(' Glyph.drawGlyph - END ' + this.name + '\n');
-		return (this.getTotalWidth()*view.dz);
+		return (this.getAdvanceWidth()*view.dz);
 	};
 
 	Glyph.prototype.makeSVG = function(size, gutter) {

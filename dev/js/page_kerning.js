@@ -64,7 +64,7 @@
 				v = getView();
 				ch = getGlyph(selkern.leftgroup[j], true);
 				// debug('\t got leftgroup char ' + ch.name);
-				v.dx -= (ch.getTotalWidth()*v.dz);
+				v.dx -= (ch.getAdvanceWidth()*v.dz);
 				v.dx += (selkern.value*v.dz);
 				ch.drawGlyph(ctx, v, la);
 			}

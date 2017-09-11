@@ -142,7 +142,7 @@
 				ctx.strokeRect(
 					currx.makeCrisp(),
 					(curry.makeCrisp()-(_GP.projectsettings.ascent*scale)),
-					round(glyph.getTotalWidth()*scale),
+					round(glyph.getAdvanceWidth()*scale),
 					round(_GP.projectsettings.upm*scale)
 				);
 			}

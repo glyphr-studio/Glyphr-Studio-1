@@ -55,7 +55,7 @@
 				name: '.notdef',
 				unicode: 0,
 				index: 0,
-				advanceWidth: round(notdef.getTotalWidth()),
+				advanceWidth: round(notdef.getAdvanceWidth()),
 				xMin: round(notdef.maxes.xmin),
 				xMax: round(notdef.maxes.xmax),
 				yMin: round(notdef.maxes.ymin),
@@ -106,7 +106,7 @@
 				name: getUnicodeShortName(''+decToHex(num)),
 				unicode: parseInt(num),
 				index: parseInt(num),
-				advanceWidth: round(glyph.getTotalWidth() || 1),	// has to be non-zero
+				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
 				xMin: round(maxes.xmin),
 				xMax: round(maxes.xmax),
 				yMin: round(maxes.ymin),

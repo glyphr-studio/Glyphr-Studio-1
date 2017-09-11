@@ -149,7 +149,7 @@
 	}
 
 	function ioSVG_makeOneGlyphOrLigature(gl, uni) {
-		// if(!gl.shapes.length && !gl.getTotalWidth()) return '';	
+		// if(!gl.shapes.length && !gl.getAdvanceWidth()) return '';	
 		// Results in lots of special unicoded glyphs with no shapes
 		if(!gl.shapes.length && uni!=0x0020) {
 			console.warn('Glyph ' + uni + ' not exported: No shapes.');
@@ -176,7 +176,7 @@
 		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+gl.name.replace(/ /g, '_')+'" ';
 		con += 'unicode="'+uni+'" ';
-		con += 'horiz-adv-x="'+gl.getTotalWidth()+'" ';
+		con += 'horiz-adv-x="'+gl.getAdvanceWidth()+'" ';
 		con += 'd="'+pathdata+'" />\n';
 		return con;
 	}
