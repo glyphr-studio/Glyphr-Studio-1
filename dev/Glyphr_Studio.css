@@ -91,6 +91,7 @@
 	  background-color:transparent;
 	  position: relative;
 	  top:8px;
+	  border: 0px;
 	}
 	input[type=range]:focus {
 	  outline: none;
@@ -1267,7 +1268,7 @@
 	#toolsarea_upperleft div,
 	#toolsarea_upperright div {
 		margin-right:0px;
-		word-spacing: 10px;
+		/*word-spacing: 10px;*/
 	}
 
 	#toolsarea_upperleft button,
@@ -1287,20 +1288,68 @@
 		top: auto;
 	}
 
-	#contextglyphs {
+	.contextglyphsarea {
 		position: fixed;
 		left: 595px;
 		top: 16px;
+	}
+	
+	#contextglyphsinput {
 		background-color:white;
+		border-style: solid;
+		border-width: 1px 0px 1px 1px;
 		border-color: rgb(204, 209, 214);
+		display: inline-block;
 		height: 28px;
 		font-size: 20px;
+		width:225px;
 		padding: -2px 0px 2px 5px;
 		color: rgb(102,107,112);
+		z-index: 100;
 	}
 
-	#contextglyphs:focus {
+
+	#contextglyphsinput:focus {
 		color: rgb(25,30,35);
+		outline-width: 1px !important;
+		outline-offset: -1px !important;
+	}
+
+	#contextglyphsoptionsbutton {
+		background-color:white !important;
+		border-style: solid;
+		border-width: 1px 1px 1px 0px;
+		border-color: rgb(204, 209, 214);
+		display: inline-block;
+		position: relative;
+		top:-2px;
+		left:-1px;
+		z-index: 50;
+	}
+
+	#contextglyphsoptionsbutton:focus { 
+		outline-width: 1px; 
+		outline-offset: -1px;
+	}
+
+	#contextglyphsoptionsbutton:hover {
+		border-radius: 0px;
+		color:rgb(0,170,255);
+	}
+
+	#contextglyphsoptions {
+		display: none;
+		position: fixed;
+		left: 595px;
+		top: 45px;
+		width: 400px;
+		padding:10px 8px 20px 10px;
+		background-color:white;
+		border-style: solid;
+		border-width: 1px 1px 1px 1px;
+		border-color: rgb(204, 209, 214);
+		z-index: 1;
+		box-shadow: -3px 3px 3px 0px rgba(0, 0, 0, 0.1);
 	}
 
 	#keyboardtips,

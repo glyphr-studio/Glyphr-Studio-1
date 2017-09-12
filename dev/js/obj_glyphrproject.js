@@ -12,81 +12,83 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			'version': _UI.thisGlyphrStudioVersion,			// project version
-			'versionnum': _UI.thisGlyphrStudioVersionNum,	// project number version
-			'initialversionnum': _UI.thisGlyphrStudioVersionNum,	// project number version that survives upgrades
-			'projectid': false,		// A unique ID for this project
+			version: _UI.thisGlyphrStudioVersion,			// project version
+			versionnum: _UI.thisGlyphrStudioVersionNum,	// project number version
+			initialversionnum: _UI.thisGlyphrStudioVersionNum,	// project number version that survives upgrades
+			projectid: false,		// A unique ID for this project
 			
 			// Font Metrics
-			'name': 'My Font',		// project name (can be different than font names)
-			'upm': 1000,			// Units Per Em - (emsize) how tall normal cap letters are
-			'ascent': 700,			// ascender
-			'descent': -300,		// descender
-			'capheight': 675,		// capital letter height
-			'xheight': 400,			// lowercase letter height
-			'linegap': 250,			// distance between lines
-			'italicangle': 0,		// slant of glyphs, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
-			'griddivisions': 10,	// how many squares of grid per emsize
-			'overshoot': 10,		// overshoot for round glyphs
-			'defaultlsb': 20,		// default left side bearing
-			'defaultrsb': 20,		// default right side bearing
-			'glyphrange': {			// canned and custom Unicode ranges
-				'basiclatin': true,
-				'latinsuppliment': false,
-				'latinextendeda': false,
-				'latinextendedb': false,
-				'custom': [],
-				'filternoncharpoints': true
+			name: 'My Font',		// project name (can be different than font names)
+			upm: 1000,			// Units Per Em - (emsize) how tall normal cap letters are
+			ascent: 700,			// ascender
+			descent: -300,		// descender
+			capheight: 675,		// capital letter height
+			xheight: 400,			// lowercase letter height
+			linegap: 250,			// distance between lines
+			italicangle: 0,		// slant of glyphs, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
+			griddivisions: 10,	// how many squares of grid per emsize
+			overshoot: 10,		// overshoot for round glyphs
+			defaultlsb: 20,		// default left side bearing
+			defaultrsb: 20,		// default right side bearing
+			glyphrange: {			// canned and custom Unicode ranges
+				basiclatin: true,
+				latinsuppliment: false,
+				latinextendeda: false,
+				latinextendedb: false,
+				custom: [],
+				filternoncharpoints: true
 			},
 
 			// UI stuff
-			'pointsize': 7,					// path point square size
-			'spinnervaluechange': 1,		// how much spinner controls change a value
-			'renderpointssnappedtogrid': true, // OpenType.js requires all points be round numbers - project will still store decimals
-			'combineshapesonexport': false,	// combine overlapping shapes of the same winding into one shape
-			'maxcombineshapesonexport': 30, // If a glyph has more than this number of shapes, combine will not be attempted
-			'showkeyboardtipsicon': true,	// button for keyboard tips on edit canvas
-			'stoppagenavigation': true,		// asks to save on window close or refresh
-			'formatsavefile': true,			// makes the JSON save file readable
-			'showoutline': false,			// outline shapes when drawing
-			'showfill': true,				// fill shapes when drawing
-			'guides': {},					// user-defined guidelines
-			'snaptogrid': false,			// snap to gridlines
-			'snaptoguides': false,			// snap to guidelines
-			'colors': {
-				'glyphfill': 'rgb(0,0,0)',			// shape base color
-				'glyphoutline': 'rgb(0,0,0)',		// shape outline color
-				'gridtransparency': 96,				// transparency % for black grid lines
-				'systemguidetransparency': 50,		// transparency % for system guidelines
-				'customguidetransparency': 50,		// transparency % for custom guidelines
-				'guide_dark': 'rgb(204,81,0)',		// Dark OS Guideline
-				'guide_med': 'rgb(255,132,51)',		// Medium OS Guideline
-				'guide_light': 'rgb(255,193,153)',	// Light OS Guideline
+			pointsize: 7,					// path point square size
+			spinnervaluechange: 1,		// how much spinner controls change a value
+			renderpointssnappedtogrid: true, // OpenType.js requires all points be round numbers - project will still store decimals
+			combineshapesonexport: false,	// combine overlapping shapes of the same winding into one shape
+			maxcombineshapesonexport: 30, // If a glyph has more than this number of shapes, combine will not be attempted
+			showkeyboardtipsicon: true,	// button for keyboard tips on edit canvas
+			stoppagenavigation: true,		// asks to save on window close or refresh
+			formatsavefile: true,			// makes the JSON save file readable
+			showoutline: false,			// outline shapes when drawing
+			showfill: true,				// fill shapes when drawing
+			guides: {},					// user-defined guidelines
+			snaptogrid: false,			// snap to gridlines
+			snaptoguides: false,			// snap to guidelines
+			showcontextglyphguides: true,	// show horizontal guides & notations for context glyphs
+			colors: {
+				glyphfill: 'rgb(0,0,0)',			// shape base color
+				glyphoutline: 'rgb(0,0,0)',		// shape outline color
+				gridtransparency: 96,				// transparency % for black grid lines
+				systemguidetransparency: 50,		// transparency % for system guidelines
+				customguidetransparency: 50,		// transparency % for custom guidelines
+				contextglyphtransparency: 20,		// transparency % for context glyphs
+				guide_dark: 'rgb(204,81,0)',		// Dark OS Guideline
+				guide_med: 'rgb(255,132,51)',		// Medium OS Guideline
+				guide_light: 'rgb(255,193,153)',	// Light OS Guideline
 			}
 		};
 
 		this.metadata = {
 			/* Shared Properties */
-			'shared': '{{sectionbreak}}',
-			'font_family': 'My Font',
-			'font_style': 'normal',
-			'panose_1': '2 0 0 0 0 0 0 0 0 0',
+			shared: '{{sectionbreak}}',
+			font_family: 'My Font',
+			font_style: 'normal',
+			panose_1: '2 0 0 0 0 0 0 0 0 0',
 
 			/* OTF Properties */
-			'otf': '{{sectionbreak}}',
-			'designer': '',
-			'designerURL': '',
-			'manufacturer': '',
-			'manufacturerURL': '',
-			'license': '',
-			'licenseURL': '',
-			'version': '',
-			'description': '',
-			'copyright': '',
-			'trademark': '',
+			otf: '{{sectionbreak}}',
+			designer: '',
+			designerURL: '',
+			manufacturer: '',
+			manufacturerURL: '',
+			license: '',
+			licenseURL: '',
+			version: '',
+			description: '',
+			copyright: '',
+			trademark: '',
 			
 			/* SVG PROPERTIES */
-			'svg': '{{sectionbreak}}',
+			svg: '{{sectionbreak}}',
 			// 'units_per_em': 0,
 			// 'accent_height': 0,
 			// 'ascent': 0,
@@ -95,12 +97,12 @@
 			// 'descent': 0,
 			// 'bbox': 0,
 			// 'unicode_range': 0,
-			'font_variant': 'normal',
-			'font_weight': 400,		// Default to 400
-			'font_stretch': 'normal',
-			'stemv': 0,
-			'stemh': 0,
-			'slope': 0,
+			font_variant: 'normal',
+			font_weight: 400,		// Default to 400
+			font_stretch: 'normal',
+			stemv: 0,
+			stemh: 0,
+			slope: 0,
 			// 'font_size': 'all',
 			// 'widths': 0,
 			// 'ideographic': 0,
@@ -111,12 +113,12 @@
 			// 'v_alphabetic': 0,
 			// 'v_mathematical': 0,
 			// 'v_hanging': 0,
-			'underline_position': -50,
-			'underline_thickness': 10,
-			'strikethrough_position': 300,
-			'strikethrough_thickness': 10,
-			'overline_position': 750,
-			'overline_thickness': 10
+			underline_position: -50,
+			underline_thickness: 10,
+			strikethrough_position: 300,
+			strikethrough_thickness: 10,
+			overline_position: 750,
+			overline_thickness: 10
 		};
 
 		this.glyphs = {};

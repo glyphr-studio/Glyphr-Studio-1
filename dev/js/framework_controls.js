@@ -1,8 +1,8 @@
 // start of file
 /**
-	Framework > Drawings
-	Everything having to do with storing icon SVG
-	and drawing icons.
+	Framework > Controls
+	Common / re-usable controls, buttons, and everything 
+	having to do with storing and drawing icon SVG.
 **/
 
 
@@ -842,6 +842,7 @@
 	_UI.cursors.crosshairsCircle = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAASdJREFUeNpiYCAFaDvOB+L/YJquAGjpw6///4MtpxAwMQwQGLV41OJRixfImzmBaYahChihxV8CIZ8yXN2fiLUIJVcvrBjEh1GKSDQ2SXqRAAs03gi7Ggau7mdEi3Pi9Q49MFotjlpMAmChUVoIAJL9QKwAFXkAxIXArLiBdokLaCmfhe//3pU74IVI/dw1/0FiUAfRzOL7yJbCMEgMJEebONZ2FAAFb4iPO4YUVEwBqEZhoKpFYaDlwqRZDKplQGU11toGLP8BlJDWbNmJITVvxVoQ9RzKZWemeooWU3x44tzFCA52NgZDHS2wEMghHVNnM/z89asRmsK/MNIpO4F82gvEB2DZi5GmpQQkIQmjib4FRgmNLYZYDrKYHcr7CbT0LYgBEGAANUzSIEqdxeYAAAAASUVORK5CYII=") 12 12, crosshair';
 	_UI.cursors.crosshairsSquare = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAK9JREFUeNpiYCAFaDvOB+L/YJquAGjpw6///4MtpxAwMQwQGLV41OJRixfImzmBaYahChihxV8CIZ8yXN2fiLUIJVcvrBjEh1GKSDQ2SXqRAAs03gi7Ggau7mdEi3Pi9Q49MFotjlpMAmChRTrAKw/Njiy08M3DU/uwikPLeQaaWUwgRKSA5GeWAYheyQGtFknzMaSWSRzNTvhSL+6GAG1TryQO2ee0TNWf8ckBBBgA6OV4hjhWgkEAAAAASUVORK5CYII=") 12 12, crosshair';
 
+
 //	---------------------
 //	TOOLS
 //	---------------------
@@ -1012,9 +1013,9 @@
 
 
 
-//	-----------------------
-//	LOCK, CHECKBOX, HELP
-//	-----------------------
+//	-------------------------------
+//	LOCK, CHECKBOX, SLIDERS, HELP
+//	-------------------------------
 
 	function lockUI(varname, currbool, idname){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
@@ -1057,6 +1058,21 @@
 		re += '"/>';
 
 		return re;
+	}
+
+	function sliderUI(varname) {
+		var psct = _GP.projectsettings.colors[varname];
+		var re = 'transparency:<input type="range" min="0" max="100" value="'+psct+'" step="1" ';
+		re += 'oninput="updateTransparency(\''+varname+'\', this.value);"/>';
+		re += '<span id="'+varname+'">'+psct+'</span>%';
+		
+		return re;
+	}
+
+	function updateTransparency(id, value) {
+		_GP.projectsettings.colors[id] = value;
+		document.getElementById(id).innerHTML = value;
+		redraw({calledby:'updateTransparency', redrawpanels: false, redrawtools: false});
 	}
 
 	function helpUI(message){

@@ -206,10 +206,19 @@
 		var kern = '<button title="kern" class="' + (st==='kern'? 'buttonsel ' : ' ') + 'tool" onclick="clickTool(\'kern\');"/>'+makeToolButton({'name':'tool_kern', 'selected':(st==='kern')})+'</button>';
 
 		// Context Glyphs
-		var ctxg = '<input type="text" id="contextglyphs" oninput="updateContextGlyphs();" '+
-			'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ' +
-			'title="context glyphs\ndisplay glyphs before or after the currently-selected glyph" '+
-			'value="'+getContextGlyphString()+'"/>';
+		var ctxg = '<div class="contextglyphsarea">';
+		ctxg += '<div id="contextglyphsoptions">';
+		ctxg += '<b>Context Glyphs</b> are letters you can display around the glyph you are currently editing.<br><br>';
+		ctxg += checkUI('_GP.projectsettings.showcontextglyphguides', _GP.projectsettings.showcontextglyphguides);
+		ctxg += '<label style="margin-left:10px; position:relative; top:-6px;" for="showcontextglyphguides">show guides</label><br>';
+		ctxg += 'glyph ' + sliderUI('contextglyphtransparency');
+		ctxg += '</div>';
+		ctxg += '<input type="text" id="contextglyphsinput" oninput="updateContextGlyphs();" ';
+		ctxg += 'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ';
+		ctxg += 'title="context glyphs\ndisplay glyphs before or after the currently-selected glyph" ';
+		ctxg += 'value="'+getContextGlyphString()+'"/>';
+		ctxg += '<button id="contextglyphsoptionsbutton" onclick="showCtxGlyphsOptions();">&#x23F7;</button>';
+		ctxg += '</div>';
 
 		// LOWER LEFT
 		// Keyboard Tips Button
@@ -393,7 +402,7 @@
 
 	function updateContextGlyphs() {
 		var sg = getSelectedWorkItemID();
-		_UI.contextglyphs[sg] = getEditDocument().getElementById('contextglyphs').value;
+		_UI.contextglyphs[sg] = getEditDocument().getElementById('contextglyphsinput').value;
 		redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
 	}
 
@@ -403,6 +412,19 @@
 
 		return ctxglyphstring || hexToGlyph(sg);
 		//getSelectedWorkItem().getHTML();
+	}
+
+	function showCtxGlyphsOptions() {
+		getEditDocument().getElementById('contextglyphsoptions').style.display = 'block';
+		getEditDocument().getElementById('contextglyphsoptionsbutton').onclick = hideCtxGlyphsOptions;
+		getEditDocument().getElementById('contextglyphsoptionsbutton').innerHTML = '&#x23F6;';
+	}
+
+	function hideCtxGlyphsOptions() {
+		getEditDocument().getElementById('contextglyphsoptions').style.display = 'none';
+		getEditDocument().getElementById('contextglyphsoptionsbutton').onclick = showCtxGlyphsOptions;
+		getEditDocument().getElementById('contextglyphsoptionsbutton').innerHTML = '&#x23F7;';
+		getEditDocument().getElementById('contextglyphsinput').focus();
 	}
 
 	function toggleKeyboardTips(){
@@ -500,21 +522,21 @@
 
 		// debug('\t split: ' + left + ' | ' + right);
 
-		var k;
 		if(left) {
 			var leftdistance = getGlyphSequenceAdvanceWidth(left);
-			k = calculateKernOffset(left.charAt(left.length-1), currGlyphChar);
+			if(currGlyphObject.isautowide) leftdistance += currGlyphObject.getLSB();
+			leftdistance += calculateKernOffset(left.charAt(left.length-1), currGlyphChar);
 			// debug('\t leftdistance: ' + leftdistance);
 			// debug('\t kerndistance: ' + k);
-			leftdistance += k;
 			// debug('\t leftdistance: ' + leftdistance);
 			drawGlyphSequence({glyphstring:left, drawFunction:drawOneContextGlyph, currx:(v.dx-(leftdistance*v.dz))});
 		}
 
 		if(right) {
 			var rightdistance = currGlyphObject.getAdvanceWidth();
-			k = calculateKernOffset(currGlyphChar, right.charAt(0));
-			rightdistance += k;
+			if(currGlyphObject.isautowide) rightdistance -= currGlyphObject.getLSB();
+			rightdistance += calculateKernOffset(currGlyphChar, right.charAt(0));
+
 			drawGlyphSequence({glyphstring:right, drawFunction:drawOneContextGlyph, currx:(v.dx+(rightdistance*v.dz))});
 		}
 
@@ -528,25 +550,45 @@
 		var g;
 		sequence.forEach(function(v, i, a) {
 			g = getGlyph(glyphToHex(v));
-			if(g) advanceWidth += g.getAdvanceWidth();
-			if(a[i+1]) advanceWidth += calculateKernOffset(v, a[i+1]);
+			if(g){
+				advanceWidth += g.getAdvanceWidth();
+				if(a[i+1]) advanceWidth += calculateKernOffset(v, a[i+1]);
+			
+			} else {
+				advanceWidth += _GP.projectsettings.upm*1 / 2;
+			}
 		});
 
 		return advanceWidth;
 	}
 
-	function drawOneContextGlyph(char, currx, curry, scale) {
+	function drawOneContextGlyph(char, currx, curry, scale, fencepost) {
 		var glyph = getGlyph(glyphToHex(char));
 		var ctx = _UI.glypheditctx;
 		var advanceWidth = 0;
+		var ps = _GP.projectsettings;
 
 		if(glyph){
-			advanceWidth = glyph.drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+			advanceWidth = glyph.drawGlyph(ctx, {dz:scale, dx:currx, dy:curry}, transparencyToAlpha(ps.colors.contextglyphtransparency), true);
 		} else {
-			advanceWidth = (_GP.projectsettings.upm*1*scale) / 2;
+			advanceWidth = (ps.upm*1*scale) / 2;
 		}
 
-		drawVerticalLine(currx);
+		if(ps.showcontextglyphguides){
+			var t = (ps.colors.systemguidetransparency);
+			var color = 'rgb(204,81,0)';
+			if(!fencepost) drawVerticalLine(currx, false, color, t);
+			drawVerticalLine(currx+advanceWidth, false, color, t);
+
+			var gname = glyph.getName().replace(/latin /i, '');
+			ctx.font = '12px tahoma, verdana, sans-serif';
+			ctx.globalAlpha = transparencyToAlpha(t);
+			ctx.fillStyle = color;
+			var textwidth = ctx.measureText(gname).width;
+			var textx = currx + ((advanceWidth - textwidth) / 2); // center the glyph name
+
+			ctx.fillText(gname, textx, sy_cy(ps.descent-200));
+		}
 
 		return advanceWidth;
 	}
@@ -1224,12 +1266,16 @@
 
 	function drawHorizontalLine(y, ctx, color, transparency){
 		ctx = ctx || _UI.glypheditctx;
+		transparency = transparency || 0;
+		color = color || 'rgb(0,0,0)';
+		// debug('drawHorizontalLine: ' + y + '\t' + color + '\t' + transparency);
+
 		ctx.globalAlpha = transparencyToAlpha(transparency);
-		ctx.strokeStyle = color || 'rgb(0,0,0)';
+		ctx.strokeStyle = color;
 		y = y.makeCrisp();
 		ctx.beginPath();
-		ctx.moveTo(0,y);
-		ctx.lineTo(_UI.glypheditcanvassize,y);
+		ctx.moveTo(0, y);
+		ctx.lineTo(_UI.glypheditcanvassize, y);
 		ctx.stroke();
 		ctx.closePath();
 		ctx.globalAlpha = 1;
@@ -1237,13 +1283,16 @@
 
 	function drawVerticalLine(x, ctx, color, transparency){
 		ctx = ctx || _UI.glypheditctx;
-		transparency = transparency || 100;
+		transparency = transparency || 0;
+		color = color || 'rgb(0,0,0)';
+		// debug('drawVerticalLine: ' + x + '\t' + color + '\t' + transparency);
+
 		ctx.globalAlpha = transparencyToAlpha(transparency);
-		ctx.strokeStyle = color || 'rgb(0,0,0)';
+		ctx.strokeStyle = color;
 		x = x.makeCrisp();
 		ctx.beginPath();
-		ctx.moveTo(x,0);
-		ctx.lineTo(x,_UI.glypheditcanvassize+1);
+		ctx.moveTo(x, 0);
+		ctx.lineTo(x, _UI.glypheditcanvassize+1);
 		ctx.stroke();
 		ctx.closePath();
 		ctx.globalAlpha = 1;

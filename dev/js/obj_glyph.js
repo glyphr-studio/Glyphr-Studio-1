@@ -511,13 +511,15 @@
 //-------------------------------------------------------
 // DRAWING AND EXPORTING
 //-------------------------------------------------------
-	Glyph.prototype.drawGlyph = function(lctx, view, alpha){
+	Glyph.prototype.drawGlyph = function(lctx, view, alpha, addLSB){
 		// debug('\n Glyph.drawGlyph - START ' + this.name);
 		// debug('\t view ' + json(view, true));
 
 		var sl = this.shapes;
 		var shape, drewshape;
 		alpha = alpha || 1;
+
+		if(addLSB && this.isautowide) view.dx += (this.getLSB() * view.dz);
 
 		lctx.beginPath();
 		for(var j=0; j<sl.length; j++) {

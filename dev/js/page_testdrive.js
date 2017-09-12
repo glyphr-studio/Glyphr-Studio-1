@@ -112,12 +112,14 @@
 		var scale = oa.scale || v.dz;
 		var drawFunction = oa.drawFunction || function(){};
 
+		var fencepost = true;	// Tells the draw function this is the first in the sequence
 		var glypharr = glyphstring.split('');
 		glypharr = findAndMergeLigatures(glypharr);
 
 		for(var g=0; g<glypharr.length; g++){
-			currx += drawFunction(glypharr[g], currx, curry, scale);
+			currx += drawFunction(glypharr[g], currx, curry, scale, fencepost);
 			currx += calculateKernOffset(glypharr[g], glypharr[g+1])*scale;
+			fencepost = false;
 		}
 
 		// debug(' drawGlyphSequence - END\n');
