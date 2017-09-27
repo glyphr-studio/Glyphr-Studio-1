@@ -75,7 +75,6 @@
 
 		tryLoadChooserPanel();
 		_UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
-
 	}
 
 	function make_GlyphChooser(gcdata) {
@@ -310,7 +309,6 @@
 
 		// debug(' make_GlyphChooser_HeaderContent - END ERROR\n');
 		return '[error: make_GlyphChooser_HeaderContent]';
-
 	}
 
 	function make_GlyphChooser_Button(index, fname, selid){

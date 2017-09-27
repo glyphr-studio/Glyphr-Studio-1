@@ -517,7 +517,7 @@
 
 		var sl = this.shapes;
 		var shape, drewshape;
-		alpha = alpha || 1;
+		if(isNaN(alpha) || alpha > 1 || alpha < 0) alpha = 1;
 
 		if(addLSB && this.isautowide) view.dx += (this.getLSB() * view.dz);
 
@@ -543,12 +543,12 @@
 			}
 		}
 
+		lctx.closePath();
+		// lctx.fillStyle = RGBAtoRGB(_GP.projectsettings.colors.glyphfill, alpha);
 		lctx.fillStyle = _GP.projectsettings.colors.glyphfill;
 		lctx.globalAlpha = alpha;
-		lctx.closePath();
 		lctx.fill('nonzero');
-
-		lctx.globalAlpha = 1.0;
+		lctx.globalAlpha = 1;
 
 		// debug(' Glyph.drawGlyph - END ' + this.name + '\n');
 		return (this.getAdvanceWidth()*view.dz);

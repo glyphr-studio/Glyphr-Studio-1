@@ -36,8 +36,8 @@
 
 		var re = '<table class="kernrow"><tr>';
 		re += '<td class="selkern" '+selstyle+'onclick="selectKern(\''+id+'\');"></td>';
-		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToGlyph(k.leftgroup.join('')) + '"></td>';
-		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToGlyph(k.rightgroup.join('')) + '"></td>';
+		re += '<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'left\', this.value);" value="' + hexToChars(k.leftgroup.join('')) + '"></td>';
+		re += '<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\''+id+'\', \'right\', this.value);" value="' + hexToChars(k.rightgroup.join('')) + '"></td>';
 		re += '<td><input class="kernvalue" type="number" id="'+id+'" value="' + k.value + '" onchange="_UI.focuselement=this.id; updateKernValue(\''+id+'\', this.value);"></td>';
 		re += '<td><button class="guideremove" onclick="deleteKernPair(\''+id+'\');">&times</button></td>';
 

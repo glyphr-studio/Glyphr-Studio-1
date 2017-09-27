@@ -166,15 +166,14 @@
 		// debug('\n PolySegment.drawIntersections - START');
 		var ix = this.findIntersections();
 		var co;
-		var x = _UI.glypheditctx;
+		var ctx = _UI.glypheditctx;
 
-		x.fillStyle = "rgb(200,50,60)";
-		x.globalAlpha = 1;
+		ctx.fillStyle = "rgb(200,50,60)";
 
 		ix.forEach(function(v, i){
 			ix[i] = ixToCoord(v);
 			co = ix[i];
-			x.fillRect(sx_cx(co.x), sy_cy(co.y), 5, 5);
+			ctx.fillRect(sx_cx(co.x), sy_cy(co.y), 5, 5);
 		});
 
 		// debug(ix);

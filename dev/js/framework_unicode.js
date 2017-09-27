@@ -20,15 +20,15 @@
 		return result;
 	}
 
-	function glyphToHexArray(s) {
+	function charsToHexArray(s) {
 		var result = [];
 		for(var i=0; i<s.length; i++) result.push(decToHex(String(s).charCodeAt(i)));
 		return result;
 	}
 
-	function hexToGlyph(u) {
+	function hexToChars(u) {
 		if(String(u).charAt(1) !== 'x') u = String(decToHex(u));
-		// debug('\n hexToGlyph - START');
+		// debug('\n hexToChars - START');
 		// debug('\t passed ' + u + ' which is a ' + typeof u);
 		u = u.split('0x');
 		var result = '';
@@ -81,7 +81,7 @@
 			str = str.replace(/0X/g, '0x');
 			entries = str.split('0x');
 		} else {
-			return glyphToHexArray(str);
+			return charsToHexArray(str);
 		}
 
 		var te;

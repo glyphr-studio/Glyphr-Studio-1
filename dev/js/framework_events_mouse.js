@@ -153,6 +153,7 @@ function Tool_ShapeEdit(){
 			// debug('\t clicked on nothing');
 			clickEmptySpace();
 			this.dragselecting = true;
+			findAndCallHotspot(eh.mousex, eh.mousey);
 		}
 
 		redraw({calledby:'Event Handler Tool_ShapeEdit mousedown'});
@@ -169,7 +170,7 @@ function Tool_ShapeEdit(){
 
 		if (this.dragging) {
 			// debug('\n Tool_ShapeEdit.mousemove - dragging');
-			var cur = 'pointerSquare';
+			var cur = 'arrowSquare';
 
 			if(this.clickedshape){
 				if(eh.multi) _UI.ms.shapes.add(this.clickedshape);
@@ -185,7 +186,7 @@ function Tool_ShapeEdit(){
 
 			if(singleshape){
 				cur = singleshape.isOverBoundingBoxHandle(eh.mousex, eh.mousey);
-				if(!cur) cur = isOverShape(eh.mousex, eh.mousey)? 'pointerSquare' : 'pointer';
+				if(!cur) cur = isOverShape(eh.mousex, eh.mousey)? 'arrowSquare' : 'arrow';
 				dx = singleshape.xlock? 0 : dx;
 				dy = singleshape.ylock? 0 : dy;
 			}
@@ -213,15 +214,17 @@ function Tool_ShapeEdit(){
 			setCursor(corner);
 
 		} else if (eh.multi){
-			setCursor('pointerPlus');
+			setCursor('arrowPlus');
 
 		} else if (isOverShape(eh.mousex, eh.mousey)){
-			setCursor('pointerSquare');
-
+			setCursor('arrowSquare');
+	
 		} else {
 			// debug('\n Tool_ShapeEdit.mousemove - fallthrough else');
-			setCursor('pointer');
+			setCursor('arrow');
 		}
+
+		checkForMouseOverHotspot(eh.mousex, eh.mousey);
 
 		if(this.didstuff){
 			eh.lastx = eh.mousex;
@@ -249,7 +252,7 @@ function Tool_ShapeEdit(){
 			else _UI.ms.shapes.select(this.clickedshape);
 
 			if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
-			else setCursor('pointerSquare');
+			else setCursor('arrowSquare');
 
 			_UI.current_panel = 'npAttributes';
 		}
@@ -503,13 +506,14 @@ function Tool_PathEdit(){
 
 			// selectShapesThatHaveSelectedPoints();
 
-		} else if (s){
+		} else if(s){
 			clickEmptySpace();
 			_UI.ms.shapes.select(s);
 
 		} else {
 			_UI.ms.shapes.calcMaxes();
 			clickEmptySpace();
+			findAndCallHotspot(eh.mousex, eh.mousey);
 		}
 
 		if(_UI.ms.shapes.getMembers().length) _UI.current_panel = 'npAttributes';
@@ -574,6 +578,8 @@ function Tool_PathEdit(){
 			// selectShapesThatHaveSelectedPoints();
 			redraw({calledby:'Event Handler Tool_PathEdit mousemove'});
 		}
+
+		checkForMouseOverHotspot(eh.mousex, eh.mousey);
 
 		var cp = _UI.ms.shapes.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
 		if(cp.type === 'P') setCursor('penSquare');
@@ -857,6 +863,22 @@ function eventHandler_ShapeResize(){
 	//if(!_UI.eventhandlers.tempnewbasicshape) s.calcMaxes();
 
 	//debug('eventHandler_ShapeResize - Done lx/rx/ty/by: ' + s.path.maxes.xmin + ',' + s.path.maxes.xmax + ',' + s.path.maxes.ymax + ',' + s.path.maxes.ymin);
+}
+
+function checkForMouseOverHotspot(x, y) {
+	var hsredraw = false;
+	if(isHotspotHere(x, y)){
+		var hs = findAndUnderlineHotspot(x, y);
+		setCursor('pointer');
+		if(hs !== _UI.canvashotspothovering) hsredraw = true;
+		_UI.canvashotspothovering = hs;
+
+	} else {
+		_UI.canvashotspothovering = false;
+		hsredraw = true;
+	}
+	
+	if(hsredraw) redraw({calledby:'ShapeEdit.mousemove', redrawpanels:false, redrawtools:false});
 }
 
 function updateTNBS(dx,dy,dw,dh){

@@ -22,11 +22,12 @@
 		// Internal Dev Stuff
 		devmode: true, 					// global switch for all the stuff below
 		dev_sample_project: 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: 'glyph edit', 			// navigate straight to a page
+		dev_current_page: 'test drive', 			// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 						// show messages sent to the browser console
 		debugautogroup: false,			// try to console.group based on text strings
+		debugtableobjects: false,		// Show objects in tables in the console
 		coremode: false,					// Glyphr Studio Core is only the functionality, none of the UI
 		telemetry: true,					// Load google analytics
 		testactions:[
@@ -131,6 +132,8 @@
 			},
 			cache: false
 		},
+		canvashotspots: [],
+		canvashotspothovering: false,
 		multiselectthickness: 2,
 		rotatehandleheight: 40,
 		selectedtool: 'pathedit',	// pathedit, pathaddpoint, slice, shaperesize, pan, newrect, newoval, newpath
@@ -202,6 +205,7 @@
 
 		// page: test drive
 		testdrive: {
+			glyphseq: {},
 			ctx: false,
 			canvas: false,
 			sampletext: '',
@@ -209,8 +213,9 @@
 			fontsize: 100,
 			linegap: false,
 			padsize: 0,
-			showglyphbox: false,
-			showhorizontals: false,
+			showglyphextras: false,
+			showlineextras: false,
+			showpageextras: false,
 			flattenglyphs: false,
 			cache:{}
 		},

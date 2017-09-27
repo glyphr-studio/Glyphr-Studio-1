@@ -55,7 +55,7 @@
 					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode glyphs 0x0020 through 0x007E</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					var bl = _UI.basiclatinorder;
-					for(var t=0; t<bl.length; t++){ content += (hexToGlyph(bl[t]) + " "); }
+					for(var t=0; t<bl.length; t++){ content += (hexToChars(bl[t]) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
@@ -69,7 +69,7 @@
 					"<td>"+checkUI("_GP.projectsettings.glyphrange.latinextendeda", ps.glyphrange.latinextendeda)+"</td>"+
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode glyphs 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
-					for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ content += (hexToGlyph(a) + " "); }
+					for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ content += (hexToChars(a) + " "); }
 		content += "</div></td></tr></table>";
 
 
@@ -77,7 +77,7 @@
 					"<td>"+checkUI("_GP.projectsettings.glyphrange.latinextendedb", ps.glyphrange.latinextendedb)+"</td>"+
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode glyphs 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
-					for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ content += (hexToGlyph(b) + " "); }
+					for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ content += (hexToChars(b) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<br><h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+

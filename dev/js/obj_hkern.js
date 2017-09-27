@@ -17,8 +17,8 @@
 	}
 
 	HKern.prototype.getName = function() {
-		var left = hexToGlyph(this.leftgroup.join(''));
-		var right = hexToGlyph(this.rightgroup.join(''));
+		var left = hexToChars(this.leftgroup.join(''));
+		var right = hexToChars(this.rightgroup.join(''));
 		return '' + left + ' | ' + right;
 	};
 

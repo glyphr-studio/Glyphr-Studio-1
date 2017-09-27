@@ -75,7 +75,7 @@
 		// debug('\t _UI.redraw ' + json(_UI.redraw));
 
 		if(_UI.redraw.redrawcanvas){
-			_UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
+			if(_UI.glypheditctx) _UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
 
 			switch (_UI.current_page){
 				case 'glyph edit': redraw_GlyphEdit(); break;
@@ -193,7 +193,7 @@
 		var edittools = '';
 		edittools += '<button onmouseover="mouseovercec();" title="add path point" class="' + pathaddpointclass + ' tool" ' + (penaddpointclickable? 'onclick="clickTool(\'pathaddpoint\');"':'') + '/>'+makeToolButton({'name':'tool_penPlus', 'selected':(st==='pathaddpoint'), 'disabled':!penaddpointclickable})+'</button>';
 		edittools += '<button onmouseover="mouseovercec();" title="path edit" class="' + patheditclass + ' tool" ' + (penclickable? 'onclick="clickTool(\'pathedit\');"':'') + "/>"+makeToolButton({'name':'tool_pen', 'selected':(st==='pathedit'), 'disabled':!penclickable})+'</button>';
-		edittools += '<button onmouseover="mouseovercec();" title="shape edit" class="' + (st==='shaperesize'? 'buttonsel ' : " ") + 'tool" onclick="clickTool(\'shaperesize\');"/>'+makeToolButton({'name':'tool_pointer', 'selected':(st==='shaperesize')})+'</button>';
+		edittools += '<button onmouseover="mouseovercec();" title="shape edit" class="' + (st==='shaperesize'? 'buttonsel ' : " ") + 'tool" onclick="clickTool(\'shaperesize\');"/>'+makeToolButton({'name':'tool_arrow', 'selected':(st==='shaperesize')})+'</button>';
 		edittools += '<br>';
 
 		var donepath = '<div style="height:5px;">&nbsp;</div>';
@@ -209,9 +209,11 @@
 		var ctxg = '<div class="contextglyphsarea">';
 		ctxg += '<div id="contextglyphsoptions">';
 		ctxg += '<b>Context Glyphs</b> are letters you can display around the glyph you are currently editing.<br><br>';
-		ctxg += checkUI('_GP.projectsettings.showcontextglyphguides', _GP.projectsettings.showcontextglyphguides);
+		ctxg += checkUI('_GP.projectsettings.showcontextglyphguides', _GP.projectsettings.showcontextglyphguides, true);
 		ctxg += '<label style="margin-left:10px; position:relative; top:-6px;" for="showcontextglyphguides">show guides</label><br>';
 		ctxg += 'glyph ' + sliderUI('contextglyphtransparency');
+		ctxg += '<br/>';
+		ctxg += 'guide ' + sliderUI('systemguidetransparency');
 		ctxg += '</div>';
 		ctxg += '<input type="text" id="contextglyphsinput" oninput="updateContextGlyphs();" ';
 		ctxg += 'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ';
@@ -250,7 +252,6 @@
 
 		utilitiescontent += kbt;
 
-
 		getEditDocument().getElementById("toolsarea_upperleft").innerHTML = toolcontent;
 		getEditDocument().getElementById("toolsarea_upperright").innerHTML = viewcontent;
 		getEditDocument().getElementById("toolsarea_lowerleft").innerHTML = utilitiescontent;
@@ -279,7 +280,7 @@
 		} else if(ctool === 'slice'){
 			setCursor('slice');
 		} else if (ctool === 'shaperesize'){
-			setCursor('pointer');
+			setCursor('arrow');
 			// _UI.ms.shapes.calcMaxes();
 		}
 
@@ -335,7 +336,7 @@
 
 			} else {
 				// debug('\t defaulting cursor to pointer');
-				setCursor('pointer');
+				setCursor('arrow');
 
 			}
 		} else {
@@ -377,7 +378,7 @@
 
 		if(tool === 'newrect' || tool === 'newoval')	return 'newbasicshape';
 		else if (tool === 'newpath')	return 'newpath';
-		else if (tool === 'shaperesize')	return _UI.eventhandlers.handle === 'rotate'? 'rotate' : 'pointer';
+		else if (tool === 'shaperesize')	return _UI.eventhandlers.handle === 'rotate'? 'rotate' : 'arrow';
 		else if (tool === 'pathedit' || tool === 'pathaddpoint')	return 'pen';
 		else if (tool === 'kern')	return 'kern';
 	}
@@ -410,7 +411,7 @@
 		var sg = getSelectedWorkItemID();
 		var ctxglyphstring = _UI.contextglyphs[sg];
 
-		return ctxglyphstring || hexToGlyph(sg);
+		return ctxglyphstring || hexToChars(sg);
 		//getSelectedWorkItem().getHTML();
 	}
 
@@ -498,54 +499,77 @@
 
 	function drawContextGlyphs(view) {
 		// debug('\n drawContextGlyphs - START');
-		var ctxgs = getContextGlyphString();
 		var selwid = getSelectedWorkItemID();
 		var currGlyphObject = getGlyph(selwid, true);
-		var currGlyphChar = String.fromCharCode(selwid);
+		var currGlyphChar = hexToChars(selwid);
 		var v = getView();
+		var split = splitContextGlyphString(currGlyphChar);
 
 		// debug('\t input string: ' + ctxgs);
+		// debug('\t split: ' + split.left + ' | ' + split.right);
 
-		var left = '';
-		var right = '';
+		var t = (_GP.projectsettings.colors.systemguidetransparency);
+		var color = 'rgb(204,81,0)';
 
-		var pos = ctxgs.indexOf(currGlyphChar);
+		clearCanvasHotspots();
 
-		if(pos === -1){
-			left = ctxgs;
-			right = '';
-
-		} else {
-			left = ctxgs.substr(0, pos);
-			right = ctxgs.substr(pos+1);
-		}
-
-		// debug('\t split: ' + left + ' | ' + right);
-
-		if(left) {
-			var leftdistance = getGlyphSequenceAdvanceWidth(left);
+		if(split.left) {
+			var leftdistance = getGlyphSequenceAdvanceWidth(split.left);
 			if(currGlyphObject.isautowide) leftdistance += currGlyphObject.getLSB();
-			leftdistance += calculateKernOffset(left.charAt(left.length-1), currGlyphChar);
+			leftdistance += calculateKernOffset(split.left.charAt(split.left.length-1), currGlyphChar);
 			// debug('\t leftdistance: ' + leftdistance);
 			// debug('\t kerndistance: ' + k);
 			// debug('\t leftdistance: ' + leftdistance);
-			drawGlyphSequence({glyphstring:left, drawFunction:drawOneContextGlyph, currx:(v.dx-(leftdistance*v.dz))});
+
+			var start = v.dx-(leftdistance*v.dz);
+			drawVerticalLine(start, false, color, t);
+			drawGlyphSequence({
+				glyphstring:split.left, 
+				drawExtra:drawOneContextExtra,
+				drawGlyph:drawOneContextGlyph, 
+				currx:start
+			});
 		}
 
-		if(right) {
+		if(split.right) {
 			var rightdistance = currGlyphObject.getAdvanceWidth();
 			if(currGlyphObject.isautowide) rightdistance -= currGlyphObject.getLSB();
-			rightdistance += calculateKernOffset(currGlyphChar, right.charAt(0));
+			rightdistance += calculateKernOffset(currGlyphChar, split.right.charAt(0));
 
-			drawGlyphSequence({glyphstring:right, drawFunction:drawOneContextGlyph, currx:(v.dx+(rightdistance*v.dz))});
+			drawGlyphSequence({
+				glyphstring:split.right, 
+				drawExtra:drawOneContextExtra,
+				drawGlyph:drawOneContextGlyph, 
+				currx:(v.dx+(rightdistance*v.dz))
+			});
 		}
 
 		// debug(' drawContextGlyphs - END\n');
 	}
 
+	function splitContextGlyphString(splitchar) {
+		var ctxgs = getContextGlyphString();
+
+		var l = '';
+		var r = '';
+
+		var pos = ctxgs.indexOf(splitchar);
+
+		if(pos === -1){
+			l = ctxgs;
+			r = '';
+
+		} else {
+			l = ctxgs.substr(0, pos);
+			r = ctxgs.substr(pos+splitchar.length);
+		}
+
+		return {left:l, right:r};
+	}
+
 	function getGlyphSequenceAdvanceWidth(sequence) {
 		var advanceWidth = 0;
-		sequence = sequence.split('');
+		sequence = findAndMergeLigatures(sequence.split(''));
 
 		var g;
 		sequence.forEach(function(v, i, a) {
@@ -562,7 +586,50 @@
 		return advanceWidth;
 	}
 
-	function drawOneContextGlyph(char, currx, curry, scale, fencepost) {
+	function drawOneContextExtra(char, currx, curry, scale) {
+		var glyph = getGlyph(glyphToHex(char));
+		var ctx = _UI.glypheditctx;
+		var advanceWidth = 0;
+		var ps = _GP.projectsettings;
+		
+		if(ps.showcontextglyphguides){
+
+			// Draw the glyph name
+			var t = (ps.colors.systemguidetransparency);
+			var alpha = transparencyToAlpha(t);
+			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
+			var gname = glyph.getName().replace(/latin /i, '');
+
+			ctx.font = '12px tahoma, verdana, sans-serif';
+			ctx.fillStyle = color;
+			var textw = ctx.measureText(gname).width;
+			var textx = currx + ((advanceWidth - textw) / 2); // center the glyph name
+			var texty = sy_cy(ps.descent-260);
+
+			drawVerticalLine(currx, false, color);
+			drawVerticalLine(currx+advanceWidth, false, color);
+
+			ctx.fillText(gname, textx, texty);
+
+			// Register hotspot
+			registerCanvasHotspot({
+				target:{
+					xmin:currx, 
+					xmax:(currx+advanceWidth), 
+					ymin:texty-20, 
+					ymax:(texty+20)
+				},
+				underline:{
+					xmin: textx-1,
+					xmax: textx+textw+1,
+					y: texty+6
+				},
+				onclick:function(){ hotspotNavigateToGlyph(glyphToHex(char)); }
+			});
+		}
+	}
+
+	function drawOneContextGlyph(char, currx, curry, scale) {
 		var glyph = getGlyph(glyphToHex(char));
 		var ctx = _UI.glypheditctx;
 		var advanceWidth = 0;
@@ -574,23 +641,109 @@
 			advanceWidth = (ps.upm*1*scale) / 2;
 		}
 
-		if(ps.showcontextglyphguides){
-			var t = (ps.colors.systemguidetransparency);
-			var color = 'rgb(204,81,0)';
-			if(!fencepost) drawVerticalLine(currx, false, color, t);
-			drawVerticalLine(currx+advanceWidth, false, color, t);
+		return advanceWidth;
+	}
 
-			var gname = glyph.getName().replace(/latin /i, '');
-			ctx.font = '12px tahoma, verdana, sans-serif';
-			ctx.globalAlpha = transparencyToAlpha(t);
-			ctx.fillStyle = color;
-			var textwidth = ctx.measureText(gname).width;
-			var textx = currx + ((advanceWidth - textwidth) / 2); // center the glyph name
 
-			ctx.fillText(gname, textx, sy_cy(ps.descent-200));
+//-------------------------------
+//	CANVAS HOTSPOTS
+//-------------------------------
+
+	function registerCanvasHotspot(hotspot) { _UI.canvashotspots.push(hotspot); }
+	function clearCanvasHotspots() { _UI.canvashotspots = []; }
+
+	function isHotspotHere(cx, cy) {
+		var chs = _UI.canvashotspots;
+		var v;
+
+		for(var i=0; i<chs.length; i++){
+			v = chs[i];
+			// debug(`isHotspotHere - checking ${v.target.xmin} - ${v.target.xmax} - ${v.target.ymin} - ${v.target.ymax}`);
+			// debug(`results ${(cx <= v.target.xmax)} - ${(cx >= v.target.xmin)} - ${(cy <= v.target.ymax)} - ${(cy >= v.target.ymin)}`);
+			if((cx <= v.target.xmax) && (cx >= v.target.xmin) && (cy <= v.target.ymax) && (cy >= v.target.ymin)){
+				return v;
+				break;
+			}
+		}
+		
+		return false;
+	}
+
+	function findAndCallHotspot(cx, cy) {
+		_UI.canvashotspots.forEach(function (v, i, a) {
+			if((cx <= v.target.xmax) && (cx >= v.target.xmin) && (cy <= v.target.ymax) && (cy >= v.target.ymin)){
+				v.onclick();
+			}
+		});
+	}
+
+	function hotspotNavigateToGlyph(gid) {
+		// debug('\n hotspotNavigateToGlyph - START');
+		// debug('\t passed ' + gid);
+
+		var v = getView('hotspotNavigateToGlyph');
+		var currchar = getSelectedWorkItemChar();
+		var newchar = hexToChars(gid);
+		var ctxg = getContextGlyphString();
+		var p1 = ctxg.indexOf(currchar);
+		var p2 = ctxg.indexOf(newchar);
+		var flipper;
+		var leftchar;
+		var rightchar;
+
+		if(p1 < p2){
+			flipper = 1;
+			leftchar = currchar;
+			rightchar = newchar;
+		} else {
+			flipper = -1;
+			leftchar = newchar;
+			rightchar = currchar;
 		}
 
-		return advanceWidth;
+
+		var str = ctxg.substring(p1, p2);
+		// debug(`\t substring from ${p1} to ${p2} yeilds ${str}`);
+		
+		var delta = getGlyphSequenceAdvanceWidth(str);
+
+		// debug(`\t advance width: ${delta} screen pixels: ${sx_cx(delta)}`);
+		// v.dx += sx_cx(delta);
+		var kern = calculateKernOffset(leftchar, rightchar);
+		// debug(`\t kern offset ${leftchar} and ${rightchar} is ${kern}`);
+		
+		v.dx += (v.dz * delta * flipper);
+		v.dx += (v.dz * kern * flipper);
+
+		_UI.contextglyphs[gid] = ctxg;
+		selectGlyph(gid);
+		setView(v);
+
+		// debug(' hotspotNavigateToGlyph - END\n');
+	}
+
+	function findAndUnderlineHotspot(cx, cy) {
+		// debug('\n findAndUnderlineHotspot - START');
+		// debug(`\t cx:${cx} \t cy:${cy}`);
+		var hs = isHotspotHere(cx, cy);
+		var ctx = _UI.glypheditctx;
+		// debug(`\t ${hs}`);
+		if(hs){
+			var t = (_GP.projectsettings.colors.systemguidetransparency);
+			// var t2 = (((100 - t) / 2) + t);
+			var alpha = transparencyToAlpha(t);
+			var rgb = RGBAtoRGB('rgb(204,81,0)', alpha);
+
+			ctx.strokeStyle = rgb;
+			ctx.beginPath();
+			ctx.moveTo(hs.underline.xmin, hs.underline.y.makeCrisp());
+			ctx.lineTo(hs.underline.xmax, hs.underline.y.makeCrisp());
+			ctx.stroke();
+			setCursor('arrow');
+		}
+
+		return hs.target.xmin;
+		// debug(' findAndUnderlineHotspot - END\n');
 	}
 
 
@@ -791,6 +944,11 @@
 		}
 
 		return false;
+	}
+
+	function getSelectedWorkItemChar() {
+		var swiid = getSelectedWorkItemID();
+		return hexToChars(swiid);	
 	}
 
 	function getSelectedWorkItemName(){
@@ -1070,7 +1228,6 @@
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
-		ctx.globalAlpha = 1;
 
 		// rotate Handle
 		ctx.strokeStyle = accent.l65;
@@ -1091,6 +1248,7 @@
 		ctx.fillStyle = accent.l65;
 		ctx.globalAlpha = 0.8;
 		ctx.fillText((''+readout+'°'), center.x, starttopy-24);
+
 		ctx.globalAlpha = 1;
 	}
 
@@ -1221,16 +1379,6 @@
 // Drawing Grid
 //-------------------
 
-	function transparencyToAlpha(transparency) {
-		var t = parseInt(transparency);
-		if(!t || isNaN(t)) return 1;
-
-		if(t > 100) return 0;
-		if(t < 0) return 1;
-
-		return ((100 - transparency) / 100);
-	}
-
 	function drawGrid(){
 		// debug('\n drawGrid - START');
 
@@ -1243,34 +1391,30 @@
 
 		// background white square
 		_UI.glypheditctx.fillStyle = 'white';
-		_UI.glypheditctx.globalAlpha = 1.0;
 		_UI.glypheditctx.fillRect(xs.xmin, xs.ymin, xs.xmax-xs.xmin, xs.ymax-xs.ymin);
 
 		if(_UI.showgrid){
 			var ps = _GP.projectsettings;
 			var v = getView('grid');
 			var gsize = ((ps.upm/ps.griddivisions)*v.dz);
-			var tr = _GP.projectsettings.colors.gridtransparency;
+			var gridcolor = RGBAtoRGB('rgb(170,170,170)', transparencyToAlpha(_GP.projectsettings.colors.gridtransparency));
 			_UI.glypheditctx.lineWidth = 1;
 
-			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ drawVerticalLine(i, _UI.glypheditctx, 'rgb(0,0,0)', tr); }
-			drawVerticalLine(xs.xmax+1, _UI.glypheditctx, 'rgb(0,0,0)', tr);
-			for(var j=v.dx; j>=xs.xmin; j-=gsize){ drawVerticalLine(j, _UI.glypheditctx, 'rgb(0,0,0)', tr); }
+			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ drawVerticalLine(i, _UI.glypheditctx, gridcolor); }
+			drawVerticalLine(xs.xmax+1, _UI.glypheditctx, gridcolor);
+			for(var j=v.dx; j>=xs.xmin; j-=gsize){ drawVerticalLine(j, _UI.glypheditctx, gridcolor); }
 
-			for(var k=v.dy; k<xs.ymax-1; k+=gsize){ drawHorizontalLine(k, _UI.glypheditctx, 'rgb(0,0,0)', tr); }
-			drawHorizontalLine(xs.ymax, _UI.glypheditctx, 'rgb(0,0,0)', tr);
-			for(var p=v.dy; p>=xs.ymin; p-=gsize){ drawHorizontalLine(p, _UI.glypheditctx, 'rgb(0,0,0)', tr); }
+			for(var k=v.dy; k<xs.ymax-1; k+=gsize){ drawHorizontalLine(k, _UI.glypheditctx, gridcolor); }
+			drawHorizontalLine(xs.ymax, _UI.glypheditctx, gridcolor);
+			for(var p=v.dy; p>=xs.ymin; p-=gsize){ drawHorizontalLine(p, _UI.glypheditctx, gridcolor); }
 
 		}
 	}
 
-	function drawHorizontalLine(y, ctx, color, transparency){
+	function drawHorizontalLine(y, ctx, color){
 		ctx = ctx || _UI.glypheditctx;
-		transparency = transparency || 0;
 		color = color || 'rgb(0,0,0)';
-		// debug('drawHorizontalLine: ' + y + '\t' + color + '\t' + transparency);
 
-		ctx.globalAlpha = transparencyToAlpha(transparency);
 		ctx.strokeStyle = color;
 		y = y.makeCrisp();
 		ctx.beginPath();
@@ -1278,16 +1422,12 @@
 		ctx.lineTo(_UI.glypheditcanvassize, y);
 		ctx.stroke();
 		ctx.closePath();
-		ctx.globalAlpha = 1;
 	}
 
-	function drawVerticalLine(x, ctx, color, transparency){
+	function drawVerticalLine(x, ctx, color){
 		ctx = ctx || _UI.glypheditctx;
-		transparency = transparency || 0;
 		color = color || 'rgb(0,0,0)';
-		// debug('drawVerticalLine: ' + x + '\t' + color + '\t' + transparency);
 
-		ctx.globalAlpha = transparencyToAlpha(transparency);
 		ctx.strokeStyle = color;
 		x = x.makeCrisp();
 		ctx.beginPath();
@@ -1295,7 +1435,6 @@
 		ctx.lineTo(x, _UI.glypheditcanvassize+1);
 		ctx.stroke();
 		ctx.closePath();
-		ctx.globalAlpha = 1;
 	}
 
 	function drawGuides() {
@@ -1401,7 +1540,7 @@
 		_UI.ishereghostcanvas.width = _UI.glypheditcanvassize;
 		_UI.ishereghostctx = _UI.ishereghostcanvas.getContext('2d');
 		_UI.ishereghostctx.fillStyle = 'cyan';
-		_UI.ishereghostctx.globalAlpha = 0.5;
+		// _UI.ishereghostctx.globalAlpha = 0.5;
 		_UI.ishereghostcanvas.style.backgroundColor = 'transparent';
 	}
 
@@ -1410,6 +1549,7 @@
 		_UI.glypheditcanvas.height = _UI.glypheditcanvassize;
 		_UI.glypheditcanvas.width = _UI.glypheditcanvassize;
 		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
+		_UI.glypheditctx.globalAlpha = 1;
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		_UI.glypheditcanvas.onmouseout = mouseoutcec;
 		_UI.glypheditcanvas.customguidetransparency = mouseovercec;

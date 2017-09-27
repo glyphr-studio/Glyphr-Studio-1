@@ -93,7 +93,7 @@
 			eh.multi = true;
 
 			if(overcanvas) {
-				if(em === 'pointer') setCursor('pointerPlus');
+				if(em === 'arrow') setCursor('arrowPlus');
 				if(em === 'pen') setCursor('penPlus');
 			}
 
@@ -198,13 +198,13 @@
 			// del
 			if(kc==='del' || kc==='backspace'){
 				event.preventDefault();
-				var mode = getEditMode();
+				var em = getEditMode();
 
-				if(mode === 'pen'){
+				if(em === 'pen'){
 					_UI.ms.points.deletePathPoints();
 					history_put('Delete Path Point');
 					redraw({calledby:'Keypress DEL or BACKSPACE'});
-				} else if (mode === 'pointer'){
+				} else if (em === 'arrow'){
 					_UI.ms.shapes.deleteShapes();
 					history_put('Delete Shape');
 					redraw({calledby:'Keypress DEL or BACKSPACE'});
@@ -253,7 +253,7 @@
 
 		if(em === 'kern'){
 			getSelectedKern().value += (mx || my);
-		} else if(em === 'pointer'){
+		} else if(em === 'arrow'){
 				_UI.ms.shapes.updateShapePosition(mx, my);
 		} else if(em === 'pen'){
 				_UI.ms.points.getMembers().forEach(function(o, i) {

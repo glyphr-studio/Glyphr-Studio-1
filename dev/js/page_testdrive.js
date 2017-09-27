@@ -25,12 +25,29 @@
 		getEditDocument().getElementById("mainwrapper").innerHTML = content;
 		document.getElementById("tdtextarea").focus();
 
-		_UI.testdrive.canvas = document.getElementById('tdcanvas');
-		_UI.testdrive.canvas.width = 800;
-		_UI.testdrive.canvas.height = 700;
-		_UI.testdrive.ctx = _UI.testdrive.canvas.getContext('2d');
+		var td = _UI.testdrive;
+		td.canvas = document.getElementById('tdcanvas');
+		td.canvas.width = 800;
+		td.canvas.height = 700;
+		td.ctx = td.canvas.getContext('2d');
 
-		_UI.testdrive.cache = {};
+		td.glyphseq = new GlyphSequence({
+			glyphstring: td.sampletext,
+			linegap: td.linegap,
+			maxes: {
+				xmin: 20,
+				xmax: 720,
+				ymin: 20,
+				ymax: 320
+			},
+			scale: td.fontscale,
+			drawPageExtras: drawTestDrivePageExtras,
+			drawLineExtras: drawTestDriveLineExtras,
+			drawGlyphExtras: drawTestDriveGlyphExtras,
+			drawGlyph: drawTestDriveGlyph,
+		});
+
+		td.cache = {};
 
 		redraw_TestDrive();
 	}
@@ -72,184 +89,125 @@
 		if(_UI.current_panel === 'npAttributes') changefontscale(td.fontsize);
 		document.getElementById('tdtextarea').value = td.sampletext;
 
-		var lines = td.sampletext.split('\n');
-		var tctx = td.ctx;
+		td.glyphseq.updateString(td.sampletext);
 		var scale = td.fontscale;
-		var textEm = (ps.upm*scale);
-		var linegap = ((td.linegap*1)*scale);
-		var pagepadding = 10;
-		var curry = -linegap;
+		var pagepadding = 20 / scale;
 
-		tctx.clearRect(0,0,5000,5000);		
-
-		for(var i=0; i<lines.length; i++){
-
-			// calc Y val
-			curry += (textEm + linegap);
-
-			// draw a horizontal line for the whole row
-			if(td.showhorizontals) drawLine(curry);
-
-			// draw glyphs
-			drawGlyphSequence({glyphstring:lines[i], ctx:tctx, currx:pagepadding, curry:curry, scale:scale, drawFunction:drawOneTestDriveGlyphSequenceGlyph});
-		}
+		td.ctx.clearRect(0,0,5000,5000);
+		td.glyphseq.draw();
 
 		_UI.redrawing = false;
 	}
 
-	/*
-		Draws a single line of Glyphs
-		Function is re-used across different pages
-	*/
-	function drawGlyphSequence(oa){
-		// debug('\n drawGlyphSequence - START');
-		oa = oa || {};
-		var v = getView();
+	function drawTestDrivePageExtras(maxes) {
+		// debug('\n drawTestDrivePageExtras - START');
+		var tdc = _UI.testdrive.canvas;
 
-		var glyphstring = oa.glyphstring || '';
-		var currx = oa.currx || v.dx;
-		var curry = oa.curry || v.dy;
-		var scale = oa.scale || v.dz;
-		var drawFunction = oa.drawFunction || function(){};
+		var top = maxes.ymin || 0;
+		var bottom = (maxes.ymax === Infinity)? tdc.height : (maxes.ymax || tdc.height);
+		var left = maxes.xmin || 0;
+		var right = (maxes.xmax === Infinity)? tdc.width : (maxes.xmax || tdc.width);
+		var width = right - left;
+		var height = bottom - top;
+		var ctx = _UI.testdrive.ctx;
 
-		var fencepost = true;	// Tells the draw function this is the first in the sequence
-		var glypharr = glyphstring.split('');
-		glypharr = findAndMergeLigatures(glypharr);
+		// debug(`\t new t/b/l/r: ${top} / ${bottom} / ${left} / ${right}`);
 
-		for(var g=0; g<glypharr.length; g++){
-			currx += drawFunction(glypharr[g], currx, curry, scale, fencepost);
-			currx += calculateKernOffset(glypharr[g], glypharr[g+1])*scale;
-			fencepost = false;
+		if(_UI.testdrive.showpageextras){
+			ctx.fillStyle = 'transparent';
+			ctx.strokeStyle = _UI.colors.green.l85;
+			ctx.lineWidth = 1;
+
+			ctx.strokeRect(
+				left.makeCrisp(),
+				top.makeCrisp(),
+				round(width),
+				round(height)
+			);
 		}
 
-		// debug(' drawGlyphSequence - END\n');
+		// debug(' drawTestDrivePageExtras - END\n');
 	}
 
-	function drawOneTestDriveGlyphSequenceGlyph(char, currx, curry, scale) {
-		var td = _UI.testdrive;
-		var glyph = getGlyph(glyphToHex(char));
-		var padsize = td.padsize || 0;
-		var showglyphbox = td.showglyphbox || false;
-		var showhorizontals = td.showhorizontals || false;
-		var flattenglyphs = td.flattenglyphs || false;
-		var ctx = _UI.testdrive.ctx;
-		var advanceWidth = 0;
+	function drawTestDriveLineExtras(chardata) {
+		// debug('\n drawTestDriveLineExtras - START');
+		// debug('\t at ' + (chardata.view.dy * chardata.view.dz));
+		if(_UI.testdrive.showlineextras){
+			drawHorizontalLine(chardata.view.dy*chardata.view.dz, _UI.testdrive.ctx, _UI.colors.green.l85);
+		}
+		// debug(' drawTestDriveLineExtras - END\n');
+	}
 
-		if(glyph){
-			if(showglyphbox){
-				ctx.fillStyle = 'transparent';
-				ctx.strokeStyle = _UI.colors.blue.l65;
-				ctx.lineWidth = 1;
+	function drawTestDriveGlyphExtras(chardata) {
+		// debug('\n drawTestDriveGlyphExtras - START');
+		if(_UI.testdrive.showglyphextras){
+			var ctx = _UI.testdrive.ctx;
+			var drawwidth = chardata.width * chardata.view.dz;
+			var drawheight = _GP.projectsettings.upm * chardata.view.dz;
+			var drawy = (chardata.view.dy - _GP.projectsettings.ascent) * chardata.view.dz;
+			var drawx = chardata.view.dx * chardata.view.dz
+			var drawk = chardata.kern * chardata.view.dz * -1;
 
-				ctx.strokeRect(
-					currx.makeCrisp(),
-					(curry.makeCrisp()-(_GP.projectsettings.ascent*scale)),
-					round(glyph.getAdvanceWidth()*scale),
-					round(_GP.projectsettings.upm*scale)
+			// debug(`\t drawing ${chardata.char}`);
+			// debug(`\t scaled view \t ${json(scaledview, true)}`);
+
+			if(chardata.kern){
+				ctx.fillStyle = 'orange';
+				ctx.globalAlpha = 0.3;
+				ctx.fillRect(
+					drawx + drawwidth - drawk,
+					drawy,
+					drawk,
+					drawheight
 				);
+				ctx.globalAlpha = 1;
 			}
 
+			ctx.fillStyle = 'transparent';
+			ctx.strokeStyle = _UI.colors.blue.l85;
+			ctx.lineWidth = 1;
+
+			ctx.strokeRect(
+				drawx.makeCrisp(),
+				drawy.makeCrisp(),
+				round(drawwidth),
+				round(drawheight)				
+			);
+
+		}
+
+		// debug(' drawTestDriveGlyphExtras - END\n');
+	}
+
+	function drawTestDriveGlyph(chardata) {
+		debug('\n drawTestDriveGlyph - START');
+
+		var td = _UI.testdrive;
+		var glyph = chardata.glyph;
+		var showlineextras = td.showlineextras || false;
+		var flattenglyphs = td.flattenglyphs || false;
+		var ctx = _UI.testdrive.ctx;
+		var view = clone(chardata.view);
+		view.dx *= view.dz;
+		view.dy *= view.dz;
+		
+		debug(`\t drawing ${chardata.char}`);
+		debug(`\t view \t ${json(view, true)}`);
+
+		if(glyph){
 			if(flattenglyphs){
 				if(!_UI.testdrive.cache.hasOwnProperty(tc)){
 					_UI.testdrive.cache[tc] = (new Glyph(clone(glyph))).combineAllShapes(true);
 				}
 
-				advanceWidth = _UI.testdrive.cache[tc].drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
+				_UI.testdrive.cache[tc].drawGlyph(ctx, view, 1, true);
 
 			} else {
-				advanceWidth = glyph.drawGlyph(ctx, {'dz' : scale, 'dx' : currx, 'dy' : curry});
-			}
-
-			advanceWidth += (padsize*1*scale);
-		}
-
-		return advanceWidth;
-	}
-
-
-
-	/*
-		calculateKernOffset
-		Takes two glyphs as arguments, and determines the number of Em units of
-		offset between them.  First checks to see if there are custom kern values
-		for the pair, and if not, returns 0. Left Side Bearing and Right Side Bearing
-		are not returned, only kern values.
-	*/
-	function calculateKernOffset(c1, c2) {
-		// debug('\n calculateKernOffset - START');
-		// debug('\t passed: ' + c1 + ' and ' + c2);
-
-		if(!c1 || !c2) return 0;
-
-		c1 = parseUnicodeInput(c1).join('');
-		c2 = parseUnicodeInput(c2).join('');
-		// debug('\t converted: ' + c1 + ' and ' + c2);
-
-		var k = _GP.kerning;
-		var tlc, trc, re;
-
-		for(var p in k){ if(k.hasOwnProperty(p)){
-			for(var l=0; l<k[p].leftgroup.length; l++){
-				tlc = k[p].leftgroup[l];
-				// debug('\t checking leftgroup ' + tlc + ' against ' + c1);
-				if(parseUnicodeInput(tlc)[0] === c1){
-					// debug('\t LEFTGROUP MATCH! for ' + c1);
-					for(var r=0; r<k[p].rightgroup.length; r++){
-						trc = k[p].rightgroup[r];
-						if(parseUnicodeInput(trc)[0] === c2){
-							re = (k[p].value*-1);
-							// debug('\t FOUND MATCH! returning ' + re);
-							return re;
-						}
-					}
-				}
-			}
-		}}
-
-		// debug(' calculateKernOffset - END\n');
-		return 0;
-	}
-
-	/*
-		findAndMergeLigatures
-		Takes an array of glyphs as an argument, and looks for glyph sequences
-		that merge to ligatures.  Returns an array with merged results.
-	*/
-	function findAndMergeLigatures(carr) {
-		// debug('\n findAndMergeLigatures - START');
-		var ligs = sortLigatures();
-		// debug('\t sorted ligs: ');
-		// debug(ligs);
-
-		var ligchars, carrot;
-		for(var c=0; c<carr.length; c++){
-			// for(var g=ligs.length-1; g>-1; g--){
-			for(var g=0; g<ligs.length; g++){
-				ligchars = hexToGlyph(ligs[g].id);
-				// debug('\t checking ' + ligchars);
-				carrot = carr.slice(c, (c+ligchars.length)).join('');
-				// debug('\t against ' + carrot);
-				if(carrot === ligchars){
-					carr.splice(c, ligchars.length, ligchars);
-					// debug('\t !Ligature Found! array['+c+'] is now ' + carr[c]);
-				}
+				glyph.drawGlyph(ctx, view, 1, true);
 			}
 		}
 
-		// debug(' findAndMergeLigatures - END\n');
-		return carr;
-	}
-
-	function drawLine(y){
-		// debug('TESTDRIVE - Drawing h line at ' + y);
-		y = y.makeCrisp();
-		_UI.testdrive.ctx.strokeStyle = _UI.colors.blue.l65;
-		_UI.testdrive.ctx.beginPath();
-		_UI.testdrive.ctx.lineWidth = 1;
-		_UI.testdrive.ctx.moveTo(0,y);
-		_UI.testdrive.ctx.lineTo(_UI.testdrive.canvas.width,y);
-		_UI.testdrive.ctx.stroke();
-		_UI.testdrive.ctx.closePath();
+		debug(' drawTestDriveGlyph - END\n');
 	}
 
 	function drawSampletextButtons(){
@@ -295,10 +253,11 @@
 		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input type="number" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td><input type="number" disabled="disabled" id="roughptsize" valu="75"/></td></tr>';
 		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.linegap+'" onchange="_UI.testdrive.linegap=this.value*1; redraw_TestDrive();"></td></tr>';
-		content += '<tr><td> glyph spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
-		content += '<tr><td> <label for="showglyphbox">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showglyphbox", _UI.testdrive.showglyphbox, true) + "</td></tr>";
-		content += '<tr><td> <label for="showhorizontals">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showhorizontals", _UI.testdrive.showhorizontals, true) + "</td></tr>";
-		
+		// content += '<tr><td> glyph spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
+		content += '<tr><td> <label for="showglyphextras">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showglyphextras", _UI.testdrive.showglyphextras, true) + "</td></tr>";
+		content += '<tr><td> <label for="showlineextras">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showlineextras", _UI.testdrive.showlineextras, true) + "</td></tr>";
+		content += '<tr><td> <label for="showpageextras">show page borders</label> </td><td>' + checkUI("_UI.testdrive.showpageextras", _UI.testdrive.showpageextras, true) + "</td></tr>";
+
 		content += '<tr><td> <label for="flattenglyphs">preview combine glyph shapes</label>' + helpUI(flattenmessage) + ' </td><td>' + checkUI("_UI.testdrive.flattenglyphs", _UI.testdrive.flattenglyphs, false) + "</td></tr>";
 
 		content += '<tr><td colspan=2><button onclick="createimg();">generate png file</button></td></tr>';
@@ -306,7 +265,7 @@
 		return content;
 	}
 
-	function navToProjectSettings() { 
+	function navToProjectSettings() {
 		_UI.current_page = 'project settings';
 		navigate();
 	}
@@ -314,6 +273,7 @@
 	function changefontscale(newval){
 		_UI.testdrive.fontsize = newval*1;
 		_UI.testdrive.fontscale = (newval/_GP.projectsettings.upm);
+		_UI.testdrive.glyphseq.setScale(_UI.testdrive.fontscale);
 		document.getElementById('roughptsize').value = (newval*0.75);
 	}
 

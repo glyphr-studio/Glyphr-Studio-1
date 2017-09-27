@@ -12,7 +12,7 @@
 		setupEditCanvas();
 		initEventHandlers();
 		clickEmptySpace();
-		
+
 		if(_UI.devmode && isval(_UI.dev_selected_shape)){
 			selectShape(_UI.dev_selected_shape);
 			_UI.dev_selected_shape = false;
@@ -20,11 +20,12 @@
 
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
 		
-		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
-		else _UI.selectedtool = 'pathaddpoint';
+		if(getSelectedWorkItemShapes().length > 0){
+			if(_UI.selectedtool !== 'shaperesize') _UI.selectedtool = 'pathedit';
+		} else _UI.selectedtool = 'pathaddpoint';
 
 		redraw({calledby:'loadPage_glyphedit'});
-		
+
 		// debug(' loadPage_glyphedit - END\n');
 	}
 
@@ -56,10 +57,10 @@
 			_UI.redrawing = false;
 			return;
 		}
-
+		
 		_UI.ms.shapes.draw_PathOutline();
 		
-		if(editmode === 'pointer'){
+		if(editmode === 'arrow'){
 			_UI.ms.shapes.draw_BoundingBox();
 			_UI.ms.shapes.draw_BoundingBoxHandles();
 

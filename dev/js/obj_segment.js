@@ -64,7 +64,7 @@
 		if(!_UI.glypheditctx) setupEditCanvas();
 		var ctx = _UI.glypheditctx;
 		
-		ctx.strokeStyle = color || _UI.colors.green.l65;
+		ctx.strokeStyle = RGBAtoRGB((color || _UI.colors.green.l65), 0.9);
 		dx = dx || 0;
 		dy = dy || 0;
 		var p1x = sx_cx(this.p1x + dx);
@@ -76,7 +76,6 @@
 		var p4x = sx_cx(this.p4x + dx);
 		var p4y = sy_cy(this.p4y + dy);
 
-		ctx.globalAlpha = 0.9;
 		ctx.lineWidth = 3;
 		ctx.beginPath();
 		ctx.moveTo(p1x, p1y);
@@ -87,7 +86,7 @@
 
 	Segment.prototype.drawSegmentPoints = function(color, txt) {
 		if(!_UI.glypheditctx) setupEditCanvas();		
-		var x = _UI.glypheditctx;
+		var ctx = _UI.glypheditctx;
 		
 		txt = isval(txt)? txt : '•';
 		var p1x = sx_cx(this.p1x);
@@ -99,21 +98,21 @@
 		var p4x = sx_cx(this.p4x);
 		var p4y = sy_cy(this.p4y);
 
-		x.strokeStyle = color || _UI.colors.green.l65;
-		x.fillStyle = color || _UI.colors.green.l65;
-		x.font = '48px sans-serif';
-		x.globalAlpha = 0.4;
+		color = RGBAtoRGB((color || _UI.colors.green.l65), 0.4);
+		
+		ctx.strokeStyle = color;
+		ctx.fillStyle = color;
+		ctx.font = '48px sans-serif';
 
-		x.fillText(txt, p1x, p1y);
-		// x.fillText(txt, p2x, p2y);
-		// x.fillText(txt, p3x, p3y);
-		// x.fillText(txt, p4x, p4y);
+		ctx.fillText(txt, p1x, p1y);
+		// ctx.fillText(txt, p2x, p2y);
+		// ctx.fillText(txt, p3x, p3y);
+		// ctx.fillText(txt, p4x, p4y);
 
-		x.globalAlpha = 1;
-		x.fillRect(p1x, p1y, 5, 5);
-		x.strokeRect(p2x, p2y, 5, 5);
-		x.strokeRect(p3x, p3y, 5, 5);
-		x.fillRect(p4x, p4y, 5, 5);
+		ctx.fillRect(p1x, p1y, 5, 5);
+		ctx.strokeRect(p2x, p2y, 5, 5);
+		ctx.strokeRect(p3x, p3y, 5, 5);
+		ctx.fillRect(p4x, p4y, 5, 5);
 
 		// else draw_CircleHandle({'x':sx_cx(this.p4x), 'y':sy_cy(this.p4y)});
 	};

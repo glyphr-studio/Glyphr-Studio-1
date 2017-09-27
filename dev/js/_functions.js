@@ -126,6 +126,7 @@
 		}
 	}
 
+
 //-------------------
 // Common Panel Title
 //-------------------
@@ -169,7 +170,6 @@
 	}
 
 
-
 //-------------------
 // Debug
 //-------------------
@@ -199,7 +199,8 @@
 				}
 
 			} else if (typeof message === 'object'){
-				console.table(message);
+				if(_UI.debugtableobjects) console.table(message);
+				else console.log(message);
 			}
 		}
 	}
@@ -411,6 +412,7 @@
 		if(_UI.toasttimeout) clearTimeout(_UI.toasttimeout);
 		_UI.toasttimeout = setTimeout(fn, dur);
 	}
+
 
 //-------------------
 // Saved Sate
@@ -764,9 +766,10 @@ function saveFile(fname, buffer, ftype) {
 // COLORS
 //-------------------
 
-	function shiftColor(c, percent, lighter){
-		percent = Math.max(0,Math.min(percent,1));
-		var val = {};
+	function parseColorString(c) {
+		var val = {r:0, g:0, b:0, a:1};
+
+		if(typeof c !== 'string') return val;
 
 		if(c.charAt(0)==="#"){
 			c = c.substring(1,7);
@@ -775,31 +778,60 @@ function saveFile(fname, buffer, ftype) {
 			val.b = parseInt(c.substring(4,6),16);
 		} else if (c.substring(0,4) === 'rgb('){
 			c = c.split('(')[1].split(')')[0].split(',');
-			val.r = c[0];
-			val.g = c[1];
-			val.b = c[2];
-		} else {
-			val.r = 0;
-			val.g = 0;
-			val.b = 0;
+			val.r = parseInt(c[0], 10);
+			val.g = parseInt(c[1], 10);
+			val.b = parseInt(c[2], 10);
+			val.a = parseInt(c[3], 10) || 1;
 		}
+
+		return val;
+	}
+
+	function shiftColor(c, percent, lighter){
+		percent = Math.max(0,Math.min(percent,1));
+		var val = parseColorString(c);
 
 		val.r = Math.max(0,Math.min(val.r,255));
 		val.g = Math.max(0,Math.min(val.g,255));
 		val.b = Math.max(0,Math.min(val.b,255));
 
 		if(lighter){
-			val.r = round(((255-(val.r*1))*percent)+(val.r*1));
-			val.g = round(((255-(val.g*1))*percent)+(val.g*1));
-			val.b = round(((255-(val.b*1))*percent)+(val.b*1));
+			val.r = round(((255-val.r)*percent)+val.r);
+			val.g = round(((255-val.g)*percent)+val.g);
+			val.b = round(((255-val.b)*percent)+val.b);
 		} else {
-			val.r = round((val.r*1)-(val.r*percent));
-			val.g = round((val.g*1)-(val.g*percent));
-			val.b = round((val.b*1)-(val.b*percent));
+			val.r = round(val.r-(val.r*percent));
+			val.g = round(val.g-(val.g*percent));
+			val.b = round(val.b-(val.b*percent));
 		}
 
 		return 'rgb('+val.r+','+val.g+','+val.b+')';
 	}
+
+	function RGBAtoRGB(rgb, alpha) {
+		var val = parseColorString(rgb);
+
+		var dr = round((255-val.r) * (1-alpha));
+		var dg = round((255-val.g) * (1-alpha));
+		var db = round((255-val.b) * (1-alpha));
+
+		var r = val.r + dr;
+		var g = val.g + dg;
+		var b = val.b + db;
+
+		return `rgb(${r},${g},${b})`;
+	}
+
+	function transparencyToAlpha(transparency) {
+		var t = parseInt(transparency);
+		if(!t || isNaN(t)) return 1;
+
+		if(t > 100) return 0;
+		if(t < 0) return 1;
+
+		return ((100 - transparency) / 100);
+	}
+
 
 //-------------------
 // COMBINATORICS

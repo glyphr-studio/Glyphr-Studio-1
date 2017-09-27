@@ -60,25 +60,28 @@
 			label.y = 11;
 		}
 
-		ctx.globalAlpha = transparencyToAlpha(this.editable? psc.customguidetransparency : psc.systemguidetransparency);
-		// Draw Line
-		// debug('\t start: ' + JSON.stringify(start) + ' / end: ' + JSON.stringify(end));
-		ctx.strokeStyle = this.color;
-		if(isval(delta)) ctx.strokeStyle = shiftColor(this.color, 0.6, true);
-		ctx.beginPath();
-		ctx.moveTo(start.x, start.y);
-		ctx.lineTo(end.x, end.y);
-		ctx.stroke();
-		ctx.closePath();
-
-		// Draw Label
-		if(this.showname && _UI.showguidelabels && !delta){
-			_UI.glypheditctx.fillStyle = this.color;
-			_UI.glypheditctx.font = '10px tahoma, verdana, sans-serif';
-			_UI.glypheditctx.fillText(this.name, label.x, label.y);
+		var alpha = transparencyToAlpha(this.editable? psc.customguidetransparency : psc.systemguidetransparency);
+		var color = RGBAtoRGB(this.color, alpha);
+	
+		if(color !== 'rgb(255,255,255)'){
+			// Draw Line
+			// debug('\t start: ' + JSON.stringify(start) + ' / end: ' + JSON.stringify(end));
+			ctx.strokeStyle = color;
+			if(isval(delta)) ctx.strokeStyle = shiftColor(color, 0.6, true);
+			ctx.beginPath();
+			ctx.moveTo(start.x, start.y);
+			ctx.lineTo(end.x, end.y);
+			ctx.stroke();
+			ctx.closePath();
+	
+			// Draw Label
+			if(this.showname && _UI.showguidelabels && !delta){
+				_UI.glypheditctx.fillStyle = color;
+				_UI.glypheditctx.font = '10px tahoma, verdana, sans-serif';
+				_UI.glypheditctx.fillText(this.name, label.x, label.y);
+			}
 		}
 
-		ctx.globalAlpha = 1;
 		// debug('Guide.draw \t END\n');
 	};
 
