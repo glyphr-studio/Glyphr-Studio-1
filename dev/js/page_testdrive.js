@@ -35,10 +35,10 @@
 			glyphstring: td.sampletext,
 			linegap: td.linegap,
 			maxes: {
-				xmin: 20,
-				xmax: 720,
-				ymin: 20,
-				ymax: 320
+				xmin: 10,
+				xmax: 790,
+				ymin: 10,
+				ymax: 690
 			},
 			scale: td.fontscale,
 			drawPageExtras: drawTestDrivePageExtras,
@@ -89,7 +89,7 @@
 		if(_UI.current_panel === 'npAttributes') changefontscale(td.fontsize);
 		document.getElementById('tdtextarea').value = td.sampletext;
 
-		td.glyphseq.updateString(td.sampletext);
+		td.glyphseq.setString(td.sampletext);
 		var scale = td.fontscale;
 		var pagepadding = 20 / scale;
 
@@ -130,12 +130,12 @@
 	}
 
 	function drawTestDriveLineExtras(chardata) {
-		// debug('\n drawTestDriveLineExtras - START');
-		// debug('\t at ' + (chardata.view.dy * chardata.view.dz));
+		debug('\n drawTestDriveLineExtras - START');
+		debug('\t at ' + (chardata.view.dy * chardata.view.dz));
 		if(_UI.testdrive.showlineextras){
 			drawHorizontalLine(chardata.view.dy*chardata.view.dz, _UI.testdrive.ctx, _UI.colors.green.l85);
 		}
-		// debug(' drawTestDriveLineExtras - END\n');
+		debug(' drawTestDriveLineExtras - END\n');
 	}
 
 	function drawTestDriveGlyphExtras(chardata) {
@@ -194,18 +194,20 @@
 		debug(`\t drawing ${chardata.char}`);
 		debug(`\t view \t ${json(view, true)}`);
 
-		if(glyph){
-			if(flattenglyphs){
-				if(!_UI.testdrive.cache.hasOwnProperty(tc)){
-					_UI.testdrive.cache[tc] = (new Glyph(clone(glyph))).combineAllShapes(true);
+		setTimeout(function(){
+			if(glyph){
+				if(flattenglyphs){
+						if(!_UI.testdrive.cache.hasOwnProperty(chardata.char)){
+							_UI.testdrive.cache[chardata.char] = (new Glyph(clone(glyph))).combineAllShapes(true);
+						}
+
+						_UI.testdrive.cache[chardata.char].drawGlyph(ctx, view, 1, true);
+
+				} else {
+					glyph.drawGlyph(ctx, view, 1, true);
 				}
-
-				_UI.testdrive.cache[tc].drawGlyph(ctx, view, 1, true);
-
-			} else {
-				glyph.drawGlyph(ctx, view, 1, true);
 			}
-		}
+		}, 10);
 
 		debug(' drawTestDriveGlyph - END\n');
 	}
@@ -252,7 +254,7 @@
 		var content = '<table class="detail">';
 		content += '<tr><td> font size <span class="unit">(px)</span> </td><td><input type="number" value="'+_UI.testdrive.fontsize+'" onchange="changefontscale(this.value); redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> 96dpi font size <span class="unit">(pt)</span> </td><td><input type="number" disabled="disabled" id="roughptsize" valu="75"/></td></tr>';
-		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.linegap+'" onchange="_UI.testdrive.linegap=this.value*1; redraw_TestDrive();"></td></tr>';
+		content += '<tr><td> line gap <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.linegap+'" onchange="changelinegap(this.value); redraw_TestDrive();"></td></tr>';
 		// content += '<tr><td> glyph spacing <span class="unit">(em units)</span> </td><td><input type="number" value="'+_UI.testdrive.padsize+'" onchange="_UI.testdrive.padsize=this.value*1; redraw_TestDrive();"></td></tr>';
 		content += '<tr><td> <label for="showglyphextras">show glyph boxes</label> </td><td>' + checkUI("_UI.testdrive.showglyphextras", _UI.testdrive.showglyphextras, true) + "</td></tr>";
 		content += '<tr><td> <label for="showlineextras">show baseline</label> </td><td>' + checkUI("_UI.testdrive.showlineextras", _UI.testdrive.showlineextras, true) + "</td></tr>";
@@ -275,6 +277,12 @@
 		_UI.testdrive.fontscale = (newval/_GP.projectsettings.upm);
 		_UI.testdrive.glyphseq.setScale(_UI.testdrive.fontscale);
 		document.getElementById('roughptsize').value = (newval*0.75);
+		document.getElementById('tdtextarea').style.fontSize = ((newval*0.75) + 'pt');
+	}
+
+	function changelinegap(newval) {
+		_UI.testdrive.linegap = newval * 1;
+		_UI.testdrive.glyphseq.setLineGap(_UI.testdrive.linegap);
 	}
 
 	function createimg(){

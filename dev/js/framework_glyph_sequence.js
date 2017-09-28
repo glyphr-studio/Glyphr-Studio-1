@@ -29,16 +29,38 @@
 		// Initialize data
 		this.generateData();
 	}
+
+	GlyphSequence.prototype.setString = function(newstring) {
+		debug('\n GlyphSequence.setString - START');
+		debug(`\t passed ${newstring}`);
+
+		this.glyphstring = newstring;
+		this.textblocks = this.glyphstring.split('\n');
+
+		debug(`\t this.glyphstring ${this.glyphstring}`);
+		debug(`\t this.textblocks ${this.textblocks}`);
+
+		// Lots of opportunities for optimization
+
+		if(this.glyphstring !== '') this.generateData();
+	};
 	
 	GlyphSequence.prototype.setScale = function(ns) {
 		this.scale = ns;
+		this.generateData();
+	};
+
+	GlyphSequence.prototype.setLineGap = function(ns) {
+		this.linegap = ns;
+		this.generateData();
 	};
 
 	GlyphSequence.prototype.generateData = function() {
-		
+
 		debug('\n GlyphSequence.generateData - START');
 		debug(`\t this.textblocks ${this.textblocks}`);
-		
+		var ps = _GP.projectsettings;
+
 		var aggregateWidth = 0;
 		var thisWidth;
 		var thisKern;
@@ -47,10 +69,10 @@
 		var currblock;
 		var currchar;
 		var tb, tg;
-		var nlb;
+		var nlb, wordagg;
 		var currline = 0;
 		var checkforbreak = false;
-		var yoffset = _GP.projectsettings.ascent * this.scale;
+		var yoffset = ps.ascent * this.scale;
 
 		// Maxes are in px, Area is in Em
 		var currx = this.maxes.xmin / this.scale;
@@ -90,8 +112,10 @@
 					kern: thisKern,
 					aggregate: aggregateWidth,
 					islinebreaker: (this.linebreakers.indexOf(currblock[tg]) > -1),
+					isvisible: false,
 					view: false,
-					line: false
+					linenumber: false,
+					lineaggregate: false
 				}
 
 				currchar = this.data[tb][tg];
@@ -112,42 +136,53 @@
 		for(tb=0; tb<this.data.length; tb++){
 			currblock = this.data[tb];
 			debug(`block ${tb}`);
-			
+
 			// char data units and width units are all in glyph em (not pixel) units
 			for(tg=0; tg<currblock.length; tg++){
 				currchar = currblock[tg];
-				debug(`char ${currchar.char} num ${tg}`);
+				debug(`${currchar.char} num ${tg}`);
 
-				if(currchar.view === false){					
-					
+				if(currchar.view === false){
+
 					// pos for this currchar hasn't been calculated
 					if(checkforbreak && (this.maxwidth !== Infinity)){
 						nlb = getNextLineBreaker(currblock, tg);
-						debug(`\t nlb.aggregate > area.width * (currline+1)`);
-						debug(`\t ${nlb.aggregate} > ${area.width} * ${currline+1}`);
-						debug(`\t ${nlb.aggregate} > ${area.width * (currline+1)}`);
-						
-						if(nlb.aggregate > (area.width * (currline+1))){
+						wordagg = nlb.aggregate - currchar.aggregate;
+
+						debug(`currx - area.x + wordagg > area.width`);
+						debug(`${currx} - ${area.x} + ${wordagg} > ${area.width}`);
+						debug(`${currx - area.x + wordagg} > ${area.width}`);
+
+						if(currx - area.x + wordagg > area.width){
 							currline++;
 							currx = area.x;
 							curry = calcY(area.y, currline, this.linegap);
+
+							if(curry  > area.height){
+								// text takes up too much vertical space
+								// returning early will leave unconputed chars.isvisible = false
+
+								debug(' GlyphSequence.generateData - Vertical Max Reached - END\n');
+								return;
+							}
 						}
-						
+
 						checkforbreak = false;
 					}
 
-					currchar.line = currline;
+					currchar.isvisible = true;
+					currchar.linenumber = currline;
 					currchar.view = clone({dx:currx, dy:curry, dz:this.scale});
 					currx += currchar.width + currchar.kern;
 				}
-				
+
 				if(currchar.islinebreaker) checkforbreak = true;
 
 	debug(`\twidth \t ${currchar.width}
 	aggr \t ${currchar.aggregate}
 	lnbr \t ${currchar.islinebreaker}
 	view \t ${json(currchar.view, true)}
-	line \t ${currchar.line}
+	line \t ${currchar.linenumber}
 	\n`);
 
 			}
@@ -174,21 +209,6 @@
 		return re;
 	};
 
-	GlyphSequence.prototype.updateString = function(newstring) {
-		debug('\n GlyphSequence.updateString - START');
-		debug(`\t passed ${newstring}`);
-		
-		this.glyphstring = newstring;
-		this.textblocks = this.glyphstring.split('\n');
-		
-		debug(`\t this.glyphstring ${this.glyphstring}`);
-		debug(`\t this.textblocks ${this.textblocks}`);
-
-		// Lots of opportunities for optimization
-
-		if(this.glyphstring !== '') this.generateData();
-	};
-
 	GlyphSequence.prototype.draw = function(){
 		debug('\n GlyphSequence.draw - START');
 
@@ -196,7 +216,7 @@
 		if(this.drawPageExtras) {
 			this.drawPageExtras(this.maxes);
 		}
-		
+
 		if(this.glyphstring === '') return;
 
 		// Draw Line Extras
@@ -204,9 +224,9 @@
 		debug('\t DRAW LINE EXTRAS');
 		if(this.drawLineExtras){
 			this.iterator(function(char, gs){
-				if(char.line !== currline){
+				if(char.linenumber !== currline){
 					gs.drawLineExtras(char);
-					currline = char.line;
+					currline = char.linenumber;
 				}
 			});
 		}
@@ -215,7 +235,7 @@
 		debug('\t DRAW GLYPH EXTRAS');
 		if(this.drawGlyphExtras){
 			this.iterator(function(char, gs){
-				gs.drawGlyphExtras(char);
+				if(char.isvisible) gs.drawGlyphExtras(char);
 			});
 		}
 
@@ -223,7 +243,7 @@
 		debug('\t DRAW GLYPHS');
 		if(this.drawGlyph){
 			this.iterator(function(char, gs){
-				gs.drawGlyph(char);
+				if(char.isvisible) gs.drawGlyph(char);
 			});
 		}
 

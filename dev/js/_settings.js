@@ -210,7 +210,7 @@
 			canvas: false,
 			sampletext: '',
 			fontscale: 100,
-			fontsize: 100,
+			fontsize: 48,
 			linegap: false,
 			padsize: 0,
 			showglyphextras: false,
