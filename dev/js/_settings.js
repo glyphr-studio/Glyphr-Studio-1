@@ -22,7 +22,7 @@
 		// Internal Dev Stuff
 		devmode: true, 					// global switch for all the stuff below
 		dev_sample_project: 'modegg', 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: 'test drive', 			// navigate straight to a page
+		dev_current_page: 'glyph edit', 			// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 						// show messages sent to the browser console
@@ -176,7 +176,11 @@
 			ymax: 999999,
 			ymin: -999999
 		},
-		contextglyphs: {},
+		contextglyphs: {
+			string: '',
+			leftseq: false,
+			rightseq: false
+		},
 		timeout: false,
 		toasttimeout: false,
 		history: {},

@@ -50,8 +50,8 @@
 		// load glyph info
 		if(sg && sg.shapes.length) {
 			var v = getView('Redraw');
+			if(sg.contextglyphs != _UI.contextglyphs.string) drawContextGlyphs();
 			sg.drawGlyph(_UI.glypheditctx, v);
-			drawContextGlyphs(v);
 
 		} else {
 			_UI.redrawing = false;

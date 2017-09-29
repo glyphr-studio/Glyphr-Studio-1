@@ -30,6 +30,7 @@
 		this.maxes = oa.maxes || clone(_UI.mins);
 		this.shapes = oa.shapes || [];
 		this.usedin = oa.usedin || [];
+		this.contextglyphs = '';
 
 		// debug('\t name: ' + this.name);
 

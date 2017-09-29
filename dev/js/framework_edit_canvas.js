@@ -402,17 +402,14 @@
 	}
 
 	function updateContextGlyphs() {
-		var sg = getSelectedWorkItemID();
-		_UI.contextglyphs[sg] = getEditDocument().getElementById('contextglyphsinput').value;
+		var selwi = getSelectedWorkItem();
+		var cgi = getEditDocument().getElementById('contextglyphsinput').value;
+		selwi.contextglyphs = cgi;
 		redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
 	}
 
 	function getContextGlyphString() {
-		var sg = getSelectedWorkItemID();
-		var ctxglyphstring = _UI.contextglyphs[sg];
-
-		return ctxglyphstring || hexToChars(sg);
-		//getSelectedWorkItem().getHTML();
+		return getSelectedWorkItem().contextglyphs || hexToChars(getSelectedWorkItemID());
 	}
 
 	function showCtxGlyphsOptions() {
@@ -497,7 +494,7 @@
 // CONTEXT GLYPHS
 //-------------------
 
-	function drawContextGlyphs(view) {
+	function drawContextGlyphs() {
 		// debug('\n drawContextGlyphs - START');
 		var selwid = getSelectedWorkItemID();
 		var currGlyphObject = getGlyph(selwid, true);
@@ -505,8 +502,8 @@
 		var v = getView();
 		var split = splitContextGlyphString(currGlyphChar);
 
-		// debug('\t input string: ' + ctxgs);
 		// debug('\t split: ' + split.left + ' | ' + split.right);
+		// debug(`\t view: ${json(v, true)}`);
 
 		var t = (_GP.projectsettings.colors.systemguidetransparency);
 		var color = 'rgb(204,81,0)';
@@ -517,18 +514,23 @@
 			var leftdistance = getGlyphSequenceAdvanceWidth(split.left);
 			if(currGlyphObject.isautowide) leftdistance += currGlyphObject.getLSB();
 			leftdistance += calculateKernOffset(split.left.charAt(split.left.length-1), currGlyphChar);
-			// debug('\t leftdistance: ' + leftdistance);
-			// debug('\t kerndistance: ' + k);
-			// debug('\t leftdistance: ' + leftdistance);
 
-			var start = v.dx-(leftdistance*v.dz);
-			drawVerticalLine(start, false, color, t);
-			drawGlyphSequence({
+			// debug(`\t leftdistance: ${leftdistance}`);
+			
+			drawVerticalLine(v.dx-(leftdistance*v.dz), false, color, t);
+
+			_UI.contextglyphs.leftseq = new GlyphSequence({
 				glyphstring:split.left, 
-				drawExtra:drawOneContextExtra,
-				drawGlyph:drawOneContextGlyph, 
-				currx:start
+				scale: v.dz,
+				drawGlyphExtras:drawContextGlyphExtras,
+				drawGlyph:drawContextGlyph, 
+				maxes: {
+					xmin: (v.dx - (leftdistance*v.dz)),
+					ymin: (v.dy)
+				}
 			});
+
+			_UI.contextglyphs.leftseq.draw();
 		}
 
 		if(split.right) {
@@ -536,12 +538,20 @@
 			if(currGlyphObject.isautowide) rightdistance -= currGlyphObject.getLSB();
 			rightdistance += calculateKernOffset(currGlyphChar, split.right.charAt(0));
 
-			drawGlyphSequence({
+			// debug(`\t rightdistance: ${rightdistance}`);
+
+			_UI.contextglyphs.rightseq = new GlyphSequence({
 				glyphstring:split.right, 
-				drawExtra:drawOneContextExtra,
-				drawGlyph:drawOneContextGlyph, 
-				currx:(v.dx+(rightdistance*v.dz))
+				scale: v.dz,
+				drawGlyphExtras:drawContextGlyphExtras,
+				drawGlyph:drawContextGlyph, 
+				maxes: {
+					xmin:(v.dx + (rightdistance*v.dz)),
+					ymin: (v.dy)
+				}
 			});
+
+			_UI.contextglyphs.rightseq.draw();
 		}
 
 		// debug(' drawContextGlyphs - END\n');
@@ -586,11 +596,25 @@
 		return advanceWidth;
 	}
 
-	function drawOneContextExtra(char, currx, curry, scale) {
-		var glyph = getGlyph(glyphToHex(char));
+	function drawContextGlyphExtras(char) {
+		// debug('\n drawContextGlyphExtras - START');
+
+		// debug(`\t ${char.char}
+		// 	width \t ${char.width}
+		// 	aggr \t ${char.aggregate}
+		// 	lnbr \t ${char.islinebreaker}
+		// 	view \t ${json(char.view, true)}
+		// 	line \t ${char.linenumber}
+		// \n`);
+		// debug(char.glyph);
+
 		var ctx = _UI.glypheditctx;
-		var advanceWidth = 0;
 		var ps = _GP.projectsettings;
+		var view = getView();
+		var advanceWidth = char.glyph.getAdvanceWidth() * view.dz;
+		currx = (char.view.dx*view.dz);
+		curry = view.dy;
+		scale = char.view.dz;
 		
 		if(ps.showcontextglyphguides){
 
@@ -598,7 +622,7 @@
 			var t = (ps.colors.systemguidetransparency);
 			var alpha = transparencyToAlpha(t);
 			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
-			var gname = glyph.getName().replace(/latin /i, '');
+			var gname = char.glyph.getName().replace(/latin /i, '');
 
 			ctx.font = '12px tahoma, verdana, sans-serif';
 			ctx.fillStyle = color;
@@ -610,6 +634,22 @@
 			drawVerticalLine(currx+advanceWidth, false, color);
 
 			ctx.fillText(gname, textx, texty);
+
+			if(char.kern){
+				ctx.fillStyle = RGBAtoRGB('rgb(255,0,255)', alpha);;
+				ctx.fillRect(
+					currx + advanceWidth,
+					sy_cy(ps.descent-290),
+					(char.kern * view.dz),
+					(-10*view.dz)
+				);
+
+				var kt = 'kern: ' + char.kern;
+				var kw = ctx.measureText(kt).width;
+				var kx = (currx+advanceWidth) - (((char.kern*-1*view.dz) - kw)/2) - kw;
+
+				ctx.fillText(kt, kx, (sy_cy(ps.descent-320) + (10*view.dz)));
+			}
 
 			// Register hotspot
 			registerCanvasHotspot({
@@ -627,21 +667,27 @@
 				onclick:function(){ hotspotNavigateToGlyph(glyphToHex(char)); }
 			});
 		}
+
+		// debug(' drawContextGlyphExtras - END\n');
 	}
 
-	function drawOneContextGlyph(char, currx, curry, scale) {
-		var glyph = getGlyph(glyphToHex(char));
-		var ctx = _UI.glypheditctx;
-		var advanceWidth = 0;
-		var ps = _GP.projectsettings;
+	function drawContextGlyph(char) {
+		// debug('\n drawContextGlyph - START');
+		// debug(`\t ${char.char}
+		// 	width \t ${char.width}
+		// 	aggr \t ${char.aggregate}
+		// 	lnbr \t ${char.islinebreaker}
+		// 	view \t ${json(char.view, true)}
+		// 	line \t ${char.linenumber}
+		// \n`);
+		// debug(char.glyph);
+		var v = getView();
+		var c = char.view;
 
-		if(glyph){
-			advanceWidth = glyph.drawGlyph(ctx, {dz:scale, dx:currx, dy:curry}, transparencyToAlpha(ps.colors.contextglyphtransparency), true);
-		} else {
-			advanceWidth = (ps.upm*1*scale) / 2;
-		}
+		if(!char.glyph) return;
+		char.glyph.drawGlyph(_UI.glypheditctx, {dx:(c.dx*c.dz), dy:v.dy, dz:c.dz}, transparencyToAlpha(_GP.projectsettings.colors.contextglyphtransparency), true);
 
-		return advanceWidth;
+		// debug(' drawContextGlyph - END\n');
 	}
 
 

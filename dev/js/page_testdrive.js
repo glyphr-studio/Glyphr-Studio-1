@@ -37,7 +37,7 @@
 			maxes: {
 				xmin: 10,
 				xmax: 790,
-				ymin: 10,
+				ymin: 10 + (_GP.projectsettings.ascent * td.fontscale),
 				ymax: 690
 			},
 			scale: td.fontscale,
@@ -99,10 +99,11 @@
 		_UI.redrawing = false;
 	}
 
-	function drawTestDrivePageExtras(maxes) {
+	function drawTestDrivePageExtras(maxes, scale) {
 		// debug('\n drawTestDrivePageExtras - START');
 		var tdc = _UI.testdrive.canvas;
 
+		// var top = (maxes.ymin - (_GP.projectsettings.ascent * scale)) || 0;
 		var top = maxes.ymin || 0;
 		var bottom = (maxes.ymax === Infinity)? tdc.height : (maxes.ymax || tdc.height);
 		var left = maxes.xmin || 0;
@@ -130,12 +131,12 @@
 	}
 
 	function drawTestDriveLineExtras(chardata) {
-		debug('\n drawTestDriveLineExtras - START');
-		debug('\t at ' + (chardata.view.dy * chardata.view.dz));
+		// debug('\n drawTestDriveLineExtras - START');
+		// debug('\t at ' + (chardata.view.dy * chardata.view.dz));
 		if(_UI.testdrive.showlineextras){
 			drawHorizontalLine(chardata.view.dy*chardata.view.dz, _UI.testdrive.ctx, _UI.colors.green.l85);
 		}
-		debug(' drawTestDriveLineExtras - END\n');
+		// debug(' drawTestDriveLineExtras - END\n');
 	}
 
 	function drawTestDriveGlyphExtras(chardata) {
@@ -180,7 +181,7 @@
 	}
 
 	function drawTestDriveGlyph(chardata) {
-		debug('\n drawTestDriveGlyph - START');
+		// debug('\n drawTestDriveGlyph - START');
 
 		var td = _UI.testdrive;
 		var glyph = chardata.glyph;
@@ -191,8 +192,8 @@
 		view.dx *= view.dz;
 		view.dy *= view.dz;
 		
-		debug(`\t drawing ${chardata.char}`);
-		debug(`\t view \t ${json(view, true)}`);
+		// debug(`\t drawing ${chardata.char}`);
+		// debug(`\t view \t ${json(view, true)}`);
 
 		setTimeout(function(){
 			if(glyph){
@@ -209,7 +210,7 @@
 			}
 		}, 10);
 
-		debug(' drawTestDriveGlyph - END\n');
+		// debug(' drawTestDriveGlyph - END\n');
 	}
 
 	function drawSampletextButtons(){
@@ -273,16 +274,26 @@
 	}
 
 	function changefontscale(newval){
-		_UI.testdrive.fontsize = newval*1;
-		_UI.testdrive.fontscale = (newval/_GP.projectsettings.upm);
-		_UI.testdrive.glyphseq.setScale(_UI.testdrive.fontscale);
+		var td = _UI.testdrive;
+
+		td.fontsize = newval*1;
+		td.fontscale = (newval/_GP.projectsettings.upm);
+		td.glyphseq.setScale(td.fontscale);
+		td.glyphseq.setMaxes({
+			xmin: 10,
+			xmax: 790,
+			ymin: 10 + (_GP.projectsettings.ascent * td.fontscale),
+			ymax: 400
+		});
 		document.getElementById('roughptsize').value = (newval*0.75);
 		document.getElementById('tdtextarea').style.fontSize = ((newval*0.75) + 'pt');
 	}
 
 	function changelinegap(newval) {
-		_UI.testdrive.linegap = newval * 1;
-		_UI.testdrive.glyphseq.setLineGap(_UI.testdrive.linegap);
+		var td = _UI.testdrive;
+
+		td.linegap = newval * 1;
+		td.glyphseq.setLineGap(td.linegap);
 	}
 
 	function createimg(){
