@@ -246,7 +246,7 @@
 		if(this.drawLineExtras){
 			this.iterator(function(char, gs){
 				if(char.linenumber !== currline){
-					gs.drawLineExtras(char);
+					gs.drawLineExtras(char, gs);
 					currline = char.linenumber;
 				}
 			});

@@ -20,6 +20,7 @@
 		oa = oa || {};
 		this.objtype = 'glyph';
 
+		this.hex = oa.glyphhex || false;
 		this.name = oa.name || getGlyphName(oa.glyphhex) || false;
 		this.glyphhtml = oa.glyphhtml || hexToHTML(oa.glyphhex) || false;
 		this.isautowide = isval(oa.isautowide)? oa.isautowide : true;
@@ -329,6 +330,8 @@
 //-------------------------------------------------------
 	Glyph.prototype.getName = function() { return this.name; };
 	
+	Glyph.prototype.getChar = function() { return getGlyphName(this.hex); };
+
 	Glyph.prototype.getHTML = function() { return this.glyphhtml || ''; };
 
 	Glyph.prototype.getLSB = function() {

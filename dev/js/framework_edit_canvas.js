@@ -522,6 +522,7 @@
 			_UI.contextglyphs.leftseq = new GlyphSequence({
 				glyphstring:split.left, 
 				scale: v.dz,
+				drawLineExtras:drawContextGlyphLeftLineExtras,
 				drawGlyphExtras:drawContextGlyphExtras,
 				drawGlyph:drawContextGlyph, 
 				maxes: {
@@ -543,6 +544,7 @@
 			_UI.contextglyphs.rightseq = new GlyphSequence({
 				glyphstring:split.right, 
 				scale: v.dz,
+				drawLineExtras:drawContextGlyphRightLineExtras,
 				drawGlyphExtras:drawContextGlyphExtras,
 				drawGlyph:drawContextGlyph, 
 				maxes: {
@@ -596,6 +598,39 @@
 		return advanceWidth;
 	}
 
+	function drawContextGlyphLeftLineExtras(char, seq) {
+
+		var kern = calculateKernOffset(seq.glyphstring[seq.glyphstring.length-1], getSelectedWorkItemChar());
+
+		if(kern) {
+			var selwi = getSelectedWorkItem();
+			var v = getView();
+			kern *= -1;
+			var rightx = selwi.isautowide? kern-selwi.getLSB() : kern;
+			rightx = v.dx + (rightx * v.dz);
+			var texty = sy_cy(_GP.projectsettings.descent-260);
+
+			drawGlyphKernExtra(-kern, rightx, texty, v.dz);
+		}
+	}
+
+	function drawContextGlyphRightLineExtras(char, seq) {
+
+		var kern = calculateKernOffset(getSelectedWorkItemChar(), char.char);
+
+		if(kern) {
+			var v = getView();
+			var selwi = getSelectedWorkItem();
+			var rightx = selwi.getAdvanceWidth();
+			if(selwi.isautowide) rightx -= selwi.getLSB();
+			rightx = v.dx + (rightx * v.dz);
+			var texty = sy_cy(_GP.projectsettings.descent-260);
+
+			drawGlyphKernExtra(kern, rightx, texty, v.dz);
+		}
+		
+	}
+
 	function drawContextGlyphExtras(char) {
 		// debug('\n drawContextGlyphExtras - START');
 
@@ -608,54 +643,50 @@
 		// \n`);
 		// debug(char.glyph);
 
-		var ctx = _UI.glypheditctx;
 		var ps = _GP.projectsettings;
-		var view = getView();
-		var advanceWidth = char.glyph.getAdvanceWidth() * view.dz;
-		currx = (char.view.dx*view.dz);
-		curry = view.dy;
-		scale = char.view.dz;
 		
 		if(ps.showcontextglyphguides){
+			var ctx = _UI.glypheditctx;
+			var view = getView();
+			var advanceWidth = char.width * view.dz;
+			var currx = (char.view.dx*view.dz);
+			var rightx = currx + advanceWidth;
+			var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
+			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
+			var texty = sy_cy(_GP.projectsettings.descent-260);
+
 
 			// Draw the glyph name
-			var t = (ps.colors.systemguidetransparency);
-			var alpha = transparencyToAlpha(t);
-			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
-			var gname = char.glyph.getName().replace(/latin /i, '');
+			var gname = char.glyph? char.glyph.getName() : getGlyphName(charsToHexArray(char.char));
+			gname = gname.replace(/latin /i, '');
+			drawGlyphNameExtra(gname, currx, texty, advanceWidth, color, char);
 
-			ctx.font = '12px tahoma, verdana, sans-serif';
-			ctx.fillStyle = color;
-			var textw = ctx.measureText(gname).width;
-			var textx = currx + ((advanceWidth - textw) / 2); // center the glyph name
-			var texty = sy_cy(ps.descent-260);
-
+			// Draw vertical lines
 			drawVerticalLine(currx, false, color);
-			drawVerticalLine(currx+advanceWidth, false, color);
+			drawVerticalLine(rightx, false, color);
 
-			ctx.fillText(gname, textx, texty);
+			// Draw kern notation
+			if(char.kern) drawGlyphKernExtra(char.kern, rightx, texty, view.dz);
+		}
 
-			if(char.kern){
-				ctx.fillStyle = RGBAtoRGB('rgb(255,0,255)', alpha);;
-				ctx.fillRect(
-					currx + advanceWidth,
-					sy_cy(ps.descent-290),
-					(char.kern * view.dz),
-					(-10*view.dz)
-				);
+		// debug(' drawContextGlyphExtras - END\n');
+	}
 
-				var kt = 'kern: ' + char.kern;
-				var kw = ctx.measureText(kt).width;
-				var kx = (currx+advanceWidth) - (((char.kern*-1*view.dz) - kw)/2) - kw;
-
-				ctx.fillText(kt, kx, (sy_cy(ps.descent-320) + (10*view.dz)));
-			}
-
-			// Register hotspot
+	function drawGlyphNameExtra(text, currx, texty, advanceWidth, color, regHotspot) {
+		var ctx = _UI.glypheditctx;
+		var textw = ctx.measureText(text).width;
+		var textx = currx + ((advanceWidth - textw) / 2); // center the glyph name
+		
+		ctx.font = '12px tahoma, verdana, sans-serif';
+		ctx.fillStyle = color;
+		ctx.fillText(text, textx, texty);
+	
+		// Register hotspot
+		if(regHotspot){
 			registerCanvasHotspot({
 				target:{
 					xmin:currx, 
-					xmax:(currx+advanceWidth), 
+					xmax:(currx + advanceWidth), 
 					ymin:texty-20, 
 					ymax:(texty+20)
 				},
@@ -664,11 +695,31 @@
 					xmax: textx+textw+1,
 					y: texty+6
 				},
-				onclick:function(){ hotspotNavigateToGlyph(glyphToHex(char)); }
+				onclick:function(){ hotspotNavigateToGlyph(glyphToHex(regHotspot)); }
 			});
 		}
+	}
+	
+	function drawGlyphKernExtra(kern, rightx, texty, scale) {
+		var desc = _GP.projectsettings.descent;
+		var ctx = _UI.glypheditctx;
+		var offset = 20*scale;
+		var color = RGBAtoRGB('rgb(255,0,255)', transparencyToAlpha(_GP.projectsettings.colors.systemguidetransparency));
 
-		// debug(' drawContextGlyphExtras - END\n');
+		ctx.font = '12px tahoma, verdana, sans-serif';
+		ctx.fillStyle = color;
+		ctx.fillRect(
+			rightx,
+			(texty + offset),
+			(kern * scale),
+			(offset * 0.5)
+		);
+
+		var text = 'kern: ' + kern;
+		var textwidth = ctx.measureText(text).width;
+		var textx = rightx - (((kern*-1*scale) - textwidth)/2) - textwidth;
+
+		ctx.fillText(text, textx, (texty + (offset*4)));		
 	}
 
 	function drawContextGlyph(char) {
