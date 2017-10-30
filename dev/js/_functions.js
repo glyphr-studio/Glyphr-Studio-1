@@ -592,6 +592,21 @@ function saveFile(fname, buffer, ftype) {
 		return re;
 	}
 
+	function reqAniFrame(fun) {
+		if(_UI.popout){
+			if(_UI.popout.requestAnimationFrame) _UI.popout.requestAnimationFrame(fun);
+			else {
+				console.warn('no requestAnimationFrame');
+				fun();
+			}
+		} else {
+			if(window.requestAnimationFrame) window.requestAnimationFrame(fun);
+			else {
+				console.warn('no requestAnimationFrame');
+				fun();
+			}
+		}
+	}
 
 //--------------------------
 // Angle and Rotation Stuff

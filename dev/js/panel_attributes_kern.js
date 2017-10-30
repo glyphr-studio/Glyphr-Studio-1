@@ -26,6 +26,15 @@
 		if(!rows) content += '<button onclick="addCommonKernPairs();">add some common kern pairs</button>';
 		content += '</div>';
 
+		if(!rows){
+			content += '<div class="panel_section">';
+			content += '<h2>Please note!</h2><br>';
+			content += 'Kern information will only be exported to SVG Fonts. This is a limitation of the library we use to write OTF files.<br><br>';
+			content += 'If you really need kern information in an OTF file, first export your project to an SVG Font, then use an online service to ';
+			content += 'convert your SVG Font to an OTF Font.'
+			content += '</div>';
+		}
+
 		// debug(' makePanel_KerningAttributes - END\n');
 		return content;
 	}

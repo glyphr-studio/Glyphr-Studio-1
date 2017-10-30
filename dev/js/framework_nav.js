@@ -19,6 +19,7 @@
 		oa = oa || {};
 
 		clickEmptySpace();
+		clearCanvasHotspots();
 
 		if(oa.page && _UI.current_page !== oa.page){
 			_UI.current_page = oa.page;

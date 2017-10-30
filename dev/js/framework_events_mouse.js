@@ -866,19 +866,18 @@ function eventHandler_ShapeResize(){
 }
 
 function checkForMouseOverHotspot(x, y) {
-	var hsredraw = false;
+
 	if(isHotspotHere(x, y)){
 		var hs = findAndUnderlineHotspot(x, y);
 		setCursor('pointer');
-		if(hs !== _UI.canvashotspothovering) hsredraw = true;
+		if(hs !== _UI.canvashotspothovering) redraw({calledby:'checkForMouseOverHotspot', redrawpanels:false, redrawtools:false});
 		_UI.canvashotspothovering = hs;
 
 	} else {
+		if(_UI.canvashotspothovering) redraw({calledby:'checkForMouseOverHotspot', redrawpanels:false, redrawtools:false});
 		_UI.canvashotspothovering = false;
-		hsredraw = true;
 	}
 	
-	if(hsredraw) redraw({calledby:'ShapeEdit.mousemove', redrawpanels:false, redrawtools:false});
 }
 
 function updateTNBS(dx,dy,dw,dh){

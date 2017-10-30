@@ -21,6 +21,7 @@
 
 		this.queue.push({
 			'name': getSelectedWorkItemName(),
+			'id': getSelectedWorkItemID(),
 			'description': des,
 			'date': new Date().getTime(),
 			'state': clone(this.currstate)
@@ -38,12 +39,24 @@
 		// debug('\n History.pull - START');
 		// debug('\t queue.length ' + this.queue.length);
 
-		var top = this.queue.length? this.queue.pop().state : this.initialstate;
+		var currentID = getSelectedWorkItemID();
+		var nextID = this.queue[this.queue.length-1].id;
 
-		if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
-		else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
+		if(currentID === nextID){
+			var top = this.queue.length? this.queue.pop().state : this.initialstate;
 
-		this.currstate = clone(top);
+			if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
+			else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
+
+			this.currstate = clone(top);
+
+		} else {
+			// If the next undo item is a different glyph, 
+			// navigate to that glyph before undo-ing
+			showToast('Navigated without undo-ing');
+			selectGlyph(nextID);
+		}
+
 
 		if (_UI.current_page === 'import svg'){
 			update_NavPanels();
@@ -60,8 +73,8 @@
 
 		_UI.ms.shapes.clear();
 		_UI.ms.points.clear();
-		make_NavPanels_PopIn();
-		redraw({calledby:'history_pull'});
+		// update_NavPanels();
+		redraw({calledby:'history_pull', redrawpanels: true});
 
 
 		// debug('\t after redraw');
@@ -74,6 +87,7 @@
 			}
 		}
 		if (empty) setProjectAsSaved();
+
 
 		// debug(' History.pull - END\n');
 	};

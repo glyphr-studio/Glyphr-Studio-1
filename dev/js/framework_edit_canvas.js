@@ -32,8 +32,8 @@
 		the redraw, for debugging purposes.
 	*/
 	function redraw(oa){
-		//debug('\n REDRAW - START');
-		//debug('\t oa: ' + json(oa));
+		// debug('\n REDRAW - START');
+		// debug('\t oa: ' + json(oa));
 		oa = oa || {};
 		_UI.redraw.redrawcanvas = isval(oa.redrawcanvas) ? oa.redrawcanvas : true;
 		_UI.redraw.redrawtools = isval(oa.redrawtools) ? oa.redrawtools : true;
@@ -51,23 +51,7 @@
 		_UI.redrawing = false;
 		reqAniFrame(redrawUnit);
 		_UI.redrawing = false;
-		//debug(' REDRAW - END\n');
-	}
-
-	function reqAniFrame(fun) {
-		if(_UI.popout){
-			if(_UI.popout.requestAnimationFrame) _UI.popout.requestAnimationFrame(fun);
-			else {
-				console.warn('no requestAnimationFrame');
-				fun();
-			}
-		} else {
-			if(window.requestAnimationFrame) window.requestAnimationFrame(fun);
-			else {
-				console.warn('no requestAnimationFrame');
-				fun();
-			}
-		}
+		// debug(' REDRAW - END\n');
 	}
 
 	function redrawUnit() {
@@ -113,11 +97,18 @@
 	function update_ToolsArea(){
 		// debug('\n update_ToolsArea - START');
 
-		if(!onCanvasEditPage()) return;
+		if(!onCanvasEditPage()){
+			// debug('\t returning, !onCanvasEditPage');
+			return;
+		}
 
-		if(!_UI.redraw.redrawtools) return;
+		if(!_UI.redraw.redrawtools){
+			// debug('\t returning, !_UI.redraw.redrawtools');
+			return;
+		}
 
 		if(!getSelectedWorkItemID()){
+			// debug('\t returning, !getSelectedWorkItemID');
 			getEditDocument().getElementById("toolsarea_upperleft").innerHTML = '';
 			return;
 		}
@@ -156,6 +147,7 @@
 
 		var st = _UI.selectedtool;
 
+		// debug(`\t selected glyph ${selectedWorkItem.name} selected tool ${st}`);
 
 		// UPPER RIGHT
 		// Pop In/Out
@@ -255,6 +247,8 @@
 		getEditDocument().getElementById("toolsarea_upperleft").innerHTML = toolcontent;
 		getEditDocument().getElementById("toolsarea_upperright").innerHTML = viewcontent;
 		getEditDocument().getElementById("toolsarea_lowerleft").innerHTML = utilitiescontent;
+
+		// debug(' update_ToolsArea - END\n');
 	}
 
 	function clickTool(ctool){
@@ -445,48 +439,46 @@
 	}
 
 	function makeKeyboardShortcutsTable() {
-			var con = "<table style='margin:20px 40px 40px 0px;'><tr><td colspan=2>"+
+		return `<table style='margin:20px 40px 40px 0px;'><tr><td colspan=2>
 
-			"<table>"+
-			"<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Studio Project file</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>e</span></td><td>export an Open Type font file</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>g</span></td><td>export a SVG font file</td></tr>"+
-			"</table>"+
+		<table>
+		<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Studio Project file</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>e</span></td><td>export an Open Type font file</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>g</span></td><td>export a SVG font file</td></tr>
+		</table>
 
-			"</td></tr><tr><td>"+
+		</td></tr><tr><td>
 
-			"<br><table>"+
-			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>shapes and paths:</h3></td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse click</span></td><td>multi-select shapes or points</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>c</span></td><td>copy selected shape</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout' style='margin-bottom:5px;'>backspace</span><br>or <span class='keycallout'>delete</span></td><td>delete selected shape<br>or path point</td></tr>"+
-			"<tr><td class='keycol'>"+
-			"<span class='arrow' style='margin-right:24px;'>&#x21E7;</span><br>"+
-			"<span class='arrow'>&#x21E6;</span>"+
-			"<span class='arrow'>&#x21E9;</span>"+
-			"<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>"+
-			"</td><td>nudges the selected shape<br>or point "+_GP.projectsettings.spinnervaluechange+" em units</td></tr>"+
-			"</table>"+
+		<br><table>
+		<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>shapes and paths:</h3></td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse click</span></td><td>multi-select shapes or points</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>c</span></td><td>copy selected shape</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>
+		<tr><td class='keycol'><span class='keycallout' style='margin-bottom:5px;'>backspace</span><br>or <span class='keycallout'>delete</span></td><td>delete selected shape<br>or path point</td></tr>
+		<tr><td class='keycol'>
+		<span class='arrow' style='margin-right:24px;'>&#x21E7;</span><br>
+		<span class='arrow'>&#x21E6;</span>
+		<span class='arrow'>&#x21E9;</span>
+		<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>
+		</td><td>nudges the selected shape<br>or point ${_GP.projectsettings.spinnervaluechange} em units</td></tr>
+		</table>
 
-			"</td><td style='padding-left:40px;'>"+
+		</td><td style='padding-left:40px;'>
 
-			"<br><table>"+
-			"<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>v</span></td><td>select the shape edit arrow tool</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>b</span></td><td>select the path edit pen tool</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>&ndash;</span></td><td>zoom out the edit canvas</td></tr>"+
-			"<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>"+
-			"</table>"+
+		<br><table>
+		<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>
+		<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>v</span></td><td>select the shape edit arrow tool</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>b</span></td><td>select the path edit pen tool</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>&ndash;</span></td><td>zoom out the edit canvas</td></tr>
+		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>
+		</table>
 
-			"</td></tr></table>";
-
-			return con;
+		</td></tr></table>`;
 	}
 
 
@@ -505,8 +497,6 @@
 		// debug('\t split: ' + split.left + ' | ' + split.right);
 		// debug(`\t view: ${json(v, true)}`);
 
-		var t = (_GP.projectsettings.colors.systemguidetransparency);
-		var color = 'rgb(204,81,0)';
 
 		clearCanvasHotspots();
 
@@ -517,8 +507,6 @@
 
 			// debug(`\t leftdistance: ${leftdistance}`);
 			
-			drawVerticalLine(v.dx-(leftdistance*v.dz), false, color, t);
-
 			_UI.contextglyphs.leftseq = new GlyphSequence({
 				glyphstring:split.left, 
 				scale: v.dz,
@@ -599,7 +587,10 @@
 	}
 
 	function drawContextGlyphLeftLineExtras(char, seq) {
-
+		var alpha = transparencyToAlpha(_GP.projectsettings.colors.systemguidetransparency);
+		var color = RGBAtoRGB('rgb(204,81,0)', alpha);
+		drawVerticalLine((char.view.dx*char.view.dz), false, color);
+		
 		var kern = calculateKernOffset(seq.glyphstring[seq.glyphstring.length-1], getSelectedWorkItemChar());
 
 		if(kern) {
@@ -608,7 +599,7 @@
 			kern *= -1;
 			var rightx = selwi.isautowide? kern-selwi.getLSB() : kern;
 			rightx = v.dx + (rightx * v.dz);
-			var texty = sy_cy(_GP.projectsettings.descent-260);
+			var texty = sy_cy(_GP.projectsettings.descent-60);
 
 			drawGlyphKernExtra(-kern, rightx, texty, v.dz);
 		}
@@ -624,11 +615,10 @@
 			var rightx = selwi.getAdvanceWidth();
 			if(selwi.isautowide) rightx -= selwi.getLSB();
 			rightx = v.dx + (rightx * v.dz);
-			var texty = sy_cy(_GP.projectsettings.descent-260);
+			var texty = sy_cy(_GP.projectsettings.descent-60);
 
 			drawGlyphKernExtra(kern, rightx, texty, v.dz);
 		}
-		
 	}
 
 	function drawContextGlyphExtras(char) {
@@ -653,16 +643,15 @@
 			var rightx = currx + advanceWidth;
 			var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
 			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
-			var texty = sy_cy(_GP.projectsettings.descent-260);
+			var texty = sy_cy(_GP.projectsettings.descent-60);
 
 
 			// Draw the glyph name
 			var gname = char.glyph? char.glyph.getName() : getGlyphName(charsToHexArray(char.char));
 			gname = gname.replace(/latin /i, '');
-			drawGlyphNameExtra(gname, currx, texty, advanceWidth, color, char);
+			drawGlyphNameExtra(gname, currx, texty, advanceWidth, color, char.char);
 
 			// Draw vertical lines
-			drawVerticalLine(currx, false, color);
 			drawVerticalLine(rightx, false, color);
 
 			// Draw kern notation
@@ -673,11 +662,19 @@
 	}
 
 	function drawGlyphNameExtra(text, currx, texty, advanceWidth, color, regHotspot) {
+		// debug('\n drawGlyphNameExtra - START');
+		// debug(`\t ${text} passed regHotspot ${regHotspot}`);
+
 		var ctx = _UI.glypheditctx;
 		var textw = ctx.measureText(text).width;
 		var textx = currx + ((advanceWidth - textw) / 2); // center the glyph name
 		
 		ctx.font = '12px tahoma, verdana, sans-serif';
+		
+		ctx.strokeStyle = 'white';
+		ctx.lineWidth = 10;
+		ctx.strokeText(text, textx, texty);
+
 		ctx.fillStyle = color;
 		ctx.fillText(text, textx, texty);
 	
@@ -719,6 +716,14 @@
 		var textwidth = ctx.measureText(text).width;
 		var textx = rightx - (((kern*-1*scale) - textwidth)/2) - textwidth;
 
+		ctx.strokeStyle = color;
+		drawVerticalLine((rightx + (kern*scale)), false, color);
+		
+		ctx.strokeStyle = 'white';
+		ctx.lineWidth = 10;
+		ctx.miterLimit = 1;
+		ctx.strokeText(text, textx, (texty + (offset*4)));		
+		
 		ctx.fillText(text, textx, (texty + (offset*4)));		
 	}
 
@@ -747,6 +752,7 @@
 //-------------------------------
 
 	function registerCanvasHotspot(hotspot) { _UI.canvashotspots.push(hotspot); }
+
 	function clearCanvasHotspots() { _UI.canvashotspots = []; }
 
 	function isHotspotHere(cx, cy) {
@@ -812,10 +818,13 @@
 		v.dx += (v.dz * delta * flipper);
 		v.dx += (v.dz * kern * flipper);
 
-		_UI.contextglyphs[gid] = ctxg;
+		getGlyph(gid, true).contextglyphs = ctxg;
 		selectGlyph(gid);
 		setView(v);
 
+		_UI.redraw.redrawtools = true;
+		update_ToolsArea();
+		
 		// debug(' hotspotNavigateToGlyph - END\n');
 	}
 
@@ -1513,6 +1522,7 @@
 		color = color || 'rgb(0,0,0)';
 
 		ctx.strokeStyle = color;
+		ctx.lineWidth = 1;
 		y = y.makeCrisp();
 		ctx.beginPath();
 		ctx.moveTo(0, y);
@@ -1526,6 +1536,7 @@
 		color = color || 'rgb(0,0,0)';
 
 		ctx.strokeStyle = color;
+		ctx.lineWidth = 1;
 		x = x.makeCrisp();
 		ctx.beginPath();
 		ctx.moveTo(x, 0);
