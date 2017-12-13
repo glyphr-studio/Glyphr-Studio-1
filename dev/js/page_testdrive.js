@@ -38,7 +38,7 @@
 				xmin: 10,
 				xmax: 790,
 				ymin: 10 + (_GP.projectsettings.ascent * td.fontscale),
-				ymax: 690
+				ymax: false
 			},
 			scale: td.fontscale,
 			drawPageExtras: drawTestDrivePageExtras,
@@ -283,7 +283,7 @@
 			xmin: 10,
 			xmax: 790,
 			ymin: 10 + (_GP.projectsettings.ascent * td.fontscale),
-			ymax: 400
+			ymax: false
 		});
 		document.getElementById('roughptsize').value = (newval*0.75);
 		document.getElementById('tdtextarea').style.fontSize = ((newval*0.75) + 'pt');

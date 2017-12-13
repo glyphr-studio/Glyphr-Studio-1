@@ -203,9 +203,9 @@
 		ctxg += '<b>Context Glyphs</b> are letters you can display around the glyph you are currently editing.<br><br>';
 		ctxg += checkUI('_GP.projectsettings.showcontextglyphguides', _GP.projectsettings.showcontextglyphguides, true);
 		ctxg += '<label style="margin-left:10px; position:relative; top:-6px;" for="showcontextglyphguides">show guides</label><br>';
-		ctxg += 'glyph ' + sliderUI('contextglyphtransparency');
+		ctxg += 'glyph ' + sliderUI('contextglyphtransparency', 'contextglyphtransparency_dropdown', true, false);
 		ctxg += '<br/>';
-		ctxg += 'guide ' + sliderUI('systemguidetransparency');
+		ctxg += 'guide ' + sliderUI('systemguidetransparency', 'systemguidetransparency_dropdown', true, false);
 		ctxg += '</div>';
 		ctxg += '<input type="text" id="contextglyphsinput" oninput="updateContextGlyphs();" ';
 		ctxg += 'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ';
@@ -634,14 +634,14 @@
 		// debug(char.glyph);
 
 		var ps = _GP.projectsettings;
+		var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
 		
-		if(ps.showcontextglyphguides){
+		if(ps.showcontextglyphguides && alpha){
 			var ctx = _UI.glypheditctx;
 			var view = getView();
 			var advanceWidth = char.width * view.dz;
 			var currx = (char.view.dx*view.dz);
 			var rightx = currx + advanceWidth;
-			var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
 			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
 			var texty = sy_cy(_GP.projectsettings.descent-60);
 

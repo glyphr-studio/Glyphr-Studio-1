@@ -1060,19 +1060,26 @@
 		return re;
 	}
 
-	function sliderUI(varname) {
+	function sliderUI(varname, id, rdpanels, rdtools) {
+		rdpanels = rdpanels || false;
+		rdtools = rdtools || false;
+
 		var psct = _GP.projectsettings.colors[varname];
 		var re = 'transparency:<input type="range" min="0" max="100" value="'+psct+'" step="1" ';
-		re += 'oninput="updateTransparency(\''+varname+'\', this.value);"/>';
-		re += '<span id="'+varname+'">'+psct+'</span>%';
+		re += 'oninput="updateTransparency(\''+varname+'\', \''+id+'\', this.value, '+rdpanels+', '+rdtools+');"/>';
+		re += '<span id="'+id+'">'+psct+'</span>%';
 		
 		return re;
 	}
 
-	function updateTransparency(id, value) {
-		_GP.projectsettings.colors[id] = value;
+	function updateTransparency(varname, id, value, rdpanels, rdtools) {
+		rdpanels = rdpanels || false;
+		rdpanels = rdpanels && _UI.current_panel === 'npGuides';
+		rdtools = rdtools || false;
+
+		_GP.projectsettings.colors[varname] = value;
 		document.getElementById(id).innerHTML = value;
-		redraw({calledby:'updateTransparency', redrawpanels: false, redrawtools: false});
+		redraw({calledby:'updateTransparency', redrawpanels: rdpanels, redrawtools: rdtools});
 	}
 
 	function helpUI(message){

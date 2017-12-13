@@ -16,11 +16,11 @@
 
 		// Version
 		thisGlyphrStudioVersion: 'Version 1.09',
-		thisGlyphrStudioVersionNum: '1.09.00',
-		thisGlyphrStudioVersionDate: 1509400935000,
+		thisGlyphrStudioVersionNum: '1.09.01',
+		thisGlyphrStudioVersionDate: 0,
 
 		// Internal Dev Stuff
-		devmode: false, 					// global switch for all the stuff below
+		devmode: true, 					// global switch for all the stuff below
 		dev_sample_project: 'merriweathersans', 		// if sampleproject is present, load it and skip open project experience
 		dev_current_page: 'glyph edit', 			// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel

@@ -40,17 +40,17 @@
 			'<tr><td style="width:20px">' + checkUI('_UI.showovershoots', _UI.showovershoots, true) + '</td>' +
 			'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+ps.overshoot+' em units)</label></td></tr>' +
 			// '<td colspan="2">grid transparency:<input type="range" min="0" max="100" value="'+ps.colors.gridtransparency+'" step="1" oninput="updateTransparency(\'gridtransparency\', this.value);"/><span id="gridtransparency">'+ps.colors.gridtransparency+'</span>%</td>'+sliderUI('gridtransparency')+'</tr>'+
-			'<td colspan="2">grid '+sliderUI('gridtransparency')+'</td></tr>'+
+			'<td colspan="2">grid '+sliderUI('gridtransparency', 'gridtransparency_panel', false, true)+'</td></tr>'+
 			'</table>';
 
 		if(_UI.current_page !== 'kerning'){
 			content += '<br><h3 style=" margin-bottom:0px;">system guides</h3>';
 			// content += 'transparency:<input type="range" min="0" max="100" value="'+ps.colors.systemguidetransparency+'" step="1" oninput="updateTransparency(\'systemguidetransparency\', this.value);"/><span id="systemguidetransparency">'+ps.colors.systemguidetransparency+'</span>%<br><br>';
-			content += 'guide ' + sliderUI('systemguidetransparency') + '<br><br>';
+			content += 'guide ' + sliderUI('systemguidetransparency', 'systemguidetransparency_panel', false, true) + '<br><br>';
 			content += system;
 			content += '<br><h3 style=" margin-bottom:0px;">custom guides</h3>';
 			// content += 'transparency:<input type="range" min="0" max="100" value="'+ps.colors.customguidetransparency+'" step="1" oninput="updateTransparency(\'customguidetransparency\', this.value);"/><span id="customguidetransparency">'+ps.colors.customguidetransparency+'</span>%<br><br>';
-			content += 'guide ' + sliderUI('customguidetransparency') + '<br><br>';
+			content += 'guide ' + sliderUI('customguidetransparency', 'customguidetransparency_panel', false, true) + '<br><br>';
 			content += user;
 			content += '<br><button onclick="newGuide();">new guide</button>';
 		}
