@@ -506,13 +506,13 @@
 			leftdistance += calculateKernOffset(split.left.charAt(split.left.length-1), currGlyphChar);
 
 			// debug(`\t leftdistance: ${leftdistance}`);
-			
+
 			_UI.contextglyphs.leftseq = new GlyphSequence({
-				glyphstring:split.left, 
+				glyphstring:split.left,
 				scale: v.dz,
 				drawLineExtras:drawContextGlyphLeftLineExtras,
 				drawGlyphExtras:drawContextGlyphExtras,
-				drawGlyph:drawContextGlyph, 
+				drawGlyph:drawContextGlyph,
 				maxes: {
 					xmin: (v.dx - (leftdistance*v.dz)),
 					ymin: (v.dy)
@@ -530,11 +530,11 @@
 			// debug(`\t rightdistance: ${rightdistance}`);
 
 			_UI.contextglyphs.rightseq = new GlyphSequence({
-				glyphstring:split.right, 
+				glyphstring:split.right,
 				scale: v.dz,
 				drawLineExtras:drawContextGlyphRightLineExtras,
 				drawGlyphExtras:drawContextGlyphExtras,
-				drawGlyph:drawContextGlyph, 
+				drawGlyph:drawContextGlyph,
 				maxes: {
 					xmin:(v.dx + (rightdistance*v.dz)),
 					ymin: (v.dy)
@@ -577,7 +577,7 @@
 			if(g){
 				advanceWidth += g.getAdvanceWidth();
 				if(a[i+1]) advanceWidth += calculateKernOffset(v, a[i+1]);
-			
+
 			} else {
 				advanceWidth += _GP.projectsettings.upm*1 / 2;
 			}
@@ -590,7 +590,7 @@
 		var alpha = transparencyToAlpha(_GP.projectsettings.colors.systemguidetransparency);
 		var color = RGBAtoRGB('rgb(204,81,0)', alpha);
 		drawVerticalLine((char.view.dx*char.view.dz), false, color);
-		
+
 		var kern = calculateKernOffset(seq.glyphstring[seq.glyphstring.length-1], getSelectedWorkItemChar());
 
 		if(kern) {
@@ -635,7 +635,7 @@
 
 		var ps = _GP.projectsettings;
 		var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
-		
+
 		if(ps.showcontextglyphguides && alpha){
 			var ctx = _UI.glypheditctx;
 			var view = getView();
@@ -661,30 +661,31 @@
 		// debug(' drawContextGlyphExtras - END\n');
 	}
 
-	function drawGlyphNameExtra(text, currx, texty, advanceWidth, color, regHotspot) {
+	function drawGlyphNameExtra(text, currx, topy, advanceWidth, color, regHotspot) {
 		// debug('\n drawGlyphNameExtra - START');
 		// debug(`\t ${text} passed regHotspot ${regHotspot}`);
 
 		var ctx = _UI.glypheditctx;
 		var textw = ctx.measureText(text).width;
 		var textx = currx + ((advanceWidth - textw) / 2); // center the glyph name
-		
+		var texty = topy + 22;
+
 		ctx.font = '12px tahoma, verdana, sans-serif';
-		
+
 		ctx.strokeStyle = 'white';
 		ctx.lineWidth = 10;
 		ctx.strokeText(text, textx, texty);
 
 		ctx.fillStyle = color;
 		ctx.fillText(text, textx, texty);
-	
+
 		// Register hotspot
 		if(regHotspot){
 			registerCanvasHotspot({
 				target:{
-					xmin:currx, 
-					xmax:(currx + advanceWidth), 
-					ymin:texty-20, 
+					xmin:currx,
+					xmax:(currx + advanceWidth),
+					ymin:texty-20,
 					ymax:(texty+20)
 				},
 				underline:{
@@ -696,20 +697,21 @@
 			});
 		}
 	}
-	
-	function drawGlyphKernExtra(kern, rightx, texty, scale) {
+
+	function drawGlyphKernExtra(kern, rightx, topy, scale) {
 		var desc = _GP.projectsettings.descent;
 		var ctx = _UI.glypheditctx;
-		var offset = 20*scale;
+		var offset = 40;
 		var color = RGBAtoRGB('rgb(255,0,255)', transparencyToAlpha(_GP.projectsettings.colors.systemguidetransparency));
+		var barheight = Math.max((scale * 10), 1);
 
 		ctx.font = '12px tahoma, verdana, sans-serif';
 		ctx.fillStyle = color;
 		ctx.fillRect(
 			rightx,
-			(texty + offset),
+			(topy + offset),
 			(kern * scale),
-			(offset * 0.5)
+			barheight
 		);
 
 		var text = 'kern: ' + kern;
@@ -718,13 +720,16 @@
 
 		ctx.strokeStyle = color;
 		drawVerticalLine((rightx + (kern*scale)), false, color);
-		
+
 		ctx.strokeStyle = 'white';
 		ctx.lineWidth = 10;
 		ctx.miterLimit = 1;
-		ctx.strokeText(text, textx, (texty + (offset*4)));		
-		
-		ctx.fillText(text, textx, (texty + (offset*4)));		
+
+		// ctx.strokeText(text, textx, (topy + (offset*4)));
+		// ctx.fillText(text, textx, (topy + (offset*4)));
+
+		ctx.strokeText(text, textx, (topy + offset + barheight + 22));
+		ctx.fillText(text, textx, (topy + offset + barheight + 22));
 	}
 
 	function drawContextGlyph(char) {
@@ -768,7 +773,7 @@
 				break;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -807,14 +812,14 @@
 
 		var str = ctxg.substring(p1, p2);
 		// debug(`\t substring from ${p1} to ${p2} yeilds ${str}`);
-		
+
 		var delta = getGlyphSequenceAdvanceWidth(str);
 
 		// debug(`\t advance width: ${delta} screen pixels: ${sx_cx(delta)}`);
 		// v.dx += sx_cx(delta);
 		var kern = calculateKernOffset(leftchar, rightchar);
 		// debug(`\t kern offset ${leftchar} and ${rightchar} is ${kern}`);
-		
+
 		v.dx += (v.dz * delta * flipper);
 		v.dx += (v.dz * kern * flipper);
 
@@ -824,7 +829,7 @@
 
 		_UI.redraw.redrawtools = true;
 		update_ToolsArea();
-		
+
 		// debug(' hotspotNavigateToGlyph - END\n');
 	}
 
@@ -1054,7 +1059,7 @@
 
 	function getSelectedWorkItemChar() {
 		var swiid = getSelectedWorkItemID();
-		return hexToChars(swiid);	
+		return hexToChars(swiid);
 	}
 
 	function getSelectedWorkItemName(){

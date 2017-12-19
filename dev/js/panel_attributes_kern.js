@@ -70,7 +70,8 @@
 	function updateKernValue(id, val) {
 		var k = _GP.kerning[id];
 		k.value = val;
-		selectKern(id);
+		// selectKern(id);
+		getEditDocument().getElementById(id).value = val;
 		history_put(k.getName() + ' value: ' + val);
 	}
 

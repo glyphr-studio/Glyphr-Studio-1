@@ -33,8 +33,6 @@
 			updateCursor();
 			redraw({calledby:'Event Handler - Keyup Spacebar for pan toggle', redrawcanvas:false});
 		}
-
-
 	}
 
 	function keypress(event){
@@ -252,17 +250,20 @@
 		var em = getEditMode();
 
 		if(em === 'kern'){
-			getSelectedKern().value += (mx || my);
+			var nv = getSelectedKern().value + (mx || my);
+			updateKernValue(getSelectedKernID(), nv);
+			redraw({calledby:'Nudge kern value', redrawpanels: false})
+
 		} else if(em === 'arrow'){
-				_UI.ms.shapes.updateShapePosition(mx, my);
+			_UI.ms.shapes.updateShapePosition(mx, my);
+			redraw({calledby:'Nudge shape'});
+
 		} else if(em === 'pen'){
-				_UI.ms.points.getMembers().forEach(function(o, i) {
-					o.updatePathPointPosition('P', mx, my);
-				});
+			_UI.ms.points.getMembers().forEach(function(o, i) {
+				o.updatePathPointPosition('P', mx, my);
+			});
+			redraw({calledby:'Nudge path point'});
 		}
-
-		redraw({calledby:'Nudge'});
-
 	}
 
 // end of file

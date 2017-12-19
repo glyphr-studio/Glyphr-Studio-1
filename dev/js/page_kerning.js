@@ -49,6 +49,9 @@
 			var ctx = _UI.glypheditctx;
 			var v = getView();
 			// debug('\t Kern Pair ' + selkern.leftgroup[0] + ' | ' + selkern.rightgroup[0]);
+			
+			// drawGlyphKernExtra(kern, rightx, texty, scale)
+			drawGlyphKernExtra(selkern.value, v.dx, sy_cy(_GP.projectsettings.descent-60), v.dz);
 
 			// DRAW ALL RIGHT HAND GROUP
 			var ra = Math.max(0.25, (1 / selkern.rightgroup.length));

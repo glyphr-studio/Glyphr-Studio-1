@@ -748,6 +748,7 @@ function Tool_Kern(){
 		this.dragging = false;
 		this.deltax = 0;
 		history_put('Kern Adjustment: ' + getSelectedKern().value);
+		// redraw({calledby:'Kern.mouseup'});
 	};
 
 	this.mousemove = function (ev) {
@@ -755,9 +756,9 @@ function Tool_Kern(){
 			// Moving shapes if mousedown
 			var sk = getSelectedKern();
 			var val = (1*sk.value);
-			sk.value = val + (1*(_UI.eventhandlers.mousex - this.deltax)/getView().dz);
+			updateKernValue(getSelectedKernID(), round(val + (1*(_UI.eventhandlers.mousex - this.deltax)/getView().dz)));
 			this.deltax = (_UI.eventhandlers.mousex);
-			redraw({calledby:'Kern.mousemove'});
+			redraw({calledby:'Kern.mousemove', redrawpanels:false});
 		}
 	};
 }

@@ -67,6 +67,7 @@
 			// Draw Line
 			// debug('\t start: ' + JSON.stringify(start) + ' / end: ' + JSON.stringify(end));
 			ctx.strokeStyle = color;
+			ctx.globalAlpha = 1;
 			ctx.lineWidth = 1;
 			if(isval(delta)) ctx.strokeStyle = shiftColor(color, 0.6, true);
 			ctx.beginPath();
