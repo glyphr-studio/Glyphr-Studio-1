@@ -5,12 +5,15 @@
 **/
 
 
+	var shiftModifier = false;
+
 	function keyup(event){
+		shiftModifier = false;
 		var kc = getKeyFromEvent(event);
 		// debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
 		// debug(event);
-		
+
 		if(!onCanvasEditPage()) return;
 
 		var eh = _UI.eventhandlers;
@@ -44,30 +47,41 @@
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
 		var kc = getKeyFromEvent(event);
-        var ctrlModifier = event.ctrlKey || event.metaKey || event.which == 17;
-        
+		var ctrlModifier = event.ctrlKey || event.metaKey || event.which == 17;
+		if (event.which === 16) {
+			shiftModifier = true;
+		}
+
 		// debug('Key Press:\t' + kc + ' from ' + event.which);
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
 		// debug(event);
 
 
-		// s
-		if((ctrlModifier) && kc==='s'){
+		// shift s (save as)
+		if(ctrlModifier && shiftModifier && kc==='s'){
 			event.preventDefault();
-			saveGlyphrProjectFile();
+			shiftModifier = false;
+			saveGlyphrProjectFile(false); // save as always
+		}
+
+		// s
+		else if((ctrlModifier) && kc==='s'){
+			event.preventDefault();
+			shiftModifier = false;
+			saveGlyphrProjectFile(true); // overwrite if electron
 		}
 
 		// g
 		if((ctrlModifier) && kc==='g'){
 			event.preventDefault();
-			showToast('Exporting SVG font file...'); 
+			showToast('Exporting SVG font file...');
 			setTimeout(ioSVG_exportSVGfont, 500);
 		}
 
 		// e
 		if((ctrlModifier) && kc==='e'){
 			event.preventDefault();
-			showToast('Exporting OTF font file...'); 
+			showToast('Exporting OTF font file...');
 			setTimeout(ioOTF_exportOTFfont, 500);
 		}
 

@@ -1,7 +1,7 @@
 // start of file
 /**
 	Glyphr Studio Project
-	A default project in Object form for easy new 
+	A default project in Object form for easy new
 	project creation.
 **/
 
@@ -16,7 +16,7 @@
 			versionnum: _UI.thisGlyphrStudioVersionNum,	// project number version
 			initialversionnum: _UI.thisGlyphrStudioVersionNum,	// project number version that survives upgrades
 			projectid: false,		// A unique ID for this project
-			
+
 			// Font Metrics
 			name: 'My Font',		// project name (can be different than font names)
 			upm: 1000,			// Units Per Em - (emsize) how tall normal cap letters are
@@ -86,7 +86,7 @@
 			description: '',
 			copyright: '',
 			trademark: '',
-			
+
 			/* SVG PROPERTIES */
 			svg: '{{sectionbreak}}',
 			// 'units_per_em': 0,
@@ -130,10 +130,20 @@
 		this.components = {};
 	}
 
-	function saveGlyphrProjectFile(){
+	function saveGlyphrProjectFile(overwrite){
 		// debug('SAVEGLYPHRPROJECTVILE');
 		// debug('\t ' + _GP.projectsettings.formatsavefile);
-		
+
+		// desktop overwrite / save as logic
+		if (window && window.process && window.process.type) {
+			if (overwrite) {
+				window.saveFileOverwrite = true;
+			}
+			else {
+				window.saveFileOverwrite = false;
+			}
+		}
+
 		var savedata = cloneForSaveData(_GP);
 
 		if(_GP.projectsettings.formatsavefile) savedata = json(savedata);
@@ -155,9 +165,9 @@
 				if (cobj[i] && typeof cobj[i] === 'object') {
 					newObj[i] = cloneForSaveData(cobj[i]);
 				} else newObj[i] = cobj[i];
-			}		
+			}
 		}
-		return newObj;	
+		return newObj;
 	}
 
 	function genProjectID() {
