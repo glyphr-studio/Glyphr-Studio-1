@@ -91,7 +91,7 @@
 		var save = '<div id="npSave"></div>';
 		save += '<div id="saveFormatFlyout" style="display:none;">';
 		save += '<div class="closeFormatFlyout" onclick="closeDialog();">&times</div>';
-		save += '<button onclick="saveGlyphrProjectFile(); closeDialog();">' +
+		save += '<button onclick="closeDialog(); showToast(\'Saving Glyphr Studio Project file...\'); setTimeout(saveGlyphrProjectFile, 500);">' +
 				makeIcon({'name':'button_npNav', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
 				'<span>Glyphr Studio Project File</span>' +
 			'</button>';
@@ -451,7 +451,7 @@
 
 		document.getElementById('npSave').innerHTML = '<table class="saveButtonTable">' +
 		'<tr><td style="border-right:1px solid rgb(204, 209, 214);">' +
-			'<button class="primarynavbutton" style="height:32px; width:38px; padding:4px 0px 0px 7px;" title="Save Glyphr Project File" onclick="saveGlyphrProjectFile();">' +
+			'<button class="primarynavbutton" style="height:32px; width:38px; padding:4px 0px 0px 7px;" title="Save Glyphr Project File" onclick="showToast(\'Saving Glyphr Studio Project file...\'); setTimeout(saveGlyphrProjectFile, 500);">' +
 				makeIcon({'name': 'button_npSave', 'size':24, 'color':savecolor, 'hovercolor':'white'}) +
 			'</button></td><td>' +
 			'<button class="primarynavbutton" style="height:36px; width:21px; text-align:left; padding:0px 0px 0px 4px;" title="Save File Format Options" onclick="toggleDialog_ExportOptions();">' +

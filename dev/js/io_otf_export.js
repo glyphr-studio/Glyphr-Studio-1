@@ -45,11 +45,7 @@
 				notdef.updateGlyphSize(delta, delta, true);
 			}
 
-			// debug('\t notdef glyph and path:');
-			// debug(notdef);
-
 			var ndpath = notdef.makeOpenTypeJSpath();
-			// debug(ndpath);
 
 			options.glyphs.push(new opentype.Glyph({
 				name: '.notdef',

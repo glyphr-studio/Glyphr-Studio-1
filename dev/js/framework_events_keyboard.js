@@ -85,6 +85,14 @@
 			setTimeout(ioOTF_exportOTFfont, 500);
 		}
 
+		// o
+		if((ctrlModifier) && kc==='o'){
+			debug('\t pressed Ctrl + O');
+			event.preventDefault();
+			
+			window.open("http://glyphrstudio.com/online", "_blank");
+		}
+
 		// q
 		// for dev mode clear console
 		if(_UI.devmode && (ctrlModifier) && kc==='q'){

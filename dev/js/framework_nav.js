@@ -509,6 +509,7 @@
 		navarr.push('about');
 		if(!_UI.popout){
 			navarr.push('_');
+			navarr.push('newproject');
 			navarr.push('feature');
 			navarr.push('email');
 			navarr.push('issue');
@@ -529,26 +530,36 @@
 
 			if(navarr[i]==='_'){
 				newsub += '<div style="height:12px;"></div>';
+			
 			} else if (navarr[i] === 'popin'){
 				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:32px; position:relative; left:-10px; top:-4px; padding:50px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
 					makeIcon({'name':'tool_popIn', 'color':'white', 'hovercolor':'white', 'size':20, 'width':24, 'height':24})+
 					'<span style="position:relative; top:-5px; margin-left:10px; color:white;">Pop In</span>'+
 					'</div>';
+			
 			} else if (navarr[i] === 'help'){
 				newsub += '<a href="http://help.glyphrstudio.com/" style="text-decoration:none; color:rgb(51, 56, 61);" target="_blank" class="navtargetbutton">'+
 					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
 					'help</a>';
+			
 			} else if (navarr[i] === 'email'){
-				newsub += ('<a href="mailto:mail@glyphrstudio.com?subject=Hi%20Glyphr%20Studio&amp;body='+genEmailContent()+'" target="_blank" class="navpanellink">email the glyphr studio team</a><br>');
+				newsub += ('<a href="mailto:mail@glyphrstudio.com?subject=Hi%20Glyphr%20Studio&amp;body='+genEmailContent()+'" target="_blank" class="navpanellink">Email the glyphr studio team</a><br>');
+			
+			} else if (navarr[i] === 'newproject'){
+				newsub += ('<a href="http://glyphrstudio.com/online" class="navpanellink" target="_blank">Open a new project (Ctrl + O)</a><br>');
+			
 			} else if (navarr[i] === 'feature'){
-				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target="_blank">suggest a feature or improvement</a><br>');
+				newsub += ('<a href="http://glyphrstudio.uservoice.com" class="navpanellink" target="_blank">Suggest a feature or improvement</a><br>');
+			
 			} else if (navarr[i] === 'issue'){
-				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target="_blank" class="navpanellink">create a new issue on github</a><br>');
-			} else if(navarr[i] === _UI.current_page){
+				newsub += ('<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target="_blank" class="navpanellink">Create a new issue on github</a><br>');
+			
+			} else if (navarr[i] === _UI.current_page){
 				iconname = 'nav_'+navarr[i].replace(' ','');
 				newsub += '<button class="'+bc+'" onclick="clickHamburger();">'+
 					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
 					navarr[i]+'</button>';
+			
 			} else {
 				iconname = 'nav_'+navarr[i].replace(' ','');
 				newsub += '<button class="'+bc+'" onclick="navigate({page:\''+navarr[i]+'\'});">'+

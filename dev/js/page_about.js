@@ -12,7 +12,7 @@
 		'<h2 style="margin-bottom:8px; margin-top:8px;">'+_UI.thisGlyphrStudioVersion+'</h2>' +
 		'<div style="margin-bottom:18px;">'+_UI.thisGlyphrStudioVersionNum+'<br>'+
 		'Last updated on ' + (new Date(_UI.thisGlyphrStudioVersionDate)).toDateString()+'. '+
-		'<a style="font-size:14px;" href="http://help.glyphrstudio.com/overview_updates.html" target="_blank">Find out WTF happend in this update.</a></div>'+
+		'<a style="font-size:14px;" href="http://help.glyphrstudio.com/overview_updates.html" target="_blank">Find out WTF happened in this update.</a></div>'+
 		'<table>'+
 		'<tr><td><i>Website: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="http://www.glyphrstudio.com" target="_blank">glyphrstudio.com</a> for all the info.</td></tr>' +
 		'<tr><td><i>Email: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="mailto:mail@glyphrstudio.com" target="blank">mail@glyphrstudio.com</a> with any questions, and we"d be happy to help out.</td></tr>' +

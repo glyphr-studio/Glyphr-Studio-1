@@ -242,7 +242,7 @@
 		if(onkern) toolcontent += kern;
 		if(onglyph || onlig) toolcontent += ctxg;
 
-		utilitiescontent += kbt;
+		if(_GP.projectsettings.showkeyboardtipsicon) utilitiescontent += kbt;
 
 		getEditDocument().getElementById("toolsarea_upperleft").innerHTML = toolcontent;
 		getEditDocument().getElementById("toolsarea_upperright").innerHTML = viewcontent;
@@ -431,7 +431,7 @@
 			con += '<table><tr><td style="vertical-align:top; padding:20px 10px 0px 0px;">'+
 				checkUI('_GP.projectsettings.showkeyboardtipsicon', _GP.projectsettings.showkeyboardtipsicon)+
 			'</td><td style="vertical-align:top; padding:20px 10px 0px 0px;">'+
-				'<label style="position:relative; top:-5px;" for="showkeyboardtipsicon">show the &nbsp;<span style="position:relative; top:6px;">'+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+'</span>&nbsp; button</label>'+
+				'<label style="position:relative; top:-5px;" for="showkeyboardtipsicon">show the &nbsp;<span style="position:relative; top:6px;">'+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+'</span>&nbsp; button on the edit canvas</label>'+
 			'</td></tr></table>';
 
 			openDialog(con);
@@ -439,44 +439,57 @@
 	}
 
 	function makeKeyboardShortcutsTable() {
-		return `<table style='margin:20px 40px 40px 0px;'><tr><td colspan=2>
+		return `<table style='margin:20px 40px 40px 0px;'>
+		<tr><td>
 
-		<table>
-		<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Studio Project file</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>e</span></td><td>export an Open Type font file</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>g</span></td><td>export a SVG font file</td></tr>
-		</table>
+			<br>
+			<table>
+				<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>s</span></td><td>save a Glyphr Studio Project file</td></tr>
+				<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>e</span></td><td>export an Open Type font file</td></tr>
+				<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>g</span></td><td>export a SVG font file</td></tr>
+			</table>
 
-		</td></tr><tr><td>
+		</td>
+		<td style='padding-left:40px;'>
+			
+			<br>
+			<table>
+			<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>o</span></td><td>open a new Glyphr Studio Project</td></tr>
+			</table>
 
-		<br><table>
-		<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>shapes and paths:</h3></td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse click</span></td><td>multi-select shapes or points</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>c</span></td><td>copy selected shape</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>
-		<tr><td class='keycol'><span class='keycallout' style='margin-bottom:5px;'>backspace</span><br>or <span class='keycallout'>delete</span></td><td>delete selected shape<br>or path point</td></tr>
-		<tr><td class='keycol'>
-		<span class='arrow' style='margin-right:24px;'>&#x21E7;</span><br>
-		<span class='arrow'>&#x21E6;</span>
-		<span class='arrow'>&#x21E9;</span>
-		<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>
-		</td><td>nudges the selected shape<br>or point ${_GP.projectsettings.spinnervaluechange} em units</td></tr>
-		</table>
+		</td></tr>
+		<tr><td>
+
+			<br>
+			<table>
+			<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>shapes and paths:</h3></td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse click</span></td><td>multi-select shapes or points</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>c</span></td><td>copy selected shape</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>v</span></td><td>paste shape</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>
+			<tr><td class='keycol'><span class='keycallout' style='margin-bottom:5px;'>backspace</span><br>or <span class='keycallout'>delete</span></td><td>delete selected shape<br>or path point</td></tr>
+			<tr><td class='keycol'>
+			<span class='arrow' style='margin-right:24px;'>&#x21E7;</span><br>
+			<span class='arrow'>&#x21E6;</span>
+			<span class='arrow'>&#x21E9;</span>
+			<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>
+			</td><td>nudges the selected shape<br>or point ${_GP.projectsettings.spinnervaluechange} em units</td></tr>
+			</table>
 
 		</td><td style='padding-left:40px;'>
 
-		<br><table>
-		<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>
-		<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>v</span></td><td>select the shape edit arrow tool</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>b</span></td><td>select the path edit pen tool</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>&ndash;</span></td><td>zoom out the edit canvas</td></tr>
-		<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>
-		</table>
+			<br>
+			<table>
+			<tr><td>&nbsp;</td><td><br><h3 style='margin-bottom:8px;'>edit canvas:</h3></td></tr>
+			<tr><td class='keycol'><span class='keycallout'>spacebar</span></td><td>pan the edit canvas</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>v</span></td><td>select the shape edit arrow tool</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>b</span></td><td>select the path edit pen tool</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>mouse wheel</span></td><td>zoom the edit canvas</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>+</span></td><td>zoom in the edit canvas</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>&ndash;</span></td><td>zoom out the edit canvas</td></tr>
+			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>0</span></td><td>reset edit canvas zoom</td></tr>
+			</table>
 
 		</td></tr></table>`;
 	}
