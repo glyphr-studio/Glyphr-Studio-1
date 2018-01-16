@@ -388,7 +388,7 @@
 		_GP = new GlyphrProject();
 
 		_GP.projectsettings.name = fn;
-		_GP.metadata.font_family = fn;
+		_GP.metadata.font_family = fn.substr(0, 31);
 
 		_GP.projectsettings.version =  _UI.thisGlyphrStudioVersion;
 		_GP.projectsettings.versionnum =  _UI.thisGlyphrStudioVersionNum;

@@ -14,7 +14,7 @@
 		var content = "<h1 class='pagetitle'>Font Settings</h1><div class='pagecontent textpage'>";
 
 		content += "<h2>Font Name</h2>";
-		content += "<input type='text' style='width:300px; padding:8px; font-size:1.2em; margin-bottom:20px;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value;'/><br>";
+		content += "<input type='text' style='width:300px; padding:8px; font-size:1.2em; margin-bottom:20px;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value.substr(0, 31);'/><span class='unit'>(max 31 characters)</span><br>";
 
 		content += "<h2>Glyph Proportions</h2>";
 

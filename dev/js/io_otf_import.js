@@ -302,7 +302,7 @@
 			ps.xheight = 1*getTableValue(font.tables.os2.sxHeight) || 400;
 			ps.overshoot = round(ps.upm / 100);
 
-			md.font_family = fname;
+			md.font_family = fname.substr(0, 31);
 			md.panose_1 = getTableValue(font.tables.os2.panose) || '0 0 0 0 0 0 0 0 0 0';
 			md.version = getTableValue(font.tables.head.fontRevision) || getTableValue(font.version) || getTableValue('Version 0.001');
 
