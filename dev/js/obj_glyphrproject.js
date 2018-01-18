@@ -12,24 +12,24 @@
 
 		this.projectsettings = {
 			// Internal Stuff
-			version: _UI.thisGlyphrStudioVersion,			// project version
-			versionnum: _UI.thisGlyphrStudioVersionNum,	// project number version
+			version: _UI.thisGlyphrStudioVersion,				// project version
+			versionnum: _UI.thisGlyphrStudioVersionNum,			// project number version
 			initialversionnum: _UI.thisGlyphrStudioVersionNum,	// project number version that survives upgrades
-			projectid: false,		// A unique ID for this project
+			projectid: false,									// A unique ID for this project
 
 			// Font Metrics
 			name: 'My Font',		// project name (can be different than font names)
-			upm: 1000,			// Units Per Em - (emsize) how tall normal cap letters are
+			upm: 1000,				// Units Per Em - (emsize) how tall normal cap letters are
 			ascent: 700,			// ascender
-			descent: -300,		// descender
-			capheight: 675,		// capital letter height
+			descent: -300,			// descender
+			capheight: 675,			// capital letter height
 			xheight: 400,			// lowercase letter height
 			linegap: 250,			// distance between lines
-			italicangle: 0,		// slant of glyphs, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
-			griddivisions: 10,	// how many squares of grid per emsize
-			overshoot: 10,		// overshoot for round glyphs
-			defaultlsb: 20,		// default left side bearing
-			defaultrsb: 20,		// default right side bearing
+			italicangle: 0,			// slant of glyphs, degrees from vertical counterclockwise, or negative for clockwise (ex: -15)
+			griddivisions: 10,		// how many squares of grid per emsize
+			overshoot: 10,			// overshoot for round glyphs
+			defaultlsb: 20,			// default left side bearing
+			defaultrsb: 20,			// default right side bearing
 			glyphrange: {			// canned and custom Unicode ranges
 				basiclatin: true,
 				latinsuppliment: false,
@@ -40,20 +40,21 @@
 			},
 
 			// UI stuff
-			pointsize: 7,					// path point square size
-			spinnervaluechange: 1,		// how much spinner controls change a value
-			renderpointssnappedtogrid: true, // OpenType.js requires all points be round numbers - project will still store decimals
-			combineshapesonexport: false,	// combine overlapping shapes of the same winding into one shape
-			maxcombineshapesonexport: 30, // If a glyph has more than this number of shapes, combine will not be attempted
-			showkeyboardtipsicon: true,	// button for keyboard tips on edit canvas
-			stoppagenavigation: true,		// asks to save on window close or refresh
-			formatsavefile: true,			// makes the JSON save file readable
-			showoutline: false,			// outline shapes when drawing
-			showfill: true,				// fill shapes when drawing
-			guides: {},					// user-defined guidelines
-			snaptogrid: false,			// snap to gridlines
-			snaptoguides: false,			// snap to guidelines
-			showcontextglyphguides: true,	// show horizontal guides & notations for context glyphs
+			pointsize: 7,						// path point square size
+			spinnervaluechange: 1,				// how much spinner controls change a value
+			renderpointssnappedtogrid: true, 	// OpenType.js requires all points be round numbers - project will still store decimals
+			combineshapesonexport: false,		// combine overlapping shapes of the same winding into one shape
+			maxcombineshapesonexport: 30,		// If a glyph has more than this number of shapes, combine will not be attempted
+			svgprecision: 3,					// Decimal precision when creating SVG path data
+			showkeyboardtipsicon: true,			// button for keyboard tips on edit canvas
+			stoppagenavigation: true,			// asks to save on window close or refresh
+			formatsavefile: true,				// makes the JSON save file readable
+			showoutline: false,					// outline shapes when drawing
+			showfill: true,						// fill shapes when drawing
+			guides: {},							// user-defined guidelines
+			snaptogrid: false,					// snap to gridlines
+			snaptoguides: false,				// snap to guidelines
+			showcontextglyphguides: true,		// show horizontal guides & notations for context glyphs
 			colors: {
 				glyphfill: 'rgb(0,0,0)',			// shape base color
 				glyphoutline: 'rgb(0,0,0)',			// shape outline color

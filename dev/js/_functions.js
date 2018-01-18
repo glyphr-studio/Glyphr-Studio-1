@@ -23,6 +23,7 @@
 		// Navigate
 		if(_UI.devmode){
 			//debug('\t >>> DEV NAV - to ' + _UI.dev_current_page);
+			document.title = '░▒▓█ GSDEVMODE █▓▒░';
 
 			if(_UI.dev_sample_project){
 				//debug('\t >>> Using sample project');
@@ -420,7 +421,9 @@
 	function setProjectAsSaved(){
 		_UI.projectsaved = true;
 
-		if(_UI.popout) {
+		if(_UI.devmode){
+			document.title = '░▒▓█ GSDEVMODE █▓▒░';
+		} else if(_UI.popout) {
 			document.title = 'Glyphr Studio - Tools';
 			_UI.popout.document.title = 'Glyphr Studio - Canvas';
 		} else {
@@ -433,7 +436,9 @@
 	function setProjectAsUnsaved(){
 		_UI.projectsaved = false;
 
-		if(_UI.popout) {
+		if(_UI.devmode){
+			document.title = '░▒▓█ GSDEVM❖DE █▓▒░';
+		} else if(_UI.popout) {
 			document.title = ' ❖ Glyphr Studio - Tools';
 			_UI.popout.document.title = ' ❖ Glyphr Studio - Canvas';
 		} else {

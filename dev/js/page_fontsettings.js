@@ -13,10 +13,10 @@
 
 		var content = "<h1 class='pagetitle'>Font Settings</h1><div class='pagecontent textpage'>";
 
-		content += "<h2>Font Name</h2>";
-		content += "<input type='text' maxlength=31 style='width:300px; padding:8px; font-size:1.2em; margin-bottom:20px;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value.substr(0, 31);'/><span class='unit'>(max 31 characters)</span><br>";
+		content += "<h1>Font Name</h1>";
+		content += "<input type='text' maxlength=31 style='width:300px; padding:8px; font-size:1.2em;' value='"+meta.font_family+"' onchange='_GP.metadata.font_family = this.value.substr(0, 31);'/><span class='unit'>(max 31 characters)</span>";
 
-		content += "<h2>Glyph Proportions</h2>";
+		content += "<h1>Glyph Proportions</h1>";
 
 		content += "<h3>Key Metrics</h3>"+
 					"<table class='settingstable'>"+
@@ -25,20 +25,20 @@
 					"<tr><td>x Height: </td><td><input type='number' id='metric-xheight' value='"+ps.xheight+"' onchange='_GP.projectsettings.xheight = Math.abs(parseInt(this.value));'></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' value='"+ps.descent+"' onchange='_GP.projectsettings.descent = Math.abs(parseInt(this.value))*-1;'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td><b>Total Units per Em: </b></td><td><input type='number' value='"+ps.upm+"' onchange='_GP.projectsettings.upm = Math.abs(parseInt(this.value));'/></td><td><span class='unit'>(em units)</span></td></tr>" +
-					"</table><br>";
+					"</table>";
 /*
 		content += "<h3>Line Gap</h3>" +
 					"This is the amount of vertical space between glyphs on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
 					"<table class='settingstable'>"+
 					"<tr><td>Line Gap: </td><td><input type='number' value='"+ps.linegap+"' onchange='_GP.projectsettings.linegap = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
-					"</table><br>";
+					"</table>";
 */
 		content += "<h3>Default Side Bearings</h3>" +
 					"Side Bearings are the amount of blank space that is added to the left or right of glyphs when they are displayed.  This metric can be set individually per glyph, but will default to this value if not set. "+
 					"<table class='settingstable'>"+
 					"<tr><td>Left Side Bearing: </td><td><input type='number' value='"+ps.defaultlsb+"' onchange='_GP.projectsettings.defaultlsb = Math.abs(parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
 					"<tr><td>Right Side Bearing: </td><td><input type='number' value='"+ps.defaultrsb+"' onchange='_GP.projectsettings.defaultrsb = Math.abs(parseInt(this.value)) || 0;'></td><td><span class='unit'>(em units)</span></td></tr>"+
-					"</table><br>";
+					"</table>";
 
 
 
@@ -47,11 +47,11 @@
 		content += "<h1>Glyph Ranges</h1>"+
 					"Glyph ranges are based on the <a href='http://en.wikipedia.org/wiki/Unicode' target='_blank'>Unicode Standard</a>, which assigns a <a href='http://en.wikipedia.org/wiki/Hexadecimal' target='_blank'>hexadecimal number</a> to all possible glyphs in a font. ";
 
-		content += "<br><br><h3>Standard Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
+		content += "<h3>Standard Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
 					"The most common glyph sets are built into Glyphr Studio, and can be toggled with the checkboxes below.";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.glyphrange.basiclatin", ps.glyphrange.basiclatin)+"</td>"+
+					"<td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.basiclatin", ps.glyphrange.basiclatin)+"</td>"+
 					"<td><label for='basiclatin'><b>Basic Latin</b> - Unicode glyphs 0x0020 through 0x007E</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					var bl = _UI.basiclatinorder;
@@ -59,14 +59,14 @@
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td style='vertical-align:top;'>"+checkUI("_GP.projectsettings.glyphrange.latinsuppliment", ps.glyphrange.latinsuppliment)+"</td>"+
+					"<td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.latinsuppliment", ps.glyphrange.latinsuppliment)+"</td>"+
 					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode glyphs 0x00A0 through 0x00FF</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.glyphrange.latinextendeda", ps.glyphrange.latinextendeda)+"</td>"+
+					"<td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.latinextendeda", ps.glyphrange.latinextendeda)+"</td>"+
 					"<td><label for='latinextendeda'><b>Latin Extended-A</b> - Unicode glyphs 0x0100 through 0x017F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){ content += (hexToChars(a) + " "); }
@@ -74,28 +74,29 @@
 
 
 		content += "<table class='settingstable'><tr>"+
-					"<td>"+checkUI("_GP.projectsettings.glyphrange.latinextendedb", ps.glyphrange.latinextendedb)+"</td>"+
+					"<td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.latinextendedb", ps.glyphrange.latinextendedb)+"</td>"+
 					"<td><label for='latinextendedb'><b>Latin Extended-B</b> - Unicode glyphs 0x0180 through 0x024F</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
 					for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){ content += (hexToChars(b) + " "); }
 		content += "</div></td></tr></table>";
 
-		content += "<br><h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
+		content += "<h3>Custom Glyph Ranges&ensp;"+helpUI(unicodeInputHelp())+"</h3>"+
 					"Additional glyph ranges above 0x024F can be included here. "+
 					"A nice overview of glyph ranges can be found at <a href='https://en.wikipedia.org/wiki/Unicode_block' target='_blank'>Wikipedia's Unicode Block page</a>.<br>" +
 					"Custom glyph ranges are inclusive, must be unique (non-overlapping), must be greater than 0x024F and less than 0xFFFF.<br><br>"+
-					"<table class='settingstable'><tr><td>"+checkUI("_GP.projectsettings.glyphrange.filternoncharpoints", ps.glyphrange.filternoncharpoints)+"</td><td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
+					"<table class='settingstable'><tr><td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.filternoncharpoints", ps.glyphrange.filternoncharpoints)+"</td>"+
+					"<td><label for='filternoncharpoints'>Filter out reserved Unicode code points.</label></td></tr></table>"+
 					"<table class='settingstable'><tr>"+
 					"<td>begin:<br><input type='text' id='customrangebegin'></td>"+
 					"<td>end:<br><input type='text' id='customrangeend'></td>"+
-					"<td><br><button onclick='addCustomGlyphRange();'>Add Range</button></td>"+
-					"<td><br><div id='customrangeerror'>bad range input</div></td>"+
+					"<td style='vertical-align:bottom;'><button onclick='addCustomGlyphRange();'>Add Range</button></td>"+
+					"<td style='vertical-align:bottom;'><div id='customrangeerror'>bad range input</div></td>"+
 					"</tr></table>"+
-					"<div id='customrangetable'></div><br><br>";
+					"<div id='customrangetable'></div>";
 
 
 		// METADATA
-		content += '<br><h1>Font Metadata</h1>';
+		content += '<h1>Font Metadata</h1>';
 
 		content += '<table class="settingstable metadatatable">';
 		for(var m in meta){ if(meta.hasOwnProperty(m) && m!== 'font_family'){

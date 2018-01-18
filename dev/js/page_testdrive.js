@@ -235,7 +235,24 @@
 	}
 
 	function makeTDSymbolButton(){
-		return "<button class='sampletext' onclick='document.getElementById(\"tdtextarea\").value=\"!\\\"#$%&&#39;()*+,-./:;\\\<=\\\>?@[\\\\]^_`{|}~\";redraw_TestDrive();'>!\"#$%&&#39;()*+,-./:;\<=\>?@[\\]^_`{|}~</button><br>";
+		var sym = ['&#x21;','&#x22;','&#x23;','&#x24;','&#x25;','&#x26;','&#x27;','&#x28;','&#x29;','&#x2A;','&#x2B;','&#x2C;','&#x2D;','&#x2E;','&#x2F;','&#x3A;','&#x3B;','&#x3C;','&#x3D;','&#x3E;','&#x3F;','&#x40;','&#x5B;','&#x5C;','&#x5D;','&#x5E;','&#x5F;','&#x60;','&#x7B;','&#x7C;','&#x7D;','&#x7E;'];
+		
+		var re = '<button class="sampletext" onclick="clickTDSymbolButton();">';
+		re += sym.join('');
+		re += '</button><br>';
+
+		return re;
+	}
+
+	function clickTDSymbolButton() {
+		var sym = [0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x7B, 0x7C, 0x7D, 0x7E];
+		
+		var con = '';
+		for(var s=0; s<sym.length; s++) con += String.fromCharCode(sym[s]);
+
+		_UI.testdrive.sampletext = con;
+
+		redraw_TestDrive();
 	}
 
 	function drawTDOptions(){

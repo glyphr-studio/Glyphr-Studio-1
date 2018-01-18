@@ -22,14 +22,14 @@
 		// Internal Dev Stuff
 		devmode: true, 					// global switch for all the stuff below
 		dev_sample_project: false, 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: false, 			// navigate straight to a page
+		dev_current_page: 'project settings',		// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
-		debug: true, 						// show messages sent to the browser console
+		debug: true, 					// show messages sent to the browser console
 		debugautogroup: false,			// try to console.group based on text strings
 		debugtableobjects: false,		// Show objects in tables in the console
-		coremode: false,					// Glyphr Studio Core is only the functionality, none of the UI
-		telemetry: true,					// Load google analytics
+		coremode: false,				// Glyphr Studio Core is only the functionality, none of the UI
+		telemetry: true,				// Load google analytics
 		testactions:[
 			{name: 'Flatten', onclick: 'getSelectedWorkItem().flattenGlyph(); history_put(\'flatten\'); redraw();'},
 			{name: 'Combine', onclick: 'getSelectedWorkItem().combineAllShapes(true, true); history_put(\'combine\'); redraw();'},

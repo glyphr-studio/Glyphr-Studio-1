@@ -512,10 +512,11 @@
 		if(!this.pathpoints || !this.pathpoints.length) return '';
 
 		re = '';
+		var roundvalue = _GP.projectsettings.svgprecision || 8;
 		var p1, p2;
 		var trr = '';
 
-		re += 'M' + (this.pathpoints[0].getPx()) + ',' + (this.pathpoints[0].getPy());
+		re += 'M' + round(this.pathpoints[0].getPx(), roundvalue) + ',' + round(this.pathpoints[0].getPy(), roundvalue);
 		// debug('GENPATHPOSTSCRIPT:\n\t ' + re);
 
 		if(re.indexOf('NaN') > -1){
@@ -527,7 +528,7 @@
 			p1 = this.pathpoints[cp];
 			// p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 			p2 = this.pathpoints[this.getNextPointNum(cp)];
-			trr = ' C' + round(p1.getH2x(), 9) + ',' + round(p1.getH2y(), 9) + ',' + round(p2.getH1x(), 9) + ',' + round(p2.getH1y(), 9) + ',' + round(p2.getPx(), 9) + ',' + round(p2.getPy(), 9);
+			trr = ' C' + round(p1.getH2x(), roundvalue) + ',' + round(p1.getH2y(), roundvalue) + ',' + round(p2.getH1x(), roundvalue) + ',' + round(p2.getH1y(), roundvalue) + ',' + round(p2.getPx(), roundvalue) + ',' + round(p2.getPy(), roundvalue);
 			// debug('\t ' + trr);
 
 			if(trr.indexOf('NaN') > -1){

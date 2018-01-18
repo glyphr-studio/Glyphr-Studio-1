@@ -200,6 +200,7 @@
 		color:rgb(204,209,214);
 		color:rgb(178,183,188);
 		font-size:2em;
+		margin-bottom:8px;
 		clear:right;
 		text-transform:uppercase;
 	}
@@ -208,15 +209,14 @@
 		color:rgb(102,107,112);
 		display:inline;
 		font-size:1.6em;
-		padding:0 1em 0 0;
-		margin:0 0 .4em 0;
+		margin-bottom:6px;
 		text-transform:lowercase;
 	}
 
 	h3 {
 		color:rgb(102,107,112);
 		font-size:1.3em;
-		padding:0 1em .3em 0;
+		margin-bottom:4px;
 		text-transform:lowercase;
 	}
 
@@ -628,8 +628,6 @@
 	.pagecontent h3 {
 		display:block;
 		text-transform:none;
-		margin-bottom:0px;
-		margin-bottom:10px;
 	}
 
 	.pagecontent h1 {
@@ -645,9 +643,9 @@
 		color:rgb(0,140,210);
 	}
 
-	.pagecontent h1 { margin-top:10px; }
-	.pagecontent h2 { margin-top:8px; }
-	.pagecontent h3 { margin-top:6px; }
+	.pagecontent h1 { margin-top:40px; }
+	.pagecontent h2 { margin-top:20px; }
+	.pagecontent h3 { margin-top:12px; }
 
 	.pagecontent br {
 		height:15px;
@@ -1818,16 +1816,27 @@
 /* ------------------- */
 
 	.settingstable {
-		margin:12px 0px;
+		margin:4px 0px 20px 0px;
 	}
 
 	.settingstable td {
-		padding:0px 10px 0px 0px;
+		padding:0px 10px 2px 0px;
 		vertical-align:middle;
 	}
 
+	.settingstable .uicolumn {
+		text-align: right;
+		vertical-align: top;
+		padding-top:4px;
+		padding-bottom:0px;
+	}
+
+	.settingstable .longlabel {
+		padding-bottom: 8px;
+	}
+
 	.metadatatable td {
-		padding:0px 10px 20px 0px;
+		padding:0px 10px 12px 0px;
 		vertical-align: top;
 	}
 
@@ -1838,8 +1847,11 @@
 		font-family: serif;
 		letter-spacing: .2em;
 		line-height: 1.4em;
-		margin-top:8px;
 		padding:8px;
+	}
+
+	#customrangetable {
+		margin-bottom:30px;
 	}
 
 	.customrangeline {
