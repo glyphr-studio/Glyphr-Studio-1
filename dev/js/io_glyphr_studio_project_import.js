@@ -97,7 +97,7 @@
 	}
 
 	function error_NoVersionFound(){
-		var msg = 'File does not appear to be a Glyphr Project.  No version information was found.  Please try a different file...';
+		var msg = 'No version information was found.  Either the file is not a Glyphr Studio Project, or the file has non-valid JSON data.  Please try a different file...';
 		console.warn(msg);
 		alert(msg);
 	}

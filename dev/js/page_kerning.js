@@ -47,7 +47,7 @@
 			drawGuides();
 			var ch;
 			var ctx = _UI.glypheditctx;
-			var v = getView();
+			var v = getView('redraw_Kerning');
 			// debug('\t Kern Pair ' + selkern.leftgroup[0] + ' | ' + selkern.rightgroup[0]);
 			
 			// drawGlyphKernExtra(kern, rightx, texty, scale)
@@ -64,7 +64,7 @@
 			// DRAW ALL LEFT HAND GROUP
 			var la = Math.max(0.25, (1 / selkern.leftgroup.length));
 			for(var j=0; j<selkern.leftgroup.length; j++){
-				v = getView();
+				v = getView('redraw_Kerning');
 				ch = getGlyph(selkern.leftgroup[j], true);
 				// debug('\t got leftgroup char ' + ch.name);
 				v.dx -= (ch.getAdvanceWidth()*v.dz);

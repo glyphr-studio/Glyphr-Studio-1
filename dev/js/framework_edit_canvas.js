@@ -167,10 +167,10 @@
 		zoom += '<span style="width:15px; display:inline-block;">&nbsp;</span>';
 		// Zoom
 		zoom += '<button title="zoom: one to one" class="tool" onclick="setView({dz:1});redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoom1to1'})+'</button>';
-		zoom += '<button title="zoom: fit to screen" class="tool" onclick="setView(clone(_UI.defaultview)); redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoomEm'})+'</button>';
+		zoom += '<button title="zoom: fit to screen" class="tool" onclick="fitViewToContextGlyphs(); redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoomEm'})+'</button>';
 		zoom += '<input type="number" title="zoom level" class="zoomreadout" value="' + round(getView('updatetools').dz*100, 2) + '" onchange="setViewZoom(this.value);"/>';
-		zoom += '<button title="zoom: in" class="tool" onclick="viewZoom(1.1);">'+makeToolButton({'name':'tool_zoomIn'})+'</button>';
-		zoom += '<button title="zoom: out" class="tool" onclick="viewZoom(.9);">'+makeToolButton({'name':'tool_zoomOut'})+'</button>';
+		zoom += '<button title="zoom: in" class="tool" onclick="viewZoom(1.1, true);">'+makeToolButton({'name':'tool_zoomIn'})+'</button>';
+		zoom += '<button title="zoom: out" class="tool" onclick="viewZoom(.9, true);">'+makeToolButton({'name':'tool_zoomOut'})+'</button>';
 
 
 		// UPPER LEFT
@@ -399,6 +399,11 @@
 		var selwi = getSelectedWorkItem();
 		var cgi = getEditDocument().getElementById('contextglyphsinput').value;
 		selwi.contextglyphs = cgi;
+
+		_UI.contextglyphs.string = cgi;
+		_UI.contextglyphs.advancewidth = getStringAdvanceWidth(cgi);
+		fitViewToContextGlyphs();
+
 		redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
 	}
 
@@ -451,7 +456,7 @@
 
 		</td>
 		<td style='padding-left:40px;'>
-			
+
 			<br>
 			<table>
 			<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>
@@ -504,7 +509,7 @@
 		var selwid = getSelectedWorkItemID();
 		var currGlyphObject = getGlyph(selwid, true);
 		var currGlyphChar = hexToChars(selwid);
-		var v = getView();
+		var v = getView('drawContextGlyphs');
 		var split = splitContextGlyphString(currGlyphChar);
 
 		// debug('\t split: ' + split.left + ' | ' + split.right);
@@ -608,7 +613,7 @@
 
 		if(kern) {
 			var selwi = getSelectedWorkItem();
-			var v = getView();
+			var v = getView('drawContextGlyphLeftLineExtras');
 			kern *= -1;
 			var rightx = selwi.isautowide? kern-selwi.getLSB() : kern;
 			rightx = v.dx + (rightx * v.dz);
@@ -623,7 +628,7 @@
 		var kern = calculateKernOffset(getSelectedWorkItemChar(), char.char);
 
 		if(kern) {
-			var v = getView();
+			var v = getView('drawContextGlyphRightLineExtras');
 			var selwi = getSelectedWorkItem();
 			var rightx = selwi.getAdvanceWidth();
 			if(selwi.isautowide) rightx -= selwi.getLSB();
@@ -651,7 +656,7 @@
 
 		if(ps.showcontextglyphguides && alpha){
 			var ctx = _UI.glypheditctx;
-			var view = getView();
+			var view = getView('drawContextGlyphExtras');
 			var advanceWidth = char.width * view.dz;
 			var currx = (char.view.dx*view.dz);
 			var rightx = currx + advanceWidth;
@@ -755,7 +760,7 @@
 		// 	line \t ${char.linenumber}
 		// \n`);
 		// debug(char.glyph);
-		var v = getView();
+		var v = getView('drawContextGlyph');
 		var c = char.view;
 
 		if(!char.glyph) return;
@@ -881,8 +886,7 @@
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
-		if(!isval(v[sc])){
-			//debug('SETVIEW - char ' + sc + ' has no existing view, setting to default.');
+		if(!isval(v[sc])){		
 			v[sc] = getView('setView');
 		}
 
@@ -890,34 +894,34 @@
 		if(isval(oa.dx)){ v[sc].dx = oa.dx; }
 		if(isval(oa.dy)){ v[sc].dy = oa.dy; }
 		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
-
-		//debug('SETVIEW - passed ' + JSON.stringify(oa) + ' selectedglyph ' + _UI.selectedglyph + ' VIEWS is\n' + JSON.stringify(_UI.views));
+	
 	}
 
-	function getView(calledby){
-		//debug('GETVIEW - called by ' + calledby);
+	function getView(calledby){	
 		var onkern = (_UI.current_page === 'kerning');
 		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
-		if(isval(v[sc])){
-			//debug('GETVIEW - char ' + sc + ' HAS an existing value, returning \n' + JSON.stringify(v[sc]));
+		if(isval(v[sc])){		
 			return clone(v[sc]);
-		} else {
-			//debug('GETVIEW - char ' + sc + ' HAS NO EXISTING value, returning default');
+		} else {		
 			return onkern? clone(_UI.defaultkernview) : clone(_UI.defaultview);
 		}
 	}
 
-	function viewZoom(zfactor){
-		var v = getView();
-		var deltax = (_UI.eventhandlers.mousex-v.dx);
-		var deltay = (_UI.eventhandlers.mousey-v.dy);
+	function getDefaultView() {
+		
+	}
+
+	function viewZoom(zfactor, center){
+		var v = getView('viewZoom');
+		var mx = _UI.eventhandlers.mousex;
+		var my = _UI.eventhandlers.mousey;
 
 		setView({
-			'dz' : round(v.dz*=zfactor, 2),
-			'dx' : (_UI.eventhandlers.mousex-(deltax*zfactor)),
-			'dy' : (_UI.eventhandlers.mousey-(deltay*zfactor))
+			'dz' : round(v.dz *= zfactor, 2),
+			'dx' : center? v.dx : (mx - ((mx - v.dx) * zfactor)),
+			'dy' : center? v.dy : (my - ((my - v.dy) * zfactor))
 		});
 
 		redraw({calledby:'viewZoom', redrawpanels:false});
@@ -925,7 +929,7 @@
 
 	function setViewZoom(zoom){
 		zoom /= 100;
-		var v = getView();
+		var v = getView('setViewZoom');
 
 		setView({
 			'dz' : round(zoom, 2),
@@ -950,10 +954,78 @@
 	}
 
 	function calculateDefaultView() {
-		if(_GP.projectsettings.upm > 2000){
-			_UI.defaultview = {'dx':200, 'dy':550, 'dz':0.3};
-			_UI.defaultkernview = {'dx':400, 'dy':400, 'dz':0.2};
+		var ps = _GP.projectsettings;
+
+		var xpadding = 80;
+		var ypadding = 80;		// Height of the UI across the top
+		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
+		var canh = window.innerHeight - ypadding;
+
+		var strw = ps.upm / 2;
+		var strh = ps.ascent - ps.descent;
+
+		var zw, zh, nz;
+
+		zw = round((canw / (strw * 1.4)), 3);
+		zh = round((canh / (strh * 1.4)), 3);
+
+		var nz = Math.min(zh, zw);
+		var nx = round(((canw - (nz * strw)) / 2));
+		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));		
+
+		_UI.defaultview = {dx: nx, dy: ny, dz: nz};
+	}
+
+	function fitViewToContextGlyphs(dontzoom) {
+		debug('\n fitViewToContextGlyphs - START');
+		var ps = _GP.projectsettings;
+
+		var xpadding = 80;
+		var ypadding = 80;		// Height of the UI across the top
+		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
+		var canh = window.innerHeight - ypadding;
+		debug(`\t CAN \t ${canw} \t ${canh}`);
+
+		var strw = _UI.contextglyphs.advancewidth;
+		var strh = ps.ascent - ps.descent;
+		debug(`\t STR \t ${strw} \t ${strh}`);
+
+		var zw, zh, nz;
+
+		if(dontzoom){
+			nz = getView('fitViewToContextGlyphs').dz;
+			debug(`\t VZ \t ${nz}`);
+
+		} else {
+			zw = round((canw / (strw * 1.4)), 3);
+			zh = round((canh / (strh * 1.4)), 3);
+			debug(`\t NZ \t ${zw} \t ${zh}`);
 		}
+
+		var nz = Math.min(zh, zw);
+		var nx = round(((canw - (nz * strw)) / 2));
+		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));		
+		debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
+
+		setView({dx: nx, dy: ny, dz: nz});
+	}
+
+	function getStringAdvanceWidth(str) {
+		var carr = findAndMergeLigatures(str.split(''));
+		var g;
+		var aw = 0;
+
+		for(var c=0; c<carr.length; c++){
+			g = getGlyph(charsToHexArray(carr[c])[0]);
+
+			aw += g.getAdvanceWidth();
+
+			if(c < carr.length-2){
+				aw += calculateKernOffset(carr[c], carr[c+1]);
+			}
+		}
+
+		return aw;
 	}
 
 

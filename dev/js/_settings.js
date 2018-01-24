@@ -16,13 +16,13 @@
 
 		// Version
 		thisGlyphrStudioVersion: 'Version 1.09',
-		thisGlyphrStudioVersionNum: '1.09.02',
+		thisGlyphrStudioVersionNum: '1.09.03',
 		thisGlyphrStudioVersionDate: 1514673870680,
 
 		// Internal Dev Stuff
 		devmode: true, 					// global switch for all the stuff below
-		dev_sample_project: false, 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: 'project settings',		// navigate straight to a page
+		dev_sample_project: 'merriweathersans', 		// if sampleproject is present, load it and skip open project experience
+		dev_current_page: 'glyph edit',		// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 					// show messages sent to the browser console
@@ -178,6 +178,7 @@
 		},
 		contextglyphs: {
 			string: '',
+			advancewidth: false,
 			leftseq: false,
 			rightseq: false
 		},

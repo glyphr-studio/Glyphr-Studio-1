@@ -311,6 +311,7 @@
 		console.log(re);
 	}
 
+
 	/*
 		calculateKernOffset
 		Takes two glyphs as arguments, and determines the number of Em units of
