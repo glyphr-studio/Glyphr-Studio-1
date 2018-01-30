@@ -882,6 +882,12 @@
 		return false;
 	}
 
+	function getGlyphType(id) {
+		if (id.indexOf('0x', 2) > -1) return 'ligature';
+		else if(id.indexOf('0x') > -1) return 'glyph';
+		else return 'component';
+	}
+
 	function getGlyphName(ch) {
 		ch = ''+ch;
 		// debug('\n getGlyphName');

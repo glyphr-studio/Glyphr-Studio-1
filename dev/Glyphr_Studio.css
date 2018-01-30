@@ -1,5 +1,5 @@
 /*	=============================== */
-/*				STANDARD
+/*				STANDARD			*/
 /*	=============================== */
 
 	@font-face {
@@ -195,6 +195,11 @@
 		display:block;
 	}
 
+	hr {
+		border-style: solid;
+		border-color: rgb(204,209,214);
+	}
+
 	h1 {
 		margin-left:0px;
 		color:rgb(204,209,214);
@@ -250,9 +255,9 @@
 
 
 
-/*	============================= */
-/*				COMMON
-/*	============================= */
+/*	=============================== */
+/*				COMMON				*/
+/*	=============================== */
 
 
 /* ------- */
@@ -264,10 +269,11 @@
 	button:hover,
 	button:focus {
 		text-align: center;
-		padding:4px 5px 5px 5px;
-		margin:1px;
+		padding:4px 8px;
+		margin:2px 0px;
 		cursor:pointer;
 		border: none;
+		border-radius: 4px;
 		outline: none;
 		background-color: rgb(102,107,112);
 		color:rgb(204,209,214);
@@ -275,7 +281,7 @@
 
 	button:hover {
 		color:white;
-		border-radius: 3px;
+		border-radius: 6px;
 	}
 
 	button:focus {
@@ -830,10 +836,10 @@
 		margin-right:10px;
 	}
 
-/* ----------------------------------------------- */
-/* Messaging UI
-/* Dialog - Notation - Error Message Box - Toast */
-/* -------------------------------------------- */
+/* -------------------------------------------------*/
+/* Messaging 										*/
+/* Dialog - Notation - Error Message Box - Toast 	*/
+/* -------------------------------------------------*/
 
 	#dialog_bg{
 		display:none;
@@ -1037,7 +1043,7 @@
 
 
 /*	============================= */
-/*				PAGES
+/*				PAGES  			  */
 /*	============================= */
 
 
@@ -1781,6 +1787,26 @@
 		text-align: right;
 		font-size: .8em;
 		color:rgb(178,183,188);
+	}
+
+
+
+/* ----------------------- */
+/* Page - Global Actions  */
+/* --------------------- */
+
+	.commit,
+	.commit:hover,
+	.commit:active,
+	.commit:focus {
+		margin: 10px 0px 20px 0px;
+	}
+
+	.effect {
+		padding: 10px;
+		margin:10px 0px;
+		background-color: rgb(229,234,239);
+		border-left: 3px solid rgb(178,183,188);
 	}
 
 

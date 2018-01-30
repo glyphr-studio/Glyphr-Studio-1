@@ -224,6 +224,7 @@
 			case 'import svg': 		_UI.current_panel = 'npChooser';	break;
 			case 'kerning': 		_UI.current_panel = 'npAttributes'; break;
 			case 'test drive': 		_UI.current_panel = 'npAttributes'; break;
+			case 'global actions': 	_UI.current_panel = 'npNav'; 		break;
 			case 'font settings': 	_UI.current_panel = 'npNav'; 		break;
 			case 'project settings':_UI.current_panel = 'npNav'; 		break;
 			case 'export font': 	_UI.current_panel = 'npNav'; 		break;
@@ -286,6 +287,7 @@
 		var nh = _UI.current_page;
 		return ( nh==='font settings' ||
 					nh==='project settings' ||
+					nh==='global actions' ||
 					nh==='export font' ||
 					nh==='help' ||
 					nh==='about');
@@ -361,6 +363,7 @@
 	function loadPageContent(){
 		switch(_UI.current_page){
 			case 'openproject':			loadPage_openproject();		break;
+			case 'global actions':		loadPage_globalactions();	break;
 			case 'font settings':		loadPage_fontsettings();	break;
 			case 'project settings':	loadPage_projectsettings();	break;
 			case 'export font':			loadPage_exportfont();		break;
@@ -494,6 +497,7 @@
 		navarr.push('kerning');
 		navarr.push('test drive');
 		navarr.push('_');
+		navarr.push('global actions');
 		navarr.push('font settings');
 		navarr.push('project settings');
 		navarr.push('_');
@@ -533,13 +537,13 @@
 			
 			} else if (navarr[i] === 'popin'){
 				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:32px; position:relative; left:-10px; top:-4px; padding:50px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
-					makeIcon({'name':'tool_popIn', 'color':'white', 'hovercolor':'white', 'size':20, 'width':24, 'height':24})+
+					makeIcon({'name':'tool_popIn', 'color':'white', 'hovercolor':'white', 'size':20, 'width':25, 'height':25})+
 					'<span style="position:relative; top:-5px; margin-left:10px; color:white;">Pop In</span>'+
 					'</div>';
 			
 			} else if (navarr[i] === 'help'){
 				newsub += '<a href="http://help.glyphrstudio.com/" style="text-decoration:none; color:rgb(51, 56, 61);" target="_blank" class="navtargetbutton">'+
-					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
+					'<div class="navtargeticon">'+makeIcon({'name':'nav_help', 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':25, 'height':25})+'</div>'+
 					'help</a>';
 			
 			} else if (navarr[i] === 'email'){
@@ -557,13 +561,13 @@
 			} else if (navarr[i] === _UI.current_page){
 				iconname = 'nav_'+navarr[i].replace(' ','');
 				newsub += '<button class="'+bc+'" onclick="clickHamburger();">'+
-					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
+					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':25, 'height':25})+'</div>'+
 					navarr[i]+'</button>';
 			
 			} else {
 				iconname = 'nav_'+navarr[i].replace(' ','');
 				newsub += '<button class="'+bc+'" onclick="navigate({page:\''+navarr[i]+'\'});">'+
-					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':24, 'height':24})+'</div>'+
+					'<div class="navtargeticon">'+makeIcon({'name':iconname, 'color':iconcolor, 'hovercolor':false, 'size':50, 'width':25, 'height':25})+'</div>'+
 					navarr[i]+'</button>';
 			}
 		}

@@ -12,7 +12,7 @@
 		setupEditCanvas();
 		initEventHandlers();
 		clickEmptySpace();
-		
+
 		if(_UI.devmode && isval(_UI.dev_selected_shape)){
 			selectShape(_UI.dev_selected_shape);
 			_UI.dev_selected_shape = false;
@@ -44,7 +44,7 @@
 	function deleteComponentConfirm(){
 		var content = '<h1>Delete Component</h1>';
 		content += '<b style="color:'+_UI.colors.error.medium+';">This action cannot be undone!</b> &nbsp; Are you sure you want to delete this Component?<br><br>';
-		
+
 		var uia = getSelectedWorkItem().usedin;
 		if(uia.length > 0){
 			content += 'This Component is linked to the following Glyphs as a Component Instance:<br><ul>';
@@ -70,7 +70,7 @@
 
 		// Delete upstream Component Instances
 		getSelectedWorkItem().deleteLinks(_UI.selectedcomponent);
-		
+
 		// Delete it
 		var oldname = getSelectedWorkItemName();
 		delete _GP.components[_UI.selectedcomponent];

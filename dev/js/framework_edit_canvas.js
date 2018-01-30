@@ -86,6 +86,8 @@
 		}
 		_UI.focuselement = false;
 
+		if(!_UI.contextglyphs.string) updateContextGlyphs();
+
 		if(_UI.devmode && _UI.testOnRedraw) _UI.testOnRedraw();
 		//debug(' redrawUnit - END\n');
 	}
@@ -397,14 +399,17 @@
 
 	function updateContextGlyphs() {
 		var selwi = getSelectedWorkItem();
-		var cgi = getEditDocument().getElementById('contextglyphsinput').value;
-		selwi.contextglyphs = cgi;
+		var cgi = getEditDocument().getElementById('contextglyphsinput');
 
-		_UI.contextglyphs.string = cgi;
-		_UI.contextglyphs.advancewidth = getStringAdvanceWidth(cgi);
-		fitViewToContextGlyphs();
+		if(cgi){
+			selwi.contextglyphs = cgi.value;
 
-		redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
+			_UI.contextglyphs.string = cgi.value;
+			_UI.contextglyphs.advancewidth = getStringAdvanceWidth(cgi.value);
+			fitViewToContextGlyphs();
+
+			redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
+		}
 	}
 
 	function getContextGlyphString() {
@@ -897,16 +902,25 @@
 	
 	}
 
-	function getView(calledby){	
+	function getView(calledby){
+		// debug('\n getView - START');
+		// debug('\t calledby: ' + calledby);
+
 		var onkern = (_UI.current_page === 'kerning');
 		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
+		var re;
 
 		if(isval(v[sc])){		
-			return clone(v[sc]);
+			re = clone(v[sc]);
 		} else {		
-			return onkern? clone(_UI.defaultkernview) : clone(_UI.defaultview);
+			re = onkern? clone(_UI.defaultkernview) : clone(_UI.defaultview);
 		}
+
+		// debug('\t returning ' + json(re));
+		// debug(' getView - END\n');
+
+		return re;
 	}
 
 	function getDefaultView() {
@@ -1596,14 +1610,18 @@
 			var gridcolor = RGBAtoRGB('rgb(170,170,170)', transparencyToAlpha(_GP.projectsettings.colors.gridtransparency));
 			_UI.glypheditctx.lineWidth = 1;
 
-			for(var i=v.dx; i<xs.xmax-1; i+=gsize){ drawVerticalLine(i, _UI.glypheditctx, gridcolor); }
-			drawVerticalLine(xs.xmax+1, _UI.glypheditctx, gridcolor);
-			for(var j=v.dx; j>=xs.xmin; j-=gsize){ drawVerticalLine(j, _UI.glypheditctx, gridcolor); }
+			if(gsize > 0 && gsize < _UI.glypheditcanvassize){
+				for(var i=v.dx; i<xs.xmax-1; i+=gsize){ drawVerticalLine(i, _UI.glypheditctx, gridcolor); }
+				drawVerticalLine(xs.xmax+1, _UI.glypheditctx, gridcolor);
+				for(var j=v.dx; j>=xs.xmin; j-=gsize){ drawVerticalLine(j, _UI.glypheditctx, gridcolor); }
 
-			for(var k=v.dy; k<xs.ymax-1; k+=gsize){ drawHorizontalLine(k, _UI.glypheditctx, gridcolor); }
-			drawHorizontalLine(xs.ymax, _UI.glypheditctx, gridcolor);
-			for(var p=v.dy; p>=xs.ymin; p-=gsize){ drawHorizontalLine(p, _UI.glypheditctx, gridcolor); }
+				for(var k=v.dy; k<xs.ymax-1; k+=gsize){ drawHorizontalLine(k, _UI.glypheditctx, gridcolor); }
+				drawHorizontalLine(xs.ymax, _UI.glypheditctx, gridcolor);
+				for(var p=v.dy; p>=xs.ymin; p-=gsize){ drawHorizontalLine(p, _UI.glypheditctx, gridcolor); }
 
+			} else {
+				console.warn('Grid size computed as ' + gsize + ', not drawing grid.');
+			}
 		}
 	}
 
