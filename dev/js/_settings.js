@@ -15,14 +15,14 @@
 	var _UI = {
 
 		// Version
-		thisGlyphrStudioVersion: 'Version 1.09',
-		thisGlyphrStudioVersionNum: '1.09.03',
-		thisGlyphrStudioVersionDate: 1514673870680,
+		thisGlyphrStudioVersion: 'Version 1.10',
+		thisGlyphrStudioVersionNum: '1.10.00',
+		thisGlyphrStudioVersionDate: 1518823341140,
 
 		// Internal Dev Stuff
-		devmode: true, 					// global switch for all the stuff below
-		dev_sample_project: 'merriweathersans', 		// if sampleproject is present, load it and skip open project experience
-		dev_current_page: 'global actions',		// navigate straight to a page
+		devmode: false, 					// global switch for all the stuff below
+		dev_sample_project: false, 		// if sampleproject is present, load it and skip open project experience
+		dev_current_page: false,		// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
 		dev_selected_shape: false, 		// automatically select a shape
 		debug: true, 					// show messages sent to the browser console
@@ -47,7 +47,7 @@
 		hamburger:{
 			state: 11,
 			direction: -1,
-			timeout: {}			
+			timeout: {}
 		},
 		projectsaved: true,
 		stoppagenavigation: true,

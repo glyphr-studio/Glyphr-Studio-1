@@ -4,11 +4,12 @@
 	All keyboard handlers can be found here.
 **/
 
-
-	var shiftModifier = false;
-
 	function keyup(event){
-		shiftModifier = false;
+
+		var eh = _UI.eventhandlers;
+		// debug('\t eh.lastTool = ' + eh.lastTool);
+
+		eh.isShiftDown = false;
 		var kc = getKeyFromEvent(event);
 		// debug('Key Up:\t\t' + kc + ' from ' + event.which);
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
@@ -16,13 +17,10 @@
 
 		if(!onCanvasEditPage()) return;
 
-		var eh = _UI.eventhandlers;
-		// debug('\t eh.lastTool = ' + eh.lastTool);
-
-        var ctrlModifier = event.ctrlKey || event.metaKey || event.which == 17;
+        var isCtrlDown = event.ctrlKey || event.metaKey || event.which == 17;
 
 		// Ctrl
-		if(ctrlModifier){
+		if(isCtrlDown){
 			updateCursor();
 			eh.multi = false;
 			redraw({calledby:'Event Handler - Keyup Ctrl for multi select', redrawpanels: false});
@@ -47,9 +45,9 @@
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
 		var kc = getKeyFromEvent(event);
-		var ctrlModifier = event.ctrlKey || event.metaKey || event.which == 17;
+		var isCtrlDown = event.ctrlKey || event.metaKey || event.which == 17;
 		if (event.which === 16) {
-			shiftModifier = true;
+			eh.isShiftDown = true;
 		}
 
 		// debug('Key Press:\t' + kc + ' from ' + event.which);
@@ -58,35 +56,35 @@
 
 
 		// shift s (save as)
-		if(ctrlModifier && shiftModifier && kc==='s'){
+		if(isCtrlDown && eh.isShiftDown && kc==='s'){
 			event.preventDefault();
-			shiftModifier = false;
+			eh.isShiftDown = false;
 			saveGlyphrProjectFile(false); // save as always
 		}
 
 		// s
-		else if((ctrlModifier) && kc==='s'){
+		else if((isCtrlDown) && kc==='s'){
 			event.preventDefault();
-			shiftModifier = false;
+			eh.isShiftDown = false;
 			saveGlyphrProjectFile(true); // overwrite if electron
 		}
 
 		// g
-		if((ctrlModifier) && kc==='g'){
+		if((isCtrlDown) && kc==='g'){
 			event.preventDefault();
 			showToast('Exporting SVG font file...');
 			setTimeout(ioSVG_exportSVGfont, 500);
 		}
 
 		// e
-		if((ctrlModifier) && kc==='e'){
+		if((isCtrlDown) && kc==='e'){
 			event.preventDefault();
 			showToast('Exporting OTF font file...');
 			setTimeout(ioOTF_exportOTFfont, 500);
 		}
 
 		// o
-		if((ctrlModifier) && kc==='o'){
+		if((isCtrlDown) && kc==='o'){
 			debug('\t pressed Ctrl + O');
 			event.preventDefault();
 			
@@ -95,7 +93,7 @@
 
 		// q
 		// for dev mode clear console
-		if(_UI.devmode && (ctrlModifier) && kc==='q'){
+		if(_UI.devmode && (isCtrlDown) && kc==='q'){
 			event.preventDefault();
 			console.clear();
 		}
@@ -106,7 +104,7 @@
 		var em = getEditMode();
 
 		// Ctrl
-		if((ctrlModifier || kc==='ctrl') && !eh.multi){
+		if((isCtrlDown || kc==='ctrl') && !eh.multi){
 			// debug('\t event.ctrlKey = true');
 			// debug('\t selectedtool = ' + _UI.selectedtool);
 			event.preventDefault();
@@ -122,7 +120,7 @@
 			return;
 		}
 
-		if((ctrlModifier) && kc==='a') {
+		if((isCtrlDown) && kc==='a') {
 			for(var i in _GP.s) {
 				if(!_GP.glyphs[i].getShapes) return;
 
@@ -267,8 +265,10 @@
 	function nudge(dx, dy, ev) {
 		if(ev.ctrlKey) return;
 
-		var mx = (dx * _GP.projectsettings.spinnervaluechange);
-		var my = (dy * _GP.projectsettings.spinnervaluechange);
+		var multiplyer = _UI.eventhandlers.isShiftDown? 10 : 1;
+
+		var mx = (dx * _GP.projectsettings.spinnervaluechange * multiplyer);
+		var my = (dy * _GP.projectsettings.spinnervaluechange * multiplyer);
 		var em = getEditMode();
 
 		if(em === 'kern'){

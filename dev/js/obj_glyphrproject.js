@@ -32,7 +32,7 @@
 			defaultrsb: 20,			// default right side bearing
 			glyphrange: {			// canned and custom Unicode ranges
 				basiclatin: true,
-				latinsuppliment: false,
+				latinsupplement: false,
 				latinextendeda: false,
 				latinextendedb: false,
 				custom: [],
@@ -206,8 +206,8 @@
 			}
 		}
 
-		if(cr.latinsuppliment){
-			for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){
+		if(cr.latinsupplement){
+			for(var s=_UI.glyphrange.latinsupplement.begin; s<=_UI.glyphrange.latinsupplement.end; s++){
 				ccon += fname(decToHex(s));
 				//count++;
 			}

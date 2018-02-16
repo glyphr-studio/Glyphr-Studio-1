@@ -127,6 +127,7 @@
 		} else {
 
 			_UI.glyphchooser.panel.selected = selrange;
+			_UI.glyphchooser.dropdown = !_UI.glyphchooser.dropdown;
 
 			if(selrange === 'glyphs') selrange = 'basiclatin';
 
@@ -135,16 +136,16 @@
 			} else {
 				switch(selrange){
 					case 'basiclatin': selectGlyph('0x0041', true); break;
-					case 'latinsuppliment': selectGlyph('0x00A0', true); break;
+					case 'latinsupplement': selectGlyph('0x00A0', true); break;
 					case 'latinextendeda': selectGlyph('0x0100', true); break;
 					case 'latinextendedb': selectGlyph('0x0180', true); break;
 					case 'components': selectGlyph(getFirstID(_GP.components), true); break;
 					case 'ligatures': selectGlyph(getFirstID(_GP.ligatures), true); break;
 				}
 			}
-			_UI.glyphchooser.dropdown = !_UI.glyphchooser.dropdown;
 
 			update_NavPanels();
+			redraw({calledby: update_GlyphChooser, redrawpanels: false});
 		}
 
 		// debug(' update_GlyphChooser - END\n');
@@ -171,7 +172,7 @@
 		} else if(selrange){
 			switch(selrange){
 				case 'basiclatin': content += 'Basic Latin'; break;
-				case 'latinsuppliment': content += 'Latin Suppliment'; break;
+				case 'latinsupplement': content += 'Latin Supplement'; break;
 				case 'latinextendeda': content += 'Latin Extended-A'; break;
 				case 'latinextendedb': content += 'Latin Extended-B'; break;
 				case 'components': content += 'Components'; break;
@@ -193,7 +194,7 @@
 
 		if(ch === 'glyphs' || ch === 'all'){
 			if(gr.basiclatin) content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser(\'basiclatin\');">Basic Latin</button>';
-			if(gr.latinsuppliment) content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser(\'latinsuppliment\');">Latin Suppliment</button>';
+			if(gr.latinsupplement) content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser(\'latinsupplement\');">Latin Supplement</button>';
 			if(gr.latinextendeda) content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser(\'latinextendeda\');">Latin Extended-A</button>';
 			if(gr.latinextendedb) content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser(\'latinextendedb\');">Latin Extended-B</button>';
 
@@ -235,7 +236,7 @@
 		if(gr.basiclatin) { count++; /*debug('\t triggered basiclatin');*/ }
 		if(gr.latinextendeda) { count++; /*debug('\t triggered latinextendeda');*/ }
 		if(gr.latinextendedb) { count++; /*debug('\t triggered latinextendedb');*/ }
-		if(gr.latinsuppliment) { count++; /*debug('\t triggered latinsuppliment');*/ }
+		if(gr.latinsupplement) { count++; /*debug('\t triggered latinsupplement');*/ }
 
 		// debug(' pluralGlyphRange - END - returning ' + count + '\n');
 		return count > 1;
@@ -259,9 +260,9 @@
 			return re + '</div>';
 		}
 
-		if(sel === 'latinsuppliment'){
-			// debug('\t triggered latinsuppliment');
-			for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){
+		if(sel === 'latinsupplement'){
+			// debug('\t triggered latinsupplement');
+			for(var s=_UI.glyphrange.latinsupplement.begin; s<=_UI.glyphrange.latinsupplement.end; s++){
 				re += make_GlyphChooser_Button(decToHex(s), fname, selwi);
 			}
 			return re + '</div>';
@@ -328,8 +329,11 @@
 		var wi = getGlyph(index);
 		// debug('\t getGlyph returned');
 		// debug(wi);
-
-		var rv = '<div class="glyphselect" onclick="'+onc+'" title="'+(wi.name || getUnicodeName(index))+'&#13;'+index+'">';
+		
+		var gname = wi.name;
+		if(gname === '[name not found]' || !gname) gname = getGlyphName(index);
+		
+		var rv = '<div class="glyphselect" onclick="'+onc+'" title="'+gname+'&#13;'+index+'">';
 
 		var issel = (index === selid);
 
@@ -345,16 +349,16 @@
 				rv += ' style="font-size:13px; line-height:3.8em;">space';	// SPACE needs to be smaller font size
 			} else if (index.indexOf('0x') === -1){
 				rv += ' style="font-size:8px;"><div style="height:10px;"></div>';	// Component names needs to be smaller font size
-				rv += wi.name;
+				rv += gname;
 			} else {
 				rv += '>';
-				rv += (wi.glyphhtml || hexToHTML(index) || wi.name);
+				rv += (wi.glyphhtml || hexToHTML(index) || gname);
 			}
 
 			rv += '</div>';
 		}
 
-		rv += '<div class="glyphselectname">'+ (hexToHTML(index) || wi.name || '[no name])') +'</div>';
+		rv += '<div class="glyphselectname">'+ (hexToHTML(index) || gname || '[no name])') +'</div>';
 		rv += '</div>';
 
 		// debug(' make_GlyphChooser_Button - END\n');

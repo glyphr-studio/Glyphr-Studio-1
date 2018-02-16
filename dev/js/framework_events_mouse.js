@@ -22,6 +22,7 @@ _UI.eventhandlers = {
 	'uqhaschanged' : false,
 	'lastTool' : 'pathedit',
 	'isSpaceDown' : false,
+	'isShiftDown' : false,
 	'hoverpoint' : false,
 	'multi': false
 };

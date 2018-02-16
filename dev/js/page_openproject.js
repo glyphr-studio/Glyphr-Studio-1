@@ -13,11 +13,11 @@
 		var ct = '<table style="height:100%; width:100%;"><tr>'+
 		'<td id="openprojecttableleft" vertical-align="middle">'+
 			'<div id="splashscreenlogo"></div>';
-			
+
 			ct += '<span class="splashvername">'+_UI.thisGlyphrStudioVersion+'</span>';
-			
+
 			ct += '<span class="splashvernum">.'+_UI.thisGlyphrStudioVersionNum.split('.')[2];
-			
+
 			if((Date.now() - _UI.thisGlyphrStudioVersionDate) < recent) ct += ' - <a href="http://help.glyphrstudio.com/overview_updates.html" target="_blank">recently updated!</a>';
 			ct += '</span>';
 
@@ -80,10 +80,15 @@
 		// EXAMPLES
 		con += '<div class="openproject_tile" id="examples_content" style="display: none;">'+
 					'<h2>Load an Example project</h2>'+
-					'Modegg is a project that utilizes Glyphr Studio features, like Components.  '+
-					'Merriweather Sans is an open-source font imported from an Open Type file.<br><br>'+
-					'<button onclick="openproject_loadSample(true);" class="buttonsel">Modegg</button><br>'+
-					'<button onclick="openproject_loadSample(false);" class="buttonsel">Merriweather Sans</button><br>'+
+
+					'Modegg is a project that utilizes Glyphr Studio features, like Components:<br>'+
+					'<button onclick="openproject_loadSample(\'modegg\');" class="buttonsel">Modegg</button><br><br>'+
+
+					'California Gothic is an all-caps display font:<br>' +
+					'<button onclick="openproject_loadSample(\'californiagothic\');" class="buttonsel">California Gothic</button><br><br>'+
+
+					'Merriweather Sans is an open-source font imported from an Open Type file:<br>'+
+					'<button onclick="openproject_loadSample(\'merriweathersans\');" class="buttonsel">Merriweather Sans</button><br><br>'+
 				'</div>';
 
 		// RECENT
@@ -188,7 +193,7 @@
 	function handleMessage(evt) {
 		// assume strings are SVG fonts
 		_UI.droppedFileContent = evt.data;
-		
+
 		if ( typeof evt.data === 'string' ) {
 			ioSVG_importSVGfont(false);
 
@@ -218,11 +223,11 @@
 		openproject_changeTab('load');
 	}
 
-	function openproject_loadSample (usedefault) {
+	function openproject_loadSample (name) {
 		document.getElementById('examples_content').innerHTML = '<h2>Load an Example project</h2>Loading example project...';
 
 		setTimeout(function(){
-			hydrateGlyphrProject(usedefault? _UI.sampleproject.modegg : _UI.sampleproject.merriweathersans);
+			hydrateGlyphrProject(_UI.sampleproject[name]);
 			navigate({page: 'glyph edit'});
 		}, 5);
 	}

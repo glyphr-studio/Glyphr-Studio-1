@@ -59,10 +59,10 @@
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+
-					"<td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.latinsuppliment", ps.glyphrange.latinsuppliment)+"</td>"+
-					"<td><label for='latinsuppliment'><b>Latin Suppliment</b> - Unicode glyphs 0x00A0 through 0x00FF</label></td></tr>"+
+					"<td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.latinsupplement", ps.glyphrange.latinsupplement)+"</td>"+
+					"<td><label for='latinsupplement'><b>Latin Supplement</b> - Unicode glyphs 0x00A0 through 0x00FF</label></td></tr>"+
 					"<tr><td>&nbsp;</td><td colspan='2'><div class='glyphrangepreview'>";
-					for(var s=_UI.glyphrange.latinsuppliment.begin; s<=_UI.glyphrange.latinsuppliment.end; s++){ content += (decToHTML(s) + " "); }
+					for(var s=_UI.glyphrange.latinsupplement.begin; s<=_UI.glyphrange.latinsupplement.end; s++){ content += (decToHTML(s) + " "); }
 		content += "</div></td></tr></table>";
 
 		content += "<table class='settingstable'><tr>"+

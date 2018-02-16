@@ -1323,13 +1323,14 @@
 		width:24px;
 		height:30px;
 		background-color:white !important;
+		margin-top:0px;
+		border-radius: 0px;
 		border-style: solid;
 		border-width: 1px 1px 1px 0px;
 		border-color: rgb(204, 209, 214);
 		display: inline-block;
 		vertical-align: top;
 		position: relative;
-		top:-1px;
 		left:-1px;
 		z-index: 50;
 	}
@@ -1412,6 +1413,7 @@
 		height:30px;
 		width:30px;
 		padding:5px;
+		margin-right:1px;
 	}
 
 	.zoomreadout,
@@ -1422,7 +1424,7 @@
 		border-width: 0px !important;
 		border-color:rgb(204,209,214) !important;
 		color:rgb(51,56,61);
-		margin:1px;
+		margin:2px 1px 0px 1px;
 		height: 30px;
 		width: 50px !important;
 		cursor:default;

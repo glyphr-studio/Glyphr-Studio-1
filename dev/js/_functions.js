@@ -12,7 +12,7 @@
 		//console.clear();
 		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
 		//debug('\n MAIN SETUP - START');
-	
+
 
 		// Initialize Stuff
 		insertGlobalDOMElements();
@@ -27,8 +27,8 @@
 
 			if(_UI.dev_sample_project){
 				//debug('\t >>> Using sample project');
-				var sp = _UI.sampleproject[_UI.dev_sample_project];
-				hydrateGlyphrProject(sp);
+				_UI.droppedFileContent = JSON.stringify(_UI.sampleproject[_UI.dev_sample_project]);
+				importGlyphrProjectFromText();
 				_UI.dev_sample_project = false;
 			} else {
 				newGlyphrProject();
@@ -38,7 +38,7 @@
 				_UI.importsvg.scale = false;
 				_UI.importsvg.move = false;
 			}
-			
+
 			navigate({page:(_UI.dev_current_page || 'openproject'), panel:_UI.dev_current_panel});
 		}
 
@@ -67,9 +67,9 @@
 		}
 
 		navigate();
-		
+
 		if(_UI.devmode) _UI.testOnLoad();
-		
+
 		//debug(' MAIN SETUP - END\n');
 	}
 
@@ -182,18 +182,18 @@
 			if(typeof message === 'string'){
 				message = message.replace(/&lt;/gi, '<');
 				message = message.replace(/&gt;/gi, '>');
-		
+
 				if(message === 'group') {
-					console.group(); 
+					console.group();
 					return;
 				} else if(message === 'groupCollapsed'){
 					console.groupCollapsed();
 					return;
 				} else if(_UI.debugautogroup && message.indexOf('- START') > 0){
-					console.group(message.substr(2).replace(' - START', '')); 
+					console.group(message.substr(2).replace(' - START', ''));
 					return;
 				} else if(message === 'groupEnd'|| (_UI.debugautogroup && message.indexOf('- END') > 0)) {
-					console.groupEnd(message); 
+					console.groupEnd(message);
 					return;
 				} else {
 					console.log(message);
@@ -348,14 +348,14 @@
 
 			msgdiv.style.marginTop = (finaltop + 'px');
 			msgdiv.style.opacity = finalopacity;
-			
+
 			setToastTimeout(disappearStep, durration);
-			
+
 		}
 
 		function appearStep() {
 			// debug('\t appearStep ' + step);
-			
+
 			if(step < 0){
 				msgdiv.style.display = 'block';
 				msgdiv.style.marginTop = '-50px;';
@@ -491,8 +491,6 @@ function saveFile(fname, buffer, ftype) {
 		link.dispatchEvent(event);
 		return;
 	}
-
-	console.error('File could not be saved: ' + fname);
 }
 
 
@@ -560,8 +558,6 @@ function saveFile(fname, buffer, ftype) {
 		else if(val === null || val === undefined) return false;
 		else if ( typeof val === 'object' && Object.keys(val).length === 0 ) return false;
 		else return !!val;
-
-		//return ((typeof val !== "undefined") && (val !== null));
 	}
 
 	function getOverallMaxes(maxarr) {
@@ -584,7 +580,7 @@ function saveFile(fname, buffer, ftype) {
 			if(!isval(tm.ymin)) tm.ymin = clone(_UI.mins.ymin);
 			// debug([tm]);
 
-			// find 
+			// find
 			re.xmax = Math.max(re.xmax, tm.xmax);
 			re.xmin = Math.min(re.xmin, tm.xmin);
 			re.ymax = Math.max(re.ymax, tm.ymax);
@@ -638,7 +634,7 @@ function saveFile(fname, buffer, ftype) {
 
 	function calculateAngle(h, p){
 		p = p || {x:0, y:0};
-		result = Math.atan2(h.y - p.y, h.x - p.x);
+		var result = Math.atan2(h.y - p.y, h.x - p.x);
 
 		if(isNaN(result)){
 			console.warn('calculateAngle returned NaN\n' + json(h) + '\n' + json(p));

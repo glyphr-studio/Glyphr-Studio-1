@@ -275,7 +275,7 @@
 	_UI.glyphrange = {
 		'basiclatin': {'begin':0x0020, 'end':0x007E},
 		'latinsupplimentcontrols': {'begin':0x0080, 'end': 0x009F},
-		'latinsuppliment': {'begin':0x00A0, 'end': 0x00FF},
+		'latinsupplement': {'begin':0x00A0, 'end': 0x00FF},
 		'latinextendeda': {'begin':0x0100, 'end':0x017F},
 		'latinextendedb': {'begin':0x0180, 'end':0x024F}
 	};

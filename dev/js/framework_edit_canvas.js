@@ -891,7 +891,7 @@
 		var v = _UI.views;
 
 		// Ensure there are at least defaults
-		if(!isval(v[sc])){		
+		if(!isval(v[sc])){
 			v[sc] = getView('setView');
 		}
 
@@ -899,7 +899,7 @@
 		if(isval(oa.dx)){ v[sc].dx = oa.dx; }
 		if(isval(oa.dy)){ v[sc].dy = oa.dy; }
 		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
-	
+
 	}
 
 	function getView(calledby){
@@ -911,9 +911,9 @@
 		var v = _UI.views;
 		var re;
 
-		if(isval(v[sc])){		
+		if(isval(v[sc])){
 			re = clone(v[sc]);
-		} else {		
+		} else {
 			re = onkern? clone(_UI.defaultkernview) : clone(_UI.defaultview);
 		}
 
@@ -924,7 +924,7 @@
 	}
 
 	function getDefaultView() {
-		
+
 	}
 
 	function viewZoom(zfactor, center){
@@ -985,41 +985,41 @@
 
 		var nz = Math.min(zh, zw);
 		var nx = round(((canw - (nz * strw)) / 2));
-		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));		
+		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
 
 		_UI.defaultview = {dx: nx, dy: ny, dz: nz};
 	}
 
 	function fitViewToContextGlyphs(dontzoom) {
-		debug('\n fitViewToContextGlyphs - START');
+		// debug('\n fitViewToContextGlyphs - START');
 		var ps = _GP.projectsettings;
 
 		var xpadding = 80;
 		var ypadding = 80;		// Height of the UI across the top
 		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
 		var canh = window.innerHeight - ypadding;
-		debug(`\t CAN \t ${canw} \t ${canh}`);
+		// debug(`\t CAN \t ${canw} \t ${canh}`);
 
 		var strw = _UI.contextglyphs.advancewidth;
 		var strh = ps.ascent - ps.descent;
-		debug(`\t STR \t ${strw} \t ${strh}`);
+		// debug(`\t STR \t ${strw} \t ${strh}`);
 
 		var zw, zh, nz;
 
 		if(dontzoom){
 			nz = getView('fitViewToContextGlyphs').dz;
-			debug(`\t VZ \t ${nz}`);
+			// debug(`\t VZ \t ${nz}`);
 
 		} else {
 			zw = round((canw / (strw * 1.4)), 3);
 			zh = round((canh / (strh * 1.4)), 3);
-			debug(`\t NZ \t ${zw} \t ${zh}`);
+			// debug(`\t NZ \t ${zw} \t ${zh}`);
 		}
 
 		var nz = Math.min(zh, zw);
 		var nx = round(((canw - (nz * strw)) / 2));
-		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));		
-		debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
+		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
+		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
 
 		setView({dx: nx, dy: ny, dz: nz});
 	}

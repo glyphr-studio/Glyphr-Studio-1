@@ -28,7 +28,7 @@
 			}
 		}
 
-		this.winding = isval(oa.winding)? this.winding : this.findWinding();
+		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 
 		// internal
 		this.maxes = oa.maxes || clone(_UI.mins);
@@ -160,9 +160,11 @@
 	};
 
 	Path.prototype.getWinding = function() {
-		if(isval(this.winding)) return this.winding;
-		else if (this.findWinding) this.findWinding();
-		else this.winding = 0;
+		if(!isval(this.winding)){
+			if (this.findWinding) this.findWinding();
+			else this.winding = 0;
+		}
+		 return this.winding;
 	};
 
 	Path.prototype.getHeight = function() {
@@ -237,8 +239,8 @@
 		return pnum;
 	};
 
-	Path.prototype.changed = function() { 
-		this.cache = {}; 
+	Path.prototype.changed = function() {
+		this.cache = {};
 		this.calcMaxes();
 	};
 
@@ -315,7 +317,7 @@
 
 		// debug('\t pre filter ' + intersects);
 		intersects = intersects.filter(duplicates);
-		
+
 		// debug('\t returning ' + intersects);
 		// debug(' findPathIntersections - END\n');
 		return intersects;
@@ -511,7 +513,7 @@
 
 		if(!this.pathpoints || !this.pathpoints.length) return '';
 
-		re = '';
+		var re = '';
 		var roundvalue = _GP.projectsettings.svgprecision || 8;
 		var p1, p2;
 		var trr = '';
@@ -554,7 +556,7 @@
 			if(this.pathpoints.length === 0){
 				// debug('\t !!!Path has zero points!');
 			}
-			
+
 			otpath.close();
 			return otpath;
 		}
@@ -675,7 +677,6 @@
 			count = parr[1].P.x > parr[0].P.x? -1 : 1;
 
 		} else if (parr.length > 2){
-
 			for (var i=0; i<parr.length; i++) {
 				j = (i + 1) % parr.length;
 				k = (i + 2) % parr.length;
@@ -690,15 +691,17 @@
 		// negative = clockwise
 		// positive = counterclockwise
 
-		// debug(' Path.findWinding - END returning: ' + count + '\n');
-
 		if(count === 0 && !secondtry){
+			// debug('\t second try...');
 			this.reverseWinding();
 			count = this.findWinding(true) * -1;
 			this.reverseWinding();
 		}
 
 		this.winding = count;
+
+		// if(!secondtry) debug(' Path.findWinding - END returning: ' + count + '\n');
+
 		return count;
 	};
 
@@ -718,7 +721,7 @@
 			}
 			this.pathpoints.reverse();
 			this.winding *= -1;
-			if(this.winding === 0) this.findWinding(true);
+			if(this.winding === 0 || !isval(this.winding)) this.findWinding(true);
 		}
 		// debug(' Path.reverseWinding - END\n');
 	};
@@ -947,7 +950,7 @@
 
 			this.cache.segments[s] = seg;
 
-			// debug('\t ++++++ ending seg ' + s);			
+			// debug('\t ++++++ ending seg ' + s);
 		}
 
 		this.maxes.xmax = round(this.maxes.xmax, 4);

@@ -17,10 +17,10 @@
 		// debug('\n importGlyphrProjectFromText - START');
 
 		var fcontent;
-		try { 
-			fcontent = JSON.parse(_UI.droppedFileContent); 
-		} catch(e) { 
-			fcontent = {}; 
+		try {
+			fcontent = JSON.parse(_UI.droppedFileContent);
+		} catch(e) {
+			fcontent = {};
 		}
 
 		var tempvn = false;
@@ -80,8 +80,10 @@
 			if(projvn.minor > currvn.minor){ error_TimeTraveller(); return; }
 
 			// Roll through minor versions
-			// Currently no _GP.projectsettings changes require updating
-			// switch (projvn.minor) {}
+			if(projvn.minor < 10){
+				fcontent.projectsettings.glyphrange.latinsupplement = fcontent.projectsettings.glyphrange.latinsuppliment;
+				delete fcontent.projectsettings.glyphrange.latinsuppliment;
+			}
 		}
 		// debug('\t done with v1 minor updates');
 
@@ -403,7 +405,7 @@
 	}
 
 	function finalizeGlyphrProject(){
-		// debug("\nfinalizeGlyphrProject \t START");
+		// debug("finalizeGlyphrProject \t START");
 
 		// UI Defaults
 		_UI.history['glyph edit'] = new History('glyphs');
@@ -439,7 +441,6 @@
 		resetThumbView();
 
 		_UI.current_page = "glyph edit";
-
 
 		// debug("finalizeGlyphrProject \t END\n");
 	}
