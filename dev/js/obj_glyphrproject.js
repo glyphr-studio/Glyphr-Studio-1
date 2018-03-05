@@ -194,7 +194,7 @@
 		return (''+yr+'.'+mo+'.'+day+'-'+hr+'.'+min+'.'+sec);
 	}
 
-	function glyphIterator(fname) {
+	function glyphRangeIterator(fname) {
 		var cr = _GP.projectsettings.glyphrange;
 		var ccon = '';
 		//var count = 0;
@@ -236,7 +236,7 @@
 			}
 		}
 
-		//debug('GLYPHITERATOR - count returned ' + count);
+		//debug('GLYPHRangeITERATOR - count returned ' + count);
 
 		return ccon;
 	}
@@ -246,7 +246,7 @@
 		fm.numglyphs = 0;
 		fm.maxglyph = 0x20;
 
-		glyphIterator(function(hex){
+		glyphRangeIterator(function(hex){
 			fm.numglyphs++;
 			fm.maxglyph = Math.max(fm.maxglyph, hex);
 			var cm = _GP.glyphs[hex];
