@@ -212,7 +212,6 @@
 					ts.updateShapePosition(cbs.dx,cbs.dy,true);
 
 				} else {
-					cbs.c = selwi;
 					cbs.dx = 0;
 					cbs.dy = 0;
 				}
@@ -252,6 +251,8 @@
 
 			for(var t=0; t<newshapes.length; t++) _UI.ms.shapes.add(newshapes[t]);
 
+			cbs.c = selwi;
+					
 			debug('pasteShapes - END \n');
 		}
 	}

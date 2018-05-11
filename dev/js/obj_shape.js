@@ -268,16 +268,20 @@
 //	Button Functions
 //	-----------------
 	function addShape(newshape){
-		// debug('ADDSHAPE - was passed:\n' + JSON.stringify(newshape));
+		debug('addShape - START');
+		debug('\t name: ' + newshape.name);
+		debug('\t objtype: ' + newshape.objtype);
+
 		if(newshape){
 			if(newshape.objtype === 'componentinstance'){
+				debug('\t is a Component instance');
 				_UI.selectedtool = 'shaperesize';
 			} else if(newshape.path && (_UI.selectedtool === 'shaperesize')) {
-				// debug('ADDSHAPE triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
+				debug('\t triggered as true: newshape.path && _UI.selectedtool == shaperesize \n\t NOT calling calcmaxes, okay?');
 				//newshape.calcMaxes();
 			}
 		} else {
-			// debug('ADDSHAPE - passed null, creating new shape.');
+			debug('\t passed null, creating new shape.');
 			newshape = new Shape({});
 			newshape.name = ('Rectangle ' + ((getSelectedWorkItemShapes().length*1)+1));
 		}
@@ -290,7 +294,8 @@
 
 		_UI.current_panel = 'npAttributes';
 
-		// debug('ADDSHAPE - returns:\n' + JSON.stringify(newshape));
+		debug('\t returns: ' + newshape.name);
+		debug('addShape - END\n');
 		return newshape;
 	}
 
