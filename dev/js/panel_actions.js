@@ -188,6 +188,7 @@
 	}
 
 	function pasteShape(){
+		debug('pasteShape - START');
 		var cbs = _UI.clipboardshape;
 		var selwi = getSelectedWorkItemID();
 
@@ -195,21 +196,27 @@
 			var newshapes = [];
 			var sourceshapes = cbs.s;
 			var ts, newname, newsuffix, n;
-			//debug("PASTESHAPE checking if we've moved glyphs: " + cbs.c + " to " + _UI.selectedglyph);
-
-
+			var offsetShapes = cbs.c === selwi;
+			
 			for(var s=0; s<sourceshapes.length; s++){
 				ts = new Shape(sourceshapes[s]);
+				debug('\t shape ' + s);
+				debug('\t checking for moved glyphs: ' + cbs.c + ' to ' + selwi);
+				debug('\t offsetShapes: ' + offsetShapes);
 
-				if(cbs.c === selwi) {
-					cbs.dx += 20;
-					cbs.dy -= 20;
+				if(offsetShapes) {
+					if(s === 0){
+						cbs.dx += 20;
+						cbs.dy -= 20;
+					}
 					ts.updateShapePosition(cbs.dx,cbs.dy,true);
+
 				} else {
 					cbs.c = selwi;
 					cbs.dx = 0;
 					cbs.dy = 0;
 				}
+				
 
 				newname = ts.name;
 				newsuffix = ' (copy)';
@@ -221,13 +228,13 @@
 					if(suffix === ')'){
 						newsuffix = '(copy 2)';
 					} else {
-						//debug("PASTESHAPE - suffix " + suffix);
+						debug("\t - suffix " + suffix);
 						suffix = suffix.substring(1);
-						//debug("PASTESHAPE - suffix " + suffix);
+						debug("\t - suffix " + suffix);
 						suffix = suffix.substring(0, suffix.length-1);
-						//debug("PASTESHAPE - suffix " + suffix);
+						debug("\t - suffix " + suffix);
 						newsuffix = '(copy ' + (parseInt(suffix)+1) + ")";
-						//debug("PASTESHAPE - newsuffix " + newsuffix);
+						debug("\t - newsuffix " + newsuffix);
 					}
 				}
 				ts.name = newname + newsuffix;
@@ -244,6 +251,8 @@
 			_UI.ms.points.clear();
 
 			for(var t=0; t<newshapes.length; t++) _UI.ms.shapes.add(newshapes[t]);
+
+			debug('pasteShapes - END \n');
 		}
 	}
 
