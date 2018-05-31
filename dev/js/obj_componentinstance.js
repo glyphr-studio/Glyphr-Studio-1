@@ -42,19 +42,19 @@
 		//debug('COMPONENTINSTANCE - end');
 	}
 
-	ComponentInstance.prototype.getTransformedGlyph = function() {
+	ComponentInstance.prototype.getTransformedGlyph = function(dontusecache) {
 		// debug('\n ComponentInstance.getTransformedGlyph - START ' + this.name);
-
-		if(this.cache.transformedglyph){
+		// debug(`\t dontusecache: ${dontusecache}`);
+		
+		
+		if(this.cache.transformedglyph && !dontusecache){
 			// debug('\t returning glyph in cache.transformedglyph ');
 			// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 			return this.cache.transformedglyph;
 		}
 
-		var og = getGlyph(this.link, true);
-		var g;
-		if(og) g = new Glyph(clone(og));
-		else {
+		var g = convertComponentInstanceToGlyph(this.link);
+		if(!g) {
 			console.warn('Tried to get Component: ' + this.link + ' but it doesn\'t exist - bad usedin array maintenance.');
 			return false;
 		}
@@ -72,24 +72,49 @@
 			g.updateGlyphSize(this.scalew, this.scaleh, false);
 			if(this.reversewinding) g.reverseWinding();
 			if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
-			g.changed();
 
 			// debug('\t afters maxes ' + json(g.maxes, true));
+
 		} else {
-			g.changed();
 			// debug('\t Not changing, no deltas');
 		}
-
+		
+		g.changed();
 		this.cache.transformedglyph = g;
 
 		// debug(' ComponentInstance.getTransformedGlyph - END\n\n');
 		return g;
 	};
 
+	function convertComponentInstanceToGlyph(gid){
+		// debug('\n convertComponentInstanceToGlyph - START');
+		// debug('\t gid: ' + gid);
+
+		var og = getGlyph(gid, true);
+		if(og) og = new Glyph(clone(og));
+
+		var newshapes = [];
+		var tempglyph, tempshapes;
+
+		for(var s=0; s<og.shapes.length; s++){
+			if(og.shapes[s].objtype === 'componentinstance'){
+				tempglyph = og.shapes[s].getTransformedGlyph(true);
+				newshapes = newshapes.concat(tempglyph.shapes);
+			
+			} else {
+				newshapes.push(og.shapes[s]);
+			}
+		}
+		
+		og.shapes = newshapes;
+		
+		// debug(og);
+		return og;
+	}
 
 
 //	-------------------------------------
-//	Component to Shape Paridy Functions
+//	Component to Shape Parity Functions
 //	-------------------------------------
 	ComponentInstance.prototype.changed = function() { 
 		// debug('\n ComponentInstance.changed - START');

@@ -188,8 +188,9 @@
 	}
 
 	function pasteShape(){
-		debug('pasteShape - START');
+		// debug('pasteShape - START');
 		var cbs = _UI.clipboardshape;
+		// debug(cbs);
 		var selwi = getSelectedWorkItemID();
 
 		if(cbs){
@@ -199,10 +200,18 @@
 			var offsetShapes = cbs.c === selwi;
 			
 			for(var s=0; s<sourceshapes.length; s++){
-				ts = new Shape(sourceshapes[s]);
-				debug('\t shape ' + s);
-				debug('\t checking for moved glyphs: ' + cbs.c + ' to ' + selwi);
-				debug('\t offsetShapes: ' + offsetShapes);
+				var ts;
+				
+				if(sourceshapes[s].objtype === 'componentinstance'){
+					ts = new ComponentInstance(sourceshapes[s]);
+				} else {
+					ts = new Shape(sourceshapes[s]);
+				}
+
+				// debug('\t shape ' + s);
+				// debug('\t objtype: ' + ts.objtype);
+				// debug('\t checking for moved glyphs: ' + cbs.c + ' to ' + selwi);
+				// debug('\t offsetShapes: ' + offsetShapes);
 
 				if(offsetShapes) {
 					if(s === 0){
@@ -227,13 +236,13 @@
 					if(suffix === ')'){
 						newsuffix = '(copy 2)';
 					} else {
-						debug("\t - suffix " + suffix);
+						// debug("\t - suffix " + suffix);
 						suffix = suffix.substring(1);
-						debug("\t - suffix " + suffix);
+						// debug("\t - suffix " + suffix);
 						suffix = suffix.substring(0, suffix.length-1);
-						debug("\t - suffix " + suffix);
+						// debug("\t - suffix " + suffix);
 						newsuffix = '(copy ' + (parseInt(suffix)+1) + ")";
-						debug("\t - newsuffix " + newsuffix);
+						// debug("\t - newsuffix " + newsuffix);
 					}
 				}
 				ts.name = newname + newsuffix;
@@ -253,7 +262,7 @@
 
 			cbs.c = selwi;
 					
-			debug('pasteShapes - END \n');
+			// debug('pasteShapes - END \n');
 		}
 	}
 

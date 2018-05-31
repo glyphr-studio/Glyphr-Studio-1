@@ -1194,6 +1194,7 @@
 		margin: 0px;
 		color:rgb(0,140,210);
 		outline-width: 0px;
+		border-radius: 0px;
 	}
 	.openproject_tabs button:hover {
 		border-bottom: 3px solid rgb(155,221,255) !important;

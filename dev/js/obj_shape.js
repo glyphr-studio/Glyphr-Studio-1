@@ -122,7 +122,7 @@
 
 
 //	-------------------------------------------------------
-//	PATH WRAPPER FUNCTIONS FOR COMPONENT INSTANCE PARIDY
+//	PATH WRAPPER FUNCTIONS FOR COMPONENT INSTANCE PARITY
 //	-------------------------------------------------------
 
 	Shape.prototype.updateShapePosition = function(dx, dy, force) { this.path.updatePathPosition(dx, dy, force); };

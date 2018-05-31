@@ -17,7 +17,7 @@
 		// Version
 		thisGlyphrStudioVersion: 'Version 1.10',
 		thisGlyphrStudioVersionNum: '1.10.02',
-		thisGlyphrStudioVersionDate: 1520284480000,
+		thisGlyphrStudioVersionDate: 1527806270000,
 
 		// Internal Dev Stuff
 		devmode: true, 					// global switch for all the stuff below

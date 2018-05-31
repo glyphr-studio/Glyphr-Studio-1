@@ -439,6 +439,15 @@
 //-------------------------------------------------------
 // COMPONENT STUFF
 //-------------------------------------------------------
+	Glyph.prototype.containsComponents = function(){
+		for(var s=0; s<this.shapes.length; s++){
+			if(this.shapes[s].objtype === 'componentinstance'){
+				return true;
+			}
+		}
+		return false;	
+	}
+	
 	Glyph.prototype.canAddComponent = function(cid) {
 		// debug('\n Glyph.canAddComponent - START');
 		var myid = ''+getMyID(this);

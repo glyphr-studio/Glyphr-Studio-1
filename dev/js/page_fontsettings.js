@@ -26,7 +26,15 @@
 					"<tr><td>Descent height: </td><td><input type='number' id='metric-des' value='"+ps.descent+"' onchange='_GP.projectsettings.descent = Math.abs(parseInt(this.value))*-1;'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"<tr><td><b>Total Units per Em: </b></td><td><input type='number' value='"+ps.upm+"' onchange='_GP.projectsettings.upm = Math.abs(parseInt(this.value));'/></td><td><span class='unit'>(em units)</span></td></tr>" +
 					"</table>";
-/*
+
+		content += "<h3>Overshoot</h3>"+
+					"Round letters usually extend a little above the x height line and below the baseline. " +
+					"A light guideline will show this overshoot distance.<br>" +
+					"<table class='settingstable'>"+
+					"<tr><td>Overshoot:</td><td><input type='number' value='"+ps.overshoot+"' onchange='_GP.projectsettings.overshoot = this.value;'></td><td><span class='unit'>(em units)</span></td></tr>"+
+					"</table>";
+
+					/*
 		content += "<h3>Line Gap</h3>" +
 					"This is the amount of vertical space between glyphs on separate lines. This is recomended to be 20% to 25% of the total Units per Em."+
 					"<table class='settingstable'>"+

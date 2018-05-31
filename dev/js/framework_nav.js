@@ -103,7 +103,7 @@
 		_UI.popout.onBeforeUnload = popIn;
 		_UI.popout.document.getElementById('mainwrapper').style.overflowY = 'hidden';
 
-		// Paridy Functions
+		// Parity Functions
 		for(var f in window){ if(window.hasOwnProperty(f) && !_UI.popout[f]){
 			_UI.popout[f] = window[f];
 			// debug('\t added ' + json(f));

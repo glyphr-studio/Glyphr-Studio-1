@@ -6,7 +6,8 @@
 
 
 	function makePanel_LayerChooser(){
-
+		debug(`\n makePanel_LayerChooser - START`);
+		
 		var content = '<div class="navarea_header">';
 
 		content += makePanelSuperTitle();
@@ -16,6 +17,12 @@
 		content += '</div><div class="panel_section">';
 
 		var scs = getSelectedWorkItemShapes();
+		debug(`\t selectedWorkItemShapes`);
+		debug(scs);
+
+		debug(`\t selectedShapes`);
+		debug(_UI.ms.shapes.getMembers());
+		
 		var ts;
 
 		if(scs.length > 0){
@@ -24,15 +31,19 @@
 				ts = scs[i];
 
 				if(_UI.ms.shapes.isSelected(ts)) {
+					debug(`\t i: ${i} is selected`);	
 					if(ts.objtype === 'componentinstance')	content += '<tr class="componentlayersel"';
 					else content += '<tr class="layersel"';
+				
 				} else {
+					debug(`\t i: ${i} is NOT selected`);
 					if(ts.objtype === 'componentinstance') content += '<tr class="componentlayer"';
 					else content += '<tr class="layer"';
 				}
 
-				content += ' onclick="selectShape(' + i + '); redraw({calledby:\'updatelayers\'}); ';
-				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\');';
+				content += ' onclick="selectShape(' + i + '); ';
+				if(ts.objtype === 'componentinstance') content += 'clickTool(\'shaperesize\'); ';
+				content += ' redraw({calledby:\'updatelayers\'});';
 				content += '">';
 
 				if(ts.objtype === 'componentinstance') {
@@ -55,6 +66,7 @@
 
 		content += '</div>';
 
+		debug(`makePanel_LayerChooser - END\n\n`);
 		return content;
 	}
 
