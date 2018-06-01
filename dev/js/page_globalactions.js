@@ -191,8 +191,8 @@
 	//	------------------
 
 	function glyphIterator(oa) {
-		debug('\n glyphIterator - START');
-		debug('\t passed:\n ' + json(oa));
+		// debug('\n glyphIterator - START');
+		// debug('\t passed:\n ' + json(oa));
 
 		var glyphlist = [];
 		var currglyphnum = 0;
@@ -223,12 +223,12 @@
 		// Functions
 
 		function doOneGlyph() {
-			debug('\n doOneGlyph - START');
-			debug(`\t currglyphnum: ${currglyphnum}`);
+			// debug('\n doOneGlyph - START');
+			// debug(`\t currglyphnum: ${currglyphnum}`);
 
 			currglyphid = glyphlist[currglyphnum];
 			currglyph = getGlyph(currglyphid, true);
-			debug(`\t Got glyph: ${currglyph.name}`);
+			// debug(`\t Got glyph: ${currglyph.name}`);
 			
 			showToast((title + '<br>' + currglyph.getName()), 10000);
 			
@@ -264,8 +264,8 @@
 				}
 			}
 
-			debug('\t glyph list');
-			debug(glyphlist);
+			// debug('\t glyph list');
+			// debug(glyphlist);
 
 			// Kick off the process
 			setTimeout(doOneGlyph, 10);

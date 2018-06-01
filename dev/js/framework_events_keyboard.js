@@ -85,7 +85,7 @@
 
 		// o
 		if((isCtrlDown) && kc==='o'){
-			debug('\t pressed Ctrl + O');
+			// debug('\t pressed Ctrl + O');
 			event.preventDefault();
 			
 			window.open("http://glyphrstudio.com/online", "_blank");

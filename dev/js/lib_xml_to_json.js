@@ -50,7 +50,7 @@
 				// debug('\n\t>>START kid ' + k + ' ' + node.nodeName);
 /*				
 				if(node.nodeName === '#comment') {
-					debug('\t Found a #comment, breaking...');
+					// debug('\t Found a #comment, breaking...');
 					break;
 				}
 */

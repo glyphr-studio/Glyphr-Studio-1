@@ -6,7 +6,7 @@
 
 
 	function makePanel_LayerChooser(){
-		debug(`\n makePanel_LayerChooser - START`);
+		// debug(`\n makePanel_LayerChooser - START`);
 		
 		var content = '<div class="navarea_header">';
 
@@ -17,11 +17,11 @@
 		content += '</div><div class="panel_section">';
 
 		var scs = getSelectedWorkItemShapes();
-		debug(`\t selectedWorkItemShapes`);
-		debug(scs);
+		// debug(`\t selectedWorkItemShapes`);
+		// debug(scs);
 
-		debug(`\t selectedShapes`);
-		debug(_UI.ms.shapes.getMembers());
+		// debug(`\t selectedShapes`);
+		// debug(_UI.ms.shapes.getMembers());
 		
 		var ts;
 
@@ -31,12 +31,12 @@
 				ts = scs[i];
 
 				if(_UI.ms.shapes.isSelected(ts)) {
-					debug(`\t i: ${i} is selected`);	
+					// debug(`\t i: ${i} is selected`);	
 					if(ts.objtype === 'componentinstance')	content += '<tr class="componentlayersel"';
 					else content += '<tr class="layersel"';
 				
 				} else {
-					debug(`\t i: ${i} is NOT selected`);
+					// debug(`\t i: ${i} is NOT selected`);
 					if(ts.objtype === 'componentinstance') content += '<tr class="componentlayer"';
 					else content += '<tr class="layer"';
 				}
@@ -66,7 +66,7 @@
 
 		content += '</div>';
 
-		debug(`makePanel_LayerChooser - END\n\n`);
+		// debug(`makePanel_LayerChooser - END\n\n`);
 		return content;
 	}
 

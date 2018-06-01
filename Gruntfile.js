@@ -93,14 +93,12 @@ module.exports = function(grunt) {
 	// Load the plugins
 	// grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-uglify-es');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-nw-builder');
 
 	// Tasks
 	grunt.registerTask('default', ['concat:merge', 'uglify:minimize', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
 	grunt.registerTask('lite', ['concat:merge', 'cssmin', 'concat:test', 'concat:dist', 'clean']);
-	grunt.registerTask('nw', ['nwjs']);
 	grunt.registerTask('core', ['concat:core', 'uglify:core', 'clean']);
 };
