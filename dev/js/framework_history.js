@@ -39,6 +39,8 @@
 		// debug('\n History.pull - START');
 		// debug('\t queue.length ' + this.queue.length);
 
+        if(this.queue.length === 0) return;
+
 		var currentID = getSelectedWorkItemID();
 		var nextID = this.queue[this.queue.length-1].id;
 

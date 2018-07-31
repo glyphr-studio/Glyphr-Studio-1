@@ -15,13 +15,30 @@
 		con += 'This page contains actions that affect many glyphs at once.  Actions taken here '+
 				'will not carry forward to glyphs that haven\'t been created yet.';
 
+        // Move
+        con += '<h1>Move all glyphs</h1>';
+        con += 'Given a positive or negative X and/or Y value, all the glyphs in this font will have their '+
+                'position updated by the specified number of Em units.';
+        con += '<div class="effect">Individual Glyphs, Ligatures, and Components will be moved.  To avoid double-moving '+
+                'Component Instances (since they inherit position from Components) this algorithm will actually look into '+
+                'each Glyph or Ligature or Component and move each shape the specified X/Y amount as long as that shape is '+
+                'not a Component Instance.</div>';
+        con += '<table class="settingstable">';
+        con += '<tr><td>X move: &nbsp;</td><td><input id="movex" type="number" value="0"></td><td><span class="unit">(em units)</span></td></tr>';
+        con += '<tr><td>Y move: &nbsp;</td><td><input id="movey" type="number" value="0"></td><td><span class="unit">(em units)</span></td></tr>';
+        con += '</table>';
+        con += '<button class="buttonsel commit" onclick="updateAllGlyphPositions();">Move all glyphs</button>';
+        con += '<hr>';
+        
 		// Monospace
 		con += '<h1>Monospace Font</h1>';
 		con += 'Monospace fonts are fonts where each glyph has the same width.  This is useful for '+
-				'coding fonts, and fonts used for textual output.';
+        'coding fonts, and fonts used for textual output.';
 		con += '<div class="effect">Each ligature and glyph\'s Auto Width property will be set to false, and it\'s '+
-				'width property will be set to the number provided.</div>';
-		con += 'Glyph Width: &nbsp; <input id="monospacewidth" type="number" value="500"><br>';
+                'width property will be set to the number provided.</div>';
+        con += '<table class="settingstable">';
+        con += '<tr><td>Glyph Width: &nbsp; <input id="monospacewidth" type="number" value="500"></td><td><span class="unit">(em units)</span></td></tr>';
+        con += '</table>';
 		con += '<button class="buttonsel commit" onclick="convertProjectToMonospace();">Convert project to Monospace</button>';
 		con += '<hr>';
 
@@ -61,6 +78,29 @@
 	//	Action Functions
 	//	------------------
 
+    function updateAllGlyphPositions() {
+        var movex = document.getElementById('movex').value;
+        var movey = document.getElementById('movey').value;
+
+        movex = parseFloat(movex) || 0;
+        movey = parseFloat(movey) || 0;
+
+        glyphIterator({
+            title: 'Moving glyph',
+            action: function(glyph){
+                if(!glyph.shapes || !glyph.shapes.length) return;
+                var shape;
+                for(var s=0; s<glyph.shapes.length; s++){
+                    shape = glyph.shapes[s];
+                    if(shape.objtype !== 'componentinstance') {
+                        shape.updateShapePosition(movex, movey, true);
+                        glyph.changed(true, true);
+                    }
+                }
+            }
+        });
+    }
+
 	function convertProjectToMonospace() {
 		var gwidth = document.getElementById('monospacewidth').value;
 
@@ -86,8 +126,10 @@
 			action: function(glyph, glyphid){
 				var destinationGlyphID = ''+decToHex(parseInt(glyphid, 16) + 32);
 				insertComponentInstance(glyphid, destinationGlyphID, copyGlyphAttributes);
-			} 
-		});
+            }
+        });
+        
+        _UI.history['glyph edit'].put('Convert project to All Caps');
 	}
 
 	function generateDiacriticals() {
@@ -161,20 +203,23 @@
 
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
 		var currset;
-		var currglyphnum = 0;
+        var currglyphnum = 0;
+        var didstuff = false;
 
 		function doOneGlyph() {
 			currset = latext[currglyphnum];
 			showToast(('Adding diacritical <br>' + currset.dest), 10000);
 			
 			insertComponentInstance(currset.src[0], currset.dest, copyGlyphAttributes);
-			insertComponentInstance(currset.src[1], currset.dest, false);
+            insertComponentInstance(currset.src[1], currset.dest, false);
+            didstuff = true;
 
 			if(currglyphnum < latext.length-1){
 				currglyphnum++;
 				setTimeout(doOneGlyph, 10);
 			} else {
-				showToast('Done!', 1000)
+                showToast('Done!', 1000);
+                if(didstuff) _UI.history['glyph edit'].put('Generate Diacritical glyphs');
 			}
 		}
 
@@ -197,12 +242,12 @@
 		var glyphlist = [];
 		var currglyphnum = 0;
 		var title = oa.title || 'Iterating on Glyph';
-		var filter = oa.filter || new function(){ return true; };
+		var filter = oa.filter || function(){ return true; };
 		var currglyph, currglyphid;
 
 
 		// Translate range notation to filter function
-		if(oa.filter.begin && oa.filter.end){
+		if(oa.filter && oa.filter.begin && oa.filter.end){
 			var begin = parseInt(oa.filter.begin);
 			var end = parseInt(oa.filter.end);
 			var gint;
@@ -238,7 +283,7 @@
 				currglyphnum++;
 				setTimeout(doOneGlyph, 10);
 			} else {
-				showToast((title + '<br>Done!'), 1000)
+                showToast((title + '<br>Done!'), 1000);
 			}
 		}
 

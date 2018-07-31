@@ -111,6 +111,7 @@
 			});
 
 			// debug(otglyph);
+			// debug(otglyph.path);
 
 			// Add this finshed glyph
 			options.glyphs.push(otglyph);
