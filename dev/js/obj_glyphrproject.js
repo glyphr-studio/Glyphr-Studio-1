@@ -74,9 +74,6 @@
 			font_family: 'My Font',
 			font_style: 'normal',
 			panose_1: '2 0 0 0 0 0 0 0 0 0',
-
-			/* OTF Properties */
-			otf: '{{sectionbreak}}',
 			designer: '',
 			designerURL: '',
 			manufacturer: '',
@@ -87,6 +84,9 @@
 			description: '',
 			copyright: '',
 			trademark: '',
+
+			// /* OTF Properties */
+			// otf: '{{sectionbreak}}',
 
 			/* SVG PROPERTIES */
 			svg: '{{sectionbreak}}',

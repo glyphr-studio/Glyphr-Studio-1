@@ -112,7 +112,7 @@
 				content += '<tr><td colspan="3"><p style="margin-bottom:10px;">';
 				if(m === 'shared'){
 					content += '<h2>Shared</h2>';
-					content += 'These properties are shared between all font file formats.';
+					content += 'These properties are shared between OTF and SVG font file formats.';
 				} else if (m === 'otf'){
 					content += '<h2>OTF</h2>';
 					content += 'These properties will be saved with Open Type files when they are exported.';
@@ -125,7 +125,7 @@
 				meta[m] = meta[m] || '""';
 				content += '<tr>';
 				content += '<td class="propname" style="padding-top:8px;">' + m.replace(/_/g, '-') + '</td>';
-				content += '<td><input type="text" value="'+escapeTableValue(meta[m])+'" onchange="_GP.metadata.'+m+' = removeEmptyStringInputs(this.value);"/></td>';
+				content += '<td><input type="text" value="'+escapeHTMLValues(meta[m])+'" onchange="_GP.metadata.'+m+' = removeEmptyStringInputs(this.value);"/></td>';
 				content += '<td class="prophelp" style="padding-top:8px;">'+_UI.metadatahelp[m]+'</td>';
 				content += '</tr>';
 			}
@@ -144,27 +144,32 @@
 		else return trim(val);
 	}
 
-	function escapeTableValue(val) {
-		// debug('\n escapeTableValue - START');
+    function escapeHTMLValues(val){
+		// debug('\n escapeHTMLValues - START');
 		// debug('\t typeof val = ' + typeof val);
 		// debug(val);
 
 		if(typeof val === 'string'){
-			if(val === '""' || val === "''") return '';
-			if(val.indexOf("'") > -1){
-				// debug('\t replacing single quotes');
-				// val = val.replace(/'/g, '\x27');
-				val = val.replace(/'/g, '&apos;');
+            if(val === '""' || val === "''") return '';
+            
+            if(val.indexOf('"') > -1) {
+                // debug('\t replacing double quotes');
+                val = val.replace(/"/g, '&quot;');
+            }
+            
+			if(val.indexOf('<') > -1) {
+				// debug('\t replacing less than');
+				val = val.replace(/</g, '&lt;');
 			}
-			if(val.indexOf('"') > -1) {
-				// debug('\t replacing double quotes');
-				// val = val.replace(/"/g, '\x22');
-				val = val.replace(/"/g, '&quot;');
+            
+			if(val.indexOf('>') > -1) {
+				// debug('\t replacing greater than');
+				val = val.replace(/>/g, '&gt;');
 			}
 		}
 
 		// debug('\t returning ' + JSON.stringify(val));
 		return val;
-	}
+    }
 
 // end of file

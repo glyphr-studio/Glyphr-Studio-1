@@ -30,10 +30,10 @@
 			'\t\tFind out more at www.glyphrstudio.com\n\n'+
 			'\t</metadata>\n'+
 			'\t<defs>\n'+
-			'\t\t<font id="'+familyid+'" horiz-adv-x="'+ps.upm+'">\n'+
+			'\t\t<font id="'+escapeXMLValues(familyid)+'" horiz-adv-x="'+ps.upm+'">\n'+
 			'\t\t\t<font-face\n'+ ioSVG_makeFontFace()+'\n'+
 			'\t\t\t\t<font-face-src>\n'+
-			'\t\t\t\t\t<font-face-name name="'+family+'" />\n'+
+			'\t\t\t\t\t<font-face-name name="'+escapeXMLValues(family)+'" />\n'+
 			'\t\t\t\t</font-face-src>\n'+
 			'\t\t\t</font-face>\n';
 
@@ -93,10 +93,9 @@
 			if(md[d] !== '{{sectionbreak}}'){
 				con += t;
 				con += d.replace(/_/g, '-');
-				con += '=';
-				// con += md[d] === '""'? '' : md[d];
-				con += typeof md[d] === 'string'? JSON.stringify(removeEmptyStringInputs(md[d])) : ('"'+md[d]+'"');
-				con += '\n';
+				con += ' = "';
+				con += escapeXMLValues(removeEmptyStringInputs(md[d]));
+				con += '"\n';
 			}
 		}}
 		con = con.substring(0, con.length-1);
@@ -200,5 +199,43 @@
 		// debug(' ioSVG_makeAllKernPairs - END\n');
 		return con;
 	}
+
+	function escapeXMLValues(val) {
+		// debug('\n escapeXMLValues - START');
+		// debug('\t typeof val = ' + typeof val);
+		// debug(val);
+
+		if(typeof val === 'string'){
+            if(val === '""' || val === "''") return '';
+            
+            if(val.indexOf('&') > -1) {
+                // debug('\t replacing ampersand');
+                val = val.replace(/&/g, '&amp;');
+            }
+
+            if(val.indexOf('"') > -1) {
+                // debug('\t replacing double quotes');
+                val = val.replace(/"/g, '&quot;');
+            }
+            
+			if(val.indexOf("'") > -1){
+				// debug('\t replacing single quotes');
+				val = val.replace(/'/g, '&apos;');
+            }
+            
+			if(val.indexOf('<') > -1) {
+				// debug('\t replacing less than');
+				val = val.replace(/</g, '&lt;');
+			}
+            
+			if(val.indexOf('>') > -1) {
+				// debug('\t replacing greater than');
+				val = val.replace(/>/g, '&gt;');
+			}
+		}
+
+		// debug('\t returning ' + JSON.stringify(val));
+		return val;
+    }
 
 // end of file
