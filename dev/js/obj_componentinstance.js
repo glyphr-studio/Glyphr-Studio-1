@@ -448,22 +448,45 @@
 	}
 
 //	UsedIn Array Stuff
-	function addToUsedIn(com, glyphid){
-		//debug('ADDTOUSEDIN - com/glyphid ' + com + '/' + glyphid);
-		var uia = getGlyph(com).usedin;
-		uia.push(''+glyphid);
-		// sort numerically as opposed to alpha
-		uia.sort(function(a,b){return a-b;});
+	function addToUsedIn(componentGlyphID, targetGlyphID){
+        debug('ADDTOUSEDIN - adding ' + componentGlyphID + ' to ' + targetGlyphID);
+        
+		var componentGlyph = getGlyph(componentGlyphID);
+        componentGlyph.usedin.push(''+instanceGlyphID);
+        
+        // sort numerically as opposed to alpha, remove duplicates
+        componentGlyph.usedin.sort(function(a,b){return a-b;});
+        componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
+
+        debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
 	}
 
-	function removeFromUsedIn(com, glyphid){
-		//debug("REMOVEFROMUSEDIN - com/glyphid " + com + "/" + glyphid);
-		var uia = getGlyph(com).usedin;
-		var gindex = uia.indexOf(''+glyphid);
-		if(gindex !== -1){
-			uia.splice(gindex, 1);
-		}
+	function removeFromUsedIn(componentGlyphID, targetGlyphID){
+        debug('REMOVEFROMUSEDIN - removing ' + targetGlyphID + ' from ' + componentGlyphID);
+        
+        var targetGlyph = getGlyph(targetGlyphID);
+        var containsAnother = false;
 
+        // check to see if this component is used more than once in the glyph
+        for(var s=0; s<targetGlyph.shapes.length; s++) {
+            if(targetGlyph.shapes[s].link && targetGlyph.shapes[s].link === componentGlyphID){
+                debug('\t duplicates found!');
+                containsAnother = true;
+            }
+        }
+        
+        var componentGlyph = getGlyph(componentGlyphID);
+
+        if(!containsAnother){
+            var gindex = componentGlyph.usedin.indexOf(''+targetGlyphID);
+            if(gindex !== -1) componentGlyph.usedin.splice(gindex, 1);
+        }
+        
+        // sort numerically as opposed to alpha, remove duplicates
+        componentGlyph.usedin.sort(function(a,b){return a-b;});
+        componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
+
+        debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
 	}
 
 // end of file

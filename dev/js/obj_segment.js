@@ -712,9 +712,6 @@
 		return (''+co.x+'/'+co.y);
 	}
 
-	// a function for flitering out duplicates in arrays
-	function duplicates(v, i, a) { return a.indexOf(v) === i; }
-
 
 
 //	-----------------------------------

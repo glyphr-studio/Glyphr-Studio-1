@@ -524,6 +524,9 @@ function saveFile(fname, buffer, ftype) {
 		return Number(Math.round(num+'e'+dec)+'e-'+dec) || 0;
 	}
 
+	// a function for flitering out duplicates in arrays
+    function duplicates(v, i, a) { return a.indexOf(v) === i; }
+
 	// floating point numbers make me mad
 	function numSan(num) {
 		num = parseFloat(num);

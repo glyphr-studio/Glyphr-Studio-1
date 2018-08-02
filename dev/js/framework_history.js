@@ -50,7 +50,10 @@
 			if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
 			else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
 
-			this.currstate = clone(top);
+            this.currstate = clone(top);
+            
+            var selwi = getSelectedWorkItem();
+            if(selwi && selwi.changed) selwi.changed(true, true);
 
 		} else {
 			// If the next undo item is a different glyph, 
