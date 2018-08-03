@@ -474,23 +474,16 @@ function saveFile(fname, buffer, ftype) {
 	ftype = ftype || 'text/plain;charset=utf-8';
 	var fblob = new Blob([buffer], {'type':ftype, 'endings':'native'});
 
-	try {
-		// IE
-		window.navigator.msSaveBlob(fblob, fname);
-		return;
-	} catch (err) {
-		// Others
-		var link = document.createElement('a');
-		window.URL = window.URL || window.webkitURL;
-		link.href = window.URL.createObjectURL(fblob);
-		//link.onclick = ("alert("+window.URL.createObjectURL(fblob)+");");
-		link.download = fname;
+    var link = document.createElement('a');
+    window.URL = window.URL || window.webkitURL;
+    link.href = window.URL.createObjectURL(fblob);
+    link.download = fname;
 
-		var event = document.createEvent('MouseEvents');
-		event.initEvent('click', true, false);
-		link.dispatchEvent(event);
-		return;
-	}
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, false);
+    link.dispatchEvent(event);
+
+    return;
 }
 
 

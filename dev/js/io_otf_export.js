@@ -15,7 +15,7 @@
 
 			// Add metadata
 			var md = _GP.metadata;
-			var ps = _GP.projectsettings;
+            var ps = _GP.projectsettings;
 
 			options.unitsPerEm = ps.upm || 1000;
 			options.ascender = ps.ascent || 0.00001;
@@ -32,7 +32,7 @@
 			options.description = (md.description) || ' ';
 			options.copyright = (md.copyright) || ' ';
 			options.trademark = (md.trademark) || ' ';
-			options.glyphs = [];
+            options.glyphs = [];
 
 			// debug('\t NEW options ARG BEFORE GLYPHS');
 			// debug(options);
@@ -62,29 +62,36 @@
 			// debug(' firstExportStep - END\n');
 		}
 
-		function populateExportList() {
-			// debug('\n populateExportList - START');
+		function populateExportLists() {
+			// debug('\n populateExportLists - START');
 
-			// Add Glyphs and Ligatures
+			// Add Glyphs
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 				if(parseInt(c)){
 					tg = new Glyph(clone(_GP.glyphs[c]));
-					exportarr.push({xg:tg, xc: c});
+					exportGlyphs.push({xg:tg, xc: c});
 
 				} else {
 					console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
 				}
 			}}
 
-			exportarr.sort(function(a,b){ return a.xc - b.xc; });
-			// debug(' populateExportList - END\n');
+			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
+
+			// Add Ligatures
+			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
+                tg = new Glyph(clone(_GP.ligatures[l]));
+                exportLigatures.push({xg:tg, xc: l});
+			}}
+
+			// debug(' populateExportLists - END\n');
 		}
 
 		function generateOneGlyph() {
 			// debug('\n generateOneGlyph - START');
 			// export this glyph
-			var glyph = currexportglyph.xg;
-			var num = currexportglyph.xc;
+			var glyph = currentExportItem.xg;
+			var num = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
 			var maxes = glyph.getMaxes();
 
@@ -118,34 +125,95 @@
 
 
 			// start the next one
-			currexportnum++;
+			currentExportNumber++;
 
-			if(currexportnum < exportarr.length){
-				currexportglyph = exportarr[currexportnum];
-				setTimeout(generateOneGlyph, 10);
+			if(currentExportNumber < exportGlyphs.length){
+				currentExportItem = exportGlyphs[currentExportNumber];
+                setTimeout(generateOneGlyph, 10);
+
 			} else {
-				showToast('Finalizing...', 10);
-				setTimeout(lastExportStep, 10);
+
+                if(exportLigatures.length){
+                    currentExportNumber = 0;
+                    currentExportItem = exportLigatures[0];
+                    setTimeout(generateOneLigature, 10);
+                } else {
+                    showToast('Finalizing...', 10);
+                    setTimeout(lastExportStep, 10);
+                }
 			}
 
 			// debug(' generateOneGlyph - END\n');
 		}
 
+        function generateOneLigature(){
+            debug('\n generateOneLigature - START');
+			// export this glyph
+			var liga = currentExportItem.xg;
+			var ligaID = currentExportItem.xc;
+			var comb = _GP.projectsettings.combineshapesonexport;
+            var maxes = liga.getMaxes();
+            
+            debug('\t doing ' + ligaID);
+
+			showToast('Exporting<br>'+liga.name, 999999);
+
+			if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
+
+			if(liga.isautowide) liga.updateGlyphPosition(liga.getLSB(), 0);
+
+			var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
+            var ligaCodePoint = 0xE000 + currentExportNumber; // Unicode private use area
+
+			var otglyph = new opentype.Glyph({
+				name: liga.name,
+				unicode: ligaCodePoint,
+				index: ligaCodePoint,
+				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
+				xMin: round(maxes.xmin),
+				xMax: round(maxes.xmax),
+				yMin: round(maxes.ymin),
+				yMax: round(maxes.ymax),
+				path: tgpath
+            });
+            
+            // Add ligature glyph to the font
+            options.glyphs.push(otglyph);
+
+            // Add substitution info to font
+            var subList = hexToChars(ligaID).split('');
+            debug('\t sub: [' + subList + '] by: ' + ligaID + ' which is ' + ligaCodePoint);
+            ligatureSubstitutions.push({sub: subList, by: ligaCodePoint});
+
+
+			// start the next one
+			currentExportNumber++;
+
+			if(currentExportNumber < exportLigatures.length){
+				currentExportItem = exportLigatures[currentExportNumber];
+				setTimeout(generateOneLigature, 10);
+			} else {
+				showToast('Finalizing...', 10);
+				setTimeout(lastExportStep, 10);
+			}
+        }
+        
 		function lastExportStep() {	
-			// debug('\n lastExportStep - START');
-			options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
-			
-			// Create Font
-			// debug('\t NEW options ARG TO FONT');
-			// debug(options);
-			var font = new opentype.Font(options);
-
-			// debug('\t Font object:');
-			// debug(font.toTables());
-
-			// Export
+            // Export
 			_UI.stoppagenavigation = false;
-			font.download();
+            
+            options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
+            var font = new opentype.Font(options);
+            var substitutions = new opentype.Substitution(font);
+
+            for(var s=0; s<ligatureSubstitutions.length; s++) {
+                substitutions.add('liga', ligatureSubstitutions[s]);
+            }
+
+            // debug('\t Font object:');
+            // debug(font.toTables());
+
+            font.download();
 			setTimeout(function(){_UI.stoppagenavigation = true;}, 2000);
 			// debug(' lastExportStep - END\n');
 		}
@@ -154,15 +222,17 @@
 
 		/*
 			MAIN EXPORT LOOP
-		*/
-		var options = {};
-		var exportarr = [];
-		var currexportnum = 0;
-		var currexportglyph ={};
+        */
+        var options = {};
+        var ligatureSubstitutions = [];
+		var exportGlyphs = [];
+		var exportLigatures = [];
+		var currentExportNumber = 0;
+		var currentExportItem ={};
 
 		firstExportStep();
-		populateExportList();
-		currexportglyph = exportarr[0];
+		populateExportLists();
+		currentExportItem = exportGlyphs[0];
 		generateOneGlyph();
 
 
