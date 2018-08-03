@@ -59,4 +59,4 @@
 ## Thanks!
 For cross-browser testing, we use
 
-[![BrowserStack](/img/browserstack-logo-31.png )]("http://browserstack.com")
+[![BrowserStack](/img/browserstack-logo-31.png )](http://browserstack.com)
