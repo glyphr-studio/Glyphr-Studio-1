@@ -50,7 +50,7 @@
 			options.glyphs.push(new opentype.Glyph({
 				name: '.notdef',
 				unicode: 0,
-				index: 0,
+				index: getNextGlyphIndex(),
 				advanceWidth: round(notdef.getAdvanceWidth()),
 				xMin: round(notdef.maxes.xmin),
 				xMax: round(notdef.maxes.xmax),
@@ -61,6 +61,8 @@
 
 			// debug(' firstExportStep - END\n');
 		}
+
+        function getNextGlyphIndex() { return glyphIndex++; }
 
 		function populateExportLists() {
 			// debug('\n populateExportLists - START');
@@ -78,10 +80,14 @@
 
 			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
 
-			// Add Ligatures
+            // Add Ligatures
+            var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
                 tg = new Glyph(clone(_GP.ligatures[l]));
                 exportLigatures.push({xg:tg, xc: l});
+
+                ligWithCodePoint = doesLigatureHaveCodePoint(l);
+                if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});                
 			}}
 
 			// debug(' populateExportLists - END\n');
@@ -101,27 +107,34 @@
 
 			if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
 
-			if(glyph.isautowide) glyph.updateGlyphPosition(glyph.getLSB(), 0);
+			if(glyph.isautowide) {
+                glyph.updateGlyphPosition(glyph.getLSB(), 0, true);
+                glyph.leftsidebearing = 0;
+            }
 
 			var tgpath = glyph.makeOpenTypeJSpath(new opentype.Path());
 
-			var otglyph = new opentype.Glyph({
+            var index = getNextGlyphIndex();
+
+			var glyphInfo = {
 				name: getUnicodeShortName(''+decToHex(num)),
 				unicode: parseInt(num),
-				index: parseInt(num),
+				index: index,
 				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
 				xMin: round(maxes.xmin),
 				xMax: round(maxes.xmax),
 				yMin: round(maxes.ymin),
 				yMax: round(maxes.ymax),
 				path: tgpath
-			});
+            };
+            
+            codePointGlyphIndexTable[''+decToHex(num)] = index;
 
-			// debug(otglyph);
-			// debug(otglyph.path);
+			debug(glyphInfo);
+			// debug(glyphInfo.path);
 
 			// Add this finshed glyph
-			options.glyphs.push(otglyph);
+			options.glyphs.push(new opentype.Glyph(glyphInfo));
 
 
 			// start the next one
@@ -134,6 +147,9 @@
 			} else {
 
                 if(exportLigatures.length){
+                    // debug('\t codePointGlyphIndexTable');
+                    // debug(codePointGlyphIndexTable);
+
                     currentExportNumber = 0;
                     currentExportItem = exportLigatures[0];
                     setTimeout(generateOneLigature, 10);
@@ -145,45 +161,51 @@
 
 			// debug(' generateOneGlyph - END\n');
 		}
-
+        
         function generateOneLigature(){
-            debug('\n generateOneLigature - START');
+            // debug('\n generateOneLigature - START');
 			// export this glyph
 			var liga = currentExportItem.xg;
 			var ligaID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
             var maxes = liga.getMaxes();
             
-            debug('\t doing ' + ligaID);
+            // debug('\t doing ' + ligaID + ' ' + liga.name);
 
 			showToast('Exporting<br>'+liga.name, 999999);
 
 			if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
 
-			if(liga.isautowide) liga.updateGlyphPosition(liga.getLSB(), 0);
+			if(liga.isautowide) {
+                liga.updateGlyphPosition(liga.getLSB(), 0, true);
+                liga.leftsidebearing = 0;
+            }
 
 			var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
             var ligaCodePoint = 0xE000 + currentExportNumber; // Unicode private use area
 
-			var otglyph = new opentype.Glyph({
+            var index = getNextGlyphIndex();
+
+			var glyphInfo = {
 				name: liga.name,
 				unicode: ligaCodePoint,
-				index: ligaCodePoint,
+				index: index,
 				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
 				xMin: round(maxes.xmin),
 				xMax: round(maxes.xmax),
 				yMin: round(maxes.ymin),
 				yMax: round(maxes.ymax),
 				path: tgpath
-            });
+            };
             
             // Add ligature glyph to the font
-            options.glyphs.push(otglyph);
+            options.glyphs.push(new opentype.Glyph(glyphInfo));
 
             // Add substitution info to font
             var subList = hexToChars(ligaID).split('');
-            debug('\t sub: [' + subList + '] by: ' + ligaID + ' which is ' + ligaCodePoint);
-            ligatureSubstitutions.push({sub: subList, by: ligaCodePoint});
+            var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
+            // debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
+            ligatureSubstitutions.push({sub: indexList, by: index});
 
 
 			// start the next one
@@ -204,13 +226,13 @@
             
             options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
             var font = new opentype.Font(options);
-            var substitutions = new opentype.Substitution(font);
 
             for(var s=0; s<ligatureSubstitutions.length; s++) {
-                substitutions.add('liga', ligatureSubstitutions[s]);
+                font.substitution.addLigature('liga', ligatureSubstitutions[s]);
             }
 
             // debug('\t Font object:');
+            // debug(font.glyphs);
             // debug(font.toTables());
 
             font.download();
@@ -224,6 +246,8 @@
 			MAIN EXPORT LOOP
         */
         var options = {};
+        var codePointGlyphIndexTable = {};
+        var glyphIndex = 0;
         var ligatureSubstitutions = [];
 		var exportGlyphs = [];
 		var exportLigatures = [];

@@ -187,23 +187,22 @@
 			content += '<tr>'+
 				'<td> use default <span class="unit">(em units)</span> </td>'+
 				'<td>'+
-					checkUI('getSelectedWorkItem().leftsidebearing', sc.leftsidebearing, true, true)+
+					checkUI('getSelectedWorkItem().leftsidebearing', (sc.leftsidebearing !== false), true, true)+
 					'&emsp;';
 
-					if(sc.leftsidebearing){
+                    if(sc.leftsidebearing === false){
+                        content +='<input type="number" disabled="disabled" '+
+                        'value="'+ round(_GP.projectsettings.defaultlsb, 3) + '"/>';
+                    } else {
 						if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
 						content += '<input type="number" id="charlsb" step="'+svc+'" '+
 						'value="' + sc.leftsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().leftsidebearing = (this.value*1); redraw({calledby:\'glyphDetails\'});">';
-					} else {
-						content +='<input type="number" disabled="disabled" '+
-						'value="'+ round(_GP.projectsettings.defaultlsb, 3) + '"/>';
-					}
-			content += '</td>'+
+                        'onchange="_UI.focuselement=this.id; getSelectedWorkItem().leftsidebearing = (this.value*1); redraw({calledby:\'glyphDetails\'});">';
+                    }
+			    content += '</td>'+
 			'</tr>';
 
 		}
-
 
 		// RIGHT SIDE BEARING
 		if(sc.isautowide){
@@ -212,19 +211,19 @@
 			content += '<tr>'+
 				'<td> use default <span class="unit">(em units)</span> </td>'+
 				'<td>'+
-					checkUI('getSelectedWorkItem().rightsidebearing', sc.rightsidebearing,  true, true)+
+					checkUI('getSelectedWorkItem().rightsidebearing', (sc.rightsidebearing !== false),  true, true)+
 					'&emsp;';
 
-					if(sc.rightsidebearing){
+                    if(sc.rightsidebearing === false){
+                        content +=	'<input type="number" disabled="disabled" '+
+                        'value="'+round(_GP.projectsettings.defaultrsb, 3) + '"/>';
+                    } else {
 						if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
 						content += '<input type="number" id="charrsb" step="'+svc+'" '+
 						'value="' + sc.rightsidebearing + '" '+
-						'onchange="_UI.focuselement=this.id; getSelectedWorkItem().rightsidebearing = (this.value*1); redraw({calledby:\'glyphDetails\'});">';
-					} else {
-						content +=	'<input type="number" disabled="disabled" '+
-						'value="'+round(_GP.projectsettings.defaultrsb, 3) + '"/>';
-					}
-			content += '</td>'+
+                        'onchange="_UI.focuselement=this.id; getSelectedWorkItem().rightsidebearing = (this.value*1); redraw({calledby:\'glyphDetails\'});">';
+                    }
+			    content += '</td>'+
 			'</tr>';
 
 		}

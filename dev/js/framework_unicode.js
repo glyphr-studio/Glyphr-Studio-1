@@ -14,7 +14,7 @@
 
 	function decToHTML(d) { return hexToHTML(decToHex(d)); }
 
-	function glyphToHex(s) {
+	function charToHex(s) {
 		var result = '';
 		for(var i=0; i<s.length; i++) result += decToHex(String(s).charCodeAt(i));
 		return result;

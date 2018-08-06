@@ -39,15 +39,6 @@
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
 
-			if(emptyligs){
-				content += '<div class="panel_section">';
-				content += '<h2>Please note!</h2><br>';
-				content += 'Ligatures will only be exported to SVG Fonts. This is a limitation of the library we use to write OTF files.<br><br>';
-				content += 'If you really need Ligatures in an OTF file, first export your project to an SVG Font, then use an online service to ';
-				content += 'convert your SVG Font to an OTF Font.'
-				content += '</div>';
-			}
-
 		} else if(_UI.current_page === 'components'){
 			var emptycoms = getLength(_GP.components) === 0;
 			if(!emptycoms) {
@@ -345,12 +336,17 @@
 			if(issel) {rv += '<div class="glyphselectbuttonsel"';}
 			else {rv += '<div class="glyphselectbutton"';}
 
+            var lig = doesLigatureHaveCodePoint(index);
+
 			if(index === '0x0020'){
 				rv += ' style="font-size:13px; line-height:3.8em;">space';	// SPACE needs to be smaller font size
 			} else if (index.indexOf('0x') === -1){
 				rv += ' style="font-size:8px;"><div style="height:10px;"></div>';	// Component names needs to be smaller font size
 				rv += gname;
-			} else {
+            } else if (lig) {
+                rv += ' style="font-family: sans-serif;">';
+                rv += hexToHTML(lig.point);
+            } else {
 				rv += '>';
 				rv += (wi.glyphhtml || hexToHTML(index) || gname);
 			}

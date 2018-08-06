@@ -596,7 +596,7 @@
 
 		var g;
 		sequence.forEach(function(v, i, a) {
-			g = getGlyph(glyphToHex(v));
+			g = getGlyph(charToHex(v));
 			if(g){
 				advanceWidth += g.getAdvanceWidth();
 				if(a[i+1]) advanceWidth += calculateKernOffset(v, a[i+1]);
@@ -716,7 +716,7 @@
 					xmax: textx+textw+1,
 					y: texty+6
 				},
-				onclick:function(){ hotspotNavigateToGlyph(glyphToHex(regHotspot)); }
+				onclick:function(){ hotspotNavigateToGlyph(charToHex(regHotspot)); }
 			});
 		}
 	}
@@ -1030,9 +1030,9 @@
 		var aw = 0;
 
 		for(var c=0; c<carr.length; c++){
-			g = getGlyph(charsToHexArray(carr[c])[0]);
+            g = getGlyph(charsToHexArray(carr[c])[0]);
 
-			aw += g.getAdvanceWidth();
+			if(g) aw += g.getAdvanceWidth();
 
 			if(c < carr.length-2){
 				aw += calculateKernOffset(carr[c], carr[c+1]);

@@ -940,8 +940,9 @@
 		var sc = getSelectedWorkItem();
 		if(!sc) return 0;
 		if(sc.objtype === 'component') return 0;
-		if(!sc.isautowide) return 0;
-		return sc.leftsidebearing || _GP.projectsettings.defaultlsb;
+        if(!sc.isautowide) return 0;
+        if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
+		return sc.leftsidebearing !== false? sc.leftsidebearing : _GP.projectsettings.defaultlsb;
 	}
 
 	function getSelectedGlyphRightSideBearing(){
@@ -949,8 +950,9 @@
 		var sc = getSelectedWorkItem();
 		if(!sc) return 0;
 		if(sc.objtype === 'component') return 0;
-		if(!sc.isautowide) return 0;
-		return sc.rightsidebearing || _GP.projectsettings.defaultrsb;
+        if(!sc.isautowide) return 0;
+        if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
+		return sc.rightsidebearing !== false? sc.rightsidebearing : _GP.projectsettings.defaultrsb;
 	}
 
 	function updateCurrentGlyphWidth() {

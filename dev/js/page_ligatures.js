@@ -73,20 +73,41 @@
 		}
 	}
 
-	function addCommonLigatures() {
-		var ff = parseUnicodeInput('ff').join('');
-		var fi = parseUnicodeInput('fi').join('');
-		var fl = parseUnicodeInput('fl').join('');
-		var ft = parseUnicodeInput('ft').join('');
-		var ffi = parseUnicodeInput('ffi').join('');
-		var ffl = parseUnicodeInput('ffl').join('');
+    var ligaturesWithCodePoints = [
+        {chars: 'f‌f', point: '0xFB00'},
+        {chars: 'f‌i', point: '0xFB01'},
+        {chars: 'f‌l', point: '0xFB02'},
+        {chars: 'f‌f‌i', point: '0xFB03'},
+        {chars: 'f‌f‌l', point: '0xFB04'},
+        {chars: 'st', point: '0xFB06'},
+        {chars: 'AE', point:'0x00C6'},
+        {chars: 'ae', point:'0x00E6'},
+        {chars: 'OE', point: '0x0152'},
+        {chars: 'oe', point: '0x0153'}
+    ];
 
-		if(!_GP.ligatures[ff]) _GP.ligatures[ff] = new Glyph({'glyphhex':ff});
-		if(!_GP.ligatures[fi]) _GP.ligatures[fi] = new Glyph({'glyphhex':fi});
-		if(!_GP.ligatures[fl]) _GP.ligatures[fl] = new Glyph({'glyphhex':fl});
-		if(!_GP.ligatures[ft]) _GP.ligatures[fl] = new Glyph({'glyphhex':ft});
-		if(!_GP.ligatures[ffi]) _GP.ligatures[ffi] = new Glyph({'glyphhex':ffi});
-		if(!_GP.ligatures[ffl]) _GP.ligatures[ffl] = new Glyph({'glyphhex':ffl});
+    function doesLigatureHaveCodePoint(id) {
+		// debug('\n doesLigatureHaveCodePoint - START');
+        // debug('\t passed ' + id);
+
+        if(id.indexOf('0x', 2) === -1) return false;
+
+        var ch = hexToChars(id);
+
+        for(var i=0; i<ligaturesWithCodePoints.length; i++){
+            if(ligaturesWithCodePoints[i].chars === ch) return ligaturesWithCodePoints[i];
+        }
+
+        return false;
+    }
+
+    function addCommonLigatures() {
+        var lig, id;
+        for(var i=0; i<ligaturesWithCodePoints.length; i++){
+            lig = ligaturesWithCodePoints[i];
+            id = parseUnicodeInput(lig.chars).join('');
+            if(!_GP.ligatures[id]) _GP.ligatures[id] = new Glyph({'glyphhex':id});
+        }
 
 		_UI.selectedglyph = getFirstID(_GP.ligatures);
 		redraw({calledby:'addCommonLigatures'});

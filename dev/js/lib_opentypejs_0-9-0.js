@@ -12472,7 +12472,6 @@
 	exports.Font = Font;
 	exports.Glyph = Glyph;
     exports.Path = Path;
-    exports.Substitution = Substitution;
 	exports.BoundingBox = BoundingBox;
 	exports._parse = parse;
 	exports.parse = parseBuffer;
