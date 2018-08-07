@@ -11671,42 +11671,35 @@
 	/**
 	 * Initiate a download of the OpenType font.
 	 */
-	Font.prototype.download = function(fileName) {
-	    var familyName = this.getEnglishName('fontFamily');
-	    var styleName = this.getEnglishName('fontSubfamily');
-	    fileName = fileName || familyName.replace(/\s/g, '') + '-' + styleName + '.otf';
-	    var arrayBuffer = this.toArrayBuffer();
-
-	    if (isBrowser()) {
-            // Glyphr Studio file save
-            saveFile(fileName, arrayBuffer, 'font/opentype');
-            
-            /*
-	        window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-	        window.requestFileSystem(window.TEMPORARY, arrayBuffer.byteLength, function(fs) {
-	            fs.root.getFile(fileName, {create: true}, function(fileEntry) {
-	                fileEntry.createWriter(function(writer) {
-	                    var dataView = new DataView(arrayBuffer);
-	                    var blob = new Blob([dataView], {type: 'font/opentype'});
-	                    writer.write(blob);
-
-	                    writer.addEventListener('writeend', function() {
-	                        // Navigating to the file will download it.
-	                        location.href = fileEntry.toURL();
-	                    }, false);
-	                });
-	            });
-	        },
-	        function(err) {
-	            throw new Error(err.name + ': ' + err.message);
-            });
-            */
-	    } else {
-	        var fs = require('fs');
-	        var buffer = arrayBufferToNodeBuffer(arrayBuffer);
-	        fs.writeFileSync(fileName, buffer);
-	    }
-	};
+    Font.prototype.download = function(fileName) {
+        const familyName = this.getEnglishName('fontFamily');
+        const styleName = this.getEnglishName('fontSubfamily');
+        fileName = fileName || familyName.replace(/\s/g, '') + '-' + styleName + '.otf';
+        const arrayBuffer = this.toArrayBuffer();
+    
+        if (isBrowser()) {
+            window.URL = window.URL || window.webkitURL;
+    
+            if (window.URL) {
+                const dataView = new DataView(arrayBuffer);
+                const blob = new Blob([dataView], {type: 'font/opentype'});
+    
+                let link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = fileName;
+    
+                let event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, false);
+                link.dispatchEvent(event);
+            } else {
+                console.warn('Font file could not be downloaded. Try using a different browser.');
+            }
+        } else {
+            const fs = require('fs');
+            const buffer = arrayBufferToNodeBuffer(arrayBuffer);
+            fs.writeFileSync(fileName, buffer);
+        }
+    };
 	/**
 	 * @private
 	 */
