@@ -58,7 +58,7 @@
 		} else {
 			// If the next undo item is a different glyph, 
 			// navigate to that glyph before undo-ing
-			showToast('Navigated without undo-ing');
+			showToast('Navigated without undo-ing.<br>Undo again to roll back changes for this glyph.', 2000);
 			selectGlyph(nextID);
 		}
 

@@ -65,32 +65,34 @@
         function getNextGlyphIndex() { return glyphIndex++; }
 
 		function populateExportLists() {
-			// debug('\n populateExportLists - START');
+			debug('\n populateExportLists - START');
 
 			// Add Glyphs
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 				if(parseInt(c)){
-					tg = new Glyph(clone(_GP.glyphs[c]));
+                    tg = new Glyph(clone(_GP.glyphs[c]));
+                    debug(`\t adding glyph "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
-
+                    
 				} else {
-					console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
+                    console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
 				}
 			}}
-
+            
 			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
-
+            
             // Add Ligatures
             var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
                 tg = new Glyph(clone(_GP.ligatures[l]));
+                debug(`\t adding ligature "${tg.name}"`);
                 exportLigatures.push({xg:tg, xc: l});
 
                 ligWithCodePoint = doesLigatureHaveCodePoint(l);
                 if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});                
 			}}
 
-			// debug(' populateExportLists - END\n');
+			debug(' populateExportLists - END\n');
 		}
 
 		function generateOneGlyph() {
@@ -99,9 +101,8 @@
 			var glyph = currentExportItem.xg;
 			var num = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-			var maxes = glyph.getMaxes();
-
-			// debug('\t ' + glyph.name);			
+            var maxes = glyph.getMaxes();
+            var name = getUnicodeShortName(''+decToHex(num));
 
 			showToast('Exporting<br>'+glyph.name, 999999);
 
@@ -117,7 +118,7 @@
             var index = getNextGlyphIndex();
 
 			var glyphInfo = {
-				name: getUnicodeShortName(''+decToHex(num)),
+				name: name,
 				unicode: parseInt(num),
 				index: index,
 				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
@@ -170,7 +171,7 @@
 			var comb = _GP.projectsettings.combineshapesonexport;
             var maxes = liga.getMaxes();
             
-            // debug('\t doing ' + ligaID + ' ' + liga.name);
+            debug('\t doing ' + ligaID + ' ' + liga.name);
 
 			showToast('Exporting<br>'+liga.name, 999999);
 
@@ -207,6 +208,7 @@
             // debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
             ligatureSubstitutions.push({sub: indexList, by: index});
 
+            debug(glyphInfo);
 
 			// start the next one
 			currentExportNumber++;

@@ -258,8 +258,10 @@
 		var name = _UI.shortunicodenames[ch];
 		if(!name) {
 			name = getUnicodeName(ch);
-			if(name) name = name.replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
-			else name = 'none';
+			if(name){
+                if (name !== '[name not found]') name = name.replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
+            }
+			else name = '[name not found]';
 		}
 
 		// debug(' getUnicodeShortName - returning ' + name + ' - END\n');

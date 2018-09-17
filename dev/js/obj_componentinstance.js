@@ -452,7 +452,7 @@
         // debug('ADDTOUSEDIN - adding ' + componentGlyphID + ' to ' + targetGlyphID);
         
 		var componentGlyph = getGlyph(componentGlyphID);
-        componentGlyph.usedin.push(''+instanceGlyphID);
+        componentGlyph.usedin.push(''+targetGlyphID);
         
         // sort numerically as opposed to alpha, remove duplicates
         componentGlyph.usedin.sort(function(a,b){return a-b;});

@@ -103,6 +103,7 @@
 		glyphactions += '<button title="Combine all shapes\nCombines the paths of all shapes with the same winding into as few shapes as possible" onclick="combineAllGlyphShapes();">' + makeActionButton_Combine() + '</button>';
 		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
+		glyphactions += '<button title="Delete Glyph\nRemove this Glyph from the project. Don\'t worry, you can undo this action." onclick="deleteSelectedGlyph();">' + makeActionButton_DeleteGlyph() + '</button>';
 
 
 		// DEV

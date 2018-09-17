@@ -241,6 +241,8 @@
 		var sel = isval(gcdata.selected)? gcdata.selected : 'glyphs';
 		var selwi = getSelectedWorkItemID();
 		var re = '<div class="glyphchooser-content">';
+        var deleteAction = '<button onclick="deleteSelectedGlyph()">Delete selected glyph</button>';
+        var footer = '<br>' + deleteAction + '</div>';
 
 		if(sel === 'basiclatin' || sel === 'glyphs'){
 			// debug('\t triggered glyphs');
@@ -248,7 +250,7 @@
 			for(var i=0; i<bl.length; i++){
 				re += make_GlyphChooser_Button(bl[i], fname, selwi);
 			}
-			return re + '</div>';
+			return re + footer;
 		}
 
 		if(sel === 'latinsupplement'){
@@ -256,7 +258,7 @@
 			for(var s=_UI.glyphrange.latinsupplement.begin; s<=_UI.glyphrange.latinsupplement.end; s++){
 				re += make_GlyphChooser_Button(decToHex(s), fname, selwi);
 			}
-			return re + '</div>';
+			return re + footer;
 		}
 
 		if(sel === 'latinextendeda'){
@@ -264,7 +266,7 @@
 			for(var a=_UI.glyphrange.latinextendeda.begin; a<=_UI.glyphrange.latinextendeda.end; a++){
 				re += make_GlyphChooser_Button(decToHex(a), fname, selwi);
 			}
-			return re + '</div>';
+			return re + footer;
 
 		}
 
@@ -273,7 +275,7 @@
 			for(var b=_UI.glyphrange.latinextendedb.begin; b<=_UI.glyphrange.latinextendedb.end; b++){
 				re += make_GlyphChooser_Button(decToHex(b), fname, selwi);
 			}
-			return re + '</div>';
+			return re + footer;
 		}
 
 		var cr = _GP.projectsettings.glyphrange;
@@ -288,7 +290,7 @@
 					re += make_GlyphChooser_Button(cn, fname, selwi);
 				}
 			}
-			return re + '</div>';
+			return re + footer;
 		}
 
 		if(sel === 'ligatures' && getFirstID(_GP.ligatures)){
@@ -297,7 +299,7 @@
 			for(var l in lig){ if(lig.hasOwnProperty(l)){
 				re += make_GlyphChooser_Button(l, fname, selwi) ;
 			}}
-			return re + '</div>';
+			return re + footer;
 		}
 
 		if(sel === 'components' && getFirstID(_GP.components)){
@@ -305,12 +307,21 @@
 			for(var d in com){ if(com.hasOwnProperty(d)){
 				re += make_GlyphChooser_Button(d, fname, selwi) ;
 			}}
-			return re + '</div>';
+			return re + footer;
 		}
 
 		// debug(' make_GlyphChooser_HeaderContent - END ERROR\n');
 		return '[error: make_GlyphChooser_HeaderContent]';
 	}
+
+    function deleteSelectedGlyph(){
+        var selwiid = getSelectedWorkItemID();
+        var selwi = getSelectedWorkItem();
+        deleteGlyph(selwiid);
+        showToast('Deleted glyph: ' + selwiid + '<br>' + selwi.name + '<br>Don\'t worry, you can undo this action.', 2500);
+        history_put('Deleted glyph: ' + selwiid + ' - ' + selwi.name);
+        redraw({calledby: 'deleteSelectedGlyph'});
+    }
 
 	function make_GlyphChooser_Button(index, fname, selid){
 		// debug('\n make_GlyphChooser_Button - START ' + index);

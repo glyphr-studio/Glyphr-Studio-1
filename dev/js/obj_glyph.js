@@ -843,6 +843,7 @@
 //-------------------------------------------------------
 // GLYPH FUNCTIONS
 //-------------------------------------------------------
+
 	// GET
 	function getGlyph(id, create) {
 		// debug('\n getGlyph - START');
@@ -966,4 +967,49 @@
 		}
 	}
 
+    // Delete
+    function deleteGlyph(id) {
+		// debug('\n deleteGlyph');
+		// debug('\t passed: ' + id);
+
+		if(!id){
+			// debug('\t Not passed an ID, returning false');
+			return false;
+		}
+
+		if(_GP === {}){
+			// debug('\t _GP is uninitialized, returning false');
+			return false;
+		}
+
+        id = ''+id;
+        
+		if (id.indexOf('0x', 2) > -1){
+            if(_GP.ligatures[id]){
+                delete _GP.ligatures[id];
+                // debug(`\t deleted ligature, it is now:`);
+                // debug(_GP.ligatures[id]);
+                return true;
+
+            } else return false;
+
+		} else if(id.indexOf('0x') > -1){
+            if(_GP.glyphs[id]){
+                delete _GP.glyphs[id];
+                // debug(`\t deleted glyph, it is now:`);
+                // debug(_GP.glyphs[id]);
+                return true;
+
+            } else return false;
+
+		} else {
+            if(_GP.components[id]){
+                delete _GP.components[id];
+                // debug(`\t deleted component, it is now:`);
+                // debug(_GP.components[id]);
+                return true;
+
+            } else return false;
+		}
+	}
 // end of file

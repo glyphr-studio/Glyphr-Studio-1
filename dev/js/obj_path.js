@@ -368,7 +368,7 @@
 		return re;
 	}
 
-	Path.prototype.addPointsAtPathIntersections = function(first_argument) {
+	Path.prototype.addPointsAtPathIntersections = function() {
 		var polyseg = this.getPolySegment();
 
 		polyseg.splitSegmentsAtIntersections();
