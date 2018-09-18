@@ -67,38 +67,41 @@
 		// boolactions += '<button title="Subtract Using Lower\nSelect two shapes, and the lower shape will be used to cut out an area from the upper shape" onclick="">' + makeActionButton_SubtractUsingBottom() + '</button>';
 
 
-		// PATH POINT
+		// PATH POINTS
 		var pointactions = '<h3>path point</h3>';
 		pointactions += '<button title="Insert Path Point\nAdds a new Path Point half way between the currently-selected point, and the next one" onclick="_UI.ms.points.insertPathPoint(); history_put(\'Insert Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_InsertPathPoint() + '</button>';
 		pointactions += '<button title="Delete Path Point\nRemoves the currently selected point or points from the path" class="'+(ss.length? '': 'buttondis')+'" onclick="_UI.ms.points.deletePathPoints(); history_put(\'Delete Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeletePathPoint() + '</button>';
 		pointactions += '<button title="Reset Handles\nMoves the handles of the currently selected point or points to default locations" onclick="_UI.ms.points.resetHandles(); history_put(\'Reset Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_ResetPathPoint() + '</button>';
-		pointactions += '<h3>point align</h3>';
-		pointactions += '<button title="Align Vertically\nAlign points vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { console.log(o[0]),o[0].alignX(o[1]) }); history_put(\'Align Points Vertically\');">' + makeActionButton_AlignPointsX() + '</button>';
-		pointactions += '<button title="Align Horizontally\nAlign points horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignY(o[1]) }); history_put(\'Align Points Horizontally\');">' + makeActionButton_AlignPointsY() + '</button>';
-		pointactions += '<h3>point handle align</h3>';
-		pointactions += '<button title="Align Handles Vertically\nAlign handles vertically" onclick="k_combinations(_UI.ms.points.members, 1).forEach(function(o, i) { o[0].alignHV(); }); history_put(\'Align Handles Vertically\');">' + makeActionButton_AlignHandlesV() + '</button>';
-		pointactions += '<button title="Align Handles Horizontally\nAlign handles horizontally" onclick="k_combinations(_UI.ms.points.members, 1).forEach(function(o, i) { o[0].alignHH(); }); history_put(\'Align Handles Horizontally\');">' + makeActionButton_AlignHandlesH() + '</button>';
-		pointactions += '<br>';
-		pointactions += '<button title="Align Handles Double-Cross Horizontally\nAlign both opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHYCross(o[1]) }); history_put(\'Align Handles Double-Cross Horizontally\');">' + makeActionButton_AlignHandlesYCross() + '</button>';
-		pointactions += '<button title="Align 1-Handles Cross-Horizontally\nAlign first opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1YCross(o[1]) }); history_put(\'Align 1-Handles Cross-Horizontally\');">' + makeActionButton_AlignHandlesH1YCross() + '</button>';
-		pointactions += '<button title="Align 2-Handles Cross-Horizontally\nAlign second opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2YCross(o[1]) }); history_put(\'Align 1-Handles Cross-Horizontally\');">' + makeActionButton_AlignHandlesH2YCross() + '</button>';
-		pointactions += '<button title="Align Handles Horizontally\nAlign handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHY(o[1]) }); history_put(\'Align Handles Horizontally\');">' + makeActionButton_AlignHandlesHY() + '</button>';
-		pointactions += '<button title="Align 1-Handles Horizontally\nAlign first handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1Y(o[1]) }); history_put(\'Align 1-Handles Horizontally\');">' + makeActionButton_AlignHandlesH1Y() + '</button>';
-		pointactions += '<button title="Align 2-Handles Horizontally\nAlign second handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2Y(o[1]) }); history_put(\'Align 2-Handles Horizontally\');">' + makeActionButton_AlignHandlesH2Y() + '</button>';
-		pointactions += '<br>';
-		pointactions += '<button title="Align Handles Double-Cross Vertically\nAlign both opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHXCross(o[1]) }); history_put(\'Align Handles Double Cross Vertically\');">' + makeActionButton_AlignHandlesXCross() + '</button>';
-		pointactions += '<button title="Align 1-Handles Cross-Vertically\nAlign first opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1XCross(o[1]) }); history_put(\'Align 1-Handles Cross-Vertically\');">' + makeActionButton_AlignHandlesH1XCross() + '</button>';
-		pointactions += '<button title="Align 2-Handles Cross-Vertically\nAlign second opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2XCross(o[1]) }); history_put(\'Align 1-Handles Cross-Vertically\');">' + makeActionButton_AlignHandlesH2XCross() + '</button>';
-		pointactions += '<button title="Align Handles Vertically\nAlign handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHX(o[1]) }); history_put(\'Align Handles Vertically\');">' + makeActionButton_AlignHandlesHX() + '</button>';
-		pointactions += '<button title="Align 1-Handles Vertically\nAlign first handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1X(o[1]) }); history_put(\'Align 1-Handles Vertically\');">' + makeActionButton_AlignHandlesH1X() + '</button>';
-		pointactions += '<button title="Align 2-Handles Vertically\nAlign second handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2X(o[1]) }); history_put(\'Align 2-Handles Vertically\');">' + makeActionButton_AlignHandlesH2X() + '</button>';
-		pointactions += '<h3>point autofit</h3>';
-		pointactions += '<button title="Autofit XY\nAutofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetXY(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit XY\');">' + makeActionButton_AutofitXY() + '</button>';
-		pointactions += '<button title="Autofit X\nAutofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetX(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit X\');">' + makeActionButton_AutofitX() + '</button>';
-		pointactions += '<button title="Autofit Y\nAutofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetY(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit Y\');">' + makeActionButton_AutofitY() + '</button>';
+        
+        var multipointactions = '<h3>point align</h3>';
+		multipointactions += '<button title="Align Vertically\nAlign points vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { console.log(o[0]),o[0].alignX(o[1]) }); history_put(\'Align Points Vertically\');">' + makeActionButton_AlignPointsX() + '</button>';
+		multipointactions += '<button title="Align Horizontally\nAlign points horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignY(o[1]) }); history_put(\'Align Points Horizontally\');">' + makeActionButton_AlignPointsY() + '</button>';
+        
+        multipointactions += '<h3>point handle align</h3>';
+		multipointactions += '<button title="Align Handles Vertically\nAlign handles vertically" onclick="k_combinations(_UI.ms.points.members, 1).forEach(function(o, i) { o[0].alignHV(); }); history_put(\'Align Handles Vertically\');">' + makeActionButton_AlignHandlesV() + '</button>';
+		multipointactions += '<button title="Align Handles Horizontally\nAlign handles horizontally" onclick="k_combinations(_UI.ms.points.members, 1).forEach(function(o, i) { o[0].alignHH(); }); history_put(\'Align Handles Horizontally\');">' + makeActionButton_AlignHandlesH() + '</button>';
+		multipointactions += '<br>';
+		multipointactions += '<button title="Align Handles Double-Cross Horizontally\nAlign both opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHYCross(o[1]) }); history_put(\'Align Handles Double-Cross Horizontally\');">' + makeActionButton_AlignHandlesYCross() + '</button>';
+		multipointactions += '<button title="Align 1-Handles Cross-Horizontally\nAlign first opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1YCross(o[1]) }); history_put(\'Align 1-Handles Cross-Horizontally\');">' + makeActionButton_AlignHandlesH1YCross() + '</button>';
+		multipointactions += '<button title="Align 2-Handles Cross-Horizontally\nAlign second opposite handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2YCross(o[1]) }); history_put(\'Align 1-Handles Cross-Horizontally\');">' + makeActionButton_AlignHandlesH2YCross() + '</button>';
+		multipointactions += '<button title="Align Handles Horizontally\nAlign handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHY(o[1]) }); history_put(\'Align Handles Horizontally\');">' + makeActionButton_AlignHandlesHY() + '</button>';
+		multipointactions += '<button title="Align 1-Handles Horizontally\nAlign first handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1Y(o[1]) }); history_put(\'Align 1-Handles Horizontally\');">' + makeActionButton_AlignHandlesH1Y() + '</button>';
+		multipointactions += '<button title="Align 2-Handles Horizontally\nAlign second handles horizontally" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2Y(o[1]) }); history_put(\'Align 2-Handles Horizontally\');">' + makeActionButton_AlignHandlesH2Y() + '</button>';
+		multipointactions += '<br>';
+		multipointactions += '<button title="Align Handles Double-Cross Vertically\nAlign both opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHXCross(o[1]) }); history_put(\'Align Handles Double Cross Vertically\');">' + makeActionButton_AlignHandlesXCross() + '</button>';
+		multipointactions += '<button title="Align 1-Handles Cross-Vertically\nAlign first opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1XCross(o[1]) }); history_put(\'Align 1-Handles Cross-Vertically\');">' + makeActionButton_AlignHandlesH1XCross() + '</button>';
+		multipointactions += '<button title="Align 2-Handles Cross-Vertically\nAlign second opposite handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2XCross(o[1]) }); history_put(\'Align 1-Handles Cross-Vertically\');">' + makeActionButton_AlignHandlesH2XCross() + '</button>';
+		multipointactions += '<button title="Align Handles Vertically\nAlign handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignHX(o[1]) }); history_put(\'Align Handles Vertically\');">' + makeActionButton_AlignHandlesHX() + '</button>';
+		multipointactions += '<button title="Align 1-Handles Vertically\nAlign first handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH1X(o[1]) }); history_put(\'Align 1-Handles Vertically\');">' + makeActionButton_AlignHandlesH1X() + '</button>';
+		multipointactions += '<button title="Align 2-Handles Vertically\nAlign second handles vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { o[0].alignH2X(o[1]) }); history_put(\'Align 2-Handles Vertically\');">' + makeActionButton_AlignHandlesH2X() + '</button>';
+        
+        multipointactions += '<h3>point autofit</h3>';
+		multipointactions += '<button title="Autofit XY\nAutofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetXY(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit XY\');">' + makeActionButton_AutofitXY() + '</button>';
+		multipointactions += '<button title="Autofit X\nAutofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetX(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit X\');">' + makeActionButton_AutofitX() + '</button>';
+		multipointactions += '<button title="Autofit Y\nAutofit a point based on the selected points" onclick="k_combinations(_UI.ms.points.members, _UI.ms.points.members.length > 3 ? 4 : 3).forEach(function(o, i) { o[o[3] ? 3 : 2].alignMutualOffsetY(o[0], o[1], o[3] ? o[2] : {P:{x:undefined}}) }); history_put(\'Autofit Y\');">' + makeActionButton_AutofitY() + '</button>';
 
 
-	// GLYPH
+	    // GLYPH
 		var glyphactions = '<h3>glyph</h3>';
 		glyphactions += '<button title="Combine all shapes\nCombines the paths of all shapes with the same winding into as few shapes as possible" onclick="combineAllGlyphShapes();">' + makeActionButton_Combine() + '</button>';
 		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
@@ -131,11 +134,16 @@
 
 		if(!pop) content += '<br>';
 
-		var ispointsel = false;
+        var ispointsel = false;
 		if(_UI.ms.points.count() > 0) ispointsel = true;
 		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
-
+        
+        var ismultipointsel = false;
+		if(_UI.ms.points.count() > 1) ismultipointsel = true;
+        if(_UI.selectedtool !== 'pathedit') ismultipointsel = false;
+        
 		if(ispointsel){ content += pointactions; }
+		if(ismultipointsel){ content += multipointactions; }
 		if(!pop) content += '<br>';
 
 		content += devactions;

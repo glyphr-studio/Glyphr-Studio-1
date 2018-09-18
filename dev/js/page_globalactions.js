@@ -20,8 +20,8 @@
         con += 'Given a positive or negative X and/or Y value, all the glyphs in this font will have their '+
                 'position updated by the specified number of Em units.';
         con += '<div class="effect">Individual Glyphs, Ligatures, and Components will be moved.  To avoid double-moving '+
-                'Component Instances (since they inherit position from Components) this algorithm will actually look into '+
-                'each Glyph or Ligature or Component and move each shape the specified X/Y amount as long as that shape is '+
+                'Component Instances (since they inherit their position from Components) this algorithm will look into '+
+                'each Glyph or Ligature or Component and move each shape the specified amount as long as that shape is '+
                 'not a Component Instance.</div>';
         con += '<table class="settingstable">';
         con += '<tr><td>X move: &nbsp;</td><td><input id="movex" type="number" value="0"></td><td><span class="unit">(em units)</span></td></tr>';
@@ -29,8 +29,40 @@
         con += '</table>';
         con += '<button class="buttonsel commit" onclick="updateAllGlyphPositions();">Move all glyphs</button>';
         con += '<hr>';
+
+        // Re-size
+        con += '<h1>Re-size all glyphs</h1>';
+        con += 'Given a positive or negative Width and/or Height value, all the glyphs in this font will have their '+
+                'size updated by the specified number of Em units.';
+        con += '<div class="effect">Individual Glyphs, Ligatures, and Components will be re-sized.  To avoid double-re-sizing '+
+                'Component Instances (since they inherit their size from Components) this algorithm will look into '+
+                'each Glyph or Ligature or Component and re-size each shape as long as that shape is '+
+                'not a Component Instance.<br>'+
+                '<b>WARNING</b>: Re-sizing component instances will almost always <b>not</b> turn out the way you want. Due to the nature '+
+                'of Components and Component Instances, and their aspect ratios vs. their parent glyphs, it is impossible to do '+
+                '\'the right thing\' in all cases.</div>';
+        con += '<table class="settingstable">';
+        con += '<tr><td>&#916; Width: &nbsp;</td><td><input id="sizew" type="number" value="0"></td><td><span class="unit">(em units)</span></td></tr>';
+        con += '<tr><td>&#916; Height: &nbsp;</td><td><input id="sizeh" type="number" value="0"></td><td><span class="unit">(em units)</span></td></tr>';
+        con += '</table>';
+        con += '<table class="settingstable">';
+        con += '<tr><td class="uicolumn" style="width:20px;"><input id="maintainaspectratio" type="checkbox"></td><td colspan="2" style="vertical-align:top;">Maintain aspect ratio</td></tr>';
+        con += '<tr><td colspan="3">If checked, the width vs. height ratio of the re-sized glyphs will remain the same.<br>';
+        con += '<b>Leave either &#916; Width or &#916; Height as zero</b></td></tr>';
+        con += '</table>';
+        con += '<button class="buttonsel commit" onclick="updateAllGlyphSizes();">Re-size all glyphs</button>';
+        con += '<hr>';
         
-		// Monospace
+		// Flatten
+		con += '<h1>Convert all Component Instances into Shapes</h1>';
+        con += 'This will remove all links from Component Instances to their Components, and leave behind a stand-alone shape '+
+                'that looks exactly like the Component Instance did.';
+        con += '<div class="effect">Every shape in every Glyph, Component, and Ligature will have the \'Turn Component Instance '+
+                'into a Shape\' command run on it.</div>';
+		con += '<button class="buttonsel commit" onclick="flattenAllWorkItems();">Convert Component Instances to Shapes</button>';
+		con += '<hr>';
+
+        // Monospace
 		con += '<h1>Monospace Font</h1>';
 		con += 'Monospace fonts are fonts where each glyph has the same width.  This is useful for '+
         'coding fonts, and fonts used for textual output.';
@@ -100,6 +132,44 @@
             }
         });
     }
+
+    function updateAllGlyphSizes() {
+        debug(`\n updateAllGlyphSizes - START`);
+        
+        var sizew = document.getElementById('sizew').value;
+        var sizeh = document.getElementById('sizeh').value;
+        var ratio = document.getElementById('maintainaspectratio').checked;
+        
+        sizew = parseFloat(sizew) || 0;
+        sizeh = parseFloat(sizeh) || 0;
+        
+        if(ratio && !sizeh && !sizew){
+            // For ratio lock to work, one delta value has to be zero
+            // Let's just choose width for some reason
+            sizew = 0;
+        } 
+        
+        debug(`\t after sanitizing - sizew: ${sizew}, sizeh: ${sizeh}, ratio lock: ${ratio}`);
+        
+        glyphIterator({
+            title: 'Re-sizing glyph',
+            action: function(glyph){
+                if(!glyph.shapes || !glyph.shapes.length) return;
+                glyph.updateGlyphSize(sizew, sizeh, ratio, true);
+            }
+        });
+
+        debug(` updateAllGlyphSizes - END\n\n`);
+    }
+
+	function flattenAllWorkItems() {
+		glyphIterator({
+			title: 'Converting Component Instances to Shapes',
+			action: function(glyph){
+				glyph.flattenGlyph();
+			}
+		});
+	}
 
 	function convertProjectToMonospace() {
 		var gwidth = document.getElementById('monospacewidth').value;

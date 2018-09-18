@@ -113,7 +113,7 @@
 		this.updateGlyphSize(dw, dh, false);
 	};
 
-	Glyph.prototype.updateGlyphSize = function(dw, dh, ratiolock){
+	Glyph.prototype.updateGlyphSize = function(dw, dh, ratiolock, dontscalecomponentinstances){
 		// debug('\n Glyph.updateGlyphSize - START ' + this.name);
 		// debug('\t number of shapes: ' + this.shapes.length);
 		// debug('\t dw dh rl:\t' + dw + '/' + dh + '/' + ratiolock);
@@ -167,8 +167,14 @@
 			if(ratiodh === 0) sdh = false;
 			else sdh = newsh - oldsh;
 
-			// debug('\t Shape ' + i + ' dw dh ' + sdw + ' ' + sdh);
-			s.updateShapeSize(sdw, sdh, false);
+            // debug('\t Shape ' + i + ' dw dh ' + sdw + ' ' + sdh);
+            if(s.objtype === 'componentinstance' && dontscalecomponentinstances) {
+                // Special case skipping scaling of CIs for Global Actions
+                // debug(`\t Skipped this shape because it's a component instance`);
+            } else {
+                // It's a regular shape, or we're scaling everything
+                s.updateShapeSize(sdw, sdh, false);                
+            }
 
 			// move
 			oldsx = smaxes.xmin - m.xmin;
@@ -673,7 +679,7 @@
 			ts = this.shapes[s];
 
 			if(ts.objtype === 'shape'){
-				reshapes.push(clone(ts));
+				reshapes.push(new Shape(clone(ts)));
 
 			} else if (ts.objtype === 'componentinstance'){
 				tg = ts.getTransformedGlyph();
@@ -984,32 +990,15 @@
 
         id = ''+id;
         
-		if (id.indexOf('0x', 2) > -1){
-            if(_GP.ligatures[id]){
-                delete _GP.ligatures[id];
-                // debug(`\t deleted ligature, it is now:`);
-                // debug(_GP.ligatures[id]);
-                return true;
+        if(_GP.glyphs[id]){
+            _GP.glyphs[id].deleteLinks(id);
+            delete _GP.glyphs[id];
+            // debug(`\t deleted glyph, it is now:`);
+            // debug(_GP.glyphs[id]);
+            return true;
 
-            } else return false;
-
-		} else if(id.indexOf('0x') > -1){
-            if(_GP.glyphs[id]){
-                delete _GP.glyphs[id];
-                // debug(`\t deleted glyph, it is now:`);
-                // debug(_GP.glyphs[id]);
-                return true;
-
-            } else return false;
-
-		} else {
-            if(_GP.components[id]){
-                delete _GP.components[id];
-                // debug(`\t deleted component, it is now:`);
-                // debug(_GP.components[id]);
-                return true;
-
-            } else return false;
-		}
+        } 
+        
+        return false;
 	}
 // end of file
