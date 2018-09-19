@@ -241,15 +241,29 @@
 		var re;
 		var chn = ch*1;
 		
-		if(chn >= 0x4E00 && chn < 0xA000){
-			return 'CJK Unified Ideograph ' + ch.substr(2);
-		} else if(_UI && _UI.unicodenames){
-		 	re = _UI.unicodenames[ch] || '[name not found]';
-		}
+		if(_UI && _UI.unicodenames && _UI.unicodenames[ch]){
+		 	return _UI.unicodenames[ch];
+		} else {
+            return getUnicodeBlockName(ch);
+        }
 
 		// debug(' getUnicodeName - END - returning ' + re + '\n');
 		return re;
 	}
+
+    function getUnicodeBlockName(ch) {
+        var chn = ch*1;
+        var block;
+
+        for(var i=0; i<_UI.unicodeBlocks.length; i++){
+            block = _UI.unicodeBlocks[i];
+            if(chn >= block.begin && chn <= block.end){
+                return block.name + ' - ' + ch.substr(2);
+            }
+        }
+
+        return '[name not found]';
+    }
 
 	function getUnicodeShortName(ch) {
 		// debug('\n getUnicodeShortName - START');
@@ -258,9 +272,7 @@
 		var name = _UI.shortunicodenames[ch];
 		if(!name) {
 			name = getUnicodeName(ch);
-			if(name){
-                if (name !== '[name not found]') name = name.replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
-            }
+			if(name && name !== '[name not found]') name = name.replace(/latin /gi, '').replace(/ /g, '').substr(0,20);
 			else name = '[name not found]';
 		}
 

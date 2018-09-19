@@ -64,8 +64,29 @@
 
         function getNextGlyphIndex() { return glyphIndex++; }
 
+        var privateUseArea = [];
+
+        function getNextLigatureCodePoint() {
+            while(ligatureCodePoint < 0xF8FF){
+                if(privateUseArea.includes(ligatureCodePoint)){
+                    ligatureCodePoint++;
+                } else {
+                    privateUseArea.push(ligatureCodePoint);
+                    return ligatureCodePoint;                
+                }
+            }
+
+            // Fallback.  This really shouldn't happen... but if somebody
+            // has used the entire Private Use area, I guess we'll just
+            // start throwing Ligatures into the Korean block?
+
+            console.warn('The entire Unicode Private Use Area (U+E000 to U+F8FF) seems to be taken. Ligatures will now be added to the block starting at U+AC00.');
+            ligatureCodePoint = 0xAC00;
+            return getNextLigatureCodePoint();
+        }
+
 		function populateExportLists() {
-			debug('\n populateExportLists - START');
+			// debug('\n populateExportLists - START');
 
 			// Add Glyphs
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
@@ -73,7 +94,8 @@
                     tg = new Glyph(clone(_GP.glyphs[c]));
                     debug(`\t adding glyph "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
-                    
+                    if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
+
 				} else {
                     console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
 				}
@@ -92,7 +114,7 @@
                 if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});                
 			}}
 
-			debug(' populateExportLists - END\n');
+			// debug(' populateExportLists - END\n');
 		}
 
 		function generateOneGlyph() {
@@ -101,7 +123,6 @@
 			var glyph = currentExportItem.xg;
 			var num = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-            var maxes = glyph.getMaxes();
             var name = getUnicodeShortName(''+decToHex(num));
 
 			showToast('Exporting<br>'+glyph.name, 999999);
@@ -122,16 +143,12 @@
 				unicode: parseInt(num),
 				index: index,
 				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
-				xMin: round(maxes.xmin),
-				xMax: round(maxes.xmax),
-				yMin: round(maxes.ymin),
-				yMax: round(maxes.ymax),
 				path: tgpath
             };
             
             codePointGlyphIndexTable[''+decToHex(num)] = index;
 
-			debug(glyphInfo);
+			// debug(glyphInfo);
 			// debug(glyphInfo.path);
 
 			// Add this finshed glyph
@@ -169,7 +186,6 @@
 			var liga = currentExportItem.xg;
 			var ligaID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-            var maxes = liga.getMaxes();
             
             debug('\t doing ' + ligaID + ' ' + liga.name);
 
@@ -182,9 +198,9 @@
                 liga.leftsidebearing = 0;
             }
 
-			var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
-            var ligaCodePoint = 0xE000 + currentExportNumber; // Unicode private use area
-
+            var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
+            
+            var ligaCodePoint = getNextLigatureCodePoint();
             var index = getNextGlyphIndex();
 
 			var glyphInfo = {
@@ -192,10 +208,6 @@
 				unicode: ligaCodePoint,
 				index: index,
 				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
-				xMin: round(maxes.xmin),
-				xMax: round(maxes.xmax),
-				yMin: round(maxes.ymin),
-				yMax: round(maxes.ymax),
 				path: tgpath
             };
             
@@ -250,6 +262,7 @@
         var options = {};
         var codePointGlyphIndexTable = {};
         var glyphIndex = 0;
+        var ligatureCodePoint = 0xE000;
         var ligatureSubstitutions = [];
 		var exportGlyphs = [];
 		var exportLigatures = [];
