@@ -919,18 +919,18 @@
 		var un = getUnicodeName(ch);
 		if(un && un !== '[name not found]'){
 			// debug('\t got unicode name: ' + un);
-			return un;
+			return escapeXMLValues(un);
 		}
 
 		var cobj = getGlyph(ch);
 		if(ch.indexOf('0x',2) > -1){
 			// ligature
 			// debug('\t ligature - returning ' + hexToHTML(ch));
-			return cobj.name || hexToHTML(ch);
+			return escapeXMLValues(cobj.name) || hexToHTML(ch);
 		} else {
 			// Component
 			// debug('getGlyphName - inexplicably fails, returning [name not found]\n');
-			return cobj.name || '[name not found]';
+			return escapeXMLValues(cobj.name) || '[name not found]';
 		}
 
 		// debug(' getGlyphName - returning nothing - END\n');

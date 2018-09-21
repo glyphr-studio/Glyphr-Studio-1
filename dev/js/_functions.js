@@ -150,11 +150,11 @@
 
 				if(selwi.name) name = name.replace(/latin /i, '');
 				content += makeSuperTitleSeperator();
-				content += name;
+				content += escapeXMLValues(name);
 			} else if (_UI.current_page === 'kerning'){
 				// debug('\t selwi = false, on kerning');
 				name = getSelectedKern();
-				content += name? makeSuperTitleSeperator() + name.getName() : '';
+				content += name? makeSuperTitleSeperator() + escapeXMLValues(name.getName()) : '';
 			}
 			content += '</h1>';
 		}
