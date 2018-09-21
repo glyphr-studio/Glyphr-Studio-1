@@ -68,18 +68,21 @@
 		// debug('\n parseUnicodeInput - START');
 		// debug('\t passed ' + str);
 
-		if(!str) return false;
+        if(!str) return false;
 
 		var entries = [];
 		var results = [];
 
-		var prefix = str.substr(0,2);
 		if(isInputUnicode(str)) {
 			str = str.replace(/u\+/g, 'U+');
-			entries = str.split('U+');
+            entries = str.split('U+');
+            if(!validateHex(entries, true)) return false;
+
 		} else if (isInputHex(str)) {
 			str = str.replace(/0X/g, '0x');
-			entries = str.split('0x');
+            entries = str.split('0x');
+            if(!validateHex(entries, true)) return false;
+
 		} else {
 			return charsToHexArray(str);
 		}
@@ -102,32 +105,41 @@
 	}
 
 	function isInputUnicode(str) {
-		str = str.replace(/u\+/g, 'U+');
-		var count = 0;
+        str = str.replace(/u\+/g, 'U+');
+        if(str.length <= 3) return 0;
+
+        var count = 0;
 		var pos = str.indexOf('U+');
 		while(pos !== -1){
 			count ++;
-			pos = str.indexOf('U+', pos+2);
+			pos = str.indexOf('U+', pos+3);
 		}
 		return count;
 	}
 
 	function isInputHex(str) {
-		str = str.replace(/0X/g, '0x');
-		var count = 0;
+        str = str.replace(/0X/g, '0x');
+        if(str.length <= 3) return 0;
+
+        var count = 0;
 		var pos = str.indexOf('0x');
 		while(pos !== -1){
 			count ++;
-			pos = str.indexOf('0x', pos+2);
+			pos = str.indexOf('0x', pos+3);
 		}
 		return count;
 	}
 	
-	function validateHex(str) {
+	function validateHex(str, dontcheckprefix) {
 		var green = '0123456789ABCDEF';
 		str = str.toString();
 		str = str.toUpperCase();
-		if(str.startsWith('0x')) str = str.substring(2);
+        
+        if(!dontcheckprefix) {
+            if(str.startsWith('U+') || str.startsWith('0X')) {
+                str = str.substring(2);
+            }
+        }
 
 		if(str.length > 4) return false;
 
