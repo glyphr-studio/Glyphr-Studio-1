@@ -317,10 +317,15 @@
     function deleteSelectedGlyph(){
         var selwiid = getSelectedWorkItemID();
         var selwi = getSelectedWorkItem();
-        deleteGlyph(selwiid);
-        showToast('Deleted glyph: ' + selwiid + '<br>' + selwi.name + '<br>Don\'t worry, you can undo this action.', 2500);
-        history_put('Deleted glyph: ' + selwiid + ' - ' + selwi.name);
-        redraw({calledby: 'deleteSelectedGlyph'});
+		var success = deleteGlyph(selwiid);
+		
+		if(success) {
+			showToast('Deleted glyph: ' + selwiid + '<br>' + selwi.name + '<br>Don\'t worry, you can undo this action.', 2500);
+			history_put('Deleted glyph: ' + selwiid + ' - ' + selwi.name);
+			redraw({calledby: 'deleteSelectedGlyph'});
+		} else {
+			debug('deleteSelectedGlyph FAILED');
+		}
     }
 
 	function make_GlyphChooser_Button(index, fname, selid){

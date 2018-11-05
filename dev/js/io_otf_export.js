@@ -92,7 +92,7 @@
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 				if(parseInt(c)){
                     tg = new Glyph(clone(_GP.glyphs[c]));
-                    debug(`\t adding glyph "${tg.name}"`);
+                    debug(`\t adding glyph ${c} "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
                     if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
 

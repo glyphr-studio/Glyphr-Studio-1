@@ -993,8 +993,8 @@
         if(_GP.glyphs[id]){
             _GP.glyphs[id].deleteLinks(id);
             delete _GP.glyphs[id];
-            // debug(`\t deleted glyph, it is now:`);
-            // debug(_GP.glyphs[id]);
+            debug(`\t deleted glyph, it is now:`);
+            debug(_GP.glyphs[id]);
             return true;
 
         } 
