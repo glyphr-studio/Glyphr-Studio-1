@@ -20,7 +20,7 @@
 		thisGlyphrStudioVersionDate: false,
 
 		// Internal Dev Stuff
-		devmode: false, 				// global switch for all the stuff below
+		devmode: true, 				// global switch for all the stuff below
 		dev_sample_project: false, 		// if sampleproject is present, load it and skip open project experience
 		dev_current_page: false,		// navigate straight to a page
 		dev_current_panel: false, 		// navigate straight to a panel
@@ -267,7 +267,7 @@
 			font_variant: 'normal, small-caps',
 			font_weight: 'normal, bold, or a number 100-900',
 			font_stretch: 'normal, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded',
-			panose_1: 'Uses ten digits to describe the font\'s visual style.  A good overview can be found here (archived): <a href="https://web.archive.org/web/20140913211804/http://www.monotype.com/services/pan2" target="_blank">monotype.com/services/pan2</a>.',
+			panose_1: 'Uses ten digits to describe the font\'s visual style.  A good overview can be found on Monotype\'s GitHub page: <a href="http://monotype.github.io/panose/pan2.htm" target="_blank">monotype.github.io/panose/pan2.htm</a>.',
 			stemv: 'Average measurement of vertical stems.',
 			stemh: 'Average measurement of horizontal stems.',
 			slope: 'If italic, this is the slant angle, measured counterclockwise from vertical. Or zero for non-italic fonts.',

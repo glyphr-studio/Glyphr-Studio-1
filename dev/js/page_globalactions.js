@@ -46,6 +46,7 @@
         con += '<tr><td>&#916; Height: &nbsp;</td><td><input id="sizeh" type="number" value="0"></td><td><span class="unit">(em units)</span></td></tr>';
         con += '</table>';
         con += '<table class="settingstable">';
+        con += '<tr><td class="uicolumn" style="width:20px;"><input id="updateglyphwidthproperty" type="checkbox" checked></td><td colspan="2" style="vertical-align:top;">Also update the glyph width property (when auto-calculate glyph width equals false)</td></tr>';
         con += '<tr><td class="uicolumn" style="width:20px;"><input id="maintainaspectratio" type="checkbox"></td><td colspan="2" style="vertical-align:top;">Maintain aspect ratio</td></tr>';
         con += '<tr><td colspan="3">If checked, the width vs. height ratio of the re-sized glyphs will remain the same.<br>';
         con += '<b>Leave either &#916; Width or &#916; Height as zero</b></td></tr>';
@@ -134,11 +135,12 @@
     }
 
     function updateAllGlyphSizes() {
-        debug(`\n updateAllGlyphSizes - START`);
+        // debug(`\n updateAllGlyphSizes - START`);
         
         var sizew = document.getElementById('sizew').value;
         var sizeh = document.getElementById('sizeh').value;
         var ratio = document.getElementById('maintainaspectratio').checked;
+        var updatewidthprop = document.getElementById('updateglyphwidthproperty').checked;
         
         sizew = parseFloat(sizew) || 0;
         sizeh = parseFloat(sizeh) || 0;
@@ -149,17 +151,18 @@
             sizew = 0;
         } 
         
-        debug(`\t after sanitizing - sizew: ${sizew}, sizeh: ${sizeh}, ratio lock: ${ratio}`);
+        // debug(`\t after sanitizing - sizew: ${sizew}, sizeh: ${sizeh}, ratio lock: ${ratio}`);
         
         glyphIterator({
             title: 'Re-sizing glyph',
             action: function(glyph){
                 if(!glyph.shapes || !glyph.shapes.length) return;
                 glyph.updateGlyphSize(sizew, sizeh, ratio, true);
+                if(updatewidthprop) glyph.glyphwidth = ((glyph.glyphwidth*1) + (sizew*1));
             }
         });
 
-        debug(` updateAllGlyphSizes - END\n\n`);
+        // debug(` updateAllGlyphSizes - END\n\n`);
     }
 
 	function flattenAllWorkItems() {

@@ -607,17 +607,17 @@
 		this.H1.x = calculateAngleX(angle, this.H1.y);
 	};
 
-  PathPoint.prototype.setH1AngleY = function(angle){
-    this.H1.y = calculateAngleY(angle, this.H1.x);
-  };
+    PathPoint.prototype.setH1AngleY = function(angle){
+        this.H1.y = calculateAngleY(angle, this.H1.x);
+    };
 
-  PathPoint.prototype.setH2AngleX = function(angle){
-    this.H2.x = calculateAngleX(angle, this.H2.y);
-  };
+    PathPoint.prototype.setH2AngleX = function(angle){
+        this.H2.x = calculateAngleX(angle, this.H2.y);
+    };
 
-  PathPoint.prototype.setH2AngleY = function(angle){
-    this.H2.y = calculateAngleY(angle, this.H2.x);
-  };
+    PathPoint.prototype.setH2AngleY = function(angle){
+        this.H2.y = calculateAngleY(angle, this.H2.x);
+    };
 	
 	PathPoint.prototype.getH1Angle = function(){
 		return calculateAngle(this.H1, this.P);
