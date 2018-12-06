@@ -191,8 +191,9 @@
 
 			if(gr.custom.length) content += '<div style="height:12px;"></div>';
 			for(var c=0; c<gr.custom.length; c++){
+                if(!gr.custom[c].name) gr.custom[c].name = ('Glyph Range ' + (c+1));
 				content += '<button class="navtargetbutton glyphchooser-dropdownbutton" onclick="update_GlyphChooser('+c+');">';
-				content += 'Custom Range '+(c+1) + '&emsp;';
+				content += gr.custom[c].name + '&emsp;';
 				content += '<span class="units">' + gr.custom[c].begin + ' to ' + gr.custom[c].end + '</span>';
 				content += '</button>';
 			}

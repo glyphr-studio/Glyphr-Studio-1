@@ -203,7 +203,7 @@
 	h1 {
 		margin-left:0px;
 		color:rgb(204,209,214);
-		color:rgb(178,183,188);
+		color:rgb(0,63,95);
 		font-size:2em;
 		margin-bottom:8px;
 		clear:right;
@@ -252,6 +252,13 @@
 		color:black;
 	}
 
+    pre {
+        display: inline-block;
+        background-color: rgba(0,0,0,0.1);
+        font-family: monospace;
+        padding: 0px 2px;
+        border-radius: 2px;
+    }
 
 
 
@@ -788,6 +795,17 @@
 		background-color: rgb(178,183,188);
 		border:3px solid rgb(178,183,188);
 	}
+
+    .textaction {
+        color: rgb(0,140,210);
+        text-decoration: none;
+    }
+
+    .textaction:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
 
 /* -----------*/
 /* Nav Stuff */
@@ -1872,32 +1890,62 @@
 	.glyphrangepreview {
 		background-color: white;
 		border: 1px solid rgb(229,234,239);
-		color:rgb(102,107,112);
-		font-family: serif;
-		letter-spacing: .2em;
-		line-height: 1.4em;
-		padding:8px;
-	}
+        padding:8px;
+    }
+    
+    .glyphrangepreviewglyph {
+        color:rgb(102,107,112);
+        font-family: serif;
+        padding: 1px 3px 1px 3px;
+        text-align: center;
+        display: inline-block;
+    }
+    
+    .glyphrangepreviewglyph:hover {
+        background-color: rgb(229,234,239);
+    }
+
+    .addcustomrange {
+        width: 700px;
+    }
 
 	#customrangetable {
-		margin-bottom:30px;
+        margin-bottom:30px;
+        width: 700px;
 	}
 
-	.customrangeline {
-		border: 1px solid rgb(229,234,239);
-		color:rgb(102,107,112);
-		background-color: white;
-		padding:4px;
-		vertical-align: middle;
-	}
+    #customrangename {
+        width: 300px;
+    }
 
-	#customrangeerror {
-		color:red;
-		background-color: pink;
-		display: none;
-		padding:8px;
-		border:1px dotted red;
-	}
+    #customrangebegin,
+    #customrangeend {
+        font-family: monospace;
+        width: 80px;
+    }
+
+	.customrangegrid {
+        vertical-align: middle;
+        width: 700px;
+        margin: 8px 0px 20px 0px;
+    }
+    
+    .customrangegrid td {
+        background-color: white;
+        border-style: solid;
+        border-width:1px 0px;
+        border-color:rgb(229, 234, 239);
+        padding:4px;
+        vertical-align: middle;
+    }
+    
+    .customrangegridheader {
+        background-color: transparent !important;
+        border: 0 !important;
+        font-weight: bold;
+        color:rgb(102,107,112);
+    }
+
 
 /* -------------------- */
 /* Page - Save Project */
@@ -1970,4 +2018,3 @@
 		cursor:pointer;
 		border-bottom:3px solid rgb(0,170,225);
 	}
-

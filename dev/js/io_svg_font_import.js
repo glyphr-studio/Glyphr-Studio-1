@@ -369,7 +369,6 @@
 			'<td>end:<br><input type="text" onchange="checkFilter(\'custom\');document.getElementById(\'importfontbutton\').disabled = \'disabled\';" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
 			'<td><br><button onclick="checkFilter(\'custom\');">Set Range</button></td>'+
 			'<td style="padding-top:20px;">'+helpUI(unicodeInputHelp())+'</td>'+
-			'<td><br><div id="customrangeerror">bad range input</div></td>'+
 			'</tr></table><br>';
 		re += '</td></tr>';
 
