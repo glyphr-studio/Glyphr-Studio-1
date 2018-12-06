@@ -30,7 +30,7 @@
 		var con = '<h1>New Ligature</h1>';
 		con += '<div style="width:500px;">';
 		con += 'Create a new ligature by specifying two or more individual glyphs that will make up the ligature (like ff).<br><br>';
-		con += 'Ligature glyphs can also be specified in Unicode format (like U+0066U+0066) or hexadecimal format (like 0x00660x0066). ';
+		con += 'Ligature glyphs can also be specified in Unicode format (like <pre>U+0066U+0066</pre>) or hexadecimal format (like <pre>0x00660x0066</pre>). ';
 		con += 'Hexadecimal, Unicode, and regular glyph formats cannot be mixed - choose one type!<br><br>';
 		con += '<h3>Ligature Glyphs</h3>';
 		con += '<input type="text" id="newligatureinput" style="font-size:24px; padding:8px;"/><br>';

@@ -358,7 +358,7 @@
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'basic\');" id="basic" checked/></td><td>';
 		re += '<h3>Only import Latin glyphs</h3>'+
-			'This includes Latin and Latin Extended Unicode ranges<br>(0x0020 - 0x024F).<br><br>';
+			'This includes Latin and Latin Extended Unicode ranges<br>(<pre>0x0020</pre> - <pre>0x024F</pre>).<br><br>';
 		re += '</td></tr>';
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
