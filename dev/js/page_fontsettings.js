@@ -87,7 +87,7 @@
 
 		content += '<h2>Additional Glyph Ranges</h2>'+
                     'You can add and edit custom glyph ranges below, or you can '+
-                    '<span class="textaction" onclick="showCustomGlyphRangeChooser();">launch the Glyph Range Chooser</span> '+
+                    '<span class="textaction" onclick="showGlyphRangeChooser();">launch the Glyph Range Chooser</span> '+
                     'to browse all the ranges in Unicode.  '+
                     'Custom ranges are inclusive, and must be above <pre>0x0250</pre> and below <pre>0xFFFF</pre>.'+
                     '<h3>Add a custom range</h3>'+
@@ -152,7 +152,7 @@
             for(var r=0; r<ranges.length; r++){
                 if(ranges[r].begin === newrange.begin &&
                     ranges[r].end === newrange.end){
-                        showToast('Range has already been added<br>'+newrange.name);
+                        showToast('Range has already been added:<br>'+newrange.name);
                         return;
                     }
             }
@@ -164,36 +164,37 @@
             });
 
             // Update UI
-            showToast('Added range<br>'+newrange.name);
-            updateCustomRangeTable();
+            showToast('Added range:<br>'+newrange.name);
+            if(document.getElementById('customrangetable')) updateCustomRangeTable();
+            if(document.getElementById('glyphchooser')) redraw({calledby:'addCustomGlyphRange', redrawcanvas:false});
             if(document.getElementById('unicoderangepreviewarea')) previewGlyphRange(newrange);
         }
     }
 
 	function getCustomRange(filterbasicrange) {
-        debug(`\n getCustomRange - START`);        
+        // debug(`\n getCustomRange - START`);        
 		var newrange = {'begin':0, 'end':0, 'name':'Glyph Range'};
 		newrange.name = escapeHTMLValues(document.getElementById('customrangename').value);
 		newrange.begin = parseUnicodeInput(document.getElementById('customrangebegin').value)[0];
         newrange.end = parseUnicodeInput(document.getElementById('customrangeend').value)[0];
 
-        debug(`\t newrange read from inputs: ${newrange.begin} - end: ${newrange.end}`);
+        // debug(`\t newrange read from inputs: ${newrange.begin} - end: ${newrange.end}`);
 
         // Check input values
 		if(isNaN(newrange.begin)){
-            showToast('Range begin input not valid');
+            showToast('Invalid range input:<br>range begin');
             return false;
         }
         
         if(isNaN(newrange.end)){
-            showToast('Range end input not valid');
+            showToast('Invalid range input:<br>range end');
             return false;
         }
 
         if(filterbasicrange &&
             newrange.begin < _UI.glyphrange.latinextendedb.end &&
             newrange.end < _UI.glyphrange.latinextendedb.end) {
-            showToast('Range must be above 0x0250');
+            showToast('Invalid range input:<br>range must be above 0x0250');
             return false;
         }
 
@@ -222,7 +223,7 @@
         document.getElementById('customrangebegin').value = '';
         document.getElementById('customrangeend').value = '';
     
-        debug(` getCustomRange - END\n\n`);
+        // debug(` getCustomRange - END\n\n`);
         return newrange;
 
 	}
@@ -277,7 +278,7 @@
         removeCustomGlyphRange(i);
     }
     
-    function showCustomGlyphRangeChooser() {
+    function showGlyphRangeChooser() {
         var content = '<h1>Add additional glyph ranges</h1>';
         content += '<div id="unicoderangepreviewarea"><h2>preview</h2><div class="glyphrangepreview">Select a range preview from the right</div></div>';
         var block;
@@ -314,8 +315,8 @@
         var content = '<h2>'+range.name+'</h2>';
         content += '<div class="glyphrangepreview">';
         content += makeRangePreview(range);
-        content += '</div><br>';
-        content += '<button onclick="addCustomGlyphRange({begin:\''+decToHex(range.begin)+'\', end:\''+decToHex(range.end)+'\', name:\''+range.name+'\'});">Add</button>';
+        content += '</div>';
+        content += '<button class="buttonsel" onclick="addCustomGlyphRange({begin:\''+decToHex(range.begin)+'\', end:\''+decToHex(range.end)+'\', name:\''+range.name+'\'});">Add</button>';
 
         document.getElementById('unicoderangepreviewarea').innerHTML = content;
     }

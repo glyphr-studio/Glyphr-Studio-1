@@ -92,7 +92,7 @@
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
 				if(parseInt(c)){
                     tg = new Glyph(clone(_GP.glyphs[c]));
-                    debug(`\t adding glyph ${c} "${tg.name}"`);
+                    // debug(`\t adding glyph ${c} "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
                     if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
 
@@ -107,7 +107,7 @@
             var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
                 tg = new Glyph(clone(_GP.ligatures[l]));
-                debug(`\t adding ligature "${tg.name}"`);
+                // debug(`\t adding ligature "${tg.name}"`);
                 exportLigatures.push({xg:tg, xc: l});
 
                 ligWithCodePoint = doesLigatureHaveCodePoint(l);
@@ -187,7 +187,7 @@
 			var ligaID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
             
-            debug('\t doing ' + ligaID + ' ' + liga.name);
+            // debug('\t doing ' + ligaID + ' ' + liga.name);
 
 			showToast('Exporting<br>'+liga.name, 999999);
 
@@ -220,7 +220,7 @@
             // debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
             ligatureSubstitutions.push({sub: indexList, by: index});
 
-            debug(glyphInfo);
+            // debug(glyphInfo);
 
 			// start the next one
 			currentExportNumber++;

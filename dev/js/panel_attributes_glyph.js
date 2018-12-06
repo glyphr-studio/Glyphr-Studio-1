@@ -8,7 +8,7 @@
 
 
 	function makePanel_GlyphAttributes(){
-		debug('\n makePanel_GlyphAttributes - START');
+		// debug('\n makePanel_GlyphAttributes - START');
 		var sc = getSelectedWorkItem();
 		var ss = _UI.ms.shapes.getMembers();
 
@@ -22,25 +22,25 @@
 		content += '<table class="detail">';
         
 		if (_UI.current_page === 'components'){
-            debug(" \t  detected current_page = components");
+            // debug(" \t  detected current_page = components");
 			content += '<tr><td colspan=2 class="detailtitle"><h3 style="margin-top:0px;">component</h3></td></tr>';
 			content += '<tr><td class="leftcol">name</td><td><input class="namewidth" type="text" value="'+sc.name+'" onchange="getSelectedWorkItem().name = this.value;"/></td></tr>';
 		}
         
 		if(ss.length === 0){
             // no shape selected
-			debug(" \t no shape selected");
+			// debug(" \t no shape selected");
 			content += glyphDetails();
             
 		} else if (ss.length === 1){
             // One shape selected
 			if(ss[0].objtype === 'componentinstance'){
                 // component selected
-				debug(" \t component selected");
+				// debug(" \t component selected");
 				content += componentInstanceDetails(ss[0]);
 			} else {
                 // regular shape selected
-				debug(" \t regular shape selected");
+				// debug(" \t regular shape selected");
 				content += shapeDetails(ss[0]);
                 
 				var ispointsel = (_UI.ms.points.count() === 1);
@@ -69,12 +69,12 @@
 		content += '</table>';
 		content += '</div>';
         
-        debug(' makePanel_GlyphAttributes - END\n');
+        // debug(' makePanel_GlyphAttributes - END\n');
 		return content;
 	}
     
 	function multiSelectDetails() {
-        debug(`\n multiSelectDetails - START`);
+        // debug(`\n multiSelectDetails - START`);
         
 		var sc = _UI.ms.shapes.getGlyph();
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
@@ -111,12 +111,12 @@
             '<td>'+checkUI('_UI.ms.shapes.getGlyph().ratiolock', sc.ratiolock, true)+'</td>'+
 		'</tr>';
         
-        debug(` multiSelectDetails - END\n\n`);
+        // debug(` multiSelectDetails - END\n\n`);
 		return content;
 	}
     
 	function glyphDetails(){
-        debug(`\n glyphDetails - START`);
+        // debug(`\n glyphDetails - START`);
         
 		var sc = getSelectedWorkItem();
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
@@ -126,7 +126,7 @@
         
         
 		if(numshapes > 1){
-            debug(`\t numshapes > 1`);
+            // debug(`\t numshapes > 1`);
             
             content += '<tr><td colspan=2><h3 style="margin-top:0px;"> bulk-transform glyph shapes </h3></td></tr>';
 			content += '<tr>'+
@@ -174,13 +174,13 @@
                 '&emsp;';
         
                 if(!sc.isautowide){
-                    debug(`\t isautowide = FALSE`);
+                    // debug(`\t isautowide = FALSE`);
                     
                     content += '<input type="number" id="charaw" step="'+svc+'" '+
                         'value="' + round(sc.glyphwidth, 3) + '" '+
                         'onchange="_UI.focuselement=this.id; getSelectedWorkItem().glyphwidth = (this.value*1); redraw({calledby:{calledby:\'glyphDetails\'}});">';
                 } else {
-                    debug(`\t sc.isautowide = TRUE`);
+                    // debug(`\t sc.isautowide = TRUE`);
                     
                     content += '<input type="number" disabled="disabled" '+
                         'value="'+ round(sc.glyphwidth, 3) + '"/>';
@@ -193,7 +193,7 @@
         
 		// LEFT SIDE BEARING
 		if(sc.isautowide){
-            debug(`\t LSB autowide = TRUE`);
+            // debug(`\t LSB autowide = TRUE`);
             
             content += '<tr><td colspan=2 class="detailtitle"><h3> left side bearing </h3></td></tr>';
             
@@ -219,7 +219,7 @@
         
 		// RIGHT SIDE BEARING
 		if(sc.isautowide){
-            debug(`\t RSB autowide = TRUE`);
+            // debug(`\t RSB autowide = TRUE`);
             
             content += '<tr><td colspan=2 class="detailtitle"><h3> right side bearing </h3></td></tr>';
             
@@ -245,7 +245,7 @@
         
 		// USED IN 
 		if(sc.usedin.length > 0){
-            debug(`\t usedin.length > 0`);
+            // debug(`\t usedin.length > 0`);
             
             content += '<tr><td colspan=2><br class="detailtitle"><h3>glyphs that use this component</h3></td></tr>';
 			content += '<tr><td colspan=2>';
@@ -253,13 +253,13 @@
 			content += '</td></tr>';
         } 
         
-        debug(content);
-        debug(` glyphDetails - END\n\n`);
+        // debug(content);
+        // debug(` glyphDetails - END\n\n`);
 		return content;
 	}
     
 	function shapeDetails(s){
-        debug(`\n shapeDetails - START`);
+        // debug(`\n shapeDetails - START`);
         
 		var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
@@ -355,13 +355,13 @@
 			'</tr>';
 		}
         
-		debug(content);
-        debug(` shapeDetails - END\n\n`);
+		// debug(content);
+        // debug(` shapeDetails - END\n\n`);
 		return content;
 	}
     
 	function pointDetails(tp){
-        debug(`\n pointDetails - START`);
+        // debug(`\n pointDetails - START`);
         
         var svc = _GP.projectsettings.spinnervaluechange*1 || 1;
 		var content = '';
@@ -464,7 +464,7 @@
 			'</tr>';
 		}
         
-        debug(` pointDetails - END\n\n`);
+        // debug(` pointDetails - END\n\n`);
 		return content;
 	}
     

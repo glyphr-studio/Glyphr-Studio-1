@@ -196,7 +196,9 @@
 				content += gr.custom[c].name + '&emsp;';
 				content += '<span class="units">' + gr.custom[c].begin + ' to ' + gr.custom[c].end + '</span>';
 				content += '</button>';
-			}
+            }
+            
+            content += '<br><span class="textaction" onclick="showGlyphRangeChooser();">Add additional glyph ranges</span>';
 		}
 
 		if(ch === 'components' || ch === 'all'){
