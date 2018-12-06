@@ -246,11 +246,13 @@
 		document.getElementById('dialog_bg').style.display='block';
 	}
 
-	function openBigDialog(content){
+	function openBigDialog(content, chooserContent){
 		closeDialog();
-		document.body.focus();
-		document.getElementById('bigDialogLeftContent').innerHTML = content;
-		document.getElementById('bigDialogScrollContent').innerHTML = make_GlyphChooser(_UI.glyphchooser.dialog);
+        document.body.focus();
+        
+        document.getElementById('bigDialogLeftContent').innerHTML = content;
+        chooserContent = chooserContent || make_GlyphChooser(_UI.glyphchooser.dialog);
+		document.getElementById('bigDialogScrollContent').innerHTML = chooserContent;
 
 		document.getElementById('big_dialog_box').style.display='block';
 		document.getElementById('dialog_bg').style.display='block';

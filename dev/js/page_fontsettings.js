@@ -143,13 +143,30 @@
     // --------------------------------------------------------------
 
     function addCustomGlyphRange(newrange){
+        var ranges = _GP.projectsettings.glyphrange.custom;
+
         if(!newrange) newrange = getCustomRange(true);
+        
         if(newrange){
-            _GP.projectsettings.glyphrange.custom.unshift(newrange);
-            _GP.projectsettings.glyphrange.custom.sort(function(a, b) {
+            // Check to see if it's already added
+            for(var r=0; r<ranges.length; r++){
+                if(ranges[r].begin === newrange.begin &&
+                    ranges[r].end === newrange.end){
+                        showToast('Range has already been added<br>'+newrange.name);
+                        return;
+                    }
+            }
+
+            // Add and sort
+            ranges.unshift(newrange);
+            ranges.sort(function(a, b) {
                 return (parseInt(a.begin) > parseInt(b.begin));
             });
+
+            // Update UI
+            showToast('Added range<br>'+newrange.name);
             updateCustomRangeTable();
+            if(document.getElementById('unicoderangepreviewarea')) previewGlyphRange(newrange);
         }
     }
 
@@ -232,7 +249,7 @@
                 content += cr[c].end;
 				content += '</td><td style="width: 100px; text-align: center;">';
                 content += '<span class="textaction" onclick="removeCustomGlyphRange('+c+');">remove</span>';
-                content += '&emsp;'
+                content += '&emsp;';
 				content += '<span class="textaction" onclick="editCustomGlyphRange('+c+');">edit</span>';
 				content += '</td></tr>';
 			}
@@ -260,8 +277,49 @@
         removeCustomGlyphRange(i);
     }
     
+    function showCustomGlyphRangeChooser() {
+        var content = '<h1>Add additional glyph ranges</h1>';
+        content += '<div id="unicoderangepreviewarea"><h2>preview</h2><div class="glyphrangepreview">Select a range preview from the right</div></div>';
+        var block;
+        chooserContent = '<table class="customrangegrid" style="width: 100%;">';
+        chooserContent += '<tr>'+
+                    '<td class="customrangegridheader" style="width: 230px;">range name</td>'+
+                    '<td class="customrangegridheader">begin</td>'+
+                    '<td class="customrangegridheader">end</td>'+
+                    '<td class="customrangegridheader">&nbsp;</td>'+
+                    '</tr>';
+
+        // blocks 0-3 are basic latin ranges enabled by checkboxes
+        for(var b=4; b<_UI.unicodeBlocks.length; b++) {
+            block = _UI.unicodeBlocks[b];
+            if(!block.name) block.name = ('Glyph Range ' + (b+1));
+            chooserContent += '<tr><td>';
+            chooserContent += block.name;
+            chooserContent += '</td><td>';
+            chooserContent += decToHex(block.begin);
+            chooserContent += '</td><td>';
+            chooserContent += decToHex(block.end);
+            chooserContent += '</td><td style="width: 100px; text-align: center;">';
+            chooserContent += '<span class="textaction" onclick="previewGlyphRange({begin:'+decToHex(block.begin)+', end:'+decToHex(block.end)+', name:\''+block.name+'\'});">preview</span>';
+            chooserContent += '&emsp;';
+            chooserContent += '<span class="textaction" onclick="addCustomGlyphRange({begin:\''+decToHex(block.begin)+'\', end:\''+decToHex(block.end)+'\', name:\''+block.name+'\'});">add</span>';
+            chooserContent += '</td></tr>';
+        }
+
+        chooserContent += '</table>';
+        openBigDialog(content, chooserContent);
+    }
     
-    
+    function previewGlyphRange(range) {
+        var content = '<h2>'+range.name+'</h2>';
+        content += '<div class="glyphrangepreview">';
+        content += makeRangePreview(range);
+        content += '</div><br>';
+        content += '<button onclick="addCustomGlyphRange({begin:\''+decToHex(range.begin)+'\', end:\''+decToHex(range.end)+'\', name:\''+range.name+'\'});">Add</button>';
+
+        document.getElementById('unicoderangepreviewarea').innerHTML = content;
+    }
+
     // --------------------------------------------------------------
     // Input handling
     // --------------------------------------------------------------
