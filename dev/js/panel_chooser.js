@@ -159,7 +159,8 @@
 		if(selrange === 'glyphs') selrange = 'basiclatin';
 
 		if(!isNaN(parseInt(selrange))){
-			content += 'Custom Range ' + (selrange+1);
+            // content += 'Custom Range ' + (selrange+1);
+            content += _GP.projectsettings.glyphrange.custom[selrange].name;
 		} else if(selrange){
 			switch(selrange){
 				case 'basiclatin': content += 'Basic Latin'; break;
@@ -198,7 +199,7 @@
 				content += '</button>';
             }
             
-            content += '<br><span class="textaction" onclick="showGlyphRangeChooser();">Add additional glyph ranges</span>';
+            content += '<br><span class="textaction" onclick="showGlyphRangeChooser();">Add additional glyph ranges</span><br><br>';
 		}
 
 		if(ch === 'components' || ch === 'all'){
@@ -232,7 +233,12 @@
 		if(gr.latinextendedb) { count++; /*debug('\t triggered latinextendedb');*/ }
 		if(gr.latinsupplement) { count++; /*debug('\t triggered latinsupplement');*/ }
 
-		// debug(' pluralGlyphRange - END - returning ' + count + '\n');
+        // Basically, if there is only one range selected, but it
+        // isn't Basic Latin, still treat the UI as if there are
+        // many ranges enabled.
+        if(count === 1 && !gr.basiclatin) count++;
+
+        // debug(' pluralGlyphRange - END - returning ' + count + '\n');
 		return count > 1;
 	}
 
@@ -283,7 +289,7 @@
 
 		var cr = _GP.projectsettings.glyphrange;
 		var c = parseInt(sel);
-		if(!isNaN(c)){
+		if(!isNaN(c) && cr.custom[c]){
 			// debug('\t triggered custom range');
 			for(var range=cr.custom[c].begin; range<=cr.custom[c].end; range++){
 				cn = decToHex(range);
@@ -294,7 +300,11 @@
 				}
 			}
 			return re + deletefooter;
-		}
+		} else {
+            return '<div class="panel_section"><h3 style="margin-top:0;">whoops!</h3>'+
+            'Looks like you don\'t have any glyph ranges enabled.<br>Go to Font Settings to enable Glyph Ranges.'+
+            '</div>';
+        }
 
 		if(sel === 'ligatures' && getFirstID(_GP.ligatures)){
 			sortLigatures();

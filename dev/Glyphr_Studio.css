@@ -249,7 +249,8 @@
 	}
 
 	label:hover {
-		color:black;
+        color:black;
+        cursor: pointer;
 	}
 
     pre {

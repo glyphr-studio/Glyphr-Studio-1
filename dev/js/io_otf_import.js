@@ -82,7 +82,7 @@
 		var tglyph, data, uni, np, cname, chtml, adv, isautowide;
 		var maxglyph = 0;
 		var minchar = 0xffff;
-		var customglyphrange = [];
+		var additionalGlyphs = [];
 		var shapecounter = 0;
 		var newshapes = [];
 		var fc = {};
@@ -169,7 +169,7 @@
 				// uni = uni[0];
 				minchar = Math.min(minchar, uni);
 				maxglyph = Math.max(maxglyph, uni);
-				if(1*uni > _UI.glyphrange.latinextendedb.end) customglyphrange.push(uni);
+				if(1*uni > _UI.glyphrange.latinextendedb.end) additionalGlyphs.push(uni);
 
 				fc[uni] = new Glyph({'shapes':newshapes, 'glyphhex':uni, 'glyphwidth':adv, 'isautowide':isautowide});
 				if(getUnicodeName(uni) === '[name not found]') _GP.projectsettings.glyphrange.filternoncharpoints = false;
@@ -240,56 +240,13 @@
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
 
-			var rstart, rend;
-			for(var r in _UI.glyphrange){ if(_UI.glyphrange.hasOwnProperty(r)){
-				rstart = 1*_UI.glyphrange[r].begin;
-				rend = 1*_UI.glyphrange[r].end+1;
-				for(var t=rstart; t<rend; t++){
-					if(getGlyph(''+decToHex(t))){
-						_GP.projectsettings.glyphrange[r] = true;
-						break;
-					}
-				}
-			}}
-
-			// Make a custom ranges for the rest, with logical separations
-			// debug('\t customglyphrange.length ' + customglyphrange.length);
-
-			if(customglyphrange.length){
-				var ranges = _GP.projectsettings.glyphrange.custom;
-				var maxvalley = 50;
-				var maxrange = 100;
-				customglyphrange = customglyphrange.sort();
-				var rangestart = customglyphrange[0];
-				var rangeend = customglyphrange[0];
-				var current;
-				var fencepost = true;
-
-				for(var c=0; c<customglyphrange.length; c++){
-					current = customglyphrange[c];
-					// debug('\t ' + current + ' \t ' + rangestart + ' \t ' + rangeend);
-
-					if(((current - rangestart) > maxrange) || ((current - rangeend) > maxvalley)){
-						ranges.push({'begin':rangestart, 'end':rangeend});
-						rangestart = current;
-						rangeend = current;
-						fencepost = false;
-						// debug('\t new glyphrange ' + json(ranges));
-					} else {
-						rangeend = current;
-						fencepost = true;
-						// debug('\t incrementing...');
-					}
-				}
-
-				if(fencepost) ranges.push({'begin':rangestart, 'end':rangeend});
-				// debug('\t new glyphrange ' + json(ranges));
-			}
-
+            
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
-			// debug('\t Custom range stuff done');
+
+            // Font Settings
+            detectAndActivateGlyphRanges(additionalGlyphs);
 			var ps = _GP.projectsettings;
 			var md = _GP.metadata;
 			var fname = font.familyName || 'My Font';
@@ -353,6 +310,43 @@
 	 } catch(err) {
 		 return 0;
 	 }
+ }
+
+ function detectAndActivateGlyphRanges(additionalGlyphs) {
+    // Canned ranges
+    var rstart, rend;
+    for(var r in _UI.glyphrange){ if(_UI.glyphrange.hasOwnProperty(r)){
+        rstart = 1*_UI.glyphrange[r].begin;
+        rend = 1*_UI.glyphrange[r].end+1;
+        for(var t=rstart; t<rend; t++){
+            if(getGlyph(''+decToHex(t))){
+                _GP.projectsettings.glyphrange[r] = true;
+                break;
+            }
+        }
+    }}
+
+    // Custom Ranges
+    // debug('\t additionalGlyphs.length ' + additionalGlyphs.length);
+    if(additionalGlyphs.length){
+        var block;
+        var addedBlocks = [];
+        var ranges = _GP.projectsettings.glyphrange.custom;
+        additionalGlyphs = additionalGlyphs.sort();
+
+        for(var c=0; c<additionalGlyphs.length; c++){
+            current = additionalGlyphs[c];
+            for(var b=0; b<_UI.unicodeBlocks.length; b++){
+                block = _UI.unicodeBlocks[b];
+                if(current >= block.begin && current <= block.end && addedBlocks.indexOf(block.begin) < 0) {
+                    addedBlocks.push(block.begin);
+                    ranges.push({'begin': decToHex(block.begin), 'end': decToHex(block.end), 'name': block.name});
+                }
+            }
+        }
+        
+        // debug('\t new glyphrange ' + json(ranges));
+    }
  }
 
 // end of file

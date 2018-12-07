@@ -171,8 +171,8 @@
 		zoom += '<button title="zoom: one to one" class="tool" onclick="setView({dz:1});redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoom1to1'})+'</button>';
 		zoom += '<button title="zoom: fit to screen" class="tool" onclick="fitViewToContextGlyphs(); redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoomEm'})+'</button>';
 		zoom += '<input type="number" title="zoom level" class="zoomreadout" value="' + round(getView('updatetools').dz*100, 2) + '" onchange="setViewZoom(this.value);"/>';
-		zoom += '<button title="zoom: in" class="tool" onclick="viewZoom(1.1, true);">'+makeToolButton({'name':'tool_zoomIn'})+'</button>';
 		zoom += '<button title="zoom: out" class="tool" onclick="viewZoom(.9, true);">'+makeToolButton({'name':'tool_zoomOut'})+'</button>';
+		zoom += '<button title="zoom: in" class="tool" onclick="viewZoom(1.1, true);">'+makeToolButton({'name':'tool_zoomIn'})+'</button>';
 
 
 		// UPPER LEFT

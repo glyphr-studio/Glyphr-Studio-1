@@ -88,11 +88,13 @@
 		function populateExportLists() {
 			// debug('\n populateExportLists - START');
 
-			// Add Glyphs
-			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c)){
+            // Add Glyphs
+            var ranges = assembleActiveRanges();
+
+			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c) && isGlyphInActiveRange(c, ranges)){
 				if(parseInt(c)){
                     tg = new Glyph(clone(_GP.glyphs[c]));
-                    // debug(`\t adding glyph ${c} "${tg.name}"`);
+                    debug(`\t adding glyph ${c} "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
                     if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
 
@@ -276,4 +278,34 @@
 
 
 		// debug(' ioOTF_exportOTFfont - END\n');
-	}
+    }
+    
+    function assembleActiveRanges() {
+        debug(`\n assembleActiveRanges - START`);
+        var ranges = clone(_GP.projectsettings.glyphrange.custom);
+        if(_GP.projectsettings.glyphrange.latinextendedb) ranges.unshift({begin: _UI.glyphrange.latinextendedb.begin, end: _UI.glyphrange.latinextendedb.end});
+        if(_GP.projectsettings.glyphrange.latinextendeda) ranges.unshift({begin: _UI.glyphrange.latinextendeda.begin, end: _UI.glyphrange.latinextendeda.end});
+        if(_GP.projectsettings.glyphrange.latinsupplement) ranges.unshift({begin: _UI.glyphrange.latinsupplement.begin, end: _UI.glyphrange.latinsupplement.end});
+        if(_GP.projectsettings.glyphrange.basiclatin) ranges.unshift({begin: _UI.glyphrange.basiclatin.begin, end: _UI.glyphrange.basiclatin.end});
+        
+        debug(ranges);
+        debug(` assembleActiveRanges - END\n\n`);
+
+        return ranges;
+    }
+
+    function isGlyphInActiveRange(gid, ranges){
+        // debug(`\n isGlyphInActiveRange - START`);
+        // debug(`\t ranges.length = ${ranges.length}`);
+        
+        for(var r=0; r<ranges.length; r++){
+            // debug(`\t testing ${gid} >= ${ranges[r].begin} && ${gid} <= ${ranges[r].end}`);
+            if(gid >= ranges[r].begin && gid <= ranges[r].end) {
+                // debug(`\t returning ^^true^^ for ${gid}`);
+                return true;
+            }
+        }
+            
+        // debug(`\t returning __false__ for ${gid}`);
+        return false;
+    }

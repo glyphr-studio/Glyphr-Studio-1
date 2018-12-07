@@ -127,7 +127,8 @@
 		//<glyph glyph-name="uniFEDF_uniFEE0_uniFBAB.liga" unicode="&#xfedf;&#xfee0;&#xfbab;" horiz-adv-x="1262" d="M1224 5
 
 		var fc = _GP.glyphs;
-		var con = '';
+        var con = '';
+        var ranges = assembleActiveRanges();
 
 		sortLigatures();
 		var li = _GP.ligatures;
@@ -139,7 +140,7 @@
 		con += '\n';
 
 		con += '\t\t\t<!-- Glyphs -->\n';
-		for(var c in fc){ if (fc.hasOwnProperty(c)){
+		for(var c in fc){ if (fc.hasOwnProperty(c) && isGlyphInActiveRange(c, ranges)){
 			con += ioSVG_makeOneGlyphOrLigature(fc[c], c);
 		}}
 
@@ -152,8 +153,8 @@
 		// Results in lots of special unicoded glyphs with no shapes
 		if(!gl.shapes.length && uni!=0x0020) {
 			console.warn('Glyph ' + uni + ' not exported: No shapes.');
-			return ''
-		};
+			return '';
+		}
 
 
 		uni = uni.split('0x');

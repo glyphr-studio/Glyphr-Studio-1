@@ -967,7 +967,7 @@
 		return re;
 	}
 
-	function checkUI(varname, currbool, doredraw, invert){
+	function checkUI(varname, currbool, doredraw, invert, callbackName){
 		//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
 		var idname = varname.split('.');
 		idname = idname[idname.length-1];
@@ -983,6 +983,8 @@
 			re += ' redraw({calledby:\'checkbox '+idname+'\', redrawtools:false});';
 		}
 
+        if(callbackName) re += ' ' + callbackName + '();';
+        
 		re += '"/>';
 
 		return re;

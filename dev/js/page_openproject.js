@@ -134,7 +134,7 @@
 	function handleDrop(evt) {
 		// debug('\n handleDrop - START');
 		document.getElementById('openprojecttableright').innerHTML = 'Loading File...';
-		document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
+		// document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
 
 		evt.stopPropagation();
 		evt.preventDefault();
@@ -184,7 +184,7 @@
 			document.getElementById('openprojecttableright').innerHTML = make_ImportOrCreateNew();
 			openproject_changeTab('load');
 			showErrorMessageBox(con);
-			document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
+			// document.getElementById('openprojecttableright').style.backgroundColor = _UI.colors.gray.offwhite;
 		}
 
 		// debug(' handleDrop - END\n');
@@ -209,8 +209,8 @@
 		evt.dataTransfer.dropEffect = 'copy';
 
 		var frtr = document.getElementById('openprojecttableright');
-		frtr.style.backgroundColor = _UI.colors.blue.l95;
-		frtr.innerHTML = 'Drop it!';
+		// frtr.style.backgroundColor = _UI.colors.blue.l95;
+		frtr.innerHTML = '↧&ensp;Drop it!';
 	}
 
 	function handleDragLeave(evt) {
@@ -218,8 +218,8 @@
 		evt.preventDefault();
 
 		var frtr = document.getElementById('openprojecttableright');
-		frtr.style.backgroundColor = _UI.colors.gray.offwhite;
 		frtr.innerHTML = make_ImportOrCreateNew();
+		// frtr.style.backgroundColor = _UI.colors.gray.offwhite;
 		openproject_changeTab('load');
 	}
 
@@ -232,4 +232,87 @@
 		}, 5);
 	}
 
+	function make_LoadingAnimation() {
+		// debug('\n make_LoadingAnimation - START');
+		var re = '';
+		re += '<div class="openproject_tile">';
+		re += '<h2>Importing Font</h2>';
+		re += '<div id="fontimportstatus">Reading font data...</div>';
+		re += '<br><div style="margin:0px; width:50px; height:50px; padding:0px; background-color:'+_UI.colors.blue.l65+';';
+		re += 'background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwFJREFUeNrsWd2N2kAQNtYpr/F1wFUQUgG4gnAVABXEVwFHBXepwEkFx1UAVHBOBXYHOK9RJDJzGkerZWZ3bYy9QYw0Qgh2dr6d2dn5Gfz+czgEF0BhcCF0BeIb3bQsryDe0fet9vuEPsfAQ+JWaNDCZc+AfwCvP9wMijoLYW8EMgWeAY/6AFKi4sCruspbQC0JWNQFkO/ADwCgPIevgz4I4gl4fi4gePILALDt4vKCXnifUtd75AqkthVIkSOqcxB1rOMC5Bk2f3DYFH37C13akUOAQH4F2WsH2Qgmsf3pYODEdmLAj8B7ixwT70lGZNkrMckxAUkdBJ8CgANkO7hUWi+51hZMHhv89kV53NomvEP30n2E/Tfc3qHwRiwEIej7b2cEUb3+b7QXRwvS0QqEfeTowdq0mVYY6H0v2lOPeqjbyha1CvjjneBOm1PTiIbpT8y5GeiUq4eqW2QlCFz2ACKgPZfCbyvJIiUgvzXciz7pTnD3fZWXhdrrLVmjb3oyZBxHFvkMqDPmguee1E5HVlG9JVTcKmMWTz0qAqdMBMuqUBwq0YGjmUdAZobI9g/IzhA1fCFJl50KpHBNw/skQafCCKRJudkBRTYgvruVVadrg+5/AlJ6qG/ZBEjmIZDMBmQidDt8skopdGAmKpCxsPibR0AkXcZ60nirFzBUUOUevCklJY2cfnv9jiSMe+HC2ANrxEIzImELKw41IcfMM+3BMu+NEK6Jp3tLqD3/bBFFguKOI1lVr68NBV+kItObXXNL4vbYcmOO7TxadJi7NOhKOonMICiiQudrizlZRpFpbWqWU1W40d1c6jSioHuXzrkydfoUuDWwVcWRfwaO0y5K41+4u2rrxuMo4blB3TAM5EZe0WTKRX1hqQnhNFbYUuQo+oi7dChpYGnTumS/KCCnTviwSwA0EcgDh15z0xmi04CmIYBqYDSvs+6U8XQ12X3FS9vU9cjKI1K+0UT3VCBc7VxQJPqlfFepCgIfSXlTUOgNyLXUvQK5RCB/BRgA7GD39jF9VXsAAAAASUVORK5CYII=); ';
+		re += 'rgb(0,140,210) no-repeat fixed;">';
+		re += '<img id="sweep" style="margin:0px; padding:0px;" ';
+		re += 'src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAu9JREFUeNrsWMtu00AU9TNOkyakjxSXlj4gIPESYsdjg8SGDSyRWCCxgQ9gh9Qt38LX8AHtCj4AKE1aEzuOuSOdka4uTqxCbHcxRzoa2+PEc+bce30T21ow4knWpKFHdNjlHWKC45S4TPxJ/K7Y8Ozkf5/rWYtHJkRIuMRt4grxGsTHNBySoK8XSUjR7io3YnHtLnGXBA1p/EKCjs77ULsEIWqHwzmhtUYM2NwGsYGQs9g9n8/jkGOVg0lBaHG0hIgruPaWNuQ5cq42IeM5c4EIbX7uo1BoYQ+J70jMRl1C0jlzPjteJ56w8y3isbj/CfEjibl60YTwvOyKEPPFvfvEEeY+zBNTihBK0lmh1WNhtyRyaZN4Ks4dtilaTFilI7PKsNrxKY77xIhVKelUh3gm8ukB8YDEtKsUkhbkR4Md99miW3BjyOY7eHmeoJS/rtsRly0sYeX2lAndFwWgkyPsJblyr04hAatWMRa+yty7TvzB7g/BYU5H8qkuIR76MB5iW2zhN1GhNHYRZiPxPeoze8pJcuVF6UKocqU5PVaEluQMiwxYhRrDGSX4Bo4jUfEGKAo6n95X4YglmsOmaEl2EDJruBajJA/gQso+p0LuEgRMeYkmV55WIWQiQku3JGrxv1Fm17FAldTqhfeL3b+NUIpyQtWFS2/KauNnlWCbtSS3Uak2ca4Sus2Suo/fKyMRXvod0wSVONVYdr2KQ6uLKjVEch8jxDy40oNbY5HkS3CsgdDKhEOPyxaSsER32KJChNYAY4YXHk9wF3nRYu7O6uHulCqEKteUbJ/CjRWETBu7uofwCjEfseqkQ2dc0IC6cPNZ2Y7ohHewwBDjKt4lujVxUZabuD/L+U0TsILhY9QuP6pCSIIF3yJeRg74SP5liNKhk2DOxRjg2C14Rq8qIfchpIsc8VjFbLCF+//6ELtsFZQjale/sf+6MhEWC0EVQtRL7pVlYGBgYGBgYGBgYGBgYGBgYGBg8Bf+CDAAUF2+ry6GVycAAAAASUVORK5CYII=">';
+		re += '</div>';
+		re += makeErrorMessageBox();
+		re += '</div>';
+
+		// debug(' make_LoadingAnimation - END\n');
+        return re;
+	}
+
+	function make_ImportFilter(chars, kerns, funname) {
+		var re = '<div class="openproject_tile" style="width:500px; height:auto;">'+
+			'<h2>Whoa, there...</h2><br>'+
+			'The font you\'re trying to import has <b>'+chars+' glyphs</b>';
+			if(kerns) re += ' and <b>'+kerns+' kern pairs</b>.  ';
+			else re += '.  ';
+			re += 'Glyphr Studio has a hard time with super-large fonts like this.  '+
+			'We recommend pairing it down a little:<br><br>';
+
+		re += '<table>';
+
+		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'basic\');" id="basic" checked/></td><td>';
+		re += '<label for="basic"><h3>Only import Latin glyphs</h3></label>'+
+			'This includes Latin and Latin Extended Unicode ranges<br>(<pre>0x0020</pre> - <pre>0x024F</pre>).<br><br>';
+		re += '</td></tr>';
+
+		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
+		re += '<label for="custom"><h3>Import a custom range of glyphs</h3></label>'+
+			'A nice overview of glyph ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target="_blank">Wikipedia\'s Unicode Block page</a>.<br>' +
+			'<table class="settingstable"><tr>'+
+			'<td>begin:<br><input type="text" onchange="checkFilter(\'custom\');" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
+			'<td>end:<br><input type="text" onchange="checkFilter(\'custom\');" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
+			// '<td><br><button onclick="checkFilter(\'custom\');">Set Range</button></td>'+
+			'<td style="padding-top:20px;">'+helpUI(unicodeInputHelp())+'</td>'+
+			'</tr></table><br>';
+		re += '</td></tr>';
+
+		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'everything\');" id="everything"/></td><td>';
+		re += '<label for="everything"><h3>Import all the glyphs</h3></label>'+
+			'Don\'t say we did\'t try to warn you.';
+		re += '</td></tr>';
+
+		re += '</table>';
+
+		re += '<br><br><button class="buttonsel" id="importfontbutton" onclick="'+funname+'(true);">Import Font</button>';
+
+		return re;
+    }
+    
+	function checkFilter(id) {
+		if(id === 'basic'){
+			document.getElementById('basic').checked = true;
+			document.getElementById('custom').checked = false;
+			document.getElementById('everything').checked = false;
+			_UI.importrange.begin = 0x0020;
+            _UI.importrange.end = 0x024F;
+            
+		} else if (id === 'custom'){
+			document.getElementById('basic').checked = false;
+			document.getElementById('custom').checked = true;
+			document.getElementById('everything').checked = false;
+            _UI.importrange = getCustomRange(true, true);
+            document.getElementById('customrangebegin').value = _UI.importrange.begin || 0x0020;
+            document.getElementById('customrangeend').value = _UI.importrange.end || 0x024F;
+            
+		} else if (id === 'everything'){
+			document.getElementById('basic').checked = false;
+			document.getElementById('custom').checked = false;
+			document.getElementById('everything').checked = true;
+			_UI.importrange.begin = 0x0000;
+			_UI.importrange.end = 0xFFFF;
+		}
+    }
+    
 // end of file

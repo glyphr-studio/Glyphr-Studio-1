@@ -57,7 +57,7 @@
 					'The most common glyph sets are built into Glyphr Studio, and can be toggled with the checkboxes below.';
 
 		content += '<table class="settingstable"><tr>'+
-					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.basiclatin', ps.glyphrange.basiclatin)+'</td>'+
+					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.basiclatin', ps.glyphrange.basiclatin, false, false, 'activeRangesChanged')+'</td>'+
 					'<td><label for="basiclatin"><b>Basic Latin</b> - Unicode glyphs <pre>0x0020</pre> through <pre>0x007E</pre></label></td></tr>'+
 					'<tr><td>&nbsp;</td><td colspan="2"><div class="glyphrangepreview">';
 					var bl = _UI.basiclatinorder;
@@ -65,21 +65,21 @@
 		content += '</div></td></tr></table>';
 
 		content += '<table class="settingstable"><tr>'+
-					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.latinsupplement', ps.glyphrange.latinsupplement)+'</td>'+
+					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.latinsupplement', ps.glyphrange.latinsupplement, false, false, 'activeRangesChanged')+'</td>'+
 					'<td><label for="latinsupplement"><b>Latin Supplement</b> - Unicode glyphs <pre>0x00A0</pre> through <pre>0x00FF</pre></label></td></tr>'+
 					'<tr><td>&nbsp;</td><td colspan="2"><div class="glyphrangepreview">'+
                     makeRangePreview(_UI.glyphrange.latinsupplement) +
                     '</div></td></tr></table>';
 
 		content += '<table class="settingstable"><tr>'+
-					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.latinextendeda', ps.glyphrange.latinextendeda)+'</td>'+
+					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.latinextendeda', ps.glyphrange.latinextendeda, false, false, 'activeRangesChanged')+'</td>'+
 					'<td><label for="latinextendeda"><b>Latin Extended-A</b> - Unicode glyphs <pre>0x0100</pre> through <pre>0x017F</pre></label></td></tr>'+
 					'<tr><td>&nbsp;</td><td colspan="2"><div class="glyphrangepreview">'+
                     makeRangePreview(_UI.glyphrange.latinextendeda) +
                     '</div></td></tr></table>';
 
 		content += '<table class="settingstable"><tr>'+
-					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.latinextendedb', ps.glyphrange.latinextendedb)+'</td>'+
+					'<td class="uicolumn">'+checkUI('_GP.projectsettings.glyphrange.latinextendedb', ps.glyphrange.latinextendedb, false, false, 'activeRangesChanged')+'</td>'+
 					'<td><label for="latinextendedb"><b>Latin Extended-B</b> - Unicode glyphs <pre>0x0180</pre> through <pre>0x024F</pre></label></td></tr>'+
 					'<tr><td>&nbsp;</td><td colspan="2"><div class="glyphrangepreview">'+
                     makeRangePreview(_UI.glyphrange.latinextendedb) +
@@ -143,26 +143,28 @@
     // --------------------------------------------------------------
 
     function addCustomGlyphRange(newrange){
-        var ranges = _GP.projectsettings.glyphrange.custom;
+        var ranges = _GP.projectsettings.glyphrange;
 
         if(!newrange) newrange = getCustomRange(true);
         
         if(newrange){
             // Check to see if it's already added
-            for(var r=0; r<ranges.length; r++){
-                if(ranges[r].begin === newrange.begin &&
-                    ranges[r].end === newrange.end){
+            for(var r=0; r<ranges.custom.length; r++){
+                if(ranges.custom[r].begin === newrange.begin &&
+                    ranges.custom[r].end === newrange.end){
                         showToast('Range has already been added:<br>'+newrange.name);
                         return;
                     }
             }
 
             // Add and sort
-            ranges.unshift(newrange);
-            ranges.sort(function(a, b) {
+            ranges.custom.unshift(newrange);
+            ranges.custom.sort(function(a, b) {
                 return (parseInt(a.begin) > parseInt(b.begin));
             });
 
+            if(!(ranges.basiclatin || ranges.latinextendeda || ranges.latinextendedb || ranges.latinsupplement)) activeRangesChanged();
+                
             // Update UI
             showToast('Added range:<br>'+newrange.name);
             if(document.getElementById('customrangetable')) updateCustomRangeTable();
@@ -171,10 +173,11 @@
         }
     }
 
-	function getCustomRange(filterbasicrange) {
+	function getCustomRange(filterbasicrange, dontclearinputs) {
         // debug(`\n getCustomRange - START`);        
 		var newrange = {'begin':0, 'end':0, 'name':'Glyph Range'};
-		newrange.name = escapeHTMLValues(document.getElementById('customrangename').value);
+        
+        if(document.getElementById('customrangename')) newrange.name = escapeHTMLValues(document.getElementById('customrangename').value);
 		newrange.begin = parseUnicodeInput(document.getElementById('customrangebegin').value)[0];
         newrange.end = parseUnicodeInput(document.getElementById('customrangeend').value)[0];
 
@@ -219,9 +222,11 @@
         newrange.end = decToHex(newrange.end);
             
         // Clear out inputs
-        document.getElementById('customrangename').value = '';
-        document.getElementById('customrangebegin').value = '';
-        document.getElementById('customrangeend').value = '';
+        if(!dontclearinputs) {
+            if(document.getElementById('customrangename')) document.getElementById('customrangename').value = '';
+            document.getElementById('customrangebegin').value = '';
+            document.getElementById('customrangeend').value = '';
+        }
     
         // debug(` getCustomRange - END\n\n`);
         return newrange;
@@ -278,19 +283,36 @@
         removeCustomGlyphRange(i);
     }
     
+    function getFirstActiveRange() {
+        if(_GP.projectsettings.glyphrange.basiclatin) return 'basiclatin';
+        if(_GP.projectsettings.glyphrange.latinsupplement) return 'latinsupplement';
+        if(_GP.projectsettings.glyphrange.latinextendeda) return 'latinextendeda';
+        if(_GP.projectsettings.glyphrange.latinextendedb) return 'latinextendedb';
+        // zero is the first custom range
+        if(_GP.projectsettings.glyphrange.custom.length) return 0;
+        
+        return false;
+    }
+
+    function activeRangesChanged(){
+        _UI.glyphchooser.panel.selected = getFirstActiveRange();
+    }
+
     function showGlyphRangeChooser() {
         var content = '<h1>Add additional glyph ranges</h1>';
-        content += '<div id="unicoderangepreviewarea"><h2>preview</h2><div class="glyphrangepreview">Select a range preview from the right</div></div>';
-        var block;
-        chooserContent = '<table class="customrangegrid" style="width: 100%;">';
+        content += '<div id="unicoderangepreviewarea"><h2>preview</h2><div class="glyphrangepreview">';
+        content += 'Select glyph range from the right to preview it here.<br><br>';
+        content += 'These are only advanced glyph ranges, standard Latin ranges can be added or removed from Font Settings.</div></div>';
+        var chooserContent = '<table class="customrangegrid" style="width: 100%;">';
         chooserContent += '<tr>'+
-                    '<td class="customrangegridheader" style="width: 230px;">range name</td>'+
-                    '<td class="customrangegridheader">begin</td>'+
-                    '<td class="customrangegridheader">end</td>'+
-                    '<td class="customrangegridheader">&nbsp;</td>'+
-                    '</tr>';
-
+        '<td class="customrangegridheader" style="width: 230px;">range name</td>'+
+        '<td class="customrangegridheader">begin</td>'+
+        '<td class="customrangegridheader">end</td>'+
+        '<td class="customrangegridheader">&nbsp;</td>'+
+        '</tr>';
+        
         // blocks 0-3 are basic latin ranges enabled by checkboxes
+        var block;
         for(var b=4; b<_UI.unicodeBlocks.length; b++) {
             block = _UI.unicodeBlocks[b];
             if(!block.name) block.name = ('Glyph Range ' + (b+1));
