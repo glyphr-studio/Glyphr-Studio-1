@@ -16,7 +16,9 @@
 		content += '</div>';
 		content += '<div class="panel_section" id="glyphchooser">';
 
-		var gcp = _UI.glyphchooser.panel;
+        var gcp = _UI.glyphchooser.panel;
+        // debug(gcp);
+        
 		// _UI.glyphchooser.cache = false;
 
 		if(_UI.current_page === 'glyph edit'){
@@ -28,27 +30,33 @@
 			// _UI.glyphchooser.cache = make_GlyphChooser(_UI.glyphchooser.panel);
 
  		} else if(_UI.current_page === 'ligatures'){
+            _UI.glyphchooser.dropdown = false;
 			var emptyligs = getLength(_GP.ligatures) === 0;
 			if(!emptyligs) {
 				content += make_GlyphChooser(gcp);
 			}
-			content += '<div class="panel_section" ';
-			content += emptyligs? 'style="padding-top:-10px;">' : '>';
+            content += '<div class="panel_section">';
+            if(emptyligs) content += '<b>Ligatures</b> are when a sequence of two or more glyphs are replaced with a special combination glyph. '+
+                'You can define the sequence, and the combination glyph when you create a new Ligature.<br><br>';
 			content += '<button onclick="showNewLigatureDialog();">create new ligature</button><br>';
 			if(!emptyligs) content += '<button onclick="deleteLigatureConfirm();">delete selected ligature</button><br>';
 			else content += '<button onclick="addCommonLigatures();">add some common ligatures</button>';
 			content += '</div>';
 
 		} else if(_UI.current_page === 'components'){
+        _UI.glyphchooser.dropdown = false;
 			var emptycoms = getLength(_GP.components) === 0;
 			if(!emptycoms) {
 				content += make_GlyphChooser(gcp);
 			}
-			content += '<div class="panel_section" ';
-			content += emptycoms? 'style="padding-top:-10px;">' : '>';
+			content += '<div class="panel_section">';
+            if(emptycoms) content += '<b>Components</b> are glyphs that you can re-use in other glyphs. '+
+                'Once you link a component to other glyphs, any change to the root '+
+                'component will also update all the component instances wherever they are linked.<br><br>';
 			content += '<button onclick="createNewComponent();history_put(\'Create New Component\');navigate({panel:\'npAttributes\'});">create new component</button><br>';
 			if(!emptycoms) content += '<button onclick="deleteComponentConfirm();">delete selected component</button><br>';
-			content += '</div>';
+            content += '</div>';
+            
 		}
 
 		content += '</div>';
@@ -253,6 +261,35 @@
         var deletefooter = '</div><div class="panel_section"><button onclick="deleteSelectedGlyph()" style="display:block;">Delete selected glyph</button></div>';
         var footer = '</div>';
 
+        // Ligatures
+		if(sel === 'ligatures') {
+            // debug(`\t triggered ligatures ${getLength(_GP.ligatures)}`);
+            
+            if(getFirstID(_GP.ligatures)){
+                sortLigatures();
+                var lig = _GP.ligatures;
+                for(var l in lig){ if(lig.hasOwnProperty(l)){
+                    re += make_GlyphChooser_Button(l, fname, selwi) ;
+                }}
+                return re + footer;
+            }     
+		}
+        
+        // Components
+		if(sel === 'components') {
+            // debug(`\t triggered components ${getLength(_GP.components)}`);
+            
+            if(getFirstID(_GP.components)){
+                var com = _GP.components;
+                for(var d in com){ if(com.hasOwnProperty(d)){
+                    re += make_GlyphChooser_Button(d, fname, selwi) ;
+                }}
+                return re + footer;
+            }
+        }
+        
+        
+        // Standard ranges
 		if(sel === 'basiclatin' || sel === 'glyphs'){
 			// debug('\t triggered glyphs');
 			var bl = _UI.basiclatinorder;
@@ -300,31 +337,13 @@
 				}
 			}
 			return re + deletefooter;
-		} else {
-            return '<div class="panel_section"><h3 style="margin-top:0;">whoops!</h3>'+
-            'Looks like you don\'t have any glyph ranges enabled.<br>Go to Font Settings to enable Glyph Ranges.'+
-            '</div>';
-        }
-
-		if(sel === 'ligatures' && getFirstID(_GP.ligatures)){
-			sortLigatures();
-			var lig = _GP.ligatures;
-			for(var l in lig){ if(lig.hasOwnProperty(l)){
-				re += make_GlyphChooser_Button(l, fname, selwi) ;
-			}}
-			return re + footer;
 		}
 
-		if(sel === 'components' && getFirstID(_GP.components)){
-			var com = _GP.components;
-			for(var d in com){ if(com.hasOwnProperty(d)){
-				re += make_GlyphChooser_Button(d, fname, selwi) ;
-			}}
-			return re + footer;
-		}
-
-		// debug(' make_GlyphChooser_HeaderContent - END ERROR\n');
-		return '[error: make_GlyphChooser_HeaderContent]';
+        // debug(' make_GlyphChooser_Content - EMPTY\n');
+        
+        return '<div class="panel_section"><h3 style="margin-top:0;">whoops!</h3>'+
+        'Looks like you don\'t have any glyph ranges enabled.<br>Go to Font Settings to enable Glyph Ranges.'+
+        '</div>';
 	}
 
     function deleteSelectedGlyph(){
@@ -337,7 +356,7 @@
 			history_put('Deleted glyph: ' + selwiid + ' - ' + selwi.name);
 			redraw({calledby: 'deleteSelectedGlyph'});
 		} else {
-			debug('deleteSelectedGlyph FAILED');
+			// debug('deleteSelectedGlyph FAILED');
 		}
     }
 
