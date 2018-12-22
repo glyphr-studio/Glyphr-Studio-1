@@ -184,8 +184,8 @@
 		ch = ''+ch;
 		var re;
 		
-		if(_UI && _UI.unicodenames && _UI.unicodenames[ch]){
-		 	return _UI.unicodenames[ch];
+		if(_UI && _UI.unicodeNames && _UI.unicodeNames[ch]){
+		 	return _UI.unicodeNames[ch];
 		} else {
             return getUnicodeBlockName(ch);
         }
@@ -212,7 +212,7 @@
 		// debug('\n getUnicodeShortName - START');
 		// debug('\t passed ' + ch);
 		ch = ''+ch;
-		var name = _UI.shortunicodenames[ch];
+		var name = _UI.unicodeShortNames[ch];
 		if(!name) {
 			name = getUnicodeName(ch);
 			if(name && name !== '[name not found]') name = name.replace(/latin /gi, '').replace(/ /g, '').substr(0,20);

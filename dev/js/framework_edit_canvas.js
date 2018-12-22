@@ -1115,7 +1115,8 @@
 		var re;
 
 		switch(_UI.current_page){
-			case 'glyph edit':
+            case 'glyph edit':
+            case 'global actions':
 				if(!_UI.selectedglyph) _UI.selectedglyph = '0x0041';
 				re = getGlyph(_UI.selectedglyph, true);
 				// debug('\t case glyph edit, returning ' + re.name);
@@ -1163,7 +1164,7 @@
 
 	function getSelectedWorkItemName(){
 		// debug('\n getSelectedWorkItemName - START');
-		var wi = getSelectedWorkItem();
+        var wi = getSelectedWorkItem();
 		// debug('\t wi = '+wi);
 		return wi.name || wi.getName() || '[name not found]';
 	}

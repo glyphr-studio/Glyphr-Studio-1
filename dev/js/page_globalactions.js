@@ -74,24 +74,30 @@
         con += '</table>';
 		con += '<button class="buttonsel commit" onclick="convertProjectToMonospace();">Convert project to Monospace</button>';
 		con += '<hr>';
-
+        
 		// All Caps
 		con += '<h1>All Caps Font</h1>';
 		con += 'All Caps fonts have no lowercase letters.  To make things easy, the lowercase letters '+
-				'in these fonts contain duplicates of their uppercase form.';
+        'in these fonts contain duplicates of their uppercase form.';
 		con += '<div class="effect">Capital letters will be added as Component Instances to their lowercase '+
-				'counterparts.</div>';
+        'counterparts.</div>';
+        con += '<table class="settingstable">';
+        con += '<tr><td><input type="checkbox" id="allcapsbasic" checked="true"/></td><td><label for="allcapsbasic">Basic Latin</label></td></tr>';
+        con += '<tr><td><input type="checkbox" id="allcapssupplement"/></td><td><label for="allcapssupplement">Latin Supplement</label></td></tr>';
+        con += '<tr><td><input type="checkbox" id="allcapsa"/></td><td><label for="allcapsa">Latin Extended A</label></td></tr>';
+        con += '<tr><td><input type="checkbox" id="allcapsb"/></td><td><label for="allcapsb">Latin Extended B</label></td></tr>';
+        con += '</table>';
 		con += '<button class="buttonsel commit" onclick="convertProjectToAllCaps();">Convert project to All Caps</button>';
 		con += '<hr>';
 
-		// Diacriticals
+		// Diacritics
 		con += '<h1>Diacritical Glyph Generator</h1>';
 		con += 'The Latin Supplement character range is mostly made up of diacritical glyphs.  These are basically normal '+
 				'Latin glyphs, with accents.  Since most of the accents exist as stand-alone glyphs themselves, diacritical '+
 				'glyphs are easy to create from merging two existing glyphs from the basic Latin character range.';
 		con += '<div class="effect">The Latin Supplement character range will be enabled, and diacritical glyphs will be assembled '+
 				'as Component Instances from their respective glyphs.</div>';
-		con += '<button class="buttonsel commit" onclick="generateDiacriticals();">Generate Diacritical Glyphs</button>';
+		con += '<button class="buttonsel commit" onclick="generateDiacritics();">Generate Diacritical Glyphs</button>';
 		con += '<hr>';
 
 
@@ -191,103 +197,49 @@
 	}
 
 	function convertProjectToAllCaps() {
+        debug(`\n convertProjectToAllCaps - START`);
+        
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
-		
-		glyphIterator({
-			title: 'Converting to All Caps',
-			filter: {begin: 0x0041, end: 0x005A},
-			action: function(glyph, glyphid){
-				var destinationGlyphID = ''+decToHex(parseInt(glyphid, 16) + 32);
-				insertComponentInstance(glyphid, destinationGlyphID, copyGlyphAttributes);
+        
+        // Basic Latin range
+        if(document.getElementById('allcapsbasic').checked){
+            debug(`\t allcaps BASIC is true`);
+            
+            // Make sure all glyphs exist
+            for(var gid = _UI.glyphrange.basiclatin.begin; gid < _UI.glyphrange.basiclatin.end; gid++){
+                getGlyph(decToHex(gid), true);
             }
-        });
+
+            glyphIterator({
+                title: 'Converting to All Caps',
+                filter: {begin: 0x0041, end: 0x005A},
+                action: function(glyph, glyphid){
+                    var destinationGlyphID = ''+decToHex(parseInt(glyphid, 16) + 32);
+                    insertComponentInstance(glyphid, destinationGlyphID, copyGlyphAttributes);
+                }
+            });
+        }
         
         _UI.history['glyph edit'].put('Convert project to All Caps');
+        debug(` convertProjectToAllCaps - END\n\n`);
 	}
 
-	function generateDiacriticals() {
+	function generateDiacritics() {
 		
-		var latext = [
-			{dest:'0x00C0', src: ['0x0041', '0x0060']},
-			{dest:'0x00C1', src: ['0x0041', '0x00B4']},
-			{dest:'0x00C2', src: ['0x0041', '0x005E']},
-			{dest:'0x00C3', src: ['0x0041', '0x007E']},
-			{dest:'0x00C4', src: ['0x0041', '0x00A8']},
-			{dest:'0x00C5', src: ['0x0041', '0x00B0']},
-			{dest:'0x00C6', src: ['0x0041', '0x0045']},
-			{dest:'0x00C7', src: ['0x0043', '0x00B8']},
-			{dest:'0x00C8', src: ['0x0045', '0x0060']},
-			{dest:'0x00C9', src: ['0x0045', '0x00B4']},
-			{dest:'0x00CA', src: ['0x0045', '0x005E']},
-			{dest:'0x00CB', src: ['0x0045', '0x00A8']},
-			{dest:'0x00CC', src: ['0x0049', '0x0060']},
-			{dest:'0x00CD', src: ['0x0049', '0x00B4']},
-			{dest:'0x00CE', src: ['0x0049', '0x005E']},
-			{dest:'0x00CF', src: ['0x0049', '0x00A8']},
-			{dest:'0x00D0', src: ['0x0044', '0x002D']},
-			{dest:'0x00D1', src: ['0x004E', '0x007E']},
-			{dest:'0x00D2', src: ['0x004F', '0x0060']},
-			{dest:'0x00D3', src: ['0x004F', '0x00B4']},
-			{dest:'0x00D4', src: ['0x004F', '0x005E']},
-			{dest:'0x00D5', src: ['0x004F', '0x007E']},
-			{dest:'0x00D6', src: ['0x004F', '0x00A8']},
-			// '0x00D7': 'Multiplication sign',
-			{dest:'0x00D8', src: ['0x004F', '0x002F']},
-			{dest:'0x00D9', src: ['0x0055', '0x0060']},
-			{dest:'0x00DA', src: ['0x0055', '0x00B4']},
-			{dest:'0x00DB', src: ['0x0055', '0x005E']},
-			{dest:'0x00DC', src: ['0x0055', '0x00A8']},
-			{dest:'0x00DD', src: ['0x0059', '0x00B4']},
-			// '0x00DE': 'Latin Capital Letter Thorn',
-			// '0x00DF': 'Latin Small Letter sharp S',
-			{dest:'0x00E0', src: ['0x0061', '0x0060']},
-			{dest:'0x00E1', src: ['0x0061', '0x00B4']},
-			{dest:'0x00E2', src: ['0x0061', '0x005E']},
-			{dest:'0x00E3', src: ['0x0061', '0x007E']},
-			{dest:'0x00E4', src: ['0x0061', '0x00A8']},
-			{dest:'0x00E5', src: ['0x0061', '0x00B0']},
-			{dest:'0x00E6', src: ['0x0061', '0x0065']},
-			{dest:'0x00E7', src: ['0x0063', '0x00B8']},
-			{dest:'0x00E8', src: ['0x0065', '0x0060']},
-			{dest:'0x00E9', src: ['0x0065', '0x00B4']},
-			{dest:'0x00EA', src: ['0x0065', '0x005E']},
-			{dest:'0x00EB', src: ['0x0065', '0x00A8']},
-			{dest:'0x00EC', src: ['0x0069', '0x0060']},
-			{dest:'0x00ED', src: ['0x0069', '0x00B4']},
-			{dest:'0x00EE', src: ['0x0069', '0x005E']},
-			{dest:'0x00EF', src: ['0x0069', '0x00A8']},
-			{dest:'0x00F0', src: ['0x0064', '0x00B4']},
-			{dest:'0x00F1', src: ['0x006E', '0x007E']},
-			{dest:'0x00F2', src: ['0x006F', '0x0060']},
-			{dest:'0x00F3', src: ['0x006F', '0x00B4']},
-			{dest:'0x00F4', src: ['0x006F', '0x005E']},
-			{dest:'0x00F5', src: ['0x006F', '0x007E']},
-			{dest:'0x00F6', src: ['0x006F', '0x00A8']},
-			// '0x00F7': 'Division sign',
-			{dest:'0x00F8', src: ['0x006F', '0x002F']},
-			{dest:'0x00F9', src: ['0x0075', '0x0060']},
-			{dest:'0x00FA', src: ['0x0075', '0x00B4']},
-			{dest:'0x00FB', src: ['0x0075', '0x005E']},
-			{dest:'0x00FC', src: ['0x0075', '0x00A8']},
-			{dest:'0x00FD', src: ['0x0079', '0x00B4']},
-			// '0x00FE': 'Latin Small Letter Thorn',
-			{dest:'0x00FF', src: ['0x0079', '0x00A8']}
-		];
-
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
 		var currset;
         var currglyphnum = 0;
         var didstuff = false;
 
 		function doOneGlyph() {
-			currset = latext[currglyphnum];
+			currset = _UI.unicodeDiacriticsMap[currglyphnum];
 			showToast(('Adding diacritical <br>' + currset.dest), 10000);
 			
 			insertComponentInstance(currset.src[0], currset.dest, copyGlyphAttributes);
             insertComponentInstance(currset.src[1], currset.dest, false);
             didstuff = true;
 
-			if(currglyphnum < latext.length-1){
+			if(currglyphnum < _UI.unicodeDiacriticsMap.length-1){
 				currglyphnum++;
 				setTimeout(doOneGlyph, 10);
 			} else {
@@ -325,7 +277,7 @@
 			var end = parseInt(oa.filter.end);
 			var gint;
 
-			function rangefilter(glyphid){
+			filter = function(glyphid){
 				if(getGlyphType(glyphid) === 'glyph'){
 					gint = parseInt(glyphid, 16);
 					return ((gint >= begin) && (gint <= end));
@@ -333,20 +285,18 @@
 					return false;
 				}
 			}
-			
-			filter = rangefilter; 
 		}
 
 
 		// Functions
 
 		function doOneGlyph() {
-			// debug('\n doOneGlyph - START');
-			// debug(`\t currglyphnum: ${currglyphnum}`);
+			debug('\n doOneGlyph - START');
+			debug(`\t currglyphnum: ${currglyphnum}`);
 
 			currglyphid = glyphlist[currglyphnum];
 			currglyph = getGlyph(currglyphid, true);
-			// debug(`\t Got glyph: ${currglyph.name}`);
+			debug(`\t Got glyph: ${currglyph.name}`);
 			
 			showToast((title + '<br>' + currglyph.getName()), 10000);
 			

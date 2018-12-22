@@ -427,7 +427,7 @@
 			if(copyGlyphAttributes.srcLSB) destinationGlyph.leftsidebearing = sourceComponentGlyph.leftsidebearing;
 			if(copyGlyphAttributes.srcRSB) destinationGlyph.rightsidebearing = sourceComponentGlyph.rightsidebearing;
 
-			closeDialog();
+            closeDialog();
 			history_put('insert component from glyphedit');
 			redraw({calledby:'insertComponent'});
 			return true;
