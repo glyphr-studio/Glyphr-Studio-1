@@ -197,31 +197,77 @@
 	}
 
 	function convertProjectToAllCaps() {
-        debug(`\n convertProjectToAllCaps - START`);
+        // debug(`\n convertProjectToAllCaps - START`);
         
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
-        
-        // Basic Latin range
-        if(document.getElementById('allcapsbasic').checked){
-            debug(`\t allcaps BASIC is true`);
-            
+        var range = _UI.glyphrange;
+
+        function convertRangeToAllCaps(begin, end, name, callback) {            
             // Make sure all glyphs exist
-            for(var gid = _UI.glyphrange.basiclatin.begin; gid < _UI.glyphrange.basiclatin.end; gid++){
+            for(var gid = begin; gid < end; gid++){
                 getGlyph(decToHex(gid), true);
             }
 
             glyphIterator({
-                title: 'Converting to All Caps',
-                filter: {begin: 0x0041, end: 0x005A},
+                title: 'Converting ' + name + ' to All Caps',
+                filter: {begin: begin, end: end},
                 action: function(glyph, glyphid){
-                    var destinationGlyphID = ''+decToHex(parseInt(glyphid, 16) + 32);
-                    insertComponentInstance(glyphid, destinationGlyphID, copyGlyphAttributes);
-                }
+                    var destinationGlyphID = _UI.unicodeLowercaseMap[glyphid];
+                    if(destinationGlyphID){
+                        insertComponentInstance(glyphid, destinationGlyphID, copyGlyphAttributes);
+                    }
+                },
+                callback: callback,
             });
         }
+
+        // Basic Latin range
+        function convertBasicLatinToAllCaps(){
+            // debug(`\t allcaps BASIC`);
+            if(document.getElementById('allcapsbasic').checked){
+                _GP.projectsettings.glyphrange.basiclatin = true;
+                convertRangeToAllCaps(range.basiclatin.begin, range.basiclatin.end, 'Basic Latin', convertLatinSupplementToAllCaps);
+            } else {
+                convertLatinSupplementToAllCaps();
+            }
+        }
+
+        // Basic Latin range
+        function convertLatinSupplementToAllCaps(){
+            // debug(`\t allcaps SUPPLEMENT`);
+            if(document.getElementById('allcapssupplement').checked){
+                _GP.projectsettings.glyphrange.latinsupplement = true;
+                convertRangeToAllCaps(range.latinsupplement.begin, range.latinsupplement.end, 'Latin Supplement', convertLatinextEndedAToAllCaps);
+            } else {
+                convertLatinextEndedAToAllCaps();
+            }
+        }
+
+        // Basic Latin range
+        function convertLatinextEndedAToAllCaps(){
+            // debug(`\t allcaps A`);
+            if(document.getElementById('allcapsa').checked){
+                _GP.projectsettings.glyphrange.latinextendeda = true;
+                convertRangeToAllCaps(range.latinextendeda.begin, range.latinextendeda.end, 'Latin Extended A', convertLatinExtendedBToAllCaps);
+            } else {
+                convertLatinExtendedBToAllCaps();
+            }
+        }
+
+        // Basic Latin range
+        function convertLatinExtendedBToAllCaps(){
+            // debug(`\t allcaps B`);
+            if(document.getElementById('allcapsb').checked){
+                _GP.projectsettings.glyphrange.latinextendedb = true;
+                convertRangeToAllCaps(range.latinextendedb.begin, range.latinextendedb.end, 'Latin Extended B');
+            }
+        }
         
+        // Start the roll through
+        convertBasicLatinToAllCaps();
+
         _UI.history['glyph edit'].put('Convert project to All Caps');
-        debug(` convertProjectToAllCaps - END\n\n`);
+        // debug(` convertProjectToAllCaps - END\n\n`);
 	}
 
 	function generateDiacritics() {
@@ -267,7 +313,8 @@
 		var glyphlist = [];
 		var currglyphnum = 0;
 		var title = oa.title || 'Iterating on Glyph';
-		var filter = oa.filter || function(){ return true; };
+        var filter = oa.filter || function(){ return true; };
+        var callback = oa.callback || false;
 		var currglyph, currglyphid;
 
 
@@ -291,12 +338,12 @@
 		// Functions
 
 		function doOneGlyph() {
-			debug('\n doOneGlyph - START');
-			debug(`\t currglyphnum: ${currglyphnum}`);
+			// debug('\n doOneGlyph - START');
+			// debug(`\t currglyphnum: ${currglyphnum}`);
 
 			currglyphid = glyphlist[currglyphnum];
 			currglyph = getGlyph(currglyphid, true);
-			debug(`\t Got glyph: ${currglyph.name}`);
+			// debug(`\t Got glyph: ${currglyph.name}`);
 			
 			showToast((title + '<br>' + currglyph.getName()), 10000);
 			
@@ -307,6 +354,7 @@
 				setTimeout(doOneGlyph, 10);
 			} else {
                 showToast((title + '<br>Done!'), 1000);
+                if(callback) callback();
 			}
 		}
 
