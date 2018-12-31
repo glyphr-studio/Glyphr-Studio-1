@@ -99,8 +99,8 @@
                 'Simply combining them with base glyphs is a good start, but work will be needed to make the resulting glyph look nice. '+
                 'The "Advanced" Diacritical Glyph Generator below takes a little more work up front, but will probably yield better results.';
 		con += '<div class="effect">The Latin Supplement character range will be enabled, and diacritical glyphs will be assembled '+
-				'as Component Instances from their respective glyphs in the Basic Latin range.</div>';
-		con += '<button class="buttonsel commit" onclick="generateDiacritics();">Generate Diacritical Glyphs</button>';
+				'as Component Instances from their respective glyphs.</div>';
+		con += '<button class="buttonsel commit" onclick="generateDiacriticsSimple();">Generate Diacritical Glyphs</button>';
 		con += '<hr>';
 
 
@@ -273,27 +273,30 @@
         // debug(` convertProjectToAllCaps - END\n\n`);
 	}
 
-	function generateDiacritics() {
-		
-		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
-		var currset;
-        var currglyphnum = 0;
-        var didstuff = false;
+	function generateDiacriticsSimple() {
+		// debug(`generateDiacriticsSimple - START`);
+        var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
+        var currglyphid = decToHex(_UI.glyphrange.latinsupplement.begin);
+        var sourceArray;
 
 		function doOneGlyph() {
-			currset = _UI.unicodeDiacriticsMap[currglyphnum];
-			showToast(('Adding diacritical <br>' + currset.dest), 10000);
-			
-			insertComponentInstance(currset.src[0], currset.dest, copyGlyphAttributes);
-            insertComponentInstance(currset.src[1], currset.dest, false);
-            didstuff = true;
+            // debug(`\t doOneGlyph - currglyphid = ${currglyphid}`);
+            sourceArray = _UI.unicodeDiacriticsMapSimple[currglyphid];
+            
+            if(sourceArray) {
+                showToast(('Adding diacritical <br>' + currglyphid), 10000);   
+                insertComponentInstance(sourceArray[0], currglyphid, copyGlyphAttributes);
+                insertComponentInstance(sourceArray[1], currglyphid, false);
+            }
 
-			if(currglyphnum < _UI.unicodeDiacriticsMap.length-1){
-				currglyphnum++;
+            currglyphid++;
+
+			if(currglyphid <= _UI.glyphrange.latinsupplement.end){
+                currglyphid = decToHex(currglyphid);
 				setTimeout(doOneGlyph, 10);
 			} else {
                 showToast('Done!', 1000);
-                if(didstuff) _UI.history['glyph edit'].put('Generate Diacritical glyphs');
+                _UI.history['glyph edit'].put('Generate Diacritical glyphs');
 			}
 		}
 
