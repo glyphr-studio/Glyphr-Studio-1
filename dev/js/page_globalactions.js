@@ -99,7 +99,7 @@
                 'Simply combining them with base glyphs is a good start, but work will be needed to make the resulting glyph look nice. '+
                 'The "Advanced" Diacritical Glyph Generator below takes a little more work up front, but will probably yield better results.';
 		con += '<div class="effect">The Latin Supplement character range will be enabled, and diacritical glyphs will be assembled '+
-				'as Component Instances from their respective glyphs.</div>';
+				'as Component Instances from their respective glyphs in the Basic Latin range.</div>';
 		con += '<button class="buttonsel commit" onclick="generateDiacriticsSimple();">Generate Diacritical Glyphs</button>';
 		con += '<hr>';
 
