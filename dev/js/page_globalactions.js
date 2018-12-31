@@ -91,12 +91,15 @@
 		con += '<hr>';
 
 		// Diacritics
-		con += '<h1>Diacritical Glyph Generator</h1>';
+		con += '<h1>Diacritical Glyph Generator (basic)</h1>';
 		con += 'The Latin Supplement character range is mostly made up of diacritical glyphs.  These are basically normal '+
-				'Latin glyphs, with accents.  Since most of the accents exist as stand-alone glyphs themselves, diacritical '+
-				'glyphs are easy to create from merging two existing glyphs from the basic Latin character range.';
+				'Latin glyphs, with accents.  Since most of the accents exist as stand-alone glyphs themselves in the Basic Latin range, '+
+                'diacritics in the Latin Supplement range are easy to create from merging two existing glyphs.';
+        con += '<br><b>Please Note</b> - The diacritical glyphs that are in the Basic Latin range are usually designed to be stand-alone. '+
+                'Simply combining them with base glyphs is a good start, but work will be needed to make the resulting glyph look nice. '+
+                'The "Advanced" Diacritical Glyph Generator below takes a little more work up front, but will probably yield better results.';
 		con += '<div class="effect">The Latin Supplement character range will be enabled, and diacritical glyphs will be assembled '+
-				'as Component Instances from their respective glyphs.</div>';
+				'as Component Instances from their respective glyphs in the Basic Latin range.</div>';
 		con += '<button class="buttonsel commit" onclick="generateDiacritics();">Generate Diacritical Glyphs</button>';
 		con += '<hr>';
 
