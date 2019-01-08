@@ -608,13 +608,10 @@ function saveFile(fname, buffer, ftype) {
 	}
 
     function getShipDate(){
-        //1537309454331
-        //     86400000
-        var time = new Date().getTime();
-        time = ''+time;
-        var day = ''+(parseInt(time.charAt(5))+1);
-        var ship = time.substr(0, 5) + day + '0000000';
-        return ship;        
+        var time = '' + (new Date().getTime());
+        var prefix = parseInt(time.substr(0, 5)) * 100000000;
+        var day = (parseInt(time.charAt(5)) + 1) * 10000000;
+        return prefix + day;
     }
 
 
