@@ -558,7 +558,8 @@ function Tool_PathEdit(){
 			if(this.controlpoint.type === 'P') setCursor('penSquare');
 			else setCursor('penCircle');
 
-			if(sp.getMembers().length === 1){
+			var single = (sp.getMembers().length === 1);
+			if(single){
 				// debug('\t this.controlpoint.point ' + this.controlpoint.point);
 				// debug('\t this.controlpoint.type ' + cpt);
 				var cpx = this.controlpoint.point[cpt];
@@ -566,10 +567,11 @@ function Tool_PathEdit(){
 				if(cpx && cpx.ylock) dy = 0;
 			}
 
+			
 			sp.getMembers().forEach(function(point, i) {
 			// debug('\t UpdatePPP ' + cpt + '\t' + dx + '\t' + dy);
 				if(ev.ctrlKey || ev.metaKey) return;
-				point.updatePathPointPosition(cpt, dx, dy, ev);
+				point.updatePathPointPosition(cpt, dx, dy, false, ev, single);
 			});
 			_UI.ms.shapes.calcMaxes();
 

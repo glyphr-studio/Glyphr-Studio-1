@@ -241,9 +241,11 @@
 	};
 
 	// returns nudge vector if close enough
-	function guideSnap(x, y)
+	function guideSnap(x, y, single)
 	{
 		var ps = _GP.projectsettings;
+		if(!single)
+			return [0, 0];
 		if(!ps.snaptogrid && !ps.snaptoguides)
 			return [0, 0];
 		
@@ -279,7 +281,7 @@
 		return [dx, dy];
 	}
 
-	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force, ev){
+	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force, ev, single){
 		// debug('UPDATEPOINTPOSITION - cp / dx / dy / force:\n' + controlpoint + ' / ' + dx + ' / ' + dy + ' / ' + force);
 		if(ev && ev.ctrlKey) return;
 
@@ -298,7 +300,7 @@
 		var gsnap;
 		switch(controlpoint){
 			case 'P':
-				gsnap = guideSnap(this.P.x + dx, this.P.y + dy);
+				gsnap = guideSnap(this.P.x + dx, this.P.y + dy, single);
 				dx += gsnap[0];
 				dy += gsnap[1];
 				
@@ -318,7 +320,7 @@
 				this.H1.x += dx;
 				this.H1.y += dy;
 
-				gsnap = guideSnap(this.H1.x, this.H1.y);
+				gsnap = guideSnap(this.H1.x, this.H1.y, single);
 				this.H1.x += gsnap[0];
 				this.H1.y += gsnap[1];
 
@@ -331,7 +333,7 @@
 				this.H2.x += dx;
 				this.H2.y += dy;
 
-				gsnap = guideSnap(this.H2.x, this.H2.y);
+				gsnap = guideSnap(this.H2.x, this.H2.y, single);
 				this.H2.x += gsnap[0];
 				this.H2.y += gsnap[1];
 
