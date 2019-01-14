@@ -295,11 +295,12 @@
 			}
 		}
 
+		var gsnap;
 		switch(controlpoint){
 			case 'P':
-				var gp = guideSnap(this.P.x + dx, this.P.y + dy);
-				dx += gp[0];
-				dy += gp[1];
+				gsnap = guideSnap(this.P.x + dx, this.P.y + dy);
+				dx += gsnap[0];
+				dy += gsnap[1];
 				
 				if(!lockx) {
 					this.P.x += dx;
@@ -317,9 +318,9 @@
 				this.H1.x += dx;
 				this.H1.y += dy;
 
-				var gp = guideSnap(this.H1.x, this.H1.y);
-				this.H1.x += gp[0];
-				this.H1.y += gp[1];
+				gsnap = guideSnap(this.H1.x, this.H1.y);
+				this.H1.x += gsnap[0];
+				this.H1.y += gsnap[1];
 
 				// debug('\t Hold H1, updated to: ' + this.H1.x + ' ' + this.H1.y);
 				if(this.type === 'symmetric'){ this.makeSymmetric('H1'); }
@@ -330,9 +331,9 @@
 				this.H2.x += dx;
 				this.H2.y += dy;
 
-				var gp = guideSnap(this.H2.x, this.H2.y);
-				this.H2.x += gp[0];
-				this.H2.y += gp[1];
+				gsnap = guideSnap(this.H2.x, this.H2.y);
+				this.H2.x += gsnap[0];
+				this.H2.y += gsnap[1];
 
 				if(this.type === 'symmetric'){ this.makeSymmetric('H2'); }
 				else if (this.type === 'flat') { this.makeFlat('H2'); }
