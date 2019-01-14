@@ -54,6 +54,7 @@
 			guides: {},							// user-defined guidelines
 			snaptogrid: false,					// snap to gridlines
 			snaptoguides: false,				// snap to guidelines
+			snapdistance: 5,					// snap distance
 			showcontextglyphguides: true,		// show horizontal guides & notations for context glyphs
 			colors: {
 				glyphfill: 'rgb(0,0,0)',			// shape base color

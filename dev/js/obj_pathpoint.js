@@ -240,11 +240,50 @@
 		//this.roundAll();
 	};
 
+	// returns nudge vector if close enough
+	function guideSnap(x, y)
+	{
+		var ps = _GP.projectsettings;
+		if(!ps.snaptogrid && !ps.snaptoguides)
+			return [0, 0];
+		
+		var sd = ps.snapdistance;
+		var dx = sd + 1; // It won't snap!
+		var dy = sd + 1;
+		if(ps.snaptogrid)
+		{
+			var grid = round((ps.upm / ps.griddivisions), 3);
+			dx = grid * Math.round(x / grid) - x;
+			dy = grid * Math.round(y / grid) - y;
+		}
+		if(ps.snaptoguides)
+		{
+			var temp;
+			var guide;
+			for(var g in ps.guides){if(ps.guides.hasOwnProperty(g)){
+				guide = ps.guides[g]
+				if(guide.name === 'min' || guide.name === 'max')
+					continue;
+				if(guide.type === 'vertical'){
+					temp = guide.location - x;
+					if(temp * temp <= dx * dx) {dx = temp;}
+				}
+				else if(guide.type === 'horizontal'){
+					temp = guide.location - y;
+					if(temp * temp <= dy * dy) {dy = temp;}
+				}
+			}}
+		}
+		if(dx * dx > sd * sd) dx = 0;
+		if(dy * dy > sd * sd) dy = 0;
+		return [dx, dy];
+	}
+
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force, ev){
 		// debug('UPDATEPOINTPOSITION - cp / dx / dy / force:\n' + controlpoint + ' / ' + dx + ' / ' + dy + ' / ' + force);
 		if(ev && ev.ctrlKey) return;
 
-    if(dx !== false) dx = parseFloat(dx);
+		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
 		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
 		var locky = (_UI.selectedtool==='pathedit'? this.P.ylock : false);
@@ -258,17 +297,30 @@
 
 		switch(controlpoint){
 			case 'P':
-				if(!lockx) this.P.x += dx;
-				if(!locky) this.P.y += dy;
-				if(!lockx) this.H1.x += dx;
-				if(!locky) this.H1.y += dy;
-				if(!lockx) this.H2.x += dx;
-				if(!locky) this.H2.y += dy;
+				var gp = guideSnap(this.P.x + dx, this.P.y + dy);
+				dx += gp[0];
+				dy += gp[1];
+				
+				if(!lockx) {
+					this.P.x += dx;
+					this.H1.x += dx
+					this.H2.x += dx
+				}
+				if(!locky) {
+					this.P.y += dy;
+					this.H1.y += dy
+					this.H2.y += dy
+				}
 				break;
 
 			case 'H1' :
 				this.H1.x += dx;
 				this.H1.y += dy;
+
+				var gp = guideSnap(this.H1.x, this.H1.y);
+				this.H1.x += gp[0];
+				this.H1.y += gp[1];
+
 				// debug('\t Hold H1, updated to: ' + this.H1.x + ' ' + this.H1.y);
 				if(this.type === 'symmetric'){ this.makeSymmetric('H1'); }
 				else if (this.type === 'flat') { this.makeFlat('H1'); }
@@ -277,6 +329,11 @@
 			case 'H2' :
 				this.H2.x += dx;
 				this.H2.y += dy;
+
+				var gp = guideSnap(this.H2.x, this.H2.y);
+				this.H2.x += gp[0];
+				this.H2.y += gp[1];
+
 				if(this.type === 'symmetric'){ this.makeSymmetric('H2'); }
 				else if (this.type === 'flat') { this.makeFlat('H2'); }
 				break;
