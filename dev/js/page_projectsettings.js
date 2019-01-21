@@ -72,7 +72,7 @@
 					'<td><label for="snaptoguides">Snap to guides.</label></td></tr>'+
 
 					'<tr><td class="uicolumn"><input type="text" value="'+(ps.snapdistance)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.snapdistance=r; this.value=r;" style="width:25px;"/></td>'+
-					'<td>Snap distance/proximity.</td></tr>'+
+					'<td>Snap distance/proximity.<span class="unit">(screen pixels)</span></td></tr>'+
 
 					'</table>';
 

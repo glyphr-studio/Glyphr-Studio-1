@@ -241,43 +241,44 @@
 	};
 
 	// returns nudge vector if close enough
-	function guideSnap(x, y, single)
-	{
-		var ps = _GP.projectsettings;
-		if(!single)
-			return [0, 0];
-		if(!ps.snaptogrid && !ps.snaptoguides)
-			return [0, 0];
-		
-		var sd = ps.snapdistance;
-		var dx = sd + 1; // It won't snap!
-		var dy = sd + 1;
-		if(ps.snaptogrid)
-		{
+	function guideSnap(x, y, single) {
+        var ps = _GP.projectsettings;
+		if(!single)	return [0, 0];
+		if(!ps.snaptogrid && !ps.snaptoguides) return [0, 0];
+        
+        var zoom = getView('guideSnap').dz;
+        var sd = ps.snapdistance;
+		var dx = sd + 1; // It won't snap by default!
+        var dy = sd + 1; // It won't snap by default!
+        
+		if(ps.snaptogrid) {
 			var grid = round((ps.upm / ps.griddivisions), 3);
-			dx = grid * Math.round(x / grid) - x;
-			dy = grid * Math.round(y / grid) - y;
-		}
-		if(ps.snaptoguides)
-		{
+			dx = (grid * Math.round(x / grid)) - x;
+			dy = (grid * Math.round(y / grid)) - y;
+        }
+        
+		if(ps.snaptoguides) {
 			var temp;
 			var guide;
 			for(var g in ps.guides){if(ps.guides.hasOwnProperty(g)){
-				guide = ps.guides[g]
+				guide = ps.guides[g];
 				if(guide.name === 'min' || guide.name === 'max')
 					continue;
 				if(guide.type === 'vertical'){
 					temp = guide.location - x;
-					if(temp * temp <= dx * dx) {dx = temp;}
+					if(temp * temp <= dx * dx) dx = temp;
 				}
 				else if(guide.type === 'horizontal'){
 					temp = guide.location - y;
-					if(temp * temp <= dy * dy) {dy = temp;}
+					if(temp * temp <= dy * dy) dy = temp;
 				}
 			}}
-		}
-		if(dx * dx > sd * sd) dx = 0;
-		if(dy * dy > sd * sd) dy = 0;
+        }
+        
+        // Divide by zoom to get screen pixels instead of em units
+		if((dx * dx) > ((sd * sd) / zoom)) dx = 0;
+        if((dy * dy) > ((sd * sd) / zoom)) dy = 0;
+        
 		return [dx, dy];
 	}
 
