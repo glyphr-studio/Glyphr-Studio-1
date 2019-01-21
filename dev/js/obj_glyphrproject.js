@@ -52,9 +52,9 @@
 			showoutline: false,					// outline shapes when drawing
 			showfill: true,						// fill shapes when drawing
 			guides: {},							// user-defined guidelines
-			snaptogrid: false,					// snap to gridlines
-			snaptoguides: false,				// snap to guidelines
-			snapdistance: 5,					// snap distance
+			snaptogrid: false,					// snap to grid lines
+			snaptoguides: false,				// snap to guide lines
+			snapdistance: 10,					// snap distance
 			showcontextglyphguides: true,		// show horizontal guides & notations for context glyphs
 			colors: {
 				glyphfill: 'rgb(0,0,0)',			// shape base color
