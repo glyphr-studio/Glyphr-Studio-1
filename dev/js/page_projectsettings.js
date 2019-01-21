@@ -65,6 +65,15 @@
 					'<tr><td class="uicolumn"><input type="text" value="'+(ps.colors.gridtransparency || 95)+'" onchange="var r=Math.max(1, Math.min(99, Math.round(parseInt(this.value)))); r=r||95; this.value=r; updateGridLightness(r);" style="width:25px;"/></td>'+
 					'<td>% Grid lightness on the edit canvas.</td></tr>'+
 
+					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.snaptogrid', ps.snaptogrid)+'</td>'+
+					'<td><label for="snaptogrid">Snap to grid.</label></td></tr>'+
+
+					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.snaptoguides', ps.snaptoguides)+'</td>'+
+					'<td><label for="snaptoguides">Snap to guides.</label></td></tr>'+
+
+					'<tr><td class="uicolumn"><input type="text" value="'+(ps.snapdistance)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.snapdistance=r; this.value=r;" style="width:25px;"/></td>'+
+					'<td>Snap distance/proximity.</td></tr>'+
+
 					'</table>';
 
 		
