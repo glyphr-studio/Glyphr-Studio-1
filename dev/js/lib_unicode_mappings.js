@@ -67,15 +67,16 @@ _UI.unicodeDiacriticsMapSimple = {
 // Keys are destination, Array values are sources
 // Advanced utilizes the "Combining Diacritics" Unicode range
 // to generate the "Latin Supplement" and "Latin Extended A" ranges
-/*
-    Required Accents:
+_UI.requiredAccentsForAdvancedDiacriticsMap = {
+    '0x00B7':'MIDDLE DOT',
+
     '0x0300':'COMBINING GRAVE ACCENT',
     '0x0301':'COMBINING ACUTE ACCENT',
     '0x0302':'COMBINING CIRCUMFLEX ACCENT',
     '0x0303':'COMBINING TILDE',
     '0x0304':'COMBINING MACRON',
-̷o
-    '0x0306':'COMBINING BREVE'
+
+    '0x0306':'COMBINING BREVE',
     '0x0307':'COMBINING DOT ABOVE',
     '0x0308':'COMBINING DIAERESIS',
 
@@ -90,8 +91,8 @@ _UI.unicodeDiacriticsMapSimple = {
     '0x0336':'COMBINING LONG STROKE OVERLAY',
     '0x0337':'COMBINING SHORT SOLIDUS OVERLAY',
     '0x0338':'COMBINING LONG SOLIDUS OVERLAY',
+};
 
-*/
 _UI.unicodeDiacriticsMapAdvanced = {
     // Latin Supplement
     '0x00C0': ['0x0041', '0x0300'],
@@ -223,10 +224,10 @@ _UI.unicodeDiacriticsMapAdvanced = {
 	'0x013C': ['0x006C', '0x0327'],
 	'0x013D': ['0x004C', '0x030C'],
 	'0x013E': ['0x006C', '0x030C'],
-	'0x013F': ['0x004C', 'middle dot'],
-	'0x0140': ['0x006C', 'middle dot'],
-	'0x0141': ['0x004C', 'stroke'],
-	'0x0142': ['0x006C', 'stroke'],
+	'0x013F': ['0x004C', '0x00B7'],
+	'0x0140': ['0x006C', '0x00B7'],
+	'0x0141': ['0x004C', '0x0337'],
+	'0x0142': ['0x006C', '0x0337'],
 	'0x0143': ['0x004E', '0x0301'],
 	'0x0144': ['0x006E', '0x0301'],
 	'0x0145': ['0x004E', '0x0327'],
@@ -262,8 +263,8 @@ _UI.unicodeDiacriticsMapAdvanced = {
 	'0x0163': ['0x0074', '0x0327'],
 	'0x0164': ['0x0054', '0x030C'],
 	'0x0165': ['0x0074', '0x030C'],
-	'0x0166': ['0x0054', 'stroke'],
-	'0x0167': ['0x0074', 'stroke'],
+	'0x0166': ['0x0054', '0x0335'],
+	'0x0167': ['0x0074', '0x0335'],
 	'0x0168': ['0x0055', '0x0303'],
 	'0x0169': ['0x0075', '0x0303'],
 	'0x016A': ['0x0055', '0x0304'],

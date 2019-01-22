@@ -269,7 +269,7 @@
 
 		re += '<tr><td class="checkcol"><input type="checkbox" onclick="checkFilter(\'custom\');" id="custom"/></td><td>';
 		re += '<label for="custom"><h3>Import a custom range of glyphs</h3></label>'+
-			'A nice overview of glyph ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target="_blank">Wikipedia\'s Unicode Block page</a>.<br>' +
+			'Enter a beginning and ending value (inclusive) for your custom range. A nice overview of glyph ranges can be found at<br><a href="https://en.wikipedia.org/wiki/Unicode_block" target="_blank">Wikipedia\'s Unicode Block page</a>.<br>' +
 			'<table class="settingstable"><tr>'+
 			'<td>begin:<br><input type="text" onchange="checkFilter(\'custom\');" value="'+decToHex(_UI.importrange.begin)+'" id="customrangebegin"></td>'+
 			'<td>end:<br><input type="text" onchange="checkFilter(\'custom\');" value="'+decToHex(_UI.importrange.end)+'" id="customrangeend"></td>'+
@@ -302,7 +302,7 @@
 			document.getElementById('basic').checked = false;
 			document.getElementById('custom').checked = true;
 			document.getElementById('everything').checked = false;
-            _UI.importrange = getCustomRange(true, true);
+            _UI.importrange = getCustomRange(false, true);
             document.getElementById('customrangebegin').value = _UI.importrange.begin || 0x0020;
             document.getElementById('customrangeend').value = _UI.importrange.end || 0x024F;
             

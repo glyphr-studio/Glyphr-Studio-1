@@ -79,8 +79,7 @@
 		con += '<h1>All Caps Font</h1>';
 		con += 'All Caps fonts have no lowercase letters.  To make things easy, the lowercase letters '+
         'in these fonts contain duplicates of their uppercase form.';
-		con += '<div class="effect">Capital letters will be added as Component Instances to their lowercase '+
-        'counterparts.</div>';
+		con += '<div class="effect">Capital letters will be added as Component Instances to their lowercase counterparts.</div>';
         con += '<table class="settingstable">';
         con += '<tr><td><input type="checkbox" id="allcapsbasic" checked="true"/></td><td><label for="allcapsbasic">Basic Latin</label></td></tr>';
         con += '<tr><td><input type="checkbox" id="allcapssupplement"/></td><td><label for="allcapssupplement">Latin Supplement</label></td></tr>';
@@ -92,15 +91,29 @@
 
 		// Diacritics
 		con += '<h1>Diacritical Glyph Generator (basic)</h1>';
-		con += 'The Latin Supplement character range is mostly made up of diacritical glyphs.  These are basically normal '+
+		con += 'The Latin Supplement character range is mostly made up of Latin-based diacritical (or accented) glyphs.  These are basically normal '+
 				'Latin glyphs, with accents.  Since most of the accents exist as stand-alone glyphs themselves in the Basic Latin range, '+
                 'diacritics in the Latin Supplement range are easy to create from merging two existing glyphs.';
         con += '<br><b>Please Note</b> - The diacritical glyphs that are in the Basic Latin range are usually designed to be stand-alone. '+
-                'Simply combining them with base glyphs is a good start, but work will be needed to make the resulting glyph look nice. '+
+                'Simply combining them with base glyphs is a good start, but work will be needed to make the resulting character look nice. '+
                 'The "Advanced" Diacritical Glyph Generator below takes a little more work up front, but will probably yield better results.';
 		con += '<div class="effect">The Latin Supplement character range will be enabled, and diacritical glyphs will be assembled '+
 				'as Component Instances from their respective glyphs in the Basic Latin range.</div>';
 		con += '<button class="buttonsel commit" onclick="generateDiacriticsSimple();">Generate Diacritical Glyphs</button>';
+		con += '<hr>';
+
+		// Advanced Diacritics
+		con += '<h1>Diacritical Glyph Generator (advanced)</h1>';
+        con += 'The Latin Supplement and Latin Extended A character ranges are mostly made up of Latin-based diacritical glyphs.  '+
+                'There is also a character range called Combining Diacritical Marks <pre>0x0300</pre> to <pre>0x036F</pre>. This range is '+
+                'designed to be used in combination with base glyphs from other ranges.  This action will combine glyphs from '+
+                'the Basic Latin range with their appropriate counterparts in the Combining Diacritical Marks range to yield the Latin '+
+                'Supplement and Latin Extended A ranges.';
+        con += '<br><b>Before you begin</b> - <span class="textaction" onclick="showGlyphRangeChooser();">Add the Combining Diacritical Marks range '+
+                'to your project</span>, and design them.';
+		con += '<div class="effect">The Latin Supplement and Latin Extended A character ranges will be enabled, and diacritical glyphs will be assembled '+
+				'as Component Instances from their respective glyphs from Basic Latin and Combining Diacritical Marks ranges.</div>';
+		con += '<button class="buttonsel commit" onclick="generateDiacriticsAdvanced();">Generate Diacritical Glyphs</button>';
 		con += '<hr>';
 
 
@@ -284,7 +297,7 @@
             sourceArray = _UI.unicodeDiacriticsMapSimple[currglyphid];
             
             if(sourceArray) {
-                showToast(('Adding diacritical <br>' + currglyphid), 10000);   
+                showToast(('Adding diacritical ' + currglyphid + '<br>' + getGlyphName(currglyphid)), 10000);   
                 insertComponentInstance(sourceArray[0], currglyphid, copyGlyphAttributes);
                 insertComponentInstance(sourceArray[1], currglyphid, false);
             }
@@ -300,9 +313,49 @@
 			}
 		}
 
-		showToast('Starting to assemble Diacritical Glyphs', 10000)
+		showToast('Starting to assemble Diacritical Glyphs', 10000);
 
 		_GP.projectsettings.glyphrange.latinsupplement = true;
+
+		setTimeout(doOneGlyph, 500);
+	}
+
+	function generateDiacriticsAdvanced() {
+		// debug(`generateDiacriticsAdvanced - START`);
+        var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
+        var currglyphid = decToHex(_UI.glyphrange.latinsupplement.begin);
+        var sourceArray;
+
+		function doOneGlyph() {
+            // debug(`\t doOneGlyph - currglyphid = ${currglyphid}`);
+            sourceArray = _UI.unicodeDiacriticsMapAdvanced[currglyphid];
+            
+            if(sourceArray) {
+                showToast(('Adding diacritical ' + currglyphid + '<br>' + getGlyphName(currglyphid)), 10000);   
+                insertComponentInstance(sourceArray[0], currglyphid, copyGlyphAttributes);
+                insertComponentInstance(sourceArray[1], currglyphid, false);
+            }
+
+            currglyphid++;
+
+            if(currglyphid === _UI.glyphrange.latinsupplement.end) {
+                currglyphid = _UI.glyphrange.latinextendeda.begin;
+            }
+
+            if(currglyphid <= _UI.glyphrange.latinextendeda.end){
+                currglyphid = decToHex(currglyphid);
+                setTimeout(doOneGlyph, 10);
+                
+			} else {
+                showToast('Done!', 1000);
+                _UI.history['glyph edit'].put('Generate Diacritical glyphs');
+			}
+		}
+
+		showToast('Starting to assemble Diacritical Glyphs', 10000);
+
+		_GP.projectsettings.glyphrange.latinsupplement = true;
+		_GP.projectsettings.glyphrange.latinextendeda = true;
 
 		setTimeout(doOneGlyph, 500);
 	}
