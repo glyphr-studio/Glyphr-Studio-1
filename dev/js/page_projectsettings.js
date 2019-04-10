@@ -41,9 +41,9 @@
 		content += '<h1>UI Behavior</h1>'+
 					'<table class="settingstable">'+
 
-                    "<tr><td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.filternoncharpoints", ps.glyphrange.filternoncharpoints)+"</td>"+
-                    "<td><label for='filternoncharpoints'>Hide Unicode Control Points (non-glyph characters like printing codes)</label></td></tr>"+
-                    
+					"<tr><td class='uicolumn'>"+checkUI("_GP.projectsettings.glyphrange.filternoncharpoints", ps.glyphrange.filternoncharpoints)+"</td>"+
+					"<td><label for='filternoncharpoints'>Hide Unicode Control Points (non-glyph characters like printing codes)</label></td></tr>"+
+					
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.renderpointssnappedtogrid', ps.renderpointssnappedtogrid)+'</td>'+
 					'<td class="longlabel"><label for="renderpointssnappedtogrid">Render shape outlines with their points snapped to a 1em grid.<br>(required for .otf export - Project Files will still store decimal values)</label></td></tr>'+
 

@@ -567,24 +567,24 @@ function Tool_PathEdit(){
 				if(cpx && cpx.ylock) dy = 0;
 			}
 
-            var moved = false;
+			var moved = false;
 			sp.getMembers().forEach(function(point) {
 			// debug('\t UpdatePPP ' + cpt + '\t' + dx + '\t' + dy);
 				if(ev.ctrlKey || ev.metaKey) return;
-                moved = point.updatePathPointPosition(cpt, dx, dy, false, ev, single) || moved;
-            });
-            
-            // debug(`\t moved: ${moved}`);
-            
-            // If a point didn't move, it's because it was snapped back in place
-            // leave the last x/y alone if it didn't move
-            if(moved) {
-                _UI.ms.shapes.calcMaxes();
+				moved = point.updatePathPointPosition(cpt, dx, dy, false, ev, single) || moved;
+			});
+			
+			// debug(`\t moved: ${moved}`);
+			
+			// If a point didn't move, it's because it was snapped back in place
+			// leave the last x/y alone if it didn't move
+			if(moved) {
+				_UI.ms.shapes.calcMaxes();
 
-                eh.lastx = eh.mousex;
-                eh.lasty = eh.mousey;
-                eh.uqhaschanged = true;
-            }
+				eh.lastx = eh.mousex;
+				eh.lasty = eh.mousey;
+				eh.uqhaschanged = true;
+			}
 
 			// selectShapesThatHaveSelectedPoints();
 			redraw({calledby:'Event Handler Tool_PathEdit mousemove'});

@@ -31,28 +31,28 @@
 
 		content += '<h3 style="margin-top:0px; margin-bottom:10px;">options</h3>';
 		content += '<table style="width:100%;">'+
-        '<tr><td style="width:20px">' + checkUI('_UI.showgrid', _UI.showgrid, true) + '</td>' +
-        '<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
-        '<tr><td style="width:20px">' + checkUI('_UI.showguides', _UI.showguides, true) + '</td>' +
-        '<td><label style="margin-left:10px;" for="showguides">show guides</label></td></tr>' +
-        '<tr><td style="width:20px">' + checkUI('_UI.showguidelabels', _UI.showguidelabels, true) + '</td>' +
-        '<td><label style="margin-left:10px;" for="showguidelabels">show guide labels</label></td></tr>' +
-        '<tr><td style="width:20px">' + checkUI('_UI.showovershoots', _UI.showovershoots, true) + '</td>' +
-        '<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+ps.overshoot+' em units)</label></td></tr>' +
-        // '<td colspan="2">grid transparency:<input type="range" min="0" max="100" value="'+ps.colors.gridtransparency+'" step="1" oninput="updateTransparency(\'gridtransparency\', this.value);"/><span id="gridtransparency">'+ps.colors.gridtransparency+'</span>%</td>'+sliderUI('gridtransparency')+'</tr>'+
-        '<td colspan="2">grid '+sliderUI('gridtransparency', 'gridtransparency_panel', false, true)+'</td></tr>'+
-        '</table>';
-        
+		'<tr><td style="width:20px">' + checkUI('_UI.showgrid', _UI.showgrid, true) + '</td>' +
+		'<td><label style="margin-left:10px;" for="showgrid">show grid</label></td></tr>' +
+		'<tr><td style="width:20px">' + checkUI('_UI.showguides', _UI.showguides, true) + '</td>' +
+		'<td><label style="margin-left:10px;" for="showguides">show guides</label></td></tr>' +
+		'<tr><td style="width:20px">' + checkUI('_UI.showguidelabels', _UI.showguidelabels, true) + '</td>' +
+		'<td><label style="margin-left:10px;" for="showguidelabels">show guide labels</label></td></tr>' +
+		'<tr><td style="width:20px">' + checkUI('_UI.showovershoots', _UI.showovershoots, true) + '</td>' +
+		'<td><label style="margin-left:10px;" for="showovershoots">show overshoots ('+ps.overshoot+' em units)</label></td></tr>' +
+		// '<td colspan="2">grid transparency:<input type="range" min="0" max="100" value="'+ps.colors.gridtransparency+'" step="1" oninput="updateTransparency(\'gridtransparency\', this.value);"/><span id="gridtransparency">'+ps.colors.gridtransparency+'</span>%</td>'+sliderUI('gridtransparency')+'</tr>'+
+		'<td colspan="2">grid '+sliderUI('gridtransparency', 'gridtransparency_panel', false, true)+'</td></tr>'+
+		'</table>';
+		
 		if(_UI.current_page !== 'kerning'){
-            content += '<br><h3 style=" margin-bottom:10px;">snapping</h3>'+
-            '<table style="width:100%;">'+
-            '<tr><td>' + checkUI('_GP.projectsettings.snaptogrid', _GP.projectsettings.snaptogrid, true) + '</td>' +
-            '<td><label for="snaptogrid">snap to grid</label></td></tr>' +
-            '<tr><td>' + checkUI('_GP.projectsettings.snaptoguides', _GP.projectsettings.snaptoguides, true) + '</td>' +
-            '<td><label for="snaptoguides">snap to guides</label></td></tr>' +
-            '<tr><td style="width:30px;"><input type="text" value="'+(ps.snapdistance)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.snapdistance=r; this.value=r;" style="width:25px;"/></td>'+
-            '<td><label style="margin-left:10px;">Snap distance/proximity.<span class="unit">(screen pixels)</span></label></td></tr>'+
-            '</table>';
+			content += '<br><h3 style=" margin-bottom:10px;">snapping</h3>'+
+			'<table style="width:100%;">'+
+			'<tr><td>' + checkUI('_GP.projectsettings.snaptogrid', _GP.projectsettings.snaptogrid, true) + '</td>' +
+			'<td><label for="snaptogrid">snap to grid</label></td></tr>' +
+			'<tr><td>' + checkUI('_GP.projectsettings.snaptoguides', _GP.projectsettings.snaptoguides, true) + '</td>' +
+			'<td><label for="snaptoguides">snap to guides</label></td></tr>' +
+			'<tr><td style="width:30px;"><input type="text" value="'+(ps.snapdistance)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.snapdistance=r; this.value=r;" style="width:25px;"/></td>'+
+			'<td><label style="margin-left:10px;">Snap distance/proximity.<span class="unit">(screen pixels)</span></label></td></tr>'+
+			'</table>';
 
 			content += '<br><h3 style=" margin-bottom:0px;">system guides</h3>';
 			// content += 'transparency:<input type="range" min="0" max="100" value="'+ps.colors.systemguidetransparency+'" step="1" oninput="updateTransparency(\'systemguidetransparency\', this.value);"/><span id="systemguidetransparency">'+ps.colors.systemguidetransparency+'</span>%<br><br>';

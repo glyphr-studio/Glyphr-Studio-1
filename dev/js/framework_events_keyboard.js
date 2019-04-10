@@ -17,7 +17,7 @@
 
 		if(!onCanvasEditPage()) return;
 
-        var isCtrlDown = event.ctrlKey || event.metaKey || event.which == 17;
+		var isCtrlDown = event.ctrlKey || event.metaKey || event.which == 17;
 
 		// Ctrl
 		if(isCtrlDown){

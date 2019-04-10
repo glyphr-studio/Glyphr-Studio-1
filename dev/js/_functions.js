@@ -10,7 +10,7 @@
 
 	function glyphrStudio_OnLoad() {
 		//console.clear();
-		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
+		console.log('%c\n	   GG			  GG\n	   G			   G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG	G G G	G G	G G	G G	 G\nG	G G G	G G	G G	G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G			 STUDIO\n GGGG	 GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
 		//debug('\n MAIN SETUP - START');
 
 
@@ -248,10 +248,10 @@
 
 	function openBigDialog(content, chooserContent){
 		closeDialog();
-        document.body.focus();
-        
-        document.getElementById('bigDialogLeftContent').innerHTML = content;
-        chooserContent = chooserContent || make_GlyphChooser(_UI.glyphchooser.dialog);
+		document.body.focus();
+		
+		document.getElementById('bigDialogLeftContent').innerHTML = content;
+		chooserContent = chooserContent || make_GlyphChooser(_UI.glyphchooser.dialog);
 		document.getElementById('bigDialogScrollContent').innerHTML = chooserContent;
 
 		document.getElementById('big_dialog_box').style.display='block';
@@ -476,16 +476,16 @@ function saveFile(fname, buffer, ftype) {
 	ftype = ftype || 'text/plain;charset=utf-8';
 	var fblob = new Blob([buffer], {'type':ftype, 'endings':'native'});
 
-    var link = document.createElement('a');
-    window.URL = window.URL || window.webkitURL;
-    link.href = window.URL.createObjectURL(fblob);
-    link.download = fname;
+	var link = document.createElement('a');
+	window.URL = window.URL || window.webkitURL;
+	link.href = window.URL.createObjectURL(fblob);
+	link.download = fname;
 
-    var event = document.createEvent('MouseEvents');
-    event.initEvent('click', true, false);
-    link.dispatchEvent(event);
+	var event = document.createEvent('MouseEvents');
+	event.initEvent('click', true, false);
+	link.dispatchEvent(event);
 
-    return;
+	return;
 }
 
 
@@ -520,7 +520,7 @@ function saveFile(fname, buffer, ftype) {
 	}
 
 	// a function for flitering out duplicates in arrays
-    function duplicates(v, i, a) { return a.indexOf(v) === i; }
+	function duplicates(v, i, a) { return a.indexOf(v) === i; }
 
 	// floating point numbers make me mad
 	function numSan(num) {
@@ -607,12 +607,12 @@ function saveFile(fname, buffer, ftype) {
 		}
 	}
 
-    function getShipDate(){
-        var time = '' + (new Date().getTime());
-        var prefix = parseInt(time.substr(0, 5)) * 100000000;
-        var day = (parseInt(time.charAt(5)) + 1) * 10000000;
-        return prefix + day;
-    }
+	function getShipDate(){
+		var time = '' + (new Date().getTime());
+		var prefix = parseInt(time.substr(0, 5)) * 100000000;
+		var day = (parseInt(time.charAt(5)) + 1) * 10000000;
+		return prefix + day;
+	}
 
 
 //--------------------------

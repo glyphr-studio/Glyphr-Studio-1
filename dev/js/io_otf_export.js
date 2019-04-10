@@ -15,7 +15,7 @@
 
 			// Add metadata
 			var md = _GP.metadata;
-            var ps = _GP.projectsettings;
+			var ps = _GP.projectsettings;
 
 			options.unitsPerEm = ps.upm || 1000;
 			options.ascender = ps.ascent || 0.00001;
@@ -32,7 +32,7 @@
 			options.description = (md.description) || ' ';
 			options.copyright = (md.copyright) || ' ';
 			options.trademark = (md.trademark) || ' ';
-            options.glyphs = [];
+			options.glyphs = [];
 
 			// debug('\t NEW options ARG BEFORE GLYPHS');
 			// debug(options);
@@ -62,58 +62,58 @@
 			// debug(' firstExportStep - END\n');
 		}
 
-        function getNextGlyphIndex() { return glyphIndex++; }
+		function getNextGlyphIndex() { return glyphIndex++; }
 
-        var privateUseArea = [];
+		var privateUseArea = [];
 
-        function getNextLigatureCodePoint() {
-            while(ligatureCodePoint < 0xF8FF){
-                if(privateUseArea.includes(ligatureCodePoint)){
-                    ligatureCodePoint++;
-                } else {
-                    privateUseArea.push(ligatureCodePoint);
-                    return ligatureCodePoint;                
-                }
-            }
+		function getNextLigatureCodePoint() {
+			while(ligatureCodePoint < 0xF8FF){
+				if(privateUseArea.includes(ligatureCodePoint)){
+					ligatureCodePoint++;
+				} else {
+					privateUseArea.push(ligatureCodePoint);
+					return ligatureCodePoint;				
+				}
+			}
 
-            // Fallback.  This really shouldn't happen... but if somebody
-            // has used the entire Private Use area, I guess we'll just
-            // start throwing Ligatures into the Korean block?
+			// Fallback.  This really shouldn't happen... but if somebody
+			// has used the entire Private Use area, I guess we'll just
+			// start throwing Ligatures into the Korean block?
 
-            console.warn('The entire Unicode Private Use Area (U+E000 to U+F8FF) seems to be taken. Ligatures will now be added to the block starting at U+AC00.');
-            ligatureCodePoint = 0xAC00;
-            return getNextLigatureCodePoint();
-        }
+			console.warn('The entire Unicode Private Use Area (U+E000 to U+F8FF) seems to be taken. Ligatures will now be added to the block starting at U+AC00.');
+			ligatureCodePoint = 0xAC00;
+			return getNextLigatureCodePoint();
+		}
 
 		function populateExportLists() {
 			// debug('\n populateExportLists - START');
 
-            // Add Glyphs
-            var ranges = assembleActiveRanges();
+			// Add Glyphs
+			var ranges = assembleActiveRanges();
 
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c) && isGlyphInActiveRange(c, ranges)){
 				if(parseInt(c)){
-                    tg = new Glyph(clone(_GP.glyphs[c]));
-                    debug(`\t adding glyph ${c} "${tg.name}"`);
+					tg = new Glyph(clone(_GP.glyphs[c]));
+					debug(`\t adding glyph ${c} "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
-                    if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
+					if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
 
 				} else {
-                    console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
+					console.warn('Skipped exporting Glyph ' + c + ' - non-numeric key value.');
 				}
 			}}
-            
+			
 			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
-            
-            // Add Ligatures
-            var ligWithCodePoint;
+			
+			// Add Ligatures
+			var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
-                tg = new Glyph(clone(_GP.ligatures[l]));
-                // debug(`\t adding ligature "${tg.name}"`);
-                exportLigatures.push({xg:tg, xc: l});
+				tg = new Glyph(clone(_GP.ligatures[l]));
+				// debug(`\t adding ligature "${tg.name}"`);
+				exportLigatures.push({xg:tg, xc: l});
 
-                ligWithCodePoint = doesLigatureHaveCodePoint(l);
-                if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});                
+				ligWithCodePoint = doesLigatureHaveCodePoint(l);
+				if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});				
 			}}
 
 			// debug(' populateExportLists - END\n');
@@ -125,20 +125,20 @@
 			var glyph = currentExportItem.xg;
 			var num = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-            var name = getUnicodeShortName(''+decToHex(num));
+			var name = getUnicodeShortName(''+decToHex(num));
 
 			showToast('Exporting<br>'+glyph.name, 999999);
 
 			if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
 
 			if(glyph.isautowide) {
-                glyph.updateGlyphPosition(glyph.getLSB(), 0, true);
-                glyph.leftsidebearing = 0;
-            }
+				glyph.updateGlyphPosition(glyph.getLSB(), 0, true);
+				glyph.leftsidebearing = 0;
+			}
 
 			var tgpath = glyph.makeOpenTypeJSpath(new opentype.Path());
 
-            var index = getNextGlyphIndex();
+			var index = getNextGlyphIndex();
 
 			var glyphInfo = {
 				name: name,
@@ -146,9 +146,9 @@
 				index: index,
 				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
 				path: tgpath
-            };
-            
-            codePointGlyphIndexTable[''+decToHex(num)] = index;
+			};
+			
+			codePointGlyphIndexTable[''+decToHex(num)] = index;
 
 			// debug(glyphInfo);
 			// debug(glyphInfo.path);
@@ -162,48 +162,48 @@
 
 			if(currentExportNumber < exportGlyphs.length){
 				currentExportItem = exportGlyphs[currentExportNumber];
-                setTimeout(generateOneGlyph, 10);
+				setTimeout(generateOneGlyph, 10);
 
 			} else {
 
-                if(exportLigatures.length){
-                    // debug('\t codePointGlyphIndexTable');
-                    // debug(codePointGlyphIndexTable);
+				if(exportLigatures.length){
+					// debug('\t codePointGlyphIndexTable');
+					// debug(codePointGlyphIndexTable);
 
-                    currentExportNumber = 0;
-                    currentExportItem = exportLigatures[0];
-                    setTimeout(generateOneLigature, 10);
-                } else {
-                    showToast('Finalizing...', 10);
-                    setTimeout(lastExportStep, 10);
-                }
+					currentExportNumber = 0;
+					currentExportItem = exportLigatures[0];
+					setTimeout(generateOneLigature, 10);
+				} else {
+					showToast('Finalizing...', 10);
+					setTimeout(lastExportStep, 10);
+				}
 			}
 
 			// debug(' generateOneGlyph - END\n');
 		}
-        
-        function generateOneLigature(){
-            // debug('\n generateOneLigature - START');
+		
+		function generateOneLigature(){
+			// debug('\n generateOneLigature - START');
 			// export this glyph
 			var liga = currentExportItem.xg;
 			var ligaID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-            
-            // debug('\t doing ' + ligaID + ' ' + liga.name);
+			
+			// debug('\t doing ' + ligaID + ' ' + liga.name);
 
 			showToast('Exporting<br>'+liga.name, 999999);
 
 			if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
 
 			if(liga.isautowide) {
-                liga.updateGlyphPosition(liga.getLSB(), 0, true);
-                liga.leftsidebearing = 0;
-            }
+				liga.updateGlyphPosition(liga.getLSB(), 0, true);
+				liga.leftsidebearing = 0;
+			}
 
-            var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
-            
-            var ligaCodePoint = getNextLigatureCodePoint();
-            var index = getNextGlyphIndex();
+			var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
+			
+			var ligaCodePoint = getNextLigatureCodePoint();
+			var index = getNextGlyphIndex();
 
 			var glyphInfo = {
 				name: liga.name,
@@ -211,18 +211,18 @@
 				index: index,
 				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
 				path: tgpath
-            };
-            
-            // Add ligature glyph to the font
-            options.glyphs.push(new opentype.Glyph(glyphInfo));
+			};
+			
+			// Add ligature glyph to the font
+			options.glyphs.push(new opentype.Glyph(glyphInfo));
 
-            // Add substitution info to font
-            var subList = hexToChars(ligaID).split('');
-            var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
-            // debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
-            ligatureSubstitutions.push({sub: indexList, by: index});
+			// Add substitution info to font
+			var subList = hexToChars(ligaID).split('');
+			var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
+			// debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
+			ligatureSubstitutions.push({sub: indexList, by: index});
 
-            // debug(glyphInfo);
+			// debug(glyphInfo);
 
 			// start the next one
 			currentExportNumber++;
@@ -234,24 +234,24 @@
 				showToast('Finalizing...', 10);
 				setTimeout(lastExportStep, 10);
 			}
-        }
-        
+		}
+		
 		function lastExportStep() {	
-            // Export
+			// Export
 			_UI.stoppagenavigation = false;
-            
-            options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
-            var font = new opentype.Font(options);
+			
+			options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
+			var font = new opentype.Font(options);
 
-            for(var s=0; s<ligatureSubstitutions.length; s++) {
-                font.substitution.addLigature('liga', ligatureSubstitutions[s]);
-            }
+			for(var s=0; s<ligatureSubstitutions.length; s++) {
+				font.substitution.addLigature('liga', ligatureSubstitutions[s]);
+			}
 
-            // debug('\t Font object:');
-            // debug(font.glyphs);
-            // debug(font.toTables());
+			// debug('\t Font object:');
+			// debug(font.glyphs);
+			// debug(font.toTables());
 
-            font.download();
+			font.download();
 			setTimeout(function(){_UI.stoppagenavigation = true;}, 2000);
 			// debug(' lastExportStep - END\n');
 		}
@@ -260,12 +260,12 @@
 
 		/*
 			MAIN EXPORT LOOP
-        */
-        var options = {};
-        var codePointGlyphIndexTable = {};
-        var glyphIndex = 0;
-        var ligatureCodePoint = 0xE000;
-        var ligatureSubstitutions = [];
+		*/
+		var options = {};
+		var codePointGlyphIndexTable = {};
+		var glyphIndex = 0;
+		var ligatureCodePoint = 0xE000;
+		var ligatureSubstitutions = [];
 		var exportGlyphs = [];
 		var exportLigatures = [];
 		var currentExportNumber = 0;
@@ -278,34 +278,34 @@
 
 
 		// debug(' ioOTF_exportOTFfont - END\n');
-    }
-    
-    function assembleActiveRanges() {
-        debug(`\n assembleActiveRanges - START`);
-        var ranges = clone(_GP.projectsettings.glyphrange.custom);
-        if(_GP.projectsettings.glyphrange.latinextendedb) ranges.unshift({begin: _UI.glyphrange.latinextendedb.begin, end: _UI.glyphrange.latinextendedb.end});
-        if(_GP.projectsettings.glyphrange.latinextendeda) ranges.unshift({begin: _UI.glyphrange.latinextendeda.begin, end: _UI.glyphrange.latinextendeda.end});
-        if(_GP.projectsettings.glyphrange.latinsupplement) ranges.unshift({begin: _UI.glyphrange.latinsupplement.begin, end: _UI.glyphrange.latinsupplement.end});
-        if(_GP.projectsettings.glyphrange.basiclatin) ranges.unshift({begin: _UI.glyphrange.basiclatin.begin, end: _UI.glyphrange.basiclatin.end});
-        
-        debug(ranges);
-        debug(` assembleActiveRanges - END\n\n`);
+	}
+	
+	function assembleActiveRanges() {
+		debug(`\n assembleActiveRanges - START`);
+		var ranges = clone(_GP.projectsettings.glyphrange.custom);
+		if(_GP.projectsettings.glyphrange.latinextendedb) ranges.unshift({begin: _UI.glyphrange.latinextendedb.begin, end: _UI.glyphrange.latinextendedb.end});
+		if(_GP.projectsettings.glyphrange.latinextendeda) ranges.unshift({begin: _UI.glyphrange.latinextendeda.begin, end: _UI.glyphrange.latinextendeda.end});
+		if(_GP.projectsettings.glyphrange.latinsupplement) ranges.unshift({begin: _UI.glyphrange.latinsupplement.begin, end: _UI.glyphrange.latinsupplement.end});
+		if(_GP.projectsettings.glyphrange.basiclatin) ranges.unshift({begin: _UI.glyphrange.basiclatin.begin, end: _UI.glyphrange.basiclatin.end});
+		
+		debug(ranges);
+		debug(` assembleActiveRanges - END\n\n`);
 
-        return ranges;
-    }
+		return ranges;
+	}
 
-    function isGlyphInActiveRange(gid, ranges){
-        // debug(`\n isGlyphInActiveRange - START`);
-        // debug(`\t ranges.length = ${ranges.length}`);
-        
-        for(var r=0; r<ranges.length; r++){
-            // debug(`\t testing ${gid} >= ${ranges[r].begin} && ${gid} <= ${ranges[r].end}`);
-            if(gid >= ranges[r].begin && gid <= ranges[r].end) {
-                // debug(`\t returning ^^true^^ for ${gid}`);
-                return true;
-            }
-        }
-            
-        // debug(`\t returning __false__ for ${gid}`);
-        return false;
-    }
+	function isGlyphInActiveRange(gid, ranges){
+		// debug(`\n isGlyphInActiveRange - START`);
+		// debug(`\t ranges.length = ${ranges.length}`);
+		
+		for(var r=0; r<ranges.length; r++){
+			// debug(`\t testing ${gid} >= ${ranges[r].begin} && ${gid} <= ${ranges[r].end}`);
+			if(gid >= ranges[r].begin && gid <= ranges[r].end) {
+				// debug(`\t returning ^^true^^ for ${gid}`);
+				return true;
+			}
+		}
+			
+		// debug(`\t returning __false__ for ${gid}`);
+		return false;
+	}

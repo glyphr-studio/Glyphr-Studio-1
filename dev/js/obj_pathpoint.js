@@ -45,12 +45,12 @@
 
 	PathPoint.prototype.alignY = function(pathPoint) {
 		this.P.y = pathPoint.P.y;
-    redraw({calledby:'pointDetails'});
+	redraw({calledby:'pointDetails'});
 	};
 
 	PathPoint.prototype.alignX = function(pathPoint) {
 		this.P.x = pathPoint.P.x;
-    redraw({calledby:'pointDetails'});
+	redraw({calledby:'pointDetails'});
 	};
 
 	PathPoint.prototype.alignHV = function(){
@@ -67,53 +67,53 @@
 	};
 
   PathPoint.prototype.alignH1X = function (pathPoint) {
-    this.H1.x = pathPoint.H1.x;
-    redraw({calledby:'pointDetails'});
+	this.H1.x = pathPoint.H1.x;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH1XCross = function (pathPoint) {
-    this.H1.x = pathPoint.H2.x;
-    redraw({calledby:'pointDetails'});
+	this.H1.x = pathPoint.H2.x;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH1Y = function (pathPoint) {
-    this.H1.y = pathPoint.H1.y;
-    redraw({calledby:'pointDetails'});
+	this.H1.y = pathPoint.H1.y;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH1YCross = function (pathPoint) {
-    this.H1.y = pathPoint.H2.y;
-    redraw({calledby:'pointDetails'});
+	this.H1.y = pathPoint.H2.y;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH2X = function (pathPoint) {
-    this.H2.x = pathPoint.H2.x;
-    redraw({calledby:'pointDetails'});
+	this.H2.x = pathPoint.H2.x;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH2XCross = function (pathPoint) {
-    this.H2.x = pathPoint.H1.x;
-    redraw({calledby:'pointDetails'});
+	this.H2.x = pathPoint.H1.x;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH2Y = function (pathPoint) {
-    this.H2.y = pathPoint.H2.y;
-    redraw({calledby:'pointDetails'});
+	this.H2.y = pathPoint.H2.y;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignH2YCross = function (pathPoint) {
-    this.H2.y = pathPoint.H1.y;
-    redraw({calledby:'pointDetails'});
+	this.H2.y = pathPoint.H1.y;
+	redraw({calledby:'pointDetails'});
   };
 
   PathPoint.prototype.alignHY = function (pathPoint) {
-    this.alignH1Y(pathPoint);
-    this.alignH2Y(pathPoint);
+	this.alignH1Y(pathPoint);
+	this.alignH2Y(pathPoint);
   };
 
   PathPoint.prototype.alignHYCross = function (pathPoint) {
-    this.alignH1YCross(pathPoint);
-    this.alignH2YCross(pathPoint);
+	this.alignH1YCross(pathPoint);
+	this.alignH2YCross(pathPoint);
   };
 
 	PathPoint.prototype.alignHXCross = function (pathPoint) {
@@ -127,13 +127,13 @@
   };
 
   PathPoint.prototype.alignH1 = function (pathPoint) {
-    this.alignH1X(pathPoint);
-    this.alignH1Y(pathPoint);
+	this.alignH1X(pathPoint);
+	this.alignH1Y(pathPoint);
   };
 
   PathPoint.prototype.alignH2 = function (pathPoint) {
-    this.alignH2X(pathPoint);
-    this.alignH2Y(pathPoint);
+	this.alignH2X(pathPoint);
+	this.alignH2Y(pathPoint);
   };
 
 	PathPoint.prototype.getMutualOffset = function(pathPoint) {
@@ -236,184 +236,184 @@
 			if(this.type === 'symmetric'){ this.makeSymmetric(changed); }
 			else if (this.type === 'flat') { this.makeFlat(changed); }
 		}
-        
+		
 		//this.roundAll();
 	};
-    
-    // returns nudge vector if close enough to grids or guides
+	
+	// returns nudge vector if close enough to grids or guides
 	function calculateSnapDelta(x, y, single) {
-        var ps = _GP.projectsettings;
+		var ps = _GP.projectsettings;
 		if(!single)	return [0, 0];
-        if(!ps.snaptogrid && !ps.snaptoguides) return [0, 0];
-        
-        // debug(`\n calculateSnapDelta - START`);
-        // debug(`\t passed ${x}, ${y}`);
-        
-        var zoom = getView('calculateSnapDelta').dz;
-        var sd = ps.snapdistance;
+		if(!ps.snaptogrid && !ps.snaptoguides) return [0, 0];
+		
+		// debug(`\n calculateSnapDelta - START`);
+		// debug(`\t passed ${x}, ${y}`);
+		
+		var zoom = getView('calculateSnapDelta').dz;
+		var sd = ps.snapdistance;
 		var dx = sd + 1; // It won't snap by default!
-        var dy = sd + 1; // It won't snap by default!
-        
+		var dy = sd + 1; // It won't snap by default!
+		
 		if(ps.snaptogrid) {
-            var grid = round((ps.upm / ps.griddivisions), 3);
+			var grid = round((ps.upm / ps.griddivisions), 3);
 			dx = (grid * Math.round(x / grid)) - x;
 			dy = (grid * Math.round(y / grid)) - y;
-        }
-        
+		}
+		
 		if(ps.snaptoguides) {
-            var temp;
+			var temp;
 			var guide;
 			for(var g in ps.guides){if(ps.guides.hasOwnProperty(g)){
-                guide = ps.guides[g];
+				guide = ps.guides[g];
 				if(guide.name === 'min' || guide.name === 'max') continue;
 				if(guide.type === 'vertical'){
-                    temp = guide.location - x;
+					temp = guide.location - x;
 					if(temp * temp <= dx * dx) dx = temp;
 				}
 				else if(guide.type === 'horizontal'){
-                    temp = guide.location - y;
+					temp = guide.location - y;
 					if(temp * temp <= dy * dy) dy = temp;
 				}
 			}}
-        }
-        
-        // Divide by zoom to get screen pixels instead of em units
+		}
+		
+		// Divide by zoom to get screen pixels instead of em units
 		if((dx * dx) > ((sd * sd) / zoom)) dx = 0;
-        if((dy * dy) > ((sd * sd) / zoom)) dy = 0;
-        
-        // debug(`\t returning ${dx} \t ${dy}`);
-        
-        // debug(` calculateSnapDelta - END\n\n`);
-        
+		if((dy * dy) > ((sd * sd) / zoom)) dy = 0;
+		
+		// debug(`\t returning ${dx} \t ${dy}`);
+		
+		// debug(` calculateSnapDelta - END\n\n`);
+		
 		return [dx, dy];
 	}
-    
+	
 	PathPoint.prototype.updatePathPointPosition = function(controlpoint, dx, dy, force, ev, single){
-        // debug(`\n PathPoint.updatePathPointPosition - ${controlpoint} - START`);
-        // debug(`\t before: ${dx}, ${dy}`);
-        
+		// debug(`\n PathPoint.updatePathPointPosition - ${controlpoint} - START`);
+		// debug(`\t before: ${dx}, ${dy}`);
+		
 		if(ev && ev.ctrlKey) return;
-        
+		
 		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
 		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
 		var locky = (_UI.selectedtool==='pathedit'? this.P.ylock : false);
-        
+		
 		if(isval(force)){
-            if(force){
-                lockx = false;
+			if(force){
+				lockx = false;
 				locky = false;
 			}
 		}
-        
+		
 		var gsnap = [0, 0];
 		switch(controlpoint){
-            case 'P':
-                gsnap = calculateSnapDelta(this.P.x + dx, this.P.y + dy, single);
-                dx += gsnap[0];
-                dy += gsnap[1];
-                // debug(`\t afters: ${dx}, ${dy}`);
-                
-                if(!lockx) {
-                    this.P.x += dx;
-                    this.H1.x += dx
-                    this.H2.x += dx
-                }
-                if(!locky) {
-                    this.P.y += dy;
-                    this.H1.y += dy
-                    this.H2.y += dy
-                }
-                break;
-            
-            case 'H1' :   
-                gsnap = calculateSnapDelta(this.H1.x, this.H1.y, single);
-                dx += gsnap[0];
-                dy += gsnap[1];
-                this.H1.x += dx;
-                this.H1.y += dy;
-                
-                // debug('\t Hold H1, updated to: ' + this.H1.x + ' ' + this.H1.y);
-                if(this.type === 'symmetric'){ this.makeSymmetric('H1'); }
-                else if (this.type === 'flat') { this.makeFlat('H1'); }
-                break;
-            
-            case 'H2' :
-                gsnap = calculateSnapDelta(this.H2.x, this.H2.y, single);
-                dx += gsnap[0];
-                dy += gsnap[1];
-                this.H2.x += dx;
-                this.H2.y += dy;
+			case 'P':
+				gsnap = calculateSnapDelta(this.P.x + dx, this.P.y + dy, single);
+				dx += gsnap[0];
+				dy += gsnap[1];
+				// debug(`\t afters: ${dx}, ${dy}`);
+				
+				if(!lockx) {
+					this.P.x += dx;
+					this.H1.x += dx
+					this.H2.x += dx
+				}
+				if(!locky) {
+					this.P.y += dy;
+					this.H1.y += dy
+					this.H2.y += dy
+				}
+				break;
+			
+			case 'H1' :   
+				gsnap = calculateSnapDelta(this.H1.x, this.H1.y, single);
+				dx += gsnap[0];
+				dy += gsnap[1];
+				this.H1.x += dx;
+				this.H1.y += dy;
+				
+				// debug('\t Hold H1, updated to: ' + this.H1.x + ' ' + this.H1.y);
+				if(this.type === 'symmetric'){ this.makeSymmetric('H1'); }
+				else if (this.type === 'flat') { this.makeFlat('H1'); }
+				break;
+			
+			case 'H2' :
+				gsnap = calculateSnapDelta(this.H2.x, this.H2.y, single);
+				dx += gsnap[0];
+				dy += gsnap[1];
+				this.H2.x += dx;
+				this.H2.y += dy;
 
-                if(this.type === 'symmetric'){ this.makeSymmetric('H2'); }
-                else if (this.type === 'flat') { this.makeFlat('H2'); }
-                break;
-        }
-        
-        //this.roundAll();
-        dx = round(dx, 6);
-        dy = round(dy, 6);
-        // debug(`\t returning ${(dx !== 0 || dy !== 0)}`);
-        
-        // debug(` PathPoint.updatePathPointPosition - END\n\n`);
-        
-        // return true if the point moved
-        return (dx !== 0 || dy !== 0);
-    };
-        
-    PathPoint.prototype.isOverControlPoint = function(x, y, nohandles) {
-        var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
-        
-        if( ((this.P.x+hp) > x) && ((this.P.x-hp) < x) && ((this.P.y+hp) > y) && ((this.P.y-hp) < y) ){
-            // debug('PathPoint.isOverControlPoint - Returning P1');
-            
-            return {point:this, type:'P'};
-        }
-        
-        if(this.useh1 && !nohandles){
-            if( ((this.H1.x+hp) > x) && ((this.H1.x-hp) < x) && ((this.H1.y+hp) > y) && ((this.H1.y-hp) < y) ){
-                // debug('PathPoint.isOverControlPoint - Returning H1');
-                return {point:this, type:'H1'};
-            }
-        }
-        
-        if(this.useh2 && !nohandles){
-            if( ((this.H2.x+hp) > x) && ((this.H2.x-hp) < x) && ((this.H2.y+hp) > y) && ((this.H2.y-hp) < y) ){
-                // debug('PathPoint.isOverControlPoint - Returning H2');
-                return {point:this, type:'H2'};
-            }
-        }
-        
-        return false;
-    };
-        
+				if(this.type === 'symmetric'){ this.makeSymmetric('H2'); }
+				else if (this.type === 'flat') { this.makeFlat('H2'); }
+				break;
+		}
+		
+		//this.roundAll();
+		dx = round(dx, 6);
+		dy = round(dy, 6);
+		// debug(`\t returning ${(dx !== 0 || dy !== 0)}`);
+		
+		// debug(` PathPoint.updatePathPointPosition - END\n\n`);
+		
+		// return true if the point moved
+		return (dx !== 0 || dy !== 0);
+	};
+		
+	PathPoint.prototype.isOverControlPoint = function(x, y, nohandles) {
+		var hp = _GP.projectsettings.pointsize/getView('Path.isOverControlPoint').dz;
+		
+		if( ((this.P.x+hp) > x) && ((this.P.x-hp) < x) && ((this.P.y+hp) > y) && ((this.P.y-hp) < y) ){
+			// debug('PathPoint.isOverControlPoint - Returning P1');
+			
+			return {point:this, type:'P'};
+		}
+		
+		if(this.useh1 && !nohandles){
+			if( ((this.H1.x+hp) > x) && ((this.H1.x-hp) < x) && ((this.H1.y+hp) > y) && ((this.H1.y-hp) < y) ){
+				// debug('PathPoint.isOverControlPoint - Returning H1');
+				return {point:this, type:'H1'};
+			}
+		}
+		
+		if(this.useh2 && !nohandles){
+			if( ((this.H2.x+hp) > x) && ((this.H2.x-hp) < x) && ((this.H2.y+hp) > y) && ((this.H2.y-hp) < y) ){
+				// debug('PathPoint.isOverControlPoint - Returning H2');
+				return {point:this, type:'H2'};
+			}
+		}
+		
+		return false;
+	};
+		
 	PathPoint.prototype.toggleUseHandle = function(h){
-        //debug('TOGGLEUSEHANDLE - before:\n'+json(this));
-        
+		//debug('TOGGLEUSEHANDLE - before:\n'+json(this));
+		
 		if(h){
-            this.useh1 = !this.useh1;
+			this.useh1 = !this.useh1;
 			history_put('Use Handle 1 : ' + this.useh1);
 		} else {
-            this.useh2 = !this.useh2;
+			this.useh2 = !this.useh2;
 			history_put('Use Handle 2 : ' + this.useh2);
 		}
 		_UI.ms.shapes.calcMaxes();
 		redraw({calledby:'pointDetails'});
-        
+		
 		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
 	};
-    
+	
 	PathPoint.prototype.setPointType = function(type) {
-        if(type === 'symmetric') this.makeSymmetric();
+		if(type === 'symmetric') this.makeSymmetric();
 		else if (type === 'flat') this.makeFlat();
 		else this.type = 'corner';
 	};
-    
+	
 	PathPoint.prototype.makeSymmetric = function(hold){
-        //debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
-        
+		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
+		
 		if(!hold){
-            hold = this.useh1? 'H1' : 'H2';
+			hold = this.useh1? 'H1' : 'H2';
 			if(!(this.useh1 || this.useh2)){
 				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
 					// Handles and points are all in the same place
@@ -683,17 +683,17 @@
 		this.H1.x = calculateAngleX(angle, this.H1.y);
 	};
 
-    PathPoint.prototype.setH1AngleY = function(angle){
-        this.H1.y = calculateAngleY(angle, this.H1.x);
-    };
+	PathPoint.prototype.setH1AngleY = function(angle){
+		this.H1.y = calculateAngleY(angle, this.H1.x);
+	};
 
-    PathPoint.prototype.setH2AngleX = function(angle){
-        this.H2.x = calculateAngleX(angle, this.H2.y);
-    };
+	PathPoint.prototype.setH2AngleX = function(angle){
+		this.H2.x = calculateAngleX(angle, this.H2.y);
+	};
 
-    PathPoint.prototype.setH2AngleY = function(angle){
-        this.H2.y = calculateAngleY(angle, this.H2.x);
-    };
+	PathPoint.prototype.setH2AngleY = function(angle){
+		this.H2.y = calculateAngleY(angle, this.H2.x);
+	};
 	
 	PathPoint.prototype.getH1Angle = function(){
 		return calculateAngle(this.H1, this.P);
@@ -763,7 +763,7 @@
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 
-    _UI.glypheditctx.fillStyle = accent.l65;
+	_UI.glypheditctx.fillStyle = accent.l65;
 		_UI.glypheditctx.fillText(this.getPointNum(), sx_cx(this.P.x + 12), sy_cy(this.P.y));
 		// debug(' PathPoint.drawPoint - END\n');
 	};
@@ -826,13 +826,13 @@
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
 		var setStyleDefaults = function(){
-      accent = accent || _UI.colors.blue;
-      _UI.glypheditctx.fillStyle = accent.l65;
-      _UI.glypheditctx.strokeStyle = accent.l65;
-      _UI.glypheditctx.lineWidth = 1;
-      _UI.glypheditctx.font = '10px Consolas';
-    };
-    setStyleDefaults();
+	  accent = accent || _UI.colors.blue;
+	  _UI.glypheditctx.fillStyle = accent.l65;
+	  _UI.glypheditctx.strokeStyle = accent.l65;
+	  _UI.glypheditctx.lineWidth = 1;
+	  _UI.glypheditctx.font = '10px Consolas';
+	};
+	setStyleDefaults();
 
 		var hp = _GP.projectsettings.pointsize/2;
 
@@ -847,8 +847,8 @@
 			_UI.glypheditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y));
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
-      _UI.glypheditctx.fillText('1', sx_cx(this.H1.x + 12), sy_cy(this.H1.y));
-    }
+	  _UI.glypheditctx.fillText('1', sx_cx(this.H1.x + 12), sy_cy(this.H1.y));
+	}
 
 		if(drawH2 && this.useh2){
 			_UI.glypheditctx.beginPath();
@@ -861,8 +861,8 @@
 			_UI.glypheditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y));
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
-      _UI.glypheditctx.fillText('2', sx_cx(this.H2.x + 12), sy_cy(this.H2.y));
-    }
+	  _UI.glypheditctx.fillText('2', sx_cx(this.H2.x + 12), sy_cy(this.H2.y));
+	}
 	};
 
 	PathPoint.prototype.drawQuadraticHandle = function(prevP) {

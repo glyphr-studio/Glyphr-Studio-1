@@ -248,7 +248,7 @@
 		re += '</div>';
 
 		// debug(' make_LoadingAnimation - END\n');
-        return re;
+		return re;
 	}
 
 	function make_ImportFilter(chars, kerns, funname) {
@@ -288,24 +288,24 @@
 		re += '<br><br><button class="buttonsel" id="importfontbutton" onclick="'+funname+'(true);">Import Font</button>';
 
 		return re;
-    }
-    
+	}
+	
 	function checkFilter(id) {
 		if(id === 'basic'){
 			document.getElementById('basic').checked = true;
 			document.getElementById('custom').checked = false;
 			document.getElementById('everything').checked = false;
 			_UI.importrange.begin = 0x0020;
-            _UI.importrange.end = 0x024F;
-            
+			_UI.importrange.end = 0x024F;
+			
 		} else if (id === 'custom'){
 			document.getElementById('basic').checked = false;
 			document.getElementById('custom').checked = true;
 			document.getElementById('everything').checked = false;
-            _UI.importrange = getCustomRange(false, true);
-            document.getElementById('customrangebegin').value = _UI.importrange.begin || 0x0020;
-            document.getElementById('customrangeend').value = _UI.importrange.end || 0x024F;
-            
+			_UI.importrange = getCustomRange(false, true);
+			document.getElementById('customrangebegin').value = _UI.importrange.begin || 0x0020;
+			document.getElementById('customrangeend').value = _UI.importrange.end || 0x024F;
+			
 		} else if (id === 'everything'){
 			document.getElementById('basic').checked = false;
 			document.getElementById('custom').checked = false;
@@ -313,6 +313,6 @@
 			_UI.importrange.begin = 0x0000;
 			_UI.importrange.end = 0xFFFF;
 		}
-    }
-    
+	}
+	
 // end of file
