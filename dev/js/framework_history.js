@@ -39,7 +39,7 @@
 		// debug('\n History.pull - START');
 		// debug('\t queue.length ' + this.queue.length);
 
-        if(this.queue.length === 0) return;
+if(this.queue.length === 0) return;
 
 		var currentID = getSelectedWorkItemID();
 		var nextID = this.queue[this.queue.length-1].id;
@@ -50,10 +50,10 @@
 			if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
 			else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
 
-            this.currstate = clone(top);
-            
-            var selwi = getSelectedWorkItem();
-            if(selwi && selwi.changed) selwi.changed(true, true);
+this.currstate = clone(top);
+
+var selwi = getSelectedWorkItem();
+if(selwi && selwi.changed) selwi.changed(true, true);
 
 		} else {
 			// If the next undo item is a different glyph, 

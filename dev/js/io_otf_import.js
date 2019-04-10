@@ -240,13 +240,13 @@
 			_GP.ligatures = fl;
 			_GP.kerning = fk;
 
-            
+
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
 
-            // Font Settings
-            detectAndActivateGlyphRanges(additionalGlyphs);
+// Font Settings
+detectAndActivateGlyphRanges(additionalGlyphs);
 			var ps = _GP.projectsettings;
 			var md = _GP.metadata;
 			var fname = font.familyName || 'My Font';
@@ -313,40 +313,40 @@
  }
 
  function detectAndActivateGlyphRanges(additionalGlyphs) {
-    // Canned ranges
-    var rstart, rend;
-    for(var r in _UI.glyphrange){ if(_UI.glyphrange.hasOwnProperty(r)){
-        rstart = 1*_UI.glyphrange[r].begin;
-        rend = 1*_UI.glyphrange[r].end+1;
-        for(var t=rstart; t<rend; t++){
-            if(getGlyph(''+decToHex(t))){
-                _GP.projectsettings.glyphrange[r] = true;
-                break;
-            }
-        }
-    }}
+// Canned ranges
+var rstart, rend;
+for(var r in _UI.glyphrange){ if(_UI.glyphrange.hasOwnProperty(r)){
+rstart = 1*_UI.glyphrange[r].begin;
+rend = 1*_UI.glyphrange[r].end+1;
+for(var t=rstart; t<rend; t++){
+if(getGlyph(''+decToHex(t))){
+_GP.projectsettings.glyphrange[r] = true;
+break;
+}
+}
+}}
 
-    // Custom Ranges
-    // debug('\t additionalGlyphs.length ' + additionalGlyphs.length);
-    if(additionalGlyphs.length){
-        var block;
-        var addedBlocks = [];
-        var ranges = _GP.projectsettings.glyphrange.custom;
-        additionalGlyphs = additionalGlyphs.sort();
+// Custom Ranges
+// debug('\t additionalGlyphs.length ' + additionalGlyphs.length);
+if(additionalGlyphs.length){
+var block;
+var addedBlocks = [];
+var ranges = _GP.projectsettings.glyphrange.custom;
+additionalGlyphs = additionalGlyphs.sort();
 
-        for(var c=0; c<additionalGlyphs.length; c++){
-            current = additionalGlyphs[c];
-            for(var b=0; b<_UI.unicodeBlocks.length; b++){
-                block = _UI.unicodeBlocks[b];
-                if(current >= block.begin && current <= block.end && addedBlocks.indexOf(block.begin) < 0) {
-                    addedBlocks.push(block.begin);
-                    ranges.push({'begin': decToHex(block.begin), 'end': decToHex(block.end), 'name': block.name});
-                }
-            }
-        }
-        
-        // debug('\t new glyphrange ' + json(ranges));
-    }
+for(var c=0; c<additionalGlyphs.length; c++){
+current = additionalGlyphs[c];
+for(var b=0; b<_UI.unicodeBlocks.length; b++){
+block = _UI.unicodeBlocks[b];
+if(current >= block.begin && current <= block.end && addedBlocks.indexOf(block.begin) < 0) {
+addedBlocks.push(block.begin);
+ranges.push({'begin': decToHex(block.begin), 'end': decToHex(block.end), 'name': block.name});
+}
+}
+}
+
+// debug('\t new glyphrange ' + json(ranges));
+}
  }
 
 // end of file
