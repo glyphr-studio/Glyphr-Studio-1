@@ -923,10 +923,6 @@
 		return re;
 	}
 
-	function getDefaultView() {
-
-	}
-
 	function viewZoom(zfactor, center){
 		var v = getView('viewZoom');
 		var mx = _UI.eventhandlers.mousex;
@@ -970,7 +966,6 @@
 	function calculateDefaultView() {
 		var ps = _GP.projectsettings;
 
-		var xpadding = 80;
 		var ypadding = 80;		// Height of the UI across the top
 		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
 		var canh = window.innerHeight - ypadding;
@@ -991,10 +986,9 @@
 	}
 
 	function fitViewToContextGlyphs(dontzoom) {
-		// debug('\n fitViewToContextGlyphs - START');
+		debug('\n fitViewToContextGlyphs - START');
 		var ps = _GP.projectsettings;
 
-		var xpadding = 80;
 		var ypadding = 80;		// Height of the UI across the top
 		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
 		var canh = window.innerHeight - ypadding;
@@ -1019,7 +1013,10 @@
 		var nz = Math.min(zh, zw);
 		var nx = round(((canw - (nz * strw)) / 2));
 		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
-		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
+
+		if(_UI.contextglyphs.string.length === 0) nx -= ((nz * strh) / 2);
+
+		debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
 
 		setView({dx: nx, dy: ny, dz: nz});
 	}
@@ -1030,7 +1027,7 @@
 		var aw = 0;
 
 		for(var c=0; c<carr.length; c++){
-            g = getGlyph(charsToHexArray(carr[c])[0]);
+			g = getGlyph(charsToHexArray(carr[c])[0]);
 
 			if(g) aw += g.getAdvanceWidth();
 
@@ -1115,8 +1112,8 @@
 		var re;
 
 		switch(_UI.current_page){
-            case 'glyph edit':
-            case 'global actions':
+case 'glyph edit':
+case 'global actions':
 				if(!_UI.selectedglyph) _UI.selectedglyph = '0x0041';
 				re = getGlyph(_UI.selectedglyph, true);
 				// debug('\t case glyph edit, returning ' + re.name);
@@ -1164,7 +1161,7 @@
 
 	function getSelectedWorkItemName(){
 		// debug('\n getSelectedWorkItemName - START');
-        var wi = getSelectedWorkItem();
+var wi = getSelectedWorkItem();
 		// debug('\t wi = '+wi);
 		return wi.name || wi.getName() || '[name not found]';
 	}
