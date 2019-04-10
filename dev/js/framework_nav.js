@@ -82,7 +82,7 @@
 		// debug('POPOUT - getting css:\n' + document.styleSheets[0]);
 
 		// Init window properties
-_UI.popout.document.write('<!doctype html>'+
+        _UI.popout.document.write('<!doctype html>'+
 			'<html>'+
 			'<head>'+
 				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
@@ -96,10 +96,10 @@ _UI.popout.document.write('<!doctype html>'+
 
 		// Main Screen
 		document.title = 'Glyphr Studio - Tools';
-document.body.classList.add('poppedOut');
+        document.body.classList.add('poppedOut');
 
-// Second Screen
-_UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
+        // Second Screen
+        _UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
 		_UI.popout.onBeforeUnload = popIn;
 		_UI.popout.document.getElementById('mainwrapper').style.overflowY = 'hidden';
 
@@ -178,7 +178,7 @@ _UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode
 
 	function popIn(){
 		try { _UI.popout.close(); } catch (e) {}
-document.body.classList.remove('poppedOut');
+        document.body.classList.remove('poppedOut');
 		_UI.popout = false;
 		navigate();
 	}

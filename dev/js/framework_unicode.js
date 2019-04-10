@@ -68,32 +68,32 @@
 		// debug('\n parseUnicodeInput - START');
 		// debug('\t passed ' + str);
 
-if(!str) return false;
+        if(!str) return false;
 
 		var entries = [];
 		var results = [];
 
 		if(isInputUnicode(str)) {
-// debug(`\t U+ format detected`);
+            // debug(`\t U+ format detected`);            
 			str = str.replace(/u\+/g, 'U+');
-entries = str.split('U+');
+            entries = str.split('U+');
 
 		} else if (isInputHex(str)) {
-// debug(`\t 0x format detected`);
+            // debug(`\t 0x format detected`);            
 			str = str.replace(/0X/g, '0x');
-entries = str.split('0x');
+            entries = str.split('0x');
 
 		} else {
-// debug(`\t Number detected`);
+            // debug(`\t Number detected`);
 			return charsToHexArray(str);
 		}
 
 		var te;
 		for(var e=0; e<entries.length; e++){
 			te = entries[e];
-te = te.replace(/;/g, '');
-
-if(!validateHex(te, true)) return false;
+            te = te.replace(/;/g, '');
+            
+            if(!validateHex(te, true)) return false;
 
 			if(te !== ''){
 				while(te.length < 4) te = '0'+te;
@@ -109,10 +109,10 @@ if(!validateHex(te, true)) return false;
 	}
 
 	function isInputUnicode(str) {
-str = str.replace(/u\+/g, 'U+');
-if(str.length <= 3) return 0;
+        str = str.replace(/u\+/g, 'U+');
+        if(str.length <= 3) return 0;
 
-var count = 0;
+        var count = 0;
 		var pos = str.indexOf('U+');
 		while(pos !== -1){
 			count ++;
@@ -122,10 +122,10 @@ var count = 0;
 	}
 
 	function isInputHex(str) {
-str = str.replace(/0X/g, '0x');
-if(str.length <= 3) return 0;
+        str = str.replace(/0X/g, '0x');
+        if(str.length <= 3) return 0;
 
-var count = 0;
+        var count = 0;
 		var pos = str.indexOf('0x');
 		while(pos !== -1){
 			count ++;
@@ -138,12 +138,12 @@ var count = 0;
 		var green = '0123456789ABCDEF';
 		str = str.toString();
 		str = str.toUpperCase();
-
-if(!dontcheckprefix) {
-if(str.startsWith('U+') || str.startsWith('0X')) {
-str = str.substring(2);
-}
-}
+        
+        if(!dontcheckprefix) {
+            if(str.startsWith('U+') || str.startsWith('0X')) {
+                str = str.substring(2);
+            }
+        }
 
 		if(str.length > 4) return false;
 
@@ -155,20 +155,20 @@ str = str.substring(2);
 	}
 
 	function unicodeInputHelp() {
-var re = '<h1>Using Unicode Values</h1>'+
-'Unicode is a format used by fonts that assigns an ID number to every glyph. Glyphr Studio uses<br>'+
-'this format for importing fonts, and for identifying glyphs, kern pairs, and ligatures.<br><br>'+
+        var re = '<h1>Using Unicode Values</h1>'+
+            'Unicode is a format used by fonts that assigns an ID number to every glyph. Glyphr Studio uses<br>'+
+            'this format for importing fonts, and for identifying glyphs, kern pairs, and ligatures.<br><br>'+
 			'Glyphr Studio accepts three flavors of this ID number:<br>'+
 			'<ul>'+
 				'<li><b>Hexadecimal Number</b> - a base-16 number with a 0x prefix. <br>For example, <pre>0x4E</pre> corresponds to Capital N.</li>'+
 				'<li><b>Unicode Number</b> - a base-16 number with a U+ prefix. <br>For example, <pre>U+4E</pre> corresponds to Capital N.</li>'+
 				'<li><b>Character</b> - the ID of any character that you type or copy-paste will be recognized.</li>'+
-'</ul>'+
-'<br>'+
-'When you input any of these formats, Glyphr Studio will validate the input, and convert it to<br>'+
-'a four digit hex format (like <pre>0x004E</pre>).<br><br>'+
-'Note: Glyphr Studio is limited to the Basic Multilingual Plane, Unicode <pre>U+0000</pre> through <pre>U+FFFF</pre>.<br>'+
-'Unicode range notation is not supported.'+
+            '</ul>'+
+            '<br>'+
+            'When you input any of these formats, Glyphr Studio will validate the input, and convert it to<br>'+
+            'a four digit hex format (like <pre>0x004E</pre>).<br><br>'+
+            'Note: Glyphr Studio is limited to the Basic Multilingual Plane, Unicode <pre>U+0000</pre> through <pre>U+FFFF</pre>.<br>'+
+            'Unicode range notation is not supported.'+
 			'';
 		return re;
 	}
@@ -187,26 +187,26 @@ var re = '<h1>Using Unicode Values</h1>'+
 		if(_UI && _UI.unicodeNames && _UI.unicodeNames[ch]){
 		 	return _UI.unicodeNames[ch];
 		} else {
-return getUnicodeBlockName(ch);
-}
+            return getUnicodeBlockName(ch);
+        }
 
 		// debug(' getUnicodeName - END - returning ' + re + '\n');
 		return re;
 	}
 
-function getUnicodeBlockName(ch) {
-var chn = ch*1;
-var block;
+    function getUnicodeBlockName(ch) {
+        var chn = ch*1;
+        var block;
 
-for(var i=0; i<_UI.unicodeBlocks.length; i++){
-block = _UI.unicodeBlocks[i];
-if(chn >= block.begin && chn <= block.end){
-return block.name + ' - ' + ch.substr(2);
-}
-}
+        for(var i=0; i<_UI.unicodeBlocks.length; i++){
+            block = _UI.unicodeBlocks[i];
+            if(chn >= block.begin && chn <= block.end){
+                return block.name + ' - ' + ch.substr(2);
+            }
+        }
 
-return '[name not found]';
-}
+        return '[name not found]';
+    }
 
 	function getUnicodeShortName(ch) {
 		// debug('\n getUnicodeShortName - START');

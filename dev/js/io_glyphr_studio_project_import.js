@@ -369,7 +369,7 @@
 				} else {
 					if(importing.hasOwnProperty(a)){
 						if(typeof importing[a] === 'string' && trim) template[a] = removeEmptyStringInputs(importing[a]);
-else template[a] = importing[a];
+                        else template[a] = importing[a];
 					}
 				}
 			}

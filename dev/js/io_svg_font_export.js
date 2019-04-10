@@ -107,7 +107,7 @@
 
 	function ioSVG_makeMissingGlyph() {
 		// debug('\n ioSVG_makeMissingGlyph - START');
-		var con = ' ';
+		var con = '         ';
 		var gh = _GP.projectsettings.ascent;
 		var gw = round(gh * 0.618);
 		var gt = round(gh/100);
@@ -127,8 +127,8 @@
 		//<glyph glyph-name="uniFEDF_uniFEE0_uniFBAB.liga" unicode="&#xfedf;&#xfee0;&#xfbab;" horiz-adv-x="1262" d="M1224 5
 
 		var fc = _GP.glyphs;
-var con = '';
-var ranges = assembleActiveRanges();
+        var con = '';
+        var ranges = assembleActiveRanges();
 
 		sortLigatures();
 		var li = _GP.ligatures;
@@ -207,28 +207,28 @@ var ranges = assembleActiveRanges();
 		// debug(val);
 
 		if(typeof val === 'string'){
-if(val === '""' || val === "''") return '';
+            if(val === '""' || val === "''") return '';
+            
+            if(val.indexOf('&') > -1) {
+                // debug('\t replacing ampersand');
+                val = val.replace(/&/g, '&amp;');
+            }
 
-if(val.indexOf('&') > -1) {
-// debug('\t replacing ampersand');
-val = val.replace(/&/g, '&amp;');
-}
-
-if(val.indexOf('"') > -1) {
-// debug('\t replacing double quotes');
-val = val.replace(/"/g, '&quot;');
-}
-
+            if(val.indexOf('"') > -1) {
+                // debug('\t replacing double quotes');
+                val = val.replace(/"/g, '&quot;');
+            }
+            
 			if(val.indexOf("'") > -1){
 				// debug('\t replacing single quotes');
 				val = val.replace(/'/g, '&apos;');
-}
-
+            }
+            
 			if(val.indexOf('<') > -1) {
 				// debug('\t replacing less than');
 				val = val.replace(/</g, '&lt;');
 			}
-
+            
 			if(val.indexOf('>') > -1) {
 				// debug('\t replacing greater than');
 				val = val.replace(/>/g, '&gt;');
@@ -237,6 +237,6 @@ val = val.replace(/"/g, '&quot;');
 
 		// debug('\t returning ' + JSON.stringify(val));
 		return val;
-}
+    }
 
 // end of file

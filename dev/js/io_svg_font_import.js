@@ -17,9 +17,9 @@
 		var degrees = 0;
 
 		function importStatus(msg){
-		degrees = ((degrees + 2) % 360);
-sweep.style.transform = ('rotate('+degrees+'deg)');
-fis.innerHTML = msg;
+		    degrees = ((degrees + 2) % 360);
+            sweep.style.transform = ('rotate('+degrees+'deg)');
+            fis.innerHTML = msg;
 		}
 
 
@@ -272,9 +272,9 @@ fis.innerHTML = msg;
 			// Import Font Settings
 			// Check to make sure certain stuff is there
 			// space has horiz-adv-x
-
+            
 			// Font Settings
-detectAndActivateGlyphRanges(additionalGlyphs);
+            detectAndActivateGlyphRanges(additionalGlyphs);
 			var fatt = ioSVG_getFirstTagInstance(font, 'font-face').attributes;
 			var ps = _GP.projectsettings;
 			var md = _GP.metadata;

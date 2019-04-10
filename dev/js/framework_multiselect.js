@@ -287,13 +287,13 @@
 		else {
 			for(var s=0; s<sels.length; s++){
 				curs = sels[s];
-
+                
 				i = wishapes.indexOf(curs);
 				if(i > -1) wishapes.splice(i, 1);
 
-if(curs.objtype === 'componentinstance'){
-removeFromUsedIn(curs.link, _UI.selectedglyph);
-}
+                if(curs.objtype === 'componentinstance'){
+                    removeFromUsedIn(curs.link, _UI.selectedglyph);
+                }
 			}
 
 			_UI.ms.shapes.select(wishapes[i] || wishapes[wishapes.length-1]);

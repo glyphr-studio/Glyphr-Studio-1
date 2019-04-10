@@ -562,11 +562,11 @@
 		var fill = _UI.iconcolors.lightfill;
 
 		//Glyph shape
-re += '<path fill="'+fill+'" d="M20.2,18.5H10L7.8,25h3.5v3.6H0V25h3.5l7.8-21.8H7.8V0h14.6v3.2h-3.6l8,21.8H30v3.6H18.8V25h3.5L20.2,18.5zM19.2,15.2L15.4,3.2H15l-4,11.9H19.2z"/>';
+        re += '<path fill="'+fill+'" d="M20.2,18.5H10L7.8,25h3.5v3.6H0V25h3.5l7.8-21.8H7.8V0h14.6v3.2h-3.6l8,21.8H30v3.6H18.8V25h3.5L20.2,18.5zM19.2,15.2L15.4,3.2H15l-4,11.9H19.2z"/>';
 
 		//delete
 		re += '<path fill="'+red+'" d="M26.4,29c0.6,0.8,3.5-0.8,2.4-2.2c-2.4-3.1-8.6-9.6-11.5-11.9c-2.1-1.7-4.1-0.4-4.1-0.4S21,21.9,26.4,29z"/>';
-		re += '<path fill="'+red+'" d="M17.2,28.8c-0.9,1.6-3.7-0.2-2.3-2c2.7-3.6,7.9-10.4,11.5-13c2.3-1.7,3.7-0.1,3.7-0.1S22.1,20.7,17.2,28.8z"/>';  
+		re += '<path fill="'+red+'" d="M17.2,28.8c-0.9,1.6-3.7-0.2-2.3-2c2.7-3.6,7.9-10.4,11.5-13c2.3-1.7,3.7-0.1,3.7-0.1S22.1,20.7,17.2,28.8z"/>';      
 
 		re += '</svg>';
 
@@ -983,8 +983,8 @@ re += '<path fill="'+fill+'" d="M20.2,18.5H10L7.8,25h3.5v3.6H0V25h3.5l7.8-21.8H7
 			re += ' redraw({calledby:\'checkbox '+idname+'\', redrawtools:false});';
 		}
 
-if(callbackName) re += ' ' + callbackName + '();';
-
+        if(callbackName) re += ' ' + callbackName + '();';
+        
 		re += '"/>';
 
 		return re;

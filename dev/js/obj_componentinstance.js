@@ -96,22 +96,22 @@
 		var newshapes = [];
 		var tempglyph;
 
-if(og.shapes){
-for(var s=0; s<og.shapes.length; s++){
-if(og.shapes[s].objtype === 'componentinstance'){
-tempglyph = og.shapes[s].getTransformedGlyph(true);
-newshapes = newshapes.concat(tempglyph.shapes);
-
-} else {
-newshapes.push(og.shapes[s]);
-}
-}
-
-og.shapes = newshapes;
-} else {
-og.shapes = [];
-}
-
+        if(og.shapes){
+            for(var s=0; s<og.shapes.length; s++){
+                if(og.shapes[s].objtype === 'componentinstance'){
+                    tempglyph = og.shapes[s].getTransformedGlyph(true);
+                    newshapes = newshapes.concat(tempglyph.shapes);
+                
+                } else {
+                    newshapes.push(og.shapes[s]);
+                }
+            }
+            
+            og.shapes = newshapes;
+        } else {
+            og.shapes = [];
+        }
+        
 		// debug(og);
 		return og;
 	}
@@ -427,7 +427,7 @@ og.shapes = [];
 			if(copyGlyphAttributes.srcLSB) destinationGlyph.leftsidebearing = sourceComponentGlyph.leftsidebearing;
 			if(copyGlyphAttributes.srcRSB) destinationGlyph.rightsidebearing = sourceComponentGlyph.rightsidebearing;
 
-closeDialog();
+            closeDialog();
 			history_put('insert component from glyphedit');
 			redraw({calledby:'insertComponent'});
 			return true;
@@ -453,44 +453,44 @@ closeDialog();
 
 //	UsedIn Array Stuff
 	function addToUsedIn(componentGlyphID, targetGlyphID){
-// debug('ADDTOUSEDIN - adding ' + componentGlyphID + ' to ' + targetGlyphID);
-
+        // debug('ADDTOUSEDIN - adding ' + componentGlyphID + ' to ' + targetGlyphID);
+        
 		var componentGlyph = getGlyph(componentGlyphID);
-componentGlyph.usedin.push(''+targetGlyphID);
+        componentGlyph.usedin.push(''+targetGlyphID);
+        
+        // sort numerically as opposed to alpha, remove duplicates
+        componentGlyph.usedin.sort(function(a,b){return a-b;});
+        componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
 
-// sort numerically as opposed to alpha, remove duplicates
-componentGlyph.usedin.sort(function(a,b){return a-b;});
-componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
-
-// debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
+        // debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
 	}
 
 	function removeFromUsedIn(componentGlyphID, targetGlyphID){
-debug('REMOVEFROMUSEDIN - removing ' + targetGlyphID + ' from ' + componentGlyphID);
+        debug('REMOVEFROMUSEDIN - removing ' + targetGlyphID + ' from ' + componentGlyphID);
+        
+        var targetGlyph = getGlyph(targetGlyphID);
+        var containsAnother = false;
 
-var targetGlyph = getGlyph(targetGlyphID);
-var containsAnother = false;
+        // check to see if this component is used more than once in the glyph
+        for(var s=0; s<targetGlyph.shapes.length; s++) {
+            if(targetGlyph.shapes[s].link && targetGlyph.shapes[s].link === componentGlyphID){
+                debug('\t duplicates found!');
+                containsAnother = true;
+            }
+        }
+        
+        var componentGlyph = getGlyph(componentGlyphID);
 
-// check to see if this component is used more than once in the glyph
-for(var s=0; s<targetGlyph.shapes.length; s++) {
-if(targetGlyph.shapes[s].link && targetGlyph.shapes[s].link === componentGlyphID){
-debug('\t duplicates found!');
-containsAnother = true;
-}
-}
+        if(!containsAnother){
+            var gindex = componentGlyph.usedin.indexOf(''+targetGlyphID);
+            if(gindex !== -1) componentGlyph.usedin.splice(gindex, 1);
+        }
+        
+        // sort numerically as opposed to alpha, remove duplicates
+        componentGlyph.usedin.sort(function(a,b){return a-b;});
+        componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
 
-var componentGlyph = getGlyph(componentGlyphID);
-
-if(!containsAnother){
-var gindex = componentGlyph.usedin.indexOf(''+targetGlyphID);
-if(gindex !== -1) componentGlyph.usedin.splice(gindex, 1);
-}
-
-// sort numerically as opposed to alpha, remove duplicates
-componentGlyph.usedin.sort(function(a,b){return a-b;});
-componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
-
-debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
+        debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
 	}
 
 // end of file

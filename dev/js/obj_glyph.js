@@ -167,14 +167,14 @@
 			if(ratiodh === 0) sdh = false;
 			else sdh = newsh - oldsh;
 
-// debug('\t Shape ' + i + ' dw dh ' + sdw + ' ' + sdh);
-if(s.objtype === 'componentinstance' && dontscalecomponentinstances) {
-// Special case skipping scaling of CIs for Global Actions
-// debug(`\t Skipped this shape because it's a component instance`);
-} else {
-// It's a regular shape, or we're scaling everything
-s.updateShapeSize(sdw, sdh, false);
-}
+            // debug('\t Shape ' + i + ' dw dh ' + sdw + ' ' + sdh);
+            if(s.objtype === 'componentinstance' && dontscalecomponentinstances) {
+                // Special case skipping scaling of CIs for Global Actions
+                // debug(`\t Skipped this shape because it's a component instance`);
+            } else {
+                // It's a regular shape, or we're scaling everything
+                s.updateShapeSize(sdw, sdh, false);                
+            }
 
 			// move
 			oldsx = smaxes.xmin - m.xmin;
@@ -947,8 +947,8 @@ s.updateShapeSize(sdw, sdh, false);
 		var sc = getSelectedWorkItem();
 		if(!sc) return 0;
 		if(sc.objtype === 'component') return 0;
-if(!sc.isautowide) return 0;
-if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
+        if(!sc.isautowide) return 0;
+        if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.defaultlsb;
 		return sc.leftsidebearing !== false? sc.leftsidebearing : _GP.projectsettings.defaultlsb;
 	}
 
@@ -957,8 +957,8 @@ if(sc.leftsidebearing === true) sc.leftsidebearing = _GP.projectsettings.default
 		var sc = getSelectedWorkItem();
 		if(!sc) return 0;
 		if(sc.objtype === 'component') return 0;
-if(!sc.isautowide) return 0;
-if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
+        if(!sc.isautowide) return 0;
+        if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defaultrsb;
 		return sc.rightsidebearing !== false? sc.rightsidebearing : _GP.projectsettings.defaultrsb;
 	}
 
@@ -973,8 +973,8 @@ if(sc.rightsidebearing === true) sc.rightsidebearing = _GP.projectsettings.defau
 		}
 	}
 
-// Delete
-function deleteGlyph(id) {
+    // Delete
+    function deleteGlyph(id) {
 		// debug('\n deleteGlyph');
 		// debug('\t passed: ' + id);
 
@@ -988,17 +988,17 @@ function deleteGlyph(id) {
 			return false;
 		}
 
-id = ''+id;
+        id = ''+id;
+        
+        if(_GP.glyphs[id]){
+            _GP.glyphs[id].deleteLinks(id);
+            delete _GP.glyphs[id];
+            // debug(`\t deleted glyph, it is now:`);
+            // debug(_GP.glyphs[id]);
+            return true;
 
-if(_GP.glyphs[id]){
-_GP.glyphs[id].deleteLinks(id);
-delete _GP.glyphs[id];
-// debug(`\t deleted glyph, it is now:`);
-// debug(_GP.glyphs[id]);
-return true;
-
-} 
-
-return false;
+        } 
+        
+        return false;
 	}
 // end of file
