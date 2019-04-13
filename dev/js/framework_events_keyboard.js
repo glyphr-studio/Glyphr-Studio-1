@@ -149,12 +149,6 @@
 			closeDialog();
 		}
 
-		// ?
-		if(kc==='?' || kc==='¿'){
-			event.preventDefault();
-			toggleKeyboardTips();
-		}
-
 		// z
 		if(kc==='undo' || ((eh.multi || event.metaKey) && kc==='z')){
 			event.preventDefault();
@@ -207,7 +201,7 @@
 		}
 
 
-		// Only allow above stuff on Kerning page
+		// Don't do the below stuff on Kerning page
 		if(_UI.current_page === 'kerning') return;
 
 		// Only do the below stuff if the canvas has focus
@@ -243,13 +237,17 @@
 				redraw({calledby:'Paste Shape'});
 			}
 
-
 			// v
 			if(kc === 'v') clickTool('shaperesize');
 
 			// b
 			if(kc === 'b') clickTool('pathedit');
-
+			
+			// ?
+			if(kc==='?' || kc==='¿'){
+				event.preventDefault();
+				toggleKeyboardTips();
+			}
 		}
 		// debug(' keypress - END\n');
 	}

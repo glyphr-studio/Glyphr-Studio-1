@@ -464,6 +464,7 @@
 
 			<br>
 			<table>
+			<tr><td class='keycol'><span class='keycallout'>esc</span></td><td>closes any dialog</td></tr>
 			<tr><td class='keycol'><span class='keycallout'>?</span></td><td>toggles this shortcuts dialog</td></tr>
 			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>o</span></td><td>open a new Glyphr Studio Project</td></tr>
 			</table>
@@ -480,11 +481,18 @@
 			<tr><td class='keycol'><span class='keycallout'>ctrl</span><span class='keycallout'>z</span></td><td>undo</td></tr>
 			<tr><td class='keycol'><span class='keycallout' style='margin-bottom:5px;'>backspace</span><br>or <span class='keycallout'>delete</span></td><td>delete selected shape<br>or path point</td></tr>
 			<tr><td class='keycol'>
-			<span class='arrow' style='margin-right:24px;'>&#x21E7;</span><br>
-			<span class='arrow'>&#x21E6;</span>
-			<span class='arrow'>&#x21E9;</span>
-			<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>
-			</td><td>nudges the selected shape<br>or point ${_GP.projectsettings.spinnervaluechange} em units</td></tr>
+				<span class='arrow'>&#x21E7;</span>
+				<span class='arrow'>&#x21E9;</span>
+				<span class='arrow'>&#x21E6;</span>
+				<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>
+			</td><td>nudges the selected shape<br>or point ${_GP.projectsettings.spinnervaluechange} em units<br><br></td></tr>
+			<tr><td class='keycol'>
+				<span class='keycallout'>shift</span>
+				<span class='arrow'>&#x21E7;</span>
+				<span class='arrow'>&#x21E9;</span>
+				<span class='arrow'>&#x21E6;</span>
+				<span class='arrow' style='margin-right:4px;'>&#x21E8;</span>
+			</td><td>nudge 10 em units</td></tr>
 			</table>
 
 		</td><td style='padding-left:40px;'>
