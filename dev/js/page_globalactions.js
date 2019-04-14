@@ -335,6 +335,7 @@
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
 		var currglyphid = decToHex(_UI.glyphrange.latinsupplement.begin);
 		var sourceArray;
+		var targetCenter;
 
 		function doOneGlyph() {
 			// debug(`\t doOneGlyph - currglyphid = ${currglyphid}`);
@@ -344,6 +345,9 @@
 				showToast(('Adding diacritical ' + currglyphid + '<br>' + getGlyphName(currglyphid)), 10000);   
 				insertComponentInstance(sourceArray[0], currglyphid, copyGlyphAttributes);
 				insertComponentInstance(sourceArray[1], currglyphid, false);
+
+				targetCenter = getGlyph(sourceArray[0]).getCenter().y;
+				getGlyph(currglyphid).alignShapes('center', targetCenter);
 			}
 
 			currglyphid++;
