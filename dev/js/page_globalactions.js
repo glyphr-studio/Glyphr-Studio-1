@@ -66,7 +66,7 @@
 		// Monospace
 		con += '<h1>Monospace Font</h1>';
 		con += 'Monospace fonts are fonts where each glyph has the same width.  This is useful for '+
-		'coding fonts, and fonts used for textual output.';
+		'coding fonts, and fonts used for textual output. The width value must be greater than zero.';
 		con += '<div class="effect">Each ligature and glyph\'s Auto Width property will be set to false, and it\'s '+
 				'width property will be set to the number provided.</div>';
 		con += '<table class="settingstable">';
@@ -197,19 +197,29 @@
 	}
 
 	function convertProjectToMonospace() {
+		// debug(`\n convertProjectToMonospace - START`);
 		var gwidth = (document.getElementById('monospacewidth').value * 1);
+		// debug(`gwidth input: ${gwidth}`);
 
-		glyphIterator({
-			title: 'Converting to Monospace',
-			filter: function(glyphid){ 
-				var gtype = getGlyphType(glyphid);
-				return gtype === 'glyph' || gtype === 'ligature';
-			},
-			action: function(glyph){
-				glyph.isautowide = false;
-				glyph.glyphwidth = gwidth;
-			}
-		});
+		if(isNaN(gwidth) || gwidth === 0) {
+			// debug(`\t gwidth is NaN or zero`);
+			showToast('Monospace width must be<br>a number greater than zero');
+
+		} else {
+			glyphIterator({
+				title: 'Converting to Monospace',
+				filter: function(glyphid){ 
+					var gtype = getGlyphType(glyphid);
+					return gtype === 'glyph' || gtype === 'ligature';
+				},
+				action: function(glyph){
+					glyph.isautowide = false;
+					glyph.glyphwidth = gwidth;
+				}
+			});
+		}
+
+		// debug(` convertProjectToMonospace - END\n\n`);
 	}
 
 	function convertProjectToAllCaps() {
@@ -325,6 +335,7 @@
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
 		var currglyphid = decToHex(_UI.glyphrange.latinsupplement.begin);
 		var sourceArray;
+		var targetCenter;
 
 		function doOneGlyph() {
 			// debug(`\t doOneGlyph - currglyphid = ${currglyphid}`);
@@ -334,6 +345,9 @@
 				showToast(('Adding diacritical ' + currglyphid + '<br>' + getGlyphName(currglyphid)), 10000);   
 				insertComponentInstance(sourceArray[0], currglyphid, copyGlyphAttributes);
 				insertComponentInstance(sourceArray[1], currglyphid, false);
+
+				targetCenter = getGlyph(sourceArray[0]).getCenter().y;
+				getGlyph(currglyphid).alignShapes('center', targetCenter);
 			}
 
 			currglyphid++;

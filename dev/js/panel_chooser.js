@@ -163,12 +163,15 @@
 			return content;
 		}
 
-
 		if(selrange === 'glyphs') selrange = 'basiclatin';
 
 		if(!isNaN(parseInt(selrange))){
 			// content += 'Custom Range ' + (selrange+1);
-			content += _GP.projectsettings.glyphrange.custom[selrange].name;
+			if(!_GP.projectsettings.glyphrange.custom[selrange]) {
+				content += 'Select a range';
+			} else {
+				content += _GP.projectsettings.glyphrange.custom[selrange].name;
+			}
 		} else if(selrange){
 			switch(selrange){
 				case 'basiclatin': content += 'Basic Latin'; break;
@@ -342,7 +345,7 @@
 		// debug(' make_GlyphChooser_Content - EMPTY\n');
 		
 		return '<div class="panel_section"><h3 style="margin-top:0;">whoops!</h3>'+
-		'Looks like you don\'t have any glyph ranges enabled.<br>Go to Font Settings to enable Glyph Ranges.'+
+		'Looks like your selected range was removed, or you don\'t have any glyph ranges enabled. Go to Font Settings to enable more Glyph Ranges.'+
 		'</div>';
 	}
 

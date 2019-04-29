@@ -241,7 +241,7 @@
 		this.changed();
 	};
 
-	Glyph.prototype.alignShapes = function(edge) {
+	Glyph.prototype.alignShapes = function(edge, target) {
 		// debug('\n Glyph.alignShapes - START');
 		// debug('\t edge: ' + edge);
 		var target, offset;
