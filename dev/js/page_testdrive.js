@@ -91,7 +91,6 @@
 
 		td.glyphseq.setString(td.sampletext);
 		var scale = td.fontscale;
-		var pagepadding = 20 / scale;
 
 		td.ctx.clearRect(0,0,5000,5000);
 		td.glyphseq.draw();
@@ -172,7 +171,7 @@
 				drawx.makeCrisp(),
 				drawy.makeCrisp(),
 				round(drawwidth),
-				round(drawheight)				
+				round(drawheight)
 			);
 
 		}

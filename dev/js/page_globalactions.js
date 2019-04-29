@@ -197,7 +197,7 @@
 	}
 
 	function convertProjectToMonospace() {
-		var gwidth = document.getElementById('monospacewidth').value;
+		var gwidth = (document.getElementById('monospacewidth').value * 1);
 
 		glyphIterator({
 			title: 'Converting to Monospace',

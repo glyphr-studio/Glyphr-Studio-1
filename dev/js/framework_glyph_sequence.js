@@ -69,8 +69,8 @@
 
 	GlyphSequence.prototype.generateData = function() {
 
-		// debug('\n GlyphSequence.generateData - START');
-		// debug(`\t this.textblocks ${this.textblocks}`);
+		debug('\n GlyphSequence.generateData - START');
+		debug(`\t this.textblocks ${this.textblocks}`);
 		var ps = _GP.projectsettings;
 
 		var aggregateWidth = 0;
@@ -95,7 +95,7 @@
 			height: (this.maxes.ymax - this.maxes.ymin) / this.scale
 		};
 
-		// debug(`\t Em unit currs ${currx}, ${curry}, ${this.scale}`);
+		debug(`\t Em unit currs ${currx}, ${curry}, ${this.scale}`);
 
 
 		/*
@@ -115,6 +115,8 @@
 				thisKern = calculateKernOffset(currblock[tg], currblock[tg+1]);
 				aggregateWidth += thisWidth + thisKern;
 
+				debug(`\t glyph ${currblock[tg]} AW: ${thisWidth} K: ${thisKern} TOTAL: ${aggregateWidth}`);				
+
 				// Each glyph gets this data to draw it
 				this.data[tb][tg] = {
 					char: currblock[tg],
@@ -133,8 +135,8 @@
 			}
 		}
 
-		// debug('this.data');
-		// debug(this.data);
+		debug('this.data');
+		debug(this.data);
 
 
 		/*
@@ -143,15 +145,15 @@
 			within each block, and final possitions
 			----------------------------------------
 		*/
-		// debug('\t CALCUALTING DATA PER CHAR');
+		debug('\t CALCUALTING DATA PER CHAR');
 		for(tb=0; tb<this.data.length; tb++){
 			currblock = this.data[tb];
-			// debug(`block ${tb}`);
+			debug(`block ${tb}`);
 
 			// char data units and width units are all in glyph em (not pixel) units
 			for(tg=0; tg<currblock.length; tg++){
 				currchar = currblock[tg];
-				// debug(`${currchar.char} num ${tg}`);
+				debug(`${currchar.char} num ${tg}`);
 
 				if(currchar.view === false){
 
@@ -160,9 +162,9 @@
 						nlb = getNextLineBreaker(currblock, tg);
 						wordagg = nlb.aggregate - currchar.aggregate;
 
-						// debug(`\t currx - area.x + wordagg > area.width`);
-						// debug(`\t ${currx} - ${area.x} + ${wordagg} > ${area.width}`);
-						// debug(`\t ${currx - area.x + wordagg} > ${area.width}`);
+						debug(`\t currx - area.x + wordagg > area.width`);
+						debug(`\t ${currx} - ${area.x} + ${wordagg} > ${area.width}`);
+						debug(`\t ${currx - area.x + wordagg} > ${area.width}`);
 
 						if(currx - area.x + wordagg > area.width){
 							currline++;
@@ -170,7 +172,7 @@
 							if(!canNextLineFit(curry, area, this.linegap)){
 								// text takes up too much vertical space
 								// returning early will leave unconputed chars.isvisible = false
-								// debug(' GlyphSequence.generateData - Vertical Max Reached - END\n');
+								debug(' GlyphSequence.generateData - Vertical Max Reached - END\n');
 								return;
 
 							} else {
@@ -190,7 +192,7 @@
 
 				if(currchar.islinebreaker) checkforbreak = true;
 
-	// debug(`\twidth \t ${currchar.width}
+	debug(`\twidth \t ${currchar.width}
 	// aggr \t ${currchar.aggregate}
 	// lnbr \t ${currchar.islinebreaker}
 	// view \t ${json(currchar.view, true)}
@@ -205,7 +207,7 @@
 			if(!canNextLineFit(curry, area, this.linegap)){
 				// text takes up too much vertical space
 				// returning early will leave unconputed chars.isvisible = false
-				// debug(' GlyphSequence.generateData - Vertical Max Reached - END\n');
+				debug(' GlyphSequence.generateData - Vertical Max Reached - END\n');
 				return;
 
 			}
@@ -214,10 +216,10 @@
 			curry = calcNewLineY(area.y, currline, this.linegap);
 		}
 
-		// debug('\t after view calc this.data');
-		// debug(this.data)
+		debug('\t after view calc this.data');
+		debug(this.data)
 
-		// debug(' GlyphSequence.generateData - END\n');
+		debug(' GlyphSequence.generateData - END\n');
 	};
 
 	GlyphSequence.prototype.iterator = function(fn) {
