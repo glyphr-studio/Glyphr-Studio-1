@@ -37,7 +37,7 @@
 	}
 
 	function keypress(event){
-		// debug('\n keypress - START');
+		debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
 		if(_UI.current_page === 'openproject') return;
 		if(getEditDocument().activeElement.id === 'contextglyphsinput') return;
@@ -52,7 +52,7 @@
 
 		// debug('Key Press:\t' + kc + ' from ' + event.which);
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
-		// debug(event);
+		debug(event);
 
 
 		// shift s (save as)
@@ -232,9 +232,15 @@
 			// ctrl + v
 			if((eh.multi || event.metaKey) && kc==='v'){
 				event.preventDefault();
-				pasteShape();
-				history_put('Paste Shape');
-				redraw({calledby:'Paste Shape'});
+				var pasted = pasteShape();
+				if(pasted) {					
+					history_put(pasted > 1? ('Pasted ' + pasted + ' shapes') : 'Pasted 1 shape');
+					redraw({calledby:'Paste Shape'});
+				} else {
+					var clipboardData = event.clipboardData || window.clipboardData;
+					var pastedData = clipboardData.getData('Text');
+					debug(pastedData);
+				}
 			}
 
 			// v

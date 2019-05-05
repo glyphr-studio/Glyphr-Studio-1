@@ -49,8 +49,9 @@ function initEventHandlers() {
 	if (document.getElementById('navarea_panel')) {
 		document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
 	}
-
+	
 	// Document Key Listeners
+	_UI.glypheditcanvas.addEventListener('paste', keypress, false);
 	getEditDocument().addEventListener('keypress', keypress, false);
 	getEditDocument().addEventListener('keydown', keypress, false);
 	getEditDocument().addEventListener('keyup', keyup, false);

@@ -15,7 +15,7 @@
 	function editPage_Content(){
 		return ''+
 			"<div id='notation'>&#x20E2;</div>" +
-			"<canvas id='glypheditcanvas' width=12 height=12 ></canvas>" +
+			"<canvas id='glypheditcanvas' contenteditable='true' width=12 height=12></canvas>" +
 			"<div id='toolsarea_upperleft' onmouseover='mouseovercec();'> (ノ°□°)ノ︵ ┻━┻ </div>" +
 			"<div id='toolsarea_upperright'>&nbsp;</div>" +
 			"<div id='toolsarea_lowerleft'>&nbsp;</div>" +
