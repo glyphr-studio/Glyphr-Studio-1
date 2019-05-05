@@ -43,7 +43,7 @@ function initEventHandlers() {
 	_UI.glypheditcanvas.addEventListener('mousedown', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mousemove', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mouseup',   ev_canvas, false);
-	_UI.glypheditcanvas.customguidetransparency = mouseovercec;
+	_UI.glypheditcanvas.onmouseover = mouseovercec;
 	_UI.glypheditcanvas.onmouseout = mouseoutcec;
 	_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
 	if (document.getElementById('navarea_panel')) {

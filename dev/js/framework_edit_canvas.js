@@ -1774,7 +1774,7 @@ var wi = getSelectedWorkItem();
 		_UI.glypheditctx.globalAlpha = 1;
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		_UI.glypheditcanvas.onmouseout = mouseoutcec;
-		_UI.glypheditcanvas.customguidetransparency = mouseovercec;
+		_UI.glypheditcanvas.onmouseover = mouseovercec;
 	}
 
 // end of file
