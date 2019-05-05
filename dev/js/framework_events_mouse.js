@@ -43,7 +43,7 @@ function initEventHandlers() {
 	_UI.glypheditcanvas.addEventListener('mousedown', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mousemove', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mouseup',   ev_canvas, false);
-	_UI.glypheditcanvas.onmouseover = mouseovercec;
+	_UI.glypheditcanvas.customguidetransparency = mouseovercec;
 	_UI.glypheditcanvas.onmouseout = mouseoutcec;
 	_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
 	if (document.getElementById('navarea_panel')) {
@@ -51,7 +51,7 @@ function initEventHandlers() {
 	}
 	
 	// Document Key Listeners
-	_UI.glypheditcanvas.addEventListener('paste', keypress, false);
+	getEditDocument().addEventListener('paste', paste, false);
 	getEditDocument().addEventListener('keypress', keypress, false);
 	getEditDocument().addEventListener('keydown', keypress, false);
 	getEditDocument().addEventListener('keyup', keyup, false);

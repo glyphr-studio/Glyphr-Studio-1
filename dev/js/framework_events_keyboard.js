@@ -36,6 +36,21 @@
 		}
 	}
 
+	function paste(event) {
+		debug('\n paste - START');
+
+		// Stop data actually being pasted into div
+		event.stopPropagation();
+		event.preventDefault();
+
+		// Get pasted data via clipboard API
+		var clipboardData = event.clipboardData || window.clipboardData;
+		var pastedData = clipboardData.getData('Text');
+		debug(pastedData);
+
+		debug(' paste - END');
+	}
+
 	function keypress(event){
 		debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
@@ -54,31 +69,35 @@
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
 		debug(event);
 
+		function stopDefaultStuff() {
+			event.stopPropagation();
+			event.preventDefault();
+		}
 
 		// shift s (save as)
 		if(isCtrlDown && eh.isShiftDown && kc==='s'){
-			event.preventDefault();
+			stopDefaultStuff();
 			eh.isShiftDown = false;
 			saveGlyphrProjectFile(false); // save as always
 		}
 
 		// s
 		else if((isCtrlDown) && kc==='s'){
-			event.preventDefault();
+			stopDefaultStuff();
 			eh.isShiftDown = false;
 			saveGlyphrProjectFile(true); // overwrite if electron
 		}
 
 		// g
 		if((isCtrlDown) && kc==='g'){
-			event.preventDefault();
+			stopDefaultStuff();
 			showToast('Exporting SVG font file...');
 			setTimeout(ioSVG_exportSVGfont, 500);
 		}
 
 		// e
 		if((isCtrlDown) && kc==='e'){
-			event.preventDefault();
+			stopDefaultStuff();
 			showToast('Exporting OTF font file...');
 			setTimeout(ioOTF_exportOTFfont, 500);
 		}
@@ -86,7 +105,7 @@
 		// o
 		if((isCtrlDown) && kc==='o'){
 			// debug('\t pressed Ctrl + O');
-			event.preventDefault();
+			stopDefaultStuff();
 			
 			window.open("http://glyphrstudio.com/online", "_blank");
 		}
@@ -94,7 +113,7 @@
 		// q
 		// for dev mode clear console
 		if(_UI.devmode && (isCtrlDown) && kc==='q'){
-			event.preventDefault();
+			stopDefaultStuff();
 			console.clear();
 		}
 
@@ -107,7 +126,7 @@
 		if((isCtrlDown || kc==='ctrl') && !eh.multi){
 			// debug('\t event.ctrlKey = true');
 			// debug('\t selectedtool = ' + _UI.selectedtool);
-			event.preventDefault();
+			// stopDefaultStuff();
 			eh.multi = true;
 
 			if(overcanvas) {
@@ -136,7 +155,7 @@
 
 		// Space
 		if(kc === 'space' && overcanvas){
-			event.preventDefault();
+			stopDefaultStuff();
 			if(!eh.isSpaceDown){
 				eh.lastTool = _UI.selectedtool;
 				_UI.selectedtool = 'pan';
@@ -151,52 +170,52 @@
 
 		// z
 		if(kc==='undo' || ((eh.multi || event.metaKey) && kc==='z')){
-			event.preventDefault();
+			stopDefaultStuff();
 			history_pull();
 		}
 
 		// plus
 		if((eh.multi || event.metaKey) && kc==='plus'){
-			event.preventDefault();
+			stopDefaultStuff();
 			viewZoom(1.1);
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// minus
 		if((eh.multi || event.metaKey) && kc==='minus'){
-			event.preventDefault();
+			stopDefaultStuff();
 			viewZoom(0.9);
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// 0
 		if((eh.multi || event.metaKey) && kc==='0'){
-			event.preventDefault();
+			stopDefaultStuff();
 			setView(clone(_UI.defaultview));
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// left
 		if(kc==='left' && overcanvas){
-			event.preventDefault();
+			stopDefaultStuff();
 			nudge(-1,0, event);
 		}
 
 		// right
 		if(kc==='right' && overcanvas){
-			event.preventDefault();
+			stopDefaultStuff();
 			nudge(1,0, event);
 		}
 
 		// up
 		if(kc==='up' && overcanvas){
-			event.preventDefault();
+			stopDefaultStuff();
 			nudge(0,1, event);
 		}
 
 		// down
 		if(kc==='down' && overcanvas){
-			event.preventDefault();
+			stopDefaultStuff();
 			nudge(0,-1, event);
 		}
 
@@ -209,7 +228,7 @@
 		if(overcanvas){
 			// del
 			if(kc==='del' || kc==='backspace'){
-				event.preventDefault();
+				stopDefaultStuff();
 				var em = getEditMode();
 
 				if(em === 'pen'){
@@ -225,21 +244,19 @@
 
 			// ctrl + c
 			if((eh.multi || event.metaKey) && kc==='c'){
-				event.preventDefault();
+				stopDefaultStuff();
 				copyShape();
 			}
 
 			// ctrl + v
 			if((eh.multi || event.metaKey) && kc==='v'){
-				event.preventDefault();
 				var pasted = pasteShape();
-				if(pasted) {					
+				if(pasted) {
+					stopDefaultStuff();
 					history_put(pasted > 1? ('Pasted ' + pasted + ' shapes') : 'Pasted 1 shape');
 					redraw({calledby:'Paste Shape'});
 				} else {
-					var clipboardData = event.clipboardData || window.clipboardData;
-					var pastedData = clipboardData.getData('Text');
-					debug(pastedData);
+					debug('CTRL+V TRIGGERED FROM KEY HANDLER NOT PASTE HANDLER');
 				}
 			}
 
@@ -251,7 +268,7 @@
 			
 			// ?
 			if(kc==='?' || kc==='¿'){
-				event.preventDefault();
+				stopDefaultStuff();
 				toggleKeyboardTips();
 			}
 		}
