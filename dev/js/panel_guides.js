@@ -76,7 +76,7 @@
 
 		re += '<td class="guidecolor" style="background-color:'+ guide.color + ';"';
 		if(!sys){
-			re += ' customguidetransparency="hideAllSatChoosers(); this.style.cursor=\'pointer\'; this.style.borderColor=\''+ guide.color + '\';"';
+			re += ' onmouseover="hideAllSatChoosers(); this.style.cursor=\'pointer\'; this.style.borderColor=\''+ guide.color + '\';"';
 			re += ' onmouseout="this.style.borderColor=\'rgb(250,252,255)\';"';
 			re += ' onclick="hideAllSatChoosers(); showGuideSatChooser(this, \''+id+'\');"';
 		}

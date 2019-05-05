@@ -26,7 +26,7 @@
 		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		_UI.glypheditcanvas.onmouseout = mouseoutcec;
-		_UI.glypheditcanvas.customguidetransparency = mouseovercec;
+		_UI.glypheditcanvas.onmouseover = mouseovercec;
 	}
 
 
