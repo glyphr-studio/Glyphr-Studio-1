@@ -45,8 +45,12 @@
 
 		// Get pasted data via clipboard API
 		var clipboardData = event.clipboardData || window.clipboardData;
-		var pastedData = clipboardData.getData('Text');
-		debug(pastedData);
+		var pasteData = clipboardData.getData('Text');
+		debug(pasteData);
+
+		var result = importSVG_importPastedCode(pasteData);
+		
+		if(!result) showToast('Could not import pasted SVG code.');
 
 		debug(' paste - END');
 	}

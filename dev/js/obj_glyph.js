@@ -771,10 +771,11 @@
 		return re;
 	};
 
-	Glyph.prototype.copyShapesTo = function(destinationID, copyGlyphAttributes) {
+	Glyph.prototype.copyShapesTo = function(destinationID, copyGlyphAttributes, selectNewShapes) {
 		// debug('\n Glyph.copyShapesTo - START');
 
 		copyGlyphAttributes = copyGlyphAttributes || { srcAutoWidth: false, srcWidth: false, srcLSB: false, srcRSB: false};
+		selectNewShapes = selectNewShapes || false;
 		var destinationGlyph = getGlyph(destinationID, true);
 		var tc;
 
@@ -788,6 +789,7 @@
 			}
 
 			destinationGlyph.shapes.push(tc);
+			if(selectNewShapes) _UI.ms.shapes.add(tc);
 		}
 
 		if(copyGlyphAttributes.srcAutoWidth) destinationGlyph.isautowide = this.isautowide;
