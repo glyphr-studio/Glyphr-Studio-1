@@ -45,12 +45,12 @@
 
 	PathPoint.prototype.alignY = function(pathPoint) {
 		this.P.y = pathPoint.P.y;
-	redraw({calledby:'pointDetails'});
+		redraw({calledby:'pointDetails'});
 	};
 
 	PathPoint.prototype.alignX = function(pathPoint) {
 		this.P.x = pathPoint.P.x;
-	redraw({calledby:'pointDetails'});
+		redraw({calledby:'pointDetails'});
 	};
 
 	PathPoint.prototype.alignHV = function(){
@@ -66,75 +66,75 @@
 		redraw({calledby:'pointDetails'});
 	};
 
-  PathPoint.prototype.alignH1X = function (pathPoint) {
-	this.H1.x = pathPoint.H1.x;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH1X = function (pathPoint) {
+		this.H1.x = pathPoint.H1.x;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH1XCross = function (pathPoint) {
-	this.H1.x = pathPoint.H2.x;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH1XCross = function (pathPoint) {
+		this.H1.x = pathPoint.H2.x;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH1Y = function (pathPoint) {
-	this.H1.y = pathPoint.H1.y;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH1Y = function (pathPoint) {
+		this.H1.y = pathPoint.H1.y;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH1YCross = function (pathPoint) {
-	this.H1.y = pathPoint.H2.y;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH1YCross = function (pathPoint) {
+		this.H1.y = pathPoint.H2.y;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH2X = function (pathPoint) {
-	this.H2.x = pathPoint.H2.x;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH2X = function (pathPoint) {
+		this.H2.x = pathPoint.H2.x;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH2XCross = function (pathPoint) {
-	this.H2.x = pathPoint.H1.x;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH2XCross = function (pathPoint) {
+		this.H2.x = pathPoint.H1.x;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH2Y = function (pathPoint) {
-	this.H2.y = pathPoint.H2.y;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH2Y = function (pathPoint) {
+		this.H2.y = pathPoint.H2.y;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignH2YCross = function (pathPoint) {
-	this.H2.y = pathPoint.H1.y;
-	redraw({calledby:'pointDetails'});
-  };
+	PathPoint.prototype.alignH2YCross = function (pathPoint) {
+		this.H2.y = pathPoint.H1.y;
+		redraw({calledby:'pointDetails'});
+	};
 
-  PathPoint.prototype.alignHY = function (pathPoint) {
-	this.alignH1Y(pathPoint);
-	this.alignH2Y(pathPoint);
-  };
+	PathPoint.prototype.alignHY = function (pathPoint) {
+		this.alignH1Y(pathPoint);
+		this.alignH2Y(pathPoint);
+	};
 
-  PathPoint.prototype.alignHYCross = function (pathPoint) {
-	this.alignH1YCross(pathPoint);
-	this.alignH2YCross(pathPoint);
-  };
+	PathPoint.prototype.alignHYCross = function (pathPoint) {
+		this.alignH1YCross(pathPoint);
+		this.alignH2YCross(pathPoint);
+	};
 
 	PathPoint.prototype.alignHXCross = function (pathPoint) {
 		this.alignH1XCross(pathPoint);
 		this.alignH2XCross(pathPoint);
 	};
 
-  PathPoint.prototype.alignHX = function (pathPoint) {
+	PathPoint.prototype.alignHX = function (pathPoint) {
 		this.alignH1X(pathPoint);
 		this.alignH2X(pathPoint);
-  };
+	};
 
-  PathPoint.prototype.alignH1 = function (pathPoint) {
-	this.alignH1X(pathPoint);
-	this.alignH1Y(pathPoint);
-  };
+	PathPoint.prototype.alignH1 = function (pathPoint) {
+		this.alignH1X(pathPoint);
+		this.alignH1Y(pathPoint);
+	};
 
-  PathPoint.prototype.alignH2 = function (pathPoint) {
-	this.alignH2X(pathPoint);
-	this.alignH2Y(pathPoint);
-  };
+	PathPoint.prototype.alignH2 = function (pathPoint) {
+		this.alignH2X(pathPoint);
+		this.alignH2Y(pathPoint);
+	};
 
 	PathPoint.prototype.getMutualOffset = function(pathPoint) {
 		if(this.P.x === pathPoint.P.x) {
@@ -182,9 +182,9 @@
 		redraw({calledby:'pointDetails'});
 	};
 
-  PathPoint.prototype.alignAngle = function (pathPoint) {
+	PathPoint.prototype.alignAngle = function (pathPoint) {
 
-  };
+	};
 
 	PathPoint.prototype.setPathPointPosition = function(controlpoint, nx, ny){
 		var dx = 0;
@@ -326,7 +326,7 @@
 				}
 				break;
 			
-			case 'H1' :   
+			case 'H1' :	 
 				gsnap = calculateSnapDelta(this.H1.x, this.H1.y, single);
 				dx += gsnap[0];
 				dy += gsnap[1];
@@ -485,7 +485,7 @@
 			newopp = Math.tan(angle1) * newadj;
 
 			//Set values
-			newHx =  (this.P.x + (newadj*-1));
+			newHx =	(this.P.x + (newadj*-1));
 			newHy = (this.P.y + (newopp*-1));
 
 			if(!isNaN(newHx) && !isNaN(newHy)){
@@ -499,7 +499,7 @@
 			newopp = Math.tan(angle2) * newadj;
 
 			//Set values
-			newHx =  (this.P.x + (newadj*-1));
+			newHx =	(this.P.x + (newadj*-1));
 			newHy = (this.P.y + (newopp*-1));
 
 			if(!isNaN(newHx) && !isNaN(newHy)){
@@ -521,7 +521,7 @@
 		var a2 = this.getH2Angle();
 		// debug('\t comparing ' + a1 + ' / ' + a2);
 
-		 return (round((Math.abs(a1) + Math.abs(a2)), 2) === 3.14);
+		return (round((Math.abs(a1) + Math.abs(a2)), 2) === 3.14);
 	};
 
 	PathPoint.prototype.resolvePointType = function(){
@@ -763,7 +763,7 @@
 		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 		_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
 
-	_UI.glypheditctx.fillStyle = accent.l65;
+		_UI.glypheditctx.fillStyle = accent.l65;
 		_UI.glypheditctx.fillText(this.getPointNum(), sx_cx(this.P.x + 12), sy_cy(this.P.y));
 		// debug(' PathPoint.drawPoint - END\n');
 	};
@@ -804,7 +804,7 @@
 			]);
 		}}
 
-		//debug('DRAWPOINT arrow = ' + JSON.stringify(arrow) + '  - rotatedarrow = ' + JSON.stringify(rotatedarrow));
+		//debug('DRAWPOINT arrow = ' + JSON.stringify(arrow) + '	- rotatedarrow = ' + JSON.stringify(rotatedarrow));
 
 		_UI.glypheditctx.beginPath();
 		_UI.glypheditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));
@@ -826,13 +826,13 @@
 
 	PathPoint.prototype.drawHandles = function(drawH1, drawH2, accent) {
 		var setStyleDefaults = function(){
-	  accent = accent || _UI.colors.blue;
-	  _UI.glypheditctx.fillStyle = accent.l65;
-	  _UI.glypheditctx.strokeStyle = accent.l65;
-	  _UI.glypheditctx.lineWidth = 1;
-	  _UI.glypheditctx.font = '10px Consolas';
-	};
-	setStyleDefaults();
+			accent = accent || _UI.colors.blue;
+			_UI.glypheditctx.fillStyle = accent.l65;
+			_UI.glypheditctx.strokeStyle = accent.l65;
+			_UI.glypheditctx.lineWidth = 1;
+			_UI.glypheditctx.font = '10px Consolas';
+		};
+		setStyleDefaults();
 
 		var hp = _GP.projectsettings.pointsize/2;
 
@@ -847,8 +847,8 @@
 			_UI.glypheditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y));
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
-	  _UI.glypheditctx.fillText('1', sx_cx(this.H1.x + 12), sy_cy(this.H1.y));
-	}
+			_UI.glypheditctx.fillText('1', sx_cx(this.H1.x + 12), sy_cy(this.H1.y));
+		}
 
 		if(drawH2 && this.useh2){
 			_UI.glypheditctx.beginPath();
@@ -861,8 +861,8 @@
 			_UI.glypheditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y));
 			_UI.glypheditctx.closePath();
 			_UI.glypheditctx.stroke();
-	  _UI.glypheditctx.fillText('2', sx_cx(this.H2.x + 12), sy_cy(this.H2.y));
-	}
+			_UI.glypheditctx.fillText('2', sx_cx(this.H2.x + 12), sy_cy(this.H2.y));
+		}
 	};
 
 	PathPoint.prototype.drawQuadraticHandle = function(prevP) {

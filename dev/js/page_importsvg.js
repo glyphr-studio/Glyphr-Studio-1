@@ -223,22 +223,5 @@
 		
 		// debug(' importSVG_importCode - END\n');
 	}
-	
-	function importSVG_importPastedCode(svgin) {
-		var tempchar = ioSVG_convertTagsToGlyph(svgin);
-		if(!tempchar) return false;
-		
-		// Flip and Scale
-		tempchar.flipNS();
-		// var maxes = tempchar.getMaxes();
-		// tempchar.setGlyphPosition(0, (maxes.ymax - maxes.ymin));
-
-		// Add new Glyph Shapes
-		tempchar.copyShapesTo(getSelectedWorkItemID(), false, true);
-		markSelectedWorkItemAsChanged();
-		history_put("Pasted SVG to glyph "+getSelectedWorkItemName());
-
-		return true;
-	}
 
 // end of file

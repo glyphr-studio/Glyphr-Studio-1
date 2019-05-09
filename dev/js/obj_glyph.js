@@ -779,6 +779,8 @@
 		var destinationGlyph = getGlyph(destinationID, true);
 		var tc;
 
+		if(selectNewShapes) _UI.ms.shapes.clear();
+		
 		for(var c=0; c<this.shapes.length; c++){
 			tc = this.shapes[c];
 			if(tc.objtype === 'componentinstance'){
@@ -797,7 +799,7 @@
 		if(copyGlyphAttributes.srcLSB) destinationGlyph.leftsidebearing = this.leftsidebearing;
 		if(copyGlyphAttributes.srcRSB) destinationGlyph.rightsidebearing = this.rightsidebearing;
 
-		showToast('Copied ' + this.shapes.length + ' shapes');
+		if(!selectNewShapes) showToast('Copied ' + this.shapes.length + ' shapes');
 		destinationGlyph.changed();
 
 		// debug('\t new shapes');

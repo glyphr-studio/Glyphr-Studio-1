@@ -51,13 +51,12 @@ function initEventHandlers() {
 	}
 	
 	// Document Key Listeners
-	getEditDocument().addEventListener('paste', paste, false);
 	getEditDocument().addEventListener('keypress', keypress, false);
 	getEditDocument().addEventListener('keydown', keypress, false);
 	getEditDocument().addEventListener('keyup', keyup, false);
 
 	// The general-purpose event handler.
-	function ev_canvas (ev) {
+	function ev_canvas(ev) {
 
 		//debug('EVENTHANDLER - Raw mouse event x/y = ' + ev.layerX + ' / ' + ev.layerY);
 		mouseovercec();

@@ -36,27 +36,8 @@
 		}
 	}
 
-	function paste(event) {
-		debug('\n paste - START');
-
-		// Stop data actually being pasted into div
-		event.stopPropagation();
-		event.preventDefault();
-
-		// Get pasted data via clipboard API
-		var clipboardData = event.clipboardData || window.clipboardData;
-		var pasteData = clipboardData.getData('Text');
-		debug(pasteData);
-
-		var result = importSVG_importPastedCode(pasteData);
-		
-		if(!result) showToast('Could not import pasted SVG code.');
-
-		debug(' paste - END');
-	}
-
 	function keypress(event){
-		debug('\n keypress - START');
+		// debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
 		if(_UI.current_page === 'openproject') return;
 		if(getEditDocument().activeElement.id === 'contextglyphsinput') return;
@@ -71,7 +52,7 @@
 
 		// debug('Key Press:\t' + kc + ' from ' + event.which);
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
-		debug(event);
+		// debug(event);
 
 		function stopDefaultStuff() {
 			event.stopPropagation();
@@ -260,7 +241,7 @@
 					history_put(pasted > 1? ('Pasted ' + pasted + ' shapes') : 'Pasted 1 shape');
 					redraw({calledby:'Paste Shape'});
 				} else {
-					debug('CTRL+V TRIGGERED FROM KEY HANDLER NOT PASTE HANDLER');
+					// debug('CTRL+V TRIGGERED FROM KEY HANDLER NOT PASTE HANDLER');
 				}
 			}
 
