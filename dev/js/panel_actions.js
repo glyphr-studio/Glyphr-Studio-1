@@ -191,8 +191,11 @@
 				'dx': 0,
 				'dy': 0
 			};
-			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape._UI.ms.shapes.name);
+			//debug("COPYShape() - new clipboard shape: " + _UI.clipboardshape);
+		} else {
+			_UI.clipboardshape = false;
 		}
+		
 		redraw({calledby:'copyShape', redrawcanvas:false});
 	}
 
@@ -207,10 +210,9 @@
 			var sourceshapes = cbs.s;
 			var ts, newname, newsuffix, n;
 			var offsetShapes = cbs.c === selwi;
+			var result = 0;
 			
 			for(var s=0; s<sourceshapes.length; s++){
-				var ts;
-				
 				if(sourceshapes[s].objtype === 'componentinstance'){
 					ts = new ComponentInstance(sourceshapes[s]);
 				} else {
@@ -262,6 +264,9 @@
 				}
 
 				newshapes.push(addShape(ts));
+				result++;
+				// debug(`\t result is now ${result}`);
+				
 			}
 
 			_UI.ms.shapes.clear();
@@ -270,9 +275,13 @@
 			for(var t=0; t<newshapes.length; t++) _UI.ms.shapes.add(newshapes[t]);
 
 			cbs.c = selwi;
-					
-			// debug('pasteShapes - END \n');
+			
+			// debug(`pasteShapes returning ${result} - END \n`);
+			return result;
 		}
+
+		// debug(` pasteShapes returning 0 - END\n\n`);
+		return 0;
 	}
 
 	function showDialog_GetShapes(msg){

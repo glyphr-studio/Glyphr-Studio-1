@@ -10,7 +10,7 @@
 
 	function glyphrStudio_OnLoad() {
 		//console.clear();
-		console.log('%c\n	   GG			  GG\n	   G			   G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG	G G G	G G	G G	G G	 G\nG	G G G	G G	G G	G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G			 STUDIO\n GGGG	 GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
+		console.log('%c\n       GG              GG\n       G               G\n GGGG  G GG   G  GGGG  GGGGG   GGGGG\nG    G G G    G G    G G    G G     G\nG    G G G    G G    G G    G G\n GGGGG G  GGGGG GGGGG  GG   G GG\nGG   G   GG   G G             STUDIO\n GGGG     GGGG  GG\n\nv' + _UI.thisGlyphrStudioVersionNum + '\n\n', 'color:rgb(0,170,225)');
 		//debug('\n MAIN SETUP - START');
 
 
@@ -301,11 +301,17 @@
 	}
 
 	function showErrorMessageBox(msg) {
+		console.warn(msg);
 		var msgcon = document.getElementById('errormessagecontent');
 		var msgbox = document.getElementById('errormessagebox');
-		msgcon.innerHTML = msg;
-		msgbox.style.display = 'block';
-		console.warn(msg);
+		// debug(msgbox);
+
+		if(!!msgbox) {
+			msgcon.innerHTML = msg;
+			msgbox.style.display = 'block';
+		} else {
+			showToast(msg);
+		}
 	}
 
 	function closeErrorMessageBox(){
@@ -315,12 +321,14 @@
 
 	function showToast(msg, dur, fn) {
 		// debug('\n showToast - START');
+		// debug(msg);
+
 		var step = -1;
 		var stepmax = 20;
 		var timestep = 10;
 		var divisor = 5;
 		var msgdiv = getEditDocument().getElementById('toast');
-		var durration = dur || 3000;
+		var duration = dur || 3000;
 		msgdiv.innerHTML = msg || 'Howdy!';
 
 		// debug('\t Typeof fn: ' + typeof fn);
@@ -333,7 +341,7 @@
 
 		if(_UI.toasttimeout){
 			msgdiv.innerHTML = msg;
-			appearFinish();
+			// appearFinish();
 			return;
 		}
 
@@ -351,8 +359,7 @@
 			msgdiv.style.marginTop = (finaltop + 'px');
 			msgdiv.style.opacity = finalopacity;
 
-			setToastTimeout(disappearStep, durration);
-
+			setToastTimeout(disappearStep, duration);
 		}
 
 		function appearStep() {

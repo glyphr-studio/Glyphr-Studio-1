@@ -213,14 +213,14 @@
 			// debug('\t >><< AFTER MOVE');
 			// debug(tempchar);
 		}
-
+		
 		// Add new Glyph Shapes
 		tempchar.copyShapesTo(getSelectedWorkItemID());
 		markSelectedWorkItemAsChanged();
 		history_put("Imported Paths from SVG to glyph "+getSelectedWorkItemName());
-
+		
 		update_NavPanels();
-
+		
 		// debug(' importSVG_importCode - END\n');
 	}
 

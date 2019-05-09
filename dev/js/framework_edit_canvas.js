@@ -15,7 +15,7 @@
 	function editPage_Content(){
 		return ''+
 			"<div id='notation'>&#x20E2;</div>" +
-			"<canvas id='glypheditcanvas' width=12 height=12 ></canvas>" +
+			"<canvas id='glypheditcanvas' contenteditable='true' width=12 height=12></canvas>" +
 			"<div id='toolsarea_upperleft' onmouseover='mouseovercec();'> (ノ°□°)ノ︵ ┻━┻ </div>" +
 			"<div id='toolsarea_upperright'>&nbsp;</div>" +
 			"<div id='toolsarea_lowerleft'>&nbsp;</div>" +
@@ -89,7 +89,7 @@
 		if(!_UI.contextglyphs.string) updateContextGlyphs();
 
 		if(_UI.devmode && _UI.testOnRedraw) _UI.testOnRedraw();
-		//debug(' redrawUnit - END\n');
+		// debug(' redrawUnit - END\n');
 	}
 
 
@@ -994,7 +994,7 @@
 	}
 
 	function fitViewToContextGlyphs(dontzoom) {
-		debug('\n fitViewToContextGlyphs - START');
+		// debug('\n fitViewToContextGlyphs - START');
 		var ps = _GP.projectsettings;
 
 		var ypadding = 80;		// Height of the UI across the top
@@ -1024,7 +1024,7 @@
 
 		if(_UI.contextglyphs.string.length === 0) nx -= ((nz * strh) / 2);
 
-		debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
+		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
 
 		setView({dx: nx, dy: ny, dz: nz});
 	}
@@ -1773,8 +1773,84 @@ var wi = getSelectedWorkItem();
 		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
 		_UI.glypheditctx.globalAlpha = 1;
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.glypheditcanvas.onmouseout = mouseoutcec;
-		_UI.glypheditcanvas.onmouseover = mouseovercec;
+		_UI.glypheditcanvas.addEventListener('mouseout', mouseoutcec, false);
+		_UI.glypheditcanvas.addEventListener('mouseover', mouseovercec, false);
+		_UI.glypheditcanvas.addEventListener('paste', pasteSvgOnEditCanvas, false);
+		_UI.glypheditcanvas.addEventListener('drop', dropSvgOnEditCanvas, false);
+		_UI.glypheditcanvas.addEventListener('dragenter', canvasDragEnter, false);
+	}
+
+	function canvasDragEnter() {
+		showToast('Drop a SVG file to import it');
+	}
+
+	function importSvgToCanvas(svgData) {
+		var tempchar = ioSVG_convertTagsToGlyph(svgData);
+
+		if(tempchar) {
+			// Flip
+			tempchar.flipNS();
+			tempchar.reverseWinding();
+
+			// Add new Glyph Shapes
+			navigate({panel: 'npAttributes'});
+			tempchar.copyShapesTo(getSelectedWorkItemID(), false, true);
+			_UI.ms.shapes.getGlyph().ratiolock = true;
+			clickTool('shaperesize');
+			
+			markSelectedWorkItemAsChanged();
+			history_put("Pasted SVG to glyph "+getSelectedWorkItemName());
+			
+			showToast('Pasted ' + tempchar.shapes.length + ' shapes from SVG');
+			redraw({calledby: 'importSvgToCanvas'});
+		} else {
+			// showToast('Could not import pasted SVG code.');
+		}
+	}
+
+	function pasteSvgOnEditCanvas(event) {
+		// debug('\n pasteSvgOnEditCanvas - START');
+
+		// Stop data actually being pasted into div
+		event.stopPropagation();
+		event.preventDefault();
+
+		// Get pasted data via clipboard API
+		var clipboardData = event.clipboardData || window.clipboardData;
+		var pasteData = clipboardData.getData('Text');
+		// debug(pasteData);
+		importSvgToCanvas(pasteData);
+
+		// debug(' pasteSvgOnEditCanvas - END');
+	}
+
+	function dropSvgOnEditCanvas(evt) {
+		// debug('\n dropSvgOnEditCanvas - START');
+		evt.stopPropagation();
+		evt.preventDefault();
+		_UI.droptarget = false;
+
+		var f = evt.dataTransfer;
+		f = f.files[0] || '';
+		// debug('\t filename: ' + f.name);
+		var fname = f.name.split('.');
+		fname = fname[fname.length-1].toLowerCase();
+		// debug('\t fname = ' + fname);
+
+		var reader = new FileReader();
+
+		if (fname === 'svg'){
+			reader.onload = function() {
+				importSvgToCanvas(reader.result);
+			};
+
+			reader.readAsText(f);
+
+		} else {
+			showToast('Only SVG files can be dropped on the canvas');
+		}
+
+		// debug(' dropSvgOnEditCanvas - END\n');
 	}
 
 // end of file

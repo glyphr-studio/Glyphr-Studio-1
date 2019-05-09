@@ -40,6 +40,8 @@
 
 			// Add Notdef
 			var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
+			notdef.reverseWinding();
+			
 			if(_GP.upm !== 1000){
 				var delta = _GP.upm / 1000;
 				notdef.updateGlyphSize(delta, delta, true);
@@ -94,7 +96,7 @@
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c) && isGlyphInActiveRange(c, ranges)){
 				if(parseInt(c)){
 					tg = new Glyph(clone(_GP.glyphs[c]));
-					debug(`\t adding glyph ${c} "${tg.name}"`);
+					// debug(`\t adding glyph ${c} "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
 					if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
 
@@ -281,15 +283,15 @@
 	}
 	
 	function assembleActiveRanges() {
-		debug(`\n assembleActiveRanges - START`);
+		// debug(`\n assembleActiveRanges - START`);
 		var ranges = clone(_GP.projectsettings.glyphrange.custom);
 		if(_GP.projectsettings.glyphrange.latinextendedb) ranges.unshift({begin: _UI.glyphrange.latinextendedb.begin, end: _UI.glyphrange.latinextendedb.end});
 		if(_GP.projectsettings.glyphrange.latinextendeda) ranges.unshift({begin: _UI.glyphrange.latinextendeda.begin, end: _UI.glyphrange.latinextendeda.end});
 		if(_GP.projectsettings.glyphrange.latinsupplement) ranges.unshift({begin: _UI.glyphrange.latinsupplement.begin, end: _UI.glyphrange.latinsupplement.end});
 		if(_GP.projectsettings.glyphrange.basiclatin) ranges.unshift({begin: _UI.glyphrange.basiclatin.begin, end: _UI.glyphrange.basiclatin.end});
 		
-		debug(ranges);
-		debug(` assembleActiveRanges - END\n\n`);
+		// debug(ranges);
+		// debug(` assembleActiveRanges - END\n\n`);
 
 		return ranges;
 	}

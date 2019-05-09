@@ -43,20 +43,20 @@ function initEventHandlers() {
 	_UI.glypheditcanvas.addEventListener('mousedown', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mousemove', ev_canvas, false);
 	_UI.glypheditcanvas.addEventListener('mouseup',   ev_canvas, false);
-	_UI.glypheditcanvas.onmouseover = mouseovercec;
+	_UI.glypheditcanvas.customguidetransparency = mouseovercec;
 	_UI.glypheditcanvas.onmouseout = mouseoutcec;
 	_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
 	if (document.getElementById('navarea_panel')) {
 		document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
 	}
-
+	
 	// Document Key Listeners
 	getEditDocument().addEventListener('keypress', keypress, false);
 	getEditDocument().addEventListener('keydown', keypress, false);
 	getEditDocument().addEventListener('keyup', keyup, false);
 
 	// The general-purpose event handler.
-	function ev_canvas (ev) {
+	function ev_canvas(ev) {
 
 		//debug('EVENTHANDLER - Raw mouse event x/y = ' + ev.layerX + ' / ' + ev.layerY);
 		mouseovercec();

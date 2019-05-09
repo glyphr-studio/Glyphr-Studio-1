@@ -12,9 +12,6 @@
 		// debug('\n ioSVG_convertTagsToGlyph - START');
 
 		var newshapes = [];
-		var ns;
-		var mid = (_GP.projectsettings.ascent / 2);
-		var parsedshape = {};
 		var data = {};
 		var shapecounter = 0;
 		var error = false;
