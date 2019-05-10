@@ -335,7 +335,7 @@
 		var copyGlyphAttributes = { srcAutoWidth: true, srcWidth: true, srcLSB: true, srcRSB: true };
 		var currglyphid = decToHex(_UI.glyphrange.latinsupplement.begin);
 		var sourceArray;
-		var targetCenter;
+		var targetCenter, currCenter;
 
 		function doOneGlyph() {
 			// debug(`\t doOneGlyph - currglyphid = ${currglyphid}`);
@@ -346,8 +346,9 @@
 				insertComponentInstance(sourceArray[0], currglyphid, copyGlyphAttributes);
 				insertComponentInstance(sourceArray[1], currglyphid, false);
 
-				targetCenter = getGlyph(sourceArray[0]).getCenter().y;
-				getGlyph(currglyphid).alignShapes('center', targetCenter);
+				targetCenter = getGlyph(sourceArray[0]).getCenter().x;
+				currCenter = getGlyph(sourceArray[1]).getCenter().x;
+				getGlyph(currglyphid).shapes[1].updateShapePosition((targetCenter - currCenter), 0);
 			}
 
 			currglyphid++;
