@@ -8,9 +8,9 @@
 **/
 
 
-//-------------------
+// -------------------
 // Common Edit Page
-//-------------------
+// -------------------
 
 	function editPage_Content(){
 		return ''+
@@ -22,9 +22,9 @@
 			makeFloatLogo();
 	}
 
-//-------------------
+// -------------------
 // REDRAW
-//-------------------
+// -------------------
 	/*
 		redraw
 		This can be called globally to trigger a redraw of whatever page is currently active.
@@ -93,9 +93,9 @@
 	}
 
 
-//-------------------
+// -------------------
 // Update Tools
-//-------------------
+// -------------------
 	function update_ToolsArea(){
 		// debug('\n update_ToolsArea - START');
 
@@ -513,9 +513,9 @@
 	}
 
 
-//-------------------
+// -------------------
 // CONTEXT GLYPHS
-//-------------------
+// -------------------
 
 	function drawContextGlyphs() {
 		// debug('\n drawContextGlyphs - START');
@@ -783,9 +783,9 @@
 	}
 
 
-//-------------------------------
+// -------------------------------
 //	CANVAS HOTSPOTS
-//-------------------------------
+// -------------------------------
 
 	function registerCanvasHotspot(hotspot) { _UI.canvashotspots.push(hotspot); }
 
@@ -889,9 +889,9 @@
 	}
 
 
-//-------------------
+// -------------------
 // VIEW
-//-------------------
+// -------------------
 
 	function setView(oa){
 
@@ -1246,9 +1246,9 @@ var wi = getSelectedWorkItem();
 	}
 
 
-//------------------------------
+// ------------------------------
 // Drawing controls
-//------------------------------
+// ------------------------------
 
 	function draw_PathOutline(sh, accent, thickness) {
 		// debug('\n draw_PathOutline - START');
@@ -1260,7 +1260,6 @@ var wi = getSelectedWorkItem();
 
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		var hp = (_GP.projectsettings.pointsize/2);
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.fillStyle = 'transparent';
 
@@ -1591,9 +1590,9 @@ var wi = getSelectedWorkItem();
 	}
 
 
-//-------------------
+// -------------------
 // Drawing Grid
-//-------------------
+// -------------------
 
 	function drawGrid(){
 		// debug('\n drawGrid - START');
@@ -1752,9 +1751,9 @@ var wi = getSelectedWorkItem();
 	}
 
 
-//-------------------
+// -------------------
 // INIT
-//-------------------
+// -------------------
 	function setupGhostCanvas(){
 		//Is Here Ghost Canvas - same size as CEC
 		_UI.ishereghostcanvas = getEditDocument().getElementById('ishereghostcanvas');

@@ -898,7 +898,7 @@
 		// debug('\n PathPoint.drawNonIntegerPoint - START');
 		// debug('\t sel = ' + _UI.ms.points.isSelected(this));
 
-		if(Math.round(this.P.x) === this.P.x &&	Math.round(this.P.y === this.P.y)) return;
+		if(Math.round(this.P.x) === this.P.x && Math.round(this.P.y === this.P.y)) return;
 
 		accent = accent || _UI.colors.error.medium;
 		var ps = _GP.projectsettings.pointsize;

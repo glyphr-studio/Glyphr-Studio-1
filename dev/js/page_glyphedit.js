@@ -85,6 +85,14 @@
 			// _UI.ms.points.draw_PathPoints();
 		}
 		
+		if(_GP.projectsettings.marknonintegerpoints) {
+			if(sg && sg.shapes.length) {
+				for(var i=0; i<sg.shapes.length; i++){
+					sg.shapes[i].draw_NonIntegerPoints();
+				}
+			}
+		}
+
 		_UI.redrawing = false;
 		// debug(' redraw_GlyphEdit - END\n');
 	}
