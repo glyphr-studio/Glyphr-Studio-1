@@ -246,7 +246,7 @@
 
 
 //	-----------------------------------
-// 	Boolean Combine
+//  Boolean Combine
 //	-----------------------------------
 
 	function findPathIntersections(p1, p2, onlyfirst) {
@@ -456,6 +456,11 @@
 		// debug(' Path.drawPath - END\n');
 	};
 
+	Path.prototype.drawNonIntegerPoints = function() {
+		for(var cp = 0; cp < this.pathpoints.length; cp++){
+			this.pathpoints[cp].drawNonIntegerPoint();
+		}
+	};
 
 //  -----------------------------------
 //  TRANSLATE TO OTHER LANGUAGES

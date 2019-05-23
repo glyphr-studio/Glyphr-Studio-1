@@ -569,6 +569,12 @@
 		lctx.fill('nonzero');
 		lctx.globalAlpha = 1;
 
+		if(_GP.projectsettings.marknonintegerpoints) {
+			for(var k=0; k<sl.length; k++){
+				sl[k].draw_NonIntegerPoints();
+			}
+		}
+
 		// debug(' Glyph.drawGlyph - END ' + this.name + '\n');
 		return (this.getAdvanceWidth()*view.dz);
 	};
