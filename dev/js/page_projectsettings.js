@@ -47,6 +47,9 @@
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.renderpointssnappedtogrid', ps.renderpointssnappedtogrid)+'</td>'+
 					'<td class="longlabel"><label for="renderpointssnappedtogrid">Render shape outlines with their points snapped to a 1em grid.<br>(required for .otf export - Project Files will still store decimal values)</label></td></tr>'+
 
+					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.marknonintegerpoints', ps.marknonintegerpoints)+'</td>'+
+					'<td class="longlabel"><label for="marknonintegerpoints">Highlight path points that contain decimal values (non-whole number values)</label></td></tr>'+
+
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.showkeyboardtipsicon', ps.showkeyboardtipsicon)+'</td>'+
 					'<td><label for="showkeyboardtipsicon" style="position:relative; top:-6px;">Show the &nbsp;<span style="position:relative; top:6px; height:22px;">'+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+'</span>&nbsp; button on the edit canvas.</label></td></tr>'+
 

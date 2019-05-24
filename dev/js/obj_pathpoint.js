@@ -894,6 +894,28 @@
 		}
 	};
 
+	PathPoint.prototype.drawNonIntegerPoint = function(accent) {
+		// debug('\n PathPoint.drawNonIntegerPoint - START');
+		// debug('\t sel = ' + _UI.ms.points.isSelected(this));
+
+		if(Math.round(this.P.x) === this.P.x && Math.round(this.P.y === this.P.y)) return;
+
+		accent = accent || _UI.colors.error.medium;
+		var ps = _GP.projectsettings.pointsize;
+		var hp = ps/2;
+		
+		_UI.glypheditctx.fillStyle = _UI.ms.points.isSelected(this)? 'white' : accent;
+		_UI.glypheditctx.strokeStyle = accent;
+		_UI.glypheditctx.font = '10px Consolas';
+
+		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+		_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+
+		_UI.glypheditctx.fillStyle = accent;
+		_UI.glypheditctx.fillText('✖', sx_cx(this.P.x + 12), sy_cy(this.P.y + 12));
+		// debug(' PathPoint.drawNonIntegerPoint - END\n');
+	};
+
 
 //-------------------------------------------------------
 // COORDINATE OBJECT
