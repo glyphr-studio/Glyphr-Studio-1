@@ -86,6 +86,9 @@
 		draw_BoundingBoxHandles(this.path.maxes, accent, thickness);
 	};
 
+	Shape.prototype.draw_NonIntegerPoints = function() {
+		this.path.drawNonIntegerPoints();
+	};
 
 //-------------------------------------------------------
 // TRANSLATE TO DIFFERENT LANGUAGES

@@ -56,7 +56,8 @@
 			snaptoguides: false,				// snap to guide lines
 			snapdistance: 10,					// snap distance
 			showcontextglyphguides: true,		// show horizontal guides & notations for context glyphs
-			markglyphchooserglyphs: false,	  // mark specific glyphs in the glyph chooser
+			markglyphchooserglyphs: false,		// mark specific glyphs in the glyph chooser
+			marknonintegerpoints: false,		// make it easy to spot path points with decimals
 			colors: {
 				glyphfill: 'rgb(0,0,0)',			// shape base color
 				glyphoutline: 'rgb(0,0,0)',			// shape outline color
