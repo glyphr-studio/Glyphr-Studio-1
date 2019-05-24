@@ -62,7 +62,7 @@
 
 				for(var d=0; d<data.length; d++){
 					if(data[d].length){
-						ppath = ioSVG_convertPathTag(data[d]);
+						ppath = ioSVG_convertPathTag(data[d], newshapes);
 						if(ppath.pathpoints.length){
 							pushShape(ppath, 'Path');
 						}
@@ -361,7 +361,7 @@
 		}
 	}
 
-	function ioSVG_convertPathTag(data) {
+	function ioSVG_convertPathTag(data, currentshapes) {
 		// debug('\n ioSVG_convertPathTag - START');
 		// debug('\t passed data ' + data);
 
@@ -406,14 +406,16 @@
 			// debug('\n\t Path Chunk ' + c);
 			// debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
 			if(chunkarr[c].command){
-				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1));
+				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1), currentshapes);
 			}
 		}
 
 		// Combine 1st and last point
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
-		if((fp.P.x===lp.P.x)&&(fp.P.y===lp.P.y)){
+		// debug(`\t FPx = LPX / FPy = LPy\n\t ${fp.P.x} = ${lp.P.x} \n\t ${fp.P.y} = ${lp.P.y}`);
+
+		if((round(fp.P.x, 4)===round(lp.P.x, 4))&&(round(fp.P.y, 4)===round(lp.P.y, 4))){
 			// debug('\t fp/lp same:\nFirst Point: '+json(fp)+'\nLast Point:  '+json(lp));
 			fp.H1.x = lp.H1.x;
 			fp.H1.y = lp.H1.y;
@@ -437,16 +439,42 @@
 		return false;
 	}
 
-	function ioSVG_handlePathChunk(chunk, patharr, islastpoint){
+	function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes){
 		// debug('\n ioSVG_handlePathChunk - START');
 		// debug('\t chunk: ' + json(chunk, true));
 
 		var cmd = chunk.command;
 		var currdata = [];
 		var iscmd = function(str){ return str.indexOf(cmd) > -1; };
-		var p, a, nx, ny, h1;
-		var lastpoint = patharr[patharr.length-1] || new PathPoint({'P':new Coord({'x':0,'y':0})});
+		var p, nx, ny, h1;
 		var prevx, prevy;
+
+		// For relative path commands, figure out what the previous point is
+		var lastpoint = false;
+		
+		if(patharr.length) {
+			// Middle of current path, use the previous point
+			lastpoint = patharr[patharr.length-1];
+			// debug(`\t last point from current path`);
+
+		} else if (currentshapes && currentshapes.length) {
+			// First point in this compound path, look to the last
+			// point in the previous path
+			var lastshape = currentshapes[currentshapes.length-1];
+			if(lastshape && lastshape.path && lastshape.path.pathpoints.length) {
+				// lastpoint = lastshape.path.pathpoints[lastshape.path.pathpoints.length-1];
+				lastpoint = lastshape.path.pathpoints[0];
+				// debug(`\t last point from PREVIOUS path`);
+			}
+		}
+
+		if(!lastpoint) {
+			// Default to a new 0,0 point
+			lastpoint = new PathPoint({'P':new Coord({'x':0,'y':0})});
+			// debug(`\t Default last point`);
+		}
+
+		// debug(lastpoint);
 
 		// debug('\t previous point: \t'+lastpoint.P.x+','+lastpoint.P.y);
 
