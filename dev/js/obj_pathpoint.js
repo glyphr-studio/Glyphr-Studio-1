@@ -568,9 +568,9 @@
 		}
 	};
 
-	PathPoint.prototype.round = function(prec) {
-		prec = prec || 3;
-		this.roundAll(prec);
+	PathPoint.prototype.round = function(precision) {
+		precision = isval(precision)? precision : 3;
+		this.roundAll(precision);
 	};
 
 	PathPoint.prototype.rotate = function(angle, about) {
@@ -606,13 +606,15 @@
 		return false;
 	};
 
-	PathPoint.prototype.roundAll = function(i){
-		this.P.x = round(this.P.x, i || 9);
-		this.P.y = round(this.P.y, i || 9);
-		this.H1.x = round(this.H1.x, i || 9);
-		this.H1.y = round(this.H1.y, i || 9);
-		this.H2.x = round(this.H2.x, i || 9);
-		this.H2.y = round(this.H2.y, i || 9);
+	PathPoint.prototype.roundAll = function(precision){
+		precision = isval(precision)? precision : 9;
+
+		this.P.x = round(this.P.x, precision);
+		this.P.y = round(this.P.y, precision);
+		this.H1.x = round(this.H1.x, precision);
+		this.H1.y = round(this.H1.y, precision);
+		this.H2.x = round(this.H2.x, precision);
+		this.H2.y = round(this.H2.y, precision);
 	};
 
 

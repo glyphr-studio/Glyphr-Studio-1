@@ -228,6 +228,11 @@
 		// debug(' MS.points.selectShapesThatHaveSelectedPoints - Selected ' + count + ' - END\n');
 	};
 
+	_UI.ms.points.roundAll = function(precision){
+		for(var m=0; m<this.members.length; m++){
+			this.members[m].roundAll(precision);
+		}
+	};
 
 //-------------------------------------------------------
 // SELECTED SHAPES

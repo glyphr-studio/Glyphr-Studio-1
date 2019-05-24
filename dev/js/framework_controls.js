@@ -683,29 +683,16 @@
 
 	function makeActionButton_Round(){
 		var re = makeActionButtonWrapper();
-		var blue = disabled? _UI.iconcolors.disoutline : _UI.iconcolors.blueoutline;
-		var fill = disabled? _UI.iconcolors.disfill : _UI.iconcolors.darkfill;
+		var red = _UI.iconcolors.redx;
+		var fill = _UI.iconcolors.darkfill;
 
-		/**
-		<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In  -->
-		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px"
-			 height="30px" viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
-		<style type="text/css">
-			.st0{fill:#F00F36;}
-		</style>
-		<defs>
-		</defs>
-		<g id="Round_copy">
-			<path class="st0" d="M17.4,21.9c0.4,0.5,2-0.5,1.4-1.4c-1.3-1.9-4.8-5.9-6.5-7.3C11.1,12.2,10,13,10,13S14.4,17.5,17.4,21.9z"/>
-			<path class="st0" d="M12.2,21.6c-0.5,1-2.1-0.1-1.3-1.2c1.5-2.2,4.4-6.4,6.5-7.9c1.3-1,2.1-0.1,2.1-0.1S14.9,16.7,12.2,21.6z"/>
-			<path class="st0" d="M28,21.9c0.4,0.5,2-0.5,1.4-1.4c-1.3-1.9-4.8-5.9-6.5-7.3c-1.2-1-2.3-0.3-2.3-0.3S24.9,17.5,28,21.9z"/>
-			<path class="st0" d="M22.7,21.6c-0.5,1-2.1-0.1-1.3-1.2c1.5-2.2,4.4-6.4,6.5-7.9c1.3-1,2.1-0.1,2.1-0.1S25.5,16.7,22.7,21.6z"/>
-			<path d="M2,20V9H0V7h4v13h2v2H0v-2H2z"/>
-			<path d="M7,22v-2h2v2H7z"/>
-			<rect width="30" height="30"/>
-		</g>
-		</svg>
-		**/
+		re += '<path fill="'+red+'" d="M17.4,21.9c0.4,0.5,2-0.5,1.4-1.4c-1.3-1.9-4.8-5.9-6.5-7.3C11.1,12.2,10,13,10,13S14.4,17.5,17.4,21.9z"/>';
+		re += '<path fill="'+red+'" d="M12.2,21.6c-0.5,1-2.1-0.1-1.3-1.2c1.5-2.2,4.4-6.4,6.5-7.9c1.3-1,2.1-0.1,2.1-0.1S14.9,16.7,12.2,21.6z"/>';
+		re += '<path fill="'+red+'" d="M28,21.9c0.4,0.5,2-0.5,1.4-1.4c-1.3-1.9-4.8-5.9-6.5-7.3c-1.2-1-2.3-0.3-2.3-0.3S24.9,17.5,28,21.9z"/>';
+		re += '<path fill="'+red+'" d="M22.7,21.6c-0.5,1-2.1-0.1-1.3-1.2c1.5-2.2,4.4-6.4,6.5-7.9c1.3-1,2.1-0.1,2.1-0.1S25.5,16.7,22.7,21.6z"/>';
+		re += '<path fill="'+fill+'" d="M2,20V9H0V7h4v13h2v2H0v-2H2z"/>';
+		re += '<path fill="'+fill+'" d="M7,22v-2h2v2H7z"/>';
+		// <rect width="30" height="30"/>
 		
 		re += '</svg>';
 
