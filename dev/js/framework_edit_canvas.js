@@ -920,9 +920,9 @@
 		var re;
 
 		if(isval(v[sc])){
-			re = clone(v[sc]);
+			re = clone(v[sc], 'setView');
 		} else {
-			re = onkern? clone(_UI.defaultkernview) : clone(_UI.defaultview);
+			re = onkern? clone(_UI.defaultkernview, 'setView') : clone(_UI.defaultview, 'setView');
 		}
 
 		// debug('\t returning ' + json(re));
@@ -1401,7 +1401,7 @@ var wi = getSelectedWorkItem();
 	function draw_RotationAffordance(accent, thickness) {
 		accent = accent || _UI.colors.blue;
 		thickness = thickness || 1;
-		var center = clone(_UI.eventhandlers.rotationcenter);
+		var center = clone(_UI.eventhandlers.rotationcenter, 'draw_RotationAffordance');
 		var starttopy = _UI.eventhandlers.rotationstarttopy;
 		var mx = _UI.eventhandlers.mousex;
 		var my = _UI.eventhandlers.mousey;

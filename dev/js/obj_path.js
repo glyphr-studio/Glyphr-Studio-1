@@ -31,7 +31,7 @@
 		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 
 		// internal
-		this.maxes = oa.maxes || clone(_UI.mins);
+		this.maxes = oa.maxes || makeUIMins();
 
 		// cache
 		oa.cache = oa.cache || {};
@@ -188,7 +188,7 @@
 		// debug('\t returning ' + json(this.maxes, true));
 		// debug(' Path.getMaxes - END\n');
 
-		return clone(this.maxes);
+		return clone(this.maxes, 'Path.getMaxes');
 	};
 
 	Path.prototype.rotate = function(angle, about) {
@@ -384,7 +384,7 @@
 
 		var newpath = polyseg.getPath();
 
-		this.pathpoints = clone(newpath.pathpoints);
+		this.pathpoints = clone(newpath.pathpoints, 'Path.addPointsAtPathIntersections');
 	};
 
 	Path.prototype.containsPoint = function(c, wantsecond) {
@@ -422,7 +422,7 @@
 
 		var snap = _GP.projectsettings.renderpointssnappedtogrid;
 		var currview = getView('Path.drawPath');
-		view = view || clone(currview);
+		view = view || clone(currview, 'Path.drawPath');
 		setView(view);
 
 		if(this.pathpoints === false || this.pathpoints.length < 2) return;
@@ -892,7 +892,7 @@
 				check = this.getCoordFromSplit(t, pp);
 				d = Math.sqrt( ((check.x-coord.x)*(check.x-coord.x)) + ((check.y-coord.y)*(check.y-coord.y)) );
 				if(d < mindistance){
-					if(first && first.point !== pp) second = clone(first);
+					if(first && first.point !== pp) second = clone(first, 'Path.getClosestPointOnCurve');
 					mindistance = d;
 					first = {
 						'point' : pp,
@@ -945,7 +945,7 @@
 		// debug('\n Path.calcMaxes - START');
 		// debug('\t before ' + json(this.maxes, true));
 
-		this.maxes = clone(_UI.mins);
+		this.maxes = makeUIMins();
 
 		var seg, tbounds;
 

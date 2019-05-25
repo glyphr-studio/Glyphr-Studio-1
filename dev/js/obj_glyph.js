@@ -28,7 +28,7 @@
 		this.leftsidebearing = isval(oa.leftsidebearing)? oa.leftsidebearing : false;
 		this.rightsidebearing = isval(oa.rightsidebearing)? oa.rightsidebearing : false;
 		this.ratiolock = isval(oa.ratiolock)? oa.ratiolock : false;
-		this.maxes = oa.maxes || clone(_UI.mins);
+		this.maxes = oa.maxes || makeUIMins();
 		this.shapes = oa.shapes || [];
 		this.usedin = oa.usedin || [];
 		this.contextglyphs = '';
@@ -367,7 +367,7 @@
 	Glyph.prototype.calcGlyphMaxes = function(){
 		// debug('\n Glyph.calcGlyphMaxes - START ' + this.name);
 
-		this.maxes = clone(_UI.mins);
+		this.maxes = makeUIMins();
 		var tm;
 
 		if(this.shapes.length > 0){
@@ -390,7 +390,7 @@
 		this.calcGlyphWidth();
 
 		// debug(' Glyph.calcGlyphMaxes - END ' + this.name + '\n');
-		return clone(this.maxes);
+		return clone(this.maxes, 'Glyph.calcGlyphMaxes');
 	};
 
 	Glyph.prototype.calcGlyphWidth = function(){
@@ -428,7 +428,7 @@
 		
 		// debug('\t returning ' + json(this.maxes));
 		// debug(' Glyph.getMaxes - END ' + this.name + '\n');
-		return clone(this.maxes);
+		return clone(this.maxes, 'Glyph.getMaxes');
 	};
 
 	function hasNonValues(obj) {
@@ -679,7 +679,7 @@
 			ts = this.shapes[s];
 
 			if(ts.objtype === 'shape'){
-				reshapes.push(new Shape(clone(ts)));
+				reshapes.push(new Shape(clone(ts, 'Glyph.flattenGlyph')));
 
 			} else if (ts.objtype === 'componentinstance'){
 				tg = ts.getTransformedGlyph();
@@ -785,9 +785,9 @@
 			tc = this.shapes[c];
 			if(tc.objtype === 'componentinstance'){
 				addToUsedIn(tc.link, destinationID);
-				tc = new ComponentInstance(clone(tc));
+				tc = new ComponentInstance(clone(tc, 'Glyph.copyShapesTo'));
 			} else if(tc.objtype === 'shape'){
-				tc = new Shape(clone(tc));
+				tc = new Shape(clone(tc, 'Glyph.copyShapesTo'));
 			}
 
 			destinationGlyph.shapes.push(tc);

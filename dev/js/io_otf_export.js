@@ -95,7 +95,7 @@
 
 			for(var c in _GP.glyphs){ if(_GP.glyphs.hasOwnProperty(c) && isGlyphInActiveRange(c, ranges)){
 				if(parseInt(c)){
-					tg = new Glyph(clone(_GP.glyphs[c]));
+					tg = new Glyph(clone(_GP.glyphs[c], 'ioOTF export.populateExportLists'));
 					// debug(`\t adding glyph ${c} "${tg.name}"`);
 					exportGlyphs.push({xg:tg, xc: c});
 					if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
@@ -110,7 +110,7 @@
 			// Add Ligatures
 			var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
-				tg = new Glyph(clone(_GP.ligatures[l]));
+				tg = new Glyph(clone(_GP.ligatures[l], 'ioOTF export.populateExportLists'));
 				// debug(`\t adding ligature "${tg.name}"`);
 				exportLigatures.push({xg:tg, xc: l});
 
@@ -284,7 +284,7 @@
 	
 	function assembleActiveRanges() {
 		// debug(`\n assembleActiveRanges - START`);
-		var ranges = clone(_GP.projectsettings.glyphrange.custom);
+		var ranges = clone(_GP.projectsettings.glyphrange.custom, 'ioOTF export.assembleActiveRanges');
 		if(_GP.projectsettings.glyphrange.latinextendedb) ranges.unshift({begin: _UI.glyphrange.latinextendedb.begin, end: _UI.glyphrange.latinextendedb.end});
 		if(_GP.projectsettings.glyphrange.latinextendeda) ranges.unshift({begin: _UI.glyphrange.latinextendeda.begin, end: _UI.glyphrange.latinextendeda.end});
 		if(_GP.projectsettings.glyphrange.latinsupplement) ranges.unshift({begin: _UI.glyphrange.latinsupplement.begin, end: _UI.glyphrange.latinsupplement.end});

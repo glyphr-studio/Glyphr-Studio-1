@@ -146,8 +146,8 @@
 		for(var i=0; i<this.segments.length; i++){
 			for(var j=i; j<this.segments.length; j++){
 				if(j !== i){
-					s1 = clone(this.segments[i]);
-					s2 = clone(this.segments[j]);
+					s1 = clone(this.segments[i], 'PolySegment.findIntersections');
+					s2 = clone(this.segments[j], 'PolySegment.findIntersections');
 
 					ix = ix.concat(findSegmentIntersections(s1, s2));
 				}
@@ -206,7 +206,7 @@
 	PolySegment.prototype.stitchSegmentsTogether = function() {
 		// debug('\n PolySegment.stitchSegmentsTogether - START');
 
-		var source = new PolySegment(clone(this)).segments;
+		var source = new PolySegment(clone(this, 'PolySegment.stitchSegmentsTogether')).segments;
 		var sorted = [];
 		var result = [];
 
@@ -217,7 +217,7 @@
 				ts = source[s];
 				if(ts.objtype === 'segment'){
 					if(ts.containsStartPoint(co, 0)){
-						re = new Segment(clone(ts));
+						re = new Segment(clone(ts, 'PolySegment.stitchSegmentsTogether'));
 						ts.objtype = '-' + result.length + '.' + sorted.length;
 						return re;
 					}
@@ -229,7 +229,7 @@
 				ts = source[r].getReverse();
 				if(source[r].objtype === 'segment'){
 					if(ts.containsStartPoint(co, 0)){
-						re = new Segment(clone(ts));
+						re = new Segment(clone(ts, 'PolySegment.stitchSegmentsTogether'));
 						source[r].objtype = 'R' + result.length + '.' + sorted.length;
 						return re;
 					}

@@ -11,23 +11,24 @@
 	function History(pn) {
 		this.queue = [];
 		this.parentname = pn;
-		this.currstate = clone(_GP[this.parentname]);
-		this.initialstate = clone(_GP[this.parentname]);
+		this.currstate = clone(_GP[this.parentname], 'History');
+		this.initialstate = clone(_GP[this.parentname], 'History');
 		this.initialdate = new Date().getTime();
 	}
 
 	History.prototype.put = function(des) {
 		// debug('\n History.put - START');
 
+		this.queue = this.queue || [];
 		this.queue.push({
 			'name': getSelectedWorkItemName(),
 			'id': getSelectedWorkItemID(),
 			'description': des,
 			'date': new Date().getTime(),
-			'state': clone(this.currstate)
+			'state': clone(this.currstate, 'History.put')
 		});
 
-		this.currstate = clone(_GP[this.parentname]);
+		this.currstate = clone(_GP[this.parentname], 'History.put');
 
 		setProjectAsUnsaved();
 		markSelectedWorkItemAsChanged();
@@ -47,10 +48,10 @@
 		if(currentID === nextID){
 			var top = this.queue.length? this.queue.pop().state : this.initialstate;
 
-			if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top), _GP[kerning]);
-			else hydrateGlyphrObjectList(Glyph, clone(top), _GP[this.parentname]);
+			if(this.parentname === 'kerning') hydrateGlyphrObjectList(HKern, clone(top, 'History.pull'), _GP[kerning]);
+			else hydrateGlyphrObjectList(Glyph, clone(top, 'History.pull'), _GP[this.parentname]);
 
-			this.currstate = clone(top);
+			this.currstate = clone(top, 'History.pull');
 			
 			var selwi = getSelectedWorkItem();
 			if(selwi && selwi.changed) selwi.changed(true, true);
@@ -101,7 +102,9 @@
 	function history_put(dsc){
 		if(onCanvasEditPage()){
 			var queue = _UI.current_page === 'import svg'? 'glyph edit' : _UI.current_page;
-			_UI.history[queue].put(dsc);
+			window.setTimeout(function(){
+				_UI.history[queue].put(dsc);
+			}, 10);
 		}
 	}
 
@@ -109,7 +112,9 @@
 		if(onCanvasEditPage()){
 			closeDialog();
 			closeNotation();
-			_UI.history[_UI.current_page].pull();
+			window.setTimeout(function(){
+				_UI.history[_UI.current_page].pull();
+			}, 10);
 		}
 	}
 

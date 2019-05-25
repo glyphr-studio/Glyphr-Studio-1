@@ -186,7 +186,7 @@
 
 					currchar.isvisible = true;
 					currchar.linenumber = currline;
-					currchar.view = clone({dx:currx, dy:curry, dz:this.scale});
+					currchar.view = clone({dx:currx, dy:curry, dz:this.scale}, 'GlyphSequence.generateData');
 					currx += currchar.width + currchar.kern;
 				}
 

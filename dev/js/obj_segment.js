@@ -267,7 +267,7 @@
 	Segment.prototype.splitSegmentAtProvidedCoords = function(coords, threshold) {
 		// debug('\n Segment.splitSegmentAtProvidedCoords - START');
 
-		var segs = [new Segment(clone(this))];
+		var segs = [new Segment(clone(this, 'Segment.splitSegmentAtProvidedCoords'))];
 		var tr;
 
 		for(var x=0; x<coords.length; x++){

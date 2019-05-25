@@ -165,7 +165,7 @@
 
 	Shape.prototype.calcMaxes = function() { this.path.calcMaxes(); };
 
-	Shape.prototype.getPath = function() { return clone(this.path); };
+	Shape.prototype.getPath = function() { return clone(this.path, 'Shape.getPath'); };
 
 	Shape.prototype.getSegment = function(num) { return this.path.getSegment(num); };
 
@@ -338,7 +338,7 @@
 	}
 
 	function turnSelectedShapeIntoAComponent(){
-		var s = clone(_UI.ms.shapes.getMembers());
+		var s = clone(_UI.ms.shapes.getMembers(), 'turnSelectedShapeIntoAComponent');
 		var n = s.length === 1? ('Component ' + s[0].name) : ('Component ' + (getLength(_GP.components)+1));
 
 		_UI.ms.shapes.deleteShapes();
@@ -441,7 +441,7 @@
 		// Sort shapes by winding
 
 		if(!tempshapes){
-			tempshapes = clone(shapes);
+			tempshapes = clone(shapes, 'combineShapes');
 			tempshapes.sort(function(a,b){return a.path.getWinding() - b.path.getWinding();});
 
 			// Main collapsing loop
@@ -573,9 +573,9 @@
 
 		newpoints.push(
 			new PathPoint({
-				P: clone(s1h1.overlap.P),
-				H1: clone(s1h1.overlap.H1),
-				H2: clone(s2h1.overlap.H2),
+				P: clone(s1h1.overlap.P, 'combineTwoShapes'),
+				H1: clone(s1h1.overlap.H1, 'combineTwoShapes'),
+				H2: clone(s2h1.overlap.H2, 'combineTwoShapes'),
 				type: 'corner',
 				useh1: s1h1.overlap.useh1,
 				useh2: s2h1.overlap.useh2
@@ -587,9 +587,9 @@
 
 		newpoints.push(
 			new PathPoint({
-				P: clone(s2h1.overlap.P),
-				H1: clone(s2h1.overlap.H1),
-				H2: clone(s1h2.overlap.H2),
+				P: clone(s2h1.overlap.P, 'combineTwoShapes'),
+				H1: clone(s2h1.overlap.H1, 'combineTwoShapes'),
+				H2: clone(s1h2.overlap.H2, 'combineTwoShapes'),
 				type: 'corner',
 				useh1: s2h1.overlap.useh1,
 				useh2: s1h2.overlap.useh2
@@ -611,14 +611,14 @@
 		// debug('\t intersections');
 		// debug(json(ix, true));
 
-		if(ix.length === 0) return new Shape(clone(this));
+		if(ix.length === 0) return new Shape(clone(this, 'Shape.resolveSelfOverlaps'));
 
 		var segnum = polyseg.segments.length;
 
 		var threshold = 0.01;
 		polyseg.splitSegmentsAtProvidedIntersections(ix, threshold);
 		
-		if(segnum === polyseg.segments.length) return new Shape(clone(this));
+		if(segnum === polyseg.segments.length) return new Shape(clone(this, 'Shape.resolveSelfOverlaps'));
 
 		// debug('\t before filtering ' + polyseg.segments.length);
 		polyseg.removeZeroLengthSegments();

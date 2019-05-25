@@ -207,7 +207,7 @@
 	}
 
 	function json(obj, raw) {
-		obj = clone(obj);
+		obj = clone(obj, 'json');
 		if(raw) return JSON.stringify(obj);
 		else {
 			var j = JSON.stringify(obj, undefined, '\t');
@@ -502,14 +502,30 @@ function saveFile(fname, buffer, ftype) {
 	// returns a full new copy of any object
 	// 'parentpath' is a PathPoint property that is a pointer to it's parent Path
 	// causes infinite loops when cloning objects.  Kind of a hack.
-	function clone(cobj){
+	function clone(cobj, calledby){
+		if(calledby) {
+			// debug(`Clone - calledby ${calledby}`);
+		} else if (calledby !== false){
+			// debug('Clone - no calledby');
+		}
+
 		var newObj = (cobj instanceof Array) ? [] : {};
 		for (var i in cobj) {
 			if (cobj[i] && typeof cobj[i] === 'object' && i !== 'parentpath' && i !== 'cache') {
-				newObj[i] = clone(cobj[i]);
+				newObj[i] = clone(cobj[i], false);
 			} else newObj[i] = cobj[i];
 		}
 		return newObj;
+	}
+
+	// Returns a maxes object with lowest possible values
+	function makeUIMins(){
+		return {
+			xmax: _UI.mins.xmax,
+			xmin: _UI.mins.xmin,
+			ymax: _UI.mins.ymax,
+			ymin: _UI.mins.ymin
+		};
 	}
 
 	// rounds a number to include a .5 so it draws nicely on canvas
@@ -570,8 +586,13 @@ function saveFile(fname, buffer, ftype) {
 		// debug('\t start');
 		// debug(maxarr);
 
-		var re = clone(_UI.mins);
 		var tm;
+		var re = {
+			xmax: _UI.mins.xmax,
+			xmin: _UI.mins.xmin,
+			ymax: _UI.mins.ymax,
+			ymin: _UI.mins.ymin
+		};
 
 		for(var m=0; m<maxarr.length; m++){
 			// debug('\t pass ' + m);
@@ -579,10 +600,10 @@ function saveFile(fname, buffer, ftype) {
 			// debug([tm]);
 
 			// sanitize
-			if(!isval(tm.xmax)) tm.xmax = clone(_UI.mins.xmax);
-			if(!isval(tm.xmin)) tm.xmin = clone(_UI.mins.xmin);
-			if(!isval(tm.ymax)) tm.ymax = clone(_UI.mins.ymax);
-			if(!isval(tm.ymin)) tm.ymin = clone(_UI.mins.ymin);
+			if(!isval(tm.xmax)) tm.xmax = _UI.mins.xmax;
+			if(!isval(tm.xmin)) tm.xmin = _UI.mins.xmin;
+			if(!isval(tm.ymax)) tm.ymax = _UI.mins.ymax;
+			if(!isval(tm.ymin)) tm.ymin = _UI.mins.ymin;
 			// debug([tm]);
 
 			// find

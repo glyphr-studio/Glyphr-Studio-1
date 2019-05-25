@@ -145,9 +145,9 @@
 		// debug('\n migrate_0_5_to_1_0 - START');
 
 		// Update new top level objects
-		fc.glyphs = clone(fc.fontchars);
-		fc.components = clone(fc.linkedshapes);
-		fc.projectsettings.glyphrange = clone(fc.projectsettings.charrange);
+		fc.glyphs = clone(fc.fontchars, 'migrate_0_5_to_1_0');
+		fc.components = clone(fc.linkedshapes, 'migrate_0_5_to_1_0');
+		fc.projectsettings.glyphrange = clone(fc.projectsettings.charrange, 'migrate_0_5_to_1_0');
 		delete fc.fontchars;
 		delete fc.linkedshapes;
 		delete fc.projectsettings.charrange;

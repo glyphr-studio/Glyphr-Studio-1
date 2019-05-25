@@ -91,7 +91,7 @@
 		// debug('\t gid: ' + gid);
 
 		var og = getGlyph(gid, true);
-		if(og) og = new Glyph(clone(og));
+		if(og) og = new Glyph(clone(og, 'convertComponentInstanceToGlyph'));
 
 		var newshapes = [];
 		var tempglyph;

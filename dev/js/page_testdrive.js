@@ -187,7 +187,7 @@
 		var showlineextras = td.showlineextras || false;
 		var flattenglyphs = td.flattenglyphs || false;
 		var ctx = _UI.testdrive.ctx;
-		var view = clone(chardata.view);
+		var view = clone(chardata.view, 'drawTestDriveGlyph');
 		view.dx *= view.dz;
 		view.dy *= view.dz;
 		
@@ -198,7 +198,7 @@
 			if(glyph){
 				if(flattenglyphs){
 						if(!_UI.testdrive.cache.hasOwnProperty(chardata.char)){
-							_UI.testdrive.cache[chardata.char] = (new Glyph(clone(glyph))).combineAllShapes(true);
+							_UI.testdrive.cache[chardata.char] = (new Glyph(clone(glyph, 'drawTestDriveGlyph'))).combineAllShapes(true);
 						}
 
 						_UI.testdrive.cache[chardata.char].drawGlyph(ctx, view, 1, true);

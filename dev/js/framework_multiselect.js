@@ -264,7 +264,7 @@
 	_UI.ms.shapes.combine = function() {
 		// debug('\n ms.shapes.combine - START');
 		
-		var ns = new Glyph(clone(_UI.ms.shapes.getGlyph()));
+		var ns = new Glyph(clone(_UI.ms.shapes.getGlyph(), 'MultiSelect.shapes.combine'));
 
 		ns.flattenGlyph();
 
@@ -440,7 +440,7 @@
 		if(this.members.length === 1){
 			this.members[0].draw_BoundingBox();
 		} else if(this.members.length > 1){
-			var bmaxes = clone(_UI.mins);
+			var bmaxes = makeUIMins();
 
 			for(var m=0; m<this.members.length; m++){
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);
@@ -467,7 +467,7 @@
 		if(this.members.length === 1){
 			this.members[0].draw_BoundingBoxHandles();
 		} else if(this.members.length > 1){
-			var bmaxes = clone(_UI.mins);
+			var bmaxes = makeUIMins();
 
 			for(var m=0; m<this.members.length; m++){
 				bmaxes = getOverallMaxes([bmaxes, this.members[m].getMaxes()]);

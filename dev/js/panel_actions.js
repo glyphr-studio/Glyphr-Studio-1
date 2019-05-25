@@ -195,8 +195,8 @@
 		var ssm = _UI.ms.shapes.getMembers();
 		if(ssm.length){
 			_UI.clipboardshape = {
-				's':clone(ssm),
-				'c':_UI.selectedglyph,
+				's': clone(ssm, 'copyShape'),
+				'c': _UI.selectedglyph,
 				'dx': 0,
 				'dy': 0
 			};
