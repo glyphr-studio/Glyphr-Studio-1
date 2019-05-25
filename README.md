@@ -8,7 +8,7 @@
 
 ### Major Features
 - Vector editing tools, like a Pen Tool for path outlines and a Pointer Tool for adjusting shapes.
-- Full Unicode support for Glyphs.  Define Class-based Kern Values, Ligatures, and Components.
+- Full Unicode ([BMP](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane)) support for Glyphs.  Define Class-based Kern Values, Ligatures, and Components.
 - Import and Export Open Type fonts, True Type fonts, and SVG Fonts.
 - Test Drive environment to try out your font.
 - Help & Documentation
@@ -41,7 +41,7 @@
  feel free to fork and send a pull request.
 
 ## License
- Copyright (C) 2010 - 2018 Matthew LaGrandeur, released under
+ Copyright (C) 2010 - 2019 Matthew LaGrandeur, released under
  [GPL 3.0](https://github.com/mattlag/Glyphr-Studio/blob/master/LICENSE-gpl-3.0.txt)
 
 ## Author
