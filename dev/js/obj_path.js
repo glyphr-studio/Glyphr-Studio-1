@@ -244,6 +244,15 @@
 		this.calcMaxes();
 	};
 
+	Path.prototype.roundAll = function(precision) {
+		for(var d=0; d<this.pathpoints.length; d++){
+			var pp = this.pathpoints[d];
+			//debug('-------------------- pathPoint #' + d);
+			pp.roundAll(precision);
+		}
+
+		this.changed();
+	}
 
 //	-----------------------------------
 //  Boolean Combine

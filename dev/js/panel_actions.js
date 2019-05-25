@@ -34,14 +34,15 @@
 		var shapeactions = ss.length > 1? '<h3>shapes</h3>' : '<h3>shape</h3>';
 		shapeactions += '<button title="Copy\nAdds a copy of the currently selected shape or shapes to the clipboard" onclick="copyShape();">' + makeActionButton_Copy() + '</button>';
 		if(!_UI.popout) shapeactions += '<button title="Delete\nRemoves the currently selected shape or shapes from this glyph" onclick="_UI.ms.shapes.deleteShapes(); history_put(\'Delete Shape\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeleteShape() + '</button>';
-		shapeactions += '<button title="Reverse Overlap Mode\nToggles the clockwise or counterclockwise winding of the shape\'s path" onclick="_UI.ms.shapes.reverseWinding(); history_put(\'Reverse Path Direction\'); redraw({calledby:\'shapeDetails - Winding\'});">' + makeActionButton_ReverseWinding() + '</button>';
 		if(ss.length === 1 && ss[0].objtype === 'componentinstance'){
 			shapeactions += '<button title="Turn Component Instance into a Shape\nTakes the selected Component Instance, and un-links it from its Root Component,\nthen adds copies of all the Root Component\'s shapes as regular Shapes to this glyph" onclick="turnComponentIntoShapes(); history_put(\'Unlinked Component\'); redraw({calledby:\'turnComponentIntoShapes\'});">' + makeActionButton_SwitchShapeComponent(true) + '</button>';
 		} else {
 			shapeactions += '<button title="Turn Shape into a Component Instance\nTakes the selected shape and creates a Component out of it,\nthen links that Component to this glyph as a Component Instance" onclick="turnSelectedShapeIntoAComponent(); history_put(\'Turned Shape into a Component\'); redraw({calledby:\'turnSelectedShapeIntoAComponent\'});">' + makeActionButton_SwitchShapeComponent(false) + '</button>';
 		}
+		shapeactions += '<button title="Round all point position values\nIf a x or y value for any point or a handle in the path has decimals, it will be rounded to the nearest whole number." onclick="_UI.ms.shapes.roundAll(0); history_put(\'Round all position values in a path\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Round() + '</button>';
 		shapeactions += '<button title="Flip Horizontal\nReflects the currently selected shape or shapes horizontally" onclick="_UI.ms.shapes.flipEW(); history_put(\'Flip Shape Horizontal\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		shapeactions += '<button title="Flip Vertical\nReflects the currently selected shape or shapes vertically" onclick="_UI.ms.shapes.flipNS(); history_put(\'Flip Shape Vertical\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_FlipVertical() + '</button>';
+		shapeactions += '<button title="Reverse Overlap Mode\nToggles the clockwise or counterclockwise winding of the shape\'s path" onclick="_UI.ms.shapes.reverseWinding(); history_put(\'Reverse Path Direction\'); redraw({calledby:\'shapeDetails - Winding\'});">' + makeActionButton_ReverseWinding() + '</button>';
 
 
 		// ALIGN
@@ -55,7 +56,7 @@
 
 
 		// LAYERS
-		var layeractions = '';
+		var layeractions = '<br>';
 		layeractions += '<button title="Move Shape Up\nMoves the shape up in the shape layer order" onclick="moveShapeUp(); history_put(\'Move Shape Layer Up\');">' + makeActionButton_MoveLayerUp() + '</button>';
 		layeractions += '<button title="Move Shape Down\nMoves the shape down in the shape layer order" onclick="moveShapeDown(); history_put(\'Move Shape Layer Down\');">' + makeActionButton_MoveLayerDown() + '</button>';
 
@@ -72,7 +73,7 @@
 		pointactions += '<button title="Insert Path Point\nAdds a new Path Point half way between the currently-selected point, and the next one" onclick="_UI.ms.points.insertPathPoint(); history_put(\'Insert Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_InsertPathPoint() + '</button>';
 		pointactions += '<button title="Delete Path Point\nRemoves the currently selected point or points from the path" class="'+(ss.length? '': 'buttondis')+'" onclick="_UI.ms.points.deletePathPoints(); history_put(\'Delete Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_DeletePathPoint() + '</button>';
 		pointactions += '<button title="Reset Handles\nMoves the handles of the currently selected point or points to default locations" onclick="_UI.ms.points.resetHandles(); history_put(\'Reset Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_ResetPathPoint() + '</button>';
-		pointactions += '<button title="Round point position values\nIf a x or y value for a point or a handle has decimals, it will be rounded to the nearest whole number." onclick="_UI.ms.points.roundAll(0); history_put(\'Reset Path Point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Round() + '</button>';
+		pointactions += '<button title="Round point position values\nIf a x or y value for a point or a handle has decimals, it will be rounded to the nearest whole number." onclick="_UI.ms.points.roundAll(0); history_put(\'Round position values in a point\'); redraw({calledby:\'actions panel\'});">' + makeActionButton_Round() + '</button>';
 		
 		var multipointactions = '<h3>point align</h3>';
 		multipointactions += '<button title="Align Vertically\nAlign points vertically" onclick="k_combinations(_UI.ms.points.members, 2).forEach(function(o, i) { console.log(o[0]),o[0].alignX(o[1]) }); history_put(\'Align Points Vertically\');">' + makeActionButton_AlignPointsX() + '</button>';
@@ -108,7 +109,8 @@
 		glyphactions += '<button title="Flip Vertical\nReflects the glyph vertically" onclick="getSelectedWorkItem().flipEW(); history_put(\'Flip Glyph : Vertical\'); redraw({calledby:\'Glyph Details - FlipEW\'});">' + makeActionButton_FlipHorizontal() + '</button>';
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
 		glyphactions += '<button title="Delete Glyph\nRemove this Glyph from the project. Don\'t worry, you can undo this action." onclick="deleteSelectedGlyph();">' + makeActionButton_DeleteGlyph() + '</button>';
-
+		glyphactions += '<button title="Round all point position values\nIf a x or y value for any point or a handle in any path has decimals, it will be rounded to the nearest whole number." onclick="roundAllGlyphShapes(0);">' + makeActionButton_Round() + '</button>';
+		
 
 		// DEV
 		var devactions = '';
@@ -178,6 +180,12 @@
 			history_put('combine all glyph shapes'); 
 			redraw({calledby:'actions panel'});
 		}, 200);
+	}
+
+	function roundAllGlyphShapes(precision) {
+		getSelectedWorkItem().roundAll(precision); 
+		history_put('Round all position values in the glyph'); 
+		redraw({calledby:'actions panel'});
 	}
 
 //-------------------

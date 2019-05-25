@@ -477,4 +477,10 @@
 		}
 	};
 
+	_UI.ms.shapes.roundAll = function(precision){
+		for(var m=0; m<this.members.length; m++){
+			this.members[m].roundAll(precision);
+		}
+	};
+
 // end of file

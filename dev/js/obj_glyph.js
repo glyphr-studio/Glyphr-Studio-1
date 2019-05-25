@@ -849,6 +849,14 @@
 		return this.shapes;
 	};
 
+	Glyph.prototype.roundAll = function(precision) {
+		for(var s=0; s<this.shapes.length; s++){
+			this.shapes[s].roundAll(precision);
+		}
+
+		this.changed();
+	};
+
 
 //-------------------------------------------------------
 // GLYPH FUNCTIONS

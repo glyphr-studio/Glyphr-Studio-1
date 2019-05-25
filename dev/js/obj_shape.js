@@ -169,6 +169,8 @@
 
 	Shape.prototype.getSegment = function(num) { return this.path.getSegment(num); };
 
+	Shape.prototype.roundAll = function(precision) { return this.path.roundAll(precision); };
+
 
 //	-------------------------------------------------------
 //	NEW SHAPE FUNCTIONS

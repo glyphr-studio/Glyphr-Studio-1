@@ -380,6 +380,9 @@
 
 	ComponentInstance.prototype.isOverControlPoint = function(x, y, nohandles) { return false; };
 
+	ComponentInstance.prototype.roundAll = function(precision) {};
+
+
 //-------------------------------------------------------
 // COMPONENT INSTANCE METHODS
 //-------------------------------------------------------
