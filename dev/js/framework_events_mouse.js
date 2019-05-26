@@ -325,7 +325,7 @@ function Tool_NewBasicShape(){
 	};
 
 	this.mouseup = function () {
-		console.time('NewBasicShape.mouseUp');
+		// console.time('NewBasicShape.mouseUp');
 		// prevent really small shapes
 		var tnbs = _UI.eventhandlers.tempnewbasicshape;
 
@@ -335,7 +335,7 @@ function Tool_NewBasicShape(){
 			var count = (_UI.current_page === 'components')? (getLength(_GP.components)) : getSelectedWorkItemShapes().length;
 			var s = _UI.ms.shapes.getSingleton();
 
-			console.time('NewBasicShape - create shape');
+			// console.time('NewBasicShape - create shape');
 			if(_UI.selectedtool==='newrect'){
 				s.name = ('Rectangle ' + count);
 				s.path = rectPathFromMaxes(tnbs);
@@ -346,7 +346,7 @@ function Tool_NewBasicShape(){
 
 			s.visible = true;
 
-			console.timeEnd('NewBasicShape - create shape');
+			// console.timeEnd('NewBasicShape - create shape');
 			//updateCurrentGlyphWidth();
 		} else {
 			_UI.ms.shapes.deleteShapes();
@@ -355,16 +355,16 @@ function Tool_NewBasicShape(){
 		_UI.eventhandlers.firstx = -100;
 		_UI.eventhandlers.firsty = -100;
 		_UI.eventhandlers.tempnewbasicshape = false;
-		console.time('NewBasicShape - History_put');
+		// console.time('NewBasicShape - History_put');
 		history_put('New Basic Shape tool');
-		console.timeEnd('NewBasicShape - History_put');
+		// console.timeEnd('NewBasicShape - History_put');
 		_UI.eventhandlers.uqhaschanged = false;
 
 		this.dragging = false;
 
 		clickTool('pathedit');
 
-		console.timeEnd('NewBasicShape.mouseUp');
+		// console.timeEnd('NewBasicShape.mouseUp');
 	};
 }
 
