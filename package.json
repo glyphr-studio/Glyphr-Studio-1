@@ -17,7 +17,6 @@
     "min_height": 700
   },
   "devDependencies": {
-    "grunt": "^1.0.4",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "^0.7.0",
@@ -58,5 +57,8 @@
       "GlyphrProject",
       "Guide"
     ]
+  },
+  "dependencies": {
+    "grunt": "^1.0.4"
   }
 }
