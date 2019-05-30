@@ -39,6 +39,7 @@
 		_UI.redraw.redrawtools = isval(oa.redrawtools) ? oa.redrawtools : true;
 		_UI.redraw.redrawpanels = isval(oa.redrawpanels) ? oa.redrawpanels : true;
 		_UI.redraw.calledby = oa.calledby || '';
+		// debug(`\t calledby ${_UI.redraw.calledby}`);
 
 		if(!_UI.redraw.redrawpanels && document.getElementById('navarea_panel') && document.getElementById('navarea_panel').innerHTML === '') _UI.redraw.redrawpanels = true;
 

@@ -98,6 +98,10 @@
 		document.title = 'Glyphr Studio - Tools';
 		document.body.classList.add('poppedOut');
 
+		var nps = document.getElementById('npSave');
+		nps.style.backgroundColor = 'rgb(0,113,170)';
+		nps.style.top = '545px';
+
 		// Second Screen
 		_UI.popout.document.head.appendChild(document.styleSheets[0].ownerNode.cloneNode(true));
 		_UI.popout.onBeforeUnload = popIn;
@@ -108,11 +112,6 @@
 			_UI.popout[f] = window[f];
 			// debug('\t added ' + json(f));
 		}}
-
-		// Document Key Listeners
-		getEditDocument().addEventListener('keypress', keypress, false);
-		getEditDocument().addEventListener('keydown', keypress, false);
-		getEditDocument().addEventListener('keyup', keyup, false);
 
 		navigate();
 
@@ -187,9 +186,10 @@
 		// debug('\n makeLayout_PopIn - START');
 		// debug('\t nap = ' + nap);
 
-		var pil = '<div id="mainwrapper"></div>';
+		var pil = '';
 		pil += '<div id="navarea_tabs" onmouseover="mouseoutcec();"></div>';
 		pil += '<div id="navarea_panel" onmouseover="mouseoutcec();"></div>';
+		pil += '<div id="mainwrapper"></div>';
 		document.getElementById('primaryScreenLayout').innerHTML = pil;
 
 		mouseoutcec();
@@ -200,11 +200,6 @@
 		} else {
 			make_NavPanels_PopIn();
 			document.getElementById('mainwrapper').style.overflowY = 'scroll';
-
-			// Document Key Listeners
-			getEditDocument().addEventListener('keypress', keypress, false);
-			getEditDocument().addEventListener('keydown', keypress, false);
-			getEditDocument().addEventListener('keyup', keyup, false);
 		}
 
 		// debug(' makeLayout_PopIn - END\n');
@@ -504,6 +499,9 @@
 		navarr.push('import svg');
 		if(_UI.popout){
 			navarr.push('_');
+			navarr.push('_');
+			navarr.push('_');
+			navarr.push('_');
 			navarr.push('popin');
 		} else {
 			navarr.push('export font');
@@ -536,7 +534,7 @@
 				newsub += '<div style="height:12px;"></div>';
 			
 			} else if (navarr[i] === 'popin'){
-				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:32px; position:relative; left:-10px; top:-4px; padding:50px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
+				newsub += '<div style="cursor:pointer; background-color:rgb(0,113,170); height:32px; position:relative; left:-11px; top:-4px; padding:7px 0px 0px 14px;" title="one screen mode" onclick="popIn();">'+
 					makeIcon({'name':'tool_popIn', 'color':'white', 'hovercolor':'white', 'size':20, 'width':25, 'height':25})+
 					'<span style="position:relative; top:-5px; margin-left:10px; color:white;">Pop In</span>'+
 					'</div>';

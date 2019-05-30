@@ -34,7 +34,7 @@
 
 		var mp = document.getElementById('mainwrapper');
 		mp.innerHTML = ct;
-		mp.style.marginLeft = '0px';
+		mp.style.left = '0px';
 		document.getElementById('openprojecttableright').addEventListener('dragover', handleDragOver, false);
 		document.getElementById('openprojecttableright').addEventListener('drop', handleDrop, false);
 		document.getElementById('openprojecttableright').addEventListener('dragleave', handleDragLeave, false);

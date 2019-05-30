@@ -249,16 +249,16 @@
 	}
 
 	label:hover {
-				color:black;
-				cursor: pointer;
+		color:black;
+		cursor: pointer;
 	}
 
 	pre {
-			display: inline-block;
-			background-color: rgba(0,0,0,0.1);
-			font-family: monospace;
-			padding: 0px 2px;
-			border-radius: 2px;
+		display: inline-block;
+		background-color: rgba(0,0,0,0.1);
+		font-family: monospace;
+		padding: 0px 2px;
+		border-radius: 2px;
 	}
 
 
@@ -355,18 +355,19 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
-				position: absolute;
-				top:0px;
-				left:0px;
+		position: absolute;
+		top:0px;
+		left:0px;
 	}
 
-		.poppedOut #primaryScreenLayout {
-				overflow-x: auto;
-				overflow-y: hidden;
-		}
+	.poppedOut #primaryScreenLayout {
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
 
 	#navarea_tabs {
 		display:block;
+		z-index: 100;
 		position:absolute;
 		top:0px;
 		left:0px;
@@ -379,6 +380,7 @@
 
 	#navarea_panel {
 		display:block;
+		z-index: 100;
 		position:absolute;
 		top:0px;
 		left:70px;
@@ -578,6 +580,8 @@
 
 	#popout_pagenav {
 		width:220px;
+		position: relative;
+		left: -1px;
 	}
 
 	#popout_actions {
@@ -591,20 +595,18 @@
 	#mainwrapper {
 		position:absolute;
 		top:0px;
-		left:0px;
+		left:470px;
+		/* margin-left:470px; */
 		width:100%;
 		height:100%;
 		overflow-x:hidden;
 		overflow-y:hidden;
-		position:absolute;
-		top:0px;
-		left:0px;
 		background-color:rgb(250,252,255);
-		margin-left:470px;
 	}
 
 	#secondaryScreenLayout #mainwrapper {
-		margin-left: 0;
+		/* margin-left: 0; */
+		left: 0px;
 	}
 
 	.primarynavbutton,
@@ -631,6 +633,10 @@
 		position: absolute;
 		left:0px;
 		top:500px;
+	}
+
+	.poppedOut #npSave {
+		background-color: #003f5f;
 	}
 
 	.pagecontent {
@@ -803,13 +809,13 @@
 	}
 
 	.textaction {
-			color: rgb(0,140,210);
-			text-decoration: none;
+		color: rgb(0,140,210);
+		text-decoration: none;
 	}
 
 	.textaction:hover {
-			cursor: pointer;
-			text-decoration: underline;
+		cursor: pointer;
+		text-decoration: underline;
 	}
 
 
@@ -1289,10 +1295,10 @@
 		z-index:10;
 	}
 
-		#secondaryScreenLayout #toolsarea_upperleft,
-		#secondaryScreenLayout #keyboardtips {
-				left: 15px;
-		}
+	#secondaryScreenLayout #toolsarea_upperleft,
+	#secondaryScreenLayout #keyboardtips {
+		left: 15px;
+	}
 
 	#toolsarea_upperleft div,
 	#toolsarea_upperright div {
@@ -1900,56 +1906,56 @@
 	}
 	
 	.glyphrangepreviewglyph {
-			color:rgb(102,107,112);
-			font-family: serif;
-			padding: 1px 3px 1px 3px;
-			text-align: center;
-			display: inline-block;
+		color:rgb(102,107,112);
+		font-family: serif;
+		padding: 1px 3px 1px 3px;
+		text-align: center;
+		display: inline-block;
 	}
 	
 	.glyphrangepreviewglyph:hover {
-			background-color: rgb(229,234,239);
+		background-color: rgb(229,234,239);
 	}
 
 	.addcustomrange {
-			width: 700px;
+		width: 700px;
 	}
 
 	#customrangetable {
-				margin-bottom:30px;
-				width: 700px;
+		margin-bottom:30px;
+		width: 700px;
 	}
 
 	#customrangename {
-			width: 300px;
+		width: 300px;
 	}
 
 	#customrangebegin,
 	#customrangeend {
-			font-family: monospace;
-			width: 80px;
+		font-family: monospace;
+		width: 80px;
 	}
 
 	.customrangegrid {
-				vertical-align: middle;
-				width: 700px;
-				margin: 8px 0px 20px 0px;
+		vertical-align: middle;
+		width: 700px;
+		margin: 8px 0px 20px 0px;
 	}
 	
 	.customrangegrid td {
-			background-color: white;
-			border-style: solid;
-			border-width:1px 0px;
-			border-color:rgb(229, 234, 239);
-			padding:4px;
-			vertical-align: middle;
+		background-color: white;
+		border-style: solid;
+		border-width:1px 0px;
+		border-color:rgb(229, 234, 239);
+		padding:4px;
+		vertical-align: middle;
 	}
 	
 	.customrangegridheader {
-			background-color: transparent !important;
-			border: 0 !important;
-			font-weight: bold;
-			color:rgb(102,107,112);
+		background-color: transparent !important;
+		border: 0 !important;
+		font-weight: bold;
+		color:rgb(102,107,112);
 	}
 
 

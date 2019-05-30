@@ -5,6 +5,7 @@
 **/
 
 	function keyup(event){
+		stopDefaultStuff();
 
 		var eh = _UI.eventhandlers;
 		// debug('\t eh.lastTool = ' + eh.lastTool);
@@ -39,8 +40,8 @@
 	function keypress(event){
 		// debug('\n keypress - START');
 		if(event.type !== 'keydown') return;
-		if(_UI.current_page === 'openproject') return;
-		if(getEditDocument().activeElement.id === 'contextglyphsinput') return;
+		// if(_UI.current_page === 'openproject') return;
+		stopDefaultStuff();
 
 		var eh = _UI.eventhandlers;
 		var overcanvas = eh.ismouseovercec;
@@ -50,39 +51,31 @@
 			eh.isShiftDown = true;
 		}
 
-		// debug('Key Press:\t' + kc + ' from ' + event.which);
+		// debug('\t Key Press:\t' + kc + ' from ' + event.which);
 		// debug('\t CTRL ' + event.ctrlKey + ' META ' + event.metaKey);
 		// debug(event);
 
-		function stopDefaultStuff() {
-			event.stopPropagation();
-			event.preventDefault();
-		}
 
 		// shift s (save as)
 		if(isCtrlDown && eh.isShiftDown && kc==='s'){
-			stopDefaultStuff();
 			eh.isShiftDown = false;
 			saveGlyphrProjectFile(false); // save as always
 		}
 
 		// s
 		else if((isCtrlDown) && kc==='s'){
-			stopDefaultStuff();
 			eh.isShiftDown = false;
 			saveGlyphrProjectFile(true); // overwrite if electron
 		}
 
 		// g
 		if((isCtrlDown) && kc==='g'){
-			stopDefaultStuff();
 			showToast('Exporting SVG font file...');
 			setTimeout(ioSVG_exportSVGfont, 500);
 		}
 
 		// e
 		if((isCtrlDown) && kc==='e'){
-			stopDefaultStuff();
 			showToast('Exporting OTF font file...');
 			setTimeout(ioOTF_exportOTFfont, 500);
 		}
@@ -90,7 +83,6 @@
 		// o
 		if((isCtrlDown) && kc==='o'){
 			// debug('\t pressed Ctrl + O');
-			stopDefaultStuff();
 			
 			window.open("http://glyphrstudio.com/online", "_blank");
 		}
@@ -98,7 +90,6 @@
 		// q
 		// for dev mode clear console
 		if(_UI.devmode && (isCtrlDown) && kc==='q'){
-			stopDefaultStuff();
 			console.clear();
 		}
 
@@ -140,7 +131,6 @@
 
 		// Space
 		if(kc === 'space' && overcanvas){
-			stopDefaultStuff();
 			if(!eh.isSpaceDown){
 				eh.lastTool = _UI.selectedtool;
 				_UI.selectedtool = 'pan';
@@ -155,52 +145,44 @@
 
 		// z
 		if(kc==='undo' || ((eh.multi || event.metaKey) && kc==='z')){
-			stopDefaultStuff();
 			history_pull();
 		}
 
 		// plus
 		if((eh.multi || event.metaKey) && kc==='plus'){
-			stopDefaultStuff();
 			viewZoom(1.1);
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// minus
 		if((eh.multi || event.metaKey) && kc==='minus'){
-			stopDefaultStuff();
 			viewZoom(0.9);
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// 0
 		if((eh.multi || event.metaKey) && kc==='0'){
-			stopDefaultStuff();
 			setView(clone(_UI.defaultview, 'keypress - zero'));
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
 		// left
 		if(kc==='left' && overcanvas){
-			stopDefaultStuff();
 			nudge(-1,0, event);
 		}
 
 		// right
 		if(kc==='right' && overcanvas){
-			stopDefaultStuff();
 			nudge(1,0, event);
 		}
 
 		// up
 		if(kc==='up' && overcanvas){
-			stopDefaultStuff();
 			nudge(0,1, event);
 		}
 
 		// down
 		if(kc==='down' && overcanvas){
-			stopDefaultStuff();
 			nudge(0,-1, event);
 		}
 
@@ -213,7 +195,7 @@
 		if(overcanvas){
 			// del
 			if(kc==='del' || kc==='backspace'){
-				stopDefaultStuff();
+
 				var em = getEditMode();
 
 				if(em === 'pen'){
@@ -229,7 +211,7 @@
 
 			// ctrl + c
 			if((eh.multi || event.metaKey) && kc==='c'){
-				stopDefaultStuff();
+
 				copyShape();
 			}
 
@@ -237,7 +219,7 @@
 			if((eh.multi || event.metaKey) && kc==='v'){
 				var pasted = pasteShape();
 				if(pasted) {
-					stopDefaultStuff();
+	
 					history_put(pasted > 1? ('Pasted ' + pasted + ' shapes') : 'Pasted 1 shape');
 					redraw({calledby:'Paste Shape'});
 				} else {
@@ -253,7 +235,7 @@
 			
 			// ?
 			if(kc==='?' || kc==='¿'){
-				stopDefaultStuff();
+
 				toggleKeyboardTips();
 			}
 		}
@@ -266,6 +248,11 @@
 			8:'backspace', 9:'tab', 13:'enter', 16:'shift', 17:'ctrl', 18:'alt', 20:'capslock', 26:'undo', 27:'esc', 32:'space', 33:'pageup', 34:'pagedown', 35:'end', 36:'home', 37:'left', 38:'up', 39:'right', 40:'down', 45:'ins', 46:'del', 91:'meta', 93:'meta', 187:'plus', 189:'minus', 224:'meta'
 		};
 		return specialGlyphs[parseInt(event.which)] || String.fromCharCode(event.which).toLowerCase();
+	}
+
+	function stopDefaultStuff() {
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	function nudge(dx, dy, ev) {

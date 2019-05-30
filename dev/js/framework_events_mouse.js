@@ -51,9 +51,9 @@ function initEventHandlers() {
 	}
 	
 	// Document Key Listeners
-	getEditDocument().addEventListener('keypress', keypress, false);
-	getEditDocument().addEventListener('keydown', keypress, false);
-	getEditDocument().addEventListener('keyup', keyup, false);
+	_UI.glypheditcanvas.addEventListener('keypress', keypress, false);
+	_UI.glypheditcanvas.addEventListener('keydown', keypress, false);
+	_UI.glypheditcanvas.addEventListener('keyup', keyup, false);
 
 	// The general-purpose event handler.
 	function ev_canvas(ev) {
