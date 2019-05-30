@@ -340,9 +340,9 @@
 
 	_UI.ms.shapes.setShapeSize = function(nw, nh, ratiolock) { this.getGlyph().setGlyphSize(nw, nh, ratiolock); };
 
-	_UI.ms.shapes.rotate = function(angle, about) { this.getGlyph().rotate(angle, about); };
+	_UI.ms.shapes.rotate = function(angle, about, snap) { this.getGlyph().rotate(angle, about, snap); };
 
-	_UI.ms.shapes.rotateable = function() {
+	_UI.ms.shapes.rotatable = function() {
 		if(this.members.length === 1) return true;
 		else return !this.contains(('componentinstance'));
 	};

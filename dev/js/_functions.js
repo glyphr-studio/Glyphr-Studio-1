@@ -685,7 +685,7 @@ function saveFile(fname, buffer, ftype) {
 		return result;
 	}
 
-	function rotate(coord, angle, about) {
+	function rotate(coord, angle, about, snap) {
 		// debug('\n rotate - START');
 		// debug('\t coord ' + json(coord, true));
 		// debug('\t Math angle:\t' + angle);
@@ -693,6 +693,7 @@ function saveFile(fname, buffer, ftype) {
 
 		if(!angle || !coord) return;
 		about = about || {x:0, y:0};
+		if(snap) angle = getSnapAngle(angle);
 
 		coord.x -= about.x;
 		coord.y -= about.y;
@@ -710,6 +711,21 @@ function saveFile(fname, buffer, ftype) {
 	//convert between degrees and radians
 	function rad(deg) {	return (deg * Math.PI / 180) % Math.PI; }
 	function deg(rad) {	return (rad * 180 / Math.PI) % 360; }
+
+	function getSnapAngle(angle) {
+		// debug(`\t angle was ${angle}`);
+		angle = deg(angle);
+		// debug(`\t degrees ${angle}`);
+		angle /= 10;
+		angle = round(angle);
+		angle *= 10;
+		// debug(`\t rounded ${angle}`);
+		
+		angle = rad(angle);
+		// debug(`\t angle is now ${angle}`);
+
+		return angle;
+	}
 
 	// Shows the Glyphr Studio angle as opposed to the JavaScript angle
 	function calculateNiceAngle(angle) {

@@ -223,11 +223,11 @@
 		this.changed();
 	};
 
-	Glyph.prototype.rotate = function(angle, about) {
+	Glyph.prototype.rotate = function(angle, about, snap) {
 		about = about || this.getCenter();
 
 		for(var s=0; s < this.shapes.length; s++){
-			this.shapes[s].rotate(angle, about);
+			this.shapes[s].rotate(angle, about, snap);
 		}
 
 		this.changed();

@@ -1360,7 +1360,7 @@ var wi = getSelectedWorkItem();
 		_UI.glypheditctx.strokeStyle = accent.l65;
 
 		//rotate handle
-		if(_UI.ms.shapes.rotateable()){
+		if(_UI.ms.shapes.rotatable()){
 			var h = _UI.rotatehandleheight;
 			_UI.glypheditctx.lineWidth = thickness;
 			draw_Line({x:bb.midx + bb.hp, y:bb.topy}, {x:bb.midx + bb.hp, y:bb.topy - h});
@@ -1405,14 +1405,14 @@ var wi = getSelectedWorkItem();
 		var starttopy = _UI.eventhandlers.rotationstarttopy;
 		var mx = _UI.eventhandlers.mousex;
 		var my = _UI.eventhandlers.mousey;
-		var ss = _UI.ms.shapes;
 		var angle = calculateAngle({x:cx_sx(mx), y:cy_sy(my)}, center);
 
 		// debug('\t Init angle:\t' + angle);
-
+		var snap = _UI.eventhandlers.isShiftDown;
+		angle = snap? getSnapAngle(angle) : angle;
 		var rotatehandle = {x:center.x, y:starttopy};
-		rotate(rotatehandle, angle, center);
-		rotate(rotatehandle, (Math.PI/-2), center);
+		rotate(rotatehandle, angle, center, snap);
+		rotate(rotatehandle, (Math.PI/-2), center, snap);
 
 		// debug('\t Drag Angle:\t' + round(angle, 2));
 
@@ -1503,7 +1503,7 @@ var wi = getSelectedWorkItem();
 		// debug('\t t/m/b y: ' + bb.topy + ' / ' + bb.midy + ' / ' + bb.bottomy);
 
 		// rotation handle
-		if(_UI.ms.shapes.rotateable()){
+		if(_UI.ms.shapes.rotatable()){
 			if( ((px > bb.midx) && (px < bb.midx+ps)) &&
 				((py > bb.topy-_UI.rotatehandleheight) && (py < bb.topy-_UI.rotatehandleheight+ps)) ){
 				return 'rotate';

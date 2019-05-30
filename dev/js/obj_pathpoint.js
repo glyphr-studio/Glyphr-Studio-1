@@ -33,7 +33,7 @@
 		if(this.type === 'symmetric') { this.makeSymmetric('H1'); }
 		else if (this.type === 'flat') { this.makeFlat('H1'); }
 
-		//debug('PATHPOINT was passed ' + JSON.stringify(oa));
+		// debug('PATHPOINT was passed ' + json(oa));
 	}
 
 
@@ -388,7 +388,9 @@
 	};
 		
 	PathPoint.prototype.toggleUseHandle = function(h){
-		//debug('TOGGLEUSEHANDLE - before:\n'+json(this));
+		// debug(`\n PathPoint.toggleUseHandle - START`);
+		
+		// debug('\t before:\n'+json(this));
 		
 		if(h){
 			this.useh1 = !this.useh1;
@@ -400,7 +402,8 @@
 		_UI.ms.shapes.calcMaxes();
 		redraw({calledby:'pointDetails'});
 		
-		//debug('TOGGLEUSEHANDLE - after:\n'+json(this));
+		// debug('\t after:\n'+json(this));
+		// debug(` PathPoint.toggleUseHandle - END\n\n`);
 	};
 	
 	PathPoint.prototype.setPointType = function(type) {
@@ -410,12 +413,15 @@
 	};
 	
 	PathPoint.prototype.makeSymmetric = function(hold){
-		//debug('MAKESYMETRIC - hold ' + hold + ' starts as ' + JSON.stringify(this));
+		// debug(`\n PathPoint.makeSymmetric - START`);
+		
+		// debug('\t hold ' + hold + ' starts as ' + json(this));
 		
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
 			if(!(this.useh1 || this.useh2)){
-				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
+				
+				if(coordsAreEqual(this.P, this.H1) && coordsAreEqual(this.P && this.H2)){
 					// Handles and points are all in the same place
 					this.H2.x-=200;
 					this.H1.x+=200;
@@ -443,7 +449,8 @@
 		this.useh2 = true;
 
 		//this.roundAll();
-		//debug('MAKESYMETRIC - returns ' + JSON.stringify(this));
+		// debug('\t returns ' + json(this));
+		// debug(` PathPoint.makeSymmetric - END\n\n`);
 	};
 
 	PathPoint.prototype.makeFlat = function(hold){
@@ -458,7 +465,7 @@
 		if(!hold){
 			hold = this.useh1? 'H1' : 'H2';
 			if(!(this.useh1 || this.useh2)){
-				if( ((this.H2.x+this.P.x+this.H1.x)/3 === this.P.x) && ((this.H2.y+this.P.y+this.H1.y)/3 === this.P.y) ){
+				if(coordsAreEqual(this.P, this.H1) && coordsAreEqual(this.P && this.H2)){
 					// Handles and points are all in the same place
 					this.H2.x-=300;
 					this.H1.x+=100;
@@ -470,12 +477,17 @@
 			}
 		}
 
+		if(hold === 'H1' && !this.useh1 && this.useh2) this.makeSymmetric('H2');
+		if(hold === 'H2' && !this.useh2 && this.useh1) this.makeSymmetric('H1');
 
 		var angle1 = this.getH1Angle();
 		var angle2 = this.getH2Angle();
 		var hyp1 = this.getH1Length();
 		var hyp2 = this.getH2Length();
 
+		// debug(`\t H1a ${angle1} \t H2a ${angle2}`);
+		// debug(`\t H1l ${hyp1} \t H2l ${hyp2}`);
+		
 		//new values
 		var newHx, newHy, newadj, newopp;
 
@@ -485,7 +497,7 @@
 			newopp = Math.tan(angle1) * newadj;
 
 			//Set values
-			newHx =	(this.P.x + (newadj*-1));
+			newHx = (this.P.x + (newadj*-1));
 			newHy = (this.P.y + (newopp*-1));
 
 			if(!isNaN(newHx) && !isNaN(newHy)){
@@ -499,7 +511,7 @@
 			newopp = Math.tan(angle2) * newadj;
 
 			//Set values
-			newHx =	(this.P.x + (newadj*-1));
+			newHx = (this.P.x + (newadj*-1));
 			newHy = (this.P.y + (newopp*-1));
 
 			if(!isNaN(newHx) && !isNaN(newHy)){
@@ -556,15 +568,15 @@
 		length = length || (hyp1/3);
 		handle = (handle==='H2')? 'H2' : 'H1';
 
-		//debug('MAKEPOINTEDTO - x/y/l ' + px + ' ' + py + ' ' + length + ' - Before H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		// debug('MAKEPOINTEDTO - x/y/l ' + px + ' ' + py + ' ' + length + ' - Before H1x/y ' + this.H1.x + ' ' + this.H1.y);
 		this[handle].x = this.P.x + (Math.cos(angle1) * length * xmod);
 		this[handle].y = this.P.y + (Math.sin(angle1) * length * ymod);
-		//debug('MAKEPOINTEDTO - after H1x/y ' + this.H1.x + ' ' + this.H1.y);
+		// debug('MAKEPOINTEDTO - after H1x/y ' + this.H1.x + ' ' + this.H1.y);
 		
 		if(!dontresolvetype){
 			if(this.type === 'corner') this.makeFlat(handle);
 			else this.makeSymmetric(handle);
-			//debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
+			// debug('MAKEPOINTEDTO - after makesymmetric H1x/y ' + this.H1.x + ' ' + this.H1.y);
 		}
 	};
 
@@ -573,11 +585,11 @@
 		this.roundAll(precision);
 	};
 
-	PathPoint.prototype.rotate = function(angle, about) {
+	PathPoint.prototype.rotate = function(angle, about, snap) {
 		// debug('\n PathPoint.rotate - START');
-		rotate(this.P, angle, about);
-		rotate(this.H1, angle, about);
-		rotate(this.H2, angle, about);
+		rotate(this.P, angle, about, snap);
+		rotate(this.H1, angle, about, snap);
+		rotate(this.H2, angle, about, snap);
 		// debug('\t this.P ' + json(this.P, true));
 		// debug(' PathPoint.rotate - END\n');
 	};
@@ -806,7 +818,7 @@
 			]);
 		}}
 
-		//debug('DRAWPOINT arrow = ' + JSON.stringify(arrow) + '	- rotatedarrow = ' + JSON.stringify(rotatedarrow));
+		// debug('DRAWPOINT arrow = ' + json(arrow) + ' - rotatedarrow = ' + json(rotatedarrow));
 
 		_UI.glypheditctx.beginPath();
 		_UI.glypheditctx.moveTo((rotatedarrow[0][0] + sx_cx(this.P.x)), (rotatedarrow[0][1] + sy_cy(this.P.y)));

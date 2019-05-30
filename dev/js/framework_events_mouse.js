@@ -200,12 +200,13 @@ function Tool_ShapeEdit(){
 			// debug('\n Tool_ShapeEdit.mousemove - resizing');
 			eventHandler_ShapeResize();
 			this.didstuff = true;
-
+			
 		} else if (this.rotating){
-			var a1 = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter),
-					a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, eh.rotationcenter);
+			// debug('\n Tool_ShapeEdit.mousemove - rotating');
+			var a1 = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
+			var a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, eh.rotationcenter);
 
-			_UI.ms.shapes.rotate(a1-a2, eh.rotationcenter);
+			_UI.ms.shapes.rotate(a1-a2, eh.rotationcenter, eh.isShiftDown);
 			this.didstuff = true;
 			setCursor('rotate');
 

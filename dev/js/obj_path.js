@@ -191,14 +191,17 @@
 		return clone(this.maxes, 'Path.getMaxes');
 	};
 
-	Path.prototype.rotate = function(angle, about) {
+	Path.prototype.rotate = function(angle, about, snap) {
 		// debug('\n Path.rotate - START');
+		
 		for(var d=0; d<this.pathpoints.length; d++){
 			// debug('\t starting point ' + d);
 			var pp = this.pathpoints[d];
-			pp.rotate(angle, about);
-			// debug('\t p['+d+'].P.x ' + pp.P.x);
+			// if(d === 12) debug('\t before Px ' + pp.P.x + '\tH2x ' + pp.H2.x);
+			pp.rotate(angle, about, snap);
+			if(d === 12) debug('\t jafter \tPx ' + pp.P.x + '\tH2x ' + pp.H2.x);
 		}
+		
 		this.changed();
 		// debug(' Path.rotate - END\n');
 	};
