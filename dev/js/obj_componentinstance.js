@@ -253,12 +253,15 @@
 		this.changed();
 	};
 
-	ComponentInstance.prototype.rotate = function(angle, about) {
+	ComponentInstance.prototype.rotate = function(angle, about, snap) {
 		// debug('\n ComponentInstance.rotate - START');
-		// debug('\t passed ' + angle);
+		// debug('\t passed angle' + angle);
+		if(snap) angle = getSnapAngle(angle);
+		// debug('\t snap angle ' + angle);
+
 		var degrees = deg(angle);
-		// debug('\t deg ' + degrees);
-		// debug('\t was ' + this.rotation);
+		// debug('\t = deg ' + degrees);
+		// debug('\t rotation was ' + this.rotation);
 
 		// if(this.flipew || this.flipns) degrees *= -1;
 
@@ -268,7 +271,7 @@
 		
 		this.changed();
 		
-		// debug('\t is now ' + this.rotation);
+		// debug('\t rotation is now ' + this.rotation);
 		// debug(' ComponentInstance.rotate - END\n');
 	};
 

@@ -225,36 +225,40 @@
 	};
 
 	Glyph.prototype.startRotationPreview = function() {
-		debug(`\n\n Glyph.startRotationPreview - START`);
-		debug(`\t shapes ${this.shapes.length}`);
+		// debug(`\n\n Glyph.startRotationPreview - START`);
+		// debug(`\t shapes ${this.shapes.length}`);
 		this.rotationreferenceshapes = [];
-
+		
 		for(var i=0; i<this.shapes.length; i++) {
 			if(this.shapes[i].objtype === 'componentinstance'){
 				this.rotationreferenceshapes[i] = new ComponentInstance(this.shapes[i]);
 			} else {
 				this.rotationreferenceshapes[i] = new Shape(this.shapes[i]);
 			}
-			debug(this.rotationreferenceshapes[i]);
+			// debug(this.rotationreferenceshapes[i]);
 		}
-
-		debug(` Glyph.startRotationShape - END\n`);
+		
+		// debug(` Glyph.startRotationPreview - END\n`);
 	};
 	
 	Glyph.prototype.rotationPreview = function(angle, about, snap) {
+		// debug(`\n\n Glyph.rotationPreview - START`);
 		var tempshape;
 		for(var i=0; i<this.shapes.length; i++) {
 			if(this.shapes[i].objtype === 'componentinstance'){
-				tempshape = new ComponentInstance(this.rotationreferenceshapes[i]);
+				// tempshape = new ComponentInstance(this.rotationreferenceshapes[i]);
+				// debug(`\t tempshape.rotation: ${tempshape.rotation}`);
+				// debug(`\t angle: ${angle} = deg ${deg(angle)}`);				
+				// this.shapes[i].rotate(rad(deg(angle) - tempshape.rotation), about, snap);
+				this.shapes[i].rotate(angle - rad(this.shapes[i].rotation), about, snap);
 			} else {
 				tempshape = new Shape(this.rotationreferenceshapes[i]);
+				tempshape.rotate(angle, about, snap);
+				this.shapes[i].path = tempshape.path;
 			}
-
-			tempshape.rotate(angle, about, snap);
-			_UI.ms.shapes.remove(this.shapes[i]);
-			this.shapes[i] = tempshape;
-			_UI.ms.shapes.add(this.shapes[i]);
+			this.shapes[i].changed();
 		}
+		// debug(` Glyph.rotationPreview - END\n`);
 	};
 
 	Glyph.prototype.endRotationPreview = function() {
