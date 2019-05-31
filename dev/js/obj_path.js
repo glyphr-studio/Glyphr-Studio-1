@@ -199,7 +199,7 @@
 			var pp = this.pathpoints[d];
 			// if(d === 12) debug('\t before Px ' + pp.P.x + '\tH2x ' + pp.H2.x);
 			pp.rotate(angle, about, snap);
-			if(d === 12) debug('\t jafter \tPx ' + pp.P.x + '\tH2x ' + pp.H2.x);
+			// if(d === 12) debug('\t jafter \tPx ' + pp.P.x + '\tH2x ' + pp.H2.x);
 		}
 		
 		this.changed();

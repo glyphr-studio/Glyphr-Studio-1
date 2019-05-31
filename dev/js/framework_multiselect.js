@@ -342,6 +342,12 @@
 
 	_UI.ms.shapes.rotate = function(angle, about, snap) { this.getGlyph().rotate(angle, about, snap); };
 
+	_UI.ms.shapes.startRotationPreview = function() { this.getGlyph().startRotationPreview(); };
+
+	_UI.ms.shapes.rotationPreview = function(angle, about, snape) { this.getGlyph().rotationPreview(angle, about, snape); };
+
+	_UI.ms.shapes.endRotationPreview = function() { this.getGlyph().endRotationPreview(); };
+
 	_UI.ms.shapes.rotatable = function() {
 		if(this.members.length === 1) return true;
 		else return !this.contains(('componentinstance'));

@@ -138,7 +138,9 @@ function Tool_ShapeEdit(){
 				// debug('\t mousedown - setting rotating = true');
 				this.rotating = true;
 				eh.rotationcenter = _UI.ms.shapes.getCenter();
-				eh.rotationstarttopy = _UI.ms.shapes.getMaxes().ymax + (_UI.rotatehandleheight / getView().dz);
+				eh.rotationstartpoint = {x: eh.mousex, y: eh.mousey};
+				eh.rotationstartpoint.y = _UI.ms.shapes.getMaxes().ymax + (_UI.rotatehandleheight / getView().dz);
+				_UI.ms.shapes.startRotationPreview();
 
 			} else {
 				// debug('\t clicked on eh.handle: ' + eh.handle);
@@ -203,10 +205,11 @@ function Tool_ShapeEdit(){
 			
 		} else if (this.rotating){
 			// debug('\n Tool_ShapeEdit.mousemove - rotating');
-			var a1 = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
-			var a2 = calculateAngle({x:cx_sx(eh.lastx), y:cy_sy(eh.lasty)}, eh.rotationcenter);
+			var angle = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
+			angle -= (Math.PI / 2);
 
-			_UI.ms.shapes.rotate(a1-a2, eh.rotationcenter, eh.isShiftDown);
+			_UI.ms.shapes.rotationPreview(angle, eh.rotationcenter, eh.isShiftDown);
+
 			this.didstuff = true;
 			setCursor('rotate');
 
@@ -260,8 +263,10 @@ function Tool_ShapeEdit(){
 		}
 
 		// Resized a shape
+		if(this.rotating) _UI.ms.shapes.endRotationPreview();
 		if(this.resizing || this.rotating) _UI.ms.shapes.calcMaxes();
 		updateCurrentGlyphWidth();
+		setCursor('arrow');
 
 		// Finish Up
 		this.clickedshape = false;
@@ -275,7 +280,7 @@ function Tool_ShapeEdit(){
 		eh.firstx = -100;
 		eh.firsty = -100;
 		eh.rotationcenter = false;
-		eh.rotationstarttopy = false;
+		eh.rotationstartpoint = false;
 		if(eh.uqhaschanged) history_put('Path Edit tool');
 		eh.uqhaschanged = false;
 		redraw({calledby:'Event Handler Tool_ShapeEdit mouseup'});
@@ -694,7 +699,6 @@ function Tool_PathAddPoint(){
 
 	this.mouseup = function() {};
 }
-
 
 
 // ---------------------------------------------------------
