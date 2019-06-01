@@ -177,7 +177,10 @@
 		var oldval = selci[key];
 
 		value = isval(value)? value : 0;
-		if(key === 'rotation') value *= -1;
+		if(key === 'rotation') {
+			value = validateNiceAngle(value);
+			value *= -1;
+		}
 		selci[key] = value;
 
 		var ts, w, h;

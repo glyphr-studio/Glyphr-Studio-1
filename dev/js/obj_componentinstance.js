@@ -265,7 +265,7 @@
 
 		// if(this.flipew || this.flipns) degrees *= -1;
 
-		this.rotation = ((this.rotation + degrees) % 360);
+		this.rotation = validateNiceAngle(this.rotation + degrees);
 
 		if(this.scaleh === 0 && this.scalew === 0 && !this.flipew && !this.flipns) this.rotatefirst = true;
 		

@@ -250,7 +250,7 @@
 				// debug(`\t tempshape.rotation: ${tempshape.rotation}`);
 				// debug(`\t angle: ${angle} = deg ${deg(angle)}`);				
 				// this.shapes[i].rotate(rad(deg(angle) - tempshape.rotation), about, snap);
-				this.shapes[i].rotate(angle - rad(this.shapes[i].rotation), about, snap);
+				this.shapes[i].rotate(angle - niceAngleToRadians(this.shapes[i].rotation), about, snap);
 			} else {
 				tempshape = new Shape(this.rotationreferenceshapes[i]);
 				tempshape.rotate(angle, about, snap);

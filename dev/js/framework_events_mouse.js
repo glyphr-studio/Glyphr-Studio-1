@@ -206,7 +206,7 @@ function Tool_ShapeEdit(){
 		} else if (this.rotating){
 			// debug('\n Tool_ShapeEdit.mousemove - rotating');
 			var angle = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
-			angle -= (Math.PI / 2);
+			debug(`\t rotation affordance radians rotation: ${angle}`);
 
 			_UI.ms.shapes.rotationPreview(angle, eh.rotationcenter, eh.isShiftDown);
 

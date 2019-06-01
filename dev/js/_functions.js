@@ -648,12 +648,16 @@ function saveFile(fname, buffer, ftype) {
 //--------------------------
 
 	/**
-		Use JavaScript angle system by default:
+		Use JavaScript radian angle system for math and drawing:
 		Radians, top is positive bottom is negative
 		3 o'clock is zero, 9 o'clock is pi
 
-		Glyphr Studio angle system:
-		360 Degrees, 12 o'clock is zero, clockwise = positve
+		"Nice Angle" angle system for UI display:
+		Two halves of 180 degrees
+		clockwise = positve 0 to 180
+		counterclockwise = negative -1 to -179
+		12 o'clock is zero, 6 o'clock is 180
+		3 o'clock is 90, 9 o'clock is -90
 	**/
 
 	function calculateAngleX(angle, y){
@@ -727,9 +731,8 @@ function saveFile(fname, buffer, ftype) {
 		return angle;
 	}
 
-	// Shows the Glyphr Studio angle as opposed to the JavaScript angle
-	function calculateNiceAngle(angle) {
-		angle = deg(angle);
+	function radiansToNiceAngle(rad) {
+		var angle = deg(rad);
 		angle = 360 - angle;
 		angle -= 270;
 		angle = angle % 360;
@@ -738,22 +741,31 @@ function saveFile(fname, buffer, ftype) {
 		return angle;
 	}
 
-	function niceAngleToAngle(angle) {
-		angle += 90;
-		angle = angle % 360;
-		if(angle < 180) angle = 360 - angle;
-		else angle *=-1;
-
-		angle = rad(angle);
-
-		return angle;
+	function niceAngleToRadians(angle) {
+		if(angle < 0) angle += 360;
+		var radians = rad(angle);
+		radians -= (Math.PI / 2);
+		return radians;
 	}
 
-	function async(fn, callback) {
-		setTimeout(function() {
-			fn();
-			callback && callback(fn() || undefined);
-		}, 0);
+	function validateRadians(radians) {
+		if(radians > Math.PI || radians < (Math.PI * -1)) {
+			radians = radians % Math.PI;
+			radians -= Math.PI;
+		}
+
+		return radians;
+	}
+
+	function validateNiceAngle(angle) {
+		angle = parseFloat(angle);
+		if(isNaN(angle)) return 0;
+
+		angle = angle % 360;
+		if(angle < -180) angle += 360;
+		if(angle > 180) angle -= 360;
+
+		return angle;
 	}
 
 

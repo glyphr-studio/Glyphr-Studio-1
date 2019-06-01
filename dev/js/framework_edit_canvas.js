@@ -1454,7 +1454,7 @@ var wi = getSelectedWorkItem();
 		draw_CircleHandle(rotatehandle);
 
 		// readout
-		var readout = round(calculateNiceAngle(angle),1);
+		var readout = round(radiansToNiceAngle(angle),1);
 		if(counterclockwise) readout -= 360;
 		readout = round(readout, 1);
 

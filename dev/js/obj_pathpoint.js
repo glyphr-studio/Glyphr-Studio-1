@@ -718,11 +718,11 @@
 	};
 
 	PathPoint.prototype.getH1NiceAngle = function(){
-		return calculateNiceAngle(this.getH1Angle());
+		return radiansToNiceAngle(this.getH1Angle());
 	};
 
 	PathPoint.prototype.getH2NiceAngle = function(){
-		return calculateNiceAngle(this.getH2Angle());
+		return radiansToNiceAngle(this.getH2Angle());
 	};
 
 	PathPoint.prototype.getH1Length = function() {
