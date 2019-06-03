@@ -142,10 +142,10 @@
 
 	Shape.prototype.flipNS = function(mid) { this.path.flipNS(mid); };
 
-	Shape.prototype.rotate = function(angle, about, snap) {
+	Shape.prototype.rotate = function(deltaRad, about, snap) {
 		// debug('\n Shape.rotate - START');
 		about = about || this.getCenter();
-		this.path.rotate(angle, about, snap);
+		this.path.rotate(deltaRad, about, snap);
 		// debug('\t first p[0].P.x ' + this.path.pathpoints[0].P.x);
 		// debug(' Shape.rotate - END\n');
 	};

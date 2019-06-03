@@ -241,19 +241,15 @@
 		// debug(` Glyph.startRotationPreview - END\n`);
 	};
 	
-	Glyph.prototype.rotationPreview = function(angle, about, snap) {
+	Glyph.prototype.rotationPreview = function(deltaRad, about, snap) {
 		// debug(`\n\n Glyph.rotationPreview - START`);
 		var tempshape;
 		for(var i=0; i<this.shapes.length; i++) {
 			if(this.shapes[i].objtype === 'componentinstance'){
-				// tempshape = new ComponentInstance(this.rotationreferenceshapes[i]);
-				// debug(`\t tempshape.rotation: ${tempshape.rotation}`);
-				// debug(`\t angle: ${angle} = deg ${deg(angle)}`);				
-				// this.shapes[i].rotate(rad(deg(angle) - tempshape.rotation), about, snap);
-				this.shapes[i].rotate(angle - niceAngleToRadians(this.shapes[i].rotation), about, snap);
+				this.shapes[i].rotate(deltaRad - niceAngleToRadians(this.shapes[i].rotation), about, snap);
 			} else {
 				tempshape = new Shape(this.rotationreferenceshapes[i]);
-				tempshape.rotate(angle, about, snap);
+				tempshape.rotate(deltaRad, about, snap);
 				this.shapes[i].path = tempshape.path;
 			}
 			this.shapes[i].changed();
@@ -265,11 +261,11 @@
 		this.rotationreferenceshapes = false;
 	};
 
-	Glyph.prototype.rotate = function(angle, about, snap) {
+	Glyph.prototype.rotate = function(deltaRad, about, snap) {
 		about = about || this.getCenter();
 
 		for(var s=0; s < this.shapes.length; s++){
-			this.shapes[s].rotate(angle, about, snap);
+			this.shapes[s].rotate(deltaRad, about, snap);
 		}
 
 		this.changed();

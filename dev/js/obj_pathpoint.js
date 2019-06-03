@@ -585,11 +585,11 @@
 		this.roundAll(precision);
 	};
 
-	PathPoint.prototype.rotate = function(angle, about, snap) {
+	PathPoint.prototype.rotate = function(deltaRad, about, snap) {
 		// debug('\n PathPoint.rotate - START');
-		rotate(this.P, angle, about, snap);
-		rotate(this.H1, angle, about, snap);
-		rotate(this.H2, angle, about, snap);
+		rotate(this.P, deltaRad, about, snap);
+		rotate(this.H1, deltaRad, about, snap);
+		rotate(this.H2, deltaRad, about, snap);
 		// debug('\t this.P ' + json(this.P, true));
 		// debug(' PathPoint.rotate - END\n');
 	};

@@ -1406,19 +1406,19 @@ var wi = getSelectedWorkItem();
 		var starttopy = _UI.eventhandlers.rotationstartpoint.y;
 		var mx = _UI.eventhandlers.mousex;
 		var my = _UI.eventhandlers.mousey;
-		var angle = calculateAngle({x:cx_sx(mx), y:cy_sy(my)}, center);
+		var radians = calculateAngle({x:cx_sx(mx), y:cy_sy(my)}, center);
 
-		// debug('\t Init angle:\t' + angle);
+		// debug('\t Init radians:\t' + radians);
 		var snap = _UI.eventhandlers.isShiftDown;
-		angle = snap? getSnapAngle(angle) : angle;
+		if(snap) radians = snapRadiansToDegrees(radians);
 		var rotatehandle = {x:center.x, y:starttopy};
-		rotate(rotatehandle, angle, center, snap);
+		rotate(rotatehandle, radians, center, snap);
 		rotate(rotatehandle, (Math.PI/-2), center, snap);
 
-		// debug('\t Drag Angle:\t' + round(angle, 2));
+		// debug('\t Drag Angle:\t' + round(radians, 2));
 
 		var counterclockwise = false;
-		if(Math.abs(angle) > (Math.PI/2)) {
+		if(Math.abs(radians) > (Math.PI/2)) {
 			counterclockwise = true;
 		}
 
@@ -1440,7 +1440,7 @@ var wi = getSelectedWorkItem();
 		ctx.globalAlpha = 0.3;
 		ctx.beginPath();
 		ctx.moveTo(center.x, center.y);
-		ctx.arc(center.x, center.y, radius, (Math.PI/-2), (angle*-1), counterclockwise);
+		ctx.arc(center.x, center.y, radius, (Math.PI/-2), (radians*-1), counterclockwise);
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
@@ -1454,7 +1454,7 @@ var wi = getSelectedWorkItem();
 		draw_CircleHandle(rotatehandle);
 
 		// readout
-		var readout = round(radiansToNiceAngle(angle),1);
+		var readout = round(radiansToNiceAngle(radians),1);
 		if(counterclockwise) readout -= 360;
 		readout = round(readout, 1);
 

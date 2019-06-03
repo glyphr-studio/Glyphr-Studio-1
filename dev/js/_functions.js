@@ -670,16 +670,17 @@ function saveFile(fname, buffer, ftype) {
 		return y;
 	}
 
+	//Returns an angle in radians
 	function calculateAngle(h, p){
 		p = p || {x:0, y:0};
-		var result = Math.atan2(h.y - p.y, h.x - p.x);
+		var radians = Math.atan2(h.y - p.y, h.x - p.x);
 
-		if(isNaN(result)){
+		if(isNaN(radians)){
 			console.warn('calculateAngle returned NaN\n' + json(h) + '\n' + json(p));
-			result = 0;
+			radians = 0;
 		}
 
-		return result;
+		return radians;
 	}
 
 	function calculateLength(h, p){
@@ -689,47 +690,42 @@ function saveFile(fname, buffer, ftype) {
 		return result;
 	}
 
-	function rotate(coord, angle, about, snap) {
+	function rotate(coord, deltaRad, about, snap) {
 		// debug('\n rotate - START');
 		// debug('\t coord ' + json(coord, true));
-		// debug('\t Math angle:\t' + angle);
+		// debug('\t Math deltaRad:\t' + deltaRad);
 		// debug('\t about ' + json(about, true));
 
-		if(!angle || !coord) return;
+		if(!deltaRad || !coord) return;
 		about = about || {x:0, y:0};
-		if(snap) angle = getSnapAngle(angle);
+		if(snap) deltaRad = snapRadiansToDegrees(deltaRad);
 
 		coord.x -= about.x;
 		coord.y -= about.y;
 
-		var newx = (coord.x * Math.cos(angle)) - (coord.y * Math.sin(angle));
-		var newy = (coord.x * Math.sin(angle)) + (coord.y * Math.cos(angle));
+		var newx = (coord.x * Math.cos(deltaRad)) - (coord.y * Math.sin(deltaRad));
+		var newy = (coord.x * Math.sin(deltaRad)) + (coord.y * Math.cos(deltaRad));
 
 		coord.x = newx + about.x;
 		coord.y = newy + about.y;
 
 		// debug('\t new coord x/y: ' + coord.x + '/' + coord.y);
+		return coord;
 		// debug(' rotate - END\n');
 	}
 
-	//convert between degrees and radians
-	function rad(deg) {	return (deg * Math.PI / 180) % Math.PI; }
-	function deg(rad) {	return (rad * 180 / Math.PI) % 360; }
-
-	function getSnapAngle(angle) {
-		// debug(`\t angle was ${angle}`);
-		angle = deg(angle);
-		// debug(`\t degrees ${angle}`);
-		angle /= 10;
-		angle = round(angle);
-		angle *= 10;
-		// debug(`\t rounded ${angle}`);
-		
-		angle = rad(angle);
-		// debug(`\t angle is now ${angle}`);
-
-		return angle;
+	function snapRadiansToDegrees(radians) {
+		var degrees = deg(radians);
+		degrees = round(degrees);
+		radians = rad(degrees);
+		return radians;
 	}
+
+	//convert between degrees and radians
+	//these DO NOT use "Nice Angle"
+	//0rad = 0deg, PIrad = 180deg
+	function rad(deg) {	return (deg * (Math.PI / 180)); }
+	function deg(rad) {	return (rad * (180 / Math.PI)); }
 
 	function radiansToNiceAngle(rad) {
 		var angle = deg(rad);
@@ -742,10 +738,7 @@ function saveFile(fname, buffer, ftype) {
 	}
 
 	function niceAngleToRadians(angle) {
-		if(angle < 0) angle += 360;
-		var radians = rad(angle);
-		radians -= (Math.PI / 2);
-		return radians;
+		return rad(angle);
 	}
 
 	function validateRadians(radians) {
@@ -764,6 +757,7 @@ function saveFile(fname, buffer, ftype) {
 		angle = angle % 360;
 		if(angle < -180) angle += 360;
 		if(angle > 180) angle -= 360;
+		if(angle === -180) angle = 180;
 
 		return angle;
 	}

@@ -205,10 +205,11 @@ function Tool_ShapeEdit(){
 			
 		} else if (this.rotating){
 			// debug('\n Tool_ShapeEdit.mousemove - rotating');
-			var angle = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
-			debug(`\t rotation affordance radians rotation: ${angle}`);
+			var radians = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
+			var deltaRad = radians -= (Math.PI / 2);
+			// debug(`\t rotation affordance radians rotation: ${radians}`);
 
-			_UI.ms.shapes.rotationPreview(angle, eh.rotationcenter, eh.isShiftDown);
+			_UI.ms.shapes.rotationPreview(deltaRad, eh.rotationcenter, eh.isShiftDown);
 
 			this.didstuff = true;
 			setCursor('rotate');

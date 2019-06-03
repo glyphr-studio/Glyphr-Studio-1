@@ -65,13 +65,13 @@
 			// debug('\t Modifying w ' + this.scalew + ' h ' + this.scaleh);
 			// debug('\t before maxes ' + json(g.maxes, true));
 
-			if(this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
+			if(this.rotatefirst) g.rotate(-1 * niceAngleToRadians(this.rotation), g.getCenter());
 			if(this.flipew) g.flipEW();
 			if(this.flipns) g.flipNS();
 			g.updateGlyphPosition(this.translatex, this.translatey, true);
 			g.updateGlyphSize(this.scalew, this.scaleh, false);
 			if(this.reversewinding) g.reverseWinding();
-			if(!this.rotatefirst) g.rotate(rad(this.rotation, g.getCenter()));
+			if(!this.rotatefirst) g.rotate(-1 * niceAngleToRadians(this.rotation), g.getCenter());
 
 			// debug('\t afters maxes ' + json(g.maxes, true));
 
@@ -253,19 +253,16 @@
 		this.changed();
 	};
 
-	ComponentInstance.prototype.rotate = function(angle, about, snap) {
+	ComponentInstance.prototype.rotate = function(deltaRad, about, snap) {
 		// debug('\n ComponentInstance.rotate - START');
-		// debug('\t passed angle' + angle);
-		if(snap) angle = getSnapAngle(angle);
-		// debug('\t snap angle ' + angle);
-
-		var degrees = deg(angle);
-		// debug('\t = deg ' + degrees);
+		// debug('\t passed deltaRad' + deltaRad);
+		var deltaDeg = deg(deltaRad);
+		// debug('\t = deg ' + deltaDeg);
 		// debug('\t rotation was ' + this.rotation);
 
-		// if(this.flipew || this.flipns) degrees *= -1;
-
-		this.rotation = validateNiceAngle(this.rotation + degrees);
+		this.rotation = validateNiceAngle(this.rotation + deltaDeg);
+		if(snap) this.rotation = round(this.rotation);
+		this.rotation *= -1;
 
 		if(this.scaleh === 0 && this.scalew === 0 && !this.flipew && !this.flipns) this.rotatefirst = true;
 		

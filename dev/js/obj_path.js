@@ -191,14 +191,14 @@
 		return clone(this.maxes, 'Path.getMaxes');
 	};
 
-	Path.prototype.rotate = function(angle, about, snap) {
+	Path.prototype.rotate = function(deltaRad, about, snap) {
 		// debug('\n Path.rotate - START');
 		
 		for(var d=0; d<this.pathpoints.length; d++){
 			// debug('\t starting point ' + d);
 			var pp = this.pathpoints[d];
 			// if(d === 12) debug('\t before Px ' + pp.P.x + '\tH2x ' + pp.H2.x);
-			pp.rotate(angle, about, snap);
+			pp.rotate(deltaRad, about, snap);
 			// if(d === 12) debug('\t jafter \tPx ' + pp.P.x + '\tH2x ' + pp.H2.x);
 		}
 		

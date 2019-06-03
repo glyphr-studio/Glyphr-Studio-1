@@ -135,7 +135,7 @@
 		content += '<tr>'+
 			'<td>&#916; rotation</td>'+
 			'<td>'+
-					'<input type="number" id="rot" step="'+svc+'" value="' + round(-1*s.rotation, 1) + '" onchange="updateComponentInstanceDetail(\'rotation\', this.value, this.id);">' +
+				'<input type="number" id="rot" step="'+svc+'" value="' + round(s.rotation, 1) + '" onchange="updateComponentInstanceDetail(\'rotation\', this.value, this.id);">' +
 			'</td>'+
 		'</tr>';
 
@@ -179,7 +179,6 @@
 		value = isval(value)? value : 0;
 		if(key === 'rotation') {
 			value = validateNiceAngle(value);
-			value *= -1;
 		}
 		selci[key] = value;
 
