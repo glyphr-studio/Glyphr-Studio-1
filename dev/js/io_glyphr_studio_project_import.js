@@ -84,6 +84,33 @@
 				fcontent.projectsettings.glyphrange.latinsupplement = fcontent.projectsettings.glyphrange.latinsuppliment;
 				delete fcontent.projectsettings.glyphrange.latinsuppliment;
 			}
+
+			if(projvn.minor < 13 && projvn.patch < 2){
+				// invert component instance rotation number
+				var invertComponentInstanceRotation = function(glyph) {
+					if(glyph.shapes && glyph.shapes.length) {
+						for(var s in glyph.shapes) {
+							if(glyph.shapes.hasOwnProperty(s)){
+								if(glyph.shapes[s].objtype === 'componentinstance') {
+									glyph.shapes[s].rotation *= -1;
+								}
+							}
+						}
+					}
+				};
+
+				for(var g in fcontent.glyphs) {
+					if(fcontent.glyphs.hasOwnProperty(g)) invertComponentInstanceRotation(fcontent.glyphs[g]);
+				}
+
+				for(var l in fcontent.ligatures) {
+					if(fcontent.ligatures.hasOwnProperty(l)) invertComponentInstanceRotation(fcontent.ligatures[l]);
+				}
+
+				for(var c in fcontent.components) {
+					if(fcontent.components.hasOwnProperty(c)) invertComponentInstanceRotation(fcontent.components[c]);
+				}
+			}
 		}
 		// debug('\t done with v1 minor updates');
 
