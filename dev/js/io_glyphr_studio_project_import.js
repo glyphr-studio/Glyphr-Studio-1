@@ -85,7 +85,7 @@
 				delete fcontent.projectsettings.glyphrange.latinsuppliment;
 			}
 
-			if(projvn.minor < 13 && projvn.patch < 2){
+			if(projvn.minor <= 13 && projvn.patch < 2){
 				// invert component instance rotation number
 				var invertComponentInstanceRotation = function(glyph) {
 					if(glyph.shapes && glyph.shapes.length) {
