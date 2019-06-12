@@ -6,7 +6,7 @@
 	points). There are a few Path Point types, and
 	individual handles can be shown or hidden.
 
-	(bottm of the file)
+	(bottom of the file)
 	Object > Coordinate
 	A mini object that holds x/y position, as well
 	as if that point is locked or not.

@@ -403,8 +403,8 @@
 		// Turn the commands and data into Glyphr objects
 		var patharr = [];
 		for(var c=0; c<chunkarr.length; c++){
-			// debug('\n\t Path Chunk ' + c);
-			// debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
+			debug('\n\t Path Chunk ' + c);
+			debug('\t ' + chunkarr[c].command + ' : ' + chunkarr[c].data);
 			if(chunkarr[c].command){
 				patharr = ioSVG_handlePathChunk(chunkarr[c], patharr, (c===chunkarr.length-1), currentshapes);
 			}
@@ -568,45 +568,58 @@
 			// ABSOLUTE arc to 
 			// relative arc to 
 
-			showErrorMessageBox('Arc To path commands (A or a) are not directly supported.  A straight line will be drawn from the begining to the end of the arc.');
-			nx = lastpoint.P.x;
-			ny = lastpoint.P.y;
+			debug(`\t Arc to command`);
+			debug(`\t chunk.data: ${chunk.data}`);
+			
+			
+			// showErrorMessageBox('Arc To path commands (A or a) are not directly supported.  A straight line will be drawn from the begining to the end of the arc.');
+			// nx = lastpoint.P.x;
+			// ny = lastpoint.P.y;
 
 			if(chunk.data.length % 7 !== 0) {
 				showErrorMessageBox('Arc To path command (A or a) was expecting 7 arguments, was passed ['+chunk.data+']\n<br>Failing "gracefully" by just drawing a line to the last two data points as if they were a coordinate.');
 				chunk.data.splice(0, chunk.data.length-2, 0,0,0,0,0);
 			}
 
+			var curves = [];
 			while(chunk.data.length){
 				currdata = [];
+				curves = [];
 				currdata = chunk.data.splice(0,7);
-				currdata = currdata.splice(5,2);
-				// debug('\n\t command ' + cmd + ' while loop data ' + currdata);
 
-				prevx = lastpoint.P.x;
-				prevy = lastpoint.P.y;
+				debug(`\t SINGLE ARC TO COMMAND`);
+				debug(`\t currdata: ${currdata}`);
+				
+				// convertArcToCommandToBezier(px, py, rx, ry, xAxisRotation, largeArcFlag, sweepFlag, cx, cy)
+				curves = convertArcToCommandToBezier(
+					lastpoint.P.x, lastpoint.P.y, 
+					currdata[0], currdata[1], 
+					currdata[2], currdata[3], currdata[4], 
+					currdata[5], currdata[6]
+				);
 
-				nx = currdata[0];
-				ny = currdata[1];
+				debug(`\t curves:`);
+				debug(curves);
 
-				if(cmd === 'a'){
-					nx += prevx;
-					ny += prevy;
+				var pp;
+				for(var c=0; c<curves.length; c++){
+					lastpoint.type = 'corner';
+					lastpoint.useh2 = true;
+					lastpoint.H2 = new Coord(curves[c].p2);
+					pp = new PathPoint({P: curves[c].p4, H1: curves[c].p3, 'type':'corner', 'useh1':true, 'useh2':true});
+					debug(`\t curve ${c}:`);
+					debug(`\t\t last.P : ${lastpoint.P.x} \t ${lastpoint.P.y}`);
+					debug(`\t\t last.H2: ${lastpoint.H2.x} \t ${lastpoint.H2.y}`);
+					debug(`\t\t this.H1: ${pp.H1.x} \t ${pp.H1.y}`);
+					debug(`\t\t this.P : ${pp.P.x} \t ${pp.P.y}\n`);
+					
+					patharr.push(pp);
+
+					lastpoint = patharr[patharr.length-1];
 				}
 
-				// debug('\t linear end nx ny\t' + nx + ' ' + ny);
-				p = new Coord({'x':nx, 'y':ny});
-				// debug('\t new point ' + p.x + '\t' + p.y);
-
-				lastpoint.type = 'corner';
-				lastpoint.useh2 = true;
-				lastpoint.makePointedTo(p.x, p.y, false, 'H2', true);
+				debug(`\t Done with Arc To Command`);
 				
-				var pp = new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':true, 'useh2':true});
-				pp.makePointedTo(prevx, prevy, false, 'H1', true);
-				patharr.push(pp);
-				
-				lastpoint = patharr[patharr.length-1];
 			}
 
 			// debug('\t completed while loop');
@@ -866,4 +879,166 @@
 		return re;
 	}
 
-// end of file
+	// px/py - arc start point
+	// rx/ry - arc radii
+	// cx/cy - arc end point
+	function convertArcToCommandToBezier(px, py, rx, ry, xAxisRotation, largeArcFlag, sweepFlag, cx, cy) {
+		debug(`\n convertArcToCommandToBezier - START`);
+		
+		debug(`\t\t passed px: \t ${px}`);
+		debug(`\t\t passed py: \t ${py}`);
+		debug(`\t\t passed rx: \t ${rx}`);
+		debug(`\t\t passed ry: \t ${ry}`);
+		debug(`\t\t passed xAxisRotation: \t ${xAxisRotation}`);
+		debug(`\t\t passed largeArcFlag: \t ${largeArcFlag}`);
+		debug(`\t\t passed sweepFlag: \t ${sweepFlag}`);
+		debug(`\t\t passed cx: \t ${cx}`);
+		debug(`\t\t passed cy: \t ${cy}`);
+
+		xAxisRotation = xAxisRotation || 0;
+		largeArcFlag = largeArcFlag || 0;
+		sweepFlag = sweepFlag || 0;
+		var tau = Math.PI * 2;
+		var curves = [];
+		
+		if (rx === 0 || ry === 0) return [];
+		rx = Math.abs(rx);
+		ry = Math.abs(ry);
+
+		function mapToEllipse(point, rx, ry, cosphi, sinphi, centerx, centery) {
+			point.x *= rx;
+			point.y *= ry;
+			
+			var xp = cosphi * point.x - sinphi * point.y;
+			var yp = sinphi * point.x + cosphi * point.y;
+			
+			return {
+				x: xp + centerx,
+				y: yp + centery
+			};
+		}
+		
+		function approxUnitArc (ang1, ang2) {
+			// See http://spencermortensen.com/articles/bezier-circle/ for the derivation
+			// of this constant.
+			// Note: We need to keep the sign of ang2, because this determines the
+			//       direction of the arc using the sweep-flag parameter.
+			var c = 0.551915024494 * (ang2 < 0 ? -1 : 1);
+			// var c = 0.41 * (ang2 < 0 ? -1 : 1);
+			
+			var x1 = Math.cos(ang1);
+			var y1 = Math.sin(ang1);
+			var x2 = Math.cos(ang1 + ang2);
+			var y2 = Math.sin(ang1 + ang2);
+			
+			return [
+				{
+					x: x1 - y1 * c,
+					y: y1 + x1 * c
+				},
+				{
+					x: x2 + y2 * c,
+					y: y2 - x2 * c
+				},
+				{
+					x: x2,
+					y: y2
+				}
+			];
+		}
+		
+		function vectorAngle(ux, uy, vx, vy) {
+			var sign = (ux * vy - uy * vx < 0) ? -1 : 1;
+			var umag = Math.sqrt(ux * ux + uy * uy);
+			var vmag = Math.sqrt(ux * ux + uy * uy);
+			var dot = ux * vx + uy * vy;
+			
+			let div = dot / (umag * vmag);
+			
+			if (div > 1) div = 1;
+			
+			if (div < -1) div = -1;
+			
+			return sign * Math.acos(div);
+		}
+		
+		function getArcCenter(px, py, cx, cy, rx, ry, largeArcFlag, sweepFlag, sinphi, cosphi, pxp, pyp) {
+			var rxsq = Math.pow(rx, 2);
+			var rysq = Math.pow(ry, 2);
+			var pxpsq = Math.pow(pxp, 2);
+			var pypsq = Math.pow(pyp, 2);
+			
+			let radicant = (rxsq * rysq) - (rxsq * pypsq) - (rysq * pxpsq);
+			
+			if (radicant < 0) radicant = 0;
+			
+			radicant /= (rxsq * pypsq) + (rysq * pxpsq);
+			radicant = Math.sqrt(radicant) * (largeArcFlag === sweepFlag ? -1 : 1);
+			
+			var centerxp = radicant * rx / ry * pyp;
+			var centeryp = radicant * -ry / rx * pxp;
+			
+			var centerx = cosphi * centerxp - sinphi * centeryp + (px + cx) / 2;
+			var centery = sinphi * centerxp + cosphi * centeryp + (py + cy) / 2;
+			
+			var vx1 = (pxp - centerxp) / rx;
+			var vy1 = (pyp - centeryp) / ry;
+			var vx2 = (-pxp - centerxp) / rx;
+			var vy2 = (-pyp - centeryp) / ry;
+			
+			let ang1 = vectorAngle(1, 0, vx1, vy1);
+			let ang2 = vectorAngle(vx1, vy1, vx2, vy2);
+			
+			if (sweepFlag === 0 && ang2 > 0) ang2 -= tau;
+			
+			if (sweepFlag === 1 && ang2 < 0) ang2 += tau;
+			
+			return {x: centerx, y: centery, ang1: ang1, ang2: ang2};
+		}
+		
+		var sinphi = Math.sin(xAxisRotation * tau / 360);
+		var cosphi = Math.cos(xAxisRotation * tau / 360);
+		debug(`\t sinphi / cosphi: ${sinphi} / ${cosphi}`);
+		
+		var pxp = cosphi * (px - cx) / 2 + sinphi * (py - cy) / 2;
+		var pyp = -sinphi * (px - cx) / 2 + cosphi * (py - cy) / 2;
+		debug(`\t pxp / pyp: ${pxp} / ${pyp}`);
+		
+		if (pxp === 0 && pyp === 0) return [];
+		
+		var lambda = Math.pow(pxp, 2) / Math.pow(rx, 2) + Math.pow(pyp, 2) / Math.pow(ry, 2);
+		
+		if (lambda > 1) {
+			rx *= Math.sqrt(lambda);
+			ry *= Math.sqrt(lambda);
+		}
+		
+		var center = getArcCenter(px, py, cx, cy, rx, ry, largeArcFlag, sweepFlag, sinphi, cosphi, pxp, pyp);
+		debug(`\t center: ${json(center)}`);
+		
+		var ratio = Math.abs(center.ang2) / (tau / 4);
+		if (Math.abs(1.0 - ratio) < 0.0000001) ratio = 1.0;
+		
+		var segments = Math.max(Math.ceil(ratio), 1);
+		
+		center.ang2 /= segments;
+		
+		for (var i = 0; i < segments; i++) {
+			curves.push(approxUnitArc(center.ang1, center.ang2));
+			center.ang1 += center.ang2;
+		}
+		debug(`\t curves:`);
+		debug(curves);
+		
+		debug(` convertArcToCommandToBezier - END\n\n`);
+		
+		return curves.map(function(curve){
+			var p2 = mapToEllipse(curve[ 0 ], rx, ry, cosphi, sinphi, center.x, center.y);
+			var p3 = mapToEllipse(curve[ 1 ], rx, ry, cosphi, sinphi, center.x, center.y);
+			var p4 = mapToEllipse(curve[ 2 ], rx, ry, cosphi, sinphi, center.x, center.y);
+			
+			return { p2: p2, p3: p3, p4: p4 };
+		});
+	}
+	
+	// end of file
