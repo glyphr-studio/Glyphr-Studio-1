@@ -692,12 +692,17 @@ function saveFile(fname, buffer, ftype) {
 
 	function rotate(coord, deltaRad, about, snap) {
 		// debug('\n rotate - START');
-		// debug('\t coord ' + json(coord, true));
-		// debug('\t Math deltaRad:\t' + deltaRad);
-		// debug('\t about ' + json(about, true));
+		// debug('\t coord: \t' + json(coord, true));
+		// debug('\t deltaRad:\t' + deltaRad);
+		// debug('\t about: \t' + json(about, true));
 
-		if(!deltaRad || !coord) return;
-		about = about || {x:0, y:0};
+		if(!coord) return;
+		if(deltaRad === 0) return coord;
+
+		about = about || {};
+		about.x = about.x || 0;
+		about.y = about.y || 0;
+
 		if(snap) deltaRad = snapRadiansToDegrees(deltaRad);
 
 		coord.x -= about.x;
@@ -710,8 +715,8 @@ function saveFile(fname, buffer, ftype) {
 		coord.y = newy + about.y;
 
 		// debug('\t new coord x/y: ' + coord.x + '/' + coord.y);
-		return coord;
 		// debug(' rotate - END\n');
+		return coord;
 	}
 
 	function snapRadiansToDegrees(radians) {
