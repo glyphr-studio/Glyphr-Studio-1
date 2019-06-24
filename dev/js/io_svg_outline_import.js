@@ -900,15 +900,20 @@
 		http://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes
 	*/
 	function convertArcToCommandToBezier(startX, startY, radiusX, radiusY, rotationDegrees, largeArcFlag, sweepFlag, endX, endY, subPath) {
-
+		debug(`\n convertArcToCommandToBezier - START`);
+		
 		var startPoint = {x: startX, y: startY};
 		var endPoint = {x: endX, y: endY};
+		
+		debug(`\t startPoint \tx: ${startPoint.x}\ty: ${startPoint.y}`);
+		debug(`\t endPoint \tx: ${endPoint.x}\ty: ${endPoint.y}`);
+		debug(`\t radius \tx: ${radiusX}\ty: ${radiusY}`);
 		
 		// Short circuit for straight-line edge cases
 		if((startX === endX && startY === endY) || (!radiusX || !radiusY)) {
 			return [startPoint.x, startPoint.y, endPoint.x, endPoint.y, endPoint.x, endPoint.y];
 		}
-		
+
 		var rotationRadians = rad(rotationDegrees);
 		largeArcFlag = !!largeArcFlag;
 		sweepFlag = !!sweepFlag;
@@ -930,7 +935,7 @@
 			// Reverse rotate so we're working with an un-rotated ellipse
 			startPoint = rotate(startPoint, (rotationRadians * -1));
 			endPoint = rotate(endPoint, (rotationRadians * -1));
-			
+
 			// Ensure the start point + radii can reach the end point
 			// Scale the radii if they don't reach
 			var halfWidth = (startPoint.x - endPoint.x) / 2;
@@ -973,13 +978,13 @@
 		var threshold = Math.PI * 120 / 180;
 
 		if (Math.abs(angleDelta) > threshold) {
-			var f2old = angleEnd;
-			var x2old = endPoint.x;
-			var y2old = endPoint.y;
+			var angleEndOld = angleEnd;
+			var endPointXOld = endPoint.x;
+			var endPointYOld = endPoint.y;
 			angleEnd = angleStart + threshold * (sweepFlag && angleEnd > angleStart ? 1 : -1);
 			endPoint.x = center.x + radiusX * Math.cos(angleEnd);
 			endPoint.y = center.y + radiusY * Math.sin(angleEnd);
-			result = convertArcToCommandToBezier(endPoint.x, endPoint.y, radiusX, radiusY, rotationDegrees, 0, sweepFlag, x2old, y2old, [angleEnd, f2old, center.x, center.y]);
+			result = convertArcToCommandToBezier(endPoint.x, endPoint.y, radiusX, radiusY, rotationDegrees, 0, sweepFlag, endPointXOld, endPointYOld, [angleEnd, angleEndOld, center.x, center.y]);
 		}
 
 		// Convert the result back to Endpoint Notation
@@ -1014,11 +1019,12 @@
 		var p4 = {x: endPoint.x, y: endPoint.y};
 
 		result = [p2.x, p2.y, p3.x, p3.y, p4.x, p4.y].concat(result);
+
 		
 		if (subPath) return result;
 		else {
 			var finalResult = [];
-
+			
 			// Rotate the bezier points back to their original rotated angle
 			for (var i=0; i<result.length; i++) {
 				if(i%2) {
@@ -1027,7 +1033,8 @@
 					finalResult[i] = rotate({x: result[i], y: result[i+1]}, rotationRadians).x;
 				}
 			}
-
+			
+			debug(` convertArcToCommandToBezier - END\n\n`);
 			return finalResult;
 		}
 	}
