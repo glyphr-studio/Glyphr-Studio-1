@@ -119,7 +119,7 @@
 			for(var i in _GP.s) {
 				if(!_GP.glyphs[i].getShapes) return;
 
-				_GP.glyphs[i].getShapes().forEach(function(shape, i) {
+				_GP.glyphs[i].getShapes().forEach(function(shape) {
 					_UI.ms.shapes.members.push(shape);
 					console.log(_UI.ms.shapes.members);
 				});
@@ -196,7 +196,7 @@
 			// del
 			if(kc==='del' || kc==='backspace'){
 
-				var em = getEditMode();
+				em = getEditMode();
 
 				if(em === 'pen'){
 					_UI.ms.points.deletePathPoints();
@@ -267,7 +267,7 @@
 		if(em === 'kern'){
 			var nv = getSelectedKern().value + (mx || my);
 			updateKernValue(getSelectedKernID(), nv);
-			redraw({calledby:'Nudge kern value', redrawpanels: false})
+			redraw({calledby:'Nudge kern value', redrawpanels: false});
 
 		} else if(em === 'arrow'){
 			_UI.ms.shapes.updateShapePosition(mx, my);

@@ -409,7 +409,7 @@
 			_UI.contextglyphs.advancewidth = getStringAdvanceWidth(cgi.value);
 			fitViewToContextGlyphs();
 
-			redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false})
+			redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false});
 		}
 	}
 
@@ -802,7 +802,6 @@
 			// debug(`results ${(cx <= v.target.xmax)} - ${(cx >= v.target.xmin)} - ${(cy <= v.target.ymax)} - ${(cy >= v.target.ymin)}`);
 			if((cx <= v.target.xmax) && (cx >= v.target.xmin) && (cy <= v.target.ymax) && (cy >= v.target.ymin)){
 				return v;
-				break;
 			}
 		}
 
@@ -909,6 +908,7 @@
 		if(isval(oa.dy)){ v[sc].dy = oa.dy; }
 		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
 
+		return clone(v[sc]);
 	}
 
 	function getView(calledby){
@@ -918,18 +918,12 @@
 		var onkern = (_UI.current_page === 'kerning');
 		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
-		var re;
 
 		if(isval(v[sc])){
-			re = clone(v[sc], 'setView');
+			return clone(v[sc], 'setView');
 		} else {
-			re = onkern? clone(_UI.defaultkernview, 'setView') : clone(_UI.defaultview, 'setView');
+			return onkern? clone(_UI.defaultkernview, 'setView') : clone(_UI.defaultview, 'setView');
 		}
-
-		// debug('\t returning ' + json(re));
-		// debug(' getView - END\n');
-
-		return re;
 	}
 
 	function viewZoom(zfactor, center){
@@ -973,29 +967,32 @@
 	}
 
 	function calculateDefaultView() {
-		var ps = _GP.projectsettings;
+		// var ps = _GP.projectsettings;
 
-		var ypadding = 80;		// Height of the UI across the top
-		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
-		var canh = window.innerHeight - ypadding;
+		// var ypadding = 80;		// Height of the UI across the top
+		// var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
+		// var canh = window.innerHeight - ypadding;
 
-		var strw = ps.upm / 2;
-		var strh = ps.ascent - ps.descent;
+		// var strw = ps.upm / 2;
+		// var strh = ps.ascent - ps.descent;
 
-		var zw, zh, nz;
+		// zw = round((canw / (strw * 1.4)), 3);
+		// zh = round((canh / (strh * 1.4)), 3);
 
-		zw = round((canw / (strw * 1.4)), 3);
-		zh = round((canh / (strh * 1.4)), 3);
+		// var nz = Math.min(zh, zw);
+		// var nx = round(((canw - (nz * strw))));
+		// var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
 
-		var nz = Math.min(zh, zw);
-		var nx = round(((canw - (nz * strw)) / 2));
-		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
-
-		_UI.defaultview = {dx: nx, dy: ny, dz: nz};
+		// _UI.defaultview = {dx: nx, dy: ny, dz: nz};
+		_UI.defaultview = calculateViewForContextGlyphs();
 	}
 
-	function fitViewToContextGlyphs(dontzoom) {
+	function fitViewToContextGlyphs() {
 		// debug('\n fitViewToContextGlyphs - START');
+		setView(calculateViewForContextGlyphs());
+	}
+
+	function calculateViewForContextGlyphs() {
 		var ps = _GP.projectsettings;
 
 		var ypadding = 80;		// Height of the UI across the top
@@ -1003,31 +1000,24 @@
 		var canh = window.innerHeight - ypadding;
 		// debug(`\t CAN \t ${canw} \t ${canh}`);
 
-		var strw = _UI.contextglyphs.advancewidth;
+		var strw = _UI.contextglyphs.advancewidth || 0;
+		if(strw <= ps.defaultlsb + ps.defaultrsb) strw = ps.upm / 2;
 		var strh = ps.ascent - ps.descent;
-		// debug(`\t STR \t ${strw} \t ${strh}`);
+		debug(`\t STR \t ${strw} \t ${strh}`);
 
-		var zw, zh, nz;
-
-		if(dontzoom){
-			nz = getView('fitViewToContextGlyphs').dz;
-			// debug(`\t VZ \t ${nz}`);
-
-		} else {
-			zw = round((canw / (strw * 1.4)), 3);
-			zh = round((canh / (strh * 1.4)), 3);
-			// debug(`\t NZ \t ${zw} \t ${zh}`);
-		}
+		zw = round((canw / (strw * 1.4)), 3);
+		zh = round((canh / (strh * 1.4)), 3);
+		// debug(`\t NZ \t ${zw} \t ${zh}`);
 
 		var nz = Math.min(zh, zw);
-		var nx = round(((canw - (nz * strw)) / 2));
-		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
+		var nx = Math.max(50, round(((canw - (nz * strw)) / 2)));
+		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * 1.1 * nz));
 
 		if(_UI.contextglyphs.string.length === 0) nx -= ((nz * strh) / 2);
 
 		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
 
-		setView({dx: nx, dy: ny, dz: nz});
+		return {dx: nx, dy: ny, dz: nz};
 	}
 
 	function getStringAdvanceWidth(str) {
