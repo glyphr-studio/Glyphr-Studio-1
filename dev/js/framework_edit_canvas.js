@@ -87,7 +87,8 @@
 		}
 		_UI.focuselement = false;
 
-		if(!_UI.contextglyphs.string) updateContextGlyphs();
+		// if(_UI.contextglyphs.string === getSelectedWorkItemChar()) autoCalculateView();
+		getView('redrawUnit', true);
 
 		if(_UI.devmode && _UI.testOnRedraw) _UI.testOnRedraw();
 		// debug(' redrawUnit - END\n');
@@ -170,7 +171,7 @@
 		zoom += '<span style="width:15px; display:inline-block;">&nbsp;</span>';
 		// Zoom
 		zoom += '<button title="zoom: one to one" class="tool" onclick="setView({dz:1});redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoom1to1'})+'</button>';
-		zoom += '<button title="zoom: fit to screen" class="tool" onclick="fitViewToContextGlyphs(); redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoomEm'})+'</button>';
+		zoom += '<button title="zoom: fit to screen" class="tool" onclick="autoCalculateView(); redraw({calledby:\'updatetools\'});">'+makeToolButton({'name':'tool_zoomEm'})+'</button>';
 		zoom += '<input type="number" title="zoom level" class="zoomreadout" value="' + round(getView('updatetools').dz*100, 2) + '" onchange="setViewZoom(this.value);"/>';
 		zoom += '<button title="zoom: out" class="tool" onclick="viewZoom(.9, true);">'+makeToolButton({'name':'tool_zoomOut'})+'</button>';
 		zoom += '<button title="zoom: in" class="tool" onclick="viewZoom(1.1, true);">'+makeToolButton({'name':'tool_zoomIn'})+'</button>';
@@ -210,7 +211,7 @@
 		ctxg += '<br/>';
 		ctxg += 'guide ' + sliderUI('systemguidetransparency', 'systemguidetransparency_dropdown', true, false);
 		ctxg += '</div>';
-		ctxg += '<input type="text" id="contextglyphsinput" oninput="updateContextGlyphs();" ';
+		ctxg += '<input type="text" id="contextglyphsinput" oninput="autoCalculateView(); redraw({calledby:\'updatetools\', redrawtools: false, redrawpanels: false});" ';
 		ctxg += 'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ';
 		ctxg += 'title="context glyphs\ndisplay glyphs before or after the currently-selected glyph" ';
 		ctxg += 'value="'+getContextGlyphString()+'"/>';
@@ -398,18 +399,22 @@
 		// debug(' mouseoutcec - END\n');
 	}
 
-	function updateContextGlyphs() {
+	function updateContextGlyphsData() {
 		var selwi = getSelectedWorkItem();
 		var cgi = getEditDocument().getElementById('contextglyphsinput');
-
+	
 		if(cgi){
 			selwi.contextglyphs = cgi.value;
-
+	
 			_UI.contextglyphs.string = cgi.value;
 			_UI.contextglyphs.advancewidth = getStringAdvanceWidth(cgi.value);
-			fitViewToContextGlyphs();
-
-			redraw({calledby: 'updateContextGlyphs', redrawpanels: false, redrawtools:false});
+		} else {
+			_UI.contextglyphs = {
+				string: '',
+				advancewidth: false,
+				leftseq: false,
+				rightseq: false
+			};
 		}
 	}
 
@@ -638,7 +643,6 @@
 	}
 
 	function drawContextGlyphRightLineExtras(char, seq) {
-
 		var kern = calculateKernOffset(getSelectedWorkItemChar(), char.char);
 
 		if(kern) {
@@ -894,7 +898,6 @@
 // -------------------
 
 	function setView(oa){
-
 		var sc = (_UI.current_page === 'kerning')? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
@@ -908,21 +911,32 @@
 		if(isval(oa.dy)){ v[sc].dy = oa.dy; }
 		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
 
-		return clone(v[sc]);
+		return v[sc];
 	}
 
-	function getView(calledby){
-		// debug('\n getView - START');
-		// debug('\t calledby: ' + calledby);
+	function getView(calledby, auto){
+		debug('\n getView - START');
+		debug('\t calledby: ' + calledby);
 
 		var onkern = (_UI.current_page === 'kerning');
 		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
 		if(isval(v[sc])){
-			return clone(v[sc], 'setView');
+			debug(` getView - returning SAVED VALUE - END\n\n`);
+			return clone(v[sc], 'getView');
+			
+		} else if(onkern){
+			debug(` getView - returning DEFAULT KERN - END\n\n`);
+			return clone(_UI.defaultkernview, 'getView');
+			
+		} else if (auto) {
+			debug(` getView - returning AUTO CALCULATED VALUE - END\n\n`);
+			return autoCalculateView();
+			
 		} else {
-			return onkern? clone(_UI.defaultkernview, 'setView') : clone(_UI.defaultview, 'setView');
+			debug(` getView - returning DEFAULT - END\n\n`);
+			return clone(_UI.defaultview, 'getView');
 		}
 	}
 
@@ -954,7 +968,6 @@
 	}
 
 	function resetThumbView(){
-
 		var zoom = ((_UI.thumbsize-(2*_UI.thumbgutter))/(_GP.projectsettings.upm));
 
 		_UI.thumbview = {
@@ -966,57 +979,43 @@
 		//debug('RESETTHUMBVIEW - set to \n' + JSON.stringify(_UI.thumbview));
 	}
 
+	function autoCalculateView() {
+		updateContextGlyphsData();
+		return setView(calculateViewForContextGlyphs());
+	}
+
 	function calculateDefaultView() {
-		// var ps = _GP.projectsettings;
-
-		// var ypadding = 80;		// Height of the UI across the top
-		// var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
-		// var canh = window.innerHeight - ypadding;
-
-		// var strw = ps.upm / 2;
-		// var strh = ps.ascent - ps.descent;
-
-		// zw = round((canw / (strw * 1.4)), 3);
-		// zh = round((canh / (strh * 1.4)), 3);
-
-		// var nz = Math.min(zh, zw);
-		// var nx = round(((canw - (nz * strw))));
-		// var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * nz));
-
-		// _UI.defaultview = {dx: nx, dy: ny, dz: nz};
 		_UI.defaultview = calculateViewForContextGlyphs();
 	}
 
-	function fitViewToContextGlyphs() {
-		// debug('\n fitViewToContextGlyphs - START');
-		setView(calculateViewForContextGlyphs());
-	}
-
 	function calculateViewForContextGlyphs() {
+		debug(`\n calculateViewForContextGlyphs - START`);
+		
 		var ps = _GP.projectsettings;
-
-		var ypadding = 80;		// Height of the UI across the top
+		var shapes = getSelectedWorkItemShapes();
+		
 		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
-		var canh = window.innerHeight - ypadding;
-		// debug(`\t CAN \t ${canw} \t ${canh}`);
-
-		var strw = _UI.contextglyphs.advancewidth || 0;
-		if(strw <= ps.defaultlsb + ps.defaultrsb) strw = ps.upm / 2;
+		var canh = window.innerHeight - 80;	// 80 is the height of the UI across the top
+		debug(`\t CAN \t ${canw} \t ${canh}`);
+		
 		var strh = ps.ascent - ps.descent;
+		var strw = _UI.contextglyphs.advancewidth || 0;
+		if(shapes.length === 0 || strw <= ps.defaultlsb + ps.defaultrsb) {
+			strw = ps.upm / 2;
+			debug(`\t strw is half upm`);
+		}
 		debug(`\t STR \t ${strw} \t ${strh}`);
-
-		zw = round((canw / (strw * 1.4)), 3);
-		zh = round((canh / (strh * 1.4)), 3);
-		// debug(`\t NZ \t ${zw} \t ${zh}`);
-
-		var nz = Math.min(zh, zw);
-		var nx = Math.max(50, round(((canw - (nz * strw)) / 2)));
+		
+		var zw = (canw / (strw * 1.4));
+		var zh = (canh / (strh * 1.4));
+		debug(`\t NZ \t ${zw} \t ${zh}`);
+		
+		var nz = round(Math.min(zh, zw), 3);
+		var nx = round(Math.max(50, ((canw - (nz * strw)) / 2)));
 		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * 1.1 * nz));
-
-		if(_UI.contextglyphs.string.length === 0) nx -= ((nz * strh) / 2);
-
-		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
-
+		debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
+		
+		debug(` calculateViewForContextGlyphs - END\n\n`);
 		return {dx: nx, dy: ny, dz: nz};
 	}
 
@@ -1111,8 +1110,8 @@
 		var re;
 
 		switch(_UI.current_page){
-case 'glyph edit':
-case 'global actions':
+			case 'glyph edit':
+			case 'global actions':
 				if(!_UI.selectedglyph) _UI.selectedglyph = '0x0041';
 				re = getGlyph(_UI.selectedglyph, true);
 				// debug('\t case glyph edit, returning ' + re.name);
@@ -1160,7 +1159,7 @@ case 'global actions':
 
 	function getSelectedWorkItemName(){
 		// debug('\n getSelectedWorkItemName - START');
-var wi = getSelectedWorkItem();
+		var wi = getSelectedWorkItem();
 		// debug('\t wi = '+wi);
 		return wi.name || wi.getName() || '[name not found]';
 	}

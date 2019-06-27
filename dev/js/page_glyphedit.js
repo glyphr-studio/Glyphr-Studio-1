@@ -23,7 +23,7 @@
 		if(getSelectedWorkItemShapes().length > 0){
 			if(_UI.selectedtool !== 'shaperesize') _UI.selectedtool = 'pathedit';
 		} else _UI.selectedtool = 'pathaddpoint';
-
+		
 		redraw({calledby:'loadPage_glyphedit'});
 
 		// debug(' loadPage_glyphedit - END\n');
