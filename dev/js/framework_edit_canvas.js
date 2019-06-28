@@ -208,7 +208,7 @@
 		ctxg += '<br/>';
 		ctxg += 'guide ' + sliderUI('systemguidetransparency', 'systemguidetransparency_dropdown', true, false);
 		ctxg += '</div>';
-		ctxg += '<input type="text" id="contextglyphsinput" oninput="updateContextGlyphData(); redraw({calledby:\'updatetools\', redrawtools: false, redrawpanels: false});" ';
+		ctxg += '<input type="text" id="contextglyphsinput" oninput="updateContextGlyphData(); autoCalculateView(); redraw({calledby:\'updatetools\', redrawtools: false, redrawpanels: false});" ';
 		ctxg += 'onblur="_UI.focuselement = false;" onmouseover="mouseoutcec();" ';
 		ctxg += 'title="context glyphs\ndisplay glyphs before or after the currently-selected glyph" ';
 		ctxg += 'value="'+getContextGlyphString()+'"/>';
@@ -506,22 +506,28 @@
 		var selwid = getSelectedWorkItemID();
 		var currGlyphObject = getGlyph(selwid, true);
 		var currGlyphChar = hexToChars(selwid);
-		var v = getView('drawContextGlyphs');
-		var split = splitContextGlyphString(currGlyphChar);
-
+		
 		var cgi = getEditDocument().getElementById('contextglyphsinput');
-	
+		
 		_UI.contextglyphs = {
-			advancewidth: false,
 			leftseq: false,
 			rightseq: false
 		};
-
-		if(cgi) selwi.contextglyphs = cgi.value;
-
-
+		
+		if(cgi) {
+			if(cgi.value === currGlyphChar) {
+				selwi.contextglyphs = '';
+				return;
+			} else {
+				selwi.contextglyphs = cgi.value;
+			}
+		}
+				
 		// debug('\t split: ' + split.left + ' | ' + split.right);
 		// debug(`\t view: ${json(v, true)}`);
+
+		var v = getView('drawContextGlyphs');
+		var split = splitContextGlyphString(currGlyphChar);
 
 		if(split.left) {
 			var leftdistance = getGlyphSequenceAdvanceWidth(split.left);
@@ -599,6 +605,8 @@
 	}
 
 	function getGlyphSequenceAdvanceWidth(sequence) {
+		if(!sequence) return 0;
+
 		var advanceWidth = 0;
 		sequence = findAndMergeLigatures(sequence.split(''));
 
@@ -995,7 +1003,15 @@
 	}
 
 	function autoCalculateView() {
-		return setView(calculateViewForEditCanvas(_UI.contextglyphs.advancewidth));
+		var leftwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.leftseq.glyphstring);
+		var rightwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.rightseq.glyphstring);
+		var currwidth = getSelectedWorkItem().getAdvanceWidth();
+
+		var newview = calculateViewForEditCanvas(leftwidth + currwidth + rightwidth);
+
+		newview.dx += (leftwidth * newview.dz);
+
+		setView(newview);
 	}
 
 	function calculateViewForEditCanvas(advanceWidth) {
@@ -1008,7 +1024,8 @@
 		// debug(`\t CAN \t ${canw} \t ${canh}`);
 		
 		var strh = ps.ascent - ps.descent;
-		var strw = advanceWidth || ps.upm / 2;
+		var strw = advanceWidth;
+		// var strw = advanceWidth || ps.upm / 2;
 		// debug(`\t STR \t ${strw} \t ${strh}`);
 		
 		var zw = (canw / (strw * 1.4));

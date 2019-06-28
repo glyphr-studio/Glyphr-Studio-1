@@ -22,17 +22,7 @@
 		return '' + left + ' | ' + right;
 	};
 
-	function getSelectedKern() {
-		var re = _GP.kerning[_UI.selectedkern];
-		return re || _GP.kerning[getFirstID(_GP.kerning)] || false;
-	}
-
-	function getSelectedKernID() {
-		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
-		return _UI.selectedkern;
-	}
-
-	function getDisplayMetrics() {
+	HKern.prototype.getDisplayMetrics = function() {
 		var ch;
 		var leftmax = 0;
 		var rightmax = 0;
@@ -54,6 +44,16 @@
 			width: leftmax + rightmax - this.value,
 			center: leftmax
 		};
+	};
+
+	function getSelectedKern() {
+		var re = _GP.kerning[_UI.selectedkern];
+		return re || _GP.kerning[getFirstID(_GP.kerning)] || false;
+	}
+
+	function getSelectedKernID() {
+		_UI.selectedkern = _UI.selectedkern || getFirstID(_GP.kerning);
+		return _UI.selectedkern;
 	}
 
 // end of file

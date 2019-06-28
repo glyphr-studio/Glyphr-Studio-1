@@ -198,8 +198,6 @@
 			ymin: -999999
 		},
 		contextglyphs: {
-			string: '',
-			advancewidth: false,
 			leftseq: false,
 			rightseq: false
 		},
