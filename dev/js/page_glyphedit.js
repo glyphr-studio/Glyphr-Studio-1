@@ -48,11 +48,9 @@
 		drawGuides();
 
 		// load glyph info
-		if(sg && sg.shapes.length) {
-			var v = getView('Redraw');
+		if(sg) {
 			if(sg.contextglyphs) drawContextGlyphs();
-			sg.drawGlyph(_UI.glypheditctx, v);
-
+			if(sg.shapes.length) sg.drawGlyph(_UI.glypheditctx, getView('redraw_GlyphEdit'));
 		} else {
 			_UI.redrawing = false;
 			return;

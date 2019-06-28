@@ -270,6 +270,7 @@
 			});
 		}
 
+		// if(_UI.devmode) debugger;
 		// debug(' GlyphSequence.draw - END\n');
 	};
 

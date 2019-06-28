@@ -206,10 +206,6 @@
 		}
 	}
 
-	function debuggger() {
-		if(_UI.devmode) debugger;
-	}
-
 	function json(obj, raw) {
 		obj = clone(obj, 'json');
 		if(raw) return JSON.stringify(obj);

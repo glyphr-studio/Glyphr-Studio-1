@@ -569,7 +569,7 @@
 			});
 		}
 
-		// debuggger();
+		// if(_UI.devmode) debugger;
 		// debug(' drawContextGlyphs - END\n');
 	}
 
@@ -579,7 +579,7 @@
 		clearCanvasHotspots();
 		if(_UI.contextglyphs.leftseq) _UI.contextglyphs.leftseq.draw();
 		if(_UI.contextglyphs.rightseq) _UI.contextglyphs.rightseq.draw();
-		// debuggger();
+		// if(_UI.devmode) debugger;
 		// debug(' drawContextGlyphs - END\n');
 	}
 
@@ -600,7 +600,7 @@
 			r = ctxgs.substr(pos+splitchar.length);
 		}
 
-		// debuggger();
+		// if(_UI.devmode) debugger;
 		return {left:l, right:r};
 	}
 
@@ -673,28 +673,29 @@
 
 		var ps = _GP.projectsettings;
 		var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
-
+		
 		if(ps.showcontextglyphguides && alpha){
-			var ctx = _UI.glypheditctx;
 			var view = getView('drawContextGlyphExtras');
 			var advanceWidth = char.width * view.dz;
 			var currx = (char.view.dx*view.dz);
 			var rightx = currx + advanceWidth;
 			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
 			var texty = sy_cy(_GP.projectsettings.descent-60);
-
-
+			
+			
 			// Draw the glyph name
 			var gname = char.glyph? char.glyph.getName() : getGlyphName(charsToHexArray(char.char));
 			gname = gname.replace(/latin /i, '');
 			drawGlyphNameExtra(gname, currx, texty, advanceWidth, color, char.char);
-
+			
 			// Draw vertical lines
 			drawVerticalLine(rightx, false, color);
-
+			
 			// Draw kern notation
 			if(char.kern) drawGlyphKernExtra(char.kern, rightx, texty, view.dz);
 		}
+		
+		// if(_UI.devmode) debugger;
 
 		// debug(' drawContextGlyphExtras - END\n');
 	}
@@ -734,6 +735,8 @@
 				onclick:function(){ hotspotNavigateToGlyph(charToHex(regHotspot)); }
 			});
 		}
+
+		// if(_UI.devmode) debugger;
 	}
 
 	function drawGlyphKernExtra(kern, rightx, topy, scale) {
@@ -900,7 +903,7 @@
 // -------------------
 
 	function setView(oa){
-		// debuggger();
+		// if(_UI.devmode) debugger;
 		var sc = (_UI.current_page === 'kerning')? getSelectedKernID() : getSelectedWorkItemID();
 		var v = _UI.views;
 
@@ -1037,7 +1040,7 @@
 		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * 1.1 * nz));
 		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
 		
-		// debuggger();
+		// if(_UI.devmode) debugger;
 		// debug(` calculateViewForEditCanvas - END\n\n`);
 		return {dx: nx, dy: ny, dz: nz};
 	}
