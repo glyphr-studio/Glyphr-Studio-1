@@ -271,7 +271,7 @@
 		}
 
 		// debug(' GlyphSequence.draw - END\n');
-	}
+	};
 
 	function calcNewLineY(starty, linenum, linegap) {
 		var ps = _GP.projectsettings;

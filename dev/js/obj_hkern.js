@@ -32,4 +32,28 @@
 		return _UI.selectedkern;
 	}
 
+	function getDisplayMetrics() {
+		var ch;
+		var leftmax = 0;
+		var rightmax = 0;
+
+		// MAXES FROM RIGHT HAND GROUP
+		for(var i=0; i<this.rightgroup.length; i++){
+			ch = getGlyph(this.rightgroup[i], true);
+			rightmax = Math.max(rightmax, ch.getAdvanceWidth());
+		}
+		
+		// MAXES FROM LEFT HAND GROUP
+		for(var j=0; j<this.leftgroup.length; j++){
+			v = getView('redraw_Kerning');
+			ch = getGlyph(this.leftgroup[j], true);
+			leftmax = Math.max(leftmax, ch.getAdvanceWidth());
+		}
+
+		return {
+			width: leftmax + rightmax - this.value,
+			center: leftmax
+		};
+	}
+
 // end of file

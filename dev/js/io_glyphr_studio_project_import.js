@@ -464,7 +464,6 @@
 		var sp = getGlyph('0x0020', true);
 		if(!sp.isautowide && sp.glyphwidth === 0) sp.glyphwidth = Math.round(_GP.projectsettings.upm/3);
 
-		calculateDefaultView();
 		resetThumbView();
 
 		_UI.current_page = "glyph edit";

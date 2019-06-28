@@ -162,7 +162,7 @@
 
 		// 0
 		if((eh.multi || event.metaKey) && kc==='0'){
-			setView(clone(_UI.defaultview, 'keypress - zero'));
+			autoCalculateView();
 			redraw({calledby:'Zoom Keyboard Shortcut', redrawcanvas:false});
 		}
 
