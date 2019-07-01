@@ -900,14 +900,14 @@
 		http://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes
 	*/
 	function convertArcToCommandToBezier(startX, startY, radiusX, radiusY, rotationDegrees, largeArcFlag, sweepFlag, endX, endY, subPath) {
-		debug(`\n convertArcToCommandToBezier - START`);
+		// debug(`\n convertArcToCommandToBezier - START`);
 		
 		var startPoint = {x: startX, y: startY};
 		var endPoint = {x: endX, y: endY};
 		
-		debug(`\t startPoint \tx: ${startPoint.x}\ty: ${startPoint.y}`);
-		debug(`\t endPoint \tx: ${endPoint.x}\ty: ${endPoint.y}`);
-		debug(`\t radius \tx: ${radiusX}\ty: ${radiusY}`);
+		// debug(`\t startPoint \tx: ${startPoint.x}\ty: ${startPoint.y}`);
+		// debug(`\t endPoint \tx: ${endPoint.x}\ty: ${endPoint.y}`);
+		// debug(`\t radius \tx: ${radiusX}\ty: ${radiusY}`);
 		
 		// Short circuit for straight-line edge cases
 		if((startX === endX && startY === endY) || (!radiusX || !radiusY)) {
@@ -1034,7 +1034,7 @@
 				}
 			}
 			
-			debug(` convertArcToCommandToBezier - END\n\n`);
+			// debug(` convertArcToCommandToBezier - END\n\n`);
 			return finalResult;
 		}
 	}
