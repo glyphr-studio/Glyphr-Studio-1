@@ -67,7 +67,7 @@
 		}
 
 		navigate();
-
+		
 		if(_UI.devmode) _UI.testOnLoad();
 
 		//debug(' MAIN SETUP - END\n');

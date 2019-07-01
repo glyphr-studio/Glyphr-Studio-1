@@ -911,22 +911,49 @@
 	PathPoint.prototype.drawNonIntegerPoint = function(accent) {
 		// debug('\n PathPoint.drawNonIntegerPoint - START');
 		// debug('\t sel = ' + _UI.ms.points.isSelected(this));
-
-		if(Math.round(this.P.x) === this.P.x && Math.round(this.P.y === this.P.y)) return;
-
 		accent = accent || _UI.colors.error.medium;
 		var ps = _GP.projectsettings.pointsize;
 		var hp = ps/2;
-		
-		_UI.glypheditctx.fillStyle = _UI.ms.points.isSelected(this)? 'white' : accent;
 		_UI.glypheditctx.strokeStyle = accent;
 		_UI.glypheditctx.font = '10px Consolas';
+		_UI.glypheditctx.fillStyle = _UI.ms.points.isSelected(this)? 'white' : accent;
 
-		_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
-		_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+		if(this.useh1 && !(Math.round(this.H1.x) === this.H1.x && Math.round(this.H1.y) === this.H1.y)) {
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.glypheditctx.lineTo(sx_cx(this.H1.x), sy_cy(this.H1.y));
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
 
-		_UI.glypheditctx.fillStyle = accent;
-		_UI.glypheditctx.fillText('✖', sx_cx(this.P.x + 12), sy_cy(this.P.y + 12));
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.arc(sx_cx(this.H1.x), sy_cy(this.H1.y), hp, 0, Math.PI*2, true);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.fill();
+			_UI.glypheditctx.stroke();
+		}
+
+		if(this.useh1 && !(Math.round(this.H2.x) === this.H2.x && Math.round(this.H2.y) === this.H2.y)) {
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.moveTo(sx_cx(this.P.x), sy_cy(this.P.y));
+			_UI.glypheditctx.lineTo(sx_cx(this.H2.x), sy_cy(this.H2.y));
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.stroke();
+
+			_UI.glypheditctx.beginPath();
+			_UI.glypheditctx.arc(sx_cx(this.H2.x), sy_cy(this.H2.y), hp, 0, Math.PI*2, true);
+			_UI.glypheditctx.closePath();
+			_UI.glypheditctx.fill();
+			_UI.glypheditctx.stroke();
+		}
+
+		if(!(Math.round(this.P.x) === this.P.x && Math.round(this.P.y) === this.P.y)) {
+			_UI.glypheditctx.fillRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+			_UI.glypheditctx.strokeRect((sx_cx(this.P.x)-hp), (sy_cy(this.P.y)-hp), ps, ps);
+			
+			_UI.glypheditctx.fillStyle = accent;
+			_UI.glypheditctx.fillText('✖', sx_cx(this.P.x + 12), sy_cy(this.P.y + 12));
+		}
+
 		// debug(' PathPoint.drawNonIntegerPoint - END\n');
 	};
 
