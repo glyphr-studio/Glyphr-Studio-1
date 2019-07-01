@@ -629,7 +629,7 @@
 		// polyseg.combineInlineSegments();
 		// debug('\t afters filtering ' + polyseg.segments.length);
 
-		if(_UI.devmode) polyseg.drawPolySegmentOutline();
+		// if(_UI.devmode) polyseg.drawPolySegmentOutline();
 
 		// var reshapes = [];
 		// reshapes.push(new Shape({'name':this.name, 'path':polyseg.getPath()}));

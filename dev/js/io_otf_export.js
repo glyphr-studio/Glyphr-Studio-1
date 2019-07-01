@@ -105,18 +105,18 @@
 				}
 			}}
 			
-			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
-			
 			// Add Ligatures
 			var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
 				tg = new Glyph(clone(_GP.ligatures[l], 'ioOTF export.populateExportLists'));
 				// debug(`\t adding ligature "${tg.name}"`);
 				exportLigatures.push({xg:tg, xc: l});
-
+				
 				ligWithCodePoint = doesLigatureHaveCodePoint(l);
-				if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});				
+				if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});
 			}}
+			
+			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
 
 			// debug(' populateExportLists - END\n');
 		}
@@ -125,10 +125,10 @@
 			// debug('\n generateOneGlyph - START');
 			// export this glyph
 			var glyph = currentExportItem.xg;
-			var num = currentExportItem.xc;
+			var glyphID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-			var name = getUnicodeShortName(''+decToHex(num));
 
+			// debug(`\t${glyphID}\t${glyph.name}\t${getNameForExport(glyphID)}`);
 			showToast('Exporting<br>'+glyph.name, 999999);
 
 			if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
@@ -143,14 +143,14 @@
 			var index = getNextGlyphIndex();
 
 			var glyphInfo = {
-				name: name,
-				unicode: parseInt(num),
+				name: getNameForExport(glyphID),
+				unicode: parseInt(glyphID),
 				index: index,
 				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
 				path: tgpath
 			};
 			
-			codePointGlyphIndexTable[''+decToHex(num)] = index;
+			codePointGlyphIndexTable[''+decToHex(glyphID)] = index;
 
 			// debug(glyphInfo);
 			// debug(glyphInfo.path);
@@ -170,6 +170,8 @@
 
 				if(exportLigatures.length){
 					// debug('\t codePointGlyphIndexTable');
+					// debug(codePointGlyphIndexTable);
+					// debug(`\t codePointIndexTable`);
 					// debug(codePointGlyphIndexTable);
 
 					currentExportNumber = 0;
@@ -191,8 +193,7 @@
 			var ligaID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
 			
-			// debug('\t doing ' + ligaID + ' ' + liga.name);
-
+			// debug(`\t${ligaID}\t${liga.name}\t${getNameForExport(ligaID)}`);
 			showToast('Exporting<br>'+liga.name, 999999);
 
 			if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
@@ -208,7 +209,7 @@
 			var index = getNextGlyphIndex();
 
 			var glyphInfo = {
-				name: liga.name,
+				name: getNameForExport(ligaID),
 				unicode: ligaCodePoint,
 				index: index,
 				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
@@ -220,8 +221,12 @@
 
 			// Add substitution info to font
 			var subList = hexToChars(ligaID).split('');
+			// debug(`\t subList ${json(subList, true)}`);
+			
 			var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
 			// debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
+			// debug(`\t indexList ${json(indexList, true)}`);
+			
 			ligatureSubstitutions.push({sub: indexList, by: index});
 
 			// debug(glyphInfo);
@@ -238,6 +243,30 @@
 			}
 		}
 		
+		function getSingleCharShortName(fourDigitHex) {
+			return _UI.unicodeShortNames['0x'+fourDigitHex] || 'uni'+fourDigitHex;
+		}
+
+		function getNameForExport(glyphrStudioID) {
+			// debug('\n getNameForExport - START');
+			glyphrStudioID = ''+glyphrStudioID;
+			var chars = glyphrStudioID.split('0x');
+			if(chars[0] === '') chars.shift();
+
+			// debug(`\t ${glyphrStudioID} as ${json(chars)}`);
+			// debug(`\t chars[0] is ${getSingleCharShortName(chars[0])}`);
+
+			if(chars.length === 1) return getSingleCharShortName(chars[0]);
+
+			var result = 'liga';
+
+			for(var i=0; i<chars.length; i++) {
+				result += '_' + getSingleCharShortName(chars[i]);
+			}
+
+			return result;
+		}
+
 		function lastExportStep() {	
 			// Export
 			_UI.stoppagenavigation = false;
