@@ -282,7 +282,7 @@
 	Glyph.prototype.alignShapes = function(edge, target) {
 		// debug('\n Glyph.alignShapes - START');
 		// debug('\t edge: ' + edge);
-		var target, offset;
+		var offset;
 
 		if(edge === 'top'){
 			target = -999999;
@@ -490,7 +490,7 @@
 			}
 		}
 		return false;	
-	}
+	};
 	
 	Glyph.prototype.canAddComponent = function(cid) {
 		// debug('\n Glyph.canAddComponent - START');
@@ -661,13 +661,14 @@
 			if(shape.visible) {
 				if(shape.objtype === 'componentinstance'){
 					tg = shape.getTransformedGlyph();
+					// tg.updateGlyphPosition(lsb, 0, true);
 					if(tg) pathdata += tg.getSVGpathData();
 				} else {
 					path = shape.getPath();
 					path.updatePathPosition(lsb, 0, true);
 					pathdata += path.getSVGpathData('Glyph ' + this.name + ' Shape ' + shape.name);
-					if(j < sl.length-1) pathdata += ' ';
 				}
+				if(j < sl.length-1) pathdata += ' ';
 			}
 		}
 		if(trim(pathdata) === '') pathdata = 'M0,0Z';

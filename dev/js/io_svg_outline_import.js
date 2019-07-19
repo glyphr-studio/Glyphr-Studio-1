@@ -22,7 +22,7 @@
 			jsondata = convertXMLtoJSON(svgdata);
 		} catch (e){
 			if(e.message === 'XMLdoc.getElementsByTagName(...)[0] is undefined'){
-				e.message = 'No SVG Shape or Path Tags could be found.  Make sure the SVG code is in proper XML format.'
+				e.message = 'No SVG Shape or Path Tags could be found.  Make sure the SVG code is in proper XML format.';
 			}
 			showErrorMessageBox(e.message);
 			return;

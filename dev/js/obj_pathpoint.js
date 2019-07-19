@@ -316,13 +316,13 @@
 				
 				if(!lockx) {
 					this.P.x += dx;
-					this.H1.x += dx
-					this.H2.x += dx
+					this.H1.x += dx;
+					this.H2.x += dx;
 				}
 				if(!locky) {
 					this.P.y += dy;
-					this.H1.y += dy
-					this.H2.y += dy
+					this.H1.y += dy;
+					this.H2.y += dy;
 				}
 				break;
 			

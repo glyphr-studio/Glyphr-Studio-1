@@ -270,4 +270,62 @@
 		// debug('CALCFONTMAXES - numglyphs ' + _UI.fontmetrics.numglyphs);
 	}
 
+	function getLinkedGlyphMetrics() {
+		// debug(`\n getLinkedGlyphMetrics - START`);
+		
+		var re = [];
+
+		function getGlyphMetrics(glyph, id){
+			// debug(`\t\t actually adding ${glyph.name}`);
+			
+			return {
+				id: id,
+				name: glyph.name,
+				width: glyph.glyphwidth,
+				lsb: glyph.getLSB(),
+				rsb: glyph.getRSB(),
+			};
+		}
+
+		function addMetricsFromIDs(idarr) {
+			var liobj;
+			for(var i=0; i<idarr.length; i++) {
+				liobj = getGlyph(idarr[i]);
+
+				// debug(`\t should be adding ${liobj.name}`);
+				re.push(getGlyphMetrics(liobj, idarr[i]));
+
+				if(liobj.usedin.length) addMetricsFromIDs(liobj.usedin);
+			}
+		}
+
+		var globj;
+		for(var gid in _GP.glyphs) {
+			if(_GP.glyphs.hasOwnProperty(gid)) {
+				globj = _GP.glyphs[gid];
+
+				if(globj.usedin.length) {
+					// debug(`\t ${globj.name} has usedin length ${globj.usedin.length}`);
+					
+					// debug(`\t should be adding ${globj.name}`);
+					re.push(getGlyphMetrics(globj, gid));
+					
+					addMetricsFromIDs(globj.usedin);
+
+					re.push({id: '---', name: '---', width: '---', lsb: '---', rsb: '---',});
+				}
+			}
+		}
+
+		// re.sort(function(a, b) {
+		// 	if (a.name < b.name) return -1;
+		// 	if (a.name > b.name)return 1;
+		// 	return 0;
+		// });
+
+		// debug(` getLinkedGlyphMetrics - END\n\n`);
+
+		return re;
+	}
+
 // end of file
