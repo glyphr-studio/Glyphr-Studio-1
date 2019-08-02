@@ -8,7 +8,7 @@
 		// debug('\n GlyphSequence - START');
 		oa = oa || {};
 
-		this.setMaxes(oa.maxes)
+		this.setMaxes(oa.maxes);
 
 		this.scale = oa.scale || 1;
 		this.glyphstring = oa.glyphstring || '';
@@ -129,7 +129,7 @@
 					view: false,
 					linenumber: false,
 					lineaggregate: false
-				}
+				};
 
 				currchar = this.data[tb][tg];
 			}
