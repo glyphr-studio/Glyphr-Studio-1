@@ -242,30 +242,6 @@
 				setTimeout(lastExportStep, 10);
 			}
 		}
-		
-		function getSingleCharShortName(fourDigitHex) {
-			return _UI.unicodeShortNames['0x'+fourDigitHex] || 'uni'+fourDigitHex;
-		}
-
-		function getNameForExport(glyphrStudioID) {
-			// debug('\n getNameForExport - START');
-			glyphrStudioID = ''+glyphrStudioID;
-			var chars = glyphrStudioID.split('0x');
-			if(chars[0] === '') chars.shift();
-
-			// debug(`\t ${glyphrStudioID} as ${json(chars)}`);
-			// debug(`\t chars[0] is ${getSingleCharShortName(chars[0])}`);
-
-			if(chars.length === 1) return getSingleCharShortName(chars[0]);
-
-			var result = 'liga';
-
-			for(var i=0; i<chars.length; i++) {
-				result += '_' + getSingleCharShortName(chars[i]);
-			}
-
-			return result;
-		}
 
 		function lastExportStep() {	
 			// Export
@@ -340,3 +316,28 @@
 		// debug(`\t returning __false__ for ${gid}`);
 		return false;
 	}
+
+	function getNameForExport(glyphrStudioID) {
+		// debug('\n getNameForExport - START');
+		glyphrStudioID = ''+glyphrStudioID;
+		var chars = glyphrStudioID.split('0x');
+		if(chars[0] === '') chars.shift();
+
+		function getSingleCharShortName(fourDigitHex) {
+			return _UI.unicodeShortNames['0x'+fourDigitHex] || 'uni'+fourDigitHex;
+		}
+		
+		// debug(`\t ${glyphrStudioID} as ${json(chars)}`);
+		// debug(`\t chars[0] is ${getSingleCharShortName(chars[0])}`);
+
+		if(chars.length === 1) return getSingleCharShortName(chars[0]);
+
+		var result = 'liga';
+
+		for(var i=0; i<chars.length; i++) {
+			result += '_' + getSingleCharShortName(chars[i]);
+		}
+
+		return result;
+	}
+	
