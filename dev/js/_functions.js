@@ -174,7 +174,6 @@
 //-------------------
 // Debug
 //-------------------
-
 	function debug(message, force){
 		if(!_UI.devmode) return;
 
@@ -478,22 +477,21 @@
 //-------------------
 // File Savr
 //-------------------
+	function saveFile(fname, buffer, ftype) {
+		ftype = ftype || 'text/plain;charset=utf-8';
+		var fblob = new Blob([buffer], {'type':ftype, 'endings':'native'});
 
-function saveFile(fname, buffer, ftype) {
-	ftype = ftype || 'text/plain;charset=utf-8';
-	var fblob = new Blob([buffer], {'type':ftype, 'endings':'native'});
+		var link = document.createElement('a');
+		window.URL = window.URL || window.webkitURL;
+		link.href = window.URL.createObjectURL(fblob);
+		link.download = fname;
 
-	var link = document.createElement('a');
-	window.URL = window.URL || window.webkitURL;
-	link.href = window.URL.createObjectURL(fblob);
-	link.download = fname;
+		var event = document.createEvent('MouseEvents');
+		event.initEvent('click', true, false);
+		link.dispatchEvent(event);
 
-	var event = document.createEvent('MouseEvents');
-	event.initEvent('click', true, false);
-	link.dispatchEvent(event);
-
-	return;
-}
+		return;
+	}
 
 
 //-------------------
@@ -819,7 +817,6 @@ function saveFile(fname, buffer, ftype) {
 //-------------------
 // BUG EMAIL
 //-------------------
-
 	function genEmailContent(){
 		var con = 'Have a feature idea or ran into an issue%3F We%27d be happy to help!';
 		con += '%0A%0A%0A%0A___________________________________________%0A';
@@ -842,7 +839,6 @@ function saveFile(fname, buffer, ftype) {
 //-------------------
 // COLORS
 //-------------------
-
 	function parseColorString(c) {
 		var val = {r:0, g:0, b:0, a:1};
 

@@ -1006,16 +1006,43 @@
 	}
 
 	function autoCalculateView() {
-		var leftwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.leftseq.glyphstring);
-		var rightwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.rightseq.glyphstring);
-		var currwidth = getSelectedWorkItem().getAdvanceWidth();
-
-		var newview = calculateViewForEditCanvas(leftwidth + currwidth + rightwidth);
+		var selwi = getSelectedWorkItem();
+		var leftwidth = 0;
+		var rightwidth = 0;
+		var currwidth = 0;
+		var newview;
+		
+		if(_UI.current_page === 'kerning') {
+			leftwidth = getLargestAdvanceWidth(selwi.leftgroup);
+			currwidth = getLargestAdvanceWidth(selwi.rightgroup);
+			currwidth += (-1 * selwi.value);
+		} else {
+			leftwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.leftseq.glyphstring);
+			rightwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.rightseq.glyphstring);
+			currwidth = selwi.getAdvanceWidth();
+		}
+		
+		// debug(`\t left ${leftwidth}, curr ${currwidth}, right ${rightwidth}`);
+		
+		newview = calculateViewForEditCanvas(leftwidth + currwidth + rightwidth);
 
 		newview.dx += (leftwidth * newview.dz);
 
 		setView(newview);
 	}
+
+	function getLargestAdvanceWidth(glyphArray) {
+		var re = 0;
+		var g;
+
+		for(var i=0; i<glyphArray.length; i++) {
+			g = getGlyph(glyphArray[i]);
+			re = Math.max(re, g.getAdvanceWidth());
+		}
+		
+		return re;
+	}
+
 
 	function calculateViewForEditCanvas(advanceWidth) {
 		// debug(`\n calculateViewForEditCanvas - START`);

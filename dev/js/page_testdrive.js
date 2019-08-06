@@ -224,6 +224,7 @@
 		content += makeTDButton('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 		content += makeTDButton('0123456789');
 		content += makeTDSymbolButton();
+		content += makeTDPermutationButtons();
 
 		return content;
 	}
@@ -248,6 +249,30 @@
 		
 		var con = '';
 		for(var s=0; s<sym.length; s++) con += String.fromCharCode(sym[s]);
+
+		_UI.testdrive.sampletext = con;
+
+		redraw_TestDrive();
+	}
+
+	function makeTDPermutationButtons(){
+		var re = '<button class="sampletext" onclick="clickTDPermutationButton(true);">All upper case letter permutations</button><br>';
+		re += '<button class="sampletext" onclick="clickTDPermutationButton(false);">All lower case letter permutations</button><br>';
+		
+		return re;
+	}
+	
+	function clickTDPermutationButton(upper) {
+		var seq = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		if(!upper) seq = seq.toLowerCase();
+		var con = '';
+
+		for(var first = 0; first < seq.length; first++){
+			for(var second = 0; second < seq.length; second++){
+				con += seq.charAt(first) + seq.charAt(second) + ' ';
+			}
+			con += '\n';
+		}
 
 		_UI.testdrive.sampletext = con;
 
