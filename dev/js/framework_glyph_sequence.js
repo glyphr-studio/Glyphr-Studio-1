@@ -67,6 +67,24 @@
 		this.generateData();
 	};
 
+	GlyphSequence.prototype.getLastChar = function() {
+		var lastChar = false;
+
+		if(!this.data.length) return false;
+
+		for(var tb = this.data.length-1; tb>=0; tb--) {
+			if(this.data[tb].length) {
+				for(var tg = this.data[tb].length-1; tg>=0; tg--) {
+					if(this.data[tb][tg]) {
+						return this.data[tb][tg];
+					}
+				}
+			}
+		}
+
+		return false;
+	};
+
 	GlyphSequence.prototype.generateData = function() {
 
 		// debug('\n GlyphSequence.generateData - START');
@@ -127,8 +145,7 @@
 					islinebreaker: (this.linebreakers.indexOf(currblock[tg]) > -1),
 					isvisible: false,
 					view: false,
-					linenumber: false,
-					lineaggregate: false
+					linenumber: false
 				};
 
 				currchar = this.data[tb][tg];

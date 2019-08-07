@@ -28,7 +28,7 @@
 		var td = _UI.testdrive;
 		td.canvas = document.getElementById('tdcanvas');
 		td.canvas.width = 800;
-		td.canvas.height = 700;
+		td.canvas.height = 600;
 		td.ctx = td.canvas.getContext('2d');
 
 		td.glyphseq = new GlyphSequence({
@@ -82,17 +82,18 @@
 	function redraw_TestDrive(){
 		// debug("\n redraw_TestDrive - START");
 		_UI.redrawing = true;
-
 		var td = _UI.testdrive;
-		var ps = _GP.projectsettings;
 
 		if(_UI.current_panel === 'npAttributes') changefontscale(td.fontsize);
 		document.getElementById('tdtextarea').value = td.sampletext;
 
 		td.glyphseq.setString(td.sampletext);
-		var scale = td.fontscale;
+		td.ctx.clearRect(0,0,10000,10000);
 
-		td.ctx.clearRect(0,0,5000,5000);
+		var lastchar = td.glyphseq.getLastChar();
+		var tdHeight = Math.max(580, lastchar.view? (lastchar.view.dy * lastchar.view.dz) : 0);
+		td.canvas.height = tdHeight + 20;
+		
 		td.glyphseq.draw();
 
 		_UI.redrawing = false;
@@ -184,7 +185,6 @@
 
 		var td = _UI.testdrive;
 		var glyph = chardata.glyph;
-		var showlineextras = td.showlineextras || false;
 		var flattenglyphs = td.flattenglyphs || false;
 		var ctx = _UI.testdrive.ctx;
 		var view = clone(chardata.view, 'drawTestDriveGlyph');
