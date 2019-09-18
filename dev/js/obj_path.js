@@ -28,6 +28,8 @@
 			}
 		}
 
+		debug(`\t Path constructor: oa.winding ${oa.winding}`);
+		
 		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 
 		// internal
@@ -255,7 +257,7 @@
 		}
 
 		this.changed();
-	}
+	};
 
 //	-----------------------------------
 //  Boolean Combine
@@ -726,7 +728,7 @@
 		// debug('\n Path.reverseWinding - START');
 		var HT,pp;
 		if(this.pathpoints){
-			for (var i = 0; i < this.pathpoints.length; i++) {
+			for(var i = 0; i < this.pathpoints.length; i++) {
 				pp = this.pathpoints[i];
 				HT = pp.H1;
 				pp.H1 = pp.H2;
@@ -736,9 +738,11 @@
 					pp.useh2 = !pp.useh2;
 				}
 			}
+			
 			this.pathpoints.reverse();
-			this.winding *= -1;
-			if(this.winding === 0 || !isval(this.winding)) this.findWinding(true);
+			var post = this.pathpoints.pop();
+			this.pathpoints.unshift(post);
+			this.findWinding(true);
 		}
 		// debug(' Path.reverseWinding - END\n');
 	};
