@@ -15,7 +15,7 @@
 		var data = {};
 		var shapecounter = 0;
 		var error = false;
-		var grabtags = ['path', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
+		var grabtags = ['path', 'glyph', 'rect', 'polyline', 'polygon', 'ellipse', 'circle'];
 		var jsondata;
 
 		try {
@@ -49,15 +49,18 @@
 
 
 		/*
-			GET PATH TAGS
+			GET PATH OR GLYPH TAGS
 		*/
-		if(shapetags.path.length){
+		var dpaths = shapetags.path;
+		dpaths = dpaths.concat(shapetags.glyph);
+
+		if(dpaths.length){
 			data = '';
 			ppath = {};
 
-			for(var p=0; p<shapetags.path.length; p++){
+			for(var p=0; p<dpaths.length; p++){
 				// Compound Paths are treated as different Glyphr Shapes
-				data = shapetags.path[p].attributes.d;
+				data = dpaths[p].attributes.d;
 				data = cleanAndFormatPathPointData(data);
 
 				for(var d=0; d<data.length; d++){

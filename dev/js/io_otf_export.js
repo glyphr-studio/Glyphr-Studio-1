@@ -39,14 +39,8 @@
 			// debug('\t options.version ' + options.version);
 
 			// Add Notdef
-			var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
-			notdef.reverseWinding();
-			
-			if(_GP.upm !== 1000){
-				var delta = _GP.upm / 1000;
-				notdef.updateGlyphSize(delta, delta, true);
-			}
-
+			var notdef = generateNotdefGlyph();
+			console.log(notdef);
 			var ndpath = notdef.makeOpenTypeJSpath();
 
 			options.glyphs.push(new opentype.Glyph({
@@ -287,6 +281,26 @@
 		// debug(' ioOTF_exportOTFfont - END\n');
 	}
 	
+	function generateNotdefGlyph() {
+		// debug(`\n generateNotdefGlyph - START`);
+		var notdef = new Glyph({'name': 'notdef', 'shapes':JSON.parse(_UI.notdefglyphshapes)});
+		// debug(`\t capheight ${_GP.projectsettings.capheight}`);
+		// debug(`\t notdef.maxes.ymax ${notdef.maxes.ymax}`);
+		
+		if(_GP.projectsettings.capheight !== 700){
+			var delta = _GP.projectsettings.capheight - 700;
+			// debug(`\t delta is ${delta}`);
+			notdef.updateGlyphSize(false, delta, true);
+			// debug(`\t notdef.maxes.height ${notdef.maxes.ymax}`);
+		}
+
+		notdef.updateGlyphPosition(notdef.getLSB(), 0, true);
+		notdef.leftsidebearing = 0;
+		
+		// debug(` generateNotdefGlyph - END\n\n`);
+		return notdef;
+	}
+
 	function assembleActiveRanges() {
 		// debug(`\n assembleActiveRanges - START`);
 		var ranges = clone(_GP.projectsettings.glyphrange.custom, 'ioOTF export.assembleActiveRanges');

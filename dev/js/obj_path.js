@@ -164,7 +164,7 @@
 			if (this.findWinding) this.findWinding();
 			else this.winding = 0;
 		}
-		 return this.winding;
+		return this.winding;
 	};
 
 	Path.prototype.getHeight = function() {

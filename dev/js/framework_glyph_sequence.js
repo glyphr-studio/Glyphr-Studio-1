@@ -68,8 +68,6 @@
 	};
 
 	GlyphSequence.prototype.getLastChar = function() {
-		var lastChar = false;
-
 		if(!this.data.length) return false;
 
 		for(var tb = this.data.length-1; tb>=0; tb--) {

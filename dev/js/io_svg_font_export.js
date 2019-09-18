@@ -108,14 +108,10 @@
 	function ioSVG_makeMissingGlyph() {
 		// debug('\n ioSVG_makeMissingGlyph - START');
 		var con = '		 ';
-		var gh = _GP.projectsettings.ascent;
-		var gw = round(gh * 0.618);
-		var gt = round(gh/100);
+		var ndg = generateNotdefGlyph();
 
-		con += '\t<missing-glyph horiz-adv-x="'+gw+'" ';
-		con += 'd="M0,0 v'+gh+' h'+gw+' v-'+gh+' h-'+gw+'z ';
-		con += 'M'+gt+','+gt+' v'+(gh-(gt*2))+' h'+(gw-(gt*2))+' v-'+(gh-(gt*2))+' h-'+(gw-(gt*2))+'z';
-		con += '" />';
+		con += '\t<missing-glyph horiz-adv-x="' + ndg.getAdvanceWidth() + '" ';
+		con += 'd="' + ndg.getSVGpathData() + '" />';
 
 		// debug(' ioSVG_makeMissingGlyph - END\n');
 		return con;
@@ -154,7 +150,7 @@
 
 		var uni = gsid;
 
-		if(!gl.shapes.length && uni!=0x0020) {
+		if(!gl.shapes.length && _UI.whitespaceglyphs.indexOf(uni) < 0) {
 			console.warn('Glyph ' + uni + ' not exported: No shapes.');
 			return '';
 		}

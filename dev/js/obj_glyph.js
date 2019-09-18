@@ -710,6 +710,12 @@
 		return false;
 	};
 
+	Glyph.prototype.findWinding = function() {
+		for(var s=0; s<this.shapes.length; s++){
+			this.shapes[s].findWinding();
+		}
+	};
+
 	Glyph.prototype.flattenGlyph = function() {
 		var reshapes = [];
 		var ts, tg;

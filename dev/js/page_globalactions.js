@@ -405,7 +405,7 @@
 				} else {
 					return false;
 				}
-			}
+			};
 		}
 
 

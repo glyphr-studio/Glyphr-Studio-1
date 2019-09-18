@@ -138,6 +138,8 @@
 
 	Shape.prototype.isOverControlPoint = function(x, y, nohandles) { return this.path.isOverControlPoint(x, y, nohandles); };
 
+	Shape.prototype.findWinding = function(secondtry) { return this.path.findWinding(secondtry); };
+
 	Shape.prototype.flipEW = function(mid) { this.path.flipEW(mid); };
 
 	Shape.prototype.flipNS = function(mid) { this.path.flipNS(mid); };
