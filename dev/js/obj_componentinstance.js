@@ -365,6 +365,13 @@
 		}
 	};
 
+	ComponentInstance.prototype.draw_OverlappingPoints = function() {
+		var g = this.getTransformedGlyph();
+		for(var s=0; s<g.shapes.length; s++){
+			g.shapes[s].draw_OverlappingPoints();
+		}
+	};
+
 	ComponentInstance.prototype.isHere = function(px, py){
 		//debug('ISCOMPONENTHERE - checking ' + px + ',' + py);
 		var g = this.getTransformedGlyph();

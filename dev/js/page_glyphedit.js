@@ -90,6 +90,14 @@
 				}
 			}
 		}
+		
+		if(_GP.projectsettings.markoverlappingpointsdistance >= 0) {
+			if(sg && sg.shapes.length) {
+				for(var j=0; j<sg.shapes.length; j++){
+					sg.shapes[j].draw_OverlappingPoints();
+				}
+			}
+		}
 
 		_UI.redrawing = false;
 		// debug(' redraw_GlyphEdit - END\n');

@@ -50,6 +50,9 @@
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.marknonintegerpoints', ps.marknonintegerpoints)+'</td>'+
 					'<td class="longlabel"><label for="marknonintegerpoints">Highlight path points that contain decimal values (non-whole number values)</label></td></tr>'+
 
+					'<tr><td class="uicolumn"><input type="text" value="'+(ps.markoverlappingpointsdistance)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||-1; _GP.projectsettings.markoverlappingpointsdistance=r; this.value=r;" style="width:25px;"/></td>'+
+					'<td>Highlight path points that are close together or overlapping.<br>Enter a distance in Em units for how close points need to be to highlight.<br>Use -1 to turn highlight off.</td></tr>'+
+
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.showkeyboardtipsicon', ps.showkeyboardtipsicon)+'</td>'+
 					'<td><label for="showkeyboardtipsicon" style="position:relative; top:-6px;">Show the &nbsp;<span style="position:relative; top:6px; height:22px;">'+makeIcon({'name':'keyboard', 'size':50, 'width':22, 'height':22, 'color':'rgb(76, 81, 86)', 'hovercolor':'rgb(76, 81, 86)'})+'</span>&nbsp; button on the edit canvas.</label></td></tr>'+
 

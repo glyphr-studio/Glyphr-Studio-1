@@ -58,6 +58,7 @@
 			showcontextglyphguides: true,		// show horizontal guides & notations for context glyphs
 			markglyphchooserglyphs: false,		// mark specific glyphs in the glyph chooser
 			marknonintegerpoints: false,		// make it easy to spot path points with decimals
+			markoverlappingpointsdistance: -1,	// mark two path poitns that are within a certain distance of eachother
 			colors: {
 				glyphfill: 'rgb(0,0,0)',			// shape base color
 				glyphoutline: 'rgb(0,0,0)',			// shape outline color

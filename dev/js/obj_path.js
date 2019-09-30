@@ -28,7 +28,7 @@
 			}
 		}
 
-		debug(`\t Path constructor: oa.winding ${oa.winding}`);
+		// debug(`\t Path constructor: oa.winding ${oa.winding}`);
 		
 		this.winding = isval(oa.winding)? oa.winding : this.findWinding();
 
@@ -473,6 +473,23 @@
 	Path.prototype.drawNonIntegerPoints = function() {
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
 			this.pathpoints[cp].drawNonIntegerPoint();
+		}
+	};
+
+	Path.prototype.drawOverlappingPoints = function() {
+		var lastpoint = this.pathpoints[this.pathpoints.length-1];
+		var threshold = _GP.projectsettings.markoverlappingpointsdistance;
+		_UI.glypheditctx.strokeStyle = _UI.colors.error.medium;
+
+		for(var cp = 0; cp < this.pathpoints.length; cp++){
+			if(coordsAreEqual(lastpoint.P, this.pathpoints[cp].P, threshold)) {
+				_UI.glypheditctx.beginPath();
+				_UI.glypheditctx.arc(sx_cx(lastpoint.P.x), sy_cy(lastpoint.P.y), 10, 0, Math.PI*2, true);
+				_UI.glypheditctx.closePath();
+				_UI.glypheditctx.stroke();
+			} else {
+				lastpoint = this.pathpoints[cp];
+			}
 		}
 	};
 

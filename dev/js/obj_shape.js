@@ -90,6 +90,10 @@
 		this.path.drawNonIntegerPoints();
 	};
 
+	Shape.prototype.draw_OverlappingPoints = function() {
+		this.path.drawOverlappingPoints();
+	};
+
 //-------------------------------------------------------
 // TRANSLATE TO DIFFERENT LANGUAGES
 //-------------------------------------------------------
