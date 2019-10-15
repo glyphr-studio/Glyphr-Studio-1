@@ -52,6 +52,7 @@
 		// debug(' goToEditGlyph - END\n');
 	}
 
+
 //	---------------------------------
 //	COMPONENT INSTANCE ATTRIBUTES
 //	---------------------------------

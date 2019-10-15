@@ -72,10 +72,10 @@
 					'<td>% Grid lightness on the edit canvas.</td></tr>'+
 
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.snaptogrid', ps.snaptogrid)+'</td>'+
-					'<td><label for="snaptogrid">Snap to grid.</label></td></tr>'+
+					'<td><label for="snaptogrid">Snap Path Points to grid lines.</label></td></tr>'+
 
 					'<tr><td class="uicolumn">'+checkUI('_GP.projectsettings.snaptoguides', ps.snaptoguides)+'</td>'+
-					'<td><label for="snaptoguides">Snap to guides.</label></td></tr>'+
+					'<td><label for="snaptoguides">Snap Path Points to guides.</label></td></tr>'+
 
 					'<tr><td class="uicolumn"><input type="text" value="'+(ps.snapdistance)+'" onchange="var r=Math.round(parseInt(this.value)); r=r||1; _GP.projectsettings.snapdistance=r; this.value=r;" style="width:25px;"/></td>'+
 					'<td>Snap distance/proximity.<span class="unit">(screen pixels)</span></td></tr>'+
