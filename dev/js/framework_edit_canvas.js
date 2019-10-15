@@ -213,6 +213,9 @@
 		ctxg += 'title="context glyphs\ndisplay glyphs before or after the currently-selected glyph" ';
 		ctxg += 'value="'+getContextGlyphString()+'"/>';
 		ctxg += '<button id="contextglyphsoptionsbutton" onclick="showCtxGlyphsOptions();">&#x23F7;</button>';
+		ctxg += '<br>';
+		ctxg += '<button class="tool" title="Previous glyph" onclick="selectPreviousGlyph();">'+makeToolButton({'name':'tool_previousGlyph'})+'</button>';
+		ctxg += '<button class="tool" title="Next glyph" onclick="selectNextGlyph();">'+makeToolButton({'name':'tool_nextGlyph'})+'</button>';
 		ctxg += '</div>';
 
 		// LOWER LEFT
@@ -1249,6 +1252,34 @@
 		}
 
 		// debug(' selectGlyph - END\n');
+	}
+
+	function selectNextGlyph(){
+		var selwi = getSelectedWorkItemID();
+		var hit = false;
+
+		for(var gid in _GP.glyphs){
+			if(hit) {
+				selectGlyph(gid);
+				break;
+			} else if(gid == selwi) {
+				hit = true;
+			}
+		}
+	}
+
+	function selectPreviousGlyph(){
+		var selwi = getSelectedWorkItemID();
+		var previous = false;
+
+		for(var gid in _GP.glyphs){
+			if(gid == selwi) {
+				selectGlyph(previous);
+				break;
+			} else {
+				previous = gid;
+			}
+		}
 	}
 
 	function selectComponent(c, dontnavigate){

@@ -1327,6 +1327,7 @@
 		position: fixed;
 		left: 595px;
 		top: 16px;
+		margin-top: 2px;
 	}
 	
 	#contextglyphsinput {
@@ -1380,7 +1381,7 @@
 		display: none;
 		position: fixed;
 		left: 595px;
-		top: 45px;
+		top: 47px;
 		width: 400px;
 		padding:10px 8px 20px 10px;
 		background-color:white;
