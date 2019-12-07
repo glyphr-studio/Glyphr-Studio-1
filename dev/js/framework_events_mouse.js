@@ -6,7 +6,7 @@
  **/
 
 _UI.eventhandlers = {
-	'currtool': false,
+	'currentTool': false,
 	'tempnewbasicshape' : false,
 	'dragselectarea': false,
 	'mousex' : 0,
@@ -20,81 +20,52 @@ _UI.eventhandlers = {
 	'firstx' : -100,
 	'firsty' : -100,
 	'uqhaschanged' : false,
-	'lastTool' : 'pathedit',
+	'lastToolName' : 'pathedit',
+	'isCtrlDown': false,
 	'isSpaceDown' : false,
 	'isShiftDown' : false,
 	'hoverpoint' : false,
 	'multi': false
 };
 
-function initEventHandlers() {
-	// debug('\n initEventHandlers - START');
+// The general-purpose event handler.
+function editCanvasMouseEvent(ev) {
+	//debug('EVENTHANDLER - Raw mouse event x/y = ' + ev.layerX + ' / ' + ev.layerY);
+	mouseovercec();
 
-	_UI.eventhandlers.eh_pantool = new Tool_Pan();
-	_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
-	_UI.eventhandlers.eh_shapeedit = new Tool_ShapeEdit();
-	_UI.eventhandlers.eh_addpath = new Tool_NewPath();
-	_UI.eventhandlers.eh_pathedit = new Tool_PathEdit();
-	_UI.eventhandlers.eh_pathaddpoint = new Tool_PathAddPoint();
-	_UI.eventhandlers.eh_slice = new Tool_Slice();
-	_UI.eventhandlers.eh_kern = new Tool_Kern();
+	var eh = _UI.eventhandlers;
 
-	// Mouse Event Listeners
-	_UI.glypheditcanvas.addEventListener('mousedown', ev_canvas, false);
-	_UI.glypheditcanvas.addEventListener('mousemove', ev_canvas, false);
-	_UI.glypheditcanvas.addEventListener('mouseup',   ev_canvas, false);
-	_UI.glypheditcanvas.customguidetransparency = mouseovercec;
-	_UI.glypheditcanvas.onmouseout = mouseoutcec;
-	_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
-	if (document.getElementById('navarea_panel')) {
-		document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
+	if (ev.offsetX || ev.offsetX) {
+		// IE, Chrome, (Opera?)
+		eh.mousex = ev.offsetX;
+		eh.mousey = ev.offsetY;
+	} else if (ev.layerX || ev.layerX) {
+		// Firefox
+		eh.mousex = ev.layerX;
+		eh.mousey = ev.layerY;
 	}
-	
-	// Document Key Listeners
-	_UI.glypheditcanvas.addEventListener('keypress', keypress, false);
-	_UI.glypheditcanvas.addEventListener('keydown', keypress, false);
-	_UI.glypheditcanvas.addEventListener('keyup', keyup, false);
 
-	// The general-purpose event handler.
-	function ev_canvas(ev) {
+	//debug('editCanvasMouseEvent offsetx / offsety / layerx / layery: ' +  ev.offsetX + ' ' + ev.offsetY + ' ' + ev.layerX + ' ' + ev.layerY);
 
-		//debug('EVENTHANDLER - Raw mouse event x/y = ' + ev.layerX + ' / ' + ev.layerY);
-		mouseovercec();
+	// updateCursor();
 
-		var eh = _UI.eventhandlers;
+	// Switch Tool function
 
-		if (ev.offsetX || ev.offsetX) {
-			// IE, Chrome, (Opera?)
-			eh.mousex = ev.offsetX;
-			eh.mousey = ev.offsetY;
-		} else if (ev.layerX || ev.layerX) {
-			// Firefox
-			eh.mousex = ev.layerX;
-			eh.mousey = ev.layerY;
-		}
-
-		//debug('EV_CANVAS offsetx / offsety / layerx / layery: ' +  ev.offsetX + ' ' + ev.offsetY + ' ' + ev.layerX + ' ' + ev.layerY);
-
-		// updateCursor();
-
-		// Switch Tool function
-
-		switch(_UI.selectedtool){
-			case 'pathedit' : eh.currtool = eh.eh_pathedit; break;
-			case 'shaperesize' : eh.currtool = eh.eh_shapeedit; break;
-			case 'pan' : eh.currtool = eh.eh_pantool; break;
-			case 'pathaddpoint' : eh.currtool = eh.eh_pathaddpoint; break;
-			case 'newpath' : eh.currtool = eh.eh_addpath; break;
-			case 'newrect' : eh.currtool = eh.eh_addrectoval; break;
-			case 'newoval' : eh.currtool = eh.eh_addrectoval; break;
-			case 'slice': eh.currtool = eh.eh_slice; break;
-			case 'kern': eh.currtool = eh.eh_kern; break;
-			case _UI.selectedtool: eh.currtool = eh.eh_pathedit;
-		}
-
-		// Call the event handler of the eh.currtool.
-		eh.currtool[ev.type](ev);
+	switch(_UI.selectedToolName){
+		case 'pathedit' : eh.currentTool = eh.eh_pathedit; break;
+		case 'shaperesize' : eh.currentTool = eh.eh_shapeedit; break;
+		case 'pan' : eh.currentTool = eh.eh_pantool; break;
+		case 'pathaddpoint' : eh.currentTool = eh.eh_pathaddpoint; break;
+		case 'newpath' : eh.currentTool = eh.eh_addpath; break;
+		case 'newrect' : eh.currentTool = eh.eh_addrectoval; break;
+		case 'newoval' : eh.currentTool = eh.eh_addrectoval; break;
+		case 'slice': eh.currentTool = eh.eh_slice; break;
+		case 'kern': eh.currentTool = eh.eh_kern; break;
+		case _UI.selectedToolName: eh.currentTool = eh.eh_pathedit;
 	}
+
+	// Call the event handler of the eh.currentTool.
+	eh.currentTool[ev.type](ev);
 }
 
 
@@ -152,7 +123,7 @@ function Tool_ShapeEdit(){
 			// debug('\t clicked on shape = true');
 			this.dragging = true;
 
-		} else if (!eh.multi){
+		} else if (!eh.isCtrlDown){
 			// debug('\t clicked on nothing');
 			clickEmptySpace();
 			this.dragselecting = true;
@@ -176,7 +147,7 @@ function Tool_ShapeEdit(){
 			var cur = 'arrowSquare';
 
 			if(this.clickedshape){
-				if(eh.multi) _UI.ms.shapes.add(this.clickedshape);
+				if(eh.isCtrlDown) _UI.ms.shapes.add(this.clickedshape);
 				else if (!_UI.ms.shapes.isSelected(this.clickedshape)){
 					_UI.ms.shapes.select(this.clickedshape);
 				}
@@ -202,7 +173,7 @@ function Tool_ShapeEdit(){
 			// debug('\n Tool_ShapeEdit.mousemove - resizing');
 			eventHandler_ShapeResize();
 			this.didstuff = true;
-			
+
 		} else if (this.rotating){
 			// debug('\n Tool_ShapeEdit.mousemove - rotating');
 			var radians = calculateAngle({x:cx_sx(eh.mousex), y:cy_sy(eh.mousey)}, eh.rotationcenter);
@@ -219,12 +190,12 @@ function Tool_ShapeEdit(){
 			// hovering over a corner
 			setCursor(corner);
 
-		} else if (eh.multi){
+		} else if (eh.isCtrlDown){
 			setCursor('arrowPlus');
 
 		} else if (isOverShape(eh.mousex, eh.mousey)){
 			setCursor('arrowSquare');
-	
+
 		} else {
 			// debug('\n Tool_ShapeEdit.mousemove - fallthrough else');
 			setCursor('arrow');
@@ -254,7 +225,7 @@ function Tool_ShapeEdit(){
 
 		// Clicked a shape to select
 		if(this.clickedshape && !this.didstuff){
-			if(eh.multi) _UI.ms.shapes.toggle(this.clickedshape);
+			if(eh.isCtrlDown) _UI.ms.shapes.toggle(this.clickedshape);
 			else _UI.ms.shapes.select(this.clickedshape);
 
 			if(this.clickedshape.objtype === 'componentinstance') clickTool('shaperesize');
@@ -343,7 +314,7 @@ function Tool_NewBasicShape(){
 			var s = _UI.ms.shapes.getSingleton();
 
 			// console.time('NewBasicShape - create shape');
-			if(_UI.selectedtool==='newrect'){
+			if(_UI.selectedToolName==='newrect'){
 				s.name = ('Rectangle ' + count);
 				s.path = rectPathFromMaxes(tnbs);
 			} else {
@@ -415,7 +386,7 @@ function Tool_NewPath(){
 				eh.lastx = eh.mousex;
 				eh.lasty = eh.mousey;
 				_UI.ms.points.select(this.newshape.path.pathpoints[0]);
-				_UI.selectedtool = 'pathedit';
+				_UI.selectedToolName = 'pathedit';
 
 				this.dragging = false;
 				this.firstpoint = false;
@@ -504,7 +475,7 @@ function Tool_PathEdit(){
 		var eh = _UI.eventhandlers;
 		eh.lastx = eh.mousex;
 		eh.lasty = eh.mousey;
-		this.controlpoint = getSelectedWorkItem().isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), eh.multi);
+		this.controlpoint = getSelectedWorkItem().isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey), eh.isCtrlDown);
 		var s = getClickedShape(eh.mousex, eh.mousey);
 
 		// debug(this.controlpoint);
@@ -512,7 +483,7 @@ function Tool_PathEdit(){
 		if(this.controlpoint){
 			this.dragging = true;
 			if(this.controlpoint.type === 'P') {
-				if(eh.multi) _UI.ms.points.toggle(this.controlpoint.point);
+				if(eh.isCtrlDown) _UI.ms.points.toggle(this.controlpoint.point);
 				else if(!_UI.ms.points.isSelected(this.controlpoint.point)) _UI.ms.points.select(this.controlpoint.point);
 				setCursor('penSquare');
 			} else {
@@ -588,9 +559,9 @@ function Tool_PathEdit(){
 				if(ev.ctrlKey || ev.metaKey) return;
 				moved = point.updatePathPointPosition(cpt, dx, dy, false, ev, single) || moved;
 			});
-			
+
 			// debug(`\t moved: ${moved}`);
-			
+
 			// If a point didn't move, it's because it was snapped back in place
 			// leave the last x/y alone if it didn't move
 			if(moved) {
@@ -610,7 +581,7 @@ function Tool_PathEdit(){
 		var cp = _UI.ms.shapes.isOverControlPoint(cx_sx(eh.mousex), cy_sy(eh.mousey));
 		if(cp.type === 'P') setCursor('penSquare');
 		else if(_UI.ms.points.isSelected(cp.point)) setCursor('penCircle');
-		if(!cp && eh.multi) setCursor('penPlus');
+		if(!cp && eh.isCtrlDown) setCursor('penPlus');
 
 		// debug(' Tool_PathEdit.mousemove - END\n');
 	};
@@ -655,18 +626,18 @@ function Tool_PathAddPoint(){
 
 		} else if(s){
 			_UI.ms.points.clear();
-			if(_UI.eventhandlers.multi) _UI.ms.shapes.add(s);
+			if(_UI.eventhandlers.isCtrlDown) _UI.ms.shapes.add(s);
 			else _UI.ms.shapes.select(s);
 
 			if(s.objtype === 'componentinstance') clickTool('shaperesize');
 			_UI.current_panel = 'npAttributes';
 
 		} else {
-			_UI.selectedtool = 'newpath';
-			_UI.eventhandlers.currtool = _UI.eventhandlers.eh_addpath;
-			_UI.eventhandlers.currtool.dragging = true;
-			_UI.eventhandlers.currtool.firstpoint = true;
-			_UI.eventhandlers.currtool.mousedown(ev);
+			_UI.selectedToolName = 'newpath';
+			_UI.eventhandlers.currentTool = _UI.eventhandlers.eh_addpath;
+			_UI.eventhandlers.currentTool.dragging = true;
+			_UI.eventhandlers.currentTool.firstpoint = true;
+			_UI.eventhandlers.currentTool.mousedown(ev);
 		}
 
 		_UI.eventhandlers.hoverpoint = false;
@@ -804,17 +775,18 @@ function clickEmptySpace(){
 function eventHandler_ShapeResize(){
 	// debug('\n eventHandler_ShapeResize - START');
 	var s = _UI.ms.shapes;
+	var eh = _UI.eventhandlers;
 	var pcorner = _UI.eventhandlers.handle;
 	// debug('\t handle ' + pcorner);
 
 	var maxes = s.getMaxes();
-	var mx = cx_sx(_UI.eventhandlers.mousex);
-	var my = cy_sy(_UI.eventhandlers.mousey);
-	var lx = cx_sx(_UI.eventhandlers.lastx);
-	var ly = cy_sy(_UI.eventhandlers.lasty);
+	var mx = cx_sx(eh.mousex);
+	var my = cy_sy(eh.mousey);
+	var lx = cx_sx(eh.lastx);
+	var ly = cy_sy(eh.lasty);
 	var dh = (ly-my);
 	var dw = (lx-mx);
-	var rl = s.getAttribute('ratiolock');
+	var rl = s.getAttribute('ratiolock') || eh.isShiftDown;
 
 	// debug('\t eventHandler_ShapeResize dw/dh/rl: ' + dw + '/' + dh + '/' + rl);
 
@@ -886,7 +858,7 @@ function eventHandler_ShapeResize(){
 			break;
 	}
 
-	//if(!_UI.eventhandlers.tempnewbasicshape) s.calcMaxes();
+	//if(!eh.tempnewbasicshape) s.calcMaxes();
 
 	//debug('eventHandler_ShapeResize - Done lx/rx/ty/by: ' + s.path.maxes.xmin + ',' + s.path.maxes.xmax + ',' + s.path.maxes.ymax + ',' + s.path.maxes.ymin);
 }
@@ -903,7 +875,7 @@ function checkForMouseOverHotspot(x, y) {
 		if(_UI.canvashotspothovering) redraw({calledby:'checkForMouseOverHotspot', redrawpanels:false, redrawtools:false});
 		_UI.canvashotspothovering = false;
 	}
-	
+
 }
 
 function updateTNBS(dx,dy,dw,dh){

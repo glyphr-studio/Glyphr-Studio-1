@@ -77,7 +77,7 @@
 		// debug('\t wishapes ' + wishapes);
 
 		if(wishapes && wishapes[num]){
-			 if(_UI.eventhandlers.multi) _UI.ms.shapes.toggle(wishapes[num]);
+			 if(_UI.eventhandlers.isCtrlDown) _UI.ms.shapes.toggle(wishapes[num]);
 			 else {
 			 	_UI.ms.points.clear();
 			 	_UI.ms.shapes.select(wishapes[num]);

@@ -296,8 +296,8 @@
 		
 		if(dx !== false) dx = parseFloat(dx);
 		if(dy !== false) dy = parseFloat(dy);
-		var lockx = (_UI.selectedtool==='pathedit'? this.P.xlock : false);
-		var locky = (_UI.selectedtool==='pathedit'? this.P.ylock : false);
+		var lockx = (_UI.selectedToolName==='pathedit'? this.P.xlock : false);
+		var locky = (_UI.selectedToolName==='pathedit'? this.P.ylock : false);
 		
 		if(isval(force)){
 			if(force){

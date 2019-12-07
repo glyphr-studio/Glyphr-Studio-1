@@ -12,9 +12,9 @@
 
 		setupKerningEditCanvas();
 
-		initEventHandlers();
+		// initEventHandlers();
 
-		_UI.selectedtool = 'kern';
+		_UI.selectedToolName = 'kern';
 
 		redraw({calledby:'loadPage_kerning'});
 	}
@@ -25,8 +25,8 @@
 		_UI.glypheditcanvas.width = _UI.glypheditcanvassize;
 		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
-		_UI.glypheditcanvas.onmouseout = mouseoutcec;
-		_UI.glypheditcanvas.onmouseover = mouseovercec;
+		_UI.glypheditcanvas.addEventListener('mouseover', mouseovercec, false);
+		_UI.glypheditcanvas.addEventListener('mouseout', mouseoutcec, false);
 	}
 
 

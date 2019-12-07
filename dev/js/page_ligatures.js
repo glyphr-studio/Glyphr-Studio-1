@@ -10,7 +10,7 @@
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
-		initEventHandlers();
+		// initEventHandlers();
 		clickEmptySpace();
 		
 		if(_UI.devmode && isval(_UI.dev_selected_shape)){
@@ -20,8 +20,8 @@
 
 		_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 		
-		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedtool = 'pathedit';
-		else _UI.selectedtool = 'pathaddpoint';
+		if(getSelectedWorkItemShapes().length > 0)	_UI.selectedToolName = 'pathedit';
+		else _UI.selectedToolName = 'pathaddpoint';
 
 		redraw({calledby:'loadPage_ligatures'});
 	}

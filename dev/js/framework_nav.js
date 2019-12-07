@@ -152,7 +152,7 @@
 		var onlig = _UI.current_page === 'ligatures';
 		var ontd = _UI.current_page === 'test drive';
 		var onkern = _UI.current_page === 'kerning';
-		var evmove = _UI.eventhandlers.currtool.dragging || _UI.eventhandlers.currtool.resizing;
+		var evmove = _UI.eventhandlers.currentTool.dragging || _UI.eventhandlers.currentTool.resizing;
 
 		document.getElementById('popout_pagenav').innerHTML = makePanel_PageNav();
 

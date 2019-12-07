@@ -44,7 +44,7 @@
 				content += shapeDetails(ss[0]);
 				
 				var ispointsel = (_UI.ms.points.count() === 1);
-				if(!(_UI.selectedtool === 'pathedit' || _UI.selectedtool === 'pathaddpoint')) ispointsel = false;
+				if(!(_UI.selectedToolName === 'pathedit' || _UI.selectedToolName === 'pathaddpoint')) ispointsel = false;
 				
 				if(ispointsel){ content += pointDetails(_UI.ms.points.getSingleton()); }
 			}
@@ -348,7 +348,7 @@
 			'</td>'+
 		'</tr>';
 		
-		if(_UI.selectedtool !== 'pathedit') {
+		if(_UI.selectedToolName !== 'pathedit') {
 			content += '<tr>'+
 				'<td> lock aspect ratio </td>'+
 				'<td>'+checkUI('_UI.ms.shapes.getSingleton().ratiolock', s.ratiolock, true)+'</td>'+

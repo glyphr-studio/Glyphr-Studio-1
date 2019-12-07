@@ -10,7 +10,7 @@
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
-		initEventHandlers();
+		// initEventHandlers();
 		clickEmptySpace();
 
 		if(_UI.devmode && isval(_UI.dev_selected_shape)){
@@ -21,8 +21,8 @@
 		_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
 		
 		if(getSelectedWorkItemShapes().length > 0){
-			if(_UI.selectedtool !== 'shaperesize') _UI.selectedtool = 'pathedit';
-		} else _UI.selectedtool = 'pathaddpoint';
+			if(_UI.selectedToolName !== 'shaperesize') _UI.selectedToolName = 'pathedit';
+		} else _UI.selectedToolName = 'pathaddpoint';
 		
 		redraw({calledby:'loadPage_glyphedit'});
 
@@ -66,7 +66,7 @@
 			_UI.ms.shapes.draw_RotationAffordance();
 
 		} else if (editmode === 'pen'){
-			if(_UI.eventhandlers.multi) sg.draw_MultiSelectAffordances();
+			if(_UI.eventhandlers.isCtrlDown) sg.draw_MultiSelectAffordances();
 			_UI.ms.points.draw_PathPointHandles();
 			_UI.ms.shapes.draw_PathPoints();
 			// _UI.ms.points.draw_PathPoints();

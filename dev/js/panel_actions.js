@@ -139,11 +139,11 @@
 
 		var ispointsel = false;
 		if(_UI.ms.points.count() > 0) ispointsel = true;
-		if(_UI.selectedtool !== 'pathedit') ispointsel = false;
+		if(_UI.selectedToolName !== 'pathedit') ispointsel = false;
 		
 		var ismultipointsel = false;
 		if(_UI.ms.points.count() > 1) ismultipointsel = true;
-		if(_UI.selectedtool !== 'pathedit') ismultipointsel = false;
+		if(_UI.selectedToolName !== 'pathedit') ismultipointsel = false;
 		
 		if(ispointsel){ content += pointactions; }
 		if(ismultipointsel){ content += multipointactions; }
@@ -353,7 +353,7 @@
 			sourceGlyph.copyShapesTo(destinationGlyphID, _UI.glyphchooser.getshapesoptions);
 			redraw({calledby:'pasteShapesFrom'});
 			history_put('Copied shapes from "' + getGlyphName(sourceGlyphID) + '" to  "' + getSelectedWorkItemName());
-			if(_UI.selectedtool === 'pathaddpoint') _UI.selectedtool = 'shaperesize';
+			if(_UI.selectedToolName === 'pathaddpoint') _UI.selectedToolName = 'shaperesize';
 			closeDialog();
 			
 		} else {

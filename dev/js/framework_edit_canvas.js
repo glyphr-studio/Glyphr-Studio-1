@@ -61,7 +61,7 @@
 
 		if(_UI.redraw.redrawcanvas){
 			if(_UI.glypheditctx) _UI.glypheditctx.clearRect(0,0,_UI.glypheditcanvassize,_UI.glypheditcanvassize);
-			
+
 			switch (_UI.current_page){
 				case 'glyph edit': redraw_GlyphEdit(); break;
 				case 'components': redraw_GlyphEdit(); break;
@@ -71,7 +71,7 @@
 			}
 		}
 
-		if(!_UI.eventhandlers.currtool.dragging) update_ToolsArea();
+		if(!_UI.eventhandlers.currentTool.dragging) update_ToolsArea();
 
 		if(_UI.redraw.redrawpanels) update_NavPanels();
 
@@ -125,7 +125,7 @@
 		var type = _UI.ms.shapes.getType();
 		var selectedWorkItem = getSelectedWorkItem();
 
-		if(_UI.selectedtool === 'pathedit'){
+		if(_UI.selectedToolName === 'pathedit'){
 			patheditclass = 'buttonsel';
 		} else if (type === 'componentinstance'){
 			patheditclass = 'buttondis';
@@ -133,7 +133,7 @@
 			penaddpointclickable = false;
 		}
 
-		if(_UI.selectedtool === 'pathaddpoint'){
+		if(_UI.selectedToolName === 'pathaddpoint'){
 			pathaddpointclass = 'buttonsel';
 		} else if (type === 'componentinstance'){
 			pathaddpointclass = 'buttondis';
@@ -146,7 +146,7 @@
 			penaddpointclickable = false;
 		}
 
-		var st = _UI.selectedtool;
+		var st = _UI.selectedToolName;
 
 		// debug(`\t selected glyph ${selectedWorkItem.name} selected tool ${st}`);
 
@@ -240,7 +240,7 @@
 
 		if(onglyph || oncom || onlig) {
 			toolcontent += edittools;
-			if(_UI.selectedtool === 'newpath') toolcontent += donepath;
+			if(_UI.selectedToolName === 'newpath') toolcontent += donepath;
 		}
 
 		if(onkern) toolcontent += kern;
@@ -257,12 +257,12 @@
 
 	function clickTool(ctool){
 		// debug('\n clickTool - START');
-		_UI.selectedtool = ctool;
+		_UI.selectedToolName = ctool;
 
-		// debug('\t passed: ' + ctool + ' and _UI.selectedtool now is: ' + _UI.selectedtool);
+		// debug('\t passed: ' + ctool + ' and _UI.selectedToolName now is: ' + _UI.selectedToolName);
 
 		_UI.eventhandlers.eh_addpath.firstpoint = true;
-		_UI.eventhandlers.multi = false;
+		_UI.eventhandlers.isCtrlDown = false;
 
 		if(ctool === 'newrect'){
 			setCursor('crosshairsSquare');
@@ -290,7 +290,7 @@
 	}
 
 	function updateCursor(tool){
-		tool = tool || _UI.selectedtool;
+		tool = tool || _UI.selectedToolName;
 
 		// debug('\n updateCursor - START');
 		// debug('\t tool = ' + tool);
@@ -371,8 +371,8 @@
 	}
 
 	function getEditMode() {
-		var tool = _UI.selectedtool;
-		if(tool === 'pan') tool = _UI.eventhandlers.lastTool;
+		var tool = _UI.selectedToolName;
+		if(tool === 'pan') tool = _UI.eventhandlers.lastToolName;
 
 		if(tool === 'newrect' || tool === 'newoval')	return 'newbasicshape';
 		else if (tool === 'newpath')	return 'newpath';
@@ -384,6 +384,8 @@
 	function mouseovercec() {
 		// debug('\n mouseovercec - START');
 		_UI.eventhandlers.ismouseovercec = true;
+		var editCanvas = document.getElementById('glypheditcanvas');
+		if(editCanvas) editCanvas.focus();
 		updateCursor();
 		if(_UI.hamburger.state !== 0 && _UI.current_panel !== 'npNav') goHamburger(false);
 		// debug(' mouseovercec - END\n');
@@ -394,6 +396,8 @@
 		_UI.eventhandlers.ismouseovercec = false;
 		// Fixes a Chrome cursor problem
 		document.onselectstart = function () {};
+		var editCanvas = document.getElementById('glypheditcanvas');
+		if(editCanvas) editCanvas.blur();
 		updateCursor();
 		if(_UI.hamburger.state !== 11 && _UI.current_panel !== 'npNav') goHamburger(true);
 		// debug(' mouseoutcec - END\n');
@@ -509,14 +513,14 @@
 		var selwid = getSelectedWorkItemID();
 		var currGlyphObject = getGlyph(selwid, true);
 		var currGlyphChar = hexToChars(selwid);
-		
+
 		var cgi = getEditDocument().getElementById('contextglyphsinput');
-		
+
 		_UI.contextglyphs = {
 			leftseq: false,
 			rightseq: false
 		};
-		
+
 		if(cgi) {
 			if(cgi.value === currGlyphChar) {
 				selwi.contextglyphs = '';
@@ -525,7 +529,7 @@
 				selwi.contextglyphs = cgi.value;
 			}
 		}
-				
+
 		// debug('\t split: ' + split.left + ' | ' + split.right);
 		// debug(`\t view: ${json(v, true)}`);
 
@@ -676,7 +680,7 @@
 
 		var ps = _GP.projectsettings;
 		var alpha = transparencyToAlpha(ps.colors.systemguidetransparency);
-		
+
 		if(ps.showcontextglyphguides && alpha){
 			var view = getView('drawContextGlyphExtras');
 			var advanceWidth = char.width * view.dz;
@@ -684,20 +688,20 @@
 			var rightx = currx + advanceWidth;
 			var color = RGBAtoRGB('rgb(204,81,0)', alpha);
 			var texty = sy_cy(_GP.projectsettings.descent-60);
-			
-			
+
+
 			// Draw the glyph name
 			var gname = char.glyph? char.glyph.getName() : getGlyphName(charsToHexArray(char.char));
 			gname = gname.replace(/latin /i, '');
 			drawGlyphNameExtra(gname, currx, texty, advanceWidth, color, char.char);
-			
+
 			// Draw vertical lines
 			drawVerticalLine(rightx, false, color);
-			
+
 			// Draw kern notation
 			if(char.kern) drawGlyphKernExtra(char.kern, rightx, texty, view.dz);
 		}
-		
+
 		// if(_UI.devmode) debugger;
 
 		// debug(' drawContextGlyphExtras - END\n');
@@ -934,11 +938,11 @@
 		if(isval(v[sc])){
 			// debug(` getView ${calledby} - returning SAVED VALUE\n`);
 			return clone(v[sc], 'getView');
-			
+
 		} else if(onkern){
 			// debug(` getView ${calledby} - returning DEFAULT KERN\n`);
 			return clone(_UI.defaultkernview, 'getView');
-			
+
 		} else {
 			// debug(` getView ${calledby} - returning DEFAULT\n`);
 			return clone(_UI.defaultview, 'getView');
@@ -990,7 +994,7 @@
 		if(!id) return;
 
 		if(_UI.current_page === 'kerning'){
-			if(!isval(_UI.views[id])){ 
+			if(!isval(_UI.views[id])){
 				var dm = wi.getDisplayMetrics();
 				var tempview = calculateViewForEditCanvas(dm.width);
 				setView({
@@ -999,7 +1003,7 @@
 					dz: tempview.dz
 				});
 			}
-		
+
 		} else {
 			if(!isval(_UI.views[id])){
 				var aw = wi.shapes.length? wi.getAdvanceWidth() : 0;
@@ -1014,7 +1018,7 @@
 		var rightwidth = 0;
 		var currwidth = 0;
 		var newview;
-		
+
 		if(_UI.current_page === 'kerning') {
 			leftwidth = getLargestAdvanceWidth(selwi.leftgroup);
 			currwidth = getLargestAdvanceWidth(selwi.rightgroup);
@@ -1024,9 +1028,9 @@
 			rightwidth = getGlyphSequenceAdvanceWidth(_UI.contextglyphs.rightseq.glyphstring);
 			currwidth = selwi.getAdvanceWidth();
 		}
-		
+
 		// debug(`\t left ${leftwidth}, curr ${currwidth}, right ${rightwidth}`);
-		
+
 		newview = calculateViewForEditCanvas(leftwidth + currwidth + rightwidth);
 
 		newview.dx += (leftwidth * newview.dz);
@@ -1042,34 +1046,34 @@
 			g = getGlyph(glyphArray[i]);
 			re = Math.max(re, g.getAdvanceWidth());
 		}
-		
+
 		return re;
 	}
 
 
 	function calculateViewForEditCanvas(advanceWidth) {
 		// debug(`\n calculateViewForEditCanvas - START`);
-		
+
 		var ps = _GP.projectsettings;
-		
+
 		var canw = window.innerWidth - 470;	// 470 is the width of the left panel area
 		var canh = window.innerHeight - 80;	// 80 is the height of the UI across the top
 		// debug(`\t CAN \t ${canw} \t ${canh}`);
-		
+
 		var strh = ps.ascent - ps.descent;
 		var strw = advanceWidth;
 		// var strw = advanceWidth || ps.upm / 2;
 		// debug(`\t STR \t ${strw} \t ${strh}`);
-		
+
 		var zw = (canw / (strw * 1.4));
 		var zh = (canh / (strh * 1.4));
 		// debug(`\t NZ \t ${zw} \t ${zh}`);
-		
+
 		var nz = round(Math.min(zh, zw), 3);
 		var nx = round(Math.max(50, ((canw - (nz * strw)) / 2)));
 		var ny = round(((canh - (nz * strh)) / 2) + (ps.ascent * 1.1 * nz));
 		// debug(`\t VIEW \t ${nx} \t ${ny} \t ${nz}`);
-		
+
 		// if(_UI.devmode) debugger;
 		// debug(` calculateViewForEditCanvas - END\n\n`);
 		return {dx: nx, dy: ny, dz: nz};
@@ -1328,7 +1332,7 @@
 		// debug('\n draw_PathOutline - START');
 		// debug('\t shape name = ' + sh.name);
 		// debug('\t accent.l65 = ' + accent.l65);
-		// debug('\t selectedtool = ' + _UI.selectedtool);
+		// debug('\t selectedToolName = ' + _UI.selectedToolName);
 
 		if(!sh) return;
 
@@ -1337,10 +1341,10 @@
 		_UI.glypheditctx.strokeStyle = accent.l65;
 		_UI.glypheditctx.fillStyle = 'transparent';
 
-		if(_UI.selectedtool==='newrect'){
+		if(_UI.selectedToolName==='newrect'){
 			draw_BoundingBox(sh.getMaxes(), accent);
 
-		} else if (_UI.selectedtool==='newoval'){
+		} else if (_UI.selectedToolName==='newoval'){
 			_UI.glypheditctx.strokeStyle = accent.l65;
 			var tpdso = ovalPathFromMaxes(_UI.eventhandlers.tempnewbasicshape);
 
@@ -1840,17 +1844,43 @@
 	}
 
 	function setupEditCanvas(){
+		// global object
 		_UI.glypheditcanvas = getEditDocument().getElementById('glypheditcanvas');
 		_UI.glypheditcanvas.height = _UI.glypheditcanvassize;
 		_UI.glypheditcanvas.width = _UI.glypheditcanvassize;
 		_UI.glypheditctx = _UI.glypheditcanvas.getContext('2d');
 		_UI.glypheditctx.globalAlpha = 1;
+
+		// Mouse Movement / Drag + Drop Listeners
 		_UI.glypheditcanvas.onselectstart = function () { return false; };		//for Chrome, disable text select while dragging
 		_UI.glypheditcanvas.addEventListener('mouseout', mouseoutcec, false);
 		_UI.glypheditcanvas.addEventListener('mouseover', mouseovercec, false);
-		_UI.glypheditcanvas.addEventListener('paste', pasteSvgOnEditCanvas, false);
 		_UI.glypheditcanvas.addEventListener('drop', dropSvgOnEditCanvas, false);
 		_UI.glypheditcanvas.addEventListener('dragenter', canvasDragEnter, false);
+
+		// Key Listeners
+		_UI.glypheditcanvas.addEventListener('paste', pasteSvgOnEditCanvas, false);
+		_UI.glypheditcanvas.addEventListener('keydown', keyDown, false);
+		_UI.glypheditcanvas.addEventListener('keyup', keyUp, false);
+
+		// Mouse Interaction Listeners
+		_UI.glypheditcanvas.addEventListener('mousedown', editCanvasMouseEvent, false);
+		_UI.glypheditcanvas.addEventListener('mousemove', editCanvasMouseEvent, false);
+		_UI.glypheditcanvas.addEventListener('mouseup', editCanvasMouseEvent, false);
+		_UI.glypheditcanvas.addEventListener('wheel', mousewheel, false);
+		if (document.getElementById('navarea_panel')) {
+			document.getElementById('navarea_panel').addEventListener('wheel', function(ev){ev.stopPropagation();}, false);
+		}
+
+		// Mouse tool Event Listeners
+		_UI.eventhandlers.eh_pantool = new Tool_Pan();
+		_UI.eventhandlers.eh_addrectoval = new Tool_NewBasicShape();
+		_UI.eventhandlers.eh_shapeedit = new Tool_ShapeEdit();
+		_UI.eventhandlers.eh_addpath = new Tool_NewPath();
+		_UI.eventhandlers.eh_pathedit = new Tool_PathEdit();
+		_UI.eventhandlers.eh_pathaddpoint = new Tool_PathAddPoint();
+		_UI.eventhandlers.eh_slice = new Tool_Slice();
+		_UI.eventhandlers.eh_kern = new Tool_Kern();
 	}
 
 	function canvasDragEnter() {
@@ -1858,6 +1888,8 @@
 	}
 
 	function importSvgToCanvas(svgData) {
+		debug(`\n importSvgToCanvas - START`);
+
 		var tempchar = ioSVG_convertTagsToGlyph(svgData);
 
 		if(tempchar) {
@@ -1870,31 +1902,38 @@
 			tempchar.copyShapesTo(getSelectedWorkItemID(), false, true);
 			_UI.ms.shapes.getGlyph().ratiolock = true;
 			clickTool('shaperesize');
-			
+
 			markSelectedWorkItemAsChanged();
 			history_put("Pasted SVG to glyph "+getSelectedWorkItemName());
-			
+
 			showToast('Pasted ' + tempchar.shapes.length + ' shapes from SVG');
 			redraw({calledby: 'importSvgToCanvas'});
 		} else {
 			// showToast('Could not import pasted SVG code.');
 		}
+
+		debug(` importSvgToCanvas - END\n\n`);
 	}
 
 	function pasteSvgOnEditCanvas(event) {
-		// debug('\n pasteSvgOnEditCanvas - START');
-
+		debug('\n pasteSvgOnEditCanvas - START');
+		debug(event);
 		// Stop data actually being pasted into div
 		event.stopPropagation();
 		event.preventDefault();
 
 		// Get pasted data via clipboard API
 		var clipboardData = event.clipboardData || window.clipboardData;
+		if(!clipboardData) {
+			debug(`\t No clipboardData`);
+			return;
+		}
+
 		var pasteData = clipboardData.getData('Text');
-		// debug(pasteData);
+		debug(pasteData);
 		importSvgToCanvas(pasteData);
 
-		// debug(' pasteSvgOnEditCanvas - END');
+		debug(' pasteSvgOnEditCanvas - END');
 	}
 
 	function dropSvgOnEditCanvas(evt) {

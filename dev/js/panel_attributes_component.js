@@ -108,7 +108,7 @@
 			'</td>'+
 		'</tr>';
 
-		if(_UI.selectedtool !== 'pathedit') {
+		if(_UI.selectedToolName !== 'pathedit') {
 			content += '<tr>'+
 				'<td> lock aspect ratio </td>'+
 				'<td>' + checkUI('_UI.ms.shapes.getSingleton().ratiolock', s.ratiolock, true) + '</td>'+

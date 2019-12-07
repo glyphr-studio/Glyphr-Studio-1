@@ -436,7 +436,7 @@
 			destinationGlyph.changed();
 			if(select) {
 				_UI.ms.shapes.select(nci);
-				_UI.selectedtool = 'shaperesize';
+				_UI.selectedToolName = 'shaperesize';
 			}
 
 			addToUsedIn(sourceComponentID, destinationGlyphID);
