@@ -319,8 +319,11 @@
 		// Use overlaps to find intersections
 		var re = [];
 		for(var v=0; v<segoverlaps.length; v++){
-			// debug('\n\t SEGOVERLAPS ' + v);
+			// debug('\n\t SEGOVERLAP number ' + v);
 			re = findSegmentIntersections(segoverlaps[v].bottom, segoverlaps[v].top, 0);
+			// debug(`\t segment intersections`);
+			// debug(re);
+			
 			if(re.length > 0) {
 				if(onlyfirst) return re[0];
 				else intersects = intersects.concat(re);

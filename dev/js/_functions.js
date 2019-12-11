@@ -67,7 +67,7 @@
 		}
 
 		navigate();
-		
+
 		if(_UI.devmode) _UI.testOnLoad();
 
 		//debug(' MAIN SETUP - END\n');
@@ -92,17 +92,17 @@
 		var save = '<div id="npSave"></div>';
 		save += '<div id="saveFormatFlyout" style="display:none;">';
 		save += '<div class="closeFormatFlyout" onclick="closeDialog();">&times</div>';
-		save += '<button onclick="closeDialog(); showToast(\'Saving Glyphr Studio Project file...\'); setTimeout(saveGlyphrProjectFile, 500);">' +
+		save += '<button onclick="closeDialog(); showToast(\'Saving Glyphr Studio Project file...\', 9999); setTimeout(saveGlyphrProjectFile, 500);">' +
 				makeIcon({'name':'button_npNav', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
 				'<span>Glyphr Studio Project File</span>' +
 			'</button>';
 
-		save += '<button onclick="closeDialog(); showToast(\'Exporting OTF font file...\'); setTimeout(ioOTF_exportOTFfont, 500);">' +
+		save += '<button onclick="closeDialog(); showToast(\'Exporting OTF font file...\', 9999); setTimeout(ioOTF_exportOTFfont, 500);">' +
 				makeIcon({'name':'nav_exportotf', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
 				'<span>OTF Font</span>' +
 			'</button>';
 
-		save += '<button onclick="closeDialog(); showToast(\'Exporting SVG font file...\'); setTimeout(ioSVG_exportSVGfont, 500);">' +
+		save += '<button onclick="closeDialog(); showToast(\'Exporting SVG font file...\', 9999); setTimeout(ioSVG_exportSVGfont, 500);">' +
 				makeIcon({'name':'nav_exportsvg', 'width':32, 'height':32, 'size':50, 'color':_UI.colors.blue.l95, 'hovercolor':false}) +
 				'<span>SVG Font</span>' +
 			'</button>';
@@ -248,7 +248,7 @@
 	function openBigDialog(content, chooserContent){
 		closeDialog();
 		document.body.focus();
-		
+
 		document.getElementById('bigDialogLeftContent').innerHTML = content;
 		chooserContent = chooserContent || make_GlyphChooser(_UI.glyphchooser.dialog);
 		document.getElementById('bigDialogScrollContent').innerHTML = chooserContent;
@@ -320,40 +320,55 @@
 
 	function showToast(msg, dur, fn) {
 		// debug('\n showToast - START');
-		// debug(msg);
+		// debug(`\t ${dur} :: ${msg}`);
 
-		var step = -1;
-		var stepmax = 20;
-		var timestep = 10;
-		var divisor = 5;
+		var toast = _UI.toast;
 		var msgdiv = getEditDocument().getElementById('toast');
 		var duration = dur || 3000;
 		msgdiv.innerHTML = msg || 'Howdy!';
 
-		// debug('\t Typeof fn: ' + typeof fn);
-		// console.log(fn);
+		// Animation stuff
+		var stepmax = 20;
+		var timestep = 10;
+		var divisor = 5;
+		
+		// CSS stuff
+		var currtop = -50;
+		var finaltop = 15;
+		var curropacity = 0;
+		var finalopacity = 1;
 
 		if(fn && typeof fn === 'function') {
 			// debug('\t CALLING FUNCTION NOW');
 			setTimeout(fn, 100);
 		}
 
-		if(_UI.toasttimeout){
+		if(toast.timeoutID){
+			// A new toast takes over if an old toast exists
 			msgdiv.innerHTML = msg;
-			// appearFinish();
-			return;
+
+			if(toast.state === 'leaving') {
+				toast.state = 'entering';
+				setToastTimeout(appearStep, timestep);
+			}
+
+			if(toast.state === 'shown') {
+				// debug(`\t takeover toast step ${toast.step}`);
+				appearFinish();
+			}
+
+		} else {
+			// Start a new toast
+			setToastTimeout(appearStep, 1);
 		}
 
-		var currtop = -50;
-		var finaltop = 15;
-		var curropacity = 0;
-		var finalopacity = 1;
-
+		// Internal stuff
 		function appearFinish() {
 			// debug('\t appearFinish');
 			currtop = finaltop;
 			curropacity = finalopacity;
-			step = stepmax;
+			toast.step = stepmax;
+			toast.state = 'shown';
 
 			msgdiv.style.marginTop = (finaltop + 'px');
 			msgdiv.style.opacity = finalopacity;
@@ -362,20 +377,21 @@
 		}
 
 		function appearStep() {
-			// debug('\t appearStep ' + step);
+			// debug('\t appearStep ' + toast.step);
 
-			if(step < 0){
+			if(toast.step < 0){
 				msgdiv.style.display = 'block';
 				msgdiv.style.marginTop = '-50px;';
 				msgdiv.style.opacity = '0.0';
 				msgdiv.style.borderBottomWidth = '0px';
 
-				step++;
+				toast.step++;
+				toast.state = 'entering';
 
 				setToastTimeout(appearStep, timestep);
 
-			} else if (step < stepmax){
-				step++;
+			} else if (toast.step < stepmax){
+				toast.step++;
 				currtop = currtop + ((finaltop - currtop) / divisor);
 				curropacity = curropacity + ((finalopacity - curropacity) / divisor);
 
@@ -385,24 +401,27 @@
 				setToastTimeout(appearStep, timestep);
 
 			} else {
-				appearFinish();
+				setToastTimeout(appearFinish, timestep);
 			}
 		}
 
 		function disappearStep() {
-			// debug('\t appearStep ' + step);
-			if(step < 0){
+			// debug('\t appearStep ' + toast.step);
+			if(toast.step === stepmax) toast.state = 'leaving';
+
+			if(toast.step <= 0){
 				msgdiv.style.display = 'none';
 				msgdiv.style.marginTop = '-50px;';
 				msgdiv.style.opacity = '0.0';
 				msgdiv.innerHTML = '0_o';
-				if(_UI.toasttimeout) {
-					clearTimeout(_UI.toasttimeout);
-					_UI.toasttimeout = false;
-				}
+
+				if(toast.timeoutID) clearTimeout(toast.timeoutID);
+				toast.timeoutID = false;
+				toast.state = 'hidden';
+				toast.step = -1;
 
 			} else {
-				step--;
+				toast.step--;
 				currtop = currtop - (currtop / divisor);
 				curropacity = curropacity - (curropacity / divisor);
 
@@ -413,14 +432,16 @@
 			}
 		}
 
-		setToastTimeout(appearStep, 1);
+		function setToastTimeout(fn, dur) {
+			if(toast.timeoutID) clearTimeout(toast.timeoutID);
+			toast.timeoutID = setTimeout(fn, dur);
+			// debug(`${toast.timeoutID} - ${toast.state} ${toast.step} - ${msg}`);
+			
+		}
+
 		// debug(' showToast - END\n');
 	}
 
-	function setToastTimeout(fn, dur) {
-		if(_UI.toasttimeout) clearTimeout(_UI.toasttimeout);
-		_UI.toasttimeout = setTimeout(fn, dur);
-	}
 
 
 //-------------------

@@ -743,22 +743,19 @@
 
 	Glyph.prototype.combineAllShapes = function(donttoast, dontresolveoverlaps) {
 		// debug('\n Glyph.combineAllShapes - START - ' + this.name);
-
+		if(this.shapes.length < 2) return this;
+		
 		this.flattenGlyph();
-
 		var cs = combineShapes(this.shapes, donttoast, dontresolveoverlaps);
 
 		if(cs){
 			// debug('\t new shapes');
-
 			this.shapes = cs;
 			// debug(this.shapes);
-
 			this.changed();
-
 		}
-		// debug(this.name + ' \t\t ' + this.shapes.length);
 
+		// debug(this.name + ' \t\t ' + this.shapes.length);
 		// debug(' Glyph.combineAllShapes - END - ' + this.name + '\n');
 		return this;
 	};

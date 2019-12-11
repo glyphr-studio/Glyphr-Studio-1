@@ -50,7 +50,7 @@
 //	-----------------------------------
 //	Methods
 //	-----------------------------------
-	Segment.prototype.changed = function() { 
+	Segment.prototype.changed = function() {
 		this.cache = {};
 		this.line = this.isLine();
 	};
@@ -63,7 +63,7 @@
 	Segment.prototype.drawSegmentOutline = function(color, dx, dy) {
 		if(!_UI.glypheditctx) setupEditCanvas();
 		var ctx = _UI.glypheditctx;
-		
+
 		ctx.strokeStyle = RGBAtoRGB((color || _UI.colors.green.l65), 0.9);
 		dx = dx || 0;
 		dy = dy || 0;
@@ -85,9 +85,9 @@
 	};
 
 	Segment.prototype.drawSegmentPoints = function(color, txt) {
-		if(!_UI.glypheditctx) setupEditCanvas();		
+		if(!_UI.glypheditctx) setupEditCanvas();
 		var ctx = _UI.glypheditctx;
-		
+
 		txt = isval(txt)? txt : '•';
 		var p1x = sx_cx(this.p1x);
 		var p1y = sy_cy(this.p1y);
@@ -99,7 +99,7 @@
 		var p4y = sy_cy(this.p4y);
 
 		color = RGBAtoRGB((color || _UI.colors.green.l65), 0.4);
-		
+
 		ctx.strokeStyle = color;
 		ctx.fillStyle = color;
 		ctx.font = '48px sans-serif';
@@ -278,7 +278,7 @@
 						segs.splice(s, 1, tr[0], tr[1]);
 						// s++;
 						// break;
-					}					
+					}
 				}
 			}
 		}
@@ -509,22 +509,19 @@
 	function findSegmentIntersections(s1, s2, depth) {
 		// debug('\n findSegmentIntersections - START');
 		depth = depth || 0;
-		// debug('\t depth ' + depth);
-
 
 		// if(depth > 15) {
-			// debug('\t fINDsEGMENTiNTERSECTIONS debug early return');
+		// debug(`${depth}\t fINDsEGMENTiNTERSECTIONS debug early return`);
+		// 	s1.drawSegmentOutline();
+		// 	s2.drawSegmentOutline();
 		// 	return [];
 		// }
-		// s1.drawSegmentOutline();
-		// s2.drawSegmentOutline();
-
 
 		// Check for overlapping / coincident segments
 		if(depth === 0){
 			var co = findOverlappingLineSegmentIntersections(s1, s2);
 			if(co.length){
-				// debug('\t found overlapping line ' + co[0]);
+				// debug(`${depth}\t found overlapping line ` + co[0]);
 			 	return co;
 			}
 		}
@@ -533,41 +530,46 @@
 		if(depth === 0){
 			var cr = findCrossingLineSegmentIntersections(s1, s2);
 			if(cr.length){
-				// debug('\t found cross line ' + cr[0]);
+				// debug(`${depth}\t found cross line ` + cr[0]);
 				return cr;
 			}
 		}
 
 		// Edge case, find end points overlapping the other segment
-		var endpoints = [];
-		if(depth===0 && (s1.line || s2.line)){
+		// var endpoints = [];
+		if(depth===0){
+		// if(depth===0 && (s1.line || s2.line)){
 			// findEndPointSegmentIntersections is a perf hit
-			// only run if either s1 or s2 is a line segment
-			endpoints = findEndPointSegmentIntersections(s1, s2);
+			// only run if either s1 or s2 is a line segment (Why? Me 4 years later)
+			var ep = findEndPointSegmentIntersections(s1, s2);
+			if(ep.length){
+				// debug(`\t found endpoints overlapping ${ep[0]}`);
+				return ep;
+			}
 		}
-
+			
 		// Check to stop recursion
 		var s1m = s1.getFastMaxes();
 		var s2m = s2.getFastMaxes();
 
 		if(!maxesOverlap(s1m, s2m)){
-			// debug('\t segments have non overlapping fastmaxes');
+			// debug(`${depth}\t segments have non overlapping fastmaxes`);
 			return [];
 		}
-		// debug('\t segments fastmaxes overlap');
+		// debug(`${depth}\t segments have fastmaxes overlap`);
 		// debug([s1m]);
 		// debug([s2m]);
 
 		// Complex segment intersections
-		var threshold = 0.00005;
+		var threshold = 0.0005;
 		var precision = 3;
 
 		var s1w = (s1m.xmax - s1m.xmin);
 		var s1h = (s1m.ymax - s1m.ymin);
 		var s2w = (s2m.xmax - s2m.xmin);
 		var s2h = (s2m.ymax - s2m.ymin);
-		// debug('\t s1 w/h: ' + s1w + ' / ' + s1h);
-		// debug('\t s2 w/h: ' + s2w + ' / ' + s2h);
+		// debug(`${depth}\t s1 w/h: ${s1w} / ${s1h}`);
+		// debug(`${depth}\t s2 w/h: ${s2w} / ${s2h}`);
 
 		if( (s1w < threshold) &&
 			(s1h < threshold) &&
@@ -584,10 +586,12 @@
 				y = round(y, precision);
 
 				var ix = ''+x+'/'+y;
-				// debug('\t <<<<<<<<<<<<<<<<< hit bottom, found ' + ix);
+				// debug(`${depth}\t <<<<<<<<<<<<<<<<< hit bottom, found ${ix}`);
 				return [ix];
 		} else {
-			// debug('\t not below threshold at ' + depth);
+			// debug(`${depth}\t ${s1w} - ${s1h} - ${s2w} - ${s2h}`);
+			// debug(`${depth}\t ${threshold}`);
+			// debug(`${depth}\t not below threshold, more recursion...`);
 		}
 
 		// More recursion needed
@@ -605,20 +609,24 @@
 			return maxesOverlap(p[0].getFastMaxes(), p[1].getFastMaxes(), 'inclusive');
 		});
 
-		// debug('\t ' + pairs.length + ' pairs after maxes overlap filter');
+		// debug(`${depth}\t ${pairs.length} pairs after maxes overlap filter`);
 		// debug(pairs);
 
 		pairs.forEach(function(p) {
 			re = re.concat( findSegmentIntersections(p[0], p[1], depth+1) );
 		});
 
-		re = re.concat(endpoints);
+		// debug(`\t after depth ${depth} recursion`);
+		// debug(re);
+		
+
+		// re = re.concat(endpoints);
 		re = re.filter(duplicates);
 
 		// if(depth === 0) alert('break');
 
-		// debug('\t return length ' + re.length);
-		// debug(' findSegmentIntersections - END\n');
+		// debug(`${depth}\t return length ` + re.length);
+		// debug(`${depth} findSegmentIntersections - END\n`);
 		return re;
 	}
 
@@ -768,7 +776,9 @@
 	};
 
 	Segment.prototype.containsPointOnCurve = function(pt, threshold) {
-		if(this.containsTerminalPoint(pt, threshold)) return true;
+		if(this.containsTerminalPoint(pt, threshold)){
+			return true;
+		}
 
 		if(this.line) return this.containsPointOnLine(pt);
 

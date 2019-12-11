@@ -40,7 +40,7 @@
 
 			// Add Notdef
 			var notdef = generateNotdefGlyph();
-			console.log(notdef);
+			// debug(notdef);
 			var ndpath = notdef.makeOpenTypeJSpath();
 
 			options.glyphs.push(new opentype.Glyph({

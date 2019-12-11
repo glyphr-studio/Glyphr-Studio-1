@@ -1888,7 +1888,7 @@
 	}
 
 	function importSvgToCanvas(svgData) {
-		debug(`\n importSvgToCanvas - START`);
+		// debug(`\n importSvgToCanvas - START`);
 
 		var tempchar = ioSVG_convertTagsToGlyph(svgData);
 
@@ -1912,12 +1912,12 @@
 			// showToast('Could not import pasted SVG code.');
 		}
 
-		debug(` importSvgToCanvas - END\n\n`);
+		// debug(` importSvgToCanvas - END\n\n`);
 	}
 
 	function pasteSvgOnEditCanvas(event) {
-		debug('\n pasteSvgOnEditCanvas - START');
-		debug(event);
+		// debug('\n pasteSvgOnEditCanvas - START');
+		// debug(event);
 		// Stop data actually being pasted into div
 		event.stopPropagation();
 		event.preventDefault();
@@ -1925,15 +1925,15 @@
 		// Get pasted data via clipboard API
 		var clipboardData = event.clipboardData || window.clipboardData;
 		if(!clipboardData) {
-			debug(`\t No clipboardData`);
+			// debug(`\t No clipboardData`);
 			return;
 		}
 
 		var pasteData = clipboardData.getData('Text');
-		debug(pasteData);
+		// debug(pasteData);
 		importSvgToCanvas(pasteData);
 
-		debug(' pasteSvgOnEditCanvas - END');
+		// debug(' pasteSvgOnEditCanvas - END');
 	}
 
 	function dropSvgOnEditCanvas(evt) {
