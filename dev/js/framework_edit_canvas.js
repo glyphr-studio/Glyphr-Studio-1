@@ -910,36 +910,38 @@
 // -------------------
 
 	function setView(oa){
-		// if(_UI.devmode) debugger;
-		var sc = (_UI.current_page === 'kerning')? getSelectedKernID() : getSelectedWorkItemID();
+		var wid = getSelectedWorkItemID();
+		// debug(`\n setView - ${wid} - START`);
+		
 		var v = _UI.views;
-
+		
 		// Ensure there are at least defaults
-		if(!isval(v[sc])){
-			v[sc] = getView('setView');
+		if(!isval(v[wid])){
+			// debug(`\t no view, getting default`);
+			v[wid] = getView('setView');
 		}
-
+		// debug(`\t setting ${JSON.stringify(oa)}`);
+		
 		// Check for which to set
-		if(isval(oa.dx)){ v[sc].dx = oa.dx; }
-		if(isval(oa.dy)){ v[sc].dy = oa.dy; }
-		if(isval(oa.dz)){ v[sc].dz = oa.dz; }
-
-		return v[sc];
+		if(isval(oa.dx)){ v[wid].dx = oa.dx; }
+		if(isval(oa.dy)){ v[wid].dy = oa.dy; }
+		if(isval(oa.dz)){ v[wid].dz = oa.dz; }
+		
+		// debug(` setView - END\n\n`);
+		return v[wid];
 	}
 
 	function getView(calledby){
 		// debug('\n getView - START');
 		// debug('\t calledby: ' + calledby);
 
-		var onkern = (_UI.current_page === 'kerning');
-		var sc = onkern? getSelectedKernID() : getSelectedWorkItemID();
-		var v = _UI.views;
+		var wid = getSelectedWorkItemID();
 
-		if(isval(v[sc])){
+		if(isval(_UI.views[wid])){
 			// debug(` getView ${calledby} - returning SAVED VALUE\n`);
-			return clone(v[sc], 'getView');
+			return clone(_UI.views[wid], 'getView');
 
-		} else if(onkern){
+		} else if(_UI.current_page === 'kerning'){
 			// debug(` getView ${calledby} - returning DEFAULT KERN\n`);
 			return clone(_UI.defaultkernview, 'getView');
 
@@ -990,29 +992,23 @@
 
 	function setDefaultViewForWorkItem() {
 		var id = getSelectedWorkItemID();
-		var wi = getSelectedWorkItem();
+		// debug(`\n setDefaultViewForWorkItem - ${id} - START`);
 		if(!id) return;
-
-		if(_UI.current_page === 'kerning'){
-			if(!isval(_UI.views[id])){
-				var dm = wi.getDisplayMetrics();
-				var tempview = calculateViewForEditCanvas(dm.width);
-				setView({
-					dx: tempview.dx + (dm.center * tempview.dz),
-					dy: tempview.dy,
-					dz: tempview.dz
-				});
-			}
-
+		
+		if(isval(_UI.views[id])){
+			// debug(`\t has a view, setting it`);
+			setView(_UI.views[id]);
 		} else {
-			if(!isval(_UI.views[id])){
-				var aw = wi.shapes.length? wi.getAdvanceWidth() : 0;
-				setView(calculateViewForEditCanvas(aw));
-			}
+			// debug(`\t no previous view, autocalculating...`);
+			autoCalculateView();
 		}
+		
+		// debug(` setDefaultViewForWorkItem - END\n\n`);
 	}
 
 	function autoCalculateView() {
+		// debug(`\n autoCalculateView - START`);
+
 		var selwi = getSelectedWorkItem();
 		var leftwidth = 0;
 		var rightwidth = 0;
@@ -1035,7 +1031,10 @@
 
 		newview.dx += (leftwidth * newview.dz);
 
+		// debug(`\t setting ${JSON.stringify(newview)}`);
+
 		setView(newview);
+		// debug(` autoCalculateView - END\n\n`);
 	}
 
 	function getLargestAdvanceWidth(glyphArray) {

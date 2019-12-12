@@ -10,7 +10,6 @@
 
 		getEditDocument().getElementById('mainwrapper').innerHTML = editPage_Content();
 		setupEditCanvas();
-		// initEventHandlers();
 		clickEmptySpace();
 
 		if(_UI.devmode && isval(_UI.dev_selected_shape)){

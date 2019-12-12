@@ -85,6 +85,7 @@
 
 	function selectKern(id) {
 		_UI.selectedkern = id;
+		setDefaultViewForWorkItem();
 		redraw({calledby:'selectKern'});
 	}
 
