@@ -149,7 +149,7 @@
 			// debug(glyphInfo);
 			// debug(glyphInfo.path);
 
-			// Add this finshed glyph
+			// Add this finished glyph
 			options.glyphs.push(new opentype.Glyph(glyphInfo));
 
 

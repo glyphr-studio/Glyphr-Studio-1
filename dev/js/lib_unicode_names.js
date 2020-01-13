@@ -420,7 +420,7 @@ _UI.unicodeShortNames = {
 	'0x0149':'napostrophe',
 	'0x0148':'ncaron',
 	'0x0039':'nine',
-	'0x00A0':'nobreakspace',
+	'0x00A0':'nbsp',
 	'0x2209':'notelement',
 	'0x2260':'notequal',
 	'0x2284':'notsubset',

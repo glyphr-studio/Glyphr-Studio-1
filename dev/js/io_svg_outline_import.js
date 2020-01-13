@@ -414,6 +414,8 @@
 		}
 
 		// Combine 1st and last point
+		// debug(`\t combine first and last point`);
+		
 		var fp = patharr[0];
 		var lp = patharr[patharr.length-1];
 		// debug(`\t FPx = LPX / FPy = LPy\n\t ${fp.P.x} = ${lp.P.x} \n\t ${fp.P.y} = ${lp.P.y}`);
@@ -454,7 +456,15 @@
 
 		// For relative path commands, figure out what the previous point is
 		var lastpoint = false;
-		
+
+		// There may be a bunch of unaddressed edge cases here - path commands
+		// assume last command position is known, even across compound shapes
+		// and Zz commands.  Edge cases are potentially when import assumes 
+		// the last point makes sense in a series of commands, but actually 
+		// the last point is across a compound shape, and is valid SVG but not 
+		// necessarily logical.
+		var lastPointIsFromAnotherShape = false;
+
 		if(patharr.length) {
 			// Middle of current path, use the previous point
 			lastpoint = patharr[patharr.length-1];
@@ -467,6 +477,7 @@
 			if(lastshape && lastshape.path && lastshape.path.pathpoints.length) {
 				// lastpoint = lastshape.path.pathpoints[lastshape.path.pathpoints.length-1];
 				lastpoint = lastshape.path.pathpoints[0];
+				lastPointIsFromAnotherShape = true;
 				// debug(`\t last point from PREVIOUS path`);
 			}
 		}
@@ -560,7 +571,7 @@
 				p = new Coord({'x':nx, 'y':ny});
 				// debug('\t new point ' + p.x + '\t' + p.y);
 
-				lastpoint.useh2 = false;
+				if(!lastPointIsFromAnotherShape) lastpoint.useh2 = false; // Compound Path Circle bug
 				patharr.push(new PathPoint({'P':p, 'H1':clone(p), 'H2':clone(p), 'type':'corner', 'useh1':false, 'useh2':true}));
 				lastpoint = patharr[patharr.length-1];
 			}

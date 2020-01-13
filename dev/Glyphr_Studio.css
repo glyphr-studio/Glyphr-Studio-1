@@ -1914,6 +1914,7 @@
 		background-color: white;
 		border: 1px solid rgb(229,234,239);
 		padding:8px;
+		user-select: all;
 	}
 
 	.glyphrangepreviewglyph {
@@ -1922,6 +1923,7 @@
 		padding: 1px 3px 1px 3px;
 		text-align: center;
 		display: inline-block;
+		user-select: all;
 	}
 
 	.glyphrangepreviewglyph:hover {

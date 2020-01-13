@@ -16,13 +16,13 @@
 
 		// Version
 		thisGlyphrStudioVersion: 'Version 1.13',
-		thisGlyphrStudioVersionNum: '1.13.05',
-		thisGlyphrStudioVersionDate: 1576110000000,
+		thisGlyphrStudioVersionNum: '1.13.06',
+		thisGlyphrStudioVersionDate: 0,
 
 		// Internal Dev Stuff
-		devmode: false, 				// global switch for all the stuff below
+		devmode: true, 				// global switch for all the stuff below
 		dev_sample_project: false,		// load a sample project and skip open project experience
-		dev_current_page: false,		// navigate straight to a page
+		dev_current_page: 'glyph edit',		// navigate straight to a page
 		dev_current_panel: false,		// navigate straight to a panel
 		dev_selected_shape: false,		// automatically select a shape
 		debug: true,					// show messages sent to the browser console
@@ -283,7 +283,7 @@
 			}
 		},
 		notdefglyphshapes: '[{"objtype":"shape","name":"Outer Phi Rectangle","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":700,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":432,"y":700,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":432,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":0,"y":0,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":-4,"maxes":{"xmax":432,"xmin":0,"ymax":700,"ymin":0}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false},{"objtype":"shape","name":"Inner Phi Rectangle","path":{"objtype":"path","pathpoints":[{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":382,"y":50,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":382,"y":650,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false},{"objtype":"pathpoint","P":{"objtype":"coord","x":50,"y":650,"xlock":false,"ylock":false},"type":"corner","useh1":false,"useh2":false}],"winding":4,"maxes":{"xmax":382,"xmin":50,"ymax":650,"ymin":50}},"visible":true,"xlock":false,"ylock":false,"wlock":false,"hlock":false,"ratiolock":false}]',
-		whitespaceglyphs: ['0x0009', '0x000A', '0x000B', '0x000C', '0x000D', '0x0020', '0x0085', '0x00A0', '0x1680', '0x2000', '0x2001', '0x2002', '0x2003', '0x2004', '0x2005', '0x2006', '0x2007', '0x2008', '0x2009', '0x200A', '0x2028', '0x2029', '0x202F', '0x205F', '0x3000', '0x180E', '0x200B', '0x200C', '0x200D', '0x2060', '0xFEFF'],
+		whitespaceglyphs: ['0x0009', '0x000A', '0x000B', '0x000C', '0x000D', '0x0020', '0x0085', '0x00A0', '0x00AD', '0x1680', '0x2000', '0x2001', '0x2002', '0x2003', '0x2004', '0x2005', '0x2006', '0x2007', '0x2008', '0x2009', '0x200A', '0x2028', '0x2029', '0x202F', '0x205F', '0x3000', '0x180E', '0x200B', '0x200C', '0x200D', '0x2060', '0xFEFF'],
 
 		// page: font settings
 		metadatahelp: {

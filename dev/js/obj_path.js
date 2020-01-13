@@ -600,6 +600,8 @@
 			return otpath;
 		}
 
+		this.reverseWinding();	// OTF.js reverses the winding for some reason
+
 		otpath.moveTo(round(this.pathpoints[0].P.x), round(this.pathpoints[0].P.y));
 
 		for(var cp = 0; cp < this.pathpoints.length; cp++){
@@ -617,6 +619,7 @@
 		}
 
 		otpath.close();
+		this.reverseWinding();	// Put it back
 
 		// debug('\t returning path ' + json(otpath));
 		// debug(' Path.makeOpenTypeJSpath - END\n');
