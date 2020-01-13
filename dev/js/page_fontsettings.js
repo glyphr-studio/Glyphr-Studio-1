@@ -122,9 +122,9 @@
 			} else {
 				meta[m] = meta[m] || '""';
 				content += '<tr>';
-				content += '<td class="propname" style="padding-top:8px;">' + m.replace(/_/g, '-') + '</td>';
+				content += '<td class="propname" style="padding-top:2px;">' + m.replace(/_/g, '-') + '</td>';
 				content += '<td><input type="text" value="'+escapeHTMLValues(meta[m])+'" onchange="_GP.metadata.'+m+' = removeEmptyStringInputs(this.value);"/></td>';
-				content += '<td class="prophelp" style="padding-top:8px;">'+_UI.metadatahelp[m]+'</td>';
+				content += '<td class="prophelp" style="padding-top:2px;">'+_UI.metadatahelp[m]+'</td>';
 				content += '</tr>';
 			}
 		}}

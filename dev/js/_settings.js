@@ -288,7 +288,7 @@
 		// page: font settings
 		metadatahelp: {
 			font_family: '',
-			font_style: 'regular, italic, oblique',
+			font_style: 'Thin, ExtraLight, Light, <b>Regular</b>, Medium, SemiBold, <b>Bold</b>, ExtraBold, Black, Thin&nbsp;Italic, ExtraLight&nbsp;Italic, Light&nbsp;Italic, <b>Italic</b>, Medium&nbsp;Italic, SemiBold&nbsp;Italic, Bold&nbsp;Italic, ExtraBold&nbsp;Italic, Black&nbsp;Italic ',
 			font_variant: 'normal, small-caps',
 			font_weight: 'normal, bold, or a number 100-900',
 			font_stretch: 'normal, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded',

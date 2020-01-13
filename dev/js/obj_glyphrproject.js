@@ -76,7 +76,7 @@
 			/* Shared Properties */
 			shared: '{{sectionbreak}}',
 			font_family: 'My Font',
-			font_style: 'normal',
+			font_style: 'Regular',
 			panose_1: '2 0 0 0 0 0 0 0 0 0',
 			designer: '',
 			designerURL: '',
