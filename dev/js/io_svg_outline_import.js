@@ -503,8 +503,6 @@
 			Q q		Quadratic Bezier (can be chained)
 			T t		Smooth Quadratic
 			Z z		Close Path
-
-			Partially supported, just draw a line to the end point
 			A a		ArcTo
 		*/
 

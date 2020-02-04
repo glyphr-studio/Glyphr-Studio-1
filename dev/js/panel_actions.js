@@ -110,6 +110,7 @@
 		glyphactions += '<button title="Flip Horizontal\nReflects the glyph horizontally" onclick="getSelectedWorkItem().flipNS(); history_put(\'Flip Glyph : Horizontal\'); redraw({calledby:\'Glyph Details - FlipNS\'});">' + makeActionButton_FlipVertical() + '</button>';
 		glyphactions += '<button title="Delete Glyph\nRemove this Glyph from the project. Don\'t worry, you can undo this action." onclick="deleteSelectedGlyph();">' + makeActionButton_DeleteGlyph() + '</button>';
 		glyphactions += '<button title="Round all point position values\nIf a x or y value for any point or a handle in any path has decimals, it will be rounded to the nearest whole number." onclick="roundAllGlyphShapes(0);">' + makeActionButton_Round() + '</button>';
+		glyphactions += '<button title="Export glyph SVG File\nGenerate a SVG file that only includes the SVG outline for this glyph. This file can be dragged and dropped directly to another Glyphr Studio project edit canvas, allowing for copying glyph shapes between projects." onclick="exportGlyphSVGFile();">' + makeActionButton_exportGlyphSVG() + '</button>';
 		
 
 		// DEV
@@ -186,6 +187,28 @@
 		getSelectedWorkItem().roundAll(precision); 
 		history_put('Round all position values in the glyph'); 
 		redraw({calledby:'actions panel'});
+	}
+
+	function exportGlyphSVGFile(){
+		var wi = new Glyph(clone(getSelectedWorkItem()));
+		var name = wi.getName();
+		var lsb = wi.getLSB();
+		var ps = _GP.projectsettings;
+		var emsquare = Math.max(ps.upm, (ps.ascent - ps.descent));
+
+		wi.flipNS();
+		wi.updateGlyphPosition((lsb*-1), 0, true);
+		var pathdata = wi.getSVGpathData();
+
+		var re = '<svg version="1.1" ';
+		re += 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
+		re += 'width="'+emsquare+'" height="'+emsquare+'" viewBox="0,0,'+emsquare+','+emsquare+'">';
+		re += '<g transform="translate(0,'+(-1*ps.descent)+')">';
+		re += '<path d="' + pathdata + '"/>';
+		re += '</g>';
+		re += '</svg>';
+
+		saveFile(name+'.svg', re);
 	}
 
 //-------------------

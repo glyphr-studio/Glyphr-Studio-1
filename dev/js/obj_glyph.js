@@ -640,16 +640,14 @@
 	};
 
 	Glyph.prototype.getSVGpathData = function() {
-		if(this.cache.svgpathdata) return this.cache.svgpathdata;
+		if(this.cache.svg) return this.cache.svg;
 
-		this.cache.svgpathdata = this.makeSVGpathData();
+		this.cache.svg = this.makeSVGpathData();
 
-		return this.cache.svgpathdata;
+		return this.cache.svg;
 	};
 
 	Glyph.prototype.makeSVGpathData = function() {
-		if(this.cache.svg) return this.cache.svg;
-
 		var sl = this.shapes;
 		var pathdata = '';
 		var lsb = this.getLSB();
@@ -664,7 +662,7 @@
 					// tg.updateGlyphPosition(lsb, 0, true);
 					if(tg) pathdata += tg.getSVGpathData();
 				} else {
-					path = shape.getPath();
+					path = new Path(shape.getPath());
 					path.updatePathPosition(lsb, 0, true);
 					pathdata += path.getSVGpathData('Glyph ' + this.name + ' Shape ' + shape.name);
 				}
