@@ -46,7 +46,7 @@
 			options.glyphs.push(new opentype.Glyph({
 				name: '.notdef',
 				unicode: 0,
-				index: getNextGlyphIndex(),
+				index: 0,
 				advanceWidth: round(notdef.getAdvanceWidth()),
 				xMin: round(notdef.maxes.xmin),
 				xMax: round(notdef.maxes.xmax),
@@ -55,10 +55,16 @@
 				path: ndpath
 			}));
 
+			codePointGlyphIndexTable['0x0000'] = 0;
+
 			// debug(' firstExportStep - END\n');
 		}
 
-		function getNextGlyphIndex() { return glyphIndex++; }
+		function getNextGlyphIndex(caller) { 
+			// debug(`getNextGlyphIndex called by ${caller} was ${glyphIndex} returning ${glyphIndex+1}`);
+			glyphIndex += 1;
+			return glyphIndex;
+		}
 
 		var privateUseArea = [];
 
@@ -68,7 +74,7 @@
 					ligatureCodePoint++;
 				} else {
 					privateUseArea.push(ligatureCodePoint);
-					return ligatureCodePoint;				
+					return ligatureCodePoint;
 				}
 			}
 
@@ -91,7 +97,7 @@
 				if(parseInt(c)){
 					tg = new Glyph(clone(_GP.glyphs[c], 'ioOTF export.populateExportLists'));
 					// debug(`\t adding glyph ${c} "${tg.name}"`);
-					exportGlyphs.push({xg:tg, xc: c});
+					exportGlyphs.push({xg:tg, xc:c});
 					if(parseInt(c) >= 0xE000) privateUseArea.push(parseInt(c));
 
 				} else {
@@ -102,15 +108,30 @@
 			// Add Ligatures
 			var ligWithCodePoint;
 			for(var l in _GP.ligatures){ if(_GP.ligatures.hasOwnProperty(l)){
-				tg = new Glyph(clone(_GP.ligatures[l], 'ioOTF export.populateExportLists'));
-				// debug(`\t adding ligature "${tg.name}"`);
-				exportLigatures.push({xg:tg, xc: l});
-				
-				ligWithCodePoint = doesLigatureHaveCodePoint(l);
-				if(ligWithCodePoint) exportGlyphs.push({xg:tg, xc:ligWithCodePoint.point});
+				if(l.indexOf('0x',2) > -1) {
+					tg = new Glyph(clone(_GP.ligatures[l], 'ioOTF export.populateExportLists'));
+					// debug(`\t adding ligature "${tg.name}"`);
+					exportLigatures.push({xg:tg, xc: l});
+					
+					ligWithCodePoint = doesLigatureHaveCodePoint(l);
+					if(ligWithCodePoint) {
+						// debug(`\t LIGATURE WITH CODE POINT FOUND for ${l} at ${ligWithCodePoint.point}`);
+						var licp = new Glyph(clone(_GP.ligatures[l], 'ioOTF export.populateExportLists - ligature with code point'));
+						exportGlyphs.push({xg:licp, xc:ligWithCodePoint.point});
+						if(parseInt(l) >= 0xE000) privateUseArea.push(parseInt(l));
+					}
+				} else {
+					console.warn('Skipped exporting ligature ' + l + ' - only has one source character');
+				}
 			}}
 			
 			exportGlyphs.sort(function(a,b){ return a.xc - b.xc; });
+
+			// debug(`\n >>>>>>>>>> Export Glyphs:`);
+			// debug(exportGlyphs);
+			// debug(`\n >>>>>>>>>> Export Ligatures:`);
+			// debug(exportLigatures);
+			// debug('\n');
 
 			// debug(' populateExportLists - END\n');
 		}
@@ -122,7 +143,7 @@
 			var glyphID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
 
-			// debug(`\t${glyphID}\t${glyph.name}\t${getNameForExport(glyphID)}`);
+			// debug(`GenerateOneGlyph: ${glyphID}\t${glyph.name}\t${getNameForExport(glyphID)}`);
 			showToast('Exporting<br>'+glyph.name, 999999);
 
 			if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
@@ -133,40 +154,44 @@
 			}
 
 			var tgpath = glyph.makeOpenTypeJSpath(new opentype.Path());
-
-			var index = getNextGlyphIndex();
+			var currentIndex = getNextGlyphIndex('generateOneGlyph');
 
 			var glyphInfo = {
 				name: getNameForExport(glyphID),
 				unicode: parseInt(glyphID),
-				index: index,
+				index: currentIndex,
 				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
 				path: tgpath
 			};
 			
-			codePointGlyphIndexTable[''+decToHex(glyphID)] = index;
+			codePointGlyphIndexTable[''+decToHex(glyphID)] = currentIndex;
 
 			// debug(glyphInfo);
 			// debug(glyphInfo.path);
 
 			// Add this finished glyph
-			options.glyphs.push(new opentype.Glyph(glyphInfo));
+			var newGlyph = new opentype.Glyph(glyphInfo);
+			// debug(newGlyph);
+			options.glyphs.push(newGlyph);
 
 
 			// start the next one
 			currentExportNumber++;
 
 			if(currentExportNumber < exportGlyphs.length){
+				
 				currentExportItem = exportGlyphs[currentExportNumber];
 				setTimeout(generateOneGlyph, 10);
 
 			} else {
 
 				if(exportLigatures.length){
-					// debug('\t codePointGlyphIndexTable');
+					// debug('\n >>>>>>>>>> codePointGlyphIndexTable');
 					// debug(codePointGlyphIndexTable);
-					// debug(`\t codePointIndexTable`);
-					// debug(codePointGlyphIndexTable);
+
+					// debug(`\n >>>>>>>>>> OpenTypeJS Glyphs`);
+					// debug(options.glyphs);
+					// debug('\n');
 
 					currentExportNumber = 0;
 					currentExportItem = exportLigatures[0];
@@ -182,12 +207,13 @@
 		
 		function generateOneLigature(){
 			// debug('\n generateOneLigature - START');
+			
 			// export this glyph
 			var liga = currentExportItem.xg;
 			var ligaID = currentExportItem.xc;
 			var comb = _GP.projectsettings.combineshapesonexport;
-			
-			// debug(`\t${ligaID}\t${liga.name}\t${getNameForExport(ligaID)}`);
+
+			// debug(`generateOneLigature: ${ligaID}\t${liga.name}\t${getNameForExport(ligaID)}`);
 			showToast('Exporting<br>'+liga.name, 999999);
 
 			if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
@@ -200,12 +226,12 @@
 			var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
 			
 			var ligaCodePoint = getNextLigatureCodePoint();
-			var index = getNextGlyphIndex();
+			var thisIndex = getNextGlyphIndex('generateOneLigature');
 
 			var glyphInfo = {
 				name: getNameForExport(ligaID),
 				unicode: ligaCodePoint,
-				index: index,
+				index: thisIndex,
 				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
 				path: tgpath
 			};
@@ -218,11 +244,9 @@
 			// debug(`\t subList ${json(subList, true)}`);
 			
 			var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
-			// debug('\t INDEX sub: [' + indexList + '] by: ' + index + ' which is ' + ligaCodePoint);
-			// debug(`\t indexList ${json(indexList, true)}`);
+			// debug('\t INDEX sub: [' + indexList + '] by: ' + thisIndex + ' which is ' + ligaCodePoint);
 			
-			ligatureSubstitutions.push({sub: indexList, by: index});
-
+			ligatureSubstitutions.push({sub: indexList, by: thisIndex});
 			// debug(glyphInfo);
 
 			// start the next one
@@ -232,6 +256,10 @@
 				currentExportItem = exportLigatures[currentExportNumber];
 				setTimeout(generateOneLigature, 10);
 			} else {
+				// debug(`\n >>>>>>>>>> Ligature Substitutions`);
+				// debug(ligatureSubstitutions);
+				// debug('\n');
+
 				showToast('Finalizing...', 10);
 				setTimeout(lastExportStep, 10);
 			}
@@ -241,15 +269,16 @@
 			// Export
 			_UI.stoppagenavigation = false;
 			
-			options.glyphs.sort(function(a,b){ return a.unicode - b.unicode; });
+			options.glyphs.sort(function(a,b){ return a.index - b.index; });
 			var font = new opentype.Font(options);
 
 			for(var s=0; s<ligatureSubstitutions.length; s++) {
 				font.substitution.addLigature('liga', ligatureSubstitutions[s]);
 			}
 
-			// debug('\t Font object:');
+			// debug('\n >>>>>>> Font object:');
 			// debug(font.glyphs);
+			// debug('\n');
 			// debug(font.toTables());
 
 			font.download();
@@ -333,6 +362,7 @@
 
 	function getNameForExport(glyphrStudioID) {
 		// debug('\n getNameForExport - START');
+		
 		glyphrStudioID = ''+glyphrStudioID;
 		var chars = glyphrStudioID.split('0x');
 		if(chars[0] === '') chars.shift();
@@ -341,17 +371,25 @@
 			return _UI.unicodeShortNames['0x'+fourDigitHex] || 'uni'+fourDigitHex;
 		}
 		
-		// debug(`\t ${glyphrStudioID} as ${json(chars)}`);
+		// debug(`\t ${glyphrStudioID} as ${chars.toString()}`);
 		// debug(`\t chars[0] is ${getSingleCharShortName(chars[0])}`);
 
-		if(chars.length === 1) return getSingleCharShortName(chars[0]);
+		var result;
 
-		var result = 'liga';
+		if(chars.length === 1) {
+			result = getSingleCharShortName(chars[0]);
+			// debug(`\t 1 char, returning name ${result}`);
+			return result;
+		}
+
+		result = 'liga';
 
 		for(var i=0; i<chars.length; i++) {
 			result += '_' + getSingleCharShortName(chars[i]);
 		}
 
+		// debug(`\t ligature chars, returning name ${result}`);
+		
 		return result;
 	}
 	
