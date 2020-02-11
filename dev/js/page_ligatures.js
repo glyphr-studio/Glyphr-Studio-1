@@ -45,31 +45,31 @@
 		// debug('\n createNewLigature - START');
 		var inlig = document.getElementById('newligatureinput').value;
 		// debug('\t retrieved ' + lid);
-		var lid = inlig.replace(/\s/gi, '');
-		lid = parseUnicodeInput(lid);
-		if(lid) lid = lid.join('');
-		else {
+		var ligID = inlig.replace(/\s/gi, '');
+		ligID = parseUnicodeInput(ligID);
+		// debug('\t parsed ' + ligID);
+
+		// Do checks
+		if(!ligID || ligID.length < 2) {
 			showErrorMessageBox('Ligatures must be at least two glyphs.');
 			return;
 		}
 
+		ligID = ligID.join('');
 
-		// debug('\t parsed ' + lid);
-
-		var lig = _GP.ligatures;
-
-		if(lig[lid]){
-			showErrorMessageBox('Ligature allready exists.');
-		} else if (lig === false || lid.length < 2){
-			showErrorMessageBox('Ligatures must be at least two glyphs.');
-		} else {
-			lig[lid] = new Glyph({'glyphhex':lid, 'name':('Ligature ' + inlig)});
-			sortLigatures();
-			_UI.selectedligature = lid;
-			history_put('Created ' + getSelectedWorkItemName());
-			navigate();
-			closeDialog();
+		if(_GP.ligatures[ligID]){
+			showErrorMessageBox('Ligature already exists.');
+			return;
 		}
+
+		// Everything checks out
+		_GP.ligatures[ligID] = new Glyph({'glyphhex':ligID, 'name':('Ligature ' + inlig)});
+		sortLigatures();
+		_UI.selectedligature = ligID;
+		history_put('Created ' + getSelectedWorkItemName());
+		navigate();
+		closeDialog();
+
 	}
 
 	var ligaturesWithCodePoints = [
