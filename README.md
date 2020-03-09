@@ -41,7 +41,7 @@
  feel free to fork and send a pull request.
 
 ## License
- Copyright (C) 2010 - 2019 Matthew LaGrandeur, released under
+ Copyright (C) 2010 - 2020 Matthew LaGrandeur, released under
  [GPL 3.0](https://github.com/mattlag/Glyphr-Studio/blob/master/LICENSE-gpl-3.0.txt)
 
 ## Author
