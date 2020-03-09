@@ -234,11 +234,19 @@
 			}
 		}
 
+		// Clean up numbers
+		//		Maintain scientific notation e+ and e- numbers
+		//		Commas before all negative numbers
+		//		Remove + to denote positive numbers
+		data = data.replace(/e/gi, 'e');
 
-		// Clean up negative numbers, and scientific notation numbers
 		data = data.replace(/e-/g, '~~~');
 		data = data.replace(/-/g, ',-');
 		data = data.replace(/~~~/g, 'e-');
+
+		data = data.replace(/e\+/g, '~~~');
+		data = data.replace(/\+/g, ',');
+		data = data.replace(/~~~/g, 'e+');
 
 
 		// Clean up  whitespace

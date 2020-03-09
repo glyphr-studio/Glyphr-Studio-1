@@ -8,6 +8,11 @@
 		var XMLdoc, XMLerror;
 		// debug('convertXMLtoJSON \t PASSED\n' + inputXML);
 
+		// Ignore namespace designations, which may not be properly 
+		// defined in pasted code snippets.  We ignore namespace stuff 
+		// anyway, so we don't want to hit errors unnecessarily.
+		inputXML = inputXML.replace(/:/g, '-');
+
 		if (typeof window.DOMParser !== 'undefined') {
 			XMLdoc = (new window.DOMParser()).parseFromString(inputXML, 'text/xml');
 		} else if (typeof window.ActiveXObject !== 'undefined' && new window.ActiveXObject('Microsoft.XMLDOM')) {
