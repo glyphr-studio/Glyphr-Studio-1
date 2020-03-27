@@ -657,15 +657,21 @@
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
+
+				/*
 				if(shape.objtype === 'componentinstance'){
-					tg = shape.getTransformedGlyph();
+					tg = shape.getTransformedGlyph(true);
+					debug(`\t component instance transformed glyph`);
+					debug(tg);
 					// tg.updateGlyphPosition(lsb, 0, true);
 					if(tg) pathdata += tg.getSVGpathData();
 				} else {
 					path = new Path(shape.getPath());
 					path.updatePathPosition(lsb, 0, true);
-					pathdata += path.getSVGpathData('Glyph ' + this.name + ' Shape ' + shape.name);
+					pathdata += path.getSVGpathData();
 				}
+				*/
+				pathdata += shape.getSVGpathData();
 				if(j < sl.length-1) pathdata += ' ';
 			}
 		}

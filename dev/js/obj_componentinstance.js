@@ -59,7 +59,16 @@
 			return false;
 		}
 
-		// debug('\t DELTAS' + '\n\t translatex:\t' + this.translatex  + '\n\t translatey:\t' + this.translatey  + '\n\t scalew:\t' + this.scalew  + '\n\t scaleh:\t' + this.scaleh  + '\n\t flipew:\t' + this.flipew  + '\n\t flipns:\t' + this.flipns  + '\n\t reversewinding:\t' + this.reversewinding  + '\n\t rotation:\t' + this.rotation);
+		// debug(`\t DELTAS
+		// 	\ttranslatex:\t${this.translatex} 
+		// 	\ttranslatey:\t${this.translatey} 
+		// 	\tscalew:\t${this.scalew} 
+		// 	\tscaleh:\t${this.scaleh} 
+		// 	\tflipew:\t${this.flipew} 
+		// 	\tflipns:\t${this.flipns} 
+		// 	\treversewinding:\t${this.reversewinding} 
+		// 	\trotation:\t${this.rotation}
+		// `);
 
 		if(this.translatex || this.translatey || this.scalew || this.scaleh || this.flipew || this.flipns || this.reversewinding || this.rotation){
 			// debug('\t Modifying w ' + this.scalew + ' h ' + this.scaleh);
@@ -390,6 +399,16 @@
 	ComponentInstance.prototype.findWinding = function(secondtry) { return false; };
 
 	ComponentInstance.prototype.roundAll = function(precision) {};
+
+	ComponentInstance.prototype.getSVGpathData = function() {
+		var g = this.getTransformedGlyph();
+		return g? g.getSVGpathData() : '';
+	};
+
+	ComponentInstance.prototype.makeSVGpathData = function() {
+		var g = this.getTransformedGlyph();
+		return g? g.getSVGpathData() : '';
+	};
 
 
 //-------------------------------------------------------

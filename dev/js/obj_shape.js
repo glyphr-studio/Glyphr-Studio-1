@@ -177,6 +177,10 @@
 
 	Shape.prototype.roundAll = function(precision) { return this.path.roundAll(precision); };
 
+	Shape.prototype.getSVGpathData = function() { return this.path.getSVGpathData(); };
+
+	Shape.prototype.makeSVGpathData = function() { return this.path.makeSVGpathData(); };
+
 
 //	-------------------------------------------------------
 //	NEW SHAPE FUNCTIONS
