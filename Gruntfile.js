@@ -72,7 +72,7 @@ module.exports = function(grunt) {
 		},
 		cssmin: {
 			minimize:{
-				src: 'dev/Glyphr_Studio.css',
+				src: ['dev/openSans.css', 'dev/Glyphr_Studio.css'],
 				dest: 'dist/build/Glyphr_Studio.min.css'
 			}
 		},
