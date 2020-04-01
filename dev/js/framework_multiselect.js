@@ -284,32 +284,31 @@
 
 	_UI.ms.shapes.deleteShapes = function(){
 		// debug('\n deleteShape - START');
-		var wishapes = getSelectedWorkItemShapes();
-		var sels = this.getMembers();
-		var curs, i;
+		var workItem = getSelectedWorkItem();
+		var selectedShapes = this.getMembers();
+		var currentShape;
+		var shapeIndex;
 
-		if(sels.length === 0) _UI.ms.shapes.clear();
-		else {
-			for(var s=0; s<sels.length; s++){
-				curs = sels[s];
-				
-				i = wishapes.indexOf(curs);
-				if(i > -1) wishapes.splice(i, 1);
+		if(selectedShapes.length === 0){
+			_UI.ms.shapes.clear();
+		
+		} else {
+			for(var s=0; s<selectedShapes.length; s++){
+				currentShape = selectedShapes[s];
 
-				if(curs.objtype === 'componentinstance'){
-					/*
-
-						TODO
-						check for multiple instances of a single component
-
-					*/
-					removeFromUsedIn(curs.link, _UI.selectedglyph);
+				if(currentShape.objtype === 'componentinstance'){
+					if(!workItem.hasMultipleInstancesOf(currentShape.link)) {
+						removeFromUsedIn(currentShape.link, _UI.selectedglyph);
+					}
 				}
+				
+				shapeIndex = workItem.shapes.indexOf(currentShape);
+				if(shapeIndex > -1) workItem.shapes.splice(shapeIndex, 1);
 			}
 
-			_UI.ms.shapes.select(wishapes[i] || wishapes[wishapes.length-1]);
-			var singleshape = _UI.ms.shapes.getSingleton();
-			if(singleshape && singleshape.objtype === 'componentinstance') clickTool('shaperesize');
+			_UI.ms.shapes.select(workItem.shapes[shapeIndex] || workItem.shapes[workItem.shapes.length-1]);
+			var singleShape = _UI.ms.shapes.getSingleton();
+			if(singleShape && singleShape.objtype === 'componentinstance') clickTool('shaperesize');
 		}
 
 		updateCurrentGlyphWidth();

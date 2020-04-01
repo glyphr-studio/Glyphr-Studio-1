@@ -507,8 +507,8 @@
 	//   Delete Shape should check for multiple instances of a Component
 	//   before calling this.  usedin arrays should be a unique list.
 	function removeFromUsedIn(sourceComponentGlyphID, glyphToRemoveID){
-		debug(`\n removeFromUsedIn - START`);
-		debug('\t removing ' + glyphToRemoveID + ' from ' + sourceComponentGlyphID);
+		// debug(`\n removeFromUsedIn - START`);
+		// debug('\t removing ' + glyphToRemoveID + ' from ' + sourceComponentGlyphID);
 		var sourceComponentGlyph = getGlyph(sourceComponentGlyphID);
 
 		// sort numerically as opposed to alpha, remove duplicates, remove specified ID
@@ -518,8 +518,8 @@
 			return id !== ''+glyphToRemoveID;
 		});
 		
-		debug('\t sourceComponentGlyph.usedin is now ' + json(sourceComponentGlyph.usedin));
-		debug(` removeFromUsedIn - END\n\n`);
+		// debug('\t sourceComponentGlyph.usedin is now ' + json(sourceComponentGlyph.usedin));
+		// debug(` removeFromUsedIn - END\n\n`);
 	}
 
 // end of file

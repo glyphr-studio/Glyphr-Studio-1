@@ -134,8 +134,8 @@
 	}
 
 	function deleteLigature(){
-		debug('\n deleteLigature - START');
-		debug('\t deleting ' + _UI.selectedligature);
+		// debug('\n deleteLigature - START');
+		// debug('\t deleting ' + _UI.selectedligature);
 
 		closeDialog();
 
@@ -150,10 +150,10 @@
 			// history_put('Deleted ' + getSelectedWorkItemName());
 		}
 
-		debug('\t after delete ' + _GP.ligatures);
+		// debug('\t after delete ' + _GP.ligatures);
 		redraw({calledby:'deleteLigature'});
 
-		debug('deleteLigature - END\n');
+		// debug('deleteLigature - END\n');
 	}
 
 	function sortLigatures() {

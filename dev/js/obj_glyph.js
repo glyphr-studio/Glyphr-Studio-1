@@ -538,32 +538,49 @@
 	// This method is called on Glyphs just before they are deleted
 	// to clean up all the component instance linking
 	Glyph.prototype.deleteLinks = function(thisid) {
-		debug('\n Glyph.deleteLinks - START');
-		debug(`\t passed this as id: ${thisid}`);
+		// debug('\n Glyph.deleteLinks - START');
+		// debug(`\t passed this as id: ${thisid}`);
 
 		// Delete upstream Component Instances
 		var upstreamglyph;
 		for(var c=0; c<this.usedin.length; c++){
 			upstreamglyph = getGlyph(this.usedin[c]);
-			debug(`\t removing upstream from ${upstreamglyph.name}`);
-			debug(upstreamglyph.shapes);
+			// debug(`\t removing upstream from ${upstreamglyph.name}`);
+			// debug(upstreamglyph.shapes);
 			for(var u=0; u<upstreamglyph.shapes.length; u++){
 				if(upstreamglyph.shapes[u].objtype === 'componentinstance' && upstreamglyph.shapes[u].link === thisid){
 					upstreamglyph.shapes.splice(u, 1);
 					u--;
 				}
 			}
-			debug(upstreamglyph.shapes);
+			// debug(upstreamglyph.shapes);
 		}
 
 		// Delete downstream usedin array values
 		for(var s=0; s<this.shapes.length; s++){
 			if(this.shapes[s].objtype === 'componentinstance'){
-				debug(`\t removing downstream from ${this.shapes[s].link}`);
+				// debug(`\t removing downstream from ${this.shapes[s].link}`);
 				removeFromUsedIn(this.shapes[s].link, thisid);
 			}
 		}
-		debug(` Glyph.deleteLinks - END\n\n`);
+		// debug(` Glyph.deleteLinks - END\n\n`);
+	};
+
+	// Returns a boolian that tells if the specified component has 
+	// more than one instances in this single glyph
+	Glyph.prototype.hasMultipleInstancesOf = function(linkID) {
+		// debug(`\n Glyph.hasMultipleInstancesOf - START`);
+		var count = 0;
+		
+		for(var i=0; i<this.shapes.length; i++) {
+			if(this.shapes[i].link && this.shapes[i].link === linkID){
+				count++;
+				// debug(`\t found match ${count} for ${linkID}`);
+			}
+		}
+		
+		// debug(` Glyph.hasMultipleInstancesOf - END - returning ${count > 1}\n\n`);
+		return count > 1;
 	};
 
 
