@@ -114,7 +114,8 @@
 
 	function deleteLigatureConfirm(){
 		var content = '<h1>Delete Ligature</h1>';
-		content += '<b style="color:'+_UI.colors.error.medium+';">This action cannot be undone!</b> &nbsp; Are you sure you want to delete this Ligature?<br><br>';
+		content += '<b style="color:'+_UI.colors.error.medium+';">This action cannot be undone!</b><br>';
+		content += 'Are you sure you want to delete this Ligature?<br><br>';
 		
 		var uia = getSelectedWorkItem().usedin;
 		if(uia.length > 0){
@@ -146,8 +147,6 @@
 			// Delete it
 			delete _GP.ligatures[_UI.selectedligature];
 			_UI.selectedligature = getFirstID(_GP.ligatures);
-
-			// history_put('Deleted ' + getSelectedWorkItemName());
 		}
 
 		// debug('\t after delete ' + _GP.ligatures);

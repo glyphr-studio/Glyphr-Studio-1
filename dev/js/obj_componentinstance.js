@@ -285,7 +285,14 @@
 
 	ComponentInstance.prototype.getMaxes = function() { 
 		// debug('\n ComponentInstance.getMaxes - ' + this.name);
-		return this.getTransformedGlyph().getMaxes(); 
+		var tg = this.getTransformedGlyph();
+		
+		if(tg) {
+			return tg.getMaxes();
+		} else {
+			console.warn('Component Instance ' + this.link + ' was not found, getMaxes returning mins.');
+			return clone(_UI.mins); 
+		}
 	};
 
 	ComponentInstance.prototype.calcMaxes = function() { return this.getTransformedGlyph().calcGlyphMaxes(); };

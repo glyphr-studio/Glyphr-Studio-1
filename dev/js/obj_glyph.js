@@ -550,6 +550,7 @@
 			for(var u=0; u<upstreamglyph.shapes.length; u++){
 				if(upstreamglyph.shapes[u].objtype === 'componentinstance' && upstreamglyph.shapes[u].link === thisid){
 					upstreamglyph.shapes.splice(u, 1);
+					upstreamglyph.changed();
 					u--;
 				}
 			}

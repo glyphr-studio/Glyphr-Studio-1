@@ -42,7 +42,8 @@
 
 	function deleteComponentConfirm(){
 		var content = '<h1>Delete Component</h1>';
-		content += '<b style="color:'+_UI.colors.error.medium+';">This action cannot be undone!</b> &nbsp; Are you sure you want to delete this Component?<br><br>';
+		content += '<b style="color:'+_UI.colors.error.medium+';">This action cannot be undone!</b><br>'
+		content += 'Are you sure you want to delete this Component?<br><br>';
 
 		var uia = getSelectedWorkItem().usedin;
 		if(uia.length > 0){
@@ -67,15 +68,14 @@
 
 		closeDialog();
 
-		// Delete upstream Component Instances
-		getSelectedWorkItem().deleteLinks(_UI.selectedcomponent);
+		if(_GP.components[_UI.selectedcomponent]) {
+			// Delete upstream Component Instances
+			_GP.components[_UI.selectedcomponent].deleteLinks(_UI.selectedcomponent);
 
-		// Delete it
-		var oldname = getSelectedWorkItemName();
-		delete _GP.components[_UI.selectedcomponent];
-		_UI.selectedcomponent = getFirstID(_GP.components);
-
-		// history_put('Deleted ' + oldname);
+			// Delete it
+			delete _GP.components[_UI.selectedcomponent];
+			_UI.selectedcomponent = getFirstID(_GP.components);
+		}
 
 		// debug('\t after delete ' + _GP.components);
 		redraw({calledby:'deleteComponent'});
