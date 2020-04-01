@@ -134,25 +134,26 @@
 	}
 
 	function deleteLigature(){
-		// debug('\n deleteLigature - START');
-		// debug('\t deleting ' + _UI.selectedligature);
+		debug('\n deleteLigature - START');
+		debug('\t deleting ' + _UI.selectedligature);
 
 		closeDialog();
 
-		// Delete upstream Component Instances
-		getSelectedWorkItem().deleteLinks(_UI.selectedligature);
-		
-		// Delete it
-		var oldname = getSelectedWorkItemName();
-		delete _GP.ligatures[_UI.selectedligature];
-		_UI.selectedligature = getFirstID(_GP.ligatures);
+		if(_GP.ligatures[_UI.selectedligature]) {
+			// Delete upstream Component Instances
+			_GP.ligatures[_UI.selectedligature].deleteLinks(_UI.selectedligature);
+			
+			// Delete it
+			delete _GP.ligatures[_UI.selectedligature];
+			_UI.selectedligature = getFirstID(_GP.ligatures);
 
-		// history_put('Deleted ' + oldname);
+			// history_put('Deleted ' + getSelectedWorkItemName());
+		}
 
-		// debug('\t after delete ' + _GP.ligatures);
+		debug('\t after delete ' + _GP.ligatures);
 		redraw({calledby:'deleteLigature'});
 
-		// debug('deleteLigature - END\n');
+		debug('deleteLigature - END\n');
 	}
 
 	function sortLigatures() {

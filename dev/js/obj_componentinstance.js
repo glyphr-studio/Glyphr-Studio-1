@@ -490,45 +490,36 @@
 	}
 
 //	UsedIn Array Stuff
-	function addToUsedIn(componentGlyphID, targetGlyphID){
-		// debug('ADDTOUSEDIN - adding ' + componentGlyphID + ' to ' + targetGlyphID);
+	function addToUsedIn(sourceComponentGlyphID, glyphWhereItsUsedID){
+		// debug('ADDTOUSEDIN - adding ' + sourceComponentGlyphID + ' to ' + glyphWhereItsUsedID);
 		
-		var componentGlyph = getGlyph(componentGlyphID);
-		componentGlyph.usedin.push(''+targetGlyphID);
+		var sourceComponentGlyph = getGlyph(sourceComponentGlyphID);
+		sourceComponentGlyph.usedin.push(''+glyphWhereItsUsedID);
 		
 		// sort numerically as opposed to alpha, remove duplicates
-		componentGlyph.usedin.sort(function(a,b){return a-b;});
-		componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
+		sourceComponentGlyph.usedin.sort(function(a,b){return a-b;});
+		sourceComponentGlyph.usedin = sourceComponentGlyph.usedin.filter(duplicates);
 
-		// debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
+		// debug('\t sourceComponentGlyph.usedin is now ' + json(sourceComponentGlyph.usedin));
 	}
 
-	function removeFromUsedIn(componentGlyphID, targetGlyphID){
-		// debug('REMOVEFROMUSEDIN - removing ' + targetGlyphID + ' from ' + componentGlyphID);
-		
-		var targetGlyph = getGlyph(targetGlyphID);
-		var containsAnother = false;
+	// Removes ALL instances of an ID from a usedin array
+	//   Delete Shape should check for multiple instances of a Component
+	//   before calling this.  usedin arrays should be a unique list.
+	function removeFromUsedIn(sourceComponentGlyphID, glyphToRemoveID){
+		debug(`\n removeFromUsedIn - START`);
+		debug('\t removing ' + glyphToRemoveID + ' from ' + sourceComponentGlyphID);
+		var sourceComponentGlyph = getGlyph(sourceComponentGlyphID);
 
-		// check to see if this component is used more than once in the glyph
-		for(var s=0; s<targetGlyph.shapes.length; s++) {
-			if(targetGlyph.shapes[s].link && targetGlyph.shapes[s].link === componentGlyphID){
-				// debug('\t duplicates found!');
-				containsAnother = true;
-			}
-		}
+		// sort numerically as opposed to alpha, remove duplicates, remove specified ID
+		sourceComponentGlyph.usedin.sort(function(a,b){return a-b;});
+		sourceComponentGlyph.usedin = sourceComponentGlyph.usedin.filter(duplicates);
+		sourceComponentGlyph.usedin = sourceComponentGlyph.usedin.filter(function(id) {
+			return id !== ''+glyphToRemoveID;
+		});
 		
-		var componentGlyph = getGlyph(componentGlyphID);
-
-		if(!containsAnother){
-			var gindex = componentGlyph.usedin.indexOf(''+targetGlyphID);
-			if(gindex !== -1) componentGlyph.usedin.splice(gindex, 1);
-		}
-		
-		// sort numerically as opposed to alpha, remove duplicates
-		componentGlyph.usedin.sort(function(a,b){return a-b;});
-		componentGlyph.usedin = componentGlyph.usedin.filter(duplicates);
-
-		// debug('\t componentGlyph.usedin is now ' + json(componentGlyph.usedin));
+		debug('\t sourceComponentGlyph.usedin is now ' + json(sourceComponentGlyph.usedin));
+		debug(` removeFromUsedIn - END\n\n`);
 	}
 
 // end of file

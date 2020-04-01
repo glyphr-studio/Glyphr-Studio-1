@@ -538,30 +538,32 @@
 	// This method is called on Glyphs just before they are deleted
 	// to clean up all the component instance linking
 	Glyph.prototype.deleteLinks = function(thisid) {
-		// debug('\n Glyph.deleteLinks - START');
-		// debug('\t passed this as id: ' + thisid);
+		debug('\n Glyph.deleteLinks - START');
+		debug(`\t passed this as id: ${thisid}`);
 
 		// Delete upstream Component Instances
 		var upstreamglyph;
 		for(var c=0; c<this.usedin.length; c++){
 			upstreamglyph = getGlyph(this.usedin[c]);
-			// debug('\t removing from ' + upstreamglyph.name);
-			// debug(upstreamglyph.shapes);
+			debug(`\t removing upstream from ${upstreamglyph.name}`);
+			debug(upstreamglyph.shapes);
 			for(var u=0; u<upstreamglyph.shapes.length; u++){
 				if(upstreamglyph.shapes[u].objtype === 'componentinstance' && upstreamglyph.shapes[u].link === thisid){
 					upstreamglyph.shapes.splice(u, 1);
 					u--;
 				}
 			}
-			// debug(upstreamglyph.shapes);
+			debug(upstreamglyph.shapes);
 		}
 
 		// Delete downstream usedin array values
 		for(var s=0; s<this.shapes.length; s++){
 			if(this.shapes[s].objtype === 'componentinstance'){
+				debug(`\t removing downstream from ${this.shapes[s].link}`);
 				removeFromUsedIn(this.shapes[s].link, thisid);
 			}
 		}
+		debug(` Glyph.deleteLinks - END\n\n`);
 	};
 
 
@@ -657,20 +659,6 @@
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
-
-				/*
-				if(shape.objtype === 'componentinstance'){
-					tg = shape.getTransformedGlyph(true);
-					debug(`\t component instance transformed glyph`);
-					debug(tg);
-					// tg.updateGlyphPosition(lsb, 0, true);
-					if(tg) pathdata += tg.getSVGpathData();
-				} else {
-					path = new Path(shape.getPath());
-					path.updatePathPosition(lsb, 0, true);
-					pathdata += path.getSVGpathData();
-				}
-				*/
 				pathdata += shape.getSVGpathData();
 				if(j < sl.length-1) pathdata += ' ';
 			}
@@ -784,10 +772,12 @@
 
 	Glyph.prototype.changed = function(descend, ascend) {
 		this.cache = {};
+		var usedGlyph;
 
 		if(ascend){
 			for(var g=0; g<this.usedin.length; g++){
-				getGlyph(this.usedin[g]).changed(descend, ascend);
+				usedGlyph = getGlyph(this.usedin[g]);
+				if(usedGlyph && usedGlyph.changed) usedGlyph.changed(descend, ascend);
 			}
 		}
 

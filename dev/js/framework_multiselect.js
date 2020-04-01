@@ -297,6 +297,12 @@
 				if(i > -1) wishapes.splice(i, 1);
 
 				if(curs.objtype === 'componentinstance'){
+					/*
+
+						TODO
+						check for multiple instances of a single component
+
+					*/
 					removeFromUsedIn(curs.link, _UI.selectedglyph);
 				}
 			}
