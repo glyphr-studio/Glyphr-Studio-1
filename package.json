@@ -1,5 +1,5 @@
 {
-  "name": "Glyphr-Studio",
+  "name": "glyphr-studio",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "start": "nw"
@@ -17,12 +17,13 @@
     "min_height": 700
   },
   "devDependencies": {
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-copy": "^0.7.0",
-    "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-uglify": "^3.4.0",
+    "grunt": ">1.1.0",
+    "grunt-contrib-clean": ">0.6.0",
+    "grunt-contrib-concat": ">0.5.1",
+    "grunt-contrib-copy": ">0.7.0",
+    "grunt-contrib-cssmin": ">3.0.0",
+    "grunt-contrib-jshint": ">1.1.0",
+    "grunt-contrib-uglify": ">3.4.0",
     "grunt-contrib-uglify-es": "git+https://github.com/gruntjs/grunt-contrib-uglify.git#harmony"
   },
   "repository": {
@@ -57,8 +58,5 @@
       "GlyphrProject",
       "Guide"
     ]
-  },
-  "dependencies": {
-    "grunt": "^1.1.0"
   }
 }
