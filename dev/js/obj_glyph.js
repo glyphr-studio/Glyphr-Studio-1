@@ -52,7 +52,7 @@
 			}
 		}
 
-		if(this.getGlyphMaxes) this.getGlyphMaxes();
+		if(this.getMaxes) this.getMaxes();
 
 		// cache
 		oa.cache = oa.cache || {};
