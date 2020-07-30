@@ -138,68 +138,60 @@
 
 		function generateOneGlyph() {
 			// debug('\n generateOneGlyph - START');
-			// export this glyph
-			var glyph = currentExportItem.xg;
-			var glyphID = currentExportItem.xc;
-			var comb = _GP.projectsettings.combineshapesonexport;
-
-			// debug(`GenerateOneGlyph: ${glyphID}\t${glyph.name}\t${getNameForExport(glyphID)}`);
-			showToast('Exporting<br>'+glyph.name, 999999);
-
-			if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
-
-			if(glyph.isautowide) {
-				glyph.updateGlyphPosition(glyph.getLSB(), 0, true);
-				glyph.leftsidebearing = 0;
-			}
-
-			var tgpath = glyph.makeOpenTypeJSpath(new opentype.Path());
-			var currentIndex = getNextGlyphIndex('generateOneGlyph');
-
-			var glyphInfo = {
-				name: getNameForExport(glyphID),
-				unicode: parseInt(glyphID),
-				index: currentIndex,
-				advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
-				path: tgpath
-			};
 			
-			codePointGlyphIndexTable[''+decToHex(glyphID)] = currentIndex;
-
-			// debug(glyphInfo);
-			// debug(glyphInfo.path);
-
-			// Add this finished glyph
-			var newGlyph = new opentype.Glyph(glyphInfo);
-			// debug(newGlyph);
-			options.glyphs.push(newGlyph);
-
-
-			// start the next one
-			currentExportNumber++;
-
 			if(currentExportNumber < exportGlyphs.length){
+				// export this glyph
+				var glyph = currentExportItem.xg;
+				var glyphID = currentExportItem.xc;
+				var comb = _GP.projectsettings.combineshapesonexport;
+
+				// debug(`GenerateOneGlyph: ${glyphID}\t${glyph.name}\t${getNameForExport(glyphID)}`);
+				showToast('Exporting<br>'+glyph.name, 999999);
+
+				if(comb && glyph.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) glyph.combineAllShapes(true);
+
+				if(glyph.isautowide) {
+					glyph.updateGlyphPosition(glyph.getLSB(), 0, true);
+					glyph.leftsidebearing = 0;
+				}
+
+				var tgpath = glyph.makeOpenTypeJSpath(new opentype.Path());
+				var currentIndex = getNextGlyphIndex('generateOneGlyph');
+
+				var glyphInfo = {
+					name: getNameForExport(glyphID),
+					unicode: parseInt(glyphID),
+					index: currentIndex,
+					advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
+					path: tgpath
+				};
 				
+				codePointGlyphIndexTable[''+decToHex(glyphID)] = currentIndex;
+
+				// debug(glyphInfo);
+				// debug(glyphInfo.path);
+
+				// Add this finished glyph
+				var newGlyph = new opentype.Glyph(glyphInfo);
+				// debug(newGlyph);
+				options.glyphs.push(newGlyph);
+
+				// start the next one
+				currentExportNumber++;
 				currentExportItem = exportGlyphs[currentExportNumber];
 				setTimeout(generateOneGlyph, 10);
 
 			} else {
+				// debug('\n >>>>>>>>>> codePointGlyphIndexTable');
+				// debug(codePointGlyphIndexTable);
 
-				if(exportLigatures.length){
-					// debug('\n >>>>>>>>>> codePointGlyphIndexTable');
-					// debug(codePointGlyphIndexTable);
+				// debug(`\n >>>>>>>>>> OpenTypeJS Glyphs`);
+				// debug(options.glyphs);
+				// debug('\n');
 
-					// debug(`\n >>>>>>>>>> OpenTypeJS Glyphs`);
-					// debug(options.glyphs);
-					// debug('\n');
-
-					currentExportNumber = 0;
-					currentExportItem = exportLigatures[0];
-					setTimeout(generateOneLigature, 10);
-				} else {
-					showToast('Finalizing...', 10);
-					setTimeout(lastExportStep, 10);
-				}
+				currentExportNumber = 0;
+				currentExportItem = exportLigatures[0];
+				setTimeout(generateOneLigature, 10);
 			}
 
 			// debug(' generateOneGlyph - END\n');
@@ -208,58 +200,54 @@
 		function generateOneLigature(){
 			// debug('\n generateOneLigature - START');
 			
-			// export this glyph
-			var liga = currentExportItem.xg;
-			var ligaID = currentExportItem.xc;
-			var comb = _GP.projectsettings.combineshapesonexport;
-
-			// debug(`generateOneLigature: ${ligaID}\t${liga.name}\t${getNameForExport(ligaID)}`);
-			showToast('Exporting<br>'+liga.name, 999999);
-
-			if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
-
-			if(liga.isautowide) {
-				liga.updateGlyphPosition(liga.getLSB(), 0, true);
-				liga.leftsidebearing = 0;
-			}
-
-			var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
-			
-			var ligaCodePoint = getNextLigatureCodePoint();
-			var thisIndex = getNextGlyphIndex('generateOneLigature');
-
-			var glyphInfo = {
-				name: getNameForExport(ligaID),
-				unicode: ligaCodePoint,
-				index: thisIndex,
-				advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
-				path: tgpath
-			};
-			
-			// Add ligature glyph to the font
-			options.glyphs.push(new opentype.Glyph(glyphInfo));
-
-			// Add substitution info to font
-			var subList = hexToChars(ligaID).split('');
-			// debug(`\t subList ${json(subList, true)}`);
-			
-			var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
-			// debug('\t INDEX sub: [' + indexList + '] by: ' + thisIndex + ' which is ' + ligaCodePoint);
-			
-			ligatureSubstitutions.push({sub: indexList, by: thisIndex});
-			// debug(glyphInfo);
-
-			// start the next one
-			currentExportNumber++;
-
 			if(currentExportNumber < exportLigatures.length){
+				// export this glyph
+				var liga = currentExportItem.xg;
+				var ligaID = currentExportItem.xc;
+				var comb = _GP.projectsettings.combineshapesonexport;
+
+				// debug(`generateOneLigature: ${ligaID}\t${liga.name}\t${getNameForExport(ligaID)}`);
+				showToast('Exporting<br>'+liga.name, 999999);
+
+				if(comb && liga.shapes.length <= _GP.projectsettings.maxcombineshapesonexport) liga.combineAllShapes(true);
+
+				if(liga.isautowide) {
+					liga.updateGlyphPosition(liga.getLSB(), 0, true);
+					liga.leftsidebearing = 0;
+				}
+
+				var tgpath = liga.makeOpenTypeJSpath(new opentype.Path());
+				
+				var ligaCodePoint = getNextLigatureCodePoint();
+				var thisIndex = getNextGlyphIndex('generateOneLigature');
+
+				var glyphInfo = {
+					name: getNameForExport(ligaID),
+					unicode: ligaCodePoint,
+					index: thisIndex,
+					advanceWidth: round(liga.getAdvanceWidth() || 1),	// has to be non-zero
+					path: tgpath
+				};
+				
+				// Add ligature glyph to the font
+				options.glyphs.push(new opentype.Glyph(glyphInfo));
+
+				// Add substitution info to font
+				var subList = hexToChars(ligaID).split('');
+				// debug(`\t subList ${json(subList, true)}`);
+				
+				var indexList = subList.map(function(v){ return codePointGlyphIndexTable[charToHex(v)]; });
+				// debug('\t INDEX sub: [' + indexList + '] by: ' + thisIndex + ' which is ' + ligaCodePoint);
+				
+				ligatureSubstitutions.push({sub: indexList, by: thisIndex});
+				// debug(glyphInfo);
+
+				// start the next one
+				currentExportNumber++;
 				currentExportItem = exportLigatures[currentExportNumber];
 				setTimeout(generateOneLigature, 10);
-			} else {
-				// debug(`\n >>>>>>>>>> Ligature Substitutions`);
-				// debug(ligatureSubstitutions);
-				// debug('\n');
 
+			} else {
 				showToast('Finalizing...', 10);
 				setTimeout(lastExportStep, 10);
 			}
@@ -291,6 +279,8 @@
 		/*
 			MAIN EXPORT LOOP
 		*/
+		// debug(`\t MAIN EXPORT LOOP`);
+		
 		var options = {};
 		var codePointGlyphIndexTable = {};
 		var glyphIndex = 0;
@@ -303,9 +293,14 @@
 
 		firstExportStep();
 		populateExportLists();
-		currentExportItem = exportGlyphs[0];
-		generateOneGlyph();
 
+		if(exportGlyphs.length === 0 && exportLigatures.length === 0) {
+			showToast('No glyphs or ligatures found to export!<br>Go to Font Settings &gt; Glyph Ranges<br> to select ranges to export.', 6000);
+		} else {
+			if(exportGlyphs.length === 0) showToast('Warning: No glyphs selected for export!<br>Go to Font Settings &gt; Glyph Ranges<br> to select ranges to export.', 6000);
+			currentExportItem = exportGlyphs[0];
+			generateOneGlyph();
+		}
 
 		// debug(' ioOTF_exportOTFfont - END\n');
 	}
