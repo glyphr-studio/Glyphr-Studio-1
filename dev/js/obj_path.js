@@ -544,10 +544,8 @@
 		return this.cache.svgpathdata;
 	};
 
-	Path.prototype.makeSVGpathData = function(glyphname) {
-		glyphname = glyphname || 'not specified';
+	Path.prototype.makeSVGpathData = function() {
 		// debug('\n Path.makeSVGpathData - START');
-		// debug('\t Glyph ' + glyphname);
 		// debug('\t this.pathpoints: ' + json(this.pathpoints, true));
 
 		if(!this.pathpoints || !this.pathpoints.length) return '';
@@ -556,14 +554,12 @@
 		var roundvalue = _GP.projectsettings.svgprecision || 8;
 		var p1, p2;
 		var trr = '';
-		var lsb = getSelectedWorkItem().getLSB();
-		lsb = lsb || 0;
 
-		re += 'M' + round((lsb + this.pathpoints[0].getPx()), roundvalue) + ',' + round(this.pathpoints[0].getPy(), roundvalue);
+		re += 'M' + round((this.pathpoints[0].getPx()), roundvalue) + ',' + round(this.pathpoints[0].getPy(), roundvalue);
 		// debug('GENPATHPOSTSCRIPT:\n\t ' + re);
 
 		if(re.indexOf('NaN') > -1){
-			console.warn(glyphname + ' PathPoint 0 MOVE has NaN: ' + re);
+			console.warn('PathPoint 0 MOVE has NaN: ' + re);
 			// debug(this.pathpoints[0]);
 		}
 
@@ -572,16 +568,16 @@
 			// p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 			p2 = this.pathpoints[this.getNextPointNum(cp)];
 			trr = ' C' + 
-				round((p1.getH2x() + lsb), roundvalue) + ',' + 
+				round((p1.getH2x()), roundvalue) + ',' + 
 				round((p1.getH2y()), roundvalue) + ',' + 
-				round((p2.getH1x() + lsb), roundvalue) + ',' + 
+				round((p2.getH1x()), roundvalue) + ',' + 
 				round((p2.getH1y()), roundvalue) + ',' + 
-				round((p2.getPx() + lsb), roundvalue) + ',' + 
+				round((p2.getPx()), roundvalue) + ',' + 
 				round((p2.getPy()), roundvalue);
 			// debug('\t ' + trr);
 
 			if(trr.indexOf('NaN') > -1){
-				console.warn(glyphname + ' PathPoint ' + cp + ' has NaN: ' + trr);
+				console.warn('PathPoint ' + cp + ' has NaN: ' + trr);
 			}
 			re += trr;
 		}

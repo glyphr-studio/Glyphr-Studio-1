@@ -155,7 +155,6 @@
 			return '';
 		}
 
-
 		uni = uni.split('0x');
 		uni.forEach(function(v, i, a){
 			// only export glyph if it has a valid hexadecimal unicode
@@ -168,14 +167,21 @@
 		});
 		uni = uni.join('');
 
-		if(_GP.projectsettings.combineshapesonexport) gl = new Glyph(gl).flattenGlyph().combineAllShapes(true);
+		// Clone the glyph for LSB moving and flattening
+		gl = new Glyph(clone(gl));
+		if(_GP.projectsettings.combineshapesonexport) gl.flattenGlyph().combineAllShapes(true);
+		
+		var lsb = gl.getLSB();
+		gl.updateGlyphPosition(lsb, 0, true);
+		var advanceWidth = gl.getAdvanceWidth() - lsb;
+
 		var pathdata = gl.getSVGpathData();
 		pathdata = pathdata || 'M0,0Z';
 
 		var con = '\t\t\t';
 		con += '<glyph glyph-name="'+getNameForExport(gsid)+'" ';
 		con += 'unicode="'+uni+'" ';
-		con += 'horiz-adv-x="'+gl.getAdvanceWidth()+'" ';
+		con += 'horiz-adv-x="'+advanceWidth+'" ';
 		con += 'd="'+pathdata+'" />\n';
 		return con;
 	}

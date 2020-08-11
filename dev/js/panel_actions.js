@@ -196,8 +196,8 @@
 		var ps = _GP.projectsettings;
 		var emsquare = Math.max(ps.upm, (ps.ascent - ps.descent));
 
+		wi.updateGlyphPosition(lsb, 0, true);
 		wi.flipNS();
-		wi.updateGlyphPosition((lsb*-1), 0, true);
 		var pathdata = wi.getSVGpathData();
 
 		var re = '<svg version="1.1" ';
@@ -246,9 +246,9 @@
 			
 			for(var s=0; s<sourceshapes.length; s++){
 				if(sourceshapes[s].objtype === 'componentinstance'){
-					ts = new ComponentInstance(sourceshapes[s]);
+					ts = new ComponentInstance(clone(sourceshapes[s]));
 				} else {
-					ts = new Shape(sourceshapes[s]);
+					ts = new Shape(clone(sourceshapes[s]));
 				}
 
 				// debug('\t shape ' + s);

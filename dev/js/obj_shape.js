@@ -16,7 +16,7 @@
 
 		// common settings
 		this.name = oa.name || 'Shape';
-		this.path = isval(oa.path)? new Path(oa.path) : rectPathFromMaxes(false);
+		this.path = isval(oa.path)? new Path(clone(oa.path)) : rectPathFromMaxes(false);
 		this.visible = isval(oa.visible)? oa.visible : true;
 		this.xlock = oa.xlock || false;
 		this.ylock = oa.ylock || false;

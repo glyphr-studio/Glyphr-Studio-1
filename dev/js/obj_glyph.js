@@ -42,11 +42,11 @@
 			for(var i=0; i<oa.shapes.length; i++) {
 				if(oa.shapes[i].objtype === 'componentinstance'){
 					// debug('\t hydrating ci ' + oa.shapes[i].name);
-					this.shapes[i] = new ComponentInstance(oa.shapes[i]);
+					this.shapes[i] = new ComponentInstance(clone(oa.shapes[i]));
 					lc++;
 				} else {
 					// debug('\t hydrating sh ' + oa.shapes[i].name);
-					this.shapes[i] = new Shape(oa.shapes[i]);
+					this.shapes[i] = new Shape(clone(oa.shapes[i]));
 					cs++;
 				}
 			}
@@ -248,7 +248,7 @@
 			if(this.shapes[i].objtype === 'componentinstance'){
 				this.shapes[i].rotate(deltaRad - niceAngleToRadians(this.shapes[i].rotation), about, snap);
 			} else {
-				tempshape = new Shape(this.rotationreferenceshapes[i]);
+				tempshape = new Shape(clone(this.rotationreferenceshapes[i]));
 				tempshape.rotate(deltaRad, about, snap);
 				this.shapes[i].path = tempshape.path;
 			}
@@ -668,12 +668,12 @@
 	};
 
 	Glyph.prototype.makeSVGpathData = function() {
+		// SVG will not include LSB
 		var sl = this.shapes;
-		var pathdata = '';
-		var lsb = this.getLSB();
-		var shape, path, tg;
-
+		
 		// Make Pathdata
+		var pathdata = '';
+		var shape;
 		for(var j=0; j<sl.length; j++) {
 			shape = sl[j];
 			if(shape.visible) {
