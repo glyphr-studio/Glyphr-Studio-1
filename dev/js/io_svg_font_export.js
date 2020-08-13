@@ -171,7 +171,7 @@
 		gl = new Glyph(clone(gl));
 		if(_GP.projectsettings.combineshapesonexport) gl.flattenGlyph().combineAllShapes(true);
 		
-		var lsb = gl.getLSB();
+		var lsb = gl.isautowide? gl.getLSB() : 0;
 		gl.updateGlyphPosition(lsb, 0, true);
 		var advanceWidth = gl.getAdvanceWidth() - lsb;
 

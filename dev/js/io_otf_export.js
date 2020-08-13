@@ -165,11 +165,12 @@
 					advanceWidth: round(glyph.getAdvanceWidth() || 1),	// has to be non-zero
 					path: tgpath
 				};
+
+				// debug(glyphInfo);
+				// debug(glyphInfo.advanceWidth);
 				
 				codePointGlyphIndexTable[''+decToHex(glyphID)] = currentIndex;
 
-				// debug(glyphInfo);
-				// debug(glyphInfo.path);
 
 				// Add this finished glyph
 				var newGlyph = new opentype.Glyph(glyphInfo);

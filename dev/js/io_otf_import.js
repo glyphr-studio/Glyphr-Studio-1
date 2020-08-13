@@ -35,7 +35,8 @@
 			try {
 				// Get Font
 				font = opentype.parse(_UI.droppedFileContent);
-			
+				// debug(font);
+				
 			} catch(err){
 				loadPage_openproject();
 				openproject_changeTab('load');
@@ -102,6 +103,7 @@
 
 			// One Glyph in the font
 			tglyph = importglyphs[c];
+			// debug(tglyph);
 
 			// Get the appropriate unicode decimal for this glyph
 			// debug('\t starting  unicode \t' + tglyph.unicode + ' \t ' + tglyph.name);
@@ -156,13 +158,14 @@
 				}
 
 				// Get Advance Width
-				isautowide = true;
+				// debug(`\t tglyph.advanceWidth: ${tglyph.advanceWidth}`);
+				
+				isautowide = false;
 				adv = parseInt(tglyph.advanceWidth);
-				if(adv){
-					if(!isNaN(adv) && adv > 0){
-						isautowide = false;
-					}
-				} else adv = false;
+				if(isNaN(adv) || adv < 1){
+					adv = false;
+					isautowide = true;
+				}
 
 
 				// Get some range data
