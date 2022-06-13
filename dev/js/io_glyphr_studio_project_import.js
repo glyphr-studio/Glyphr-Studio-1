@@ -265,7 +265,7 @@
 
 	function migrate_0_3_to_0_4(fc){
 		// debug('\n migrate_0_3_to_0_4 - START');
-		newgp = new GlyphrProject();
+		var newgp = new GlyphrProject();
 
 		var tls;
 		for(var l in fc.linkedshapes){
