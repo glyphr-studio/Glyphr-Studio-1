@@ -18,13 +18,13 @@
   },
   "devDependencies": {
     "grunt": "^1.5.3",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-concat": "^2.1.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-cssmin": "^4.0.0",
     "grunt-contrib-jshint": "^3.2.0",
-    "grunt-contrib-uglify": "^3.4.0",
-    "grunt-contrib-uglify-es": "git+https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "trim-newlines": "^4.0.2"
   },
   "repository": {

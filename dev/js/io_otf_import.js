@@ -92,7 +92,7 @@
 		var c=0;
 		function importOneGlyph(){
 			// debug('\n\n=============================\n');
-			// debug('\n importOneGlyph - START');
+			// debug(`\n importOneGlyph - START`);
 			importStatus('Importing Glyph ' + c + ' of ' + importglyphs.length);
 
 			if(c >= importglyphs.length) {
