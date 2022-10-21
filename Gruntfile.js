@@ -1,10 +1,10 @@
 module.exports = function(grunt) {
 
 	// Grab HTML parts
-	var apphtml = grunt.file.read('dev/Glyphr_Studio.html');
+	var apphtml = grunt.file.read('./dev/Glyphr_Studio.html');
 	apphtml = apphtml.split('<!--template_split-->');
 
-	var ver = grunt.file.read('dev/js/_settings.js');
+	var ver = grunt.file.read('./dev/js/_settings.js');
 	ver = ver.split("thisGlyphrStudioVersionNum: '")[1];
 	ver = ver.split("',")[0];
 	ver = ver || '0.0.0';

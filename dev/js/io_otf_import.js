@@ -35,7 +35,7 @@
 			try {
 				// Get Font
 				font = opentype.parse(_UI.droppedFileContent);
-				// debug(font);
+				debug(font);
 				
 			} catch(err){
 				loadPage_openproject();
