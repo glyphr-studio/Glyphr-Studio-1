@@ -644,7 +644,6 @@ function makePanel_PageNav() {
   if (!_UI.popout) {
     navarr.push("_");
     navarr.push("newproject");
-    navarr.push("feature");
     navarr.push("email");
     navarr.push("issue");
   }

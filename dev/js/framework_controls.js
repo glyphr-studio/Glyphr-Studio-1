@@ -73,14 +73,16 @@ function makeIcon(oa) {
   if (oa.hovercolor === false) hovercolor = color;
 
   var con;
+  var uiIcon = _UI.icons[oa.name];
+  // debug(uiIcon);
   if (oa.name === "button_npNav") {
     // con = _UI.icons.button_npNavFrames[_UI.icons.button_npNavFrames.length-1];
     con = _UI.icons.button_npNavFrames[_UI.hamburger.state];
     con += _UI.icons.button_npNavFramesBorder[_UI.hamburger.state];
-  } else if (_UI.icons[oa.name].outline) {
-    con = _UI.icons[oa.name].outline;
+  } else if (uiIcon.outline) {
+    con = uiIcon.outline;
   } else {
-    con = _UI.icons[oa.name];
+    con = uiIcon;
   }
 
   var re = '<svg version="1.1" ';
