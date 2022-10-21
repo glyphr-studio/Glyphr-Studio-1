@@ -3,7 +3,7 @@
 
 # Welcome to Glyphr Studio!
  Glyphr Studio is a free, web based font designer, focusing on font design for hobbyists.
- More information can be found at [glyphrstudio.com](http://glyphrstudio.com) - and/or
+ More information can be found at [glyphrstudio.com](https://www.glyphrstudio.com) - and/or
  follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
 
 ### Major Features
@@ -12,18 +12,17 @@
 - Import and Export Open Type fonts, True Type fonts, and SVG Fonts.
 - Test Drive environment to try out your font.
 - Help & Documentation
-- See what's new on the [Updates Page](http://help.glyphrstudio.com/overview_updates.html).
+- See what's new on the [Updates Page](https://www.glyphrstudio.com/help/overview_updates.html).
 
 ## Links
-| Website | [glyphrstudio.com](http://www.glyphrstudio.com) |
+| Website | [glyphrstudio.com](https://www.glyphrstudio.com) |
 | :---- | :---- |
-| App | [glyphrstudio.com/online](http://www.glyphrstudio.com/online) |
+| App | [glyphrstudio.com/online](https://www.glyphrstudio.com/online) |
 | Email | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
 | Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
-| Blog | [glyphrstudio.com/blog](http://www.glyphrstudio.com/blog/) |
-| Help & Documentation | [help.glyphrstudio.com](http://help.glyphrstudio.com/) |
+| Blog | [glyphrstudio.com/blog](https://www.glyphrstudio.com/blog/) |
+| Help & Documentation | [glyphrstudio.com/help](https://www.glyphrstudio.com/help/) |
 | Help Repository | [github.com/mattlag/Glyphr-Studio-Help](https://github.com/mattlag/Glyphr-Studio-Help/) |
-| Feedback | [glyphrstudio.uservoice.com](https://glyphrstudio.uservoice.com) |
 
 
 ## Feedback
@@ -47,11 +46,11 @@
 ## Author
 | ![Matthew LaGrandeur's picture](https://1.gravatar.com/avatar/f6f7b963adc54db7e713d7bd5f4903ec?s=70) |
 |---|
-| [Matthew LaGrandeur](http://mattlag.com/) |
+| [Matthew LaGrandeur](https://mattlag.com/) |
 | matt[at]mattlag[dot]com |
 
 
 ## Thanks!
 For cross-browser testing, we use
 
-[![BrowserStack](/img/browserstack-logo-31.png )](http://browserstack.com)
+[![BrowserStack](/img/browserstack-logo-31.png )](https://browserstack.com)
