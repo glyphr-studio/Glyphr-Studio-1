@@ -14,9 +14,9 @@
 // These are NOT SAVED with the project
 var _UI = {
   // Version
-  thisGlyphrStudioVersion: 'Version 1.13',
-  thisGlyphrStudioVersionNum: '1.13.13',
-  thisGlyphrStudioVersionDate: 1666390000000,
+  thisGlyphrStudioVersion: "Version 1.13",
+  thisGlyphrStudioVersionNum: "1.13.14",
+  thisGlyphrStudioVersionDate: 1667000000000,
 
   // Internal Dev Stuff
   devmode: false, // global switch for all the stuff below

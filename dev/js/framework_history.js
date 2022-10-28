@@ -7,7 +7,7 @@
 	undo queue.
 **/
 
-
+/** cspell disable */
 	function History(pn) {
 		this.queue = [];
 		this.parentname = pn;
