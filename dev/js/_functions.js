@@ -16,7 +16,7 @@ function glyphrStudio_OnLoad() {
       "\n\n",
     "color:rgb(0,170,225)"
   );
-  //debug('\n MAIN SETUP - START');
+  // debug('\n MAIN SETUP - START');
 
   // Initialize Stuff
   insertGlobalDOMElements();
