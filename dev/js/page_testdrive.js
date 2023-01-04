@@ -146,7 +146,7 @@
 			var drawwidth = chardata.width * chardata.view.dz;
 			var drawheight = _GP.projectsettings.upm * chardata.view.dz;
 			var drawy = (chardata.view.dy - _GP.projectsettings.ascent) * chardata.view.dz;
-			var drawx = chardata.view.dx * chardata.view.dz
+			var drawx = chardata.view.dx * chardata.view.dz;
 			var drawk = chardata.kern * chardata.view.dz * -1;
 
 			// debug(`\t drawing ${chardata.char}`);

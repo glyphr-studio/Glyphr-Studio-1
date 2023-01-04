@@ -85,7 +85,7 @@
 				delete fcontent.projectsettings.glyphrange.latinsuppliment;
 			}
 
-			if(projvn.minor <= 13 && projvn.patch < 2){
+			if(projvn.minor < 13 || (projvn.minor === 13 && projvn.patch < 2)){
 				// invert component instance rotation number
 				var invertComponentInstanceRotation = function(glyph) {
 					if(glyph.shapes && glyph.shapes.length) {
@@ -118,9 +118,10 @@
 		// Update the version
 		ps.versionnum = _UI.thisGlyphrStudioVersionNum;
 		ps.version = _UI.thisGlyphrStudioVersion;
-
-
+		
+		
 		// Hydrate after all updates
+		// debug(fcontent);
 		hydrateGlyphrProject(fcontent);
 		// debug(' importGlyphrProjectFromText - END\n');
 	}
@@ -312,65 +313,64 @@
 //	-------------------------------
 
 	function hydrateGlyphrProject(data, callback) {
-		// debug("\n hydrateGlyphrProject - START");
-		// debug("\t passed: ");
+		// debug('\n hydrateGlyphrProject - START');
+		// debug('\t passed: ');
 		// debug(data);
 
 		_GP = new GlyphrProject();
 		// var oggp = new GlyphrProject();
-
+		var ps = _GP.projectsettings;
 
 		// Project Settings
 		// merge settings to conform to current .projectsettings
 		// but not guides, because they can be custom
 		var dataguides = clone(data.projectsettings.guides);
 
-		if(data.projectsettings) {
-			_GP.projectsettings = merge(_GP.projectsettings, data.projectsettings);
-			_GP.projectsettings.glyphrange.custom = data.projectsettings.glyphrange.custom || [];
+		if (data.projectsettings) {
+			ps = merge(ps, data.projectsettings);
+			ps.glyphrange.custom =
+				data.projectsettings.glyphrange.custom || [];
 		}
-		_GP.projectsettings.projectid = _GP.projectsettings.projectid || genProjectID();
-		_GP.projectsettings.descent = -1 * Math.abs(_GP.projectsettings.descent);
-		// debug('\t finished merging projectsettings');
-		// debug(_GP.projectsettings);
 
+		ps.projectid = ps.projectid || genProjectID();
+		ps.descent = -1 * Math.abs(ps.descent);
+		// debug('\t finished merging projectsettings');
+		// debug(ps);
+
+		// Update the version
+		ps.versionnum = _UI.thisGlyphrStudioVersionNum;
+		ps.version = _UI.thisGlyphrStudioVersion;
 
 		// Guides
 		hydrateGlyphrObjectList(Guide, dataguides, _GP.projectsettings.guides);
 		// debug('\t finished hydrating guides');
 
-
 		// Metadata
-		if(data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata, true);
+		if (data.metadata) _GP.metadata = merge(_GP.metadata, data.metadata, true);
 		// debug('\t finished merging metadata');
-
 
 		// Components
 		hydrateGlyphrObjectList(Glyph, data.components, _GP.components);
 		// debug('\t finished hydrating components');
 
-
 		// Glyphs
 		hydrateGlyphrObjectList(Glyph, data.glyphs, _GP.glyphs);
 		// debug('\t finished hydrating glyphs');
-
 
 		// Ligatures
 		hydrateGlyphrObjectList(Glyph, data.ligatures, _GP.ligatures);
 		// debug('\t finished hydrating ligatures');
 
-
 		// Kerning
 		hydrateGlyphrObjectList(HKern, data.kerning, _GP.kerning);
 		// debug('\t finished hydrating kern pairs');
 
-
 		// debug('\t hydrated: ');
 		// debug(_GP);
-		// debug("hydrateGlyphrProject - END\n");
+		// debug('hydrateGlyphrProject - END\n');
 
-		if(callback) callback();
-		if(!_UI.coremode) finalizeGlyphrProject();
+		if (callback) callback();
+		if (!_UI.coremode) finalizeGlyphrProject();
 		//navigate();
 	}
 
@@ -467,7 +467,7 @@
 		resetThumbView();
 
 		_UI.current_page = "glyph edit";
-
+		// debug(_GP);
 		// debug("finalizeGlyphrProject \t END\n");
 	}
 
