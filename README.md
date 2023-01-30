@@ -11,7 +11,7 @@
 - Full Unicode ([BMP](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane)) support for Glyphs.  Define Class-based Kern Values, Ligatures, and Components.
 - Import and Export Open Type fonts, True Type fonts, and SVG Fonts.
 - Test Drive environment to try out your font.
-- Help & Documentation
+- Help & Docs
 - See what's new on the [Updates Page](https://www.glyphrstudio.com/help/overview_updates.html).
 
 ## Links
@@ -19,7 +19,7 @@
 | :---- | :---- |
 | Email | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
 | App | [glyphrstudio.com/online](https://www.glyphrstudio.com/online) |
-| Help & Documentation | [glyphrstudio.com/help](https://www.glyphrstudio.com/help/) |
+| Help & Docs | [glyphrstudio.com/help](https://www.glyphrstudio.com/help/) |
 | Blog | [glyphrstudio.com/blog](https://www.glyphrstudio.com/blog/) |
 | | |
 | Mastodon | [@glyphrstudio@typo.social](https://typo.social/@glyphrstudio) |
