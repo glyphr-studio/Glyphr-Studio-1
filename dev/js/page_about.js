@@ -22,7 +22,7 @@ function loadPage_about() {
 		'<table>' +
 		'<tr><td><i>Website: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://www.glyphrstudio.com" target="_blank">glyphrstudio.com</a> for all the info.</td></tr>' +
 		'<tr><td><i>Email: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="mailto:mail@glyphrstudio.com" target="blank">mail@glyphrstudio.com</a> with any questions, and we"d be happy to help out.</td></tr>' +
-		'<tr><td><i>Help & Docs: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://www.glyphrstudio.com/help/" target="_blank">glyphrstudio.com/help</a> for verbose updates and announcements.</td></tr>' +
+		'<tr><td><i>Help & Docs: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://www.glyphrstudio.com/help/" target="_blank">glyphrstudio.com/help</a> for app details and more information.</td></tr>' +
 		'<tr><td><i>Blog: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://www.glyphrstudio.com/blog/" target="_blank">glyphrstudio.com/blog</a> for verbose updates and announcements.</td></tr>' +
 		'<tr><td><i>Mastodon: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://typo.social/@glyphrstudio" target="_blank">@glyphrstudio@typo.social</a> for short updates and announcements.</td></tr>' +
 		'<tr><td><i>Reddit: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://www.reddit.com/r/GlyphrStudio/" target="_blank">reddit.com/r/GlyphrStudio</a> for announcements and discussions.</td></tr>' +
