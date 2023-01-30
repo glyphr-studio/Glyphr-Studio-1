@@ -17,12 +17,17 @@
 ## Links
 | Website | [glyphrstudio.com](https://www.glyphrstudio.com) |
 | :---- | :---- |
-| App | [glyphrstudio.com/online](https://www.glyphrstudio.com/online) |
 | Email | [mail@glyphrstudio.com](mailto:mail@glyphrstudio.com) |
-| Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
-| Blog | [glyphrstudio.com/blog](https://www.glyphrstudio.com/blog/) |
+| App | [glyphrstudio.com/online](https://www.glyphrstudio.com/online) |
 | Help & Documentation | [glyphrstudio.com/help](https://www.glyphrstudio.com/help/) |
-| Help Repository | [github.com/mattlag/Glyphr-Studio-Help](https://github.com/mattlag/Glyphr-Studio-Help/) |
+| Blog | [glyphrstudio.com/blog](https://www.glyphrstudio.com/blog/) |
+| | |
+| Mastodon | [@glyphrstudio@typo.social](https://typo.social/@glyphrstudio) |
+| Reddit | [reddit.com/r/GlyphrStudio](https://www.reddit.com/r/GlyphrStudio/) |
+| Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
+| GitHub | [github.com/glyphr-studio](https://github.com/glyphr-studio) |
+| | |
+| | |
 
 
 ## Feedback
