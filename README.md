@@ -26,8 +26,6 @@
 | Reddit | [reddit.com/r/GlyphrStudio](https://www.reddit.com/r/GlyphrStudio/) |
 | Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
 | GitHub | [github.com/glyphr-studio](https://github.com/glyphr-studio) |
-| | |
-| | |
 
 
 ## Feedback
