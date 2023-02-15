@@ -212,5 +212,3 @@ function deleteKernPair(id) {
 	_UI.selectedkern = getFirstID(_GP.kerning);
 	redraw({ calledby: 'deleteKernPair' });
 }
-
-// end of file

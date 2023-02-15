@@ -369,5 +369,3 @@ function nudge(dx, dy, ev) {
 		redraw({ calledby: 'Nudge path point' });
 	}
 }
-
-// end of file

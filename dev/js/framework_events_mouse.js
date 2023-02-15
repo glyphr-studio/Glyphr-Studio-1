@@ -1048,5 +1048,3 @@ function mousewheel(event) {
 		}
 	}
 }
-
-// end of file

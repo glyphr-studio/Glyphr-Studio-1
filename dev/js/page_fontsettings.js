@@ -543,5 +543,3 @@ function makeRangePreviewGlyph(g) {
 
 	return content;
 }
-
-// end of file

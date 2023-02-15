@@ -100,7 +100,9 @@ function parseUnicodeInput(str) {
 		return charsToHexArray(str);
 	}
 
-	entries = entries.filter(function (val) { return val !== ''; });
+	entries = entries.filter(function (val) {
+		return val !== '';
+	});
 	// debug(entries);
 	var te;
 	for (var e = 0; e < entries.length; e++) {
@@ -125,7 +127,7 @@ function parseUnicodeInput(str) {
 function isInputAboveBMP(str) {
 	for (var i = 0; i < str.length; i++) {
 		// debug(`checking ${str.charAt(i)} as ${str.codePointAt(i)} > ${0xFFFF}`);
-		if (str.codePointAt(i) > 0xFFFF) return true;
+		if (str.codePointAt(i) > 0xffff) return true;
 	}
 
 	return false;
@@ -230,5 +232,3 @@ function getUnicodeBlockName(ch) {
 
 	return '[name not found]';
 }
-
-// end of file

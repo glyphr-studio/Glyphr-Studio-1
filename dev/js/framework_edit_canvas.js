@@ -2267,5 +2267,3 @@ function dropSvgOnEditCanvas(evt) {
 
 	// debug(' dropSvgOnEditCanvas - END\n');
 }
-
-// end of file

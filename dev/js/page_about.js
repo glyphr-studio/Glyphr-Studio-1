@@ -69,5 +69,3 @@ function make_ContributeHTML() {
 
 	return content;
 }
-
-// end of file

@@ -538,5 +538,3 @@ _UI.ms.shapes.roundAll = function (precision) {
 		this.members[m].roundAll(precision);
 	}
 };
-
-// end of file

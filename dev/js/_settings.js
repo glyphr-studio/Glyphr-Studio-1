@@ -490,5 +490,3 @@ _UI.colors.button_selected = _UI.colors.blue.l65;
 // See obj_glyphrproject.js for reference
 
 var _GP = {};
-
-// end of file

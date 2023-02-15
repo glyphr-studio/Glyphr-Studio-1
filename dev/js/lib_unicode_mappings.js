@@ -1,4 +1,3 @@
-
 // Keys are destination, Array values are sources
 // Simple utilizes only the "Basic Latin" range to generate
 // glyphs in the "Latin Supplement" range
@@ -61,36 +60,36 @@ _UI.unicodeDiacriticsMapSimple = {
 	'0x00FB': ['0x0075', '0x005E'],
 	'0x00FC': ['0x0075', '0x00A8'],
 	'0x00FD': ['0x0079', '0x00B4'],
-	'0x00FF': ['0x0079', '0x00A8']
+	'0x00FF': ['0x0079', '0x00A8'],
 };
 
 // Keys are destination, Array values are sources
 // Advanced utilizes the "Combining Diacritics" Unicode range
 // to generate the "Latin Supplement" and "Latin Extended A" ranges
 _UI.requiredAccentsForAdvancedDiacriticsMap = {
-	'0x00B7':'MIDDLE DOT',
+	'0x00B7': 'MIDDLE DOT',
 
-	'0x0300':'COMBINING GRAVE ACCENT',
-	'0x0301':'COMBINING ACUTE ACCENT',
-	'0x0302':'COMBINING CIRCUMFLEX ACCENT',
-	'0x0303':'COMBINING TILDE',
-	'0x0304':'COMBINING MACRON',
+	'0x0300': 'COMBINING GRAVE ACCENT',
+	'0x0301': 'COMBINING ACUTE ACCENT',
+	'0x0302': 'COMBINING CIRCUMFLEX ACCENT',
+	'0x0303': 'COMBINING TILDE',
+	'0x0304': 'COMBINING MACRON',
 
-	'0x0306':'COMBINING BREVE',
-	'0x0307':'COMBINING DOT ABOVE',
-	'0x0308':'COMBINING DIAERESIS',
+	'0x0306': 'COMBINING BREVE',
+	'0x0307': 'COMBINING DOT ABOVE',
+	'0x0308': 'COMBINING DIAERESIS',
 
-	'0x030A':'COMBINING RING ABOVE',
-	'0x030B':'COMBINING DOUBLE ACUTE ACCENT',
-	'0x030C':'COMBINING CARON',
+	'0x030A': 'COMBINING RING ABOVE',
+	'0x030B': 'COMBINING DOUBLE ACUTE ACCENT',
+	'0x030C': 'COMBINING CARON',
 
-	'0x0327':'COMBINING CEDILLA',
-	'0x0328':'COMBINING OGONEK',
+	'0x0327': 'COMBINING CEDILLA',
+	'0x0328': 'COMBINING OGONEK',
 
-	'0x0335':'COMBINING SHORT STROKE OVERLAY',
-	'0x0336':'COMBINING LONG STROKE OVERLAY',
-	'0x0337':'COMBINING SHORT SOLIDUS OVERLAY',
-	'0x0338':'COMBINING LONG SOLIDUS OVERLAY',
+	'0x0335': 'COMBINING SHORT STROKE OVERLAY',
+	'0x0336': 'COMBINING LONG STROKE OVERLAY',
+	'0x0337': 'COMBINING SHORT SOLIDUS OVERLAY',
+	'0x0338': 'COMBINING LONG SOLIDUS OVERLAY',
 };
 
 _UI.unicodeDiacriticsMapAdvanced = {
@@ -517,5 +516,5 @@ _UI.unicodeLowercaseMap = {
 	'0x0248': '0x0249',
 	'0x024A': '0x024B',
 	'0x024C': '0x024D',
-	'0x024E': '0x024F'
+	'0x024E': '0x024F',
 };
