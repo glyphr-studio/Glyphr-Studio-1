@@ -42,15 +42,20 @@
 	}
 
 	function createNewLigature() {
-		// debug('\n createNewLigature - START');
+		debug('\n createNewLigature - START');
 		var inlig = document.getElementById('newligatureinput').value;
-		// debug('\t retrieved ' + lid);
+		debug('\t retrieved ' + inlig);
 		var ligID = inlig.replace(/\s/gi, '');
 		ligID = parseUnicodeInput(ligID);
-		// debug('\t parsed ' + ligID);
+		debug('\t parsed ' + ligID);
 
 		// Do checks
-		if(!ligID || ligID.length < 2) {
+		if (!ligID) {
+			showErrorMessageBox('Error reading character input. Unicode characters must be below 0xFFFF.');
+			return;
+		}
+
+		if(ligID && ligID.length < 2) {
 			showErrorMessageBox('Ligatures must be at least two glyphs.');
 			return;
 		}
