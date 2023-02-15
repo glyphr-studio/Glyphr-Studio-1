@@ -254,6 +254,14 @@
 		border-radius: 2px;
 	}
 
+	canvas,
+	canvas:hover,
+	canvas:active,
+	canvas:focus,
+	canvas:focus-within,
+	canvas:focus-visible {
+		outline: 0;
+	}
 
 
 /*	=============================== */
