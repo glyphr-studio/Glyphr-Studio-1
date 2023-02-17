@@ -879,9 +879,12 @@ function drawContextGlyphExtras(char) {
 		var texty = sy_cy(_GP.projectsettings.descent - 60);
 
 		// Draw the glyph name
-		var gname = char.glyph
-			? char.glyph.getName()
-			: getGlyphName(charsToHexArray(char.char));
+		var gname;
+		if (char.glyph) {
+			gname = char.glyph.getName();
+		} else {
+			gname = getGlyphName(charsToHexArray(char.char));
+		}
 		gname = gname.replace(/latin /i, '');
 		drawGlyphNameExtra(gname, currx, texty, advanceWidth, color, char.char);
 

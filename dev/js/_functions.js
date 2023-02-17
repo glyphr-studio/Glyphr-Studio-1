@@ -203,9 +203,9 @@ function makePanelSuperTitle() {
 		} else if (_UI.current_page === 'kerning') {
 			// debug('\t selwi = false, on kerning');
 			name = getSelectedKern();
-			content += name
-				? makeSuperTitleSeperator() + escapeXMLValues(name.getName())
-				: '';
+			if (name) {
+				content += makeSuperTitleSeperator() + escapeXMLValues(name.getName());
+			}
 		}
 		content += '</h1>';
 	}
@@ -887,7 +887,10 @@ function generateNewID(obj, base) {
 	var number = 1;
 	base = base || 'id';
 	var id = '' + base + number;
-	while (obj.hasOwnProperty(id)) id = '' + base + ++number;
+	while (obj.hasOwnProperty(id)) {
+		id = '' + base + number;
+		number++;
+	}
 
 	return id;
 }

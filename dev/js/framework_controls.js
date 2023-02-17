@@ -884,9 +884,8 @@ function makeActionButton_PasteShapesFromAnotherGlyph() {
 
 function makeActionButton_AddShape(component) {
 	var re = makeActionButtonWrapper();
-	var accent = component
-		? _UI.iconcolors.greenoutline
-		: _UI.iconcolors.blueoutline;
+	var accent = _UI.iconcolors.blueoutline;
+	if (component) accent = _UI.iconcolors.greenoutline;
 	var fill = _UI.iconcolors.darkfill;
 
 	//shape

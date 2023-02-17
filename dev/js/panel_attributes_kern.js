@@ -111,7 +111,7 @@ function addCommonKernPairs() {
 	var nid;
 
 	for (var k = 0; k < add.length; k += 2) {
-		nid = generateNewID(_GP.kerning);
+		nid = generateNewID(_GP.kerning, 'kern');
 		_GP.kerning[nid] = new HKern({
 			leftgroup: parseKernGroupInput(add[k]),
 			rightgroup: parseKernGroupInput(add[k + 1]),

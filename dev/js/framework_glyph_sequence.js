@@ -125,9 +125,11 @@ GlyphSequence.prototype.generateData = function () {
 
 		for (tg = 0; tg < currblock.length; tg++) {
 			thisGlyph = getGlyph(charsToHexArray(currblock[tg]).join(''));
-			thisWidth = thisGlyph
-				? thisGlyph.getAdvanceWidth()
-				: _GP.projectsettings.upm / 2;
+			if (thisGlyph) {
+				thisWidth = thisGlyph.getAdvanceWidth();
+			} else {
+				thisWidth = _GP.projectsettings.upm / 2;
+			}
 			thisKern = calculateKernOffset(currblock[tg], currblock[tg + 1]);
 			aggregateWidth += thisWidth + thisKern;
 
