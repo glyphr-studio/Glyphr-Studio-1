@@ -70,3 +70,5 @@ function redraw_Kerning() {
 	_UI.redrawing = false;
 	// debug(' redraw_Kerning - END\n');
 }
+
+

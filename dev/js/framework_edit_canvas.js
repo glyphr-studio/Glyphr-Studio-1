@@ -1440,7 +1440,8 @@ function getSelectedWorkItemChar() {
 function getSelectedWorkItemName() {
 	// debug('\n getSelectedWorkItemName - START');
 	var wi = getSelectedWorkItem();
-	// debug('\t wi = '+wi);
+	if (!wi) return '[no selected work item]';
+	// debug('\t wi = ' + wi);
 	return wi.name || wi.getName() || '[name not found]';
 }
 

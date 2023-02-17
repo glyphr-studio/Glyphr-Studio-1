@@ -237,18 +237,29 @@ function ioSVG_makeOneGlyphOrLigature(gl, gsid) {
 
 function ioSVG_makeAllKernPairs() {
 	// debug('\n ioSVG_makeAllKernPairs - START');
-	var kp = _GP.kerning;
+	// var kp = _GP.kerning;
+	var kp = makeFlatKernPairsList();
 	var con = '\t\t\t<!-- Kern Pairs -->\n';
 
 	for (var k in kp) {
 		if (kp.hasOwnProperty(k)) {
-			for (var lg = 0; lg < kp[k].leftgroup.length; lg++) {
-				for (var rg = 0; rg < kp[k].rightgroup.length; rg++) {
-					con += '\t\t\t<hkern ';
-					con += 'u1="' + hexToUnicodeHex(kp[k].leftgroup[lg]) + '" ';
-					con += 'u2="' + hexToUnicodeHex(kp[k].rightgroup[rg]) + '" ';
-					con += 'k="' + kp[k].value + '" />\n';
-				}
+			con += '\t\t\t<hkern ';
+			con += 'u1="' + hexToUnicodeHex(kp[k].left) + '" ';
+			con += 'u2="' + hexToUnicodeHex(kp[k].right) + '" ';
+			con += 'k="' + kp[k].values[0] + '" />\n';
+
+			if (kp[k].values.length > 1) {
+				console.warn(
+					'Kern pair ' +
+						hexToChars(kp[k].left) +
+						' | ' +
+						hexToChars(kp[k].right) +
+						' has multiple values specified: ' +
+						kp[k].values.toString() +
+						' - only the first value ' +
+						kp[k].values[0] +
+						' will be exported.'
+				);
 			}
 		}
 	}

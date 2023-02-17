@@ -25,6 +25,7 @@ _UI.eventhandlers = {
 	isShiftDown: false,
 	hoverpoint: false,
 	multi: false,
+	selwi: false,
 };
 
 // The general-purpose event handler.
@@ -35,6 +36,8 @@ function editCanvasMouseEvent(ev) {
 	mouseovercec();
 
 	var eh = _UI.eventhandlers;
+	eh.selwi = getSelectedWorkItem();
+	if (!eh.selwi) return;
 
 	if (ev.offsetX || ev.offsetX) {
 		// IE, Chrome, (Opera?)
@@ -369,10 +372,12 @@ function Tool_NewBasicShape() {
 			Math.abs(tnbs.xmax - tnbs.xmin) > _GP.projectsettings.pointsize &&
 			Math.abs(tnbs.ymax - tnbs.ymin) > _GP.projectsettings.pointsize
 		) {
-			var count =
-				_UI.current_page === 'components'
-					? getLength(_GP.components)
-					: getSelectedWorkItemShapes().length;
+			var count;
+			if (_UI.current_page === 'components') {
+				count = getLength(_GP.components);
+			} else {
+				count = _UI.eventhandlers.selwi.shapes.length;
+			}
 			var s = _UI.ms.shapes.getSingleton();
 
 			// console.time('NewBasicShape - create shape');
@@ -432,10 +437,12 @@ function Tool_NewPath() {
 
 		if (this.firstpoint) {
 			// make a new shape with the new pathpoint
-			var count =
-				_UI.current_page === 'components'
-					? getLength(_GP.components)
-					: getSelectedWorkItemShapes().length;
+			var count;
+			if (_UI.current_page === 'components') {
+				count = getLength(_GP.components);
+			} else {
+				count = eh.selwi.shapes.length;
+			}
 			this.newshape = addShape(
 				new Shape({ name: 'Shape ' + count, path: new Path() })
 			);
@@ -543,7 +550,7 @@ function Tool_PathEdit() {
 		var eh = _UI.eventhandlers;
 		eh.lastx = eh.mousex;
 		eh.lasty = eh.mousey;
-		this.controlpoint = getSelectedWorkItem().isOverControlPoint(
+		this.controlpoint = eh.selwi.isOverControlPoint(
 			cx_sx(eh.mousex),
 			cy_sy(eh.mousey),
 			eh.isCtrlDown
@@ -841,15 +848,17 @@ function Tool_Kern() {
 		if (this.dragging) {
 			// Moving shapes if mousedown
 			var sk = getSelectedKern();
-			var val = 1 * sk.value;
-			updateKernValue(
-				getSelectedKernID(),
-				round(
-					val + (1 * (_UI.eventhandlers.mousex - this.deltax)) / getView().dz
-				)
-			);
-			this.deltax = _UI.eventhandlers.mousex;
-			redraw({ calledby: 'Kern.mousemove', redrawpanels: false });
+			if (sk) {
+				var val = 1 * sk.value;
+				updateKernValue(
+					getSelectedKernID(),
+					round(
+						val + (1 * (_UI.eventhandlers.mousex - this.deltax)) / getView().dz
+					)
+				);
+				this.deltax = _UI.eventhandlers.mousex;
+				redraw({ calledby: 'Kern.mousemove', redrawpanels: false });
+			}
 		}
 	};
 }
