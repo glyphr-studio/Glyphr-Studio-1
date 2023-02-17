@@ -1267,7 +1267,7 @@ function getLargestAdvanceWidth(glyphArray) {
 
 	for (var i = 0; i < glyphArray.length; i++) {
 		g = getGlyph(glyphArray[i]);
-		re = Math.max(re, g.getAdvanceWidth());
+		if(g) re = Math.max(re, g.getAdvanceWidth());
 	}
 
 	return re;
