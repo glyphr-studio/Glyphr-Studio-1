@@ -522,12 +522,19 @@
 		font-weight:normal;
 		font-size:1.3em;
 		margin:0px;
-		width:390px;
+		/* width:390px; */
+		width: 500px;
 		height:24px;
 		overflow: hidden;
 		position: relative;
 		top:-2px;
 		text-transform: none;
+	}
+
+	.panelsupertitle .name {
+		font-size: 1em;
+		color: rgb(155, 221, 255);
+		font-weight: normal;
 	}
 
 	.supertitleseperator {

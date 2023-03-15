@@ -196,15 +196,17 @@ function makePanelSuperTitle() {
 				selwi.shape.name ||
 				'[no shape outline yet]';
 			// debug('\t selwi name is ' + name);
-
 			if (selwi.name) name = name.replace(/latin /i, '');
 			content += makeSuperTitleSeperator();
-			content += escapeXMLValues(name);
+			if(!selwi.glyphhtml) name = escapeXMLValues(name);
+			content += '<span class="name" title="' + name + '">' + name + '</span>';
 		} else if (_UI.current_page === 'kerning') {
 			// debug('\t selwi = false, on kerning');
 			name = getSelectedKern();
 			if (name) {
-				content += makeSuperTitleSeperator() + escapeXMLValues(name.getName());
+				content += makeSuperTitleSeperator();
+				name = escapeXMLValues(name.getName());
+				content += '<span class="name" title="' + name + '">' + name + '</span>';
 			}
 		}
 		content += '</h1>';

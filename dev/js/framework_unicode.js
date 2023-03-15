@@ -226,7 +226,9 @@ function getUnicodeBlockName(ch) {
 	for (var i = 0; i < _UI.unicodeBlocks.length; i++) {
 		block = _UI.unicodeBlocks[i];
 		if (chn >= block.begin && chn <= block.end) {
-			return block.name + ' - ' + ch.substr(2);
+			var bName = block.name;
+			bName = bName.split(' (Part')[0];
+			return '' + ch + ' (' + bName + ')'; 
 		}
 	}
 

@@ -15,8 +15,8 @@
 var _UI = {
 	// Version
 	thisGlyphrStudioVersion: 'Version 1.13',
-	thisGlyphrStudioVersionNum: '1.13.17',
-	thisGlyphrStudioVersionDate: 1676680000000,
+	thisGlyphrStudioVersionNum: '1.13.18',
+	thisGlyphrStudioVersionDate: 1678920000000,
 
 	// Internal Dev Stuff
 	devmode: false, // global switch for all the stuff below
