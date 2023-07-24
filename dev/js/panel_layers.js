@@ -70,6 +70,10 @@ function makePanel_LayerChooser() {
 			'<div>No shapes exist yet.  You can create one with the New Shape tools on the canvas, or by pressing "add new shape" below.<br><br></div>';
 	}
 
+	// content += '<input type="checkbox"'+(_UI.layermultiselect? ' checked' : '')+' onclick="_UI.layermultiselect = !!this.checked;"> Multi-select layers';
+	content += '<br>';
+	content += checkUI('_UI.layermultiselect', _UI.layermultiselect, false, false, false);
+	content += '<label for="layermultiselect" style="position: relative; top: -4px; left: 5px;">Multi-select layers</label>';
 	content += '<br><br>' + updateLayerActions();
 
 	content += '</div>';
@@ -85,8 +89,9 @@ function selectShape(num) {
 	// debug('\t wishapes ' + wishapes);
 
 	if (wishapes && wishapes[num]) {
-		if (_UI.eventhandlers.isCtrlDown) _UI.ms.shapes.toggle(wishapes[num]);
-		else {
+		if (_UI.eventhandlers.isCtrlDown || _UI.layermultiselect) {
+			_UI.ms.shapes.toggle(wishapes[num]);
+		} else {
 			_UI.ms.points.clear();
 			_UI.ms.shapes.select(wishapes[num]);
 		}

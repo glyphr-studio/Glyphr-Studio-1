@@ -63,6 +63,7 @@ var _UI = {
 	current_page: 'openproject',
 	current_panel: false,
 	last_panel: 'npChooser',
+	layermultiselect: false,
 	hamburger: {
 		state: 11,
 		direction: -1,

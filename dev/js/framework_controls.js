@@ -1360,7 +1360,7 @@ function makePointButton(type, selected) {
 //	-------------------------------
 
 function lockUI(varname, currbool, idname) {
-	//debug("CHECKUI -  varname:" + varname + " doredraw:" + doredraw);
+	//debug("LOCKUI -  varname:" + varname + " doredraw:" + doredraw);
 	var restcolor = _UI.colors.gray.l90;
 	var selcolor = _UI.colors.blue.l65;
 
