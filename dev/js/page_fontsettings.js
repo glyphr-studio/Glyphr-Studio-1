@@ -13,16 +13,16 @@ function loadPage_fontsettings() {
 	var content =
 		'<h1 class="pagetitle">Font Settings</h1><div class="pagecontent textpage">';
 
-	content += '<h1>Font Name</h1>';
+	content += '<h1>Font name</h1>';
 	content +=
 		'<input type="text" maxlength=31 style="width:300px; padding:8px; font-size:1.2em;" value="' +
 		meta.font_family +
 		'" onchange="_GP.metadata.font_family = this.value.substr(0, 31);"/><span class="unit">(max 31 characters)</span>';
 
-	content += '<h1>Glyph Proportions</h1>';
+	content += '<h1>Glyph proportions</h1>';
 
 	content +=
-		'<h3>Key Metrics</h3>' +
+		'<h3>Key metrics</h3>' +
 		'<table class="settingstable">' +
 		'<tr><td>Ascent height: </td><td><input type="number" value="' +
 		ps.ascent +
@@ -54,7 +54,7 @@ function loadPage_fontsettings() {
 		'</table>';
 
 	content +=
-		'<h3>Default Side Bearings</h3>' +
+		'<h3>Default side bearings</h3>' +
 		'Side Bearings are the amount of blank space that is added to the left or right of glyphs when they are displayed.  This metric can be set individually per glyph, but will default to this value if not set. ' +
 		'<table class="settingstable">' +
 		'<tr><td>Left Side Bearing: </td><td><input type="number" value="' +
@@ -67,7 +67,7 @@ function loadPage_fontsettings() {
 
 	// GLYPHS
 	content +=
-		'<h1>Glyph Ranges</h1>' +
+		'<h1>Glyph ranges</h1>' +
 		'Glyph ranges are based on the <a href="https://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode Standard</a>, ' +
 		'which assigns a <a href="https://en.wikipedia.org/wiki/Hexadecimal" target="_blank">hexadecimal number</a> ' +
 		'to all possible glyphs in a font. ' +
@@ -79,7 +79,7 @@ function loadPage_fontsettings() {
 		'</div>';
 
 	content +=
-		'<h2>Standard Glyph Ranges</h2>' +
+		'<h2>Standard glyph ranges</h2>' +
 		'The most common glyph sets are built into Glyphr Studio, and can be toggled with the checkboxes below.';
 
 	content +=
@@ -150,7 +150,7 @@ function loadPage_fontsettings() {
 		'</div></td></tr></table>';
 
 	content +=
-		'<h2>Additional Glyph Ranges</h2>' +
+		'<h2>Additional glyph ranges</h2>' +
 		'You can add and edit custom glyph ranges below, or you can ' +
 		'<span class="textaction" onclick="showGlyphRangeChooser();">launch the Glyph Range Chooser</span> ' +
 		'to browse all the ranges in Unicode.  ' +
@@ -169,7 +169,7 @@ function loadPage_fontsettings() {
 		'<div id="customrangetable"></div>';
 
 	// METADATA
-	content += '<h1>Font Metadata</h1>';
+	content += '<h1>Font metadata</h1>';
 
 	content += '<table class="settingstable metadatatable">';
 	for (var m in meta) {

@@ -7,7 +7,7 @@
 function loadPage_components() {
 	// debug('\n loadPage_components - START');
 
-	var wrapper = getEditDocument().getElementbyId('mainwrapper');
+	var wrapper = getEditDocument().getElementById('mainwrapper');
 	wrapper.innerHTML = editPage_Content();
 	setupEditCanvas();
 	// clickEmptySpace();

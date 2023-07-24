@@ -1035,6 +1035,12 @@
 		border-radius:3px;
 	}
 
+	.inlinewarning {
+		background-color: rgb(240, 210, 215);
+		color: rgb(240, 15, 54);
+		padding: auto 4px;
+	}
+
 	#errormessagebox {
 		display:none;
 		height:auto;
@@ -1846,6 +1852,18 @@
 /* ----------------------- */
 /* Page - Global Actions	*/
 /* --------------------- */
+
+	.globalactioncard {
+		padding: 20px 20px 0px 20px;
+		margin: 10px 0px 20px 0px;
+		border: 1px solid rgb(229, 234, 239);
+		border-radius: 4px;
+		background-color: white;
+	}
+
+	.globalactioncard h1 {
+		margin-top: 0px;
+	}
 
 	.commit,
 	.commit:hover,

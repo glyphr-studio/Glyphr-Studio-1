@@ -41,7 +41,8 @@ function GlyphrProject() {
 		// UI stuff
 		pointsize: 7, // path point square size
 		spinnervaluechange: 1, // how much spinner controls change a value
-		renderpointssnappedtogrid: true, // OpenType.js requires all points be round numbers - project will still store decimals
+		renderpointssnappedtogrid: true, // Display points on the canvas as rounded (while storing full precision in the project)
+		roundotfvalues: true, // OpenType.js requires all points be round numbers - round all values for exported OTF files
 		combineshapesonexport: false, // combine overlapping shapes of the same winding into one shape
 		maxcombineshapesonexport: 30, // If a glyph has more than this number of shapes, combine will not be attempted
 		svgprecision: 3, // Decimal precision when creating SVG path data
@@ -61,7 +62,7 @@ function GlyphrProject() {
 		colors: {
 			glyphfill: 'rgb(0,0,0)', // shape base color
 			glyphoutline: 'rgb(0,0,0)', // shape outline color
-			gridtransparency: 85, // transparency % for black grid lines
+			gridtransparency: 100, // transparency % for black grid lines
 			systemguidetransparency: 75, // transparency % for system guidelines
 			customguidetransparency: 50, // transparency % for custom guidelines
 			contextglyphtransparency: 40, // transparency % for context glyphs

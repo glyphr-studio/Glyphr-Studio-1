@@ -217,8 +217,9 @@ function ioSVG_makeOneGlyphOrLigature(gl, gsid) {
 
 	// Clone the glyph for LSB moving and flattening
 	gl = new Glyph(clone(gl));
-	if (_GP.projectsettings.combineshapesonexport)
+	if (_GP.projectsettings.combineshapesonexport) {
 		gl.flattenGlyph().combineAllShapes(true);
+	}
 
 	var lsb = gl.isautowide ? gl.getLSB() : 0;
 	gl.updateGlyphPosition(lsb, 0, true);

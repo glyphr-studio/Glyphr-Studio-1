@@ -17,6 +17,7 @@ function loadPage_globalactions() {
 		"will not carry forward to glyphs that haven't been created yet.";
 
 	// Move
+	con += '<div class="globalactioncard">';
 	con += '<h1>Move all glyphs</h1>';
 	con +=
 		'Given a positive or negative X and/or Y value, all the glyphs in this font will have their ' +
@@ -34,9 +35,50 @@ function loadPage_globalactions() {
 	con += '</table>';
 	con +=
 		'<button class="buttonsel commit" onclick="updateAllGlyphPositions();">Move all glyphs</button>';
-	con += '<hr>';
+	con += '</div>';
+
+	// Scale
+	con += '<div class="globalactioncard">';
+	con += '<h1>Vertically scale all glyphs</h1>';
+	con +=
+		'Given a multiplier, scale all the glyph shapes in the vertical direction. Entering 1 will result in no change, ' +
+		'between zero and one will scale down the height, and above one will increase the height.';
+	con +=
+		'<div class="effect">Individual Glyphs, Ligatures, and Components will have a new height calculated based on the ' +
+		'overall height of the shapes in that glyph (not the ascender or descender values from the font). The new height will ' +
+		'be applied, and the shapes will be moved to maintain a common baseline.</div > ';
+	con += '<table class="settingstable">';
+	con +=
+		'<tr><td>Scale value: &nbsp;</td><td><input id="scaleh" type="number" value="1"></td></tr>';
+	con += '</table>';
+	con +=
+		'<button class="buttonsel commit" onclick="scaleAllGlyphsVertically();">Scale all glyphs</button>';
+	con += '</div>';
+
+	con += '<div class="globalactioncard">';
+	con += '<h1>Horizontally scale all glyphs</h1>';
+	con +=
+		'Given a multiplier, scale all the glyph shapes in the horizontal direction. Entering 1 will result in no change, ' +
+		'between zero and one will reduce the width, and above one will increase the width. Optionally scale the advance width ' +
+		'of the glyph as well.';
+	con +=
+		'<div class="effect">Individual Glyphs, Ligatures, and Components will have a new width calculated based on the ' +
+		'overall width of the shapes in that glyph (not the advance width of the glyph). The new width will ' +
+		'be applied.</div > ';
+	con += '<table class="settingstable">';
+	con +=
+		'<tr><td>Scale value: &nbsp;</td><td><input id="scalew" type="number" value="1"></td></tr>';
+	con += '</table>';
+	con += '<table class="settingstable">';
+	con +=
+		'<tr><td><input id="scaleupdatewidth" type="checkbox" checked></td><td style="vertical-align:top;">Update the glyph width property (when auto-calculate glyph width equals false)</td></tr>';
+	con += '</table>';
+	con +=
+		'<button class="buttonsel commit" onclick="scaleAllGlyphsHorizontally();">Scale all glyphs</button>';
+	con += '</div>';
 
 	// Re-size
+	con += '<div class="globalactioncard">';
 	con += '<h1>Re-size all glyphs</h1>';
 	con +=
 		'Given a positive or negative Width and/or Height value, all the glyphs in this font will have their ' +
@@ -57,7 +99,7 @@ function loadPage_globalactions() {
 	con += '</table>';
 	con += '<table class="settingstable">';
 	con +=
-		'<tr><td class="uicolumn" style="width:20px;"><input id="updateglyphwidthproperty" type="checkbox" checked></td><td colspan="2" style="vertical-align:top;">Also update the glyph width property (when auto-calculate glyph width equals false)</td></tr>';
+		'<tr><td class="uicolumn" style="width:20px;"><input id="updateglyphwidthproperty" type="checkbox" checked></td><td colspan="2" style="vertical-align:top;">Update the glyph width property (when auto-calculate glyph width equals false)</td></tr>';
 	con +=
 		'<tr><td class="uicolumn" style="width:20px;"><input id="maintainaspectratio" type="checkbox"></td><td colspan="2" style="vertical-align:top;">Maintain aspect ratio</td></tr>';
 	con +=
@@ -65,10 +107,11 @@ function loadPage_globalactions() {
 	con += '<b>Leave either &#916; Width or &#916; Height as zero</b></td></tr>';
 	con += '</table>';
 	con +=
-		'<button class="buttonsel commit" onclick="updateAllGlyphSizes();">Re-size all glyphs</button>';
-	con += '<hr>';
+		'<button class="buttonsel commit" onclick="updateAllGlyphSizesByEm();">Re-size all glyphs</button>';
+	con += '</div>';
 
 	// Flatten
+	con += '<div class="globalactioncard">';
 	con += '<h1>Convert all Component Instances into Shapes</h1>';
 	con +=
 		'This will remove all links from Component Instances to their Components, and leave behind a stand-alone shape ' +
@@ -78,9 +121,10 @@ function loadPage_globalactions() {
 		"into a Shape' command run on it.</div>";
 	con +=
 		'<button class="buttonsel commit" onclick="flattenAllWorkItems();">Convert Component Instances to Shapes</button>';
-	con += '<hr>';
+	con += '</div>';
 
 	// Monospace
+	con += '<div class="globalactioncard">';
 	con += '<h1>Monospace Font</h1>';
 	con +=
 		'Monospace fonts are fonts where each glyph has the same width.  This is useful for ' +
@@ -94,9 +138,10 @@ function loadPage_globalactions() {
 	con += '</table>';
 	con +=
 		'<button class="buttonsel commit" onclick="convertProjectToMonospace();">Convert project to Monospace</button>';
-	con += '<hr>';
+	con += '</div>';
 
 	// All Caps
+	con += '<div class="globalactioncard">';
 	con += '<h1>All Caps Font</h1>';
 	con +=
 		'All Caps fonts have no lowercase letters.  To make things easy, the lowercase letters ' +
@@ -115,9 +160,10 @@ function loadPage_globalactions() {
 	con += '</table>';
 	con +=
 		'<button class="buttonsel commit" onclick="convertProjectToAllCaps();">Convert project to All Caps</button>';
-	con += '<hr>';
+	con += '</div>';
 
 	// Diacritics
+	con += '<div class="globalactioncard">';
 	con += '<h1>Diacritical Glyph Generator (basic)</h1>';
 	con +=
 		'The Latin Supplement character range is mostly made up of Latin-based diacritical (or accented) glyphs.  These are basically normal ' +
@@ -132,9 +178,10 @@ function loadPage_globalactions() {
 		'as Component Instances from their respective glyphs in the Basic Latin range.</div>';
 	con +=
 		'<button class="buttonsel commit" onclick="generateDiacriticsSimple();">Generate Diacritical Glyphs</button>';
-	con += '<hr>';
+	con += '</div>';
 
 	// Advanced Diacritics
+	con += '<div class="globalactioncard">';
 	con += '<h1>Diacritical Glyph Generator (advanced)</h1>';
 	con +=
 		'The Latin Supplement and Latin Extended A character ranges are mostly made up of Latin-based diacritical glyphs.  ' +
@@ -150,14 +197,14 @@ function loadPage_globalactions() {
 		'as Component Instances from their respective glyphs from Basic Latin and Combining Diacritical Marks ranges.</div>';
 	con +=
 		'<button class="buttonsel commit" onclick="generateDiacriticsAdvanced();">Generate Diacritical Glyphs</button>';
-	con += '<hr>';
+	con += '</div>';
 
 	// Suggestions
+	con += '<div class="globalactioncard">';
 	con += '<h1>Suggestions?</h1>';
 	con +=
 		'Have an idea for a new global action?  They are easy for us to add - email your idea to ' +
-		'<a href="mailto:mail@glyphrstudio.com">mail@glyphrstudio.com</a>.';
-
+		'<a href="mailto:mail@glyphrstudio.com">mail@glyphrstudio.com</a>.<br><br>';
 	con += '</div>';
 
 	var wrapper = getEditDocument().getElementById('mainwrapper');
@@ -191,8 +238,8 @@ function updateAllGlyphPositions() {
 	});
 }
 
-function updateAllGlyphSizes() {
-	// debug(`\n updateAllGlyphSizes - START`);
+function updateAllGlyphSizesByEm() {
+	// debug(`\n updateAllGlyphSizesByEm - START`);
 
 	var sizew = document.getElementById('sizew').value;
 	var sizeh = document.getElementById('sizeh').value;
@@ -221,7 +268,41 @@ function updateAllGlyphSizes() {
 		},
 	});
 
-	// debug(` updateAllGlyphSizes - END\n\n`);
+	// debug(` updateAllGlyphSizesByEm - END\n\n`);
+}
+
+function scaleAllGlyphsVertically() {
+	var scaleh = document.getElementById('scaleh').value;
+	scaleh = parseFloat(scaleh) || 1;
+
+	glyphIterator({
+		title: 'Vertical scaling glyph',
+		action: function (glyph) {
+			if (!glyph.shapes || !glyph.shapes.length) return;
+			var newHeight = (glyph.maxes.ymax - glyph.maxes.ymin) * scaleh;
+			var newY = glyph.maxes.ymax * scaleh;
+			glyph.setGlyphSize(false, newHeight, false);
+			glyph.setGlyphPosition(false, newY, true);
+		},
+	});
+}
+
+function scaleAllGlyphsHorizontally() {
+	var scalew = document.getElementById('scalew').value;
+	scalew = parseFloat(scalew) || 1;
+	var scaleupdatew = document.getElementById('scaleupdatewidth').checked;
+
+	glyphIterator({
+		title: 'Horizontal scaling glyph',
+		action: function (glyph) {
+			if (!glyph.shapes || !glyph.shapes.length) return;
+			var newWidth = (glyph.maxes.xmax - glyph.maxes.xmin) * scalew;
+			var newX = glyph.maxes.xmin * scalew;
+			glyph.setGlyphSize(newWidth, false, false);
+			glyph.setGlyphPosition(newX, false, true);
+			if (scaleupdatew) glyph.glyphwidth = glyph.glyphwidth * scalew;
+		},
+	});
 }
 
 function flattenAllWorkItems() {

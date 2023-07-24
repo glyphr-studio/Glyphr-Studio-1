@@ -449,13 +449,14 @@ Path.prototype.drawPath = function (lctx, view) {
 	if (this.pathpoints === false || this.pathpoints.length < 2) return;
 	var pp, np, pph2x, pph2y, nxh1x, nxh1y, nxppx, nxppy;
 
-	if (snap)
+	if (snap) {
 		lctx.moveTo(
 			sx_cx(round(this.pathpoints[0].P.x)),
 			sy_cy(round(this.pathpoints[0].P.y))
 		);
-	else
+	} else {
 		lctx.moveTo(sx_cx(this.pathpoints[0].P.x), sy_cy(this.pathpoints[0].P.y));
+	}
 
 	for (var cp = 0; cp < this.pathpoints.length; cp++) {
 		pp = this.pathpoints[cp];
@@ -650,6 +651,8 @@ Path.prototype.makeOpenTypeJSpath = function (otpath) {
 
 	otpath = otpath || new opentype.Path();
 	var p1, p2;
+	var precision = 0;
+	if (!_GP.projectsettings.roundotfvalues) precision = 9;
 
 	if (!this.pathpoints) {
 		if (this.pathpoints.length === 0) {
@@ -662,19 +665,22 @@ Path.prototype.makeOpenTypeJSpath = function (otpath) {
 
 	this.reverseWinding(); // OTF.js reverses the winding for some reason
 
-	otpath.moveTo(round(this.pathpoints[0].P.x), round(this.pathpoints[0].P.y));
+	otpath.moveTo(
+		round(this.pathpoints[0].P.x, precision),
+		round(this.pathpoints[0].P.y, precision)
+	);
 
 	for (var cp = 0; cp < this.pathpoints.length; cp++) {
 		p1 = this.pathpoints[cp];
 		// p2 = this.pathpoints[(cp+1) % this.pathpoints.length];
 		p2 = this.pathpoints[this.getNextPointNum(cp)];
 		otpath.curveTo(
-			round(p1.getH2x()),
-			round(p1.getH2y()),
-			round(p2.getH1x()),
-			round(p2.getH1y()),
-			round(p2.P.x),
-			round(p2.P.y)
+			round(p1.getH2x(), precision),
+			round(p1.getH2y(), precision),
+			round(p2.getH1x(), precision),
+			round(p2.getH1y(), precision),
+			round(p2.P.x, precision),
+			round(p2.P.y, precision)
 		);
 	}
 
