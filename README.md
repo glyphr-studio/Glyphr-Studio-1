@@ -4,7 +4,7 @@
 # Welcome to Glyphr Studio!
  Glyphr Studio is a free, web based font designer, focusing on font design for hobbyists.
  More information can be found at [glyphrstudio.com](https://www.glyphrstudio.com) - and/or
- follow [@glyphrstudio](https://twitter.com/glyphrstudio) on twitter.
+ follow us on socials listed below.
 
 ### Major Features
 - Vector editing tools, like a Pen Tool for path outlines and a Pointer Tool for adjusting shapes.
@@ -29,7 +29,7 @@
 
 
 ## Feedback
- Feel free to get in touch with us via email or twitter or whatever, we always love talking
+ Feel free to get in touch with us via email or socials or whatever, we always love talking
  to people. There is kind of a running list of feature ideas (and bugs, of course) over at the
  [Issues List]( https://github.com/mattlag/Glyphr-Studio/issues?labels=&page=1&state=open).
 

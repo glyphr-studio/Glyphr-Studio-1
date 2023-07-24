@@ -58,7 +58,7 @@ function make_ContributeHTML() {
 		'<p>' +
 		'If you think Glyphr Studio is pretty cool, there are two huge ways you can make it better!<br>' +
 		'<ul><li><span style="font-weight:bold; color:rgb(102, 107, 112);">Send Feedback</span> - ' +
-		'Use new features and let us know if you run into issues.  Follow us on Twitter and read the Blog, and participate in discussions. ' +
+		'Use new features and let us know if you run into issues.  Follow us on socials and read the Blog, and participate in discussions. ' +
 		'Be vocal, and let us know what we should do next!</li>' +
 		'<li><span style="font-weight:bold; color:rgb(102, 107, 112);">Make a Monetary Contribution</span> - ' +
 		'Glyphr Studio will always be free, and we think that is very important.  But, it does take some money to keep it going. ' +
