@@ -486,10 +486,13 @@ PathPoint.prototype.makeSymmetric = function (hold) {
 
 PathPoint.prototype.makeFlat = function (hold) {
 	// debug('\n PathPoint.makeFlat - START');
+		// debug(`Point position: ${this.P.x} / ${this.P.y}`);
 	// debug('\t hold passed ' + hold);
 
 	if (this.isFlat()) {
 		this.type = 'flat';
+		// debug(`\t Handle is already flat`);
+		// debug(' PathPoint.makeFlat - END\n');
 		return;
 	}
 
@@ -506,6 +509,8 @@ PathPoint.prototype.makeFlat = function (hold) {
 				this.type = 'flat';
 				this.useh1 = true;
 				this.useh2 = true;
+				// debug(` \t Handles and points are all in the same place`);
+				// debug(' PathPoint.makeFlat - END\n');
 				return;
 			}
 		}
@@ -559,14 +564,33 @@ PathPoint.prototype.makeFlat = function (hold) {
 };
 
 PathPoint.prototype.isFlat = function () {
-	if (this.P.x === this.H1.x && this.P.x === this.H2.x) return true;
-	if (this.P.y === this.H1.y && this.P.y === this.H2.y) return true;
+	// debug('\n PathPoint.isFlat - START');
+		// debug(`Point position: ${this.P.x} / ${this.P.y}`);
+
+	if (!this.useh1 && !this.useh2) {
+		// debug('No handles to be flat, returning false');
+		// debug(' pathPoint.isFlat - END\n');
+		return false;
+	}
+	if (this.P.x === this.H1.x && this.P.x === this.H2.x) {
+		// debug('X alignment, returning true');
+		// debug(' pathPoint.isFlat - END\n');
+		return true;
+	}
+	if (this.P.y === this.H1.y && this.P.y === this.H2.y) {
+		// debug('X alignment, returning true');
+		// debug(' pathPoint.isFlat - END\n');
+		return true;
+	}
 
 	var a1 = this.getH1Angle();
 	var a2 = this.getH2Angle();
 	// debug('\t comparing ' + a1 + ' / ' + a2);
 
-	return round(Math.abs(a1) + Math.abs(a2), 2) === 3.14;
+	var piTest = round(Math.abs(a1) + Math.abs(a2), 2);
+	// debug(`returning piTest === 3.14: ${piTest === 3.14}`);
+	// debug(`PathPoint.isFlat`, 'end');
+	return piTest === 3.14;
 };
 
 PathPoint.prototype.resolvePointType = function () {

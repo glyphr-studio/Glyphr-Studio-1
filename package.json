@@ -30,34 +30,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/glyphr-studio/Glyphr-Studio-1"
-  },
-  "jshintConfig": {
-    "bitwise": true,
-    "curly": false,
-    "eqeqeq": true,
-    "evil": false,
-    "forin": true,
-    "freeze": true,
-    "latedef": false,
-    "newcap": true,
-    "nonbsp": true,
-    "plusplus": false,
-    "strict": false,
-    "undef": false,
-    "unused": false,
-    "debug": true,
-    "globalstrict": true,
-    "browser": true,
-    "devel": true,
-    "predef": [
-      "Coord",
-      "Path",
-      "PathPoint",
-      "Shape",
-      "LinkedShape",
-      "Char",
-      "GlyphrProject",
-      "Guide"
-    ]
   }
 }

@@ -210,9 +210,9 @@ function getUnicodeName(ch) {
 	var re;
 
 	if (_UI && _UI.unicodeNames && _UI.unicodeNames[ch]) {
-		return _UI.unicodeNames[ch];
+		re = _UI.unicodeNames[ch];
 	} else {
-		return getUnicodeBlockName(ch);
+		re = getUnicodeBlockName(ch);
 	}
 
 	// debug(' getUnicodeName - END - returning ' + re + '\n');
@@ -228,7 +228,7 @@ function getUnicodeBlockName(ch) {
 		if (chn >= block.begin && chn <= block.end) {
 			var bName = block.name;
 			bName = bName.split(' (Part')[0];
-			return '' + ch + ' (' + bName + ')'; 
+			return '' + ch + ' (' + bName + ')';
 		}
 	}
 

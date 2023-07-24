@@ -1,9 +1,9 @@
 // start of file
 /**
 	IO > Import > SVG Outlines
-	Takes a set of XML and pulls out any path or 
-	shape data that could be converted into a 
-	Glyphr Studio shape.  Ignores lots of XML tags 
+	Takes a set of XML and pulls out any path or
+	shape data that could be converted into a
+	Glyphr Studio shape.  Ignores lots of XML tags
 	and attributes.
 **/
 
@@ -211,7 +211,7 @@ function cleanAndFormatPathPointData(data) {
 			'd' attribute.
 
 			Returns an array of strings.  Each array element
-			representing one Glyphr Studio shape.  String will be 
+			representing one Glyphr Studio shape.  String will be
 			comma separated Path Commands and Values
 
 		*/
@@ -508,7 +508,7 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 		}
 	}
 
-	if (!lastpoint) {
+	if (!lastpoint || lastPointIsFromAnotherShape) {
 		// Default to a new 0,0 point
 		lastpoint = new PathPoint({ P: new Coord({ x: 0, y: 0 }) });
 		// debug(`\t Default last point`);
@@ -850,6 +850,8 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 			lastpoint.H2 = new Coord({ x: currdata[0], y: currdata[1] });
 			lastpoint.useh2 = true;
 			lastpoint.resolvePointType();
+			// debug('lastpoint');
+			// debug(lastpoint);
 
 			h1 = new Coord({ x: currdata[2], y: currdata[3] });
 			p = new Coord({ x: currdata[4], y: currdata[5] });
@@ -858,6 +860,7 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 				// Relative offset for c
 				prevx = lastpoint.P.x;
 				prevy = lastpoint.P.y;
+				// debug(`relative c, adding x: ${prevx} y: ${prevy}`);
 				lastpoint.H2.x += prevx;
 				lastpoint.H2.y += prevy;
 				h1.x += prevx;
@@ -866,7 +869,10 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 				p.y += prevy;
 			}
 
-			// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+			// debug('\t bezier end');
+			// debug('\t\t Px Py\t' + p.x + ' ' + p.y);
+			// debug('\t\t H1x H1y:\t' + h1.x + ' ' + h1.y);
+
 			patharr.push(
 				new PathPoint({
 					P: clone(p),
@@ -878,6 +884,7 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 				})
 			);
 			lastpoint = patharr[patharr.length - 1];
+			// debug(lastpoint);
 		}
 
 		// debug('\t completed while loop');
@@ -903,8 +910,10 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 			}
 			// debug('\n\t command ' + cmd + ' while loop data ' + currdata);
 
-			lastpoint.makeSymmetric('H1');
-			lastpoint.useh2 = true;
+			if (lastpoint.type !== 'corner') {
+				lastpoint.makeSymmetric('H1');
+				lastpoint.useh2 = true;
+			}
 
 			h1 = new Coord({ x: currdata[0], y: currdata[1] });
 			p = new Coord({ x: currdata[2], y: currdata[3] });
@@ -929,9 +938,9 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 					P: clone(p),
 					H1: clone(h1),
 					H2: clone(p),
-					type: 'symmetric',
+					type: 'corner',
 					useh1: true,
-					useh2: true,
+					useh2: false,
 				})
 			);
 			lastpoint = patharr[patharr.length - 1];
@@ -1011,7 +1020,7 @@ function convertQuadraticToCubic(data) {
 		Endpoint notation points
 			startX / startY - arc start point
 			endX / endY - arc end point
-			
+
 		Ellipse stuff
 			radiusX / radiusY - arc radii
 			rotationDegrees - how rotated the ellipse is in degrees

@@ -320,7 +320,7 @@ function ovalPathFromMaxes(maxes) {
 	// Second Point - Right
 	var Pr = new Coord({ x: rx, y: by + hh });
 	var H1r = new Coord({ x: rx, y: ty - hhd });
-	var H2r = new Coord({ x: rx, y: by - hhd });
+	var H2r = new Coord({ x: rx, y: by + hhd });
 
 	// Third Point - Bottom
 	var Pb = new Coord({ x: lx + hw, y: by });
