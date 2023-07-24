@@ -215,7 +215,8 @@ function loadPage_fontsettings() {
 
 	// Finish and show table
 	content += '</div>';
-	getEditDocument().getElementById('mainwrapper').innerHTML = content;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = content;
 	updateCustomRangeTable();
 }
 

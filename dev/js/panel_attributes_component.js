@@ -54,7 +54,7 @@ function goToEditGlyph(chid) {
 		p = 'components';
 	}
 
-	clickEmptySpace();
+	// clickEmptySpace();
 	navigate({ page: p, panel: 'npAttributes', forcepanel: true });
 	// debug(' goToEditGlyph - END\n');
 }

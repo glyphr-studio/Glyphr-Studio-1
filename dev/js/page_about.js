@@ -48,7 +48,8 @@ function loadPage_about() {
 		'</p>' +
 		'<br><br>';
 
-	getEditDocument().getElementById('mainwrapper').innerHTML = content;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = content;
 }
 
 function make_ContributeHTML() {

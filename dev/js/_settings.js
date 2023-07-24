@@ -15,12 +15,12 @@
 var _UI = {
 	// Version
 	thisGlyphrStudioVersion: 'Version 1.13',
-	thisGlyphrStudioVersionNum: '1.13.18',
-	thisGlyphrStudioVersionDate: 1678920000000,
+	thisGlyphrStudioVersionNum: '1.13.19',
+	thisGlyphrStudioVersionDate: false,
 
 	// Internal Dev Stuff
 	devmode: true, // global switch for all the stuff below
-	dev_sample_project: false, // load a sample project and skip open project experience
+	dev_sample_project: 'modegg', // load a sample project and skip open project experience
 	dev_current_page: 'glyph edit', // navigate straight to a page
 	dev_current_panel: false, // navigate straight to a panel
 	dev_selected_shape: false, // automatically select a shape

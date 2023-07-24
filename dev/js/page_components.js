@@ -7,15 +7,15 @@
 function loadPage_components() {
 	// debug('\n loadPage_components - START');
 
-	getEditDocument().getElementById('mainwrapper').innerHTML =
-		editPage_Content();
+	var wrapper = getEditDocument().getElementbyId('mainwrapper');
+	wrapper.innerHTML = editPage_Content();
 	setupEditCanvas();
-	clickEmptySpace();
+	// clickEmptySpace();
 
-	if (_UI.devmode && isval(_UI.dev_selected_shape)) {
-		selectShape(_UI.dev_selected_shape);
-		_UI.dev_selected_shape = false;
-	}
+	// if (_UI.devmode && isval(_UI.dev_selected_shape)) {
+	// 	selectShape(_UI.dev_selected_shape);
+	// 	_UI.dev_selected_shape = false;
+	// }
 
 	_UI.selectedcomponent = _UI.selectedcomponent || getFirstID(_GP.components);
 

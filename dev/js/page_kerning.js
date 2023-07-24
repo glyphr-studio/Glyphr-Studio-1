@@ -7,8 +7,8 @@
 function loadPage_kerning() {
 	// debug(`\n loadPage_kerning - START`);
 
-	getEditDocument().getElementById('mainwrapper').innerHTML =
-		editPage_Content();
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = editPage_Content();
 
 	setupEditCanvas();
 
@@ -70,5 +70,3 @@ function redraw_Kerning() {
 	_UI.redrawing = false;
 	// debug(' redraw_Kerning - END\n');
 }
-
-

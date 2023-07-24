@@ -7,15 +7,15 @@
 function loadPage_ligatures() {
 	// debug('\n loadPage_ligatures - START');
 
-	getEditDocument().getElementById('mainwrapper').innerHTML =
-		editPage_Content();
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = editPage_Content();
 	setupEditCanvas();
-	clickEmptySpace();
+	// clickEmptySpace();
 
-	if (_UI.devmode && isval(_UI.dev_selected_shape)) {
-		selectShape(_UI.dev_selected_shape);
-		_UI.dev_selected_shape = false;
-	}
+	// if (_UI.devmode && isval(_UI.dev_selected_shape)) {
+	// 	selectShape(_UI.dev_selected_shape);
+	// 	_UI.dev_selected_shape = false;
+	// }
 
 	_UI.selectedligature = _UI.selectedligature || getFirstID(_GP.ligatures);
 
@@ -47,12 +47,12 @@ function showNewLigatureDialog() {
 }
 
 function createNewLigature() {
-	debug('\n createNewLigature - START');
+	// debug('\n createNewLigature - START');
 	var inlig = document.getElementById('newligatureinput').value;
-	debug('\t retrieved ' + inlig);
+	// debug('\t retrieved ' + inlig);
 	var ligID = inlig.replace(/\s/gi, '');
 	ligID = parseUnicodeInput(ligID);
-	debug('\t parsed ' + ligID);
+	// debug('\t parsed ' + ligID);
 
 	// Do checks
 	if (!ligID) {

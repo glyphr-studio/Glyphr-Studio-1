@@ -7,15 +7,15 @@
 function loadPage_glyphedit() {
 	// debug('\n loadPage_glyphedit - START');
 
-	getEditDocument().getElementById('mainwrapper').innerHTML =
-		editPage_Content();
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = editPage_Content();
 	setupEditCanvas();
-	clickEmptySpace();
+	// clickEmptySpace();
 
-	if (_UI.devmode && isval(_UI.dev_selected_shape)) {
-		selectShape(_UI.dev_selected_shape);
-		_UI.dev_selected_shape = false;
-	}
+	// if (_UI.devmode && isval(_UI.dev_selected_shape)) {
+	// 	selectShape(_UI.dev_selected_shape);
+	// 	_UI.dev_selected_shape = false;
+	// }
 
 	_UI.selectedglyph = _UI.selectedglyph || getFirstGlyphID();
 

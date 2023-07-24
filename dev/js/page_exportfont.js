@@ -74,5 +74,6 @@ function loadPage_exportfont() {
 	content += '<br><br>';
 	content += '</div>';
 
-	getEditDocument().getElementById('mainwrapper').innerHTML = content;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = content;
 }

@@ -13,33 +13,31 @@
 
 function navigate(oa) {
 	// debug('>>> NAVIGATE STARTED');
-	// debug([oa]);
-
 	oa = oa || {};
-
-	clickEmptySpace();
-	clearCanvasHotspots();
-
+	// debug(oa);
+	
 	if (oa.page && _UI.current_page !== oa.page) {
+		clickEmptySpace();
+		clearCanvasHotspots();
 		_UI.current_page = oa.page;
 		_UI.current_panel = false;
 	} else {
 		_UI.current_panel = oa.panel || _UI.current_panel;
 		// _UI.last_panel = oa.panel || _UI.last_panel;
 	}
-
+	
 	if (!_UI.current_panel) setDefaultPanel();
 	if (onChooserPanelPage()) setDefaultGlyphChooserPanel();
 	if (oa.forcepanel) _UI.current_panel = oa.panel;
-
+	
 	// debug('\t page  set to ' + _UI.current_page);
 	// debug('\t panel set to ' + _UI.current_panel);
-
+	
 	if (_UI.current_page === 'openproject') {
 		makeLayout_OpenProject();
 	} else {
 		setDefaultViewForWorkItem();
-
+		
 		if (_UI.popout) {
 			if (onCanvasEditPage()) {
 				makeLayout_PopOut();
@@ -51,7 +49,7 @@ function navigate(oa) {
 			makeLayout_PopIn();
 		}
 	}
-
+	
 	updateCursor();
 	loadPageContent();
 	getEditDocument().body.focus();

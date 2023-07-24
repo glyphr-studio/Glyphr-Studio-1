@@ -151,7 +151,8 @@ function loadPage_projectsettings() {
 
 	content += '</div>';
 
-	getEditDocument().getElementById('mainwrapper').innerHTML = content;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = content;
 }
 
 function updateGridLightness(l) {

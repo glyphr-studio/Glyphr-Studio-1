@@ -24,7 +24,8 @@ function loadPage_testdrive() {
 		'<canvas id="glypheditcanvas" style="display:none;"></canvas>' +
 		'</div>';
 
-	getEditDocument().getElementById('mainwrapper').innerHTML = content;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = content;
 	document.getElementById('tdtextarea').focus();
 
 	var td = _UI.testdrive;

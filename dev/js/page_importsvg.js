@@ -69,7 +69,8 @@ function loadPage_importsvg() {
 		makeErrorMessageBox() +
 		'<br><br></div>';
 
-	getEditDocument().getElementById('mainwrapper').innerHTML = content;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = content;
 	//importSVG_selectGlyph("0x0061");
 
 	getEditDocument()

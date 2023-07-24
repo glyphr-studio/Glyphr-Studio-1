@@ -160,7 +160,8 @@ function loadPage_globalactions() {
 
 	con += '</div>';
 
-	getEditDocument().getElementById('mainwrapper').innerHTML = con;
+	var wrapper = getEditDocument().getElementById('mainwrapper');
+	wrapper.innerHTML = con;
 }
 
 //  ------------------
