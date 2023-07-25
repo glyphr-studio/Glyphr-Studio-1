@@ -1,9 +1,6 @@
 {
   "name": "glyphr-studio",
   "license": "GPL-3.0-or-later",
-  "scripts": {
-    "start": "nw"
-  },
   "main": "dev/Glyphr_Studio.html",
   "window": {
     "title": "Glyphr Studio",
@@ -15,6 +12,9 @@
     "position": "center",
     "min_width": 1000,
     "min_height": 700
+  },
+  "scripts": {
+    "build": "grunt"
   },
   "devDependencies": {
     "grunt": "^1.5.3",
