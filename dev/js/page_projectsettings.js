@@ -33,7 +33,7 @@ function loadPage_projectsettings() {
 			ps.glyphrange.filternoncharpoints
 		) +
 		'</td>' +
-		'<td><label for="filternoncharpoints">Hide Unicode Control Points (non-glyph characters like printing codes).</label></td></tr>' +
+		'<td><label for="filternoncharpoints">Hide unassigned code points and control points (non-glyph characters like printing codes).</label></td></tr>' +
 		'<tr><td class="uicolumn"><input type="text" value="' +
 		ps.markoverlappingpointsdistance +
 		'" onchange="var r=Math.round(parseInt(this.value)); r=r||-1; _GP.projectsettings.markoverlappingpointsdistance=r; this.value=r;" style="width:25px;"/></td>' +

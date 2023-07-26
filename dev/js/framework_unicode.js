@@ -212,14 +212,14 @@ function getUnicodeName(ch) {
 	if (_UI && _UI.unicodeNames && _UI.unicodeNames[ch]) {
 		re = _UI.unicodeNames[ch];
 	} else {
-		re = getUnicodeBlockName(ch);
+		re = 'Unassigned code point: ' + getUnicodeBlockNameForChar(ch);
 	}
 
 	// debug(' getUnicodeName - END - returning ' + re + '\n');
 	return re;
 }
 
-function getUnicodeBlockName(ch) {
+function getUnicodeBlockNameForChar(ch) {
 	var chn = ch * 1;
 	var block;
 

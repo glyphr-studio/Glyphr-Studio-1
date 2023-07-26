@@ -411,13 +411,18 @@ function make_GlyphChooser_Content(gcdata) {
 
 	var cr = _GP.projectsettings.glyphrange;
 	var c = parseInt(sel);
+	var name;
 	if (!isNaN(c) && cr.custom[c]) {
 		// debug('\t triggered custom range');
 		for (var range = cr.custom[c].begin; range <= cr.custom[c].end; range++) {
 			cn = decToHex(range);
 			if (_GP.projectsettings.glyphrange.filternoncharpoints) {
-				if (getUnicodeName(cn) !== '[name not found]')
+				name = getUnicodeName(cn);
+				if (name.startsWith('[') || name.startsWith('Unassigned')) {
+					// Unassigned code point, do not add
+				} else {
 					re += make_GlyphChooser_Button(cn, fname, selwi);
+				}
 			} else {
 				re += make_GlyphChooser_Button(cn, fname, selwi);
 			}
