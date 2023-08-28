@@ -371,7 +371,8 @@ function ioSVG_getFirstTagInstance(obj, tagname) {
 		for (var c = 0; c < obj.content.length; c++) {
 			var sub = ioSVG_getFirstTagInstance(obj.content[c], tagname);
 			if (sub) {
-				// debug(' ioSVG_getFirstTagInstance - looked through obj and found it - END\n');
+				// debug('\t looked through obj and found it - END\n');
+				// debug(' ioSVG_getFirstTagInstance - END\n');
 				return sub;
 			}
 		}
@@ -446,13 +447,14 @@ function ioSVG_convertPathTag(data, currentshapes) {
 		round(fp.P.x, 4) === round(lp.P.x, 4) &&
 		round(fp.P.y, 4) === round(lp.P.y, 4)
 	) {
-		// debug('\t fp/lp same:\nFirst Point: '+json(fp)+'\nLast Point:  '+json(lp));
+		// debug('\t fp/lp same:\nFirst Point: ' + json(fp) + '\nLast Point:  ' + json(lp));
+
 		fp.H1.x = lp.H1.x;
 		fp.H1.y = lp.H1.y;
 		fp.useh1 = lp.useh1;
 		patharr.pop();
 		fp.resolvePointType();
-		// debug('\t AFTER:\nFirst Point: '+json(fp));
+		// debug('\t AFTER:\nFirst Point: ' + json(fp));
 	}
 
 	var newpath = new Path({ pathpoints: patharr });
@@ -508,15 +510,16 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 		}
 	}
 
-	if (!lastpoint || lastPointIsFromAnotherShape) {
+	if (!lastpoint) {
 		// Default to a new 0,0 point
 		lastpoint = new PathPoint({ P: new Coord({ x: 0, y: 0 }) });
 		// debug(`\t Default last point`);
 	}
 
+	// debug('Lastpoint for this chunk is now:');
 	// debug(lastpoint);
 
-	// debug('\t previous point: \t'+lastpoint.P.x+','+lastpoint.P.y);
+	// debug('\t previous point: \t' + lastpoint.P.x + ',' + lastpoint.P.y);
 
 	/*
 			Path Instructions: Capital is absolute, lowercase is relative
@@ -687,7 +690,9 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 				h1 = new Coord({ x: currdata[2], y: currdata[3] });
 				p = new Coord({ x: currdata[4], y: currdata[5] });
 
-				// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+				// debug('\t bezier end Px Py:\t' + p.x + ' ' + p.y);
+				// debug('\t bezier end H1x H1y:\t' + h1.x + ' ' + h1.y);
+
 				patharr.push(
 					new PathPoint({
 						P: clone(p),
@@ -745,7 +750,8 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 			h1 = new Coord({ x: currdata[2], y: currdata[3] });
 			p = new Coord({ x: currdata[4], y: currdata[5] });
 
-			// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+			// debug('\t bezier end Px Py:\t' + p.x + ' ' + p.y);
+			// debug('\t bezier end H1x H1y:\t' + h1.x + ' ' + h1.y);
 
 			patharr.push(
 				new PathPoint({
@@ -806,7 +812,8 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 			h1 = new Coord({ x: currdata[2], y: currdata[3] });
 			p = new Coord({ x: currdata[4], y: currdata[5] });
 
-			// debug('\t bezier end Px Py\t'+p.x+' '+p.y+'\tH1x H1y:'+h1.x+' '+h1.y);
+			// debug('\t bezier end Px Py:\t' + p.x + ' ' + p.y);
+			// debug('\t bezier end H1x H1y:\t' + h1.x + ' ' + h1.y);
 
 			patharr.push(
 				new PathPoint({
@@ -910,10 +917,8 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 			}
 			// debug('\n\t command ' + cmd + ' while loop data ' + currdata);
 
-			if (lastpoint.type !== 'corner') {
-				lastpoint.makeSymmetric('H1');
-				lastpoint.useh2 = true;
-			}
+			lastpoint.makeSymmetric('H1');
+			lastpoint.useh2 = true;
 
 			h1 = new Coord({ x: currdata[0], y: currdata[1] });
 			p = new Coord({ x: currdata[2], y: currdata[3] });

@@ -15,13 +15,13 @@
 var _UI = {
 	// Version
 	thisGlyphrStudioVersion: 'Version 1.13',
-	thisGlyphrStudioVersionNum: '1.13.19',
-	thisGlyphrStudioVersionDate: 1690310000000,
+	thisGlyphrStudioVersionNum: '1.13.20',
+	thisGlyphrStudioVersionDate: 0,
 
 	// Internal Dev Stuff
-	devmode: false, // global switch for all the stuff below
+	devmode: true, // global switch for all the stuff below
 	dev_sample_project: false, // load a sample project and skip open project experience
-	dev_current_page: false, // navigate straight to a page
+	dev_current_page: 'import svg', // navigate straight to a page
 	dev_current_panel: false, // navigate straight to a panel
 	dev_selected_shape: false, // automatically select a shape
 	debug: true, // show messages sent to the browser console
