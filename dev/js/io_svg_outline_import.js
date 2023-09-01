@@ -430,6 +430,7 @@ function ioSVG_convertPathTag(data, currentshapes) {
 			patharr = ioSVG_handlePathChunk(
 				chunkarr[c],
 				patharr,
+				c === 0,
 				c === chunkarr.length - 1,
 				currentshapes
 			);
@@ -471,7 +472,13 @@ function ioSVG_isPathCommand(c) {
 	return false;
 }
 
-function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
+function ioSVG_handlePathChunk(
+	chunk,
+	patharr,
+	isFirstPoint,
+	islastpoint,
+	currentshapes
+) {
 	// debug('\n ioSVG_handlePathChunk - START');
 	// debug('\t chunk: ' + json(chunk, true));
 
@@ -484,7 +491,7 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 	var prevx, prevy;
 
 	// For relative path commands, figure out what the previous point is
-	var lastpoint = false;
+	var lastpoint = new PathPoint({ P: new Coord({ x: 0, y: 0 }) });
 
 	// There may be a bunch of unaddressed edge cases here - path commands
 	// assume last command position is known, even across compound shapes
@@ -492,28 +499,19 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 	// the last point makes sense in a series of commands, but actually
 	// the last point is across a compound shape, and is valid SVG but not
 	// necessarily logical.
-	var lastPointIsFromAnotherShape = false;
 
 	if (patharr.length) {
 		// Middle of current path, use the previous point
 		lastpoint = patharr[patharr.length - 1];
 		// debug(`\t last point from current path`);
-	} else if (currentshapes && currentshapes.length) {
+	} else if (currentshapes && currentshapes.length && !isFirstPoint) {
 		// First point in this compound path, look to the last
 		// point in the previous path
 		var lastshape = currentshapes[currentshapes.length - 1];
 		if (lastshape && lastshape.path && lastshape.path.pathpoints.length) {
-			// lastpoint = lastshape.path.pathpoints[lastshape.path.pathpoints.length-1];
 			lastpoint = lastshape.path.pathpoints[0];
-			lastPointIsFromAnotherShape = true;
-			// debug(`\t last point from PREVIOUS path`);
+			// debug(`\t last point from previous compound path (across z, not across tags)`);
 		}
-	}
-
-	if (!lastpoint) {
-		// Default to a new 0,0 point
-		lastpoint = new PathPoint({ P: new Coord({ x: 0, y: 0 }) });
-		// debug(`\t Default last point`);
 	}
 
 	// debug('Lastpoint for this chunk is now:');
@@ -603,7 +601,6 @@ function ioSVG_handlePathChunk(chunk, patharr, islastpoint, currentshapes) {
 			p = new Coord({ x: nx, y: ny });
 			// debug('\t new point ' + p.x + '\t' + p.y);
 
-			if (!lastPointIsFromAnotherShape) lastpoint.useh2 = false; // Compound Path Circle bug
 			patharr.push(
 				new PathPoint({
 					P: p,
