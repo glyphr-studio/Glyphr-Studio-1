@@ -198,7 +198,7 @@ function makePanelSuperTitle() {
 			// debug('\t selwi name is ' + name);
 			if (selwi.name) name = name.replace(/latin /i, '');
 			content += makeSuperTitleSeperator();
-			if(!selwi.glyphhtml) name = escapeXMLValues(name);
+			if (!selwi.glyphhtml) name = escapeXMLValues(name);
 			content += '<span class="name" title="' + name + '">' + name + '</span>';
 		} else if (_UI.current_page === 'kerning') {
 			// debug('\t selwi = false, on kerning');
@@ -206,7 +206,8 @@ function makePanelSuperTitle() {
 			if (name) {
 				content += makeSuperTitleSeperator();
 				name = escapeXMLValues(name.getName());
-				content += '<span class="name" title="' + name + '">' + name + '</span>';
+				content +=
+					'<span class="name" title="' + name + '">' + name + '</span>';
 			}
 		}
 		content += '</h1>';
@@ -735,10 +736,11 @@ function reqAniFrame(fun) {
 	}
 }
 
-function getShipDate() {
+function getShipDate(dayOffset) {
+	dayOffset = dayOffset || 0;
 	var time = '' + new Date().getTime();
-	var prefix = parseInt(time.substr(0, 5)) * 100000000;
-	var day = (parseInt(time.charAt(5)) + 1) * 10000000;
+	var prefix = parseInt(time.substring(0, 5)) * 100000000;
+	var day = (parseInt(time.charAt(5)) + 1 + dayOffset) * 10000000;
 	return prefix + day;
 }
 

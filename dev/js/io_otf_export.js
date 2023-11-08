@@ -298,6 +298,7 @@ function ioOTF_exportOTFfont() {
 		}
 
 		// debug('\n >>>>>>> Font object:');
+		// debug(font);
 		// debug(font.glyphs);
 		// debug('\n');
 		// debug(font.toTables());

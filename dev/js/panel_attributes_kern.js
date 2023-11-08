@@ -68,13 +68,13 @@ function makeOneKernPairRow(k, id) {
 		'<td><input class="rowleftgroup" type="text" onchange="updateKernGroup(\'' +
 		id +
 		"', 'left', this.value);\" value=\"" +
-		hexToChars(k.leftgroup.join('')) +
+		kernGroupHTMLSanitize(hexToChars(k.leftgroup.join(''))) +
 		'"></td>';
 	re +=
 		'<td><input class="rowrightgroup" type="text" onchange="updateKernGroup(\'' +
 		id +
 		"', 'right', this.value);\" value=\"" +
-		hexToChars(k.rightgroup.join('')) +
+		kernGroupHTMLSanitize(hexToChars(k.rightgroup.join(''))) +
 		'"></td>';
 	re +=
 		'<td><input class="kernvalue" type="number" id="' +
@@ -91,6 +91,12 @@ function makeOneKernPairRow(k, id) {
 
 	re += '</tr></table>';
 	return re;
+}
+
+function kernGroupHTMLSanitize(chars) {
+	var newChars = chars.replaceAll('"', '&quot;');
+	// debug(newChars);
+	return newChars;
 }
 
 function addCommonKernPairs() {
