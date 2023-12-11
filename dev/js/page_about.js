@@ -30,6 +30,9 @@ function loadPage_about() {
 		'<tr><td><i>GitHub: &nbsp;&nbsp;&nbsp;</i></td><td> <a href="https://github.com/glyphr-studio" target="_blank">github.com/glyphr-studio</a> for dev and code related stuff.</td></tr>' +
 		'</table>' +
 		'<br>' +
+		'<br>' +
+		makeV2Card() +
+		'<br>' +
 		'<h1>This Glyphr Project</h1>' +
 		'<p>' +
 		'The currently opened project was initially created with: ' +
