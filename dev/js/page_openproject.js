@@ -134,7 +134,7 @@ function makeV2Card() {
 	con += '	default experience, and v1 will be deprecated. You can learn';
 	con += '	more about all the details at the';
 	con +=
-		'	<a href="https://www.glyphrstudio.com/blog/2023/12/01/v1-to-v2-transition-plan" traget="_blank">transition plan blog post</a>,';
+		'	<a href="https://www.glyphrstudio.com/blog/2023/12/01/v1-to-v2-transition-plan" target="_blank">transition plan blog post</a>,';
 	con += ' or try out the v2 App at';
 	con +=
 		'	<a href="https://www.glyphrstudio.com/v2/app" target="_blank">glyphrstudio.com/v2/app</a>.';
