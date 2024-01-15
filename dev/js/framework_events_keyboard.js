@@ -154,7 +154,7 @@ function keyDown(event) {
 	// o
 	if (eh.isCtrlDown && kc === 'o') {
 		// debug('\t pressed Ctrl + O');
-		window.open('https://www.glyphrstudio.com/online', '_blank');
+		window.open('https://www.glyphrstudio.com/v1/online', '_blank');
 	}
 
 	// q (for dev mode clear console)

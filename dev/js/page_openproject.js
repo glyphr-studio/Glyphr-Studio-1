@@ -23,7 +23,7 @@ function loadPage_openproject(tab) {
 
 	if (Date.now() - _UI.thisGlyphrStudioVersionDate < recent)
 		ct +=
-			' - <a href="https://www.glyphrstudio.com/help/overview_updates.html" target="_blank">recently updated!</a>';
+			' - <a href="https://www.glyphrstudio.com/v1/help/overview_updates.html" target="_blank">recently updated!</a>';
 	ct += '</span>';
 
 	ct +=
@@ -129,15 +129,10 @@ function make_ImportOrCreateNew() {
 function makeV2Card() {
 	con = '';
 	con += '<div class="v2Card">';
-	con += '<h2>Glyphr Studio v2 is available now!</h2><p>';
-	con += '	On January 15th, 2024, Glyphr Studio v2 will become the';
-	con += '	default experience, and v1 will be deprecated. You can learn';
-	con += '	more about all the details at the';
+	con += '<h2>Glyphr Studio v1 is deprecated - please use v2!</h2><p>';
+	con += '	On January 15th, 2024, Glyphr Studio v2 became the default experience.<br>Go to the ';
 	con +=
-		'	<a href="https://www.glyphrstudio.com/blog/2023/12/01/v1-to-v2-transition-plan" target="_blank">transition plan blog post</a>,';
-	con += ' or try out the v2 App at';
-	con +=
-		'	<a href="https://www.glyphrstudio.com/v2/app" target="_blank">glyphrstudio.com/v2/app</a>.';
+		'	<a href="https://www.glyphrstudio.com/" target="_blank">homepage</a> to learn more.';
 	con += '</p></div>';
 
 	return con;

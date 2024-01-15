@@ -679,7 +679,7 @@ function makePanel_PageNav() {
 				'</div>';
 		} else if (navarr[i] === 'help') {
 			newsub +=
-				'<a href="https://www.glyphrstudio.com/help/" style="text-decoration:none; color:rgb(51, 56, 61);" target="_blank" class="navtargetbutton">' +
+				'<a href="https://www.glyphrstudio.com/v1/help/" style="text-decoration:none; color:rgb(51, 56, 61);" target="_blank" class="navtargetbutton">' +
 				'<div class="navtargeticon">' +
 				makeIcon({
 					name: 'nav_help',
@@ -698,10 +698,10 @@ function makePanel_PageNav() {
 				'" target="_blank" class="navpanellink">Email the glyphr studio team</a><br>';
 		} else if (navarr[i] === 'newproject') {
 			newsub +=
-				'<a href="https://www.glyphrstudio.com/online" class="navpanellink" target="_blank">Open a new project (Ctrl + O)</a><br>';
+				'<a href="https://www.glyphrstudio.com/v1/online" class="navpanellink" target="_blank">Open a new project (Ctrl + O)</a><br>';
 		} else if (navarr[i] === 'issue') {
 			newsub +=
-				'<a href="https://github.com/mattlag/Glyphr-Studio/issues/new" target="_blank" class="navpanellink">Create a new issue on github</a><br>';
+				'<a href="https://github.com/glyphr-studio/Glyphr-Studio-1/issues/new" target="_blank" class="navpanellink">Create a new issue on github</a><br>';
 		} else if (navarr[i] === _UI.current_page) {
 			iconname = 'nav_' + navarr[i].replace(' ', '');
 			newsub +=
