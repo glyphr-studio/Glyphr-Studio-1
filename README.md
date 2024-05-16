@@ -24,10 +24,8 @@ stick around, but only very major bugs will be fixed.
 | App | [glyphrstudio.com/v1/online](https://www.glyphrstudio.com/v1/online) |
 | Help & Docs | [glyphrstudio.com/v1/help](https://www.glyphrstudio.com/v1/help/) |
 | Blog | [glyphrstudio.com/blog](https://www.glyphrstudio.com/blog/) |
-| | |
 | Mastodon | [@glyphrstudio@typo.social](https://typo.social/@glyphrstudio) |
 | Reddit | [reddit.com/r/GlyphrStudio](https://www.reddit.com/r/GlyphrStudio/) |
-| Twitter | [@glyphrstudio](https://twitter.com/glyphrstudio) |
 | GitHub | [github.com/glyphr-studio](https://github.com/glyphr-studio) |
 
 ## Contributing
